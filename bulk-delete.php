@@ -4,7 +4,7 @@ Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
-Version: 0.2
+Version: 0.3
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -12,6 +12,7 @@ Author URI: http://sudarmuthu.com/
 === RELEASE NOTES ===
 2009-02-02 - v0.1 - first version
 2009-02-03 - v0.2 - Second release - Fixed issues with pagging
+2009-04-05 - v0.3 - Third release - Prevented drafts from deleted when only posts are selected
 
 */
 
@@ -33,7 +34,7 @@ if (!function_exists('smbd_request_handler')) {
                 case "bulk-delete-cats":
                     // delete by cats
                     $selected_cats = $_POST['smbd_cats'];
-                    $posts = $wp_query->query(array('category__in'=>$selected_cats, 'post_type'=>'post', 'nopaging'=>'true'));
+                    $posts = $wp_query->query(array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post', 'nopaging'=>'true'));
 
                     foreach ($posts as $post) {
                         wp_delete_post($post->ID);
@@ -44,7 +45,7 @@ if (!function_exists('smbd_request_handler')) {
                 case "bulk-delete-tags":
                     // delete by tags
                     $selected_tags = $_POST['smbd_tags'];
-                    $posts = $wp_query->query(array('tag__in'=>$selected_tags, 'post_type'=>'post', 'nopaging'=>'true'));
+                    $posts = $wp_query->query(array('tag__in'=>$selected_tags, 'post_status'=>'publish', 'post_type'=>'post', 'nopaging'=>'true'));
 
                     foreach ($posts as $post) {
                         wp_delete_post($post->ID);
