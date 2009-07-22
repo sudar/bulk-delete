@@ -4,7 +4,7 @@ Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
-Version: 0.4
+Version: 0.6
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -14,6 +14,8 @@ Author URI: http://sudarmuthu.com/
 2009-02-03 - v0.2 - Second release - Fixed issues with pagging
 2009-04-05 - v0.3 - Third release - Prevented drafts from deleted when only posts are selected
 2009-07-05 - v0.4 - Fourth release - Added option to delete by date.
+2009-07-21 - v0.5 - Fifth release - Added option to delete all pending posts.
+2009-07-22 - v0.6 - Sixth release - Added option to delete all scheduled posts.
 
 */
 
@@ -87,6 +89,24 @@ if (!function_exists('smbd_request_handler')) {
                         }
                     }
 
+                    // Pending Posts
+                    if ("pending" == $_POST['smbd_pending']) {
+                        $pendings = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'pending'"));
+
+                        foreach ($pendings as $pending) {
+                            wp_delete_post($pending->ID);
+                        }
+                    }
+
+                    // Future Posts
+                    if ("future" == $_POST['smbd_future']) {
+                        $futures = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'future'"));
+
+                        foreach ($futures as $future) {
+                            wp_delete_post($future->ID);
+                        }
+                    }
+
                     // Pages
                     if ("pages" == $_POST['smbd_pages']) {
                         $pages = $wp_query->query(array('post_type'=>'page', 'nopaging'=>'true'));
@@ -120,6 +140,7 @@ if (!function_exists('smbd_displayOptions')) {
 ?>
 	<div class="updated fade" style="background:#ff0;text-align:center;color: red;"><p><strong><?php _e("WARNING: Posts deleted once cannot be retrieved back. Use with caution."); ?></strong></p></div>
         <div class="wrap">
+            <?php screen_icon(); ?>
             <h2>Bulk Delete</h2>
 
             <h3><?php _e("Select the posts which you want to delete"); ?></h3>
@@ -132,6 +153,8 @@ if (!function_exists('smbd_displayOptions')) {
         $wp_query = new WP_Query;
         $drafts = $wp_query->query(array('post_status'=>'draft'));
         $revisions = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_type = 'revision'"));
+        $pending = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'pending'"));
+        $future = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'future'"));
         $pages = $wp_query->query(array('post_type'=>'page'));
 ?>
         <fieldset class="options">
@@ -139,20 +162,30 @@ if (!function_exists('smbd_displayOptions')) {
             <tr>
                 <td scope="row" >
                     <input name="smbd_drafs" id ="smbd_drafs" value = "drafs" type = "checkbox" />
-                </td>
-                <td>
                     <label for="smbd_drafs"><?php echo _e("All Drafts"); ?> (<?php echo count($drafts) . " "; _e("Drafts"); ?>)</label>
                 </td>
+            </tr>
+            <tr>
                 <td>
                     <input name="smbd_revisions" id ="smbd_revisions" value = "revisions" type = "checkbox" />
-                </td>
-                <td>
                     <label for="smbd_revisions"><?php echo _e("All Revisions"); ?> (<?php echo count($revisions) . " "; _e("Revisons"); ?>)</label>
                 </td>
+            </tr>
+            <tr>
+                <td>
+                    <input name="smbd_pending" id ="smbd_pending" value = "pending" type = "checkbox" />
+                    <label for="smbd_pending"><?php echo _e("All Pending posts"); ?> (<?php echo count($pending) . " "; _e("Posts"); ?>)</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input name="smbd_future" id ="smbd_future" value = "future" type = "checkbox" />
+                    <label for="smbd_future"><?php echo _e("All scheduled posts"); ?> (<?php echo count($future) . " "; _e("Posts"); ?>)</label>
+                </td>
+            </tr>
+            <tr>
                 <td>
                     <input name="smbd_pages" value = "pages" type = "checkbox" />
-                </td>
-                <td>
                     <label for="smbd_pages"><?php echo _e("All Pages"); ?> (<?php echo count($pages) . " "; _e("Pages"); ?>)</label>
                 </td>
             </tr>
