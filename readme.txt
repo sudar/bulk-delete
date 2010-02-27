@@ -2,8 +2,8 @@
 Contributors: sudar 
 Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
-Tested up to: 2.8.2
-Stable tag: 0.6
+Tested up to: 2.9.2
+Stable tag: 0.7
 	
 Bulk delete posts from selected categories or tags
 
@@ -46,6 +46,10 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 ###v0.6 (2009-07-22)
 *   Added option to delete all scheduled posts.
 
+###v0.7 (2010-02-21)
+*   Added an option to delete posts directly or send them to trash.
+*   Added support for translation.
+
 ==Readme Generator== 
 
-This Readme file was generated using <a href = 'http://sudarmuthu.com/projects/wp-readme.php'>wp-readme</a>, which generates readme files for WordPress Plugins.
+This Readme file was generated using <a href = 'http://sudarmuthu.com/wordpress/wp-readme'>wp-readme</a>, which generates readme files for WordPress Plugins.

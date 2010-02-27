@@ -4,10 +4,11 @@ Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
-Version: 0.6
+Version: 0.7
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
+Text Domain: bulk-delete
 
 === RELEASE NOTES ===
 2009-02-02 - v0.1 - first version
@@ -16,9 +17,23 @@ Author URI: http://sudarmuthu.com/
 2009-07-05 - v0.4 - Fourth release - Added option to delete by date.
 2009-07-21 - v0.5 - Fifth release - Added option to delete all pending posts.
 2009-07-22 - v0.6 - Sixth release - Added option to delete all scheduled posts.
+2010-02-21 - v0.7 - Added an option to delete posts directly or send them to trash and support for translation.
 
+/*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, version 2, as
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
 
 /**
  * Request Handler
@@ -45,9 +60,27 @@ if (!function_exists('smbd_request_handler')) {
                         
                         add_filter ('posts_where', 'cats_by_days');
                     }
-                    $posts = $wp_query->query(array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post', 'nopaging'=>'true'));
+                    $options = array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post');
+
+                    $limit_to = absint($_POST['smbd_cats_limits_to']);
+
+                    if ($limit_to > 0) {
+                        $options['showposts'] = $limit_to;
+                    } else {
+                        $options['nopaging'] = 'true';
+                    }
+
+                    $force_delete = $_POST['smbd_cats_force_delete'];
+
+                    if ($force_delete == 'true') {
+                        $force_delete = true;
+                    } else {
+                        $force_delete = false;
+                    }
+
+                    $posts = $wp_query->query($options);
                     foreach ($posts as $post) {
-                        wp_delete_post($post->ID);
+                        wp_delete_post($post->ID, $force_delete);
                     }
 
                     break;
@@ -62,21 +95,57 @@ if (!function_exists('smbd_request_handler')) {
 
                         add_filter ('posts_where', 'tags_by_days');
                     }
-                    $posts = $wp_query->query(array('tag__in'=>$selected_tags, 'post_status'=>'publish', 'post_type'=>'post', 'nopaging'=>'true'));
+                    $options = array('tag__in'=>$selected_tags,'post_status'=>'publish', 'post_type'=>'post');
 
+                    $limit_to = absint($_POST['smbd_tags_limits_to']);
+
+                    if ($limit_to > 0) {
+                        $options['showposts'] = $limit_to;
+                    } else {
+                        $options['nopaging'] = 'true';
+                    }
+
+                    $force_delete = $_POST['smbd_tags_force_delete'];
+
+                    if ($force_delete == 'true') {
+                        $force_delete = true;
+                    } else {
+                        $force_delete = false;
+                    }
+
+                    $posts = $wp_query->query($options);
+                    
                     foreach ($posts as $post) {
-                        wp_delete_post($post->ID);
+                        wp_delete_post($post->ID, $force_delete);
                     }
                     
                     break;
 
                 case "bulk-delete-special":
+                    $options = array();
+
+                    $limit_to = absint($_POST['smbd_cats_limits_to']);
+
+                    if ($limit_to > 0) {
+                        $options['showposts'] = $limit_to;
+                    } else {
+                        $options['nopaging'] = 'true';
+                    }
+
+                    $force_delete = $_POST['smbd_special_force_delete'];
+                    if ($force_delete == 'true') {
+                        $force_delete = true;
+                    } else {
+                        $force_delete = false;
+                    }
+
                     // Drafts
                     if ("drafs" == $_POST['smbd_drafs']) {
-                        $drafts = $wp_query->query(array('post_status'=>'draft', 'nopaging'=>'true'));
+                        $options['post_status'] = 'draft';
+                        $drafts = $wp_query->query($options);
 
                         foreach ($drafts as $draft) {
-                            wp_delete_post($draft->ID);
+                            wp_delete_post($draft->ID, $force_delete);
                         }
                     }
 
@@ -85,7 +154,7 @@ if (!function_exists('smbd_request_handler')) {
                         $revisions = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_type = 'revision'"));
 
                         foreach ($revisions as $revision) {
-                            wp_delete_post($revision->ID);
+                            wp_delete_post($revision->ID, $force_delete);
                         }
                     }
 
@@ -94,7 +163,7 @@ if (!function_exists('smbd_request_handler')) {
                         $pendings = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'pending'"));
 
                         foreach ($pendings as $pending) {
-                            wp_delete_post($pending->ID);
+                            wp_delete_post($pending->ID, $force_delete);
                         }
                     }
 
@@ -103,16 +172,17 @@ if (!function_exists('smbd_request_handler')) {
                         $futures = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'future'"));
 
                         foreach ($futures as $future) {
-                            wp_delete_post($future->ID);
+                            wp_delete_post($future->ID, $force_delete);
                         }
                     }
 
                     // Pages
                     if ("pages" == $_POST['smbd_pages']) {
-                        $pages = $wp_query->query(array('post_type'=>'page', 'nopaging'=>'true'));
+                        $options['post_type'] = 'page';
+                        $pages = $wp_query->query($options);
 
                         foreach ($pages as $page) {
-                            wp_delete_post($page->ID);
+                            wp_delete_post($page->ID, $force_delete);
                         }
                     }
                     break;
@@ -128,7 +198,7 @@ if (!function_exists('smbd_request_handler')) {
  * Show deleted notice messages
  */
 function smbd_deleted_notice() {
-    echo "<div class = 'updated'><p>" . __("All the selected posts have been sucessfully deleted.") ."</p></div>";
+    echo "<div class = 'updated'><p>" . __("All the selected posts have been sucessfully deleted.", 'bulk-delete') . "</p></div>";
 }
 
 /**
@@ -138,12 +208,12 @@ if (!function_exists('smbd_displayOptions')) {
     function smbd_displayOptions() {
         global $wpdb;
 ?>
-	<div class="updated fade" style="background:#ff0;text-align:center;color: red;"><p><strong><?php _e("WARNING: Posts deleted once cannot be retrieved back. Use with caution."); ?></strong></p></div>
+	<div class="updated fade" style="background:#ff0;text-align:center;color: red;"><p><strong><?php _e("WARNING: Posts deleted once cannot be retrieved back. Use with caution.", 'bulk-delete'); ?></strong></p></div>
         <div class="wrap">
             <?php screen_icon(); ?>
             <h2>Bulk Delete</h2>
 
-            <h3><?php _e("Select the posts which you want to delete"); ?></h3>
+            <h3><?php _e("Select the posts which you want to delete", 'bulk-delete'); ?></h3>
 
         <form name="smbd_form" id = "smbd_misc_form"
         action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post"
@@ -162,38 +232,54 @@ if (!function_exists('smbd_displayOptions')) {
             <tr>
                 <td scope="row" >
                     <input name="smbd_drafs" id ="smbd_drafs" value = "drafs" type = "checkbox" />
-                    <label for="smbd_drafs"><?php echo _e("All Drafts"); ?> (<?php echo count($drafts) . " "; _e("Drafts"); ?>)</label>
+                    <label for="smbd_drafs"><?php echo _e("All Drafts", 'bulk-delete'); ?> (<?php echo count($drafts) . " "; _e("Drafts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input name="smbd_revisions" id ="smbd_revisions" value = "revisions" type = "checkbox" />
-                    <label for="smbd_revisions"><?php echo _e("All Revisions"); ?> (<?php echo count($revisions) . " "; _e("Revisons"); ?>)</label>
+                    <label for="smbd_revisions"><?php echo _e("All Revisions", 'bulk-delete'); ?> (<?php echo count($revisions) . " "; _e("Revisons", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input name="smbd_pending" id ="smbd_pending" value = "pending" type = "checkbox" />
-                    <label for="smbd_pending"><?php echo _e("All Pending posts"); ?> (<?php echo count($pending) . " "; _e("Posts"); ?>)</label>
+                    <label for="smbd_pending"><?php echo _e("All Pending posts", 'bulk-delete'); ?> (<?php echo count($pending) . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input name="smbd_future" id ="smbd_future" value = "future" type = "checkbox" />
-                    <label for="smbd_future"><?php echo _e("All scheduled posts"); ?> (<?php echo count($future) . " "; _e("Posts"); ?>)</label>
+                    <label for="smbd_future"><?php echo _e("All scheduled posts", 'bulk-delete'); ?> (<?php echo count($future) . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input name="smbd_pages" value = "pages" type = "checkbox" />
-                    <label for="smbd_pages"><?php echo _e("All Pages"); ?> (<?php echo count($pages) . " "; _e("Pages"); ?>)</label>
+                    <label for="smbd_pages"><?php echo _e("All Pages", 'bulk-delete'); ?> (<?php echo count($pages) . " "; _e("Pages", 'bulk-delete'); ?>)</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row">
+                    <input name="smbd_special_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
+                    <input name="smbd_special_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row">
+                    <input name="smbd_special_limit" id="smbd_special_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('special');" />
+                    <?php _e("Only delete first ", 'bulk-delete');?>
+                    <input type ="textbox" name="smbd_special_limit_to" id="smbd_special_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
+                    <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
                 </td>
             </tr>
 
         </table>
         </fieldset>
         <p class="submit">
-                <input type="submit" name="submit" value="<?php _e("Bulk Delete ") ?>&raquo;">
+                <input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
         </p>
 
         <?php wp_nonce_field('bulk-delete-posts'); ?>
@@ -201,8 +287,8 @@ if (!function_exists('smbd_displayOptions')) {
         <input type="hidden" name="smbd_action" value="bulk-delete-special" />
         </form>
 
-        <h3><?php _e("By Category"); ?></h3>
-        <h4><?php _e("Select the categories whose post you want to delete") ?></h4>
+        <h3><?php _e("By Category", 'bulk-delete'); ?></h3>
+        <h4><?php _e("Select the categories whose post you want to delete", 'bulk-delete'); ?></h4>
 
         <form name="smbd_form" id = "smbd_cat_form"
         action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post"
@@ -219,7 +305,7 @@ if (!function_exists('smbd_displayOptions')) {
                     <input name="smbd_cats[]" value = "<?php echo $category->cat_ID; ?>" type = "checkbox" />
                 </td>
                 <td>
-                    <label for="smbd_cats"><?php echo $category->cat_name; ?> (<?php echo $category->count . " "; _e("Posts"); ?>)</label>
+                    <label for="smbd_cats"><?php echo $category->cat_name; ?> (<?php echo $category->count . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
 <?php
@@ -230,7 +316,7 @@ if (!function_exists('smbd_displayOptions')) {
                     <input name="smbd_cats_all" id ="smbd_cats_all" value = "-1" type = "checkbox" onclick="bd_checkAll(document.getElementById('smbd_cat_form'));" />
                 </td>
                 <td>
-                    <label for="smbd_cats_all"><?php _e("All Categories") ?></label>
+                    <label for="smbd_cats_all"><?php _e("All Categories", 'bulk-delete') ?></label>
                 </td>
             </tr>
             <tr>
@@ -242,19 +328,37 @@ if (!function_exists('smbd_displayOptions')) {
                     <input name="smbd_cats_restrict" id="smbd_cats_restrict" value = "true" type = "checkbox"  onclick="toggle_date_restrict('cats');" />
                 </td>
                 <td>
-                    <?php _e("Only restrict to posts which are ");?>
+                    <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
                     <select name="smbd_cats_op" id="smbd_cats_op" disabled>
-                        <option value ="<"><?php _e("older than");?></option>
-                        <option value =">"><?php _e("posted within last");?></option>
+                        <option value ="<"><?php _e("older than", 'bulk-delete');?></option>
+                        <option value =">"><?php _e("posted within last", 'bulk-delete');?></option>
                     </select>
-                    <input type ="textbox" name="smbd_cats_days" id="smbd_cats_days" disabled value ="0" maxlength="4" size="4" /><?php _e("days");?>
+                    <input type ="textbox" name="smbd_cats_days" id="smbd_cats_days" disabled value ="0" maxlength="4" size="4" /><?php _e("days", 'bulk-delete');?>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row" colspan="2">
+                    <input name="smbd_cats_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
+                    <input name="smbd_cats_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row">
+                    <input name="smbd_cats_limit" id="smbd_cats_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('cats');" />
+                </td>
+                <td>
+                    <?php _e("Only delete first ", 'bulk-delete');?>
+                    <input type ="textbox" name="smbd_cats_limit_to" id="smbd_cats_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
+                    <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
                 </td>
             </tr>
 
         </table>
         </fieldset>
         <p class="submit">
-				<input type="submit" name="submit" value="<?php _e("Bulk Delete ") ?>&raquo;">
+				<input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
         </p>
 
 <?php wp_nonce_field('bulk-delete-posts'); ?>
@@ -265,8 +369,8 @@ if (!function_exists('smbd_displayOptions')) {
         $tags =  get_tags();
         if (count($tags) > 0) {
 ?>
-            <h3><?php _e("By Tags"); ?></h3>
-            <h4><?php _e("Select the tags whose post you want to delete") ?></h4>
+            <h3><?php _e("By Tags", 'bulk-delete'); ?></h3>
+            <h4><?php _e("Select the tags whose post you want to delete", 'bulk-delete') ?></h4>
 
             <form name="smbd_form" id = "smbd_tag_form"
             action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post"
@@ -282,7 +386,7 @@ if (!function_exists('smbd_displayOptions')) {
                         <input name="smbd_tags[]" value = "<?php echo $tag->term_id; ?>" type = "checkbox" />
                     </td>
                     <td>
-                        <label for="smbd_tags"><?php echo $tag->name; ?> (<?php echo $tag->count . " "; _e("Posts"); ?>)</label>
+                        <label for="smbd_tags"><?php echo $tag->name; ?> (<?php echo $tag->count . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                     </td>
                 </tr>
     <?php
@@ -293,7 +397,7 @@ if (!function_exists('smbd_displayOptions')) {
                         <input name="smbd_tags_all" id ="smbd_tags_all" value = "-1" type = "checkbox" onclick="bd_checkAll(document.getElementById('smbd_tag_form'));" />
                     </td>
                     <td>
-                        <label for="smbd_tags_all"><?php _e("All Tags") ?></label>
+                        <label for="smbd_tags_all"><?php _e("All Tags", 'bulk-delete') ?></label>
                     </td>
                 </tr>
 
@@ -306,19 +410,37 @@ if (!function_exists('smbd_displayOptions')) {
                         <input name="smbd_tags_restrict" id ="smbd_tags_restrict" value = "true" type = "checkbox" onclick="toggle_date_restrict('tags');" />
                     </td>
                     <td>
-                        <?php _e("Only restrict to posts which are ");?>
+                        <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
                         <select name="smbd_tags_op" id="smbd_tags_op" disabled>
-                            <option value ="<"><?php _e("older than");?></option>
-                            <option value =">"><?php _e("posted within last");?></option>
+                            <option value ="<"><?php _e("older than", 'bulk-delete');?></option>
+                            <option value =">"><?php _e("posted within last", 'bulk-delete');?></option>
                         </select>
-                        <input type ="textbox" name="smbd_tags_days" id ="smbd_tags_days" value ="0"  maxlength="4" size="4" disabled /><?php _e("days");?>
+                        <input type ="textbox" name="smbd_tags_days" id ="smbd_tags_days" value ="0"  maxlength="4" size="4" disabled /><?php _e("days", 'bulk-delete');?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row" colspan="2">
+                        <input name="smbd_tags_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
+                        <input name="smbd_tags_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row">
+                        <input name="smbd_tags_limit" id="smbd_tags_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('tags');" />
+                    </td>
+                    <td>
+                        <?php _e("Only delete first ", 'bulk-delete');?>
+                        <input type ="textbox" name="smbd_tags_limit_to" id="smbd_tags_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
+                        <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
                     </td>
                 </tr>
 
             </table>
             </fieldset>
             <p class="submit">
-                    <input type="submit" name="submit" value="<?php _e("Bulk Delete ") ?>&raquo;">
+                    <input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
             </p>
 
     <?php wp_nonce_field('bulk-delete-posts'); ?>
@@ -328,7 +450,7 @@ if (!function_exists('smbd_displayOptions')) {
 <?php
         }
 ?>
-        <p><em><?php _e("If you are looking to move posts in bulk, instead of deleting then try out my "); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-move"><?php _e("Bulk Move Plugin");?></a>.</em></p>
+        <p><em><?php _e("If you are looking to move posts in bulk, instead of deleting then try out my ", 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-move"><?php _e("Bulk Move Plugin", 'bulk-delete');?></a>.</em></p>
     </div>
 <?php
 
@@ -367,6 +489,14 @@ function smbd_print_scripts() {
             jQuery("#smbd_" + el + "_days").attr('disabled', 'true');
         }
     }
+    
+    function toggle_limit_restrict(el) {
+        if (jQuery("#smbd_" + el + "_limit").is(":checked")) {
+            jQuery("#smbd_" + el + "_limit_to").removeAttr('disabled');
+        } else {
+            jQuery("#smbd_" + el + "_limit_to").attr('disabled', 'true');
+        }
+    }
     /**
      * Validate Form
      */
@@ -382,9 +512,9 @@ function smbd_print_scripts() {
         }
 
         if (valid) {
-            return confirm("<?php _e('Are you sure you want to delete all the selected posts'); ?>");
+            return confirm("<?php _e('Are you sure you want to delete all the selected posts', 'bulk-delete'); ?>");
         } else {
-            alert ("<?php _e('Please select atleast one'); ?>");
+            alert ("<?php _e('Please select atleast one', 'bulk-delete'); ?>");
             return false;
         }
     }
@@ -426,7 +556,8 @@ function tags_by_days ($where = '') {
 if(!function_exists('smbd_add_menu')) {
 	function smbd_add_menu() {
 	    //Add a submenu to Manage
-        add_options_page("Bulk Delete", "Bulk Delete", 8, basename(__FILE__), "smbd_displayOptions");
+        $page = add_options_page("Bulk Delete", "Bulk Delete", 8, basename(__FILE__), "smbd_displayOptions");
+        add_action('admin_print_scripts-' . $page, 'smbd_print_scripts');
 	}
 }
 
@@ -452,12 +583,10 @@ function smbd_filter_plugin_actions($links, $file) {
  */
 function smbd_admin_footer() {
     $plugin_data = get_plugin_data( __FILE__ );
-    printf('%1$s ' . __("plugin") .' | ' . __("Version") . ' %2$s | '. __('by') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+    printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
 }
 
 add_filter( 'plugin_action_links', 'smbd_filter_plugin_actions', 10, 2 );
-
 add_action('admin_menu', 'smbd_add_menu');
 add_action('init', 'smbd_request_handler');
-add_action('admin_head', 'smbd_print_scripts');
 ?>
