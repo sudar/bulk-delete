@@ -3,7 +3,7 @@ Contributors: sudar
 Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
 Tested up to: 2.9.2
-Stable tag: 0.7
+Stable tag: 0.8
 	
 Bulk delete posts from selected categories or tags
 
@@ -21,6 +21,12 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 == Installation ==
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
+
+== Screenshot ==
+
+1. Delete posts based on type
+
+2. Delete posts based on categories or tags
 
 == Changelog ==
 
@@ -49,6 +55,9 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 ###v0.7 (2010-02-21)
 *   Added an option to delete posts directly or send them to trash.
 *   Added support for translation.
+
+###v0.8 (2010-03-17)
+*   Added support for private posts.
 
 ==Readme Generator== 
 

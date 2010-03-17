@@ -4,7 +4,7 @@ Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
-Version: 0.7
+Version: 0.8
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -18,6 +18,7 @@ Text Domain: bulk-delete
 2009-07-21 - v0.5 - Fifth release - Added option to delete all pending posts.
 2009-07-22 - v0.6 - Sixth release - Added option to delete all scheduled posts.
 2010-02-21 - v0.7 - Added an option to delete posts directly or send them to trash and support for translation.
+2010-03-17 - v0.7 - Added support for private posts.
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
 
@@ -60,7 +61,14 @@ if (!function_exists('smbd_request_handler')) {
                         
                         add_filter ('posts_where', 'cats_by_days');
                     }
-                    $options = array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post');
+
+                    $private = $_POST['smbd_cats_private'];
+
+                    if ($private == 'true') {
+                        $options = array('category__in'=>$selected_cats,'post_status'=>'private', 'post_type'=>'post');
+                    } else {
+                        $options = array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post');
+                    }
 
                     $limit_to = absint($_POST['smbd_cats_limits_to']);
 
@@ -95,7 +103,14 @@ if (!function_exists('smbd_request_handler')) {
 
                         add_filter ('posts_where', 'tags_by_days');
                     }
-                    $options = array('tag__in'=>$selected_tags,'post_status'=>'publish', 'post_type'=>'post');
+
+                    $private = $_POST['smbd_tags_private'];
+
+                    if ($private == 'true') {
+                        $options = array('tag__in'=>$selected_tags,'post_status'=>'private', 'post_type'=>'post');
+                    } else {
+                        $options = array('tag__in'=>$selected_tags,'post_status'=>'publish', 'post_type'=>'post');
+                    }
 
                     $limit_to = absint($_POST['smbd_tags_limits_to']);
 
@@ -176,6 +191,15 @@ if (!function_exists('smbd_request_handler')) {
                         }
                     }
 
+                    // Private Posts
+                    if ("private" == $_POST['smbd_private']) {
+                        $privates = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'private'"));
+
+                        foreach ($privates as $private) {
+                            wp_delete_post($private->ID, $force_delete);
+                        }
+                    }
+
                     // Pages
                     if ("pages" == $_POST['smbd_pages']) {
                         $options['post_type'] = 'page';
@@ -225,6 +249,7 @@ if (!function_exists('smbd_displayOptions')) {
         $revisions = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_type = 'revision'"));
         $pending = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'pending'"));
         $future = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'future'"));
+        $private = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'private'"));
         $pages = $wp_query->query(array('post_type'=>'page'));
 ?>
         <fieldset class="options">
@@ -251,6 +276,12 @@ if (!function_exists('smbd_displayOptions')) {
                 <td>
                     <input name="smbd_future" id ="smbd_future" value = "future" type = "checkbox" />
                     <label for="smbd_future"><?php echo _e("All scheduled posts", 'bulk-delete'); ?> (<?php echo count($future) . " "; _e("Posts", 'bulk-delete'); ?>)</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input name="smbd_private" id ="smbd_private" value = "private" type = "checkbox" />
+                    <label for="smbd_private"><?php echo _e("All private posts", 'bulk-delete'); ?> (<?php echo count($private) . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
@@ -345,6 +376,13 @@ if (!function_exists('smbd_displayOptions')) {
             </tr>
 
             <tr>
+                <td scope="row" colspan="2">
+                    <input name="smbd_cats_private" value = "false" type = "radio" checked="checked" /> <?php _e('Public posts', 'bulk-delete'); ?>
+                    <input name="smbd_cats_private" value = "true" type = "radio" /> <?php _e('Private Posts', 'bulk-delete'); ?>
+                </td>
+            </tr>
+
+            <tr>
                 <td scope="row">
                     <input name="smbd_cats_limit" id="smbd_cats_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('cats');" />
                 </td>
@@ -423,6 +461,13 @@ if (!function_exists('smbd_displayOptions')) {
                     <td scope="row" colspan="2">
                         <input name="smbd_tags_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
                         <input name="smbd_tags_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row" colspan="2">
+                        <input name="smbd_tags_private" value = "false" type = "radio" checked="checked" /> <?php _e('Public posts', 'bulk-delete'); ?>
+                        <input name="smbd_tags_private" value = "true" type = "radio" /> <?php _e('Private Posts', 'bulk-delete'); ?>
                     </td>
                 </tr>
 
