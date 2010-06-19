@@ -2,8 +2,8 @@
 Contributors: sudar 
 Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
-Tested up to: 2.9.2
-Stable tag: 0.8
+Tested up to: 3.0
+Stable tag: 1.0
 	
 Bulk delete posts from selected categories or tags
 
@@ -58,6 +58,9 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 ###v0.8 (2010-03-17)
 *   Added support for private posts.
+
+###v1.0 (2010-06-19)
+*   Proper handling of limits.
 
 ==Readme Generator== 
 

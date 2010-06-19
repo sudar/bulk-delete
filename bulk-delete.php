@@ -4,7 +4,7 @@ Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
-Version: 0.8
+Version: 1.0
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -18,7 +18,8 @@ Text Domain: bulk-delete
 2009-07-21 - v0.5 - Fifth release - Added option to delete all pending posts.
 2009-07-22 - v0.6 - Sixth release - Added option to delete all scheduled posts.
 2010-02-21 - v0.7 - Added an option to delete posts directly or send them to trash and support for translation.
-2010-03-17 - v0.7 - Added support for private posts.
+2010-03-17 - v0.8 - Added support for private posts.
+2010-06-19 - v1.0 - Proper handling of limits.
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
 
@@ -139,7 +140,7 @@ if (!function_exists('smbd_request_handler')) {
                 case "bulk-delete-special":
                     $options = array();
 
-                    $limit_to = absint($_POST['smbd_cats_limits_to']);
+                    $limit_to = absint($_POST['smbd_special_limit_to']);
 
                     if ($limit_to > 0) {
                         $options['showposts'] = $limit_to;
