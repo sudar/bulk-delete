@@ -4,7 +4,8 @@ Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
-Version: 1.0
+Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
+Version: 1.1
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -20,6 +21,7 @@ Text Domain: bulk-delete
 2010-02-21 - v0.7 - Added an option to delete posts directly or send them to trash and support for translation.
 2010-03-17 - v0.8 - Added support for private posts.
 2010-06-19 - v1.0 - Proper handling of limits.
+2011-01-22 - v1.1 - Added support to delete posts by custom taxonomies
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
 
@@ -133,6 +135,53 @@ if (!function_exists('smbd_request_handler')) {
                     
                     foreach ($posts as $post) {
                         wp_delete_post($post->ID, $force_delete);
+                    }
+                    
+                    break;
+
+                case "bulk-delete-taxs":
+                    // delete by taxs
+                    $selected_taxs = $_POST['smbd_taxs'];
+
+                    foreach ($selected_taxs as $selected_tax) {
+                        $postids = get_tax_post($selected_tax);
+                        
+                        if ($_POST['smbd_taxs_restrict'] == "true") {
+
+                            add_option('taxs_op', $_POST['smbd_taxs_op']);
+                            add_option('taxs_days', $_POST['smbd_taxs_days']);
+
+                            add_filter ('posts_where', 'taxs_by_days');
+                        }
+
+                        $private = $_POST['smbd_taxs_private'];
+
+                        if ($private == 'true') {
+                            $options = array('post__in'=>$postids,'post_status'=>'private', 'post_type'=>'post');
+                        } else {
+                            $options = array('post__in'=>$postids,'post_status'=>'publish', 'post_type'=>'post');
+                        }
+
+                        $limit_to = absint($_POST['smbd_taxs_limits_to']);
+
+                        if ($limit_to > 0) {
+                            $options['showposts'] = $limit_to;
+                        } else {
+                            $options['nopaging'] = 'true';
+                        }
+
+                        $force_delete = $_POST['smbd_taxs_force_delete'];
+
+                        if ($force_delete == 'true') {
+                            $force_delete = true;
+                        } else {
+                            $force_delete = false;
+                        }
+
+                        $posts = $wp_query->query($options);
+                        foreach ($posts as $post) {
+                            wp_delete_post($post->ID, $force_delete);
+                        }
                     }
                     
                     break;
@@ -264,7 +313,7 @@ if (!function_exists('smbd_displayOptions')) {
             <tr>
                 <td>
                     <input name="smbd_revisions" id ="smbd_revisions" value = "revisions" type = "checkbox" />
-                    <label for="smbd_revisions"><?php echo _e("All Revisions", 'bulk-delete'); ?> (<?php echo count($revisions) . " "; _e("Revisons", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_revisions"><?php echo _e("All Revisions", 'bulk-delete'); ?> (<?php echo count($revisions) . " "; _e("Revisions", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
@@ -496,6 +545,101 @@ if (!function_exists('smbd_displayOptions')) {
 <?php
         }
 ?>
+
+<?php
+        $customTaxs =  get_taxonomies();
+        if (count($customTaxs) > 0) {
+?>
+            <h3><?php _e("By Taxonomies", 'bulk-delete'); ?></h3>
+            <h4><?php _e("Select the taxonomies whose post you want to delete", 'bulk-delete') ?></h4>
+
+            <form name="smbd_form" id = "smbd_tax_form"
+            action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post"
+            onsubmit="return bd_validateForm(this);">
+
+            <fieldset class="options">
+            <table class="optiontable">
+    <?php
+            foreach ($customTaxs as $taxs) {
+
+                $posts = get_tax_post($taxs);
+    ?>
+                <tr>
+                    <td scope="row" >
+                        <input name="smbd_taxs[]" value = "<?php echo $taxs; ?>" type = "checkbox" />
+                    </td>
+                    <td>
+                        <label for="smbd_taxs"><?php echo $taxs; ?> (<?php echo count($posts) . " "; _e("Posts", 'bulk-delete'); ?>)</label>
+                    </td>
+                </tr>
+    <?php
+            }
+    ?>
+                <tr>
+                    <td scope="row" >
+                        <input name="smbd_taxs_all" id ="smbd_taxs_all" value = "-1" type = "checkbox" onclick="bd_checkAll(document.getElementById('smbd_tax_form'));" />
+                    </td>
+                    <td>
+                        <label for="smbd_taxs_all"><?php _e("All Taxonomies", 'bulk-delete') ?></label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+
+                <tr>
+                    <td scope="row">
+                        <input name="smbd_taxs_restrict" id ="smbd_taxs_restrict" value = "true" type = "checkbox" onclick="toggle_date_restrict('taxs');" />
+                    </td>
+                    <td>
+                        <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
+                        <select name="smbd_taxs_op" id="smbd_taxs_op" disabled>
+                            <option value ="<"><?php _e("older than", 'bulk-delete');?></option>
+                            <option value =">"><?php _e("posted within last", 'bulk-delete');?></option>
+                        </select>
+                        <input type ="textbox" name="smbd_taxs_days" id ="smbd_taxs_days" value ="0"  maxlength="4" size="4" disabled /><?php _e("days", 'bulk-delete');?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row" colspan="2">
+                        <input name="smbd_taxs_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
+                        <input name="smbd_taxs_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row" colspan="2">
+                        <input name="smbd_taxs_private" value = "false" type = "radio" checked="checked" /> <?php _e('Public posts', 'bulk-delete'); ?>
+                        <input name="smbd_taxs_private" value = "true" type = "radio" /> <?php _e('Private Posts', 'bulk-delete'); ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row">
+                        <input name="smbd_taxs_limit" id="smbd_taxs_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('taxs');" />
+                    </td>
+                    <td>
+                        <?php _e("Only delete first ", 'bulk-delete');?>
+                        <input type ="textbox" name="smbd_taxs_limit_to" id="smbd_taxs_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
+                        <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
+                    </td>
+                </tr>
+
+            </table>
+            </fieldset>
+            <p class="submit">
+                    <input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+            </p>
+
+    <?php wp_nonce_field('bulk-delete-posts'); ?>
+
+            <input type="hidden" name="smbd_action" value="bulk-delete-taxs" />
+            </form>
+<?php
+        }
+?>
         <p><em><?php _e("If you are looking to move posts in bulk, instead of deleting then try out my ", 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-move"><?php _e("Bulk Move Plugin", 'bulk-delete');?></a>.</em></p>
     </div>
 <?php
@@ -560,7 +704,7 @@ function smbd_print_scripts() {
         if (valid) {
             return confirm("<?php _e('Are you sure you want to delete all the selected posts', 'bulk-delete'); ?>");
         } else {
-            alert ("<?php _e('Please select atleast one', 'bulk-delete'); ?>");
+            alert ("<?php _e('Please select at least one', 'bulk-delete'); ?>");
             return false;
         }
     }
@@ -596,6 +740,39 @@ function tags_by_days ($where = '') {
     return $where;
 }
 
+/**
+ * function to filter custom taxonomy posts by days
+ * @param <type> $where
+ * @return <type>
+ */
+function taxs_by_days ($where = '') {
+    $taxs_op = get_option('taxs_op');
+    $taxs_days = get_option('taxs_days');
+
+    remove_filter('posts_where', 'taxs_by_days');
+    $where .= " AND post_date $taxs_op '" . date('y-m-d', strtotime("-$taxs_days days")) . "'";
+    return $where;
+}
+
+/**
+ * Return the posts for a taxonomy
+ *
+ * @param <type> $tax
+ * @return <type>
+ */
+function get_tax_post($tax) {
+    global $wpdb;
+    
+    $query = $wpdb->prepare("select object_id from {$wpdb->prefix}term_relationships where term_taxonomy_id in (select term_taxonomy_id from {$wpdb->prefix}term_taxonomy where taxonomy = '$tax')");
+    $post_ids_result = $wpdb->get_results($query);
+
+    $postids = array();
+    foreach ($post_ids_result as $post_id_result) {
+        $postids[] = $post_id_result->object_id;
+    }
+
+    return $postids;
+}
 /**
  * Add navigation menu
  */

@@ -2,14 +2,14 @@
 Contributors: sudar 
 Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
-Tested up to: 3.0
-Stable tag: 1.0
+Tested up to: 3.0.4
+Stable tag: 1.1
 	
 Bulk delete posts from selected categories or tags
 
 == Description ==
 
-Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from selected categories or tags. This Plugin can also delete all drafts, post revisions or pages.
+Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from selected categories, tags or custom taxonomies. This Plugin can also delete all drafts, post revisions or pages.
 
 More details about the Plugin can be found at the [Plugins Home page][1].
 
@@ -17,7 +17,14 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 
  [1]: http://sudarmuthu.com/wordpress/bulk-delete
  [2]: http://sudarmuthu.com/wordpress/bulk-move
-	
+
+### Translation
+
+*   Dutch (Thanks Rene of [WordPress WPwebshop][3])
+*   Brazilian Portuguese (Thanks [Marcelo][4])
+
+ [3]: http://wpwebshop.com/premium-wordpress-plugins/
+ [4]: http://www.techload.com.br/
 == Installation ==
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
@@ -61,6 +68,11 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 ###v1.0 (2010-06-19)
 *   Proper handling of limits.
+
+###v1.1 (2011-01-22)
+*   Added support to delete posts by custom taxonomies
+*   Added Dutch Translation
+*   Added Brazilian Portuguese Translation
 
 ==Readme Generator== 
 
