@@ -640,6 +640,16 @@ if (!function_exists('smbd_displayOptions')) {
 <?php
         }
 ?>
+            <h3><?php _e('Support', 'bulk-delete'); ?></h3>
+            <p><?php _e('If you have any questions/comments/feedback about the Plugin then post a comment in the <a target="_blank" href = "http://sudarmuthu.com/wordpress/bulk-delete">Plugins homepage</a>.','bulk-delete'); ?></p>
+            <p><?php _e('If you like the Plugin, then consider doing one of the following.', 'bulk-delete'); ?></p>
+            <ul style="list-style:disc inside">
+                <li><?php _e('Write a blog post about the Plugin.', 'bulk-delete'); ?></li>
+                <li><a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sudarmuthu.com/wordpress/bulk-delete" data-text="Bulk Delete WordPress Plugin" data-count="none" data-via="sudarmuthu">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><?php _e(' about it.', 'bulk-delete'); ?></li>
+                <li><?php _e('Give a <a href = "http://wordpress.org/extend/plugins/bulk-delete/" target="_blank">good rating</a>.', 'bulk-delete'); ?></li>
+                <li><?php _e('Say <a href = "http://sudarmuthu.com/if-you-wanna-thank-me" target="_blank">thank you</a>.', 'bulk-delete'); ?></li>
+            </ul>
+
         <p><em><?php _e("If you are looking to move posts in bulk, instead of deleting then try out my ", 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-move"><?php _e("Bulk Move Plugin", 'bulk-delete');?></a>.</em></p>
     </div>
 <?php

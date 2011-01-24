@@ -33,7 +33,11 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 1. Delete posts based on type
 
-2. Delete posts based on categories or tags
+2. Delete posts based on date, post visibilty or choose to move them to trash or delete permanently
+
+3. Delete Posts by Categories or Tags
+
+4. Delete Posts by Custom taxonomies
 
 == Changelog ==
 
