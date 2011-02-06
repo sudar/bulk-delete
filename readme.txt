@@ -45,7 +45,7 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 == Frequently Asked Questions ==
 
-= After installing the Plugin, I just see a blank page.
+= After installing the Plugin, I just see a blank page. =
 
 This can happen if you have huge number of posts and your server is very unpowered. Check your PHP error log to see if there are any errors and correct them. The most common problems are script timeout or running out of memory. Change your PHP.ini file and increase the script timeout and/or amount of memory used by PHP process.
 
