@@ -49,6 +49,12 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 This can happen if you have huge number of posts and your server is very unpowered. Check your PHP error log to see if there are any errors and correct them. The most common problems are script timeout or running out of memory. Change your PHP.ini file and increase the script timeout and/or amount of memory used by PHP process.
 
+In particular try to change the following settings
+
+*   max_execution_time = 600 ; Maximum execution time of each script, in seconds
+*   max_input_time = 30; Maximum amount of time each script may spend parsing request data
+*   memory_limit = 256M ; Maximum amount of memory a script may consume (8MB)
+
 == Screenshot ==
 
 1. Delete posts based on type
