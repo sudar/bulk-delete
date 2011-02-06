@@ -3,7 +3,8 @@ Contributors: sudar
 Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
 Tested up to: 3.0.4
-Stable tag: 1.1
+Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
+Stable tag: 1.2
 	
 Bulk delete posts from selected categories or tags
 
@@ -15,19 +16,38 @@ More details about the Plugin can be found at the [Plugins Home page][1].
 
 If you looking for just moving posts, instead of deleting, then use [Bulk Move Plugin][2] instead.
 
- [1]: http://sudarmuthu.com/wordpress/bulk-delete
- [2]: http://sudarmuthu.com/wordpress/bulk-move
-
 ### Translation
 
 *   Dutch (Thanks Rene of [WordPress WPwebshop][3])
-*   Brazilian Portuguese (Thanks [Marcelo][4])
+*   Brazilian Portuguese (Thanks Marcelo of [Criacao de Sites em Ribeirao Preto][4])
 
+### Support
+
+Support for the Plugin is available from the [Plugin's home page][1]. If you have any questions or suggestions, do leave a comment there or contact me in [twitter][5].
+
+### Links
+
+*   [Plugin home page][1]
+*   [Author's Blog][6]
+*   [Other Plugins by the author][7]
+
+ [1]: http://sudarmuthu.com/wordpress/bulk-delete
+ [2]: http://sudarmuthu.com/wordpress/bulk-move
  [3]: http://wpwebshop.com/premium-wordpress-plugins/
  [4]: http://www.techload.com.br/
+ [5]: http://twitter.com/sudarmuthu
+ [6]: http://sudarmuthu.com/blog
+ [7]: http://sudarmuthu.com/wordpress
+ 
 == Installation ==
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
+
+== Frequently Asked Questions ==
+
+= After installing the Plugin, I just see a blank page.
+
+This can happen if you have huge number of posts and your server is very unpowered. Check your PHP error log to see if there are any errors and correct them. The most common problems are script timeout or running out of memory. Change your PHP.ini file and increase the script timeout and/or amount of memory used by PHP process.
 
 == Screenshot ==
 
@@ -77,6 +97,9 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 *   Added support to delete posts by custom taxonomies
 *   Added Dutch Translation
 *   Added Brazilian Portuguese Translation
+
+###v1.2 (2011-02-06)
+*   Added some optimization to handle huge number of posts in underpowered servers
 
 ==Readme Generator== 
 

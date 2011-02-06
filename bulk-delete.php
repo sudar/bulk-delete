@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 1.1
+Version: 1.2
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -22,6 +22,7 @@ Text Domain: bulk-delete
 2010-03-17 - v0.8 - Added support for private posts.
 2010-06-19 - v1.0 - Proper handling of limits.
 2011-01-22 - v1.1 - Added support to delete posts by custom taxonomies
+2011-02-06 - v1.2 - Added some optimization to handle huge number of posts in underpowered servers
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
 
@@ -216,7 +217,7 @@ if (!function_exists('smbd_request_handler')) {
 
                     // Revisions
                     if ("revisions" == $_POST['smbd_revisions']) {
-                        $revisions = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_type = 'revision'"));
+                        $revisions = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_type = 'revision'"));
 
                         foreach ($revisions as $revision) {
                             wp_delete_post($revision->ID, $force_delete);
@@ -225,7 +226,7 @@ if (!function_exists('smbd_request_handler')) {
 
                     // Pending Posts
                     if ("pending" == $_POST['smbd_pending']) {
-                        $pendings = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'pending'"));
+                        $pendings = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_status = 'pending'"));
 
                         foreach ($pendings as $pending) {
                             wp_delete_post($pending->ID, $force_delete);
@@ -234,7 +235,7 @@ if (!function_exists('smbd_request_handler')) {
 
                     // Future Posts
                     if ("future" == $_POST['smbd_future']) {
-                        $futures = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'future'"));
+                        $futures = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_status = 'future'"));
 
                         foreach ($futures as $future) {
                             wp_delete_post($future->ID, $force_delete);
@@ -243,7 +244,7 @@ if (!function_exists('smbd_request_handler')) {
 
                     // Private Posts
                     if ("private" == $_POST['smbd_private']) {
-                        $privates = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'private'"));
+                        $privates = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_status = 'private'"));
 
                         foreach ($privates as $private) {
                             wp_delete_post($private->ID, $force_delete);
@@ -295,49 +296,49 @@ if (!function_exists('smbd_displayOptions')) {
 
 <?php
         $wp_query = new WP_Query;
-        $drafts = $wp_query->query(array('post_status'=>'draft'));
-        $revisions = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_type = 'revision'"));
-        $pending = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'pending'"));
-        $future = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'future'"));
-        $private = $wpdb->get_results($wpdb->prepare("select * from $wpdb->posts where post_status = 'private'"));
-        $pages = $wp_query->query(array('post_type'=>'page'));
+        $drafts = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_status = 'draft'"));
+        $revisions = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_type = 'revision'"));
+        $pending = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_status = 'pending'"));
+        $future = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_status = 'future'"));
+        $private = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_status = 'private'"));
+        $pages = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_type = 'page'"));
 ?>
         <fieldset class="options">
         <table class="optiontable">
             <tr>
                 <td scope="row" >
                     <input name="smbd_drafs" id ="smbd_drafs" value = "drafs" type = "checkbox" />
-                    <label for="smbd_drafs"><?php echo _e("All Drafts", 'bulk-delete'); ?> (<?php echo count($drafts) . " "; _e("Drafts", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_drafs"><?php echo _e("All Drafts", 'bulk-delete'); ?> (<?php echo $drafts . " "; _e("Drafts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input name="smbd_revisions" id ="smbd_revisions" value = "revisions" type = "checkbox" />
-                    <label for="smbd_revisions"><?php echo _e("All Revisions", 'bulk-delete'); ?> (<?php echo count($revisions) . " "; _e("Revisions", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_revisions"><?php echo _e("All Revisions", 'bulk-delete'); ?> (<?php echo $revisions . " "; _e("Revisions", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input name="smbd_pending" id ="smbd_pending" value = "pending" type = "checkbox" />
-                    <label for="smbd_pending"><?php echo _e("All Pending posts", 'bulk-delete'); ?> (<?php echo count($pending) . " "; _e("Posts", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_pending"><?php echo _e("All Pending posts", 'bulk-delete'); ?> (<?php echo $pending . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input name="smbd_future" id ="smbd_future" value = "future" type = "checkbox" />
-                    <label for="smbd_future"><?php echo _e("All scheduled posts", 'bulk-delete'); ?> (<?php echo count($future) . " "; _e("Posts", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_future"><?php echo _e("All scheduled posts", 'bulk-delete'); ?> (<?php echo $future . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input name="smbd_private" id ="smbd_private" value = "private" type = "checkbox" />
-                    <label for="smbd_private"><?php echo _e("All private posts", 'bulk-delete'); ?> (<?php echo count($private) . " "; _e("Posts", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_private"><?php echo _e("All private posts", 'bulk-delete'); ?> (<?php echo $private . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
             <tr>
                 <td>
                     <input name="smbd_pages" value = "pages" type = "checkbox" />
-                    <label for="smbd_pages"><?php echo _e("All Pages", 'bulk-delete'); ?> (<?php echo count($pages) . " "; _e("Pages", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_pages"><?php echo _e("All Pages", 'bulk-delete'); ?> (<?php echo $pages . " "; _e("Pages", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
 
