@@ -4,7 +4,7 @@ Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
 Tested up to: 3.2.1
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 1.4
+Stable tag: 1.5
 	
 Bulk delete posts from selected categories or tags
 
@@ -22,6 +22,7 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 *   Brazilian Portuguese (Thanks Marcelo of [Criacao de Sites em Ribeirao Preto][4])
 *   German (Thanks Jenny Beelens of [professionaltranslation.com][8])
 *   Turkish Portuguese (Thanks [Bahadir Yildiz][9])
+*   Spanish (Thanks Brian Flores of [InMotion Hosting][10])
 
 ### Support
 
@@ -42,7 +43,8 @@ Support for the Plugin is available from the [Plugin's home page][1]. If you hav
  [7]: http://sudarmuthu.com/wordpress
  [8]: http://www.professionaltranslation.com
  [9]: http://www.matematik.us
- 
+ [10]: http://www.inmotionhosting.com/
+
 == Installation ==
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
@@ -116,6 +118,9 @@ In particular try to change the following settings
 
 ###v1.4 (2011-08-25)
 *   Added Turkish translations
+
+###v1.5 (2011-11-13)
+*   Added Spanish translations
 
 ==Readme Generator== 
 

@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 1.4
+Version: 1.5
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -25,6 +25,7 @@ Text Domain: bulk-delete
 2011-02-06 - v1.2 - Added some optimization to handle huge number of posts in underpowered servers
 2011-05-11 - v1.3 - Added German translations
 2011-08-25 - v1.4 - Added Turkish translations
+2011-11-13 - v1.5 - Added Spanish translations
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
 
