@@ -4,7 +4,7 @@ Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
 Tested up to: 3.2.1
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 1.5
+Stable tag: 1.6
 	
 Bulk delete posts from selected categories or tags
 
@@ -23,6 +23,7 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 *   German (Thanks Jenny Beelens of [professionaltranslation.com][8])
 *   Turkish Portuguese (Thanks [Bahadir Yildiz][9])
 *   Spanish (Thanks Brian Flores of [InMotion Hosting][10])
+*   Italian (Thanks Paolo Gabrielli)
 
 ### Support
 
@@ -121,6 +122,10 @@ In particular try to change the following settings
 
 ###v1.5 (2011-11-13)
 *   Added Spanish translations
+
+###v1.6 (2011-11-28)
+*   Added Italian translations
+
 
 ==Readme Generator== 
 
