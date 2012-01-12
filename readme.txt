@@ -2,9 +2,9 @@
 Contributors: sudar 
 Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
-Tested up to: 3.2.1
+Tested up to: 3.3.1
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 1.6
+Stable tag: 1.7
 	
 Bulk delete posts from selected categories or tags
 
@@ -24,6 +24,7 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 *   Turkish Portuguese (Thanks [Bahadir Yildiz][9])
 *   Spanish (Thanks Brian Flores of [InMotion Hosting][10])
 *   Italian (Thanks Paolo Gabrielli)
+*   Bulgarian (Thanks Nikolay Nikolov of [Skype Fan Blog][11])
 
 ### Support
 
@@ -45,6 +46,7 @@ Support for the Plugin is available from the [Plugin's home page][1]. If you hav
  [8]: http://www.professionaltranslation.com
  [9]: http://www.matematik.us
  [10]: http://www.inmotionhosting.com/
+ [11]: http://en.chat4o.com/ 
 
 == Installation ==
 
@@ -126,6 +128,8 @@ In particular try to change the following settings
 ###v1.6 (2011-11-28)
 *   Added Italian translations
 
+###v1.7 (2012-01-12)
+*   Added Bulgarian translations
 
 ==Readme Generator== 
 
