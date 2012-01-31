@@ -4,7 +4,7 @@ Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
 Tested up to: 3.3.1
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 1.7
+Stable tag: 1.8
 	
 Bulk delete posts from selected categories or tags
 
@@ -130,6 +130,9 @@ In particular try to change the following settings
 
 ###v1.7 (2012-01-12)
 *   Added Bulgarian translations
+
+###v1.8 (2012-01-31)
+*   Added roles and capabilites for menu
 
 ==Readme Generator== 
 
