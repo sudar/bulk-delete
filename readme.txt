@@ -132,7 +132,7 @@ In particular try to change the following settings
 *   Added Bulgarian translations
 
 ###v1.8 (2012-01-31)
-*   Added roles and capabilites for menu
+*   Added roles and capabilities for menu
 
 ==Readme Generator== 
 

@@ -28,7 +28,7 @@ Text Domain: bulk-delete
 2011-11-13 - v1.5 - Added Spanish translations
 2011-11-28 - v1.6 - Added Italian translations
 2012-01-12 - v1.7 - Added Bulgarian translations
-2012-01-31 - v1.8 - Added roles and capabilites for menu
+2012-01-31 - v1.8 - Added roles and capabilities for menu
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
 
