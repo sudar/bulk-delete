@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 1.8
+Version: 1.9
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -29,6 +29,7 @@ Text Domain: bulk-delete
 2011-11-28 - v1.6 - Added Italian translations
 2012-01-12 - v1.7 - Added Bulgarian translations
 2012-01-31 - v1.8 - Added roles and capabilities for menu
+2012-03-16 - v1.9 - Added support for deleting by permalink. Credit Martin Capodici
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
 
@@ -266,6 +267,20 @@ if (!function_exists('smbd_request_handler')) {
                             wp_delete_post($page->ID, $force_delete);
                         }
                     }
+                    
+                    // Specific Pages
+                    if ("specificpages" == $_POST['smdb_specific_pages']) {
+                        $urls = preg_split( '/\r\n|\r|\n/', $_POST['smdb_specific_pages_urls'] );
+                        foreach ($urls as $url) {
+                            $checkedurl = $url;
+                            if (substr($checkedurl ,0,1) == '/') {
+                                $checkedurl = get_site_url() . $checkedurl ;
+                            }
+                            $postid = url_to_postid( $checkedurl );
+                            wp_delete_post($postid, $force_delete);
+                        }
+                    }
+                    
                     break;
             }
 
@@ -349,6 +364,14 @@ if (!function_exists('smbd_displayOptions')) {
             </tr>
 
             <tr>
+                <td scope="row"> 
+                    <input name="smdb_specific_pages" id="smdb_specific_pages" value = "specificpages" type = "checkbox"  />                    
+                    <label for="smdb_specific_pages"><?php echo _e("Delete these specific pages", 'bulk-delete'); ?></label>
+                    <br/>
+                    <textarea style="width: 450px; height: 80px;" id="smdb_specific_pages_urls" name="smdb_specific_pages_urls" rows="5" columns="80" ></textarea>
+                </td>
+            </tr>
+            <tr>
                 <td scope="row">
                     <input name="smbd_special_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
                     <input name="smbd_special_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
@@ -364,6 +387,7 @@ if (!function_exists('smbd_displayOptions')) {
                 </td>
             </tr>
 
+            
         </table>
         </fieldset>
         <p class="submit">
