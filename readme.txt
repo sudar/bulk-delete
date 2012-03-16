@@ -25,7 +25,7 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 *   Spanish (Thanks Brian Flores of [InMotion Hosting][10])
 *   Italian (Thanks Paolo Gabrielli)
 *   Bulgarian (Thanks Nikolay Nikolov of [Skype Fan Blog][11])
-*   Russian (Thanks Maxim Pesteev)
+*   Russian (Thanks Maxim Pesteev, [Weblancer.net profile][12])
 
 ### Support
 
@@ -48,6 +48,7 @@ Support for the Plugin is available from the [Plugin's home page][1]. If you hav
  [9]: http://www.matematik.us
  [10]: http://www.inmotionhosting.com/
  [11]: http://en.chat4o.com/ 
+ [12]: http://www.weblancer.net/users/Kirky/
 
 == Installation ==
 
