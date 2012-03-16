@@ -25,6 +25,7 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 *   Spanish (Thanks Brian Flores of [InMotion Hosting][10])
 *   Italian (Thanks Paolo Gabrielli)
 *   Bulgarian (Thanks Nikolay Nikolov of [Skype Fan Blog][11])
+*   Russian (Thanks Maxim Pesteev)
 
 ### Support
 
@@ -136,6 +137,8 @@ In particular try to change the following settings
 
 ###v1.9 (2012-03-16)
 *   Added support for deleting by permalink. Credit Martin Capodici
+*   Fixed issues with translations
+*   Added Rusian translations
 
 ==Readme Generator== 
 

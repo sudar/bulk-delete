@@ -31,6 +31,7 @@ Text Domain: bulk-delete
 2012-01-31 - v1.8 - Added roles and capabilities for menu
 2012-03-16 - v1.9 - Added support for deleting by permalink. Credit Martin Capodici
                   - Fixed issues with translations
+                  - Added Rusian translations
  */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
