@@ -30,6 +30,8 @@ Text Domain: bulk-delete
 2012-01-12 - v1.7 - Added Bulgarian translations
 2012-01-31 - v1.8 - Added roles and capabilities for menu
 2012-03-16 - v1.9 - Added support for deleting by permalink. Credit Martin Capodici
+                  - Fixed issues with translations
+ */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
 
@@ -54,6 +56,9 @@ Text Domain: bulk-delete
 if (!function_exists('smbd_request_handler')) {
     function smbd_request_handler() {
         global $wpdb;
+
+        // Load localization domain
+        load_plugin_textdomain( 'bulk-delete', false, dirname(plugin_basename(__FILE__)) . '/languages' );
 
         if (isset($_POST['smbd_action'])) {
 
