@@ -372,6 +372,12 @@ if (!function_exists('smbd_displayOptions')) {
                     <textarea style="width: 450px; height: 80px;" id="smdb_specific_pages_urls" name="smdb_specific_pages_urls" rows="5" columns="80" ></textarea>
                 </td>
             </tr>
+            
+            <tr>
+                <td>
+                    <h4><?php _e("Choose your filtering options", 'bulk-delete'); ?></h4>
+                </td>
+            </tr>
 
             <tr>
                 <td scope="row">
@@ -393,7 +399,7 @@ if (!function_exists('smbd_displayOptions')) {
         </fieldset>
 
         <p class="submit">
-            <input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+            <input type="submit" name="submit" class="button-primary" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
         </p>
 
         <?php wp_nonce_field('bulk-delete-posts'); ?>
@@ -432,8 +438,11 @@ if (!function_exists('smbd_displayOptions')) {
                     <label for="smbd_cats_all"><?php _e("All Categories", 'bulk-delete') ?></label>
                 </td>
             </tr>
+
             <tr>
-                <td colspan="2"></td>
+                <td colspan="2">
+                    <h4><?php _e("Choose your filtering options", 'bulk-delete'); ?></h4>
+                </td>
             </tr>
 
             <tr>
@@ -478,7 +487,7 @@ if (!function_exists('smbd_displayOptions')) {
         </table>
         </fieldset>
         <p class="submit">
-				<input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+				<input type="submit" name="submit" class="button-primary" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
         </p>
 
 <?php wp_nonce_field('bulk-delete-posts'); ?>
@@ -522,7 +531,9 @@ if (!function_exists('smbd_displayOptions')) {
                 </tr>
 
                 <tr>
-                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <h4><?php _e("Choose your filtering options", 'bulk-delete'); ?></h4>
+                    </td>
                 </tr>
 
                 <tr>
@@ -567,7 +578,7 @@ if (!function_exists('smbd_displayOptions')) {
             </table>
             </fieldset>
             <p class="submit">
-                    <input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+                    <input type="submit" name="submit" class="button-primary" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
             </p>
 
     <?php wp_nonce_field('bulk-delete-posts'); ?>
@@ -617,7 +628,9 @@ if (!function_exists('smbd_displayOptions')) {
                 </tr>
 
                 <tr>
-                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <h4><?php _e("Choose your filtering options", 'bulk-delete'); ?></h4>
+                    </td>
                 </tr>
 
                 <tr>
@@ -662,7 +675,7 @@ if (!function_exists('smbd_displayOptions')) {
             </table>
             </fieldset>
             <p class="submit">
-                    <input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+                    <input type="submit" class="button-primary" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
             </p>
 
     <?php wp_nonce_field('bulk-delete-posts'); ?>
