@@ -325,48 +325,54 @@ if (!function_exists('smbd_displayOptions')) {
             <tr>
                 <td scope="row" >
                     <input name="smbd_drafs" id ="smbd_drafs" value = "drafs" type = "checkbox" />
-                    <label for="smbd_drafs"><?php echo _e("All Drafts", 'bulk-delete'); ?> (<?php echo $drafts . " "; _e("Drafts", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_drafs"><?php _e("All Drafts", 'bulk-delete'); ?> (<?php echo $drafts . " "; _e("Drafts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input name="smbd_revisions" id ="smbd_revisions" value = "revisions" type = "checkbox" />
-                    <label for="smbd_revisions"><?php echo _e("All Revisions", 'bulk-delete'); ?> (<?php echo $revisions . " "; _e("Revisions", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_revisions"><?php _e("All Revisions", 'bulk-delete'); ?> (<?php echo $revisions . " "; _e("Revisions", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input name="smbd_pending" id ="smbd_pending" value = "pending" type = "checkbox" />
-                    <label for="smbd_pending"><?php echo _e("All Pending posts", 'bulk-delete'); ?> (<?php echo $pending . " "; _e("Posts", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_pending"><?php _e("All Pending posts", 'bulk-delete'); ?> (<?php echo $pending . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input name="smbd_future" id ="smbd_future" value = "future" type = "checkbox" />
-                    <label for="smbd_future"><?php echo _e("All scheduled posts", 'bulk-delete'); ?> (<?php echo $future . " "; _e("Posts", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_future"><?php _e("All scheduled posts", 'bulk-delete'); ?> (<?php echo $future . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input name="smbd_private" id ="smbd_private" value = "private" type = "checkbox" />
-                    <label for="smbd_private"><?php echo _e("All private posts", 'bulk-delete'); ?> (<?php echo $private . " "; _e("Posts", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_private"><?php _e("All private posts", 'bulk-delete'); ?> (<?php echo $private . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input name="smbd_pages" value = "pages" type = "checkbox" />
-                    <label for="smbd_pages"><?php echo _e("All Pages", 'bulk-delete'); ?> (<?php echo $pages . " "; _e("Pages", 'bulk-delete'); ?>)</label>
+                    <label for="smbd_pages"><?php _e("All Pages", 'bulk-delete'); ?> (<?php echo $pages . " "; _e("Pages", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
 
             <tr>
                 <td scope="row"> 
                     <input name="smdb_specific_pages" id="smdb_specific_pages" value = "specificpages" type = "checkbox"  />                    
-                    <label for="smdb_specific_pages"><?php echo _e("Delete these specific pages", 'bulk-delete'); ?></label>
+                    <label for="smdb_specific_pages"><?php _e("Delete these specific pages (Enter one post url (not post ids) per line)", 'bulk-delete'); ?></label>
                     <br/>
                     <textarea style="width: 450px; height: 80px;" id="smdb_specific_pages_urls" name="smdb_specific_pages_urls" rows="5" columns="80" ></textarea>
                 </td>
             </tr>
+
             <tr>
                 <td scope="row">
                     <input name="smbd_special_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
@@ -383,11 +389,11 @@ if (!function_exists('smbd_displayOptions')) {
                 </td>
             </tr>
 
-            
         </table>
         </fieldset>
+
         <p class="submit">
-                <input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+            <input type="submit" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
         </p>
 
         <?php wp_nonce_field('bulk-delete-posts'); ?>
@@ -399,8 +405,7 @@ if (!function_exists('smbd_displayOptions')) {
         <h4><?php _e("Select the categories whose post you want to delete", 'bulk-delete'); ?></h4>
 
         <form name="smbd_form" id = "smbd_cat_form"
-        action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post"
-        onsubmit="return bd_validateForm(this);">
+        action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post" onsubmit="return bd_validateForm(this);">
 
         <fieldset class="options">
             <table class="optiontable">
