@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 1.9
+Version: 2.0 
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -32,7 +32,8 @@ Text Domain: bulk-delete
 2012-03-16 - v1.9 - Added support for deleting by permalink. Credit Martin Capodici
                   - Fixed issues with translations
                   - Added Rusian translations
- */
+2012-03-31 - v2.0 - Fixed a major issue in how dates were handled.
+*/
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
 
@@ -73,9 +74,6 @@ if (!function_exists('smbd_request_handler')) {
                     $selected_cats = $_POST['smbd_cats'];
                     if ($_POST['smbd_cats_restrict'] == "true") {
 
-                        add_option('cats_op', $_POST['smbd_cats_op']);
-                        add_option('cats_days', $_POST['smbd_cats_days']);
-                        
                         add_filter ('posts_where', 'cats_by_days');
                     }
 
@@ -114,10 +112,6 @@ if (!function_exists('smbd_request_handler')) {
                     // delete by tags
                     $selected_tags = $_POST['smbd_tags'];
                     if ($_POST['smbd_tags_restrict'] == "true") {
-
-                        add_option('tags_op', $_POST['smbd_tags_op']);
-                        add_option('tags_days', $_POST['smbd_tags_days']);
-
                         add_filter ('posts_where', 'tags_by_days');
                     }
 
@@ -161,10 +155,6 @@ if (!function_exists('smbd_request_handler')) {
                         $postids = get_tax_post($selected_tax);
                         
                         if ($_POST['smbd_taxs_restrict'] == "true") {
-
-                            add_option('taxs_op', $_POST['smbd_taxs_op']);
-                            add_option('taxs_days', $_POST['smbd_taxs_days']);
-
                             add_filter ('posts_where', 'taxs_by_days');
                         }
 
@@ -765,8 +755,9 @@ function smbd_print_scripts() {
  * @return <type>
  */
 function cats_by_days ($where = '') {
-    $cats_op = get_option('cats_op');
-    $cats_days = get_option('cats_days');
+    $cats_op = $_POST['smbd_cats_op'];
+    $cats_days = $_POST['smbd_cats_days'];
+
     remove_filter('posts_where', 'cats_by_days');
 
     $where .= " AND post_date $cats_op '" . date('y-m-d', strtotime("-$cats_days days")) . "'";
@@ -779,10 +770,11 @@ function cats_by_days ($where = '') {
  * @return <type>
  */
 function tags_by_days ($where = '') {
-    $tags_op = get_option('tags_op');
-    $tags_days = get_option('tags_days');
+    $tags_op = $_POST['smbd_tags_op'];
+    $tags_days = $_POST['smbd_tags_days'];
     
     remove_filter('posts_where', 'tags_by_days');
+
     $where .= " AND post_date $tags_op '" . date('y-m-d', strtotime("-$tags_days days")) . "'";
     return $where;
 }
@@ -793,10 +785,11 @@ function tags_by_days ($where = '') {
  * @return <type>
  */
 function taxs_by_days ($where = '') {
-    $taxs_op = get_option('taxs_op');
-    $taxs_days = get_option('taxs_days');
+    $taxs_op = $_POST['smbd_taxs_op'];
+    $taxs_days = $_POST['smbd_taxs_days'];
 
     remove_filter('posts_where', 'taxs_by_days');
+
     $where .= " AND post_date $taxs_op '" . date('y-m-d', strtotime("-$taxs_days days")) . "'";
     return $where;
 }
