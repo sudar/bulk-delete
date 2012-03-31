@@ -33,6 +33,7 @@ Text Domain: bulk-delete
                   - Fixed issues with translations
                   - Added Rusian translations
 2012-03-31 - v2.0 - Fixed a major issue in how dates were handled.
+                  - Major UI revamp
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -301,11 +302,19 @@ if (!function_exists('smbd_displayOptions')) {
         global $wpdb;
 ?>
 	<div class="updated fade" style="background:#ff0;text-align:center;color: red;"><p><strong><?php _e("WARNING: Posts deleted once cannot be retrieved back. Use with caution.", 'bulk-delete'); ?></strong></p></div>
-        <div class="wrap">
-            <?php screen_icon(); ?>
-            <h2>Bulk Delete</h2>
 
-            <h3><?php _e("Select the posts which you want to delete", 'bulk-delete'); ?></h3>
+    <div class="wrap">
+        <?php screen_icon(); ?>
+        <h2>Bulk Delete</h2>
+
+        <div id = "poststuff" style = "float:left; width:75%">
+        <div class = "postbox">
+        <div class = "handlediv">
+            <br>
+        </div>
+            <h3 class = "hndle"><span><?php _e("By Type", 'bulk-delete'); ?></span></h3>
+        <div class = "inside">
+        <h4><?php _e("Select the posts which you want to delete", 'bulk-delete'); ?></h4>
 
         <form name="smbd_form" id = "smbd_misc_form"
         action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post"
@@ -406,8 +415,15 @@ if (!function_exists('smbd_displayOptions')) {
 
         <input type="hidden" name="smbd_action" value="bulk-delete-special" />
         </form>
+        </div>
+        </div>
 
-        <h3><?php _e("By Category", 'bulk-delete'); ?></h3>
+        <div class = "postbox">
+            <div class = "handlediv">
+                <br>
+            </div>
+                <h3 class = "hndle"><span><?php _e("By Category", 'bulk-delete'); ?></span></h3>
+            <div class = "inside">
         <h4><?php _e("Select the categories whose post you want to delete", 'bulk-delete'); ?></h4>
 
         <form name="smbd_form" id = "smbd_cat_form"
@@ -494,11 +510,20 @@ if (!function_exists('smbd_displayOptions')) {
 
 		<input type="hidden" name="smbd_action" value="bulk-delete-cats" />
 		</form>
+        </div>
+        </div>
 <?php
         $tags =  get_tags();
         if (count($tags) > 0) {
 ?>
-            <h3><?php _e("By Tags", 'bulk-delete'); ?></h3>
+        <div class = "postbox">
+            <div class = "handlediv">
+                <br>
+            </div>
+
+            <h3 class = "hndle"><span><?php _e("By Tags", 'bulk-delete'); ?></span></h3>
+
+            <div class = "inside">
             <h4><?php _e("Select the tags whose post you want to delete", 'bulk-delete') ?></h4>
 
             <form name="smbd_form" id = "smbd_tag_form"
@@ -585,6 +610,8 @@ if (!function_exists('smbd_displayOptions')) {
 
             <input type="hidden" name="smbd_action" value="bulk-delete-tags" />
             </form>
+            </div>
+            </div>
 <?php
         }
 ?>
@@ -593,7 +620,12 @@ if (!function_exists('smbd_displayOptions')) {
         $customTaxs =  get_taxonomies();
         if (count($customTaxs) > 0) {
 ?>
-            <h3><?php _e("By Taxonomies", 'bulk-delete'); ?></h3>
+        <div class = "postbox">
+            <div class = "handlediv">
+                <br>
+            </div>
+            <h3 class = "hndle"><span><?php _e("By Taxonomies", 'bulk-delete'); ?></span></h3>
+            <div class = "inside">
             <h4><?php _e("Select the taxonomies whose post you want to delete", 'bulk-delete') ?></h4>
 
             <form name="smbd_form" id = "smbd_tax_form"
@@ -682,89 +714,36 @@ if (!function_exists('smbd_displayOptions')) {
 
             <input type="hidden" name="smbd_action" value="bulk-delete-taxs" />
             </form>
+            </div>
+            </div>
 <?php
         }
 ?>
-            <h3><?php _e('Support', 'bulk-delete'); ?></h3>
-            <p><?php _e('If you have any questions/comments/feedback about the Plugin then post a comment in the <a target="_blank" href = "http://sudarmuthu.com/wordpress/bulk-delete">Plugins homepage</a>.','bulk-delete'); ?></p>
-            <p><?php _e('If you like the Plugin, then consider doing one of the following.', 'bulk-delete'); ?></p>
-            <ul style="list-style:disc inside">
-                <li><?php _e('Write a blog post about the Plugin.', 'bulk-delete'); ?></li>
-                <li><a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sudarmuthu.com/wordpress/bulk-delete" data-text="Bulk Delete WordPress Plugin" data-count="none" data-via="sudarmuthu">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><?php _e(' about it.', 'bulk-delete'); ?></li>
-                <li><?php _e('Give a <a href = "http://wordpress.org/extend/plugins/bulk-delete/" target="_blank">good rating</a>.', 'bulk-delete'); ?></li>
-                <li><?php _e('Say <a href = "http://sudarmuthu.com/if-you-wanna-thank-me" target="_blank">thank you</a>.', 'bulk-delete'); ?></li>
-            </ul>
+        <div class = "postbox">
+            <div class = "handlediv">
+                <br>
+            </div>
+            <h3 class = "hndle"><span><?php _e('Support', 'bulk-delete'); ?></span></h3>
+            <div class = "inside">
+                <p><?php _e('If you have any questions/comments/feedback about the Plugin then post a comment in the <a target="_blank" href = "http://sudarmuthu.com/wordpress/bulk-delete">Plugins homepage</a>.','bulk-delete'); ?></p>
+                <p><?php _e('If you like the Plugin, then consider doing one of the following.', 'bulk-delete'); ?></p>
+                <ul style="list-style:disc inside">
+                    <li><?php _e('Write a blog post about the Plugin.', 'bulk-delete'); ?></li>
+                    <li><a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sudarmuthu.com/wordpress/bulk-delete" data-text="Bulk Delete WordPress Plugin" data-count="none" data-via="sudarmuthu">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><?php _e(' about it.', 'bulk-delete'); ?></li>
+                    <li><?php _e('Give a <a href = "http://wordpress.org/extend/plugins/bulk-delete/" target="_blank">good rating</a>.', 'bulk-delete'); ?></li>
+                    <li><?php _e('Say <a href = "http://sudarmuthu.com/if-you-wanna-thank-me" target="_blank">thank you</a>.', 'bulk-delete'); ?></li>
+                </ul>
+            </div>
+        </div>
 
         <p><em><?php _e("If you are looking to move posts in bulk, instead of deleting then try out my ", 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-move"><?php _e("Bulk Move Plugin", 'bulk-delete');?></a>.</em></p>
+    </div>
     </div>
 <?php
 
     // Display credits in Footer
     add_action( 'in_admin_footer', 'smbd_admin_footer' );
     }
-}
-
-/**
- * Print JavaScript
- */
-function smbd_print_scripts() {
-?>
-<script type="text/javascript">
-
-    /**
-     * Check All Checkboxes
-     */
-    function bd_checkAll(form) {
-        for (i = 0, n = form.elements.length; i < n; i++) {
-            if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
-                if(form.elements[i].checked == true)
-                    form.elements[i].checked = false;
-                else
-                    form.elements[i].checked = true;
-            }
-        }
-    }
-
-    function toggle_date_restrict(el) {
-        if (jQuery("#smbd_" + el + "_restrict").is(":checked")) {
-            jQuery("#smbd_" + el + "_op").removeAttr('disabled');
-            jQuery("#smbd_" + el + "_days").removeAttr('disabled');
-        } else {
-            jQuery("#smbd_" + el + "_op").attr('disabled', 'true');
-            jQuery("#smbd_" + el + "_days").attr('disabled', 'true');
-        }
-    }
-    
-    function toggle_limit_restrict(el) {
-        if (jQuery("#smbd_" + el + "_limit").is(":checked")) {
-            jQuery("#smbd_" + el + "_limit_to").removeAttr('disabled');
-        } else {
-            jQuery("#smbd_" + el + "_limit_to").attr('disabled', 'true');
-        }
-    }
-    /**
-     * Validate Form
-     */
-    function bd_validateForm(form) {
-        var valid = false;
-        for (i = 0, n = form.elements.length; i < n; i++) {
-            if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
-                if(form.elements[i].checked == true) {
-                    valid = true;
-                    break;
-                }
-            }
-        }
-
-        if (valid) {
-            return confirm("<?php _e('Are you sure you want to delete all the selected posts', 'bulk-delete'); ?>");
-        } else {
-            alert ("<?php _e('Please select at least one', 'bulk-delete'); ?>");
-            return false;
-        }
-    }
-</script>
-<?php
 }
 
 /**
@@ -838,7 +817,6 @@ if(!function_exists('smbd_add_menu')) {
 	function smbd_add_menu() {
 	    //Add a submenu to Manage
         $page = add_options_page("Bulk Delete", "Bulk Delete", 'manage_options', basename(__FILE__), "smbd_displayOptions");
-        add_action('admin_print_scripts-' . $page, 'smbd_print_scripts');
 	}
 }
 
@@ -865,9 +843,78 @@ function smbd_filter_plugin_actions($links, $file) {
 function smbd_admin_footer() {
     $plugin_data = get_plugin_data( __FILE__ );
     printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+?>
+<script type="text/javascript">
+
+/**
+ * Toggle closing of different sections
+ *
+ */
+jQuery(document).ready( function() {
+    jQuery('.postbox h3').click( function() {
+        jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
+    });
+});
+
+/**
+* Check All Checkboxes
+*/
+function bd_checkAll(form) {
+    for (i = 0, n = form.elements.length; i < n; i++) {
+        if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
+            if(form.elements[i].checked == true)
+                form.elements[i].checked = false;
+            else
+                form.elements[i].checked = true;
+        }
+    }
+}
+
+function toggle_date_restrict(el) {
+    if (jQuery("#smbd_" + el + "_restrict").is(":checked")) {
+        jQuery("#smbd_" + el + "_op").removeAttr('disabled');
+        jQuery("#smbd_" + el + "_days").removeAttr('disabled');
+    } else {
+        jQuery("#smbd_" + el + "_op").attr('disabled', 'true');
+        jQuery("#smbd_" + el + "_days").attr('disabled', 'true');
+    }
+}
+
+function toggle_limit_restrict(el) {
+    if (jQuery("#smbd_" + el + "_limit").is(":checked")) {
+        jQuery("#smbd_" + el + "_limit_to").removeAttr('disabled');
+    } else {
+        jQuery("#smbd_" + el + "_limit_to").attr('disabled', 'true');
+    }
+}
+
+/**
+* Validate Form
+*/
+function bd_validateForm(form) {
+    var valid = false;
+    for (i = 0, n = form.elements.length; i < n; i++) {
+        if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
+            if(form.elements[i].checked == true) {
+                valid = true;
+                break;
+            }
+        }
+    }
+
+    if (valid) {
+        return confirm("<?php _e('Are you sure you want to delete all the selected posts', 'bulk-delete'); ?>");
+    } else {
+        alert ("<?php _e('Please select at least one', 'bulk-delete'); ?>");
+        return false;
+    }
+}
+</script>
+
+<?php    
 }
 
 add_filter( 'plugin_action_links', 'smbd_filter_plugin_actions', 10, 2 );
 add_action('admin_menu', 'smbd_add_menu');
-add_action('init', 'smbd_request_handler');
+add_action('admin_init', 'smbd_request_handler');
 ?>
