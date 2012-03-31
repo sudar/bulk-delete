@@ -75,7 +75,7 @@ if (!function_exists('smbd_request_handler')) {
                     $selected_cats = $_POST['smbd_cats'];
                     if ($_POST['smbd_cats_restrict'] == "true") {
 
-                        add_filter ('posts_where', 'cats_by_days');
+                        add_filter ('posts_where', 'smbd_cats_by_days');
                     }
 
                     $private = $_POST['smbd_cats_private'];
@@ -113,7 +113,7 @@ if (!function_exists('smbd_request_handler')) {
                     // delete by tags
                     $selected_tags = $_POST['smbd_tags'];
                     if ($_POST['smbd_tags_restrict'] == "true") {
-                        add_filter ('posts_where', 'tags_by_days');
+                        add_filter ('posts_where', 'smbd_tags_by_days');
                     }
 
                     $private = $_POST['smbd_tags_private'];
@@ -153,10 +153,10 @@ if (!function_exists('smbd_request_handler')) {
                     $selected_taxs = $_POST['smbd_taxs'];
 
                     foreach ($selected_taxs as $selected_tax) {
-                        $postids = get_tax_post($selected_tax);
+                        $postids = smbd_get_tax_post($selected_tax);
                         
                         if ($_POST['smbd_taxs_restrict'] == "true") {
-                            add_filter ('posts_where', 'taxs_by_days');
+                            add_filter ('posts_where', 'smbd_taxs_by_days');
                         }
 
                         $private = $_POST['smbd_taxs_private'];
@@ -290,8 +290,10 @@ if (!function_exists('smbd_request_handler')) {
 /**
  * Show deleted notice messages
  */
-function smbd_deleted_notice() {
-    echo "<div class = 'updated'><p>" . __("All the selected posts have been sucessfully deleted.", 'bulk-delete') . "</p></div>";
+if (!function_exists('smbd_deleted_notice')) {
+    function smbd_deleted_notice() {
+        echo "<div class = 'updated'><p>" . __("All the selected posts have been sucessfully deleted.", 'bulk-delete') . "</p></div>";
+    }
 }
 
 /**
@@ -637,7 +639,7 @@ if (!function_exists('smbd_displayOptions')) {
     <?php
             foreach ($customTaxs as $taxs) {
 
-                $posts = get_tax_post($taxs);
+                $posts = smbd_get_tax_post($taxs);
     ?>
                 <tr>
                     <td scope="row" >
@@ -736,6 +738,16 @@ if (!function_exists('smbd_displayOptions')) {
             </div>
         </div>
 
+        <div class = "postbox">
+            <div class = "handlediv">
+                <br>
+            </div>
+            <h3 class = "hndle"><span><?php _e('Debug Information', 'bulk-delete'); ?></span></h3>
+            <div class = "inside">
+                 <?php _e('Available memory size: ', 'bulk-delete'); echo ini_get( 'memory_size' ); ?>
+            </div>
+        </div>
+
         <p><em><?php _e("If you are looking to move posts in bulk, instead of deleting then try out my ", 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-move"><?php _e("Bulk Move Plugin", 'bulk-delete');?></a>.</em></p>
     </div>
     </div>
@@ -751,14 +763,16 @@ if (!function_exists('smbd_displayOptions')) {
  * @param <type> $where
  * @return <type>
  */
-function cats_by_days ($where = '') {
-    $cats_op = $_POST['smbd_cats_op'];
-    $cats_days = $_POST['smbd_cats_days'];
+if (!function_exists('smbd_cats_by_days ')) {
+    function smbd_cats_by_days ($where = '') {
+        $cats_op = $_POST['smbd_cats_op'];
+        $cats_days = $_POST['smbd_cats_days'];
 
-    remove_filter('posts_where', 'cats_by_days');
+        remove_filter('posts_where', 'smbd_cats_by_days');
 
-    $where .= " AND post_date $cats_op '" . date('y-m-d', strtotime("-$cats_days days")) . "'";
-    return $where;
+        $where .= " AND post_date $cats_op '" . date('y-m-d', strtotime("-$cats_days days")) . "'";
+        return $where;
+    }
 }
 
 /**
@@ -766,14 +780,16 @@ function cats_by_days ($where = '') {
  * @param <type> $where
  * @return <type>
  */
-function tags_by_days ($where = '') {
-    $tags_op = $_POST['smbd_tags_op'];
-    $tags_days = $_POST['smbd_tags_days'];
-    
-    remove_filter('posts_where', 'tags_by_days');
+if (!function_exists('smbd_tags_by_days ')) {
+    function smbd_tags_by_days ($where = '') {
+        $tags_op = $_POST['smbd_tags_op'];
+        $tags_days = $_POST['smbd_tags_days'];
+        
+        remove_filter('posts_where', 'smbd_tags_by_days');
 
-    $where .= " AND post_date $tags_op '" . date('y-m-d', strtotime("-$tags_days days")) . "'";
-    return $where;
+        $where .= " AND post_date $tags_op '" . date('y-m-d', strtotime("-$tags_days days")) . "'";
+        return $where;
+    }
 }
 
 /**
@@ -781,14 +797,16 @@ function tags_by_days ($where = '') {
  * @param <type> $where
  * @return <type>
  */
-function taxs_by_days ($where = '') {
-    $taxs_op = $_POST['smbd_taxs_op'];
-    $taxs_days = $_POST['smbd_taxs_days'];
+if (!function_exists('smbd_taxs_by_days ')) {
+    function smbd_taxs_by_days ($where = '') {
+        $taxs_op = $_POST['smbd_taxs_op'];
+        $taxs_days = $_POST['smbd_taxs_days'];
 
-    remove_filter('posts_where', 'taxs_by_days');
+        remove_filter('posts_where', 'smbd_taxs_by_days');
 
-    $where .= " AND post_date $taxs_op '" . date('y-m-d', strtotime("-$taxs_days days")) . "'";
-    return $where;
+        $where .= " AND post_date $taxs_op '" . date('y-m-d', strtotime("-$taxs_days days")) . "'";
+        return $where;
+    }
 }
 
 /**
@@ -797,19 +815,22 @@ function taxs_by_days ($where = '') {
  * @param <type> $tax
  * @return <type>
  */
-function get_tax_post($tax) {
-    global $wpdb;
-    
-    $query = $wpdb->prepare("select object_id from {$wpdb->prefix}term_relationships where term_taxonomy_id in (select term_taxonomy_id from {$wpdb->prefix}term_taxonomy where taxonomy = '$tax')");
-    $post_ids_result = $wpdb->get_results($query);
+if (!function_exists('smbd_get_tax_post')) {
+    function smbd_get_tax_post($tax) {
+        global $wpdb;
+        
+        $query = $wpdb->prepare("select object_id from {$wpdb->prefix}term_relationships where term_taxonomy_id in (select term_taxonomy_id from {$wpdb->prefix}term_taxonomy where taxonomy = '$tax')");
+        $post_ids_result = $wpdb->get_results($query);
 
-    $postids = array();
-    foreach ($post_ids_result as $post_id_result) {
-        $postids[] = $post_id_result->object_id;
+        $postids = array();
+        foreach ($post_ids_result as $post_id_result) {
+            $postids[] = $post_id_result->object_id;
+        }
+
+        return $postids;
     }
-
-    return $postids;
 }
+
 /**
  * Add navigation menu
  */
@@ -826,20 +847,23 @@ if(!function_exists('smbd_add_menu')) {
  * @param <type> $links
  * @param <type> $file
  */
-function smbd_filter_plugin_actions($links, $file) {
-    static $this_plugin;
-    if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
+if (!function_exists('smbd_filter_plugin_actions')) {
+    function smbd_filter_plugin_actions($links, $file) {
+        static $this_plugin;
+        if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
 
-    if( $file == $this_plugin ) {
-        $settings_link = '<a href="options-general.php?page=bulk-delete.php">' . _('Manage') . '</a>';
-        array_unshift( $links, $settings_link ); // before other links
+        if( $file == $this_plugin ) {
+            $settings_link = '<a href="options-general.php?page=bulk-delete.php">' . _('Manage') . '</a>';
+            array_unshift( $links, $settings_link ); // before other links
+        }
+        return $links;
     }
-    return $links;
 }
 
 /**
  * Adds Footer links. Based on http://striderweb.com/nerdaphernalia/2008/06/give-your-wordpress-plugin-credit/
  */
+if (!function_exists('smbd_admin_footer')) {
 function smbd_admin_footer() {
     $plugin_data = get_plugin_data( __FILE__ );
     printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
@@ -912,6 +936,7 @@ function bd_validateForm(form) {
 </script>
 
 <?php    
+}
 }
 
 add_filter( 'plugin_action_links', 'smbd_filter_plugin_actions', 10, 2 );
