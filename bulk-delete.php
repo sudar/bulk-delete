@@ -32,7 +32,7 @@ Text Domain: bulk-delete
 2012-03-16 - v1.9 - Added support for deleting by permalink. Credit Martin Capodici
                   - Fixed issues with translations
                   - Added Rusian translations
-2012-04-01 - v2.0 - Fixed a major issue in how dates were handled.
+2012-04-01 - v2.0 (10 hours) - Fixed a major issue in how dates were handled.
                   - Major UI revamp
                   - Added debug information and support urls
 */

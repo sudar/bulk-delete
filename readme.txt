@@ -4,7 +4,7 @@ Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
 Tested up to: 3.3.1
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 1.9
+Stable tag: 2.0
 	
 Bulk delete posts from selected categories or tags
 
@@ -66,11 +66,13 @@ In particular try to change the following settings
 *   max_input_time = 30; Maximum amount of time each script may spend parsing request data
 *   memory_limit = 256M ; Maximum amount of memory a script may consume (8MB)
 
+Additional FAQ and troubleshooting guide can be found in the [Plugins's homepage][1]
+
 == Screenshot ==
 
 1. Delete posts based on type
 
-2. Delete posts based on date, post visibilty or choose to move them to trash or delete permanently
+2. Delete posts based on date, post visibility or choose to move them to trash or delete permanently
 
 3. Delete Posts by Categories or Tags
 
@@ -140,6 +142,11 @@ In particular try to change the following settings
 *   Added support for deleting by permalink. Credit Martin Capodici
 *   Fixed issues with translations
 *   Added Rusian translations
+
+###v2.0 (2012-04-016) Dev Time:  10 hours
+*   Fixed a major issue in how dates were handled.
+*   Major UI revamp
+*   Added debug information and support urls
 
 ==Readme Generator== 
 
