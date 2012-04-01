@@ -32,8 +32,9 @@ Text Domain: bulk-delete
 2012-03-16 - v1.9 - Added support for deleting by permalink. Credit Martin Capodici
                   - Fixed issues with translations
                   - Added Rusian translations
-2012-03-31 - v2.0 - Fixed a major issue in how dates were handled.
+2012-04-01 - v2.0 - Fixed a major issue in how dates were handled.
                   - Major UI revamp
+                  - Added debug information and support urls
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -292,7 +293,7 @@ if (!function_exists('smbd_request_handler')) {
  */
 if (!function_exists('smbd_deleted_notice')) {
     function smbd_deleted_notice() {
-        echo "<div class = 'updated'><p>" . __("All the selected posts have been sucessfully deleted.", 'bulk-delete') . "</p></div>";
+        echo "<div class = 'updated'><p>" . __("All the selected posts have been successfully deleted.", 'bulk-delete') . "</p></div>";
     }
 }
 
@@ -308,6 +309,8 @@ if (!function_exists('smbd_displayOptions')) {
     <div class="wrap">
         <?php screen_icon(); ?>
         <h2>Bulk Delete</h2>
+
+            <iframe height = "950" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>"></iframe>
 
         <div id = "poststuff" style = "float:left; width:75%">
         <div class = "postbox">
@@ -725,26 +728,24 @@ if (!function_exists('smbd_displayOptions')) {
             <div class = "handlediv">
                 <br>
             </div>
-            <h3 class = "hndle"><span><?php _e('Support', 'bulk-delete'); ?></span></h3>
-            <div class = "inside">
-                <p><?php _e('If you have any questions/comments/feedback about the Plugin then post a comment in the <a target="_blank" href = "http://sudarmuthu.com/wordpress/bulk-delete">Plugins homepage</a>.','bulk-delete'); ?></p>
-                <p><?php _e('If you like the Plugin, then consider doing one of the following.', 'bulk-delete'); ?></p>
-                <ul style="list-style:disc inside">
-                    <li><?php _e('Write a blog post about the Plugin.', 'bulk-delete'); ?></li>
-                    <li><a href="http://twitter.com/share" class="twitter-share-button" data-url="http://sudarmuthu.com/wordpress/bulk-delete" data-text="Bulk Delete WordPress Plugin" data-count="none" data-via="sudarmuthu">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><?php _e(' about it.', 'bulk-delete'); ?></li>
-                    <li><?php _e('Give a <a href = "http://wordpress.org/extend/plugins/bulk-delete/" target="_blank">good rating</a>.', 'bulk-delete'); ?></li>
-                    <li><?php _e('Say <a href = "http://sudarmuthu.com/if-you-wanna-thank-me" target="_blank">thank you</a>.', 'bulk-delete'); ?></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class = "postbox">
-            <div class = "handlediv">
-                <br>
-            </div>
             <h3 class = "hndle"><span><?php _e('Debug Information', 'bulk-delete'); ?></span></h3>
             <div class = "inside">
-                 <?php _e('Available memory size: ', 'bulk-delete'); echo ini_get( 'memory_size' ); ?>
+            <p><?php _e('If you are seeing a blank page after clicking the Bulk Delete button, then ', 'bulk-delete'); ?><a href = "http://sudarmuthu.com/wordpress/bulk-delete#faq-white-screen"><?php _e('check out this FAQ', 'bulk-delete');?></a>. 
+                <?php _e('You also need need the following debug information.', 'bulk-delete'); ?></p>
+                <table cellspacing="10">
+                    <tr>
+                        <th align = "right"><?php _e('Available memory size ', 'bulk-delete');?></th>
+                        <td><?php echo ini_get( 'memory_limit' ); ?></td>
+                    </tr>
+                    <tr>
+                        <th align = "right"><?php _e('Script time out ', 'bulk-delete');?></th>
+                        <td><?php echo ini_get( 'max_execution_time' ); ?></td>
+                    </tr>
+                    <tr>
+                        <th align = "right"><?php _e('Script input time ', 'bulk-delete'); ?></th>
+                        <td><?php echo ini_get( 'max_input_time' ); ?></td>
+                    </tr>
+                </table>
             </div>
         </div>
 
