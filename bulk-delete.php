@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 2.0 
+Version: 2.1
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -35,6 +35,9 @@ Text Domain: bulk-delete
 2012-04-01 - v2.0 (10 hours) - Fixed a major issue in how dates were handled.
                   - Major UI revamp
                   - Added debug information and support urls
+2012-04-07 - v2.1 (1 hour) - Fixed CSS issues in IE.
+                  - Added Lithuanian translations
+
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -309,8 +312,6 @@ if (!function_exists('smbd_displayOptions')) {
     <div class="wrap">
         <?php screen_icon(); ?>
         <h2>Bulk Delete</h2>
-
-            <iframe height = "950" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>"></iframe>
 
         <div id = "poststuff" style = "float:left; width:75%">
         <div class = "postbox">
@@ -751,6 +752,9 @@ if (!function_exists('smbd_displayOptions')) {
 
         <p><em><?php _e("If you are looking to move posts in bulk, instead of deleting then try out my ", 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-move"><?php _e("Bulk Move Plugin", 'bulk-delete');?></a>.</em></p>
     </div>
+        
+    <iframe frameBorder="0" height = "950" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>"></iframe>
+    
     </div>
 <?php
 

@@ -4,7 +4,7 @@ Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
 Tested up to: 3.3.1
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 2.0
+Stable tag: 2.1
 	
 Bulk delete posts from selected categories or tags
 
@@ -26,6 +26,7 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 *   Italian (Thanks Paolo Gabrielli)
 *   Bulgarian (Thanks Nikolay Nikolov of [Skype Fan Blog][11])
 *   Russian (Thanks Maxim Pesteev, [Weblancer.net profile][12])
+*   Lithuanian (Thanks Vincent G from [http://www.host1free.com][13])
 
 ### Support
 
@@ -49,6 +50,7 @@ Support for the Plugin is available from the [Plugin's home page][1]. If you hav
  [10]: http://www.inmotionhosting.com/
  [11]: http://en.chat4o.com/ 
  [12]: http://www.weblancer.net/users/Kirky/
+ [13]: http://www.host1free.com
 
 == Installation ==
 
@@ -143,10 +145,14 @@ Additional FAQ and troubleshooting guide can be found in the [Plugins's homepage
 *   Fixed issues with translations
 *   Added Rusian translations
 
-###v2.0 (2012-04-016) Dev Time:  10 hours
+###v2.0 (2012-04-01) Dev Time:  10 hours
 *   Fixed a major issue in how dates were handled.
 *   Major UI revamp
 *   Added debug information and support urls
+
+###v2.1 (2012-04-07) Dev Time:  1 hour
+*   Fixed CSS issues in IE
+*   Added Lithuanian translations
 
 ==Readme Generator== 
 
