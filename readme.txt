@@ -5,8 +5,6 @@ Requires at least: 2.0
 Tested up to: 3.3.1
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
 Stable tag: 2.1
-Author URI: http://sudarmuthu.com
-Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 	
 Bulk delete posts from selected categories or tags
 
