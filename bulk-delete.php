@@ -37,6 +37,9 @@ Text Domain: bulk-delete
                   - Added debug information and support urls
 2012-04-07 - v2.1 (1 hour) - Fixed CSS issues in IE.
                   - Added Lithuanian translations
+2012-07-11 - v2.2 - (Dev time: 0.5 hour)
+                  - Added Hindi translations
+                  - Added checks to see if elements are present in the array before accessing them.
 
 */
 
