@@ -2,9 +2,9 @@
 Contributors: sudar 
 Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
-Tested up to: 3.3.1
+Tested up to: 3.4.1
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 2.1
+Stable tag: 2.2
 	
 Bulk delete posts from selected categories or tags
 
@@ -27,6 +27,7 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 *   Bulgarian (Thanks Nikolay Nikolov of [Skype Fan Blog][11])
 *   Russian (Thanks Maxim Pesteev, [Weblancer.net profile][12])
 *   Lithuanian (Thanks Vincent G from [http://www.host1free.com][13])
+*   Hindi (Thanks Love Chandel)
 
 ### Support
 
@@ -60,7 +61,7 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 = After installing the Plugin, I just see a blank page. =
 
-This can happen if you have huge number of posts and your server is very unpowered. Check your PHP error log to see if there are any errors and correct them. The most common problems are script timeout or running out of memory. Change your PHP.ini file and increase the script timeout and/or amount of memory used by PHP process.
+This can happen if you have huge number of posts and your server is very underpowered. Check your PHP error log to see if there are any errors and correct them. The most common problems are script timeout or running out of memory. Change your PHP.ini file and increase the script timeout and/or amount of memory used by PHP process.
 
 In particular try to change the following settings
 
@@ -153,6 +154,10 @@ Additional FAQ and troubleshooting guide can be found in the [Plugins's homepage
 ###v2.1 (2012-04-07) Dev Time:  1 hour
 *   Fixed CSS issues in IE
 *   Added Lithuanian translations
+
+### v2.2 (2012-07-11) (Dev time: 1 hour)
+*   Added Hindi translations
+*   Added checks to see if elements are present in the array before accessing them.
 
 ==Readme Generator== 
 

@@ -79,13 +79,13 @@ if (!function_exists('smbd_request_handler')) {
 
                 case "bulk-delete-cats":
                     // delete by cats
-                    $selected_cats = $_POST['smbd_cats'];
-                    if ($_POST['smbd_cats_restrict'] == "true") {
+                    $selected_cats = array_get($_POST, 'smbd_cats');
 
+                    if (array_get($_POST, 'smbd_cats_restrict', FALSE) == "true") {
                         add_filter ('posts_where', 'smbd_cats_by_days');
                     }
 
-                    $private = $_POST['smbd_cats_private'];
+                    $private = array_get($_POST, 'smbd_cats_private');
 
                     if ($private == 'true') {
                         $options = array('category__in'=>$selected_cats,'post_status'=>'private', 'post_type'=>'post');
@@ -93,7 +93,7 @@ if (!function_exists('smbd_request_handler')) {
                         $options = array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post');
                     }
 
-                    $limit_to = absint($_POST['smbd_cats_limits_to']);
+                    $limit_to = absint(array_get($_POST, 'smbd_cats_limits_to', 0));
 
                     if ($limit_to > 0) {
                         $options['showposts'] = $limit_to;
@@ -101,7 +101,7 @@ if (!function_exists('smbd_request_handler')) {
                         $options['nopaging'] = 'true';
                     }
 
-                    $force_delete = $_POST['smbd_cats_force_delete'];
+                    $force_delete = array_get($_POST, 'smbd_cats_force_delete', 'false');
 
                     if ($force_delete == 'true') {
                         $force_delete = true;
@@ -118,12 +118,12 @@ if (!function_exists('smbd_request_handler')) {
 
                 case "bulk-delete-tags":
                     // delete by tags
-                    $selected_tags = $_POST['smbd_tags'];
-                    if ($_POST['smbd_tags_restrict'] == "true") {
+                    $selected_tags = array_get($_POST, 'smbd_tags');
+                    if (array_get($_POST, 'smbd_tags_restrict', 'false') == "true") {
                         add_filter ('posts_where', 'smbd_tags_by_days');
                     }
 
-                    $private = $_POST['smbd_tags_private'];
+                    $private = array_get($_POST, 'smbd_tags_private', 'false');
 
                     if ($private == 'true') {
                         $options = array('tag__in'=>$selected_tags,'post_status'=>'private', 'post_type'=>'post');
@@ -131,7 +131,7 @@ if (!function_exists('smbd_request_handler')) {
                         $options = array('tag__in'=>$selected_tags,'post_status'=>'publish', 'post_type'=>'post');
                     }
 
-                    $limit_to = absint($_POST['smbd_tags_limits_to']);
+                    $limit_to = absint(array_get($_POST, 'smbd_tags_limits_to', 0));
 
                     if ($limit_to > 0) {
                         $options['showposts'] = $limit_to;
@@ -139,7 +139,7 @@ if (!function_exists('smbd_request_handler')) {
                         $options['nopaging'] = 'true';
                     }
 
-                    $force_delete = $_POST['smbd_tags_force_delete'];
+                    $force_delete = array_get($_POST, 'smbd_tags_force_delete');
 
                     if ($force_delete == 'true') {
                         $force_delete = true;
@@ -157,16 +157,16 @@ if (!function_exists('smbd_request_handler')) {
 
                 case "bulk-delete-taxs":
                     // delete by taxs
-                    $selected_taxs = $_POST['smbd_taxs'];
+                    $selected_taxs = array_get($_POST, 'smbd_taxs');
 
                     foreach ($selected_taxs as $selected_tax) {
                         $postids = smbd_get_tax_post($selected_tax);
                         
-                        if ($_POST['smbd_taxs_restrict'] == "true") {
+                        if (array_get($_POST, 'smbd_taxs_restrict', 'false') == "true") {
                             add_filter ('posts_where', 'smbd_taxs_by_days');
                         }
 
-                        $private = $_POST['smbd_taxs_private'];
+                        $private = array_get($_POST, 'smbd_taxs_private');
 
                         if ($private == 'true') {
                             $options = array('post__in'=>$postids,'post_status'=>'private', 'post_type'=>'post');
@@ -174,7 +174,7 @@ if (!function_exists('smbd_request_handler')) {
                             $options = array('post__in'=>$postids,'post_status'=>'publish', 'post_type'=>'post');
                         }
 
-                        $limit_to = absint($_POST['smbd_taxs_limits_to']);
+                        $limit_to = absint(array_get($_POST, 'smbd_taxs_limits_to', 0));
 
                         if ($limit_to > 0) {
                             $options['showposts'] = $limit_to;
@@ -182,7 +182,7 @@ if (!function_exists('smbd_request_handler')) {
                             $options['nopaging'] = 'true';
                         }
 
-                        $force_delete = $_POST['smbd_taxs_force_delete'];
+                        $force_delete = array_get($_POST, 'smbd_taxs_force_delete');
 
                         if ($force_delete == 'true') {
                             $force_delete = true;
@@ -201,7 +201,7 @@ if (!function_exists('smbd_request_handler')) {
                 case "bulk-delete-special":
                     $options = array();
 
-                    $limit_to = absint($_POST['smbd_special_limit_to']);
+                    $limit_to = absint(array_get($_POST, 'smbd_special_limit_to', 0));
 
                     if ($limit_to > 0) {
                         $options['showposts'] = $limit_to;
@@ -209,7 +209,7 @@ if (!function_exists('smbd_request_handler')) {
                         $options['nopaging'] = 'true';
                     }
 
-                    $force_delete = $_POST['smbd_special_force_delete'];
+                    $force_delete = array_get($_POST, 'smbd_special_force_delete');
                     if ($force_delete == 'true') {
                         $force_delete = true;
                     } else {
@@ -217,7 +217,7 @@ if (!function_exists('smbd_request_handler')) {
                     }
 
                     // Drafts
-                    if ("drafs" == $_POST['smbd_drafs']) {
+                    if ("drafs" == array_get($_POST, 'smbd_drafs')) {
                         $options['post_status'] = 'draft';
                         $drafts = $wp_query->query($options);
 
@@ -227,7 +227,7 @@ if (!function_exists('smbd_request_handler')) {
                     }
 
                     // Revisions
-                    if ("revisions" == $_POST['smbd_revisions']) {
+                    if ("revisions" == array_get($_POST, 'smbd_revisions')) {
                         $revisions = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_type = 'revision'"));
 
                         foreach ($revisions as $revision) {
@@ -236,7 +236,7 @@ if (!function_exists('smbd_request_handler')) {
                     }
 
                     // Pending Posts
-                    if ("pending" == $_POST['smbd_pending']) {
+                    if ("pending" == array_get($_POST, 'smbd_pending')) {
                         $pendings = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_status = 'pending'"));
 
                         foreach ($pendings as $pending) {
@@ -245,7 +245,7 @@ if (!function_exists('smbd_request_handler')) {
                     }
 
                     // Future Posts
-                    if ("future" == $_POST['smbd_future']) {
+                    if ("future" == array_get($_POST, 'smbd_future')) {
                         $futures = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_status = 'future'"));
 
                         foreach ($futures as $future) {
@@ -254,7 +254,7 @@ if (!function_exists('smbd_request_handler')) {
                     }
 
                     // Private Posts
-                    if ("private" == $_POST['smbd_private']) {
+                    if ("private" == array_get($_POST, 'smbd_private')) {
                         $privates = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_status = 'private'"));
 
                         foreach ($privates as $private) {
@@ -263,7 +263,7 @@ if (!function_exists('smbd_request_handler')) {
                     }
 
                     // Pages
-                    if ("pages" == $_POST['smbd_pages']) {
+                    if ("pages" == array_get($_POST, 'smbd_pages')) {
                         $options['post_type'] = 'page';
                         $pages = $wp_query->query($options);
 
@@ -273,8 +273,8 @@ if (!function_exists('smbd_request_handler')) {
                     }
                     
                     // Specific Pages
-                    if ("specificpages" == $_POST['smdb_specific_pages']) {
-                        $urls = preg_split( '/\r\n|\r|\n/', $_POST['smdb_specific_pages_urls'] );
+                    if ("specificpages" == array_get($_POST, 'smdb_specific_pages')) {
+                        $urls = preg_split( '/\r\n|\r|\n/', array_get($_POST, 'smdb_specific_pages_urls') );
                         foreach ($urls as $url) {
                             $checkedurl = $url;
                             if (substr($checkedurl ,0,1) == '/') {
@@ -767,14 +767,28 @@ if (!function_exists('smbd_displayOptions')) {
 }
 
 /**
+ * Check whether a key is present. If present returns the value, else returns the default value
+ *
+ * @param <array> $array - Array whose key has to be checked
+ * @param <string> $key - key that has to be checked
+ * @param <string> $default - the default value that has to be used, if the key is not found (optional)
+ *
+ * @return <mixed> If present returns the value, else returns the default value
+ * @author Sudar
+ */
+function array_get($array, $key, $default = NULL) {
+    return isset($array[$key]) ? $array[$key] : $default;
+}
+
+/**
  * function to filter posts by days
  * @param <type> $where
  * @return <type>
  */
 if (!function_exists('smbd_cats_by_days ')) {
     function smbd_cats_by_days ($where = '') {
-        $cats_op = $_POST['smbd_cats_op'];
-        $cats_days = $_POST['smbd_cats_days'];
+        $cats_op = array_get($_POST, 'smbd_cats_op');
+        $cats_days = array_get($_POST, 'smbd_cats_days');
 
         remove_filter('posts_where', 'smbd_cats_by_days');
 
@@ -790,8 +804,8 @@ if (!function_exists('smbd_cats_by_days ')) {
  */
 if (!function_exists('smbd_tags_by_days ')) {
     function smbd_tags_by_days ($where = '') {
-        $tags_op = $_POST['smbd_tags_op'];
-        $tags_days = $_POST['smbd_tags_days'];
+        $tags_op = array_get($_POST, 'smbd_tags_op');
+        $tags_days = array_get($_POST, 'smbd_tags_days');
         
         remove_filter('posts_where', 'smbd_tags_by_days');
 
@@ -807,8 +821,8 @@ if (!function_exists('smbd_tags_by_days ')) {
  */
 if (!function_exists('smbd_taxs_by_days ')) {
     function smbd_taxs_by_days ($where = '') {
-        $taxs_op = $_POST['smbd_taxs_op'];
-        $taxs_days = $_POST['smbd_taxs_days'];
+        $taxs_op = array_get($_POST, 'smbd_taxs_op');
+        $taxs_days = array_get($_POST, 'smbd_taxs_days');
 
         remove_filter('posts_where', 'smbd_taxs_by_days');
 
