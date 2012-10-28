@@ -4,7 +4,7 @@ Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
 Tested up to: 3.4.1
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 2.2
+Stable tag: 2.2.1
 	
 Bulk delete posts from selected categories or tags
 
@@ -28,10 +28,11 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 *   Russian (Thanks Maxim Pesteev, [Weblancer.net profile][12])
 *   Lithuanian (Thanks Vincent G from [http://www.host1free.com][13])
 *   Hindi (Thanks Love Chandel)
+*   Serbian (Thanks Diana)
 
 ### Support
 
-Support for the Plugin is available from the [Plugin's home page][1]. If you have any questions or suggestions, do leave a comment there or contact me in [twitter][5].
+Support for the Plugin is available from the [Plugins home page][1]. If you have any questions or suggestions, do leave a comment there or contact me in [twitter][5].
 
 ### Links
 
@@ -69,7 +70,7 @@ In particular try to change the following settings
 *   max_input_time = 30; Maximum amount of time each script may spend parsing request data
 *   memory_limit = 256M ; Maximum amount of memory a script may consume (8MB)
 
-Additional FAQ and troubleshooting guide can be found in the [Plugins's homepage][1]
+Additional FAQ and troubleshooting guide can be found in the [Plugins homepage](http://sudarmuthu.com/bulk-delete)
 
 == Screenshot ==
 
@@ -89,7 +90,7 @@ Additional FAQ and troubleshooting guide can be found in the [Plugins's homepage
 
 ###v0.2 (2009-02-03)
 
-*   Fixed issues with pagging
+*   Fixed issues with paging
 
 ###v0.3 (2009-04-05)
 
@@ -144,7 +145,7 @@ Additional FAQ and troubleshooting guide can be found in the [Plugins's homepage
 ###v1.9 (2012-03-16)
 *   Added support for deleting by permalink. Credit Martin Capodici
 *   Fixed issues with translations
-*   Added Rusian translations
+*   Added Russian translations
 
 ###v2.0 (2012-04-01) Dev Time:  10 hours
 *   Fixed a major issue in how dates were handled.
@@ -155,9 +156,12 @@ Additional FAQ and troubleshooting guide can be found in the [Plugins's homepage
 *   Fixed CSS issues in IE
 *   Added Lithuanian translations
 
-### v2.2 (2012-07-11) (Dev time: 1 hour)
+### v2.2 (2012-07-11) (Dev time: 0.5 hour)
 *   Added Hindi translations
 *   Added checks to see if elements are present in the array before accessing them.
+
+### v2.2.1 (2012-10-28) (Dev time: 0.5 hour)
+* Added Serbian translations
 
 ==Readme Generator== 
 
