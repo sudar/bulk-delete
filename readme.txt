@@ -2,7 +2,7 @@
 Contributors: sudar 
 Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
-Tested up to: 3.4.1
+Tested up to: 3.4.2
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
 Stable tag: 2.2.1
 	
