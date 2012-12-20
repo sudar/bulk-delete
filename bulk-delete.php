@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories or tags. Use it with caution.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 2.2.1
+Version: 2.2.2
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -42,7 +42,8 @@ Text Domain: bulk-delete
                   - Added checks to see if elements are present in the array before accessing them.
 2012-10-28 - v2.2.1 - (Dev time: 0.5 hour)
                   - Added Serbian translations
-                    
+2012-12-20 - v2.2.2 - (Dev time: 0.5 hour)
+                  - Removed unused wpdb->prepare() function calls
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -230,7 +231,7 @@ if (!function_exists('smbd_request_handler')) {
 
                     // Revisions
                     if ("revisions" == array_get($_POST, 'smbd_revisions')) {
-                        $revisions = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_type = 'revision'"));
+                        $revisions = $wpdb->get_results("select ID from $wpdb->posts where post_type = 'revision'");
 
                         foreach ($revisions as $revision) {
                             wp_delete_post($revision->ID, $force_delete);
@@ -239,7 +240,7 @@ if (!function_exists('smbd_request_handler')) {
 
                     // Pending Posts
                     if ("pending" == array_get($_POST, 'smbd_pending')) {
-                        $pendings = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_status = 'pending'"));
+                        $pendings = $wpdb->get_results("select ID from $wpdb->posts where post_status = 'pending'");
 
                         foreach ($pendings as $pending) {
                             wp_delete_post($pending->ID, $force_delete);
@@ -248,7 +249,7 @@ if (!function_exists('smbd_request_handler')) {
 
                     // Future Posts
                     if ("future" == array_get($_POST, 'smbd_future')) {
-                        $futures = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_status = 'future'"));
+                        $futures = $wpdb->get_results("select ID from $wpdb->posts where post_status = 'future'");
 
                         foreach ($futures as $future) {
                             wp_delete_post($future->ID, $force_delete);
@@ -257,7 +258,7 @@ if (!function_exists('smbd_request_handler')) {
 
                     // Private Posts
                     if ("private" == array_get($_POST, 'smbd_private')) {
-                        $privates = $wpdb->get_results($wpdb->prepare("select ID from $wpdb->posts where post_status = 'private'"));
+                        $privates = $wpdb->get_results("select ID from $wpdb->posts where post_status = 'private'");
 
                         foreach ($privates as $private) {
                             wp_delete_post($private->ID, $force_delete);
@@ -333,12 +334,12 @@ if (!function_exists('smbd_displayOptions')) {
 
 <?php
         $wp_query = new WP_Query;
-        $drafts = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_status = 'draft'"));
-        $revisions = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_type = 'revision'"));
-        $pending = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_status = 'pending'"));
-        $future = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_status = 'future'"));
-        $private = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_status = 'private'"));
-        $pages = $wpdb->get_var($wpdb->prepare("select count(*) from $wpdb->posts where post_type = 'page'"));
+        $drafts = $wpdb->get_var("select count(*) from $wpdb->posts where post_status = 'draft'");
+        $revisions = $wpdb->get_var("select count(*) from $wpdb->posts where post_type = 'revision'");
+        $pending = $wpdb->get_var("select count(*) from $wpdb->posts where post_status = 'pending'");
+        $future = $wpdb->get_var("select count(*) from $wpdb->posts where post_status = 'future'");
+        $private = $wpdb->get_var("select count(*) from $wpdb->posts where post_status = 'private'");
+        $pages = $wpdb->get_var("select count(*) from $wpdb->posts where post_type = 'page'");
 ?>
         <fieldset class="options">
         <table class="optiontable">
@@ -843,7 +844,7 @@ if (!function_exists('smbd_get_tax_post')) {
     function smbd_get_tax_post($tax) {
         global $wpdb;
         
-        $query = $wpdb->prepare("select object_id from {$wpdb->prefix}term_relationships where term_taxonomy_id in (select term_taxonomy_id from {$wpdb->prefix}term_taxonomy where taxonomy = '$tax')");
+        $query = $wpdb->prepare("SELECT object_id FROM {$wpdb->prefix}term_relationships WHERE term_taxonomy_id IN (SELECT term_taxonomy_id FROM {$wpdb->prefix}term_taxonomy WHERE taxonomy = '%s')", $tax);
         $post_ids_result = $wpdb->get_results($query);
 
         $postids = array();

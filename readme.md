@@ -2,9 +2,9 @@
 Contributors: sudar 
 Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
-Tested up to: 3.4.2
+Tested up to: 3.5
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 	
 Bulk delete posts from selected categories or tags
 
@@ -162,6 +162,9 @@ Additional FAQ and troubleshooting guide can be found in the [Plugins homepage](
 
 ### v2.2.1 (2012-10-28) (Dev time: 0.5 hour)
 * Added Serbian translations
+
+### v2.2.2 (2012-12-20) (Dev time: 0.5 hour)
+* Removed unused wpdb->prepare() function calls
 
 ==Readme Generator== 
 
