@@ -82,41 +82,30 @@ if (!function_exists('smbd_request_handler')) {
 
                 case "bulk-delete-cats":
                     // delete by cats
-                    $selected_cats = array_get($_POST, 'smbd_cats');
 
-                    if (array_get($_POST, 'smbd_cats_restrict', FALSE) == "true") {
-                        add_filter ('posts_where', 'smbd_cats_by_days');
-                    }
+                    $delete_options = array();
+                    $delete_options['selected_cats'] = array_get($_POST, 'smbd_cats');
+                    $delete_options['restrict'] = array_get($_POST, 'smbd_cats_restrict', FALSE);
+                    $delete_options['private'] = array_get($_POST, 'smbd_cats_private');
+                    $delete_options['limit_to'] = absint(array_get($_POST, 'smbd_cats_limits_to', 0));
+                    $delete_options['force_delete'] = array_get($_POST, 'smbd_cats_force_delete', 'false');
 
-                    $private = array_get($_POST, 'smbd_cats_private');
+                    $delete_options['cats_op'] = array_get($_POST, 'smbd_cats_op');
+                    $delete_options['cats_days'] = array_get($_POST, 'smbd_cats_days');
+                    
+                    if (array_get($_POST, 'smbd_cats_cron', 'false') == 'true') {
+                        $freq = $_POST['smbd_cats_cron_freq'];
+                        $time = strtotime($_POST['smbd_cats_cron_start']) - get_option('gmt_offset');
 
-                    if ($private == 'true') {
-                        $options = array('category__in'=>$selected_cats,'post_status'=>'private', 'post_type'=>'post');
+                        if ($freq == -1) {
+                            wp_schedule_single_event($time, 'do-bulk-delete-cats', $delete_options);
+                        } else {
+                            wp_schedule_event($time, $freq , 'do-bulk-delete-cats', $delete_options);
+                        }
                     } else {
-                        $options = array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post');
+                        smbd_delete_cats($delete_options);
                     }
-
-                    $limit_to = absint(array_get($_POST, 'smbd_cats_limits_to', 0));
-
-                    if ($limit_to > 0) {
-                        $options['showposts'] = $limit_to;
-                    } else {
-                        $options['nopaging'] = 'true';
-                    }
-
-                    $force_delete = array_get($_POST, 'smbd_cats_force_delete', 'false');
-
-                    if ($force_delete == 'true') {
-                        $force_delete = true;
-                    } else {
-                        $force_delete = false;
-                    }
-
-                    $posts = $wp_query->query($options);
-                    foreach ($posts as $post) {
-                        wp_delete_post($post->ID, $force_delete);
-                    }
-
+                    
                     break;
 
                 case "bulk-delete-tags":
@@ -511,7 +500,9 @@ if (!function_exists('smbd_displayOptions')) {
                     <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
                 </td>
             </tr>
-
+<?php
+            do_action('smbd_print_cats_option');
+?>
         </table>
         </fieldset>
         <p class="submit">
@@ -779,8 +770,10 @@ if (!function_exists('smbd_displayOptions')) {
  * @return <mixed> If present returns the value, else returns the default value
  * @author Sudar
  */
-function array_get($array, $key, $default = NULL) {
-    return isset($array[$key]) ? $array[$key] : $default;
+if (!function_exists('array_get')) {
+    function array_get($array, $key, $default = NULL) {
+        return isset($array[$key]) ? $array[$key] : $default;
+    }
 }
 
 /**
@@ -962,6 +955,80 @@ function bd_validateForm(form) {
 
 <?php    
 }
+}
+
+/**
+ * Delete posts by category
+ */
+function smbd_delete_cats($delete_options) {
+
+    $selected_cats = $delete_options['selected_cats'];
+
+    $private = $delete_options['private'];
+
+    if ($private == 'true') {
+        $options = array('category__in'=>$selected_cats,'post_status'=>'private', 'post_type'=>'post');
+    } else {
+        $options = array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post');
+    }
+
+    $limit_to = $delete_options['limit_to'];
+
+    if ($limit_to > 0) {
+        $options['showposts'] = $limit_to;
+    } else {
+        $options['nopaging'] = 'true';
+    }
+
+    $force_delete = $delete_options['force_delete'];
+
+    if ($force_delete == 'true') {
+        $force_delete = true;
+    } else {
+        $force_delete = false;
+    }
+
+    if ($delete_options['restrict'] == "true") {
+        $options['cats_op'] = $delete_options['cats_op'];
+        $options['cats_days'] = $delete_options['cats_days'];
+
+        $bulkDeleteCatDays = new BulkDeleteCatDays;
+    }
+
+    $wp_query = new WP_Query();
+    $posts = $wp_query->query($options);
+
+    foreach ($posts as $post) {
+        wp_delete_post($post->ID, $force_delete);
+    }
+}
+
+class BulkDeleteCatDays {
+    var $days;
+    var $op;
+
+    public function __construct(){
+        add_action( 'parse_query', array( $this, 'parse_query' ) );
+    }
+
+    public function parse_query( $query ) {
+        if( isset( $query->query_vars['cats_days'] ) ){
+            $this->days = $query->query_vars['cats_days'];
+            $this->op = $query->query_vars['cats_op'];
+
+            add_filter( 'posts_where', array( $this, 'filter_where' ) );
+            add_filter( 'posts_selection', array( $this, 'remove_where' ) );
+        }
+    }
+
+    public function filter_where($where = '') {
+        $where .= " AND post_date " . $this->op . " '" . date('y-m-d', strtotime('-' . $this->days . ' days')) . "'";
+        return $where;
+    }
+
+    public function remove_where() {
+        remove_filter( 'posts_where', array( $this, 'filter_where' ) );
+    }
 }
 
 add_filter( 'plugin_action_links', 'smbd_filter_plugin_actions', 10, 2 );
