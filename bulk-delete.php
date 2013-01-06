@@ -852,11 +852,32 @@ if (!function_exists('smbd_get_tax_post')) {
 /**
  * Add navigation menu
  */
-if(!function_exists('smbd_add_menu')) {
+if (!function_exists('smbd_add_menu')) {
 	function smbd_add_menu() {
 	    //Add a submenu to Manage
         $page = add_options_page("Bulk Delete", "Bulk Delete", 'manage_options', basename(__FILE__), "smbd_displayOptions");
+
+        add_action('admin_print_scripts-' . $page, 'smbd_print_scripts');
 	}
+}
+
+/**
+ * Enqueue JavaScript
+ */
+if (!function_exists('smdb_print_scripts')) {
+    function smbd_print_scripts() {
+        global $wp_scripts;
+
+        // uses code from http://trentrichardson.com/examples/timepicker/
+        wp_enqueue_script( 'jquery-ui-timepicker', plugins_url('/js/jquery-ui-timepicker.js', __FILE__), array('jquery-ui-slider', 'jquery-ui-datepicker'), '1.1.1', true);
+        wp_enqueue_script( 'bulk-delete', plugins_url('/js/bulk-delete.js', __FILE__), array('jquery-ui-timepicker'), '2.2.2', true);
+
+        $ui = $wp_scripts->query('jquery-ui-core');
+
+        $url = "https://ajax.aspnetcdn.com/ajax/jquery.ui/{$ui->ver}/themes/smoothness/jquery.ui.all.css";
+        wp_enqueue_style('jquery-ui-smoothness', $url, false, $ui->ver);
+        wp_enqueue_style('jquery-ui-timepicker', plugins_url('/style/jquery-ui-timepicker.css', __FILE__), array(), '1.1.1');
+    }
 }
 
 /**
@@ -882,79 +903,10 @@ if (!function_exists('smbd_filter_plugin_actions')) {
  * Adds Footer links. Based on http://striderweb.com/nerdaphernalia/2008/06/give-your-wordpress-plugin-credit/
  */
 if (!function_exists('smbd_admin_footer')) {
-function smbd_admin_footer() {
-    $plugin_data = get_plugin_data( __FILE__ );
-    printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
-?>
-<script type="text/javascript">
-
-/**
- * Toggle closing of different sections
- *
- */
-jQuery(document).ready( function() {
-    jQuery('.postbox h3').click( function() {
-        jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
-    });
-});
-
-/**
-* Check All Checkboxes
-*/
-function bd_checkAll(form) {
-    for (i = 0, n = form.elements.length; i < n; i++) {
-        if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
-            if(form.elements[i].checked == true)
-                form.elements[i].checked = false;
-            else
-                form.elements[i].checked = true;
-        }
+    function smbd_admin_footer() {
+        $plugin_data = get_plugin_data( __FILE__ );
+        printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
     }
-}
-
-function toggle_date_restrict(el) {
-    if (jQuery("#smbd_" + el + "_restrict").is(":checked")) {
-        jQuery("#smbd_" + el + "_op").removeAttr('disabled');
-        jQuery("#smbd_" + el + "_days").removeAttr('disabled');
-    } else {
-        jQuery("#smbd_" + el + "_op").attr('disabled', 'true');
-        jQuery("#smbd_" + el + "_days").attr('disabled', 'true');
-    }
-}
-
-function toggle_limit_restrict(el) {
-    if (jQuery("#smbd_" + el + "_limit").is(":checked")) {
-        jQuery("#smbd_" + el + "_limit_to").removeAttr('disabled');
-    } else {
-        jQuery("#smbd_" + el + "_limit_to").attr('disabled', 'true');
-    }
-}
-
-/**
-* Validate Form
-*/
-function bd_validateForm(form) {
-    var valid = false;
-    for (i = 0, n = form.elements.length; i < n; i++) {
-        if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
-            if(form.elements[i].checked == true) {
-                valid = true;
-                break;
-            }
-        }
-    }
-
-    if (valid) {
-        return confirm("<?php _e('Are you sure you want to delete all the selected posts', 'bulk-delete'); ?>");
-    } else {
-        alert ("<?php _e('Please select at least one', 'bulk-delete'); ?>");
-        return false;
-    }
-}
-</script>
-
-<?php    
-}
 }
 
 /**
@@ -1031,7 +983,7 @@ class BulkDeleteCatDays {
     }
 }
 
-add_filter( 'plugin_action_links', 'smbd_filter_plugin_actions', 10, 2 );
+add_filter('plugin_action_links', 'smbd_filter_plugin_actions', 10, 2 );
 add_action('admin_menu', 'smbd_add_menu');
 add_action('admin_init', 'smbd_request_handler');
 ?>

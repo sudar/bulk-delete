@@ -1,0 +1,82 @@
+/**
+ * JavaScript for Bulk Delete Plugin
+ *
+ * http://sudarmuthu.com/wordpress/bulk-delete
+ *
+ * @author: Sudar <http://sudarmuthu.com>
+ * 
+ */
+
+jQuery(document).ready( function() {
+    /**
+     * Toggle closing of different sections
+     */
+    jQuery('.postbox h3').click( function() {
+        jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
+    });
+
+    // invoke the date time picker
+    jQuery('#smbd_cats_cron_start').datetimepicker({
+        timeFormat: 'HH-mm-ss'
+    });
+});
+
+/**
+* Check All Checkboxes
+*/
+function bd_checkAll(form) {
+    for (i = 0, n = form.elements.length; i < n; i++) {
+        if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
+            if(form.elements[i].checked == true) {
+                form.elements[i].checked = false;
+            }
+            else {
+                form.elements[i].checked = true;
+            }
+        }
+    }
+}
+
+function toggle_date_restrict(el) {
+    if (jQuery("#smbd_" + el + "_restrict").is(":checked")) {
+        jQuery("#smbd_" + el + "_op").removeAttr('disabled');
+        jQuery("#smbd_" + el + "_days").removeAttr('disabled');
+    } else {
+        jQuery("#smbd_" + el + "_op").attr('disabled', 'true');
+        jQuery("#smbd_" + el + "_days").attr('disabled', 'true');
+    }
+}
+
+function toggle_limit_restrict(el) {
+    if (jQuery("#smbd_" + el + "_limit").is(":checked")) {
+        jQuery("#smbd_" + el + "_limit_to").removeAttr('disabled');
+    } else {
+        jQuery("#smbd_" + el + "_limit_to").attr('disabled', 'true');
+    }
+}
+
+/**
+* Validate Form
+*/
+function bd_validateForm(form) {
+    var valid = false;
+    for (i = 0, n = form.elements.length; i < n; i++) {
+        if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
+            if(form.elements[i].checked == true) {
+                valid = true;
+                break;
+            }
+        }
+    }
+
+    if (valid) {
+        //return confirm("<?php _e('Are you sure you want to delete all the selected posts', 'bulk-delete'); ?>");
+        // TODO: Make sure these are translated
+        return confirm("Are you sure you want to delete all the selected posts");
+    } else {
+        // TODO: Make sure these are translated
+        //alert ("<?php _e('Please select at least one', 'bulk-delete'); ?>");
+        alert ("Please select at least one");
+        return false;
+    }
+}
