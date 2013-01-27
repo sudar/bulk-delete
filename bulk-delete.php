@@ -76,7 +76,8 @@ class Bulk_Delete {
      */
     public function __construct() {
         // Load localization domain
-        load_plugin_textdomain( 'bulk-delete', false, dirname(plugin_basename(__FILE__)) . '/languages' );
+        $this->translations = dirname(plugin_basename(__FILE__)) . '/languages' ;
+        load_plugin_textdomain( 'bulk-delete', false, $this->translations);
 
         // Register hooks
         add_filter('plugin_action_links', array(&$this, 'filter_plugin_actions'), 10, 2 );
@@ -340,9 +341,32 @@ class Bulk_Delete {
                     <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
                 </td>
             </tr>
+
+            <tr>
+                <td scope="row" colspan="2">
+                    <input name="smbd_cats_cron" value = "false" type = "radio" checked="checked" /> <?php _e('Delete now', 'bulk-delete'); ?>
+                    <input name="smbd_cats_cron" value = "true" type = "radio" id = "smbd_cats_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
+                    <input name="smbd_cats_cron_start" id = "smbd_cats_cron_start" value = "now" type = "text" disabled><?php _e('repeat ', 'bulk-delete');?>
+                    <select name = "smbd_cats_cron_freq" id = "smbd_cats_cron_freq" disabled>
+                        <option value = "-1"><?php _e("Don't repeat"); ?></option>
 <?php
-            do_action('smbd_print_cats_option');
+        $schedules = wp_get_schedules();
+        foreach($schedules as $key => $value) {
 ?>
+                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
+<?php                        
+        }
+?>
+                    </select>
+                    <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro version', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-delete">Buy now</a></span>
+                </td>
+            </tr>
+            <tr>
+                <td scope="row" colspan="2">
+                    <?php _e("Enter time in Y-m-d H:i:s format or enter now to use current time");?>
+                </td>
+            </tr>
+
         </table>
         </fieldset>
         <p class="submit">
