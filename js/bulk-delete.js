@@ -7,11 +7,12 @@
  * 
  */
 
-jQuery(document).ready( function() {
+/*global BULK_DELETE, jQuery, document*/
+jQuery(document).ready(function () {
     /**
      * Toggle closing of different sections
      */
-    jQuery('.postbox h3').click( function() {
+    jQuery('.postbox h3').click(function () {
         jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
     });
 
@@ -22,15 +23,14 @@ jQuery(document).ready( function() {
 });
 
 /**
-* Check All Checkboxes
-*/
+ * Check All Checkboxes
+ */
 function bd_checkAll(form) {
     for (i = 0, n = form.elements.length; i < n; i++) {
-        if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
-            if(form.elements[i].checked == true) {
+        if (form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick', 2))) {
+            if (form.elements[i].checked == true) {
                 form.elements[i].checked = false;
-            }
-            else {
+            } else {
                 form.elements[i].checked = true;
             }
         }
@@ -56,13 +56,13 @@ function toggle_limit_restrict(el) {
 }
 
 /**
-* Validate Form
-*/
+ * Validate Form
+ */
 function bd_validateForm(form) {
     var valid = false;
     for (i = 0, n = form.elements.length; i < n; i++) {
-        if(form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick',2))) {
-            if(form.elements[i].checked == true) {
+        if (form.elements[i].type == "checkbox" && !(form.elements[i].getAttribute('onclick', 2))) {
+            if (form.elements[i].checked == true) {
                 valid = true;
                 break;
             }
@@ -70,13 +70,9 @@ function bd_validateForm(form) {
     }
 
     if (valid) {
-        //return confirm("<?php _e('Are you sure you want to delete all the selected posts', 'bulk-delete'); ?>");
-        // TODO: Make sure these are translated
-        return confirm("Are you sure you want to delete all the selected posts");
+        return confirm(BULK_DELETE.msg.deletewarning);
     } else {
-        // TODO: Make sure these are translated
-        //alert ("<?php _e('Please select at least one', 'bulk-delete'); ?>");
-        alert ("Please select at least one");
+        alert(BULK_DELETE.msg.selectone);
         return false;
     }
 }
