@@ -91,6 +91,7 @@ class Bulk_Delete {
 	function add_menu() {
 	    //Add a submenu to Manage
         $this->admin_page = add_options_page(__("Bulk Delete", 'bulk-delete'), __("Bulk Delete", 'bulk-delete'), 'manage_options', basename(__FILE__), array(&$this, 'display_setting_page'));
+        $this->cron_page = add_options_page(__("Bulk Delete Crons", 'bulk-delete'), __("Bulk Delete Crons", 'bulk-delete'), 'manage_options', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
 
         add_action('admin_print_scripts-' . $this->admin_page, array(&$this, 'add_script'));
 	}
@@ -147,7 +148,7 @@ class Bulk_Delete {
 
     <div class="wrap">
         <?php screen_icon(); ?>
-        <h2>Bulk Delete</h2>
+        <h2><?php _e('Bulk Delete', 'bulk-delete');?></h2>
 
         <div id = "poststuff" style = "float:left; width:75%">
         <div class = "postbox">
@@ -631,6 +632,30 @@ class Bulk_Delete {
         printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
     }
 
+    function display_cron_page() {
+        
+        if(!class_exists('WP_List_Table')){
+            require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+        }
+        if (!class_exists('Cron_List_Table')) {
+            require_once dirname(__FILE__) . '/include/class-cron-list-table.php';
+        }
+
+        //Prepare Table of elements
+        $cron_list_table = new Cron_List_Table();
+        $cron_list_table->prepare_items();
+
+?>
+    <div class="wrap">
+        <?php screen_icon(); ?>
+        <h2><?php _e('Bulk Delete Cron Jobs', 'bulk-delete');?></h2>
+<?php        
+        //Table of elements
+        $cron_list_table->display();
+?>
+    </div>
+<?php
+    }
 }
 
 // Start this plugin once all other plugins are fully loaded
