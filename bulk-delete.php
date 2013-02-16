@@ -76,7 +76,7 @@ class Bulk_Delete {
      */
     public function __construct() {
         // Load localization domain
-        $this->translations = dirname(plugin_basename(__FILE__)) . '/languages' ;
+        $this->translations = dirname(plugin_basename(__FILE__)) . '/languages/' ;
         load_plugin_textdomain( 'bulk-delete', false, $this->translations);
 
         // Register hooks
