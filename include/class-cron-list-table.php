@@ -69,25 +69,30 @@ class Cron_List_Table extends WP_List_Table {
 	 * Prepare the table with different parameters, pagination, columns and table elements
 	 */
 	function prepare_items() {
-		global $_wp_column_headers;
-		$screen = get_current_screen();
-
-		/* -- Preparing your query -- */
+        $cron_items = array();
 		$cron = _get_cron_array();
-		$date_format = _x( 'M j, Y @ G:i', 'Publish box date format', 'cron-view' );
+		$date_format = _x( 'M j, Y @ G:i', 'Cron table date format', 'bulk-delete' );
+
 		foreach ( $cron as $timestamp => $cronhooks ) {
 			foreach ( (array) $cronhooks as $hook => $events ) {
-                if (substr($hook, 0, 15) != 'do-bulk-delete-') {
-                    unset($cron[$timestamp]);
-                } else {
-                    foreach ( (array) $events as $key => $event ) {
-                        $cron[ $timestamp ][ $hook ][ $key ][ 'date' ] = date_i18n( $date_format, $timestamp );
-                    }
-                }
-			}
-		}
+                if (substr($hook, 0, 15) == 'do-bulk-delete-') {
+                    $cron_item = array();
 
-        $totalitems = count($cron);
+                    foreach ( (array) $events as $key => $event ) {
+                        $cron_item['timestamp'] = $timestamp;
+                        $cron_item['due'] = date_i18n( $date_format, $timestamp );
+                        $cron_item['schedule'] = $event['schedule'];
+                        $cron_item['type'] = $hook;
+                        $cron_item['args'] = $event['args'];
+                    }
+
+                    $cron_items[] = $cron_item;
+                }
+            }
+        }
+
+        $totalitems = count($cron_items);
+
         //How many to display per page?
         $perpage = 50;
 
@@ -109,38 +114,24 @@ class Cron_List_Table extends WP_List_Table {
 		$this->_column_headers = array($columns, $hidden, $sortable);
 
 		/* -- Fetch the items -- */
-        //$this->items = $wpdb->get_results($query);
-        $this->items = $cron;
+        $this->items = $cron_items;
 	}
 
     function column_col_cron_due($item) {
-        foreach ($item as $key => $values) {
-            foreach ($values as $value) {
-                echo $value['date'];
-            }
-        }
+        echo $item['due'];
     }
 
     function column_col_cron_schedule($item) {
-        foreach ($item as $key => $values) {
-            foreach ($values as $value) {
-                echo $value['schedule'];
-            }
-        }
+        echo $item['schedule'];
     }
 
     function column_col_cron_type($item) {
-        foreach ($item as $key => $value) {
-            echo $key;
-        }
+        echo $item['type'];
     }
 
     function column_col_cron_options($item) {
-        foreach ($item as $key => $values) {
-            foreach ($values as $value) {
-                print_r($value['args']);
-            }
-        }
+        // TODO: Make it pretty
+        print_r ($item['args']);
     }
 }
 ?>
