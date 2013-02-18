@@ -27,6 +27,9 @@ class Cron_List_Table extends WP_List_Table {
 	function extra_tablenav( $which ) {
 		if ( $which == "top" ){
 			//The code that goes before the table is here
+		}
+		if ( $which == "bottom" ){
+			//The code that goes after the table is there
             echo '<p>&nbsp;';
             echo '</p>';
             echo '<p>';
@@ -36,9 +39,6 @@ class Cron_List_Table extends WP_List_Table {
             _e('Note: ', 'bulk-delete');
             _e('Scheduling post deletion using cron jobs is available only in the Pro version of the Plugin', 'bulk-delete');
             echo '</p>';
-		}
-		if ( $which == "bottom" ){
-			//The code that goes after the table is there
 		}
 	}
 
@@ -68,29 +68,7 @@ class Cron_List_Table extends WP_List_Table {
 	/**
 	 * Prepare the table with different parameters, pagination, columns and table elements
 	 */
-	function prepare_items() {
-        $cron_items = array();
-		$cron = _get_cron_array();
-		$date_format = _x( 'M j, Y @ G:i', 'Cron table date format', 'bulk-delete' );
-
-		foreach ( $cron as $timestamp => $cronhooks ) {
-			foreach ( (array) $cronhooks as $hook => $events ) {
-                if (substr($hook, 0, 15) == 'do-bulk-delete-') {
-                    $cron_item = array();
-
-                    foreach ( (array) $events as $key => $event ) {
-                        $cron_item['timestamp'] = $timestamp;
-                        $cron_item['due'] = date_i18n( $date_format, $timestamp );
-                        $cron_item['schedule'] = $event['schedule'];
-                        $cron_item['type'] = $hook;
-                        $cron_item['args'] = $event['args'];
-                    }
-
-                    $cron_items[] = $cron_item;
-                }
-            }
-        }
-
+	function prepare_items($cron_items) {
         $totalitems = count($cron_items);
 
         //How many to display per page?
@@ -113,12 +91,21 @@ class Cron_List_Table extends WP_List_Table {
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = array($columns, $hidden, $sortable);
 
-		/* -- Fetch the items -- */
         $this->items = $cron_items;
 	}
 
     function column_col_cron_due($item) {
-        echo $item['due'];
+        //Build row actions
+        $actions = array(
+            'delete'    => sprintf('<a href="?page=%s&smbd_action=%s&cron_id=%s">%s</a>',$_REQUEST['page'], 'delete-cron', $item['id'], __('Delete', 'bulk-delete')),
+        );
+        
+        //Return the title contents
+        return sprintf('%1$s <span style="color:silver">(%2$s)</span>%3$s',
+            /*$1%s*/ $item['due'],
+            /*$2%s*/ $item['timestamp'],
+            /*$3%s*/ $this->row_actions($actions)
+        );
     }
 
     function column_col_cron_schedule($item) {
@@ -132,6 +119,10 @@ class Cron_List_Table extends WP_List_Table {
     function column_col_cron_options($item) {
         // TODO: Make it pretty
         print_r ($item['args']);
+    }
+
+    function no_items() {
+        _e('You have not scheduled any bulk delete jobs.', 'bulk-delete');
     }
 }
 ?>

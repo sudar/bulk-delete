@@ -82,7 +82,7 @@ class Bulk_Delete {
         // Register hooks
         add_filter('plugin_action_links', array(&$this, 'filter_plugin_actions'), 10, 2 );
         add_action('admin_menu', array(&$this, 'add_menu'));
-        add_action('admin_init', 'smbd_request_handler');
+        add_action('admin_init', array(&$this, 'request_handler'));
     }
 
     /**
@@ -90,8 +90,8 @@ class Bulk_Delete {
      */
 	function add_menu() {
 	    //Add a submenu to Manage
-        $this->admin_page = add_options_page(__("Bulk Delete", 'bulk-delete'), __("Bulk Delete", 'bulk-delete'), 'manage_options', basename(__FILE__), array(&$this, 'display_setting_page'));
-        $this->cron_page = add_options_page(__("Bulk Delete Crons", 'bulk-delete'), __("Bulk Delete Crons", 'bulk-delete'), 'manage_options', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
+        $this->admin_page = add_options_page(__("Bulk Delete", 'bulk-delete'), __("Bulk Delete", 'bulk-delete'), 'delete_posts', basename(__FILE__), array(&$this, 'display_setting_page'));
+        $this->cron_page = add_options_page(__("Bulk Delete Jobs", 'bulk-delete'), __("Bulk Delete Jobs", 'bulk-delete'), 'delete_posts', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
 
         add_action('admin_print_scripts-' . $this->admin_page, array(&$this, 'add_script'));
 	}
@@ -643,7 +643,7 @@ class Bulk_Delete {
 
         //Prepare Table of elements
         $cron_list_table = new Cron_List_Table();
-        $cron_list_table->prepare_items();
+        $cron_list_table->prepare_items($this->get_cron_schedules());
 
 ?>
     <div class="wrap">
@@ -656,18 +656,26 @@ class Bulk_Delete {
     </div>
 <?php
     }
-}
 
-// Start this plugin once all other plugins are fully loaded
-add_action( 'init', 'Bulk_Delete' ); function Bulk_Delete() { global $Bulk_Delete; $Bulk_Delete = new Bulk_Delete(); }
-
-/**
- * Request Handler
- */
-
-if (!function_exists('smbd_request_handler')) {
-    function smbd_request_handler() {
+    /**
+     * Request Handler
+     */
+    function request_handler() {
         global $wpdb;
+
+        if (isset($_GET['smbd_action'])) {
+
+            switch($_GET['smbd_action']) {
+
+                case 'delete-cron':
+                    //TODO: Check for nonce and referer
+                    $cron_id = absint($_GET['cron_id']);
+                    $cron_items = $this->get_cron_schedules();
+                    wp_unschedule_event($cron_items[$cron_id]['timestamp'], $cron_items[$cron_id]['type'], $cron_items[$cron_id]['args']);
+
+                    break;
+            }
+        }
 
         if (isset($_POST['smbd_action'])) {
 
@@ -694,9 +702,9 @@ if (!function_exists('smbd_request_handler')) {
                         $time = strtotime($_POST['smbd_cats_cron_start']) - get_option('gmt_offset');
 
                         if ($freq == -1) {
-                            wp_schedule_single_event($time, 'do-bulk-delete-cats', $delete_options);
+                            wp_schedule_single_event($time, 'do-bulk-delete-cats', array($delete_options));
                         } else {
-                            wp_schedule_event($time, $freq , 'do-bulk-delete-cats', $delete_options);
+                            wp_schedule_event($time, $freq , 'do-bulk-delete-cats', array($delete_options));
                         }
                     } else {
                         smbd_delete_cats($delete_options);
@@ -877,19 +885,54 @@ if (!function_exists('smbd_request_handler')) {
             }
 
             // hook the admin notices action
-            add_action( 'admin_notices', 'smbd_deleted_notice', 9 );
+            add_action( 'admin_notices', array(&$this, 'deleted_notice'), 9 );
         }
+    }
+
+    /**
+     * Show deleted notice messages
+     */
+    function deleted_notice() {
+        echo "<div class = 'updated'><p>" . __("All the selected posts have been successfully deleted.", 'bulk-delete') . "</p></div>";
+    }
+
+    /**
+     * Get the list of cron schedules
+     *
+     * @return array - The list of cron schedules
+     */
+    private function get_cron_schedules() {
+
+        $cron_items = array();
+		$cron = _get_cron_array();
+		$date_format = _x( 'M j, Y @ G:i', 'Cron table date format', 'bulk-delete' );
+        $i = 0;
+
+		foreach ( $cron as $timestamp => $cronhooks ) {
+			foreach ( (array) $cronhooks as $hook => $events ) {
+                if (substr($hook, 0, 15) == 'do-bulk-delete-') {
+                    $cron_item = array();
+
+                    foreach ( (array) $events as $key => $event ) {
+                        $cron_item['timestamp'] = $timestamp;
+                        $cron_item['due'] = date_i18n( $date_format, $timestamp );
+                        $cron_item['schedule'] = $event['schedule'];
+                        $cron_item['type'] = $hook;
+                        $cron_item['args'] = $event['args'];
+                        $cron_item['id'] = $i;
+                    }
+
+                    $cron_items[$i] = $cron_item;
+                    $i++;
+                }
+            }
+        }
+        return $cron_items;
     }
 }
 
-/**
- * Show deleted notice messages
- */
-if (!function_exists('smbd_deleted_notice')) {
-    function smbd_deleted_notice() {
-        echo "<div class = 'updated'><p>" . __("All the selected posts have been successfully deleted.", 'bulk-delete') . "</p></div>";
-    }
-}
+// Start this plugin once all other plugins are fully loaded
+add_action( 'init', 'Bulk_Delete' ); function Bulk_Delete() { global $Bulk_Delete; $Bulk_Delete = new Bulk_Delete(); }
 
 /**
  * Check whether a key is present. If present returns the value, else returns the default value
