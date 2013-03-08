@@ -4,7 +4,7 @@ Tags: post, comment, delete, bulk, draft, revision, page
 Requires at least: 2.0
 Tested up to: 3.5
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Stable tag: 2.2.2
+Stable tag: 3.0
 	
 Bulk delete posts from selected categories or tags
 
