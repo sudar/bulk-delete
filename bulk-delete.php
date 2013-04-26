@@ -10,6 +10,7 @@ License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
 Text Domain: bulk-delete
+Domain Path: languages/
 
 === RELEASE NOTES ===
 2009-02-02 - v0.1 - first version
@@ -44,6 +45,9 @@ Text Domain: bulk-delete
                   - Added Serbian translations
 2012-12-20 - v2.2.2 - (Dev time: 0.5 hour)
                   - Removed unused wpdb->prepare() function calls
+2013-04-27 - v3.0 - (Dev time: 10 hours)
+                  - Added support for pro addons
+                  - Added GUI to see cron jobs
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
