@@ -132,7 +132,7 @@ class Bulk_Delete {
         if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
 
         if( $file == $this_plugin ) {
-            $settings_link = '<a href="options-general.php?page=bulk-delete.php">' . _('Manage') . '</a>';
+            $settings_link = '<a href="options-general.php?page=bulk-delete.php">' . _('Manage', 'bulk-delete') . '</a>';
             array_unshift( $links, $settings_link ); // before other links
         }
         return $links;
@@ -349,7 +349,7 @@ class Bulk_Delete {
                     <input name="smbd_cats_cron" value = "true" type = "radio" id = "smbd_cats_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
                     <input name="smbd_cats_cron_start" id = "smbd_cats_cron_start" value = "now" type = "text" disabled><?php _e('repeat ', 'bulk-delete');?>
                     <select name = "smbd_cats_cron_freq" id = "smbd_cats_cron_freq" disabled>
-                        <option value = "-1"><?php _e("Don't repeat"); ?></option>
+                        <option value = "-1"><?php _e("Don't repeat", 'bulk-delete'); ?></option>
 <?php
         $schedules = wp_get_schedules();
         foreach($schedules as $key => $value) {
@@ -364,7 +364,7 @@ class Bulk_Delete {
             </tr>
             <tr>
                 <td scope="row" colspan="2">
-                    <?php _e("Enter time in Y-m-d H:i:s format or enter now to use current time");?>
+                    <?php _e("Enter time in Y-m-d H:i:s format or enter now to use current time", 'bulk-delete');?>
                 </td>
             </tr>
 
