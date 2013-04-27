@@ -153,7 +153,7 @@ class Bulk_Delete {
 
         if ($file == $plugin) // only for this plugin
             return array_merge( $links, 
-            array( '<a href="http://sudarmuthu.com/out/bulk-delete-addons" target="_blank">' . __('Buy Addons') . '</a>' )
+            array( '<a href="http://sudarmuthu.com/out/bulk-delete-addons" target="_blank">' . __('Buy Addons', 'bulk-delete') . '</a>' )
         );
         return $links;
     }
