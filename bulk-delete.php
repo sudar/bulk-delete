@@ -84,9 +84,12 @@ class Bulk_Delete {
         load_plugin_textdomain( 'bulk-delete', false, $this->translations);
 
         // Register hooks
-        add_filter('plugin_action_links', array(&$this, 'filter_plugin_actions'), 10, 2 );
         add_action('admin_menu', array(&$this, 'add_menu'));
         add_action('admin_init', array(&$this, 'request_handler'));
+
+        // Add more links in the plugin listing page
+        add_filter('plugin_action_links', array(&$this, 'filter_plugin_actions'), 10, 2 );
+        add_filter( 'plugin_row_meta', array( &$this, 'add_plugin_links' ), 10, 2 );  
     }
 
     /**
@@ -136,9 +139,22 @@ class Bulk_Delete {
         if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
 
         if( $file == $this_plugin ) {
-            $settings_link = '<a href="options-general.php?page=bulk-delete.php">' . _('Manage', 'bulk-delete') . '</a>';
+            $settings_link = '<a href="options-general.php?page=bulk-delete.php">' . __('Manage', 'bulk-delete') . '</a>';
             array_unshift( $links, $settings_link ); // before other links
         }
+        return $links;
+    }
+
+    /**
+     * Adds additional links in the Plugin listing. Based on http://zourbuth.com/archives/751/creating-additional-wordpress-plugin-links-row-meta/
+     */
+    function add_plugin_links($links, $file) {
+        $plugin = plugin_basename(__FILE__);
+
+        if ($file == $plugin) // only for this plugin
+            return array_merge( $links, 
+            array( '<a href="http://sudarmuthu.com/out/bulk-delete-addons" target="_blank">' . __('Buy Addons') . '</a>' )
+        );
         return $links;
     }
 
