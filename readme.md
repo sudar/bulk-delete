@@ -150,11 +150,11 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Screenshots ##
 
-1. Delete posts based on type
+1. The above screenshot shows how you can delete Posts by type. You can choose between drafts, revisions, Pending posts, scheduled posts, privates posts, pages etc..
 
-2. Delete Posts by Categories or Tags
+2. The above screenshot shows how you can delete posts by tag
 
-3. Delete Posts by Custom taxonomies
+3. The above screenshot shows how you can delete posts by Custom taxonomies
 
 ## Changelog ##
 
