@@ -152,11 +152,9 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 1. Delete posts based on type
 
-2. Delete posts based on date, post visibility or choose to move them to trash or delete permanently
+2. Delete Posts by Categories or Tags
 
-3. Delete Posts by Categories or Tags
-
-4. Delete Posts by Custom taxonomies
+3. Delete Posts by Custom taxonomies
 
 ## Changelog ##
 
