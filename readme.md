@@ -116,9 +116,9 @@ The pot file is available with the Plugin. If you are willing to do translation 
 
 ## Credits ##
 
-This Plugin uses the following JavaScript library
+Thanks <a href="http://www.martincapodici.com">Martin Capodici</a> for providing the code to implement the "delete specific page" feature.
 
-- [Time picker addon](http://trentrichardson.com/examples/timepicker/)
+Thanks to [Time picker addon](http://trentrichardson.com/examples/timepicker/) JavaScript library, which the Plugin uses.
 
 ## Installation ##
 
