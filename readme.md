@@ -148,7 +148,7 @@ If you choose the option "Move to trash" then you can find them from trash. But 
 
 The ability to schedule deletion of posts is available as a pro addon.
 
-## Screenshot ##
+## Screenshots ##
 
 1. Delete posts based on type
 
@@ -158,91 +158,87 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Changelog ##
 
-### v0.1 (2009-02-02) ###
+### 2013-04-27 - v3.0 - (Dev time: 10 hours) ###
+* Added support for pro addons
+* Added GUI to see cron jobs
 
-*   first version
+### v2.2.2 (2012-12-20) (Dev time: 0.5 hour) ###
+* Removed unused wpdb->prepare() function calls
 
-### v0.2 (2009-02-03) ###
+### v2.2.1 (2012-10-28) (Dev time: 0.5 hour) ###
+* Added Serbian translations
 
-*   Fixed issues with paging
+### v2.2 (2012-07-11) (Dev time: 0.5 hour) ###
+*   Added Hindi translations
+*   Added checks to see if elements are present in the array before accessing them.
 
-### v0.3 (2009-04-05) ###
-
-*   Prevented drafts from deleted when only posts are selected
-
-### v0.4 (2009-07-05) ###
-
-*   Added option to delete by date.
-
-### v0.5 (2009-07-21) ###
-*   Added option to delete all pending posts.
-
-### v0.6 (2009-07-22) ###
-*   Added option to delete all scheduled posts.
-
-### v0.7 (2010-02-21) ###
-*   Added an option to delete posts directly or send them to trash.
-*   Added support for translation.
-
-### v0.8 (2010-03-17) ###
-*   Added support for private posts.
-
-### v1.0 (2010-06-19) ###
-*   Proper handling of limits.
-
-### v1.1 (2011-01-22) ###
-*   Added support to delete posts by custom taxonomies
-*   Added Dutch Translation
-*   Added Brazilian Portuguese Translation
-
-### v1.2 (2011-02-06) ###
-*   Added some optimization to handle huge number of posts in underpowered servers
-
-### v1.3 (2011-05-11) ###
-*   Added German translations
-
-### v1.4 (2011-08-25) ###
-*   Added Turkish translations
-
-### v1.5 (2011-11-13) ###
-*   Added Spanish translations
-
-### v1.6 (2011-11-28) ###
-*   Added Italian translations
-
-### v1.7 (2012-01-12) ###
-*   Added Bulgarian translations
-
-### v1.8 (2012-01-31) ###
-*   Added roles and capabilities for menu
-
-### v1.9 (2012-03-16) ###
-*   Added support for deleting by permalink. Credit Martin Capodici
-*   Fixed issues with translations
-*   Added Russian translations
+### v2.1 (2012-04-07) Dev Time:  1 hour ###
+*   Fixed CSS issues in IE
+*   Added Lithuanian translations
 
 ### v2.0 (2012-04-01) Dev Time:  10 hours ###
 *   Fixed a major issue in how dates were handled.
 *   Major UI revamp
 *   Added debug information and support urls
 
-### v2.1 (2012-04-07) Dev Time:  1 hour ###
-*   Fixed CSS issues in IE
-*   Added Lithuanian translations
+### v1.9 (2012-03-16) ###
+*   Added support for deleting by permalink. Credit Martin Capodici
+*   Fixed issues with translations
+*   Added Russian translations
 
-### v2.2 (2012-07-11) (Dev time: 0.5 hour) ###
-*   Added Hindi translations
-*   Added checks to see if elements are present in the array before accessing them.
+### v1.8 (2012-01-31) ###
+*   Added roles and capabilities for menu
 
-### v2.2.1 (2012-10-28) (Dev time: 0.5 hour) ###
-* Added Serbian translations
+### v1.7 (2012-01-12) ###
+*   Added Bulgarian translations
 
-### v2.2.2 (2012-12-20) (Dev time: 0.5 hour) ###
-* Removed unused wpdb->prepare() function calls
+### v1.6 (2011-11-28) ###
+*   Added Italian translations
 
-### 2013-04-27 - v3.0 - (Dev time: 10 hours) ###
-* Added support for pro addons
-* Added GUI to see cron jobs
+### v1.5 (2011-11-13) ###
+*   Added Spanish translations
+
+### v1.4 (2011-08-25) ###
+*   Added Turkish translations
+
+### v1.3 (2011-05-11) ###
+*   Added German translations
+
+### v1.2 (2011-02-06) ###
+*   Added some optimization to handle huge number of posts in underpowered servers
+
+### v1.1 (2011-01-22) ###
+*   Added support to delete posts by custom taxonomies
+*   Added Dutch Translation
+*   Added Brazilian Portuguese Translation
+
+### v1.0 (2010-06-19) ###
+*   Proper handling of limits.
+
+### v0.8 (2010-03-17) ###
+*   Added support for private posts.
+
+### v0.7 (2010-02-21) ###
+*   Added an option to delete posts directly or send them to trash.
+*   Added support for translation.
+
+### v0.6 (2009-07-22) ###
+*   Added option to delete all scheduled posts.
+
+### v0.5 (2009-07-21) ###
+*   Added option to delete all pending posts.
+
+### v0.4 (2009-07-05) ###
+*   Added option to delete by date.
+
+### v0.3 (2009-04-05) ###
+*   Prevented drafts from deleted when only posts are selected
+
+### v0.2 (2009-02-03) ###
+*   Fixed issues with paging
+
+### v0.1 (2009-02-02) ###
+*   First version
 
 ## Readme Generator ##
 
