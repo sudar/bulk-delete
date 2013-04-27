@@ -103,6 +103,12 @@ The pot file is available with the Plugin. If you are willing to do translation 
  [16]: http://www.professionaltranslation.com
  [17]: http://www.matematik.us
 
+## Credits ##
+
+This Plugin uses the following JavaScript library
+
+- [Time picker addon](http://trentrichardson.com/examples/timepicker/)
+
 ## Installation ##
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
