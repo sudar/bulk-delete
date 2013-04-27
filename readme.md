@@ -21,7 +21,7 @@ This Plugin supports the following bulk delete options
 - Delete posts by custom taxonomies
 - Delete posts by url
 - Delete all pages
-- Delete all revisions
+- Delete all post revisions
 - Delete all pending posts
 - Delete all private posts
 - Delete all drafts
@@ -33,10 +33,21 @@ All the above options support the following filters
 - Only public posts
 - Only private posts
 - Restrict to first Y posts
+- Schedule deletion of posts automatically (Available as a Pro addon)
 
 As you can see, the Plugin provide comprehensive options and filters to perform bulk deletion.
 
 If you looking for just moving posts, instead of deleting, then use [Bulk Move Plugin][2] instead.
+
+### Pro Addons
+
+The following are the list of pro addons that are currently available.
+
+#### Bulk Delete Schedule Categories
+
+This addon adds the ability to schedule auto delete of categories. This will be really useful, if you have to delete posts based on categories on a regular basis.
+
+The cost of this addon is $15 and you can buy it through [paypal](http://sudarmuthu.com/out/bulk-delete-category-addon).
 
 ### Development
 
@@ -50,14 +61,14 @@ If you are looking for ideas, then you can start with one of the following TODO 
 
 The following are the features that I am thinking of adding to the Plugin, when I get some free time. If you have any feature request or want to increase the priority of a particular feature, then let me know.
 
-- Ability to schedule deletion of posts
 - Bulk delete based on the presence/absence of a word
+- Bulk Delete empty posts
 - Bulk Delete posts based on users
 - Bulk Delete by custom post types
-- Bulk Delete empty posts
 - Delete images that are used by the posts that are being deleted
 - Expandable/collapsible taxonomies
 - Bulk delete comments
+- Ability to schedule deletion of posts
 
 ### Support
 
@@ -132,6 +143,10 @@ Scroll down to the button of the Plugin page and you can see the current values 
 ### Is it possible to restore the posts that I have deleted through the Plugin?  ###
 
 If you choose the option "Move to trash" then you can find them from trash. But if you choose "Delete permanently", then it is not possible to retrieve the posts. So be **very careful**.
+
+### Is it possible to schedule deletion of posts ###
+
+The ability to schedule deletion of posts is available as a pro addon.
 
 ## Screenshot ##
 

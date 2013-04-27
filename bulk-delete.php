@@ -3,7 +3,7 @@
 Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
-Description: Bulk delete posts from selected categories or tags. Use it with caution.
+Description: Bulk delete posts from selected categories, tags or custom taxonomies. Use it with caution.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
 Version: 3.0
 License: GPL
@@ -98,7 +98,7 @@ class Bulk_Delete {
 	function add_menu() {
 	    //Add a submenu to Manage
         $this->admin_page = add_options_page(__("Bulk Delete", 'bulk-delete'), __("Bulk Delete", 'bulk-delete'), 'delete_posts', basename(__FILE__), array(&$this, 'display_setting_page'));
-        $this->cron_page = add_options_page(__("Bulk Delete Jobs", 'bulk-delete'), __("Bulk Delete Jobs", 'bulk-delete'), 'delete_posts', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
+        $this->cron_page = add_options_page(__("Bulk Delete Schedules", 'bulk-delete'), __("Bulk Delete Schedules", 'bulk-delete'), 'delete_posts', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
 
         add_action('admin_print_scripts-' . $this->admin_page, array(&$this, 'add_script'));
 	}
@@ -115,7 +115,7 @@ class Bulk_Delete {
 
         $ui = $wp_scripts->query('jquery-ui-core');
 
-        $url = "https://ajax.aspnetcdn.com/ajax/jquery.ui/{$ui->ver}/themes/smoothness/jquery.ui.all.css";
+        $url = "http://ajax.aspnetcdn.com/ajax/jquery.ui/{$ui->ver}/themes/smoothness/jquery-ui.css";
         wp_enqueue_style('jquery-ui-smoothness', $url, false, $ui->ver);
         wp_enqueue_style('jquery-ui-timepicker', plugins_url('/style/jquery-ui-timepicker.css', __FILE__), array(), '1.1.1');
 
@@ -379,7 +379,7 @@ class Bulk_Delete {
         }
 ?>
                     </select>
-                    <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro version', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-delete">Buy now</a></span>
+                    <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/bulk-delete-category-addon">Buy now</a></span>
                 </td>
             </tr>
             <tr>
@@ -652,6 +652,9 @@ class Bulk_Delete {
         printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
     }
 
+    /**
+     * Display the schedule page
+     */
     function display_cron_page() {
         
         if(!class_exists('WP_List_Table')){
@@ -668,7 +671,7 @@ class Bulk_Delete {
 ?>
     <div class="wrap">
         <?php screen_icon(); ?>
-        <h2><?php _e('Bulk Delete Cron Jobs', 'bulk-delete');?></h2>
+        <h2><?php _e('Bulk Delete Schedules', 'bulk-delete');?></h2>
 <?php        
         //Table of elements
         $cron_list_table->display();
@@ -1089,6 +1092,9 @@ function smbd_delete_cats($delete_options) {
     }
 }
 
+/**
+ * Class that encapsulates the deletion of Categories
+ */
 class BulkDeleteCatDays {
     var $days;
     var $op;

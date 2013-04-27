@@ -27,17 +27,38 @@ class Cron_List_Table extends WP_List_Table {
 	function extra_tablenav( $which ) {
 		if ( $which == "top" ){
 			//The code that goes before the table is here
+            echo '<p>';
+            _e('This is the list of jobs that are currently scheduled for auto deleting posts in Bulk Delete Plugin.', 'bulk-delete');
+            echo '</p>';
 		}
 		if ( $which == "bottom" ){
 			//The code that goes after the table is there
             echo '<p>&nbsp;';
             echo '</p>';
             echo '<p>';
-            _e('This is the list of cron jobs that are currently scheduled for deleting posts by Bulk Delete Plugin.', 'bulk-delete');
+            echo '<strong>';
+            _e('Note: ', 'bulk-delete');
+            echo '</strong>';
+            _e('Scheduling auto post deletion is available only when you buy pro addons.', 'bulk-delete');
             echo '</p>';
             echo '<p>';
-            _e('Note: ', 'bulk-delete');
-            _e('Scheduling post deletion using cron jobs is available only in the Pro version of the Plugin', 'bulk-delete');
+            _e('The following are the list of pro addons that are currently available.', 'bulk-delete');
+            echo '</p>';
+            echo '<h3>'; _e('Bulk Delete Schedule Categories'); echo '</h3>';
+            echo '<p>';
+            _e('This addon adds the ability to schedule auto delete of categories. The cost of this addon is $15. You can buy it through paypal by clicking the below button.', 'bulk-delete');
+            echo '</p>';
+?>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="RTJ77HKUS9C9L">
+<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+</form>
+<?php           
+            echo '<p>';
+            _e('More addons coming soon', 'bulk-delete');
             echo '</p>';
 		}
 	}
