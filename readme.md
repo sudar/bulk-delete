@@ -45,7 +45,7 @@ The following are the list of pro addons that are currently available.
 
 #### Bulk Delete Schedule Categories
 
-This addon adds the ability to schedule auto delete of categories. This will be really useful, if you have to delete posts based on categories on a regular basis.
+This addon adds the ability to schedule auto delete of posts based on categories. This will be really useful, if you have to delete posts based on categories on a regular basis.
 
 The cost of this addon is $15 and you can buy it through [paypal](http://sudarmuthu.com/out/bulk-delete-category-addon).
 
