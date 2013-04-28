@@ -2,8 +2,8 @@
 /**
  * Table to show cron list
  *
- * @package WordPress
- * @subpackage bulk-delete
+ * @package Bulk Delete
+ * @subpackage Cron
  * @author Sudar
  */
 class Cron_List_Table extends WP_List_Table {
@@ -124,7 +124,7 @@ class Cron_List_Table extends WP_List_Table {
         //Return the title contents
         return sprintf('%1$s <span style="color:silver">(%2$s)</span>%3$s',
             /*$1%s*/ $item['due'],
-            /*$2%s*/ $item['timestamp'],
+            /*$2%s*/ ($item['timestamp'] + get_option('gmt_offset') * 60 * 60 ),
             /*$3%s*/ $this->row_actions($actions)
         );
     }

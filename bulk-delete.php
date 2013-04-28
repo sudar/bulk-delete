@@ -122,7 +122,7 @@ class Bulk_Delete {
         // JavaScript messages
         $msg = array(
             'deletewarning' => __('Are you sure you want to delete all the selected posts', 'bulk-delete'),
-            'selectone' => __('Please select at least one', 'bulk-delete')
+            'selectone' => __('Please select at least one option', 'bulk-delete')
         );
         $translation_array = array( 'msg' => $msg );
         wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
@@ -722,7 +722,7 @@ class Bulk_Delete {
                     
                     if (array_get($_POST, 'smbd_cats_cron', 'false') == 'true') {
                         $freq = $_POST['smbd_cats_cron_freq'];
-                        $time = strtotime($_POST['smbd_cats_cron_start']) - get_option('gmt_offset');
+                        $time = strtotime($_POST['smbd_cats_cron_start']) - ( get_option('gmt_offset') * 60 * 60 );
 
                         if ($freq == -1) {
                             wp_schedule_single_event($time, 'do-bulk-delete-cats', array($delete_options));
@@ -730,7 +730,7 @@ class Bulk_Delete {
                             wp_schedule_event($time, $freq , 'do-bulk-delete-cats', array($delete_options));
                         }
                     } else {
-                        smbd_delete_cats($delete_options);
+                        self::delete_cats($delete_options);
                     }
                     
                     break;
@@ -919,6 +919,56 @@ class Bulk_Delete {
         echo "<div class = 'updated'><p>" . __("All the selected posts have been successfully deleted.", 'bulk-delete') . "</p></div>";
     }
 
+
+    /**
+     * Delete posts by category
+     */
+    static function delete_cats($delete_options) {
+
+        $selected_cats = $delete_options['selected_cats'];
+
+        $private = $delete_options['private'];
+
+        if ($private == 'true') {
+            $options = array('category__in'=>$selected_cats,'post_status'=>'private', 'post_type'=>'post');
+        } else {
+            $options = array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post');
+        }
+
+        $limit_to = $delete_options['limit_to'];
+
+        if ($limit_to > 0) {
+            $options['showposts'] = $limit_to;
+        } else {
+            $options['nopaging'] = 'true';
+        }
+
+        $force_delete = $delete_options['force_delete'];
+
+        if ($force_delete == 'true') {
+            $force_delete = true;
+        } else {
+            $force_delete = false;
+        }
+
+        if ($delete_options['restrict'] == "true") {
+            $options['cats_op'] = $delete_options['cats_op'];
+            $options['cats_days'] = $delete_options['cats_days'];
+
+            if (!class_exists('Bulk_Delete_Cats_Days')) {
+                require_once dirname(__FILE__) . '/include/class-bulk-delete-cats-days.php';
+            }
+            $bulk_Delete_Cat_Days = new Bulk_Delete_Cat_Days;
+        }
+
+        $wp_query = new WP_Query();
+        $posts = $wp_query->query($options);
+
+        foreach ($posts as $post) {
+            wp_delete_post($post->ID, $force_delete);
+        }
+    }
+
     /**
      * Get the list of cron schedules
      *
@@ -938,7 +988,7 @@ class Bulk_Delete {
 
                     foreach ( (array) $events as $key => $event ) {
                         $cron_item['timestamp'] = $timestamp;
-                        $cron_item['due'] = date_i18n( $date_format, $timestamp );
+                        $cron_item['due'] = date_i18n( $date_format, $timestamp + ( get_option('gmt_offset') * 60 * 60 ) );
                         $cron_item['schedule'] = $event['schedule'];
                         $cron_item['type'] = $hook;
                         $cron_item['args'] = $event['args'];
@@ -1046,80 +1096,4 @@ if (!function_exists('smbd_get_tax_post')) {
     }
 }
 
-/**
- * Delete posts by category
- */
-function smbd_delete_cats($delete_options) {
-
-    $selected_cats = $delete_options['selected_cats'];
-
-    $private = $delete_options['private'];
-
-    if ($private == 'true') {
-        $options = array('category__in'=>$selected_cats,'post_status'=>'private', 'post_type'=>'post');
-    } else {
-        $options = array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post');
-    }
-
-    $limit_to = $delete_options['limit_to'];
-
-    if ($limit_to > 0) {
-        $options['showposts'] = $limit_to;
-    } else {
-        $options['nopaging'] = 'true';
-    }
-
-    $force_delete = $delete_options['force_delete'];
-
-    if ($force_delete == 'true') {
-        $force_delete = true;
-    } else {
-        $force_delete = false;
-    }
-
-    if ($delete_options['restrict'] == "true") {
-        $options['cats_op'] = $delete_options['cats_op'];
-        $options['cats_days'] = $delete_options['cats_days'];
-
-        $bulkDeleteCatDays = new BulkDeleteCatDays;
-    }
-
-    $wp_query = new WP_Query();
-    $posts = $wp_query->query($options);
-
-    foreach ($posts as $post) {
-        wp_delete_post($post->ID, $force_delete);
-    }
-}
-
-/**
- * Class that encapsulates the deletion of Categories
- */
-class BulkDeleteCatDays {
-    var $days;
-    var $op;
-
-    public function __construct(){
-        add_action( 'parse_query', array( $this, 'parse_query' ) );
-    }
-
-    public function parse_query( $query ) {
-        if( isset( $query->query_vars['cats_days'] ) ){
-            $this->days = $query->query_vars['cats_days'];
-            $this->op = $query->query_vars['cats_op'];
-
-            add_filter( 'posts_where', array( $this, 'filter_where' ) );
-            add_filter( 'posts_selection', array( $this, 'remove_where' ) );
-        }
-    }
-
-    public function filter_where($where = '') {
-        $where .= " AND post_date " . $this->op . " '" . date('y-m-d', strtotime('-' . $this->days . ' days')) . "'";
-        return $where;
-    }
-
-    public function remove_where() {
-        remove_filter( 'posts_where', array( $this, 'filter_where' ) );
-    }
-}
 ?>

@@ -18,12 +18,12 @@ jQuery(document).ready(function () {
 
     // invoke the date time picker
     jQuery('#smbd_cats_cron_start').datetimepicker({
-        timeFormat: 'HH-mm-ss'
+        timeFormat: 'HH:mm:ss'
     });
 });
 
 /**
- * Check All Checkboxes
+ * Check All Check boxes
  */
 function bd_checkAll(form) {
     for (i = 0, n = form.elements.length; i < n; i++) {
@@ -37,6 +37,9 @@ function bd_checkAll(form) {
     }
 }
 
+/**
+ * Toggle the date restrict fields
+ */
 function toggle_date_restrict(el) {
     if (jQuery("#smbd_" + el + "_restrict").is(":checked")) {
         jQuery("#smbd_" + el + "_op").removeAttr('disabled');
