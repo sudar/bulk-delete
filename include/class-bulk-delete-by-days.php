@@ -1,12 +1,11 @@
 <?php
 /**
- * Class that encapsulates the deletion of Categories
+ * Class that encapsulates the deletion of posts based on days
  *
  * @package Bulk Delete
- * @subpackage Categories
  * @author Sudar
  */
-class Bulk_Delete_Cat_Days {
+class Bulk_Delete_By_Days {
     var $days;
     var $op;
 
@@ -15,9 +14,9 @@ class Bulk_Delete_Cat_Days {
     }
 
     public function parse_query( $query ) {
-        if( isset( $query->query_vars['cats_days'] ) ){
-            $this->days = $query->query_vars['cats_days'];
-            $this->op = $query->query_vars['cats_op'];
+        if( isset( $query->query_vars['days'] ) ){
+            $this->days = $query->query_vars['days'];
+            $this->op = $query->query_vars['op'];
 
             add_filter( 'posts_where', array( $this, 'filter_where' ) );
             add_filter( 'posts_selection', array( $this, 'remove_where' ) );
