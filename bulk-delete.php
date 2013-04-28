@@ -1256,23 +1256,6 @@ if (!function_exists('array_get')) {
  * @param <type> $where
  * @return <type>
  */
-if (!function_exists('smbd_cats_by_days ')) {
-    function smbd_cats_by_days ($where = '') {
-        $cats_op = array_get($_POST, 'smbd_cats_op');
-        $cats_days = array_get($_POST, 'smbd_cats_days');
-
-        remove_filter('posts_where', 'smbd_cats_by_days');
-
-        $where .= " AND post_date $cats_op '" . date('y-m-d', strtotime("-$cats_days days")) . "'";
-        return $where;
-    }
-}
-
-/**
- * function to filter posts by days
- * @param <type> $where
- * @return <type>
- */
 if (!function_exists('smbd_tags_by_days ')) {
     function smbd_tags_by_days ($where = '') {
         $tags_op = array_get($_POST, 'smbd_tags_op');
