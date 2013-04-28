@@ -49,6 +49,9 @@ Domain Path: languages/
                   - Added support for pro addons
                   - Added GUI to see cron jobs
 2013-04-28 - v3.1 - (Dev time: 5 hours)
+                  - Added seperate delete by sections for pages, drafts and urls
+                  - Added the option to delete by date for drafts, revisions, future posts etc
+                  - Added the option to delete by date for pages
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -1306,5 +1309,4 @@ if (!function_exists('smbd_get_tax_post')) {
         return $postids;
     }
 }
-
 ?>
