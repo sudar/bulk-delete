@@ -54,6 +54,7 @@ Domain Path: languages/
                   - Added the option to delete by date for pages
 2013-05-04 - v3.2 - (Dev time: 5 hours)
                   - Added support for schduling auto delete of pages
+                  - Added support for schduling auto delete of drafts
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -77,16 +78,16 @@ Domain Path: languages/
  */
 class Bulk_Delete {
     
-    const VERSION = '3.2';
-    const JS_HANDLE = 'bulk-delete';
-    const JS_VARIABLE = 'BULK_DELETE';
+    const VERSION            = '3.2';
+    const JS_HANDLE          = 'bulk-delete';
+    const JS_VARIABLE        = 'BULK_DELETE';
 
     // Cron hooks
-    const CATS_CRON_HOOK = 'do-bulk-delete-cats';
-    const CRON_HOOK_PAGES = 'do-bulk-delete-pages';
-    const DRAFTS_CRON_HOOK = 'do-bulk-delete-drafts';
-    const TAGS_CRON_HOOK = 'do-bulk-delete-tags';
-    const TAXONOMY_CRON_HOOK = 'do-bulk-delete-taxonomy';
+    const CRON_HOOK_CATS     = 'do-bulk-delete-cats';
+    const CRON_HOOK_PAGES    = 'do-bulk-delete-pages';
+    const CRON_HOOK_DRAFTS   = 'do-bulk-delete-drafts';
+    const CRON_HOOK_TAGS     = 'do-bulk-delete-tags';
+    const CRON_HOOK_TAXONOMY = 'do-bulk-delete-taxonomy';
 
     /**
      * Default constructor
@@ -272,6 +273,25 @@ class Bulk_Delete {
                 </td>
             </tr>
 
+            <tr>
+                <td scope="row" colspan="2">
+                    <input name="smbd_special_cron" value = "false" type = "radio" checked="checked" /> <?php _e('Delete now', 'bulk-delete'); ?>
+                    <input name="smbd_special_cron" value = "true" type = "radio" id = "smbd_special_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
+                    <input name="smbd_special_cron_start" id = "smbd_special_cron_start" value = "now" type = "text" disabled><?php _e('repeat ', 'bulk-delete');?>
+                    <select name = "smbd_special_cron_freq" id = "smbd_special_cron_freq" disabled>
+                        <option value = "-1"><?php _e("Don't repeat", 'bulk-delete'); ?></option>
+<?php
+        $schedules = wp_get_schedules();
+        foreach($schedules as $key => $value) {
+?>
+                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
+<?php                        
+        }
+?>
+                    </select>
+                    <span class = "bd-special-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/bulk-delete-special-addon">Buy now</a></span>
+                </td>
+            </tr>
         </table>
         </fieldset>
 
@@ -979,9 +999,9 @@ class Bulk_Delete {
                         $time = strtotime($_POST['smbd_special_cron_start']) - ( get_option('gmt_offset') * 60 * 60 );
 
                         if ($freq == -1) {
-                            wp_schedule_single_event($time, 'do-bulk-delete-special', array($delete_options));
+                            wp_schedule_single_event($time, self::CRON_HOOK_DRAFTS, array($delete_options));
                         } else {
-                            wp_schedule_event($time, $freq , 'do-bulk-delete-special', array($delete_options));
+                            wp_schedule_event($time, $freq, self::CRON_HOOK_DRAFTS, array($delete_options));
                         }
                     } else {
                         self::delete_special($delete_options);

@@ -24,6 +24,10 @@ jQuery(document).ready(function () {
     jQuery('#smbd_pages_cron_start').datetimepicker({
         timeFormat: 'HH:mm:ss'
     });
+
+    jQuery('#smbd_special_cron_start').datetimepicker({
+        timeFormat: 'HH:mm:ss'
+    });
 });
 
 /**
