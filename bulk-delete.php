@@ -745,8 +745,6 @@ class Bulk_Delete {
                 </table>
             </div>
         </div>
-
-        <p><em><?php _e("If you are looking to move posts in bulk, instead of deleting then try out my ", 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/wordpress/bulk-move"><?php _e("Bulk Move Plugin", 'bulk-delete');?></a>.</em></p>
     </div>
         
     <iframe frameBorder="0" height = "950" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>"></iframe>
