@@ -160,7 +160,7 @@ The ability to schedule deletion of posts is available as a pro addon.
 ## Changelog ##
 
 ### 2013-04-28 - v3.1 - (Dev time: 5 hours) ###
-* Added seperate delete by sections for pages, drafts and urls
+* Added separate delete by sections for pages, drafts and urls
 * Added the option to delete by date for drafts, revisions, future posts etc
 * Added the option to delete by date for pages
 
@@ -245,6 +245,12 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ### v0.1 (2009-02-02) ###
 *   First version
+
+## Upgrade Notice ##
+
+### 3.1 ###
+
+Added the option to delete by date for pages, drafts, revisions, future posts etc
 
 ## Readme Generator ##
 
