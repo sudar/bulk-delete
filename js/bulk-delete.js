@@ -20,6 +20,10 @@ jQuery(document).ready(function () {
     jQuery('#smbd_cats_cron_start').datetimepicker({
         timeFormat: 'HH:mm:ss'
     });
+
+    jQuery('#smbd_pages_cron_start').datetimepicker({
+        timeFormat: 'HH:mm:ss'
+    });
 });
 
 /**

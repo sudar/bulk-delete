@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories, tags, custom taxonomies or by post type like drafts, scheduled posts, revisions etc.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 3.1
+Version: 3.2
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -52,6 +52,8 @@ Domain Path: languages/
                   - Added separate delete by sections for pages, drafts and urls
                   - Added the option to delete by date for drafts, revisions, future posts etc
                   - Added the option to delete by date for pages
+2013-05-04 - v3.2 - (Dev time: 5 hours)
+                  - Added support for schduling auto delete of pages
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -75,9 +77,16 @@ Domain Path: languages/
  */
 class Bulk_Delete {
     
-    const VERSION = '3.1';
+    const VERSION = '3.2';
     const JS_HANDLE = 'bulk-delete';
     const JS_VARIABLE = 'BULK_DELETE';
+
+    // Cron hooks
+    const CATS_CRON_HOOK = 'do-bulk-delete-cats';
+    const CRON_HOOK_PAGES = 'do-bulk-delete-pages';
+    const DRAFTS_CRON_HOOK = 'do-bulk-delete-drafts';
+    const TAGS_CRON_HOOK = 'do-bulk-delete-tags';
+    const TAXONOMY_CRON_HOOK = 'do-bulk-delete-taxonomy';
 
     /**
      * Default constructor
@@ -334,6 +343,25 @@ class Bulk_Delete {
                 </td>
             </tr>
 
+            <tr>
+                <td scope="row" colspan="2">
+                    <input name="smbd_pages_cron" value = "false" type = "radio" checked="checked" /> <?php _e('Delete now', 'bulk-delete'); ?>
+                    <input name="smbd_pages_cron" value = "true" type = "radio" id = "smbd_pages_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
+                    <input name="smbd_pages_cron_start" id = "smbd_pages_cron_start" value = "now" type = "text" disabled><?php _e('repeat ', 'bulk-delete');?>
+                    <select name = "smbd_pages_cron_freq" id = "smbd_pages_cron_freq" disabled>
+                        <option value = "-1"><?php _e("Don't repeat", 'bulk-delete'); ?></option>
+<?php
+        $schedules = wp_get_schedules();
+        foreach($schedules as $key => $value) {
+?>
+                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
+<?php                        
+        }
+?>
+                    </select>
+                    <span class = "bd-pages-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/bulk-delete-pages-addon">Buy now</a></span>
+                </td>
+            </tr>
         </table>
         </fieldset>
 
@@ -974,14 +1002,14 @@ class Bulk_Delete {
 
                     $delete_options['pages'] = array_get($_POST, 'smbd_pages');
 
-                    if (array_get($_POST, 'smbd_page_cron', 'false') == 'true') {
-                        $freq = $_POST['smbd_page_cron_freq'];
-                        $time = strtotime($_POST['smbd_page_cron_start']) - ( get_option('gmt_offset') * 60 * 60 );
+                    if (array_get($_POST, 'smbd_pages_cron', 'false') == 'true') {
+                        $freq = $_POST['smbd_pages_cron_freq'];
+                        $time = strtotime($_POST['smbd_pages_cron_start']) - ( get_option('gmt_offset') * 60 * 60 );
 
                         if ($freq == -1) {
-                            wp_schedule_single_event($time, 'do-bulk-delete-page', array($delete_options));
+                            wp_schedule_single_event($time, self::CRON_HOOK_PAGES, array($delete_options));
                         } else {
-                            wp_schedule_event($time, $freq , 'do-bulk-delete-page', array($delete_options));
+                            wp_schedule_event($time, $freq , self::CRON_HOOK_PAGES, array($delete_options));
                         }
                     } else {
                         self::delete_pages($delete_options);
@@ -1156,7 +1184,7 @@ class Bulk_Delete {
     /**
      * Delete pages
      */
-    static function delete_pages($delete_options) {
+    static function delete_pages( $delete_options ) {
         global $wp_query;
 
         $options = array();
