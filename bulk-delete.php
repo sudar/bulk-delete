@@ -52,12 +52,14 @@ Domain Path: languages/
                   - Added separate delete by sections for pages, drafts and urls
                   - Added the option to delete by date for drafts, revisions, future posts etc
                   - Added the option to delete by date for pages
-2013-05-04 - v3.2 - (Dev time: 10 hours)
+2013-05-04 - v3.2 - (Dev time: 20 hours)
                   - Added support for schduling auto delete of pages
                   - Added support for schduling auto delete of drafts
                   - Fixed issue in deleting post revisions
                   - Move post revisions to a seperate section
                   - Better handling of post count to improve performance
+                  - Moved pages to a seperate section
+                  - Added ability to delete pages in different status
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -648,15 +650,47 @@ class Bulk_Delete {
         onsubmit="return bd_validateForm(this);">
 
 <?php
-        $wp_query = new WP_Query;
-        $pages = $wpdb->get_var("select count(*) from $wpdb->posts where post_type = 'page' AND post_status = 'publish' ");
+        $pages_count  = wp_count_posts( 'page' );
+        $pages        = $pages_count->publish;
+        $page_drafts  = $pages_count->draft;
+        $page_future  = $pages_count->future;
+        $page_pending = $pages_count->pending;
+        $page_private = $pages_count->private;
 ?>
         <fieldset class="options">
         <table class="optiontable">
             <tr>
                 <td>
-                    <input name="smbd_pages" value = "pages" type = "checkbox" />
-                    <label for="smbd_pages"><?php _e("All Pages", 'bulk-delete'); ?> (<?php echo $pages . " "; _e("Pages", 'bulk-delete'); ?>)</label>
+                    <input name="smbd_published_pages" value = "published_pages" type = "checkbox" />
+                    <label for="smbd_published_pages"><?php _e("All Published Pages", 'bulk-delete'); ?> (<?php echo $pages . " "; _e("Pages", 'bulk-delete'); ?>)</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input name="smbd_draft_pages" value = "draft_pages" type = "checkbox" />
+                    <label for="smbd_draft_pages"><?php _e("All Draft Pages", 'bulk-delete'); ?> (<?php echo $page_drafts . " "; _e("Pages", 'bulk-delete'); ?>)</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input name="smbd_future_pages" value = "scheduled_pages" type = "checkbox" />
+                    <label for="smbd_future_pages"><?php _e("All Scheduled Pages", 'bulk-delete'); ?> (<?php echo $page_future . " "; _e("Pages", 'bulk-delete'); ?>)</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input name="smbd_pending_pages" value = "pending_pages" type = "checkbox" />
+                    <label for="smbd_pending_pages"><?php _e("All Pending Pages", 'bulk-delete'); ?> (<?php echo $page_pending . " "; _e("Pages", 'bulk-delete'); ?>)</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input name="smbd_private_pages" value = "private_pages" type = "checkbox" />
+                    <label for="smbd_private_pages"><?php _e("All Private Pages", 'bulk-delete'); ?> (<?php echo $page_private . " "; _e("Pages", 'bulk-delete'); ?>)</label>
                 </td>
             </tr>
 
@@ -722,7 +756,7 @@ class Bulk_Delete {
 
         <?php wp_nonce_field('bulk-delete-posts'); ?>
 
-        <input type="hidden" name="smbd_action" value="bulk-delete-page" />
+        <input type="hidden" name="smbd_action" value="bulk-delete-page" >
         </form>
         </div>
         </div>
@@ -1065,7 +1099,11 @@ class Bulk_Delete {
                     $delete_options['page_op'] = array_get($_POST, 'smbd_page_op');
                     $delete_options['page_days'] = array_get($_POST, 'smbd_page_days');
 
-                    $delete_options['pages'] = array_get($_POST, 'smbd_pages');
+                    $delete_options['publish'] = array_get($_POST, 'smbd_published_pages');
+                    $delete_options['drafts'] = array_get($_POST, 'smbd_draft_pages');
+                    $delete_options['pending'] = array_get($_POST, 'smbd_pending_pages');
+                    $delete_options['future'] = array_get($_POST, 'smbd_future_pages');
+                    $delete_options['private'] = array_get($_POST, 'smbd_private_pages');
 
                     if (array_get($_POST, 'smbd_pages_cron', 'false') == 'true') {
                         $freq = $_POST['smbd_pages_cron_freq'];
@@ -1181,7 +1219,7 @@ class Bulk_Delete {
         global $wpdb;
 
         $options = array();
-        $post_types = array();
+        $post_status = array();
 
         $limit_to = $delete_options['limit_to'];
 
@@ -1201,22 +1239,22 @@ class Bulk_Delete {
 
         // Drafts
         if ("drafts" == $delete_options['drafts']) {
-            $post_types[] = 'draft';
+            $post_status[] = 'draft';
         }
 
         // Pending Posts
         if ("pending" == $delete_options['pending']) {
-            $post_types[] = 'pending';
+            $post_status[] = 'pending';
         }
 
         // Future Posts
         if ("future" == $delete_options['future']) {
-            $post_types[] = 'future';
+            $post_status[] = 'future';
         }
 
         // Private Posts
         if ("private" == $delete_options['private']) {
-            $post_types[] = 'private';
+            $post_status[] = 'private';
         }
 
         if ($delete_options['restrict'] == "true") {
@@ -1230,7 +1268,7 @@ class Bulk_Delete {
         }
 
         // now retrieve all posts and delete them
-        $options['post_status'] = $post_types;
+        $options['post_status'] = $post_status;
         $posts = $wp_query->query($options);
 
         foreach ($posts as $post) {
@@ -1239,12 +1277,13 @@ class Bulk_Delete {
     }
 
     /**
-     * Delete pages
+     * Bulk Delete pages
      */
     static function delete_pages( $delete_options ) {
         global $wp_query;
 
         $options = array();
+        $post_status = array();
 
         $limit_to = $delete_options['limit_to'];
 
@@ -1262,6 +1301,33 @@ class Bulk_Delete {
             $force_delete = false;
         }
 
+        // published pages
+        if ("published_pages" == $delete_options['publish']) {
+            $post_status[] = 'publish';
+        }
+        // Drafts
+        if ("draft_pages" == $delete_options['drafts']) {
+            $post_status[] = 'draft';
+        }
+
+        // Pending Posts
+        if ("pending_pages" == $delete_options['pending']) {
+            $post_status[] = 'pending';
+        }
+
+        // Future Posts
+        if ("future_pages" == $delete_options['future']) {
+            $post_status[] = 'future';
+        }
+
+        // Private Posts
+        if ("private_pages" == $delete_options['private']) {
+            $post_status[] = 'private';
+        }
+
+        $options['post_type'] = 'page';
+        $options['post_status'] = $post_status;
+
         if ($delete_options['restrict'] == "true") {
             $options['op'] = $delete_options['page_op'];
             $options['days'] = $delete_options['page_days'];
@@ -1272,14 +1338,9 @@ class Bulk_Delete {
             $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
         }
 
-        // Pages
-        if ("pages" == $delete_options['pages']) {
-            $options['post_type'] = 'page';
-            $pages = $wp_query->query($options);
-
-            foreach ($pages as $page) {
-                wp_delete_post($page->ID, $force_delete);
-            }
+        $pages = $wp_query->query($options);
+        foreach ($pages as $page) {
+            wp_delete_post($page->ID, $force_delete);
         }
     }
 
