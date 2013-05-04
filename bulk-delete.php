@@ -61,6 +61,7 @@ Domain Path: languages/
                   - Moved pages to a seperate section
                   - Added ability to delete pages in different status
                   - Added the option to schedule auto delete of tags by date
+                  - Fixed a bug which was not allowing categories to be deleted based on date
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -987,9 +988,9 @@ class Bulk_Delete {
                         $time = strtotime($_POST['smbd_cats_cron_start']) - ( get_option('gmt_offset') * 60 * 60 );
 
                         if ($freq == -1) {
-                            wp_schedule_single_event($time, 'do-bulk-delete-cats', array($delete_options));
+                            wp_schedule_single_event($time, self::CRON_HOOK_CATS, array($delete_options));
                         } else {
-                            wp_schedule_event($time, $freq , 'do-bulk-delete-cats', array($delete_options));
+                            wp_schedule_event($time, $freq , self::CRON_HOOK_CATS, array($delete_options));
                         }
                     } else {
                         self::delete_cats($delete_options);
@@ -1205,8 +1206,8 @@ class Bulk_Delete {
         }
 
         if ($delete_options['restrict'] == "true") {
-            $options['cats_op'] = $delete_options['cats_op'];
-            $options['cats_days'] = $delete_options['cats_days'];
+            $options['op'] = $delete_options['cats_op'];
+            $options['days'] = $delete_options['cats_days'];
 
             if (!class_exists('Bulk_Delete_By_Days')) {
                 require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
