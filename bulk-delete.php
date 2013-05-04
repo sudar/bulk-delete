@@ -60,6 +60,7 @@ Domain Path: languages/
                   - Better handling of post count to improve performance
                   - Moved pages to a seperate section
                   - Added ability to delete pages in different status
+                  - Added the option to schedule auto delete of tags by date
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -83,16 +84,16 @@ Domain Path: languages/
  */
 class Bulk_Delete {
     
-    const VERSION            = '3.2';
-    const JS_HANDLE          = 'bulk-delete';
-    const JS_VARIABLE        = 'BULK_DELETE';
+    const VERSION               = '3.2';
+    const JS_HANDLE             = 'bulk-delete';
+    const JS_VARIABLE           = 'BULK_DELETE';
 
     // Cron hooks
-    const CRON_HOOK_CATS     = 'do-bulk-delete-cats';
-    const CRON_HOOK_PAGES    = 'do-bulk-delete-pages';
-    const CRON_HOOK_POST_STATUS   = 'do-bulk-delete-post-status';
-    const CRON_HOOK_TAGS     = 'do-bulk-delete-tags';
-    const CRON_HOOK_TAXONOMY = 'do-bulk-delete-taxonomy';
+    const CRON_HOOK_CATS        = 'do-bulk-delete-cats';
+    const CRON_HOOK_PAGES       = 'do-bulk-delete-pages';
+    const CRON_HOOK_POST_STATUS = 'do-bulk-delete-post-status';
+    const CRON_HOOK_TAGS        = 'do-bulk-delete-tags';
+    const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';
 
     /**
      * Default constructor
@@ -407,6 +408,7 @@ class Bulk_Delete {
                     <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/bulk-delete-category-addon">Buy now</a></span>
                 </td>
             </tr>
+
             <tr>
                 <td scope="row" colspan="2">
                     <?php _e("Enter time in Y-m-d H:i:s format or enter now to use current time", 'bulk-delete');?>
@@ -448,9 +450,9 @@ class Bulk_Delete {
 
             <fieldset class="options">
             <table class="optiontable">
-    <?php
+<?php
             foreach ($tags as $tag) {
-    ?>
+?>
                 <tr>
                     <td scope="row" >
                         <input name="smbd_tags[]" value = "<?php echo $tag->term_id; ?>" type = "checkbox" />
@@ -459,9 +461,9 @@ class Bulk_Delete {
                         <label for="smbd_tags"><?php echo $tag->name; ?> (<?php echo $tag->count . " "; _e("Posts", 'bulk-delete'); ?>)</label>
                     </td>
                 </tr>
-    <?php
+<?php
             }
-    ?>
+?>
                 <tr>
                     <td scope="row" >
                         <input name="smbd_tags_all" id ="smbd_tags_all" value = "-1" type = "checkbox" onclick="bd_checkAll(document.getElementById('smbd_tag_form'));" />
@@ -493,8 +495,8 @@ class Bulk_Delete {
 
                 <tr>
                     <td scope="row" colspan="2">
-                        <input name="smbd_tags_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
-                        <input name="smbd_tags_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
+                        <input name="smbd_tags_force_delete" value = "false" type = "radio" checked="checked" > <?php _e('Move to Trash', 'bulk-delete'); ?>
+                        <input name="smbd_tags_force_delete" value = "true" type = "radio" > <?php _e('Delete permanently', 'bulk-delete'); ?>
                     </td>
                 </tr>
 
@@ -511,10 +513,30 @@ class Bulk_Delete {
                     </td>
                     <td>
                         <?php _e("Only delete first ", 'bulk-delete');?>
-                        <input type ="textbox" name="smbd_tags_limit_to" id="smbd_tags_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
+                        <input type ="textbox" name="smbd_tags_limits_to" id="smbd_tags_limits_to" disabled value ="0" maxlength="4" size="4" ><?php _e("posts.", 'bulk-delete');?>
                         <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
                     </td>
                 </tr>
+
+            <tr>
+                <td scope="row" colspan="2">
+                    <input name="smbd_tags_cron" value = "false" type = "radio" checked="checked" > <?php _e('Delete now', 'bulk-delete'); ?>
+                    <input name="smbd_tags_cron" value = "true" type = "radio" id = "smbd_tags_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
+                    <input name="smbd_tags_cron_start" id = "smbd_tags_cron_start" value = "now" type = "text" disabled><?php _e('repeat ', 'bulk-delete');?>
+                    <select name = "smbd_tags_cron_freq" id = "smbd_tags_cron_freq" disabled>
+                        <option value = "-1"><?php _e("Don't repeat", 'bulk-delete'); ?></option>
+<?php
+        $schedules = wp_get_schedules();
+        foreach($schedules as $key => $value) {
+?>
+                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
+<?php                        
+        }
+?>
+                    </select>
+                    <span class = "bd-tags-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/bulk-delete-tags-addon">Buy now</a></span>
+                </td>
+            </tr>
 
             </table>
             </fieldset>
@@ -524,7 +546,7 @@ class Bulk_Delete {
 
     <?php wp_nonce_field('bulk-delete-posts'); ?>
 
-            <input type="hidden" name="smbd_action" value="bulk-delete-tags" />
+            <input type="hidden" name="smbd_action" value="bulk-delete-tags" >
             </form>
             </div>
             </div>
@@ -977,41 +999,30 @@ class Bulk_Delete {
 
                 case "bulk-delete-tags":
                     // delete by tags
-                    $selected_tags = array_get($_POST, 'smbd_tags');
-                    if (array_get($_POST, 'smbd_tags_restrict', 'false') == "true") {
-                        add_filter ('posts_where', 'smbd_tags_by_days');
-                    }
-
-                    $private = array_get($_POST, 'smbd_tags_private', 'false');
-
-                    if ($private == 'true') {
-                        $options = array('tag__in'=>$selected_tags,'post_status'=>'private', 'post_type'=>'post');
-                    } else {
-                        $options = array('tag__in'=>$selected_tags,'post_status'=>'publish', 'post_type'=>'post');
-                    }
-
-                    $limit_to = absint(array_get($_POST, 'smbd_tags_limits_to', 0));
-
-                    if ($limit_to > 0) {
-                        $options['showposts'] = $limit_to;
-                    } else {
-                        $options['nopaging'] = 'true';
-                    }
-
-                    $force_delete = array_get($_POST, 'smbd_tags_force_delete');
-
-                    if ($force_delete == 'true') {
-                        $force_delete = true;
-                    } else {
-                        $force_delete = false;
-                    }
-
-                    $posts = $wp_query->query($options);
                     
-                    foreach ($posts as $post) {
-                        wp_delete_post($post->ID, $force_delete);
-                    }
+                    $delete_options = array();
+                    $delete_options['selected_tags'] = array_get($_POST, 'smbd_tags');
+                    $delete_options['restrict'] = array_get($_POST, 'smbd_tags_restrict', FALSE);
+                    $delete_options['private'] = array_get($_POST, 'smbd_tags_private');
+                    $delete_options['limit_to'] = absint(array_get($_POST, 'smbd_tags_limits_to', 0));
+                    $delete_options['force_delete'] = array_get($_POST, 'smbd_tags_force_delete', 'false');
+
+                    $delete_options['tags_op'] = array_get($_POST, 'smbd_tags_op');
+                    $delete_options['tags_days'] = array_get($_POST, 'smbd_tags_days');
                     
+                    if (array_get($_POST, 'smbd_tags_cron', 'false') == 'true') {
+                        $freq = $_POST['smbd_tags_cron_freq'];
+                        $time = strtotime($_POST['smbd_tags_cron_start']) - ( get_option('gmt_offset') * 60 * 60 );
+
+                        if ($freq == -1) {
+                            wp_schedule_single_event($time, self::CRON_HOOK_TAGS, array($delete_options));
+                        } else {
+                            wp_schedule_event($time, $freq, self::CRON_HOOK_TAGS, array($delete_options));
+                        }
+                    } else {
+                        self::delete_tags($delete_options);
+                    }
+
                     break;
 
                 case "bulk-delete-taxs":
@@ -1196,6 +1207,54 @@ class Bulk_Delete {
         if ($delete_options['restrict'] == "true") {
             $options['cats_op'] = $delete_options['cats_op'];
             $options['cats_days'] = $delete_options['cats_days'];
+
+            if (!class_exists('Bulk_Delete_By_Days')) {
+                require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
+            }
+            $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+        }
+
+        $wp_query = new WP_Query();
+        $posts = $wp_query->query($options);
+
+        foreach ($posts as $post) {
+            wp_delete_post($post->ID, $force_delete);
+        }
+    }
+
+    /**
+     * Delete posts by tags
+     */
+    static function delete_tags($delete_options) {
+
+        $selected_tags = $delete_options['selected_tags'];
+        $options = array('tag__in'=>$selected_tags, 'post_status'=>'publish', 'post_type'=>'post');
+
+        $private = $delete_options['private'];
+
+        if ($private == 'true') {
+            $options['post_status']  = 'private';
+        }
+
+        $limit_to = $delete_options['limit_to'];
+
+        if ($limit_to > 0) {
+            $options['showposts'] = $limit_to;
+        } else {
+            $options['nopaging'] = 'true';
+        }
+
+        $force_delete = $delete_options['force_delete'];
+
+        if ($force_delete == 'true') {
+            $force_delete = true;
+        } else {
+            $force_delete = false;
+        }
+
+        if ($delete_options['restrict'] == "true") {
+            $options['op'] = $delete_options['tags_op'];
+            $options['days'] = $delete_options['tags_days'];
 
             if (!class_exists('Bulk_Delete_By_Days')) {
                 require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
@@ -1411,23 +1470,6 @@ add_action( 'init', 'Bulk_Delete' ); function Bulk_Delete() { global $Bulk_Delet
 if (!function_exists('array_get')) {
     function array_get($array, $key, $default = NULL) {
         return isset($array[$key]) ? $array[$key] : $default;
-    }
-}
-
-/**
- * function to filter posts by days
- * @param <type> $where
- * @return <type>
- */
-if (!function_exists('smbd_tags_by_days ')) {
-    function smbd_tags_by_days ($where = '') {
-        $tags_op = array_get($_POST, 'smbd_tags_op');
-        $tags_days = array_get($_POST, 'smbd_tags_days');
-        
-        remove_filter('posts_where', 'smbd_tags_by_days');
-
-        $where .= " AND post_date $tags_op '" . date('y-m-d', strtotime("-$tags_days days")) . "'";
-        return $where;
     }
 }
 
