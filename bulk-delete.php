@@ -55,6 +55,7 @@ Domain Path: languages/
 2013-05-04 - v3.2 - (Dev time: 5 hours)
                   - Added support for schduling auto delete of pages
                   - Added support for schduling auto delete of drafts
+                  - Fixed issue in deleting post revisions
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -1125,6 +1126,7 @@ class Bulk_Delete {
      */
     static function delete_special($delete_options) {
         global $wp_query;
+        global $wpdb;
 
         $options = array();
 
