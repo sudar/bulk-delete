@@ -25,11 +25,12 @@ jQuery(document).ready(function () {
         timeFormat: 'HH:mm:ss'
     });
 
-    jQuery('#smbd_special_cron_start').datetimepicker({
+    jQuery('#smbd_post_status_cron_start').datetimepicker({
         timeFormat: 'HH:mm:ss'
     });
 });
 
+// TODO: Bring these global functions inside the jQuery document selection callback
 /**
  * Check All Check boxes
  */
