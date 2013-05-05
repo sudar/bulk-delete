@@ -33,33 +33,49 @@ class Cron_List_Table extends WP_List_Table {
 		}
 		if ( $which == "bottom" ){
 			//The code that goes after the table is there
-            echo '<p>&nbsp;';
-            echo '</p>';
+            echo '<p>&nbsp;</p>';
             echo '<p>';
             echo '<strong>';
             _e('Note: ', 'bulk-delete');
             echo '</strong>';
             _e('Scheduling auto post deletion is available only when you buy pro addons.', 'bulk-delete');
             echo '</p>';
-            echo '<p>';
-            _e('The following are the list of pro addons that are currently available.', 'bulk-delete');
-            echo '</p>';
-            echo '<h3>'; _e('Bulk Delete Schedule Categories'); echo '</h3>';
-            echo '<p>';
-            _e('This addon adds the ability to schedule auto delete of categories. The cost of this addon is $15. You can buy it through paypal by clicking the below button.', 'bulk-delete');
-            echo '</p>';
-?>
 
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="RTJ77HKUS9C9L">
-<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
-</form>
-<?php           
             echo '<p>';
-            _e('More addons coming soon', 'bulk-delete');
+            _e('The following are the list of pro addons that are currently available for purchase.', 'bulk-delete');
             echo '</p>';
+
+            echo '<ul style="list-style:disc; padding-left:35px">';
+
+            echo '<li>';
+            echo '<strong>', __('Bulk Delete Schedule Categories'), '</strong>', ' - ';
+            echo __('Adds the ability to schedule auto delete of posts based on categories', 'bulk-delete');
+            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories">', __('More Info'), '</a>.';
+            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-category-addon">', __('Buy now'), '</a>';
+            echo '</li>';
+
+            echo '<li>';
+            echo '<strong>', __('Bulk Delete Schedule Tags'), '</strong>', ' - ';
+            echo __('Adds the ability to schedule auto delete of posts based on tags', 'bulk-delete');
+            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags">', __('More Info'), '</a>.';
+            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-tags-addon">', __('Buy now'), '</a>';
+            echo '</li>';
+
+            echo '<li>';
+            echo '<strong>', __('Bulk Delete Schedule Pages'), '</strong>', ' - ';
+            echo __('Adds the ability to schedule auto delete pages', 'bulk-delete');
+            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages">', __('More Info'), '</a>.';
+            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-pages-addon">', __('Buy now'), '</a>';
+            echo '</li>';
+
+            echo '<li>';
+            echo '<strong>', __('Bulk Delete Schedule by Post Status'), '</strong>', ' - ';
+            echo __('Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete');
+            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status">', __('More Info'), '</a>.';
+            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon">', __('Buy now'), '</a>';
+            echo '</li>';
+
+            echo '</ul>';
 		}
 	}
 

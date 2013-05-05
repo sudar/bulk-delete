@@ -174,7 +174,7 @@ class Bulk_Delete {
 
         if ($file == $plugin) // only for this plugin
             return array_merge( $links, 
-            array( '<a href="http://sudarmuthu.com/out/bulk-delete-addons" target="_blank">' . __('Buy Addons', 'bulk-delete') . '</a>' )
+            array( '<a href="http://sudarmuthu.com/wordpress/bulk-delete/pro-addons" target="_blank">' . __('Buy Addons', 'bulk-delete') . '</a>' )
         );
         return $links;
     }
@@ -289,7 +289,7 @@ class Bulk_Delete {
         }
 ?>
                     </select>
-                    <span class = "bd-post-status-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/bulk-delete-post-status-addon">Buy now</a></span>
+                    <span class = "bd-post-status-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon">Buy now</a></span>
                 </td>
             </tr>
         </table>
@@ -406,7 +406,7 @@ class Bulk_Delete {
         }
 ?>
                     </select>
-                    <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/bulk-delete-category-addon">Buy now</a></span>
+                    <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-category-addon">Buy now</a></span>
                 </td>
             </tr>
 
@@ -535,7 +535,7 @@ class Bulk_Delete {
         }
 ?>
                     </select>
-                    <span class = "bd-tags-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/bulk-delete-tags-addon">Buy now</a></span>
+                    <span class = "bd-tags-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-tags-addon">Buy now</a></span>
                 </td>
             </tr>
 
@@ -767,7 +767,7 @@ class Bulk_Delete {
         }
 ?>
                     </select>
-                    <span class = "bd-pages-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/bulk-delete-pages-addon">Buy now</a></span>
+                    <span class = "bd-pages-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-pages-addon">Buy now</a></span>
                 </td>
             </tr>
         </table>
