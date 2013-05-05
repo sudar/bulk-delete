@@ -151,11 +151,19 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Screenshots ##
 
-1. The above screenshot shows how you can delete Posts by type. You can choose between drafts, revisions, Pending posts, scheduled posts, privates posts, pages etc..
+1. The above screenshot shows how you can delete Posts by post status. You can choose between drafts, pending posts, scheduled posts, privates posts.
 
-2. The above screenshot shows how you can delete posts by tag
+2. The above screenshot shows how you can delete posts by category. 
 
-3. The above screenshot shows how you can delete posts by Custom taxonomies
+3. The above screenshot shows how you can delete posts by tags.
+
+4. The above screenshot shows how you can delete posts by custom taxonomies.
+
+5. The above screenshot shows how you can delete pages by post status. You can choose between draft pages, pending pages, scheduled pages and privates pages.
+
+6. The above screenshot shows how you can schedule auto delete of posts. Note that this feature is available only when you buy [pro addons](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons).
+
+7. The above screenshot shows the scheduled auto delete jobs will be displayed. Note that this feature is available only when you buy [pro addons](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons).
 
 ## Changelog ##
 
