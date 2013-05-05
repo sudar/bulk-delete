@@ -72,10 +72,10 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 
 The following are the list of pro addons that are currently available for purchase to add more features to the Plugin.
 
-- Bulk Delete Schedule Categories - Adds the ability to schedule auto delete of posts based on categories. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-category-addon)
-- Bulk Delete Schedule Tags - Adds the ability to schedule auto delete of posts based on tags. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-tags-addon)
-- Bulk Delete Schedule Pages - Adds the ability to schedule auto delete of pages. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-pages-addon)
-- Bulk Delete Schedule by Post Status - Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon)
+- **Bulk Delete Schedule Categories** - Adds the ability to schedule auto delete of posts based on categories. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-category-addon)
+- **Bulk Delete Schedule Tags** - Adds the ability to schedule auto delete of posts based on tags. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-tags-addon)
+- **Bulk Delete Schedule Pages** - Adds the ability to schedule auto delete of pages. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-pages-addon)
+- **Bulk Delete Schedule by Post Status** - Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon)
 
 ### Development
 
@@ -89,6 +89,7 @@ If you are looking for ideas, then you can start with one of the following TODO 
 
 The following are the features that I am thinking of adding to the Plugin, when I get some free time. If you have any feature request or want to increase the priority of a particular feature, then let me know.
 
+- Delete posts based on page views
 - Close the different sections initially, when the page is loaded
 - Change the message based on the option the user has chosen
 - Bulk Delete sticky posts
