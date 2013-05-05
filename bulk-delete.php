@@ -53,12 +53,12 @@ Domain Path: languages/
                   - Added the option to delete by date for drafts, revisions, future posts etc
                   - Added the option to delete by date for pages
 2013-05-04 - v3.2 - (Dev time: 20 hours)
-                  - Added support for schduling auto delete of pages
-                  - Added support for schduling auto delete of drafts
+                  - Added support for scheduling auto delete of pages
+                  - Added support for scheduling auto delete of drafts
                   - Fixed issue in deleting post revisions
-                  - Move post revisions to a seperate section
+                  - Move post revisions to a separate section
                   - Better handling of post count to improve performance
-                  - Moved pages to a seperate section
+                  - Moved pages to a separate section
                   - Added ability to delete pages in different status
                   - Added the option to schedule auto delete of tags by date
                   - Fixed a bug which was not allowing categories to be deleted based on date
