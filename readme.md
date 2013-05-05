@@ -1,31 +1,31 @@
 # Bulk Delete #
 **Contributors:** sudar  
-**Tags:** post, comment, delete, bulk, draft, revision, page  
+**Tags:** post, comment, delete, bulk, mass, draft, revision, page  
 **Requires at least:** 2.0  
 **Tested up to:** 3.5.1  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 3.1  
+**Stable tag:** 3.2  
 
-Bulk delete posts from selected categories, tags or custom taxonomies
+Bulk delete posts from selected categories, tags, custom taxonomies or by post type like drafts, scheduled posts, revisions etc.
 
 ## Description ##
 
-Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from selected categories, tags or custom taxonomies. This Plugin can also delete all drafts, post revisions or pages.
+Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from selected categories, tags or custom taxonomies. This Plugin can also delete all drafts, post revisions, scheduled posts or pages.
 
 ### Features
 
-This Plugin supports the following bulk delete options
+#### Deleting posts
+
+This Plugin supports the following bulk delete options for deleting posts
 
 - Delete posts by category
 - Delete posts by tags
 - Delete posts by custom taxonomies
 - Delete posts by url
-- Delete all pages
-- Delete all post revisions
+- Delete all draft posts
 - Delete all pending posts
 - Delete all private posts
 - Delete all scheduled posts
-- Delete all drafts
 
 All the above options support the following filters
 
@@ -33,8 +33,36 @@ All the above options support the following filters
 - Post date less than X days
 - Only public posts
 - Only private posts
-- Restrict to first Y posts
-- Schedule deletion of posts automatically (Available as a Pro addon)
+- Restrict to first N posts
+- Delete permanently or just move to trash
+- Schedule deletion of posts automatically (Available as a [Pro addon](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons))
+
+#### Deleting pages
+
+- Delete all published pages
+- Delete all draft pages
+- Delete all pending pages
+- Delete all private pages
+- Delete all scheduled pages
+
+Like posts, all the above options support the following filters as well
+
+- Post date greater than X days
+- Post date less than X days
+- Only public posts
+- Only private posts
+- Restrict to first N posts
+- Delete permanently or just move to trash
+- Schedule deletion of posts automatically (Available as a [Pro addon](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons))
+
+#### Deleting post revisions
+
+- Delete all post revisions
+
+#### Deleting by custom post types and by content
+
+Coming soon :)
+
 
 As you can see, the Plugin provide comprehensive options and filters to perform bulk deletion.
 
@@ -42,13 +70,12 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 
 ### Pro Addons
 
-The following are the list of pro addons that are currently available.
+The following are the list of pro addons that are currently available for purchase to add more features to the Plugin.
 
-#### Bulk Delete Schedule Categories
-
-This addon adds the ability to schedule auto delete of posts based on categories. This will be really useful, if you have to delete posts based on categories on a regular basis.
-
-The cost of this addon is $15 and you can buy it through [paypal](http://sudarmuthu.com/out/bulk-delete-category-addon).
+- Bulk Delete Schedule Categories - Adds the ability to schedule auto delete of posts based on categories. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-category-addon)
+- Bulk Delete Schedule Tags - Adds the ability to schedule auto delete of posts based on tags. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-tags-addon)
+- Bulk Delete Schedule Pages - Adds the ability to schedule auto delete of pages. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-pages-addon)
+- Bulk Delete Schedule by Post Status - Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon)
 
 ### Development
 
@@ -62,14 +89,16 @@ If you are looking for ideas, then you can start with one of the following TODO 
 
 The following are the features that I am thinking of adding to the Plugin, when I get some free time. If you have any feature request or want to increase the priority of a particular feature, then let me know.
 
+- Close the different sections initially, when the page is loaded
+- Change the message based on the option the user has chosen
+- Bulk Delete sticky posts
+- Bulk Delete by custom post types
 - Bulk delete based on the presence/absence of a word
 - Bulk Delete empty posts
 - Bulk Delete posts based on users
-- Bulk Delete by custom post types
 - Delete images that are used by the posts that are being deleted
 - Expandable/collapsible taxonomies
 - Bulk delete comments
-- Ability to schedule deletion of posts
 
 ### Support
 
@@ -167,6 +196,17 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Changelog ##
 
+### 2013-05-04 - v3.2 - (Dev time: 20 hours) ###
+* Added support for scheduling auto delete of pages
+* Added support for scheduling auto delete of drafts
+* Fixed issue in deleting post revisions
+* Move post revisions to a separate section
+* Better handling of post count to improve performance
+* Moved pages to a separate section
+* Added ability to delete pages in different status
+* Added the option to schedule auto delete of tags by date
+* Fixed a bug which was not allowing categories to be deleted based on date
+
 ### 2013-04-28 - v3.1 - (Dev time: 5 hours) ###
 * Added separate delete by sections for pages, drafts and urls
 * Added the option to delete by date for drafts, revisions, future posts etc
@@ -255,6 +295,10 @@ The ability to schedule deletion of posts is available as a pro addon.
 *   First version
 
 ## Upgrade Notice ##
+
+### 3.2 ###
+
+Fixed bugs in handling post revisions and dates in categories. Added more options to delete pages.
 
 ### 3.1 ###
 
