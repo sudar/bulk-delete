@@ -90,16 +90,16 @@ If you are looking for ideas, then you can start with one of the following TODO 
 
 The following are the features that I am thinking of adding to the Plugin, when I get some free time. If you have any feature request or want to increase the priority of a particular feature, then let me know.
 
-- Delete posts based on page views
 - Close the different sections initially, when the page is loaded
-- Change the message based on the option the user has chosen
-- Bulk Delete sticky posts
 - Bulk Delete by custom post types
+- Bulk Delete posts based on page views
+- Bulk Delete sticky posts
 - Bulk delete based on the presence/absence of a word
 - Bulk Delete empty posts
 - Bulk Delete posts based on users
-- Delete images that are used by the posts that are being deleted
 - Bulk delete comments
+- Delete images that are used by the posts that are being deleted
+- <del>Change the message based on the option the user has chosen</del> - Added in v3.3
 - <del>Expandable/collapsible taxonomies</del> - Added in v3.3
 
 ### Support
