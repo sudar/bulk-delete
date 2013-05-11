@@ -66,6 +66,7 @@ Domain Path: languages/
                   - Enhanced the deletion of posts using custom taxonomies
                   - Added the ability to schedule auto delete of taxonomies by date
                   - Cleaned up all messages that are shown to the user
+                  - Added on screen help tab
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -125,7 +126,41 @@ class Bulk_Delete {
         $this->admin_page = add_options_page(__("Bulk Delete", 'bulk-delete'), __("Bulk Delete", 'bulk-delete'), 'delete_posts', basename(__FILE__), array(&$this, 'display_setting_page'));
         $this->cron_page = add_options_page(__("Bulk Delete Schedules", 'bulk-delete'), __("Bulk Delete Schedules", 'bulk-delete'), 'delete_posts', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
 
+		add_action( "load-{$this->admin_page}", array(&$this,'create_settings_panel' ) );
         add_action('admin_print_scripts-' . $this->admin_page, array(&$this, 'add_script'));
+	}
+
+    /**
+     * Add settings Panel
+     */ 
+	function create_settings_panel() {
+ 
+		/** 
+		 * Create the WP_Screen object against your admin page handle
+		 * This ensures we're working with the right admin page
+		 */
+		$this->admin_screen = WP_Screen::get($this->admin_page);
+ 
+		/**
+		 * Content specified inline
+		 */
+		$this->admin_screen->add_help_tab(
+			array(
+				'title'    => __('About Plugin', 'bulk-delete'),
+				'id'       => 'about_tab',
+				'content'  => '<p>' . __('This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete') . '</p>',
+				'callback' => false
+			)
+		);
+ 
+        // Add help sidebar
+		$this->admin_screen->set_help_sidebar(
+            '<p><strong>' . __('More information', 'bulk-delete') . '</strong></p>' .
+            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete">' . __('Plugin Homepage/support', 'bulk-delete') . '</a></p>' .
+            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons">' . __("Buy pro addons", 'bulk-delete') . '</a></p>' .
+            '<p><a href = "http://sudarmuthu.com/blog">' . __("Plugin author's blog", 'bulk-delete') . '</a></p>' .
+            '<p><a href = "http://sudarmuthu.com/wordpress/">' . __("Other Plugin's by Author", 'bulk-delete') . '</a></p>'
+        );
 	}
 
     /**
