@@ -74,6 +74,7 @@ The following are the list of pro addons that are currently available for purcha
 
 - **Bulk Delete Schedule Categories** - Adds the ability to schedule auto delete of posts based on categories. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-category-addon)
 - **Bulk Delete Schedule Tags** - Adds the ability to schedule auto delete of posts based on tags. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-tags-addon)
+- **Bulk Delete Schedule Custom Taxonomies** - Adds the ability to schedule auto delete of posts based on custom taxonomies. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-taxonomy). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-taxonomy-addon)
 - **Bulk Delete Schedule Pages** - Adds the ability to schedule auto delete of pages. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-pages-addon)
 - **Bulk Delete Schedule by Post Status** - Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon)
 
@@ -98,8 +99,8 @@ The following are the features that I am thinking of adding to the Plugin, when 
 - Bulk Delete empty posts
 - Bulk Delete posts based on users
 - Delete images that are used by the posts that are being deleted
-- Expandable/collapsible taxonomies
 - Bulk delete comments
+- <strike>Expandable/collapsible taxonomies</strike> - Added in v3.3
 
 ### Support
 

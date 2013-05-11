@@ -64,6 +64,7 @@ Domain Path: languages/
                   - Fixed a bug which was not allowing categories to be deleted based on date
 2013-05-11 - v3.3 - (Dev time: 10 hours)
                   - Enhanced the deletion of posts using custom taxonomies
+                  - Added the ability to schedule auto delete of taxonomies by date
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -688,7 +689,7 @@ class Bulk_Delete {
         }
 ?>
                     </select>
-                    <span class = "bd-taxs-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-taxs-addon">Buy now</a></span>
+                    <span class = "bd-taxs-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-taxonomy-addon">Buy now</a></span>
                 </td>
             </tr>
 

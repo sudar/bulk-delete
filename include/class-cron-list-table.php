@@ -62,6 +62,13 @@ class Cron_List_Table extends WP_List_Table {
             echo '</li>';
 
             echo '<li>';
+            echo '<strong>', __('Bulk Delete Schedule Custom Taxonomy'), '</strong>', ' - ';
+            echo __('Adds the ability to schedule auto delete of posts based on custom taxonomies', 'bulk-delete');
+            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-taxonomy">', __('More Info'), '</a>.';
+            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-taxonomy-addon">', __('Buy now'), '</a>';
+            echo '</li>';
+
+            echo '<li>';
             echo '<strong>', __('Bulk Delete Schedule Pages'), '</strong>', ' - ';
             echo __('Adds the ability to schedule auto delete pages', 'bulk-delete');
             echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages">', __('More Info'), '</a>.';
