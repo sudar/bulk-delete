@@ -9,6 +9,12 @@
 
 /*global BULK_DELETE, jQuery, document*/
 jQuery(document).ready(function () {
+    // hide all terms
+    function hideAllTerms() {
+        jQuery('table.terms').hide();
+        jQuery('input.terms').attr('checked', false);
+    }
+
     /**
      * Toggle closing of different sections
      */
@@ -25,6 +31,10 @@ jQuery(document).ready(function () {
         timeFormat: 'HH:mm:ss'
     });
 
+    jQuery('#smbd_taxs_cron_start').datetimepicker({
+        timeFormat: 'HH:mm:ss'
+    });
+
     jQuery('#smbd_pages_cron_start').datetimepicker({
         timeFormat: 'HH:mm:ss'
     });
@@ -32,6 +42,20 @@ jQuery(document).ready(function () {
     jQuery('#smbd_post_status_cron_start').datetimepicker({
         timeFormat: 'HH:mm:ss'
     });
+
+    // taxonomy click handling
+    jQuery('.custom-tax').change(function () {
+        var $this = jQuery(this),
+            $tax = $this.val(),
+            $terms = jQuery('table.terms_' + $tax);
+
+        if ($this.is(':checked')) {
+            hideAllTerms();
+            $terms.show('slow');
+        }
+    });
+
+    hideAllTerms();
 });
 
 // TODO: Bring these global functions inside the jQuery document selection callback
