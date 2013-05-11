@@ -100,7 +100,7 @@ The following are the features that I am thinking of adding to the Plugin, when 
 - Bulk Delete posts based on users
 - Delete images that are used by the posts that are being deleted
 - Bulk delete comments
-- <strike>Expandable/collapsible taxonomies</strike> - Added in v3.3
+- <del>Expandable/collapsible taxonomies</del> - Added in v3.3
 
 ### Support
 

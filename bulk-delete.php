@@ -88,7 +88,7 @@ Domain Path: languages/
  */
 class Bulk_Delete {
     
-    const VERSION               = '3.2';
+    const VERSION               = '3.3';
     const JS_HANDLE             = 'bulk-delete';
     const JS_VARIABLE           = 'BULK_DELETE';
 
@@ -946,7 +946,7 @@ class Bulk_Delete {
 
     </div>
         
-    <iframe frameBorder="0" height = "950" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>"></iframe>
+    <iframe frameBorder="0" height = "950" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>&version=<?php echo self::VERSION; ?>"></iframe>
     
     </div>
 <?php
