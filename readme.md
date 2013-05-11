@@ -4,7 +4,7 @@
 **Requires at least:** 2.0  
 **Tested up to:** 3.5.1  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 3.2  
+**Stable tag:** 3.3  
 
 Bulk delete posts from selected categories, tags, custom taxonomies or by post type like drafts, scheduled posts, revisions etc.
 
@@ -90,7 +90,7 @@ If you are looking for ideas, then you can start with one of the following TODO 
 
 The following are the features that I am thinking of adding to the Plugin, when I get some free time. If you have any feature request or want to increase the priority of a particular feature, then let me know.
 
-- Close the different sections initially, when the page is loaded
+- Ability to choose the different sections that should be loaded
 - Bulk Delete by custom post types
 - Bulk Delete posts based on page views
 - Bulk Delete sticky posts
@@ -198,6 +198,12 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Changelog ##
 
+### 2013-05-11 - v3.3 - (Dev time: 10 hours) ###
+* Enhanced the deletion of posts using custom taxonomies
+* Added the ability to schedule auto delete of taxonomies by date
+* Cleaned up all messages that are shown to the user
+* Added on screen help tab
+
 ### 2013-05-04 - v3.2 - (Dev time: 20 hours) ###
 * Added support for scheduling auto delete of pages
 * Added support for scheduling auto delete of drafts
@@ -297,6 +303,9 @@ The ability to schedule deletion of posts is available as a pro addon.
 *   First version
 
 ## Upgrade Notice ##
+
+### 3.3 ###
+Fixed issues in deleting posts using custom taxonomy
 
 ### 3.2 ###
 
