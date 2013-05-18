@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories, tags, custom taxonomies or by post type like drafts, scheduled posts, revisions etc.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 3.3
+Version: 3.4
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -67,6 +67,8 @@ Domain Path: languages/
                   - Added the ability to schedule auto delete of taxonomies by date
                   - Cleaned up all messages that are shown to the user
                   - Added on screen help tab
+2013-05-18 - v3.2 - (Dev time: 20 hours)
+                  - Incorporated Screen API to select/deselect different sections of the page
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -90,7 +92,7 @@ Domain Path: languages/
  */
 class Bulk_Delete {
     
-    const VERSION               = '3.3';
+    const VERSION               = '3.4';
     const JS_HANDLE             = 'bulk-delete';
     const JS_VARIABLE           = 'BULK_DELETE';
 
@@ -114,7 +116,7 @@ class Bulk_Delete {
         add_action('admin_init', array(&$this, 'request_handler'));
 
         // Add more links in the plugin listing page
-        add_filter('plugin_action_links', array(&$this, 'filter_plugin_actions'), 10, 2 );
+        add_filter( 'plugin_action_links', array( &$this, 'filter_plugin_actions' ), 10, 2 );
         add_filter( 'plugin_row_meta', array( &$this, 'add_plugin_links' ), 10, 2 );  
     }
 
@@ -128,7 +130,23 @@ class Bulk_Delete {
 
 		add_action( "load-{$this->admin_page}", array(&$this,'create_settings_panel' ) );
         add_action('admin_print_scripts-' . $this->admin_page, array(&$this, 'add_script'));
+
+        add_action( "add_meta_boxes_{$this->admin_page}", array( &$this, 'add_meta_boxes' ));
 	}
+
+    /**
+     * Register meta boxes
+     */
+    function add_meta_boxes() {
+        add_meta_box( 'bd_by_post_status', __( 'By Post Status', 'bulk-delete' ), array( &$this, 'render_by_post_status_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( 'bd_by_category', __( 'By Category', 'bulk-delete' ), array( &$this, 'render_by_category_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( 'bd_by_tag', __( 'By Tag', 'bulk-delete' ), array( &$this, 'render_by_tag_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( 'bd_by_tax', __( 'By Custom Taxonomy', 'bulk-delete' ), array( &$this, 'render_by_tax_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( 'bd_by_page', __( 'By Page', 'bulk-delete' ), array( &$this, 'render_by_page_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( 'bd_by_url', __( 'By URL', 'bulk-delete' ), array( &$this, 'render_by_url_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( 'bd_by_post_revision', __( 'By Post Revision', 'bulk-delete' ), array( &$this, 'render_by_post_revision_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( 'bd_debug', __( 'Debug Information', 'bulk-delete' ), array( &$this, 'render_debug_box' ), $this->admin_page, 'advanced', 'low' );
+    }
 
     /**
      * Add settings Panel
@@ -136,8 +154,7 @@ class Bulk_Delete {
 	function create_settings_panel() {
  
 		/** 
-		 * Create the WP_Screen object against your admin page handle
-		 * This ensures we're working with the right admin page
+		 * Create the WP_Screen object using page handle
 		 */
 		$this->admin_screen = WP_Screen::get($this->admin_page);
  
@@ -161,6 +178,13 @@ class Bulk_Delete {
             '<p><a href = "http://sudarmuthu.com/blog">' . __("Plugin author's blog", 'bulk-delete') . '</a></p>' .
             '<p><a href = "http://sudarmuthu.com/wordpress/">' . __("Other Plugin's by Author", 'bulk-delete') . '</a></p>'
         );
+
+        /* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
+        do_action('add_meta_boxes_' . $this->admin_page, null);
+        do_action('add_meta_boxes', $this->admin_page, null);
+    
+        /* Enqueue WordPress' script for handling the meta boxes */
+        wp_enqueue_script('postbox');
 	}
 
     /**
@@ -181,10 +205,15 @@ class Bulk_Delete {
 
         // JavaScript messages
         $msg = array(
-            'deletewarning' => __('Are you sure you want to delete all the selected posts', 'bulk-delete'),
-            'selectone' => __('Please select at least one option', 'bulk-delete')
+            'deletewarning' => __('Are you sure you want to delete all the selected posts', 'bulk-delete')
         );
-        $translation_array = array( 'msg' => $msg );
+
+        $error = array(
+            'selectone' => __('Please select posts from at least one option', 'bulk-delete'),
+            'enterurl' => __('Please enter at least one page url', 'bulk-delete')
+        );
+
+        $translation_array = array( 'msg' => $msg, 'error' => $error );
         wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
     }
 
@@ -222,31 +251,68 @@ class Bulk_Delete {
      * Show the Admin page
      */
     function display_setting_page() {
-        global $wpdb;
 ?>
-	<div class="updated fade" style="background:#ff0;text-align:center;color: red;"><p><strong><?php _e("WARNING: Posts deleted once cannot be retrieved back. Use with caution.", 'bulk-delete'); ?></strong></p></div>
+<div class="wrap">
+    <?php screen_icon(); ?>
+    <h2><?php _e('Bulk Delete', 'bulk-delete');?></h2>
 
-    <div class="wrap">
-        <?php screen_icon(); ?>
-        <h2><?php _e('Bulk Delete', 'bulk-delete');?></h2>
-
-        <div id = "poststuff" style = "float:left; width:75%">
-
-<!-- Post status start-->
-        <div class = "postbox">
-            <div class = "handlediv"> <br> </div>
-            <h3 class = "hndle"><span><?php _e("By Post Status", 'bulk-delete'); ?></span></h3>
-        <div class = "inside">
-        <h4><?php _e("Select the posts which you want to delete", 'bulk-delete'); ?></h4>
-
-        <form name="smbd_form" id = "smbd_misc_form" action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post" onsubmit="return bd_validateForm(this);">
+    <form method = "post">
 <?php
+        // nonce for bulk delete
+        wp_nonce_field( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' );
+
+        /* Used to save closed meta boxes and their order */
+        wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+        wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+?>
+    <div id = "poststuff">
+        <div id="post-body" class="metabox-holder columns-2">
+
+            <div id="post-body-content">
+                <div style="background:#ff0;text-align:center;color: red;padding:1px">
+                    <p><strong><?php _e("WARNING: Posts deleted once cannot be retrieved back. Use with caution.", 'bulk-delete'); ?></strong></p>
+                </div>
+            </div><!-- #post-body-content -->
+
+            <div id="postbox-container-1" class="postbox-container">
+                <iframe frameBorder="0" height = "1000" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>&version=<?php echo self::VERSION; ?>"></iframe>
+            </div>
+
+            <div id="postbox-container-2" class="postbox-container">
+                <?php //do_meta_boxes( '', 'normal', null ); ?>
+                <?php do_meta_boxes( '', 'advanced', null ); ?>
+            </div> <!-- #postbox-container-2 -->
+
+        </div> <!-- #post-body -->
+    </div><!-- #poststuff -->
+    </form>
+</div><!-- .wrap -->
+
+<?php
+        // Display credits in Footer
+        add_action( 'in_admin_footer', array(&$this, 'admin_footer' ));
+    }
+
+    /**
+     * Adds Footer links.
+     */
+    function admin_footer() {
+        $plugin_data = get_plugin_data( __FILE__ );
+        printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+    }
+
+    /**
+     * Render post status box
+     */
+    function render_by_post_status_box() {
         $posts_count = wp_count_posts();
         $drafts      = $posts_count->draft;
         $future      = $posts_count->future;
         $pending     = $posts_count->pending;
         $private     = $posts_count->private;
 ?>
+        <h4><?php _e("Select the posts which you want to delete", 'bulk-delete'); ?></h4>
+
         <fieldset class="options">
         <table class="optiontable">
             <tr>
@@ -285,7 +351,7 @@ class Bulk_Delete {
 
             <tr>
                 <td scope="row">
-                    <input name="smbd_post_status_restrict" id="smbd_post_status_restrict" value = "true" type = "checkbox"  onclick="toggle_date_restrict('post_status');" />
+                    <input name="smbd_post_status_restrict" id="smbd_post_status_restrict" value = "true" type = "checkbox">
                     <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
                     <select name="smbd_post_status_op" id="smbd_post_status_op" disabled>
                         <option value ="<"><?php _e("older than", 'bulk-delete');?></option>
@@ -304,7 +370,7 @@ class Bulk_Delete {
 
             <tr>
                 <td scope="row">
-                    <input name="smbd_post_status_limit" id="smbd_post_status_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('post_status');" />
+                    <input name="smbd_post_status_limit" id="smbd_post_status_limit" value = "true" type = "checkbox" >
                     <?php _e("Only delete first ", 'bulk-delete');?>
                     <input type ="textbox" name="smbd_post_status_limit_to" id="smbd_post_status_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
                     <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
@@ -333,32 +399,22 @@ class Bulk_Delete {
         </table>
         </fieldset>
 
-        <p class="submit">
-            <input type="submit" name="submit" class="button-primary" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+        <p>
+            <button type="submit" name="smbd_action" value = "bulk-delete-post-status" class="button-primary"><?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;</button>
         </p>
+<?php        
+    }
 
-        <?php wp_nonce_field('bulk-delete-posts'); ?>
-
-        <input type="hidden" name="smbd_action" value="bulk-delete-post-status" />
-        </form>
-        </div>
-        </div>
-<!-- Post status end-->
-
-<!-- Category Start-->
-        <div class = "postbox">
-            <div class = "handlediv">
-                <br>
-            </div>
-                <h3 class = "hndle"><span><?php _e("By Category", 'bulk-delete'); ?></span></h3>
-            <div class = "inside">
+    /**
+     * Render By category box
+     */
+    function render_by_category_box() {
+?>
+        <!-- Category Start-->
         <h4><?php _e("Select the categories whose post you want to delete", 'bulk-delete'); ?></h4>
 
-        <form name="smbd_form" id = "smbd_cat_form"
-        action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post" onsubmit="return bd_validateForm(this);">
-
         <fieldset class="options">
-            <table class="optiontable">
+        <table class="optiontable">
 <?php
         $categories =  get_categories(array('hide_empty' => false));
         foreach ($categories as $category) {
@@ -376,7 +432,7 @@ class Bulk_Delete {
 ?>
             <tr>
                 <td scope="row" >
-                    <input name="smbd_cats_all" id ="smbd_cats_all" value = "-1" type = "checkbox" onclick="bd_checkAll(document.getElementById('smbd_cat_form'));" />
+                    <input name="smbd_cats_all" id ="smbd_cats_all" value = "-1" type = "checkbox" >
                 </td>
                 <td>
                     <label for="smbd_cats_all"><?php _e("All Categories", 'bulk-delete') ?></label>
@@ -391,7 +447,7 @@ class Bulk_Delete {
 
             <tr>
                 <td scope="row">
-                    <input name="smbd_cats_restrict" id="smbd_cats_restrict" value = "true" type = "checkbox"  onclick="toggle_date_restrict('cats');" />
+                    <input name="smbd_cats_restrict" id="smbd_cats_restrict" value = "true" type = "checkbox" >
                 </td>
                 <td>
                     <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
@@ -419,7 +475,7 @@ class Bulk_Delete {
 
             <tr>
                 <td scope="row">
-                    <input name="smbd_cats_limit" id="smbd_cats_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('cats');" />
+                    <input name="smbd_cats_limit" id="smbd_cats_limit" value = "true" type = "checkbox">
                 </td>
                 <td>
                     <?php _e("Only delete first ", 'bulk-delete');?>
@@ -456,37 +512,21 @@ class Bulk_Delete {
 
         </table>
         </fieldset>
-        <p class="submit">
-				<input type="submit" name="submit" class="button-primary" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+
+        <p>
+            <button type="submit" name="smbd_action" value = "bulk-delete-cats" class="button-primary"><?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;</button>
         </p>
-
-<?php wp_nonce_field('bulk-delete-posts'); ?>
-
-		<input type="hidden" name="smbd_action" value="bulk-delete-cats" />
-		</form>
-        </div>
-        </div>
-<!-- Category end-->
-
-<!-- Tags start-->
+        <!-- Category end-->
 <?php
+    }
+
+    function render_by_tag_box() {
         $tags =  get_tags();
         if (count($tags) > 0) {
 ?>
-        <div class = "postbox">
-            <div class = "handlediv">
-                <br>
-            </div>
-
-            <h3 class = "hndle"><span><?php _e("By Tags", 'bulk-delete'); ?></span></h3>
-
-            <div class = "inside">
             <h4><?php _e("Select the tags whose post you want to delete", 'bulk-delete') ?></h4>
 
-            <form name="smbd_form" id = "smbd_tag_form"
-            action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post"
-            onsubmit="return bd_validateForm(this);">
-
+            <!-- Tags start-->
             <fieldset class="options">
             <table class="optiontable">
 <?php
@@ -505,7 +545,7 @@ class Bulk_Delete {
 ?>
                 <tr>
                     <td scope="row" >
-                        <input name="smbd_tags_all" id ="smbd_tags_all" value = "-1" type = "checkbox" onclick="bd_checkAll(document.getElementById('smbd_tag_form'));" />
+                        <input name="smbd_tags_all" id ="smbd_tags_all" value = "-1" type = "checkbox" >
                     </td>
                     <td>
                         <label for="smbd_tags_all"><?php _e("All Tags", 'bulk-delete') ?></label>
@@ -520,7 +560,7 @@ class Bulk_Delete {
 
                 <tr>
                     <td scope="row">
-                        <input name="smbd_tags_restrict" id ="smbd_tags_restrict" value = "true" type = "checkbox" onclick="toggle_date_restrict('tags');" />
+                        <input name="smbd_tags_restrict" id ="smbd_tags_restrict" value = "true" type = "checkbox">
                     </td>
                     <td>
                         <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
@@ -548,11 +588,11 @@ class Bulk_Delete {
 
                 <tr>
                     <td scope="row">
-                        <input name="smbd_tags_limit" id="smbd_tags_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('tags');" />
+                        <input name="smbd_tags_limit" id="smbd_tags_limit" value = "true" type = "checkbox">
                     </td>
                     <td>
                         <?php _e("Only delete first ", 'bulk-delete');?>
-                        <input type ="textbox" name="smbd_tags_limits_to" id="smbd_tags_limits_to" disabled value ="0" maxlength="4" size="4" ><?php _e("posts.", 'bulk-delete');?>
+                        <input type ="textbox" name="smbd_tags_limit_to" id="smbd_tags_limit_to" disabled value ="0" maxlength="4" size="4" ><?php _e("posts.", 'bulk-delete');?>
                         <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
                     </td>
                 </tr>
@@ -580,69 +620,66 @@ class Bulk_Delete {
             </table>
             </fieldset>
             <p class="submit">
-                    <input type="submit" name="submit" class="button-primary" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+                <button type="submit" name="smbd_action" value = "bulk-delete-tags" class="button-primary"><?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;</button>
             </p>
-
-    <?php wp_nonce_field('bulk-delete-posts'); ?>
-
-            <input type="hidden" name="smbd_action" value="bulk-delete-tags" >
-            </form>
-            </div>
-            </div>
+            <!-- Tags end-->
+<?php
+        } else {
+?>
+            <h4><?php _e("You don't have any posts assigned to tags in this blog.", 'bulk-delete') ?></h4>
 <?php
         }
-?>
-<!-- Tags end-->
+    }
 
-<!-- Custom tax Start-->
-<?php
+    /**
+     * Render delete by custom taxonomy box
+     */
+    function render_by_tax_box() {
+        $terms_array = array();
+
         $taxs =  get_taxonomies(array(
             'public'   => true,
             '_builtin' => false
             ), 'objects'
         );
+
         if (count($taxs) > 0) {
-?>
-        <div class = "postbox">
-            <div class = "handlediv">
-                <br>
-            </div>
-            <h3 class = "hndle"><span><?php _e("By Taxonomies", 'bulk-delete'); ?></span></h3>
-            <div class = "inside">
-            <h4><?php _e("Select the taxonomies whose post you want to delete", 'bulk-delete') ?></h4>
-
-            <form name="smbd_form" id = "smbd_tax_form"
-            action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post"
-            onsubmit="return bd_validateForm(this);">
-
-            <fieldset class="options">
-            <table class="optiontable">
-<?php
-            $terms_array = array();
             foreach ($taxs as $tax) {
                 $terms = get_terms($tax->name);
                 if (count($terms) > 0) {
                     $terms_array[$tax->name] = $terms;
+                }
+            }
+        }
+
+        if ( count( $terms_array ) > 0 ) {
+?>
+            <!-- Custom tax Start-->
+            <h4><?php _e("Select the taxonomies whose post you want to delete", 'bulk-delete') ?></h4>
+
+            <fieldset class="options">
+            <table class="optiontable">
+<?php
+            foreach ($terms_array as $tax => $terms) {
 ?>
                 <tr>
                     <td scope="row" >
-                        <input name="smbd_taxs" value = "<?php echo $tax->name; ?>" type = "radio"  class = "custom-tax">
+                        <input name="smbd_taxs" value = "<?php echo $tax; ?>" type = "radio"  class = "custom-tax">
                     </td>
                     <td>
-                        <label for="smbd_taxs"><?php echo $tax->name; ?> </label>
+                        <label for="smbd_taxs"><?php echo $tax; ?> </label>
                     </td>
                 </tr>
 <?php
-                }                    
             }
 ?>
             </table>
+
             <h4><?php _e("The selected taxonomy has the following terms. Select the terms whose post you want to delete", 'bulk-delete') ?></h4>
 <?php
-            foreach ($taxs as $tax) {
-                $terms = $terms_array[$tax->name];
+            foreach ($terms_array as $tax => $terms) {
 ?>
-            <table class="optiontable terms_<?php echo $tax->name;?> terms">
+            <table class="optiontable terms_<?php echo $tax;?> terms">
 <?php
                 foreach ($terms as $term) {
 ?>
@@ -671,7 +708,7 @@ class Bulk_Delete {
 
                 <tr>
                     <td scope="row">
-                        <input name="smbd_taxs_restrict" id ="smbd_taxs_restrict" value = "true" type = "checkbox" onclick="toggle_date_restrict('taxs');" />
+                        <input name="smbd_taxs_restrict" id ="smbd_taxs_restrict" value = "true" type = "checkbox">
                     </td>
                     <td>
                         <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
@@ -699,7 +736,7 @@ class Bulk_Delete {
 
                 <tr>
                     <td scope="row">
-                        <input name="smbd_taxs_limit" id="smbd_taxs_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('taxs');" />
+                        <input name="smbd_taxs_limit" id="smbd_taxs_limit" value = "true" type = "checkbox">
                     </td>
                     <td>
                         <?php _e("Only delete first ", 'bulk-delete');?>
@@ -731,31 +768,21 @@ class Bulk_Delete {
             </table>
             </fieldset>
             <p class="submit">
-                    <input type="submit" class="button-primary" name="submit" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+                <button type="submit" name="smbd_action" value = "bulk-delete-taxs" class="button-primary"><?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;</button>
             </p>
-
-    <?php wp_nonce_field('bulk-delete-posts'); ?>
-
-            <input type="hidden" name="smbd_action" value="bulk-delete-taxs" />
-            </form>
-            </div>
-            </div>
+            <!-- Custom tax end-->
+<?php
+        } else {
+?>
+            <h4><?php _e("You don't have any posts assigned to custom taxonomies in this blog.", 'bulk-delete') ?></h4>
 <?php
         }
-?>
-<!-- Custom tax end-->
+    }
 
-<!-- Pages start-->
-        <div class = "postbox">
-            <div class = "handlediv"> <br> </div>
-            <h3 class = "hndle"><span><?php _e("By Pages", 'bulk-delete'); ?></span></h3>
-        <div class = "inside">
-        <h4><?php _e("Select the pages which you want to delete", 'bulk-delete'); ?></h4>
-
-        <form name="smbd_form" id = "smbd_page_form" action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post"
-        onsubmit="return bd_validateForm(this);">
-
-<?php
+    /**
+     * Render delete by pages box
+     */
+    function render_by_page_box() {
         $pages_count  = wp_count_posts( 'page' );
         $pages        = $pages_count->publish;
         $page_drafts  = $pages_count->draft;
@@ -763,6 +790,9 @@ class Bulk_Delete {
         $page_pending = $pages_count->pending;
         $page_private = $pages_count->private;
 ?>
+        <!-- Pages start-->
+        <h4><?php _e("Select the pages which you want to delete", 'bulk-delete'); ?></h4>
+
         <fieldset class="options">
         <table class="optiontable">
             <tr>
@@ -808,28 +838,28 @@ class Bulk_Delete {
 
             <tr>
                 <td scope="row">
-                    <input name="smbd_page_restrict" id="smbd_page_restrict" value = "true" type = "checkbox"  onclick="toggle_date_restrict('page');" />
+                    <input name="smbd_pages_restrict" id="smbd_pages_restrict" value = "true" type = "checkbox">
                     <?php _e("Only restrict to pages which are ", 'bulk-delete');?>
-                    <select name="smbd_page_op" id="smbd_page_op" disabled>
+                    <select name="smbd_pages_op" id="smbd_pages_op" disabled>
                         <option value ="<"><?php _e("older than", 'bulk-delete');?></option>
                         <option value =">"><?php _e("posted within last", 'bulk-delete');?></option>
                     </select>
-                    <input type ="textbox" name="smbd_page_days" id="smbd_page_days" disabled value ="0" maxlength="4" size="4" /><?php _e("days", 'bulk-delete');?>
+                    <input type ="textbox" name="smbd_pages_days" id="smbd_pages_days" disabled value ="0" maxlength="4" size="4" /><?php _e("days", 'bulk-delete');?>
                 </td>
             </tr>
 
             <tr>
                 <td scope="row">
-                    <input name="smbd_page_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
-                    <input name="smbd_page_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
+                    <input name="smbd_pages_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
+                    <input name="smbd_pages_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
                 </td>
             </tr>
 
             <tr>
                 <td scope="row">
-                    <input name="smbd_page_limit" id="smbd_page_limit" value = "true" type = "checkbox"  onclick="toggle_limit_restrict('page');" />
+                    <input name="smbd_pages_limit" id="smbd_pages_limit" value = "true" type = "checkbox">
                     <?php _e("Only delete first ", 'bulk-delete');?>
-                    <input type ="textbox" name="smbd_page_limit_to" id="smbd_page_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
+                    <input type ="textbox" name="smbd_pages_limit_to" id="smbd_pages_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
                     <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
                 </td>
             </tr>
@@ -856,26 +886,20 @@ class Bulk_Delete {
         </table>
         </fieldset>
 
-        <p class="submit">
-            <input type="submit" name="submit" class="button-primary" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+        <p>
+            <button type="submit" name="smbd_action" value = "bulk-delete-page" class="button-primary"><?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;</button>
         </p>
+        <!-- Pages end-->
+<?php
+    }
 
-        <?php wp_nonce_field('bulk-delete-posts'); ?>
-
-        <input type="hidden" name="smbd_action" value="bulk-delete-page" >
-        </form>
-        </div>
-        </div>
-<!-- Pages end-->
-
-<!-- URLs start-->
-        <div class = "postbox">
-            <div class = "handlediv"> <br> </div>
-            <h3 class = "hndle"><span><?php _e("By Urls", 'bulk-delete'); ?></span></h3>
-        <div class = "inside">
+    /**
+     * Render delete by url box
+     */
+    function render_by_url_box() {
+?>
+        <!-- URLs start-->
         <h4><?php _e("Delete these specific pages", 'bulk-delete'); ?></h4>
-
-        <form name="smbd_form" id = "smbd_specific_form" action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post" >
 
         <fieldset class="options">
         <table class="optiontable">
@@ -903,30 +927,24 @@ class Bulk_Delete {
         </table>
         </fieldset>
 
-        <p class="submit">
-            <input type="submit" name="submit" class="button-primary" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+        <p>
+            <button type="submit" name="smbd_action" value = "bulk-delete-specific" class="button-primary"><?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;</button>
         </p>
-
-        <?php wp_nonce_field('bulk-delete-posts'); ?>
-
-        <input type="hidden" name="smbd_action" value="bulk-delete-specific" >
-        </form>
-        </div>
-        </div>
-<!-- URLs start-->
-
-<!-- Post Revisions start-->
-        <div class = "postbox" >
-            <div class = "handlediv"> <br> </div>
-            <h3 class = "hndle"><span><?php _e("By Post Revisions", 'bulk-delete'); ?></span></h3>
-        <div class = "inside">
-        <h4><?php _e("Select the posts which you want to delete", 'bulk-delete'); ?></h4>
-
-        <form name="smbd_form" id = "smbd_misc_form" action="<?php echo get_bloginfo("wpurl"); ?>/wp-admin/options-general.php?page=bulk-delete.php" method="post" onsubmit="return bd_validateForm(this);">
+        <!-- URLs end-->
 <?php
-        $wp_query = new WP_Query;
+    }
+
+    /**
+     * Render delete by post revisions box
+     */
+    function render_by_post_revision_box() {
+        global $wpdb;
+
         $revisions = $wpdb->get_var("select count(*) from $wpdb->posts where post_type = 'revision'");
 ?>
+        <!-- Post Revisions start-->
+        <h4><?php _e("Select the posts which you want to delete", 'bulk-delete'); ?></h4>
+
         <fieldset class="options">
         <table class="optiontable">
             <tr>
@@ -939,63 +957,39 @@ class Bulk_Delete {
         </table>
         </fieldset>
 
-        <p class="submit">
-            <input type="submit" name="submit" class="button-primary" value="<?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;">
+        <p>
+            <button type="submit" name="smbd_action" value = "bulk-delete-revisions" class="button-primary"><?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;</button>
         </p>
-
-        <?php wp_nonce_field('bulk-delete-posts'); ?>
-
-        <input type="hidden" name="smbd_action" value="bulk-delete-revisions" />
-        </form>
-        </div>
-        </div>
-<!-- Post Revisions end-->
-
-
-<!-- Debug box start-->
-        <div class = "postbox">
-            <div class = "handlediv">
-                <br>
-            </div>
-            <h3 class = "hndle"><span><?php _e('Debug Information', 'bulk-delete'); ?></span></h3>
-            <div class = "inside">
-            <p><?php _e('If you are seeing a blank page after clicking the Bulk Delete button, then ', 'bulk-delete'); ?><a href = "http://sudarmuthu.com/wordpress/bulk-delete#faq-white-screen"><?php _e('check out this FAQ', 'bulk-delete');?></a>. 
-                <?php _e('You also need need the following debug information.', 'bulk-delete'); ?></p>
-                <table cellspacing="10">
-                    <tr>
-                        <th align = "right"><?php _e('Available memory size ', 'bulk-delete');?></th>
-                        <td><?php echo ini_get( 'memory_limit' ); ?></td>
-                    </tr>
-                    <tr>
-                        <th align = "right"><?php _e('Script time out ', 'bulk-delete');?></th>
-                        <td><?php echo ini_get( 'max_execution_time' ); ?></td>
-                    </tr>
-                    <tr>
-                        <th align = "right"><?php _e('Script input time ', 'bulk-delete'); ?></th>
-                        <td><?php echo ini_get( 'max_input_time' ); ?></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-<!-- Debug box end-->
-
-    </div>
-        
-    <iframe frameBorder="0" height = "950" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>&version=<?php echo self::VERSION; ?>"></iframe>
-    
-    </div>
+        <!-- Post Revisions end-->
 <?php
-
-    // Display credits in Footer
-    add_action( 'in_admin_footer', array(&$this, 'admin_footer' ));
     }
 
     /**
-     * Adds Footer links. Based on http://striderweb.com/nerdaphernalia/2008/06/give-your-wordpress-plugin-credit/
+     * Render debug box
      */
-    function admin_footer() {
-        $plugin_data = get_plugin_data( __FILE__ );
-        printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+    function render_debug_box() {
+?>
+        <!-- Debug box start-->
+        <p>
+            <?php _e('If you are seeing a blank page after clicking the Bulk Delete button, then ', 'bulk-delete'); ?><a href = "http://sudarmuthu.com/wordpress/bulk-delete#faq-white-screen"><?php _e('check out this FAQ', 'bulk-delete');?></a>. 
+            <?php _e('You also need need the following debug information.', 'bulk-delete'); ?>
+        </p>
+        <table cellspacing="10">
+            <tr>
+                <th align = "right"><?php _e('Available memory size ', 'bulk-delete');?></th>
+                <td><?php echo ini_get( 'memory_limit' ); ?></td>
+            </tr>
+            <tr>
+                <th align = "right"><?php _e('Script time out ', 'bulk-delete');?></th>
+                <td><?php echo ini_get( 'max_execution_time' ); ?></td>
+            </tr>
+            <tr>
+                <th align = "right"><?php _e('Script input time ', 'bulk-delete'); ?></th>
+                <td><?php echo ini_get( 'max_input_time' ); ?></td>
+            </tr>
+        </table>
+        <!-- Debug box end-->
+<?php
     }
 
     /**
@@ -1013,7 +1007,6 @@ class Bulk_Delete {
         //Prepare Table of elements
         $cron_list_table = new Cron_List_Table();
         $cron_list_table->prepare_items($this->get_cron_schedules());
-
 ?>
     <div class="wrap">
         <?php screen_icon(); ?>
@@ -1024,14 +1017,14 @@ class Bulk_Delete {
 ?>
     </div>
 <?php
+        // Display credits in Footer
+        add_action( 'in_admin_footer', array(&$this, 'admin_footer' ));
     }
 
     /**
-     * Request Handler
+     * Request Handler. Handles both POST and GET requests
      */
     function request_handler() {
-        global $wpdb;
-
         if (isset($_GET['smbd_action'])) {
 
             switch($_GET['smbd_action']) {
@@ -1050,10 +1043,7 @@ class Bulk_Delete {
             }
         }
 
-        if (isset($_POST['smbd_action'])) {
-
-            $wp_query = new WP_Query;
-            check_admin_referer( 'bulk-delete-posts');
+        if ( isset( $_POST['smbd_action'] ) && check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
 
             switch($_POST['smbd_action']) {
 
@@ -1064,7 +1054,7 @@ class Bulk_Delete {
                     $delete_options['selected_cats'] = array_get($_POST, 'smbd_cats');
                     $delete_options['restrict']      = array_get($_POST, 'smbd_cats_restrict', FALSE);
                     $delete_options['private']       = array_get($_POST, 'smbd_cats_private');
-                    $delete_options['limit_to']      = absint(array_get($_POST, 'smbd_cats_limits_to', 0));
+                    $delete_options['limit_to']      = absint(array_get($_POST, 'smbd_cats_limit_to', 0));
                     $delete_options['force_delete']  = array_get($_POST, 'smbd_cats_force_delete', 'false');
 
                     $delete_options['cats_op']       = array_get($_POST, 'smbd_cats_op');
@@ -1096,7 +1086,7 @@ class Bulk_Delete {
                     $delete_options['selected_tags'] = array_get($_POST, 'smbd_tags');
                     $delete_options['restrict']      = array_get($_POST, 'smbd_tags_restrict', FALSE);
                     $delete_options['private']       = array_get($_POST, 'smbd_tags_private');
-                    $delete_options['limit_to']      = absint(array_get($_POST, 'smbd_tags_limits_to', 0));
+                    $delete_options['limit_to']      = absint(array_get($_POST, 'smbd_tags_limit_to', 0));
                     $delete_options['force_delete']  = array_get($_POST, 'smbd_tags_force_delete', 'false');
 
                     $delete_options['tags_op']       = array_get($_POST, 'smbd_tags_op');
@@ -1156,7 +1146,7 @@ class Bulk_Delete {
                     
                     $delete_options = array();
                     $delete_options['restrict']         = array_get($_POST, 'smbd_post_status_restrict', FALSE);
-                    $delete_options['limit_to']         = absint(array_get($_POST, 'smbd_post_status_limits_to', 0));
+                    $delete_options['limit_to']         = absint(array_get($_POST, 'smbd_post_status_limit_to', 0));
                     $delete_options['force_delete']     = array_get($_POST, 'smbd_post_status_force_delete', 'false');
 
                     $delete_options['post_status_op']   = array_get($_POST, 'smbd_post_status_op');
@@ -1189,12 +1179,12 @@ class Bulk_Delete {
                     // Delete pages
                     
                     $delete_options = array();
-                    $delete_options['restrict']     = array_get($_POST, 'smbd_page_restrict', FALSE);
-                    $delete_options['limit_to']     = absint(array_get($_POST, 'smbd_page_limits_to', 0));
-                    $delete_options['force_delete'] = array_get($_POST, 'smbd_page_force_delete', 'false');
+                    $delete_options['restrict']     = array_get($_POST, 'smbd_pages_restrict', FALSE);
+                    $delete_options['limit_to']     = absint(array_get($_POST, 'smbd_pages_limit_to', 0));
+                    $delete_options['force_delete'] = array_get($_POST, 'smbd_pages_force_delete', 'false');
 
-                    $delete_options['page_op']      = array_get($_POST, 'smbd_page_op');
-                    $delete_options['page_days']    = array_get($_POST, 'smbd_page_days');
+                    $delete_options['page_op']      = array_get($_POST, 'smbd_pages_op');
+                    $delete_options['page_days']    = array_get($_POST, 'smbd_pages_days');
 
                     $delete_options['publish']      = array_get($_POST, 'smbd_published_pages');
                     $delete_options['drafts']       = array_get($_POST, 'smbd_draft_pages');
@@ -1269,7 +1259,7 @@ class Bulk_Delete {
 
         // cleanup
         $this->msg = '';
-        remove_action('admin_notices', array(&$this, 'deleted_notice'));
+        remove_action( 'admin_notices', array( &$this, 'deleted_notice' ));
     }
 
     /**
@@ -1531,6 +1521,7 @@ class Bulk_Delete {
         if ("published_pages" == $delete_options['publish']) {
             $post_status[] = 'publish';
         }
+
         // Drafts
         if ("draft_pages" == $delete_options['drafts']) {
             $post_status[] = 'draft';
@@ -1568,6 +1559,8 @@ class Bulk_Delete {
         foreach ($pages as $page) {
             wp_delete_post($page->ID, $force_delete);
         }
+
+        return count( $pages );
     }
 
     /**

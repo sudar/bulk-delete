@@ -63,7 +63,6 @@ Like posts, all the above options support the following filters as well
 
 Coming soon :)
 
-
 As you can see, the Plugin provide comprehensive options and filters to perform bulk deletion.
 
 If you looking for just moving posts, instead of deleting, then use [Bulk Move Plugin][2] instead.
