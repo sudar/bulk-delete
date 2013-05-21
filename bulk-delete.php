@@ -103,6 +103,16 @@ class Bulk_Delete {
     const CRON_HOOK_TAGS        = 'do-bulk-delete-tags';
     const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';
 
+    // meta boxes
+    const BOX_POST_STATUS       = 'bd_by_post_status';
+    const BOX_CATEGORY          = 'bd_by_category';
+    const BOX_TAG               = 'bd_by_tag';
+    const BOX_TAX               = 'bd_by_tax';
+    const BOX_PAGE              = 'bd_by_page';
+    const BOX_URL               = 'bd_by_url';
+    const BOX_POST_REVISION     = 'bd_by_post_revision';
+    const BOX_DEBUG             = 'bd_debug';
+
     /**
      * Default constructor
      */
@@ -138,14 +148,14 @@ class Bulk_Delete {
      * Register meta boxes
      */
     function add_meta_boxes() {
-        add_meta_box( 'bd_by_post_status', __( 'By Post Status', 'bulk-delete' ), array( &$this, 'render_by_post_status_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( 'bd_by_category', __( 'By Category', 'bulk-delete' ), array( &$this, 'render_by_category_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( 'bd_by_tag', __( 'By Tag', 'bulk-delete' ), array( &$this, 'render_by_tag_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( 'bd_by_tax', __( 'By Custom Taxonomy', 'bulk-delete' ), array( &$this, 'render_by_tax_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( 'bd_by_page', __( 'By Page', 'bulk-delete' ), array( &$this, 'render_by_page_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( 'bd_by_url', __( 'By URL', 'bulk-delete' ), array( &$this, 'render_by_url_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( 'bd_by_post_revision', __( 'By Post Revision', 'bulk-delete' ), array( &$this, 'render_by_post_revision_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( 'bd_debug', __( 'Debug Information', 'bulk-delete' ), array( &$this, 'render_debug_box' ), $this->admin_page, 'advanced', 'low' );
+        add_meta_box( self::BOX_POST_STATUS, __( 'By Post Status', 'bulk-delete' ), array( &$this, 'render_by_post_status_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_CATEGORY, __( 'By Category', 'bulk-delete' ), array( &$this, 'render_by_category_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_TAG, __( 'By Tag', 'bulk-delete' ), array( &$this, 'render_by_tag_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_TAX, __( 'By Custom Taxonomy', 'bulk-delete' ), array( &$this, 'render_by_tax_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_PAGE, __( 'By Page', 'bulk-delete' ), array( &$this, 'render_by_page_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_URL, __( 'By URL', 'bulk-delete' ), array( &$this, 'render_by_url_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_POST_REVISION, __( 'By Post Revision', 'bulk-delete' ), array( &$this, 'render_by_post_revision_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_DEBUG, __( 'Debug Information', 'bulk-delete' ), array( &$this, 'render_debug_box' ), $this->admin_page, 'advanced', 'low' );
     }
 
     /**
