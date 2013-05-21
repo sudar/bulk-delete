@@ -69,6 +69,7 @@ Domain Path: languages/
                   - Added on screen help tab
 2013-05-22 - v3.4 - (Dev time: 20 hours)
                   - Incorporated Screen API to select/deselect different sections of the page
+                  - Load only sections that are selected by the user
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)

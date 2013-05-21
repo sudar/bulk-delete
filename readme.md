@@ -4,7 +4,7 @@
 **Requires at least:** 2.0  
 **Tested up to:** 3.5.1  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 3.3  
+**Stable tag:** 3.4  
 
 Bulk delete posts from selected categories, tags, custom taxonomies or by post type like drafts, scheduled posts, revisions etc.
 
@@ -89,7 +89,6 @@ If you are looking for ideas, then you can start with one of the following TODO 
 
 The following are the features that I am thinking of adding to the Plugin, when I get some free time. If you have any feature request or want to increase the priority of a particular feature, then let me know.
 
-- Ability to choose the different sections that should be loaded
 - Bulk Delete by custom post types
 - Bulk Delete posts based on page views
 - Bulk Delete sticky posts
@@ -100,6 +99,7 @@ The following are the features that I am thinking of adding to the Plugin, when 
 - Delete images that are used by the posts that are being deleted
 - <del>Change the message based on the option the user has chosen</del> - Added in v3.3
 - <del>Expandable/collapsible taxonomies</del> - Added in v3.3
+- <del>Ability to choose the different sections that should be loaded</del> - Added in v3.4
 
 ### Support
 
@@ -122,28 +122,19 @@ The following are the features that I am thinking of adding to the Plugin, when 
 
 The Plugin currently has translations for the following languages.
 
-*   Dutch (Thanks Rene of [WordPress WPwebshop][14])
-*   Brazilian Portuguese (Thanks Marcelo of [Criacao de Sites em Ribeirao Preto][15])
-*   German (Thanks Jenny Beelens of [professionaltranslation.com][16])
-*   Turkish Portuguese (Thanks [Bahadir Yildiz][17])
-*   Spanish (Thanks Brian Flores of [InMotion Hosting][10])
+*   Dutch (Thanks Rene)
+*   Brazilian Portuguese (Thanks Marcelo of Criacao de Sites em Ribeirao Preto)
+*   German (Thanks Jenny Beelens)
+*   Turkish Portuguese (Thanks Bahadir Yildiz)
+*   Spanish (Thanks Brian Flores)
 *   Italian (Thanks Paolo Gabrielli)
-*   Bulgarian (Thanks Nikolay Nikolov of [Skype Fan Blog][11])
-*   Russian (Thanks Maxim Pesteev, [Weblancer.net profile][12])
-*   Lithuanian (Thanks Vincent G from [http://www.host1free.com][13])
+*   Bulgarian (Thanks Nikolay Nikolov)
+*   Russian (Thanks Maxim Pesteev)
+*   Lithuanian (Thanks Vincent G)
 *   Hindi (Thanks Love Chandel)
 *   Serbian (Thanks Diana)
 
-The pot file is available with the Plugin. If you are willing to do translation for the Plugin, use the pot file to create the .po files for your language and let me know. I will add it to the Plugin after giving credit to you.
-
- [10]: http://www.inmotionhosting.com/
- [11]: http://en.chat4o.com/ 
- [12]: http://www.weblancer.net/users/Kirky/
- [13]: http://www.host1free.com
- [14]: http://wpwebshop.com/premium-wordpress-plugins/
- [15]: http://www.techload.com.br/
- [16]: http://www.professionaltranslation.com
- [17]: http://www.matematik.us
+The pot file is available with the Plugin. If you are willing to do translation for the Plugin, use the pot file to create the .po files for your language and let me know.
 
 ## Credits ##
 
@@ -166,6 +157,12 @@ In particular try to change the following settings
 *   `max_execution_time = 600` - Maximum execution time of each script, in seconds
 *   `max_input_time = 30` - Maximum amount of time each script may spend parsing request data
 *   `memory_limit = 256M` - Maximum amount of memory a script may consume
+
+You can also try to disable different sections of the Plugin, if you have huge number of posts.
+
+### How do I disable different sections of the Plugin ###
+
+You can enable or disable different sections of the Plugin by choosing the required modules in the screen option. You can open screen options by clicking the link in the top right corner of the Plugin page.
 
 ### How do I know what are the current values for these options configured in my server? ###
 
@@ -195,7 +192,13 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 7. The above screenshot shows the scheduled auto delete jobs will be displayed. Note that this feature is available only when you buy [pro addons](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons).
 
+8. The above screenshot shows how you can enable/disable different sections of the Plugin.
+
 ## Changelog ##
+
+### 2013-05-22 - v3.4 - (Dev time: 20 hours) ###
+* Incorporated Screen API to select/deselect different sections of the page
+* Load only sections that are selected by the user
 
 ### 2013-05-11 - v3.3 - (Dev time: 10 hours) ###
 * Enhanced the deletion of posts using custom taxonomies
@@ -302,6 +305,9 @@ The ability to schedule deletion of posts is available as a pro addon.
 *   First version
 
 ## Upgrade Notice ##
+
+### 3.4 ###
+Added the ability to disable different sections of the Plugin.
 
 ### 3.3 ###
 Fixed issues in deleting posts using custom taxonomy
