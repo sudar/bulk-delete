@@ -315,6 +315,12 @@ class Bulk_Delete {
      * Render post status box
      */
     function render_by_post_status_box() {
+
+        if ( $this->is_hidden(self::BOX_POST_STATUS) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
+            return;
+        }
+
         $posts_count = wp_count_posts();
         $drafts      = $posts_count->draft;
         $future      = $posts_count->future;
@@ -419,6 +425,12 @@ class Bulk_Delete {
      * Render By category box
      */
     function render_by_category_box() {
+
+        if ( $this->is_hidden(self::BOX_CATEGORY) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
+            return;
+        }
+
 ?>
         <!-- Category Start-->
         <h4><?php _e("Select the categories whose post you want to delete", 'bulk-delete'); ?></h4>
@@ -531,6 +543,12 @@ class Bulk_Delete {
     }
 
     function render_by_tag_box() {
+
+        if ( $this->is_hidden(self::BOX_TAG) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
+            return;
+        }
+
         $tags =  get_tags();
         if (count($tags) > 0) {
 ?>
@@ -645,6 +663,12 @@ class Bulk_Delete {
      * Render delete by custom taxonomy box
      */
     function render_by_tax_box() {
+
+        if ( $this->is_hidden(self::BOX_TAX) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
+            return;
+        }
+
         $terms_array = array();
 
         $taxs =  get_taxonomies(array(
@@ -793,6 +817,12 @@ class Bulk_Delete {
      * Render delete by pages box
      */
     function render_by_page_box() {
+
+        if ( $this->is_hidden(self::BOX_PAGE) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
+            return;
+        }
+
         $pages_count  = wp_count_posts( 'page' );
         $pages        = $pages_count->publish;
         $page_drafts  = $pages_count->draft;
@@ -907,6 +937,12 @@ class Bulk_Delete {
      * Render delete by url box
      */
     function render_by_url_box() {
+
+        if ( $this->is_hidden(self::BOX_URL) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
+            return;
+        }
+
 ?>
         <!-- URLs start-->
         <h4><?php _e("Delete these specific pages", 'bulk-delete'); ?></h4>
@@ -948,6 +984,12 @@ class Bulk_Delete {
      * Render delete by post revisions box
      */
     function render_by_post_revision_box() {
+
+        if ( $this->is_hidden(self::BOX_POST_REVISION) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
+            return;
+        }
+
         global $wpdb;
 
         $revisions = $wpdb->get_var("select count(*) from $wpdb->posts where post_type = 'revision'");
@@ -1278,6 +1320,28 @@ class Bulk_Delete {
         // cleanup
         $this->msg = '';
         remove_action( 'admin_notices', array( &$this, 'deleted_notice' ));
+    }
+
+    /**
+     * @brief Check whether the box is hidden or not
+     *
+     * @param $box
+     *
+     * @return 
+     */
+    private function is_hidden( $box ) {
+        $hidden_boxes = $this->get_hidden_boxes();
+        return ( is_array( $hidden_boxes ) && in_array( $box, $hidden_boxes ) );
+    }
+
+    /**
+     * Get the list of hidden boxes
+     *
+     * @return the array of hidden meta boxes
+     */
+    private function get_hidden_boxes() {
+        $current_user = wp_get_current_user();
+        return get_user_meta( $current_user->ID, 'metaboxhidden_settings_page_bulk-delete', TRUE );
     }
 
     /**
