@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
@@ -67,7 +67,7 @@ Domain Path: languages/
                   - Added the ability to schedule auto delete of taxonomies by date
                   - Cleaned up all messages that are shown to the user
                   - Added on screen help tab
-2013-05-18 - v3.2 - (Dev time: 20 hours)
+2013-05-22 - v3.4 - (Dev time: 20 hours)
                   - Incorporated Screen API to select/deselect different sections of the page
 */
 
@@ -971,10 +971,18 @@ class Bulk_Delete {
 ?>
         <!-- Debug box start-->
         <p>
-            <?php _e('If you are seeing a blank page after clicking the Bulk Delete button, then ', 'bulk-delete'); ?><a href = "http://sudarmuthu.com/wordpress/bulk-delete#faq-white-screen"><?php _e('check out this FAQ', 'bulk-delete');?></a>. 
+            <?php _e('If you are seeing a blank page after clicking the Bulk Delete button, then ', 'bulk-delete'); ?><a href = "http://sudarmuthu.com/wordpress/bulk-delete#faq"><?php _e('check out this FAQ', 'bulk-delete');?></a>. 
             <?php _e('You also need need the following debug information.', 'bulk-delete'); ?>
         </p>
         <table cellspacing="10">
+            <tr>
+                <th align = "right"><?php _e('PHP Version ', 'bulk-delete'); ?></th>
+                <td><?php echo phpversion(); ?></td>
+            </tr>
+            <tr>
+                <th align = "right"><?php _e('Plugin Version ', 'bulk-delete'); ?></th>
+                <td><?php echo self::VERSION; ?></td>
+            </tr>
             <tr>
                 <th align = "right"><?php _e('Available memory size ', 'bulk-delete');?></th>
                 <td><?php echo ini_get( 'memory_limit' ); ?></td>
