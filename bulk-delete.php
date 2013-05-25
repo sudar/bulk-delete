@@ -70,6 +70,8 @@ Domain Path: languages/
 2013-05-22 - v3.4 - (Dev time: 20 hours)
                   - Incorporated Screen API to select/deselect different sections of the page
                   - Load only sections that are selected by the user
+2013-05-28 - v3.5 - (Dev time: 10 hours)
+                  - Added support to delete custom post types
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -103,12 +105,14 @@ class Bulk_Delete {
     const CRON_HOOK_POST_STATUS = 'do-bulk-delete-post-status';
     const CRON_HOOK_TAGS        = 'do-bulk-delete-tags';
     const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';
+    const CRON_HOOK_POST_TYPE   = 'do-bulk-delete-post-types';
 
     // meta boxes
     const BOX_POST_STATUS       = 'bd_by_post_status';
     const BOX_CATEGORY          = 'bd_by_category';
     const BOX_TAG               = 'bd_by_tag';
     const BOX_TAX               = 'bd_by_tax';
+    const BOX_POST_TYPE         = 'bd_by_post_type';
     const BOX_PAGE              = 'bd_by_page';
     const BOX_URL               = 'bd_by_url';
     const BOX_POST_REVISION     = 'bd_by_post_revision';
@@ -153,6 +157,7 @@ class Bulk_Delete {
         add_meta_box( self::BOX_CATEGORY, __( 'By Category', 'bulk-delete' ), array( &$this, 'render_by_category_box' ), $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_TAG, __( 'By Tag', 'bulk-delete' ), array( &$this, 'render_by_tag_box' ), $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_TAX, __( 'By Custom Taxonomy', 'bulk-delete' ), array( &$this, 'render_by_tax_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_POST_TYPE, __( 'By Custom Post Types', 'bulk-delete' ), array( &$this, 'render_by_post_type_box' ), $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_PAGE, __( 'By Page', 'bulk-delete' ), array( &$this, 'render_by_page_box' ), $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_URL, __( 'By URL', 'bulk-delete' ), array( &$this, 'render_by_url_box' ), $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_POST_REVISION, __( 'By Post Revision', 'bulk-delete' ), array( &$this, 'render_by_post_revision_box' ), $this->admin_page, 'advanced' );
@@ -815,6 +820,133 @@ class Bulk_Delete {
     }
 
     /**
+     * Render delete by custom post type box
+     */
+    function render_by_post_type_box() {
+
+        if ( $this->is_hidden(self::BOX_POST_TYPE) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
+            return;
+        }
+
+        $types_array = array();
+
+        $types =  get_post_types( array(
+            'public'   => true,
+            '_builtin' => false
+            ), 'names'
+        );
+
+        if ( count( $types ) > 0 ) {
+            foreach ($types as $type) {
+                $post_count = wp_count_posts( $type );
+                if ( $post_count->publish > 0 ) {
+                    $types_array[$type] = $post_count->publish;
+                }
+            }
+        }
+
+        if ( count( $types_array ) > 0 ) {
+?>
+            <!-- Custom post type Start-->
+            <h4><?php _e( "Select the custom post type whose post you want to delete", 'bulk-delete' ) ?></h4>
+
+            <fieldset class="options">
+            <table class="optiontable">
+<?php
+            foreach ( $types_array as $type => $count ) {
+?>
+                <tr>
+                    <td scope="row" >
+                        <input name="smbd_types[]" value = "<?php echo $type; ?>" type = "checkbox">
+                    </td>
+                    <td>
+                    <label for="smbd_types"><?php echo $type, ' (', $count, ')'; ?></label>
+                    </td>
+                </tr>
+<?php
+            }
+?>
+                <tr>
+                    <td colspan="2">
+                        <h4><?php _e("Choose your filtering options", 'bulk-delete'); ?></h4>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row">
+                        <input name="smbd_types_restrict" id ="smbd_types_restrict" value = "true" type = "checkbox">
+                    </td>
+                    <td>
+                        <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
+                        <select name="smbd_types_op" id="smbd_types_op" disabled>
+                            <option value ="<"><?php _e("older than", 'bulk-delete');?></option>
+                            <option value =">"><?php _e("posted within last", 'bulk-delete');?></option>
+                        </select>
+                        <input type ="textbox" name="smbd_types_days" id ="smbd_types_days" value ="0"  maxlength="4" size="4" disabled /><?php _e("days", 'bulk-delete');?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row" colspan="2">
+                        <input name="smbd_types_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
+                        <input name="smbd_types_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row" colspan="2">
+                        <input name="smbd_types_private" value = "false" type = "radio" checked="checked" /> <?php _e('Public posts', 'bulk-delete'); ?>
+                        <input name="smbd_types_private" value = "true" type = "radio" /> <?php _e('Private Posts', 'bulk-delete'); ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td scope="row">
+                        <input name="smbd_types_limit" id="smbd_types_limit" value = "true" type = "checkbox">
+                    </td>
+                    <td>
+                        <?php _e("Only delete first ", 'bulk-delete');?>
+                        <input type ="textbox" name="smbd_types_limit_to" id="smbd_types_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
+                        <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
+                    </td>
+                </tr>
+
+            <tr>
+                <td scope="row" colspan="2">
+                    <input name="smbd_types_cron" value = "false" type = "radio" checked="checked" > <?php _e('Delete now', 'bulk-delete'); ?>
+                    <input name="smbd_types_cron" value = "true" type = "radio" id = "smbd_types_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
+                    <input name="smbd_types_cron_start" id = "smbd_types_cron_start" value = "now" type = "text" disabled><?php _e('repeat ', 'bulk-delete');?>
+                    <select name = "smbd_types_cron_freq" id = "smbd_types_cron_freq" disabled>
+                        <option value = "-1"><?php _e("Don't repeat", 'bulk-delete'); ?></option>
+<?php
+        $schedules = wp_get_schedules();
+        foreach($schedules as $key => $value) {
+?>
+                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
+<?php                        
+        }
+?>
+                    </select>
+                    <span class = "bd-types-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-post-type-addon">Buy now</a></span>
+                </td>
+            </tr>
+
+            </table>
+            </fieldset>
+            <p class="submit">
+                <button type="submit" name="smbd_action" value = "bulk-delete-post-types" class="button-primary"><?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;</button>
+            </p>
+            <!-- Custom post type end-->
+<?php
+        } else {
+?>
+            <h4><?php _e("You don't have any posts assigned to custom post types in this blog.", 'bulk-delete') ?></h4>
+<?php
+        }
+    }
+
+    /**
      * Render delete by pages box
      */
     function render_by_page_box() {
@@ -1202,6 +1334,39 @@ class Bulk_Delete {
                     }
                     break;
 
+                case "bulk-delete-post-types":
+                    // delete by custom post type
+                    
+                    $delete_options                   = array();
+
+                    $delete_options['selected_types'] = array_get( $_POST, 'smbd_types' );
+                    $delete_options['restrict']       = array_get($_POST, 'smbd_types_restrict', FALSE);
+                    $delete_options['private']        = array_get($_POST, 'smbd_types_private');
+                    $delete_options['limit_to']       = absint(array_get($_POST, 'smbd_types_limit_to', 0));
+                    $delete_options['force_delete']   = array_get($_POST, 'smbd_types_force_delete', 'false');
+
+                    $delete_options['types_op']       = array_get($_POST, 'smbd_types_op');
+                    $delete_options['types_days']     = array_get($_POST, 'smbd_types_days');
+                    
+                    if (array_get($_POST, 'smbd_types_cron', 'false') == 'true') {
+                        $freq = $_POST['smbd_types_cron_freq'];
+                        $time = strtotime($_POST['smbd_types_cron_start']) - ( get_option('gmt_offset') * 60 * 60 );
+
+                        if ($freq == -1) {
+                            wp_schedule_single_event( $time, self::CRON_HOOK_POST_TYPE, array( $delete_options ) );
+                        } else {
+                            wp_schedule_event( $time, $freq, self::CRON_HOOK_POST_TYPE, array( $delete_options ) );
+                        }
+
+                        $this->msg = __( 'Posts from the selected custom post type are scheduled for deletion.', 'bulk-delete') . ' ' . 
+                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete'), get_bloginfo("wpurl") . '/wp-admin/options-general.php?page=bulk-delete-cron' );
+                    } else {
+                        $deleted_count = self::delete_post_types( $delete_options );
+                        $this->msg = sprintf( _n( 'Deleted %d post from the selected custom post type', 'Deleted %d posts from the selected custom post type' , $deleted_count, 'bulk-delete' ), $deleted_count );
+                    }
+
+                    break;
+
                 case "bulk-delete-post-status":
                     // Delete by post status like drafts, pending posts etc
                     
@@ -1503,6 +1668,64 @@ class Bulk_Delete {
 
         foreach ($posts as $post) {
             wp_delete_post($post->ID, $force_delete);
+        }
+
+        return count( $posts );
+    }
+
+    /**
+     * Delete posts by custom post type
+     */
+    static function delete_post_types( $delete_options ) {
+        $selected_types = $delete_options['selected_types'];
+
+        $options = array(
+            'post_status' => 'publish', 
+            'post_type'   => $selected_types
+        );
+
+        $private = $delete_options['private'];
+
+        if ($private == 'true') {
+            $options['post_status']  = 'private';
+        }
+
+        $limit_to = $delete_options['limit_to'];
+
+        if ($limit_to > 0) {
+            $options['showposts'] = $limit_to;
+        } else {
+            $options['nopaging'] = 'true';
+        }
+
+        $force_delete = $delete_options['force_delete'];
+
+        if ($force_delete == 'true') {
+            $force_delete = true;
+        } else {
+            $force_delete = false;
+        }
+
+        if ($delete_options['restrict'] == "true") {
+            $options['op'] = $delete_options['types_op'];
+            $options['days'] = $delete_options['types_days'];
+
+            if (!class_exists('Bulk_Delete_By_Days')) {
+                require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
+            }
+            $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+        }
+
+        $wp_query = new WP_Query();
+        $posts = $wp_query->query($options);
+
+        foreach ($posts as $post) {
+            // $force delete parameter to custom post types doesn't work
+            if ( $force_delete ) {
+                wp_delete_post( $post->ID );
+            } else {
+                wp_trash_post( $post->ID );
+            }
         }
 
         return count( $posts );

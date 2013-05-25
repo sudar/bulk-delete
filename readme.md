@@ -107,6 +107,7 @@ The following are the features that I am thinking of adding to the Plugin, when 
 - If you have a question about usage or need help to troubleshoot, then post in WordPress forums or leave a comment in [Plugins's home page][1]
 - If you like the Plugin, then kindly leave a review/feedback at [WordPress repo page][8].
 - If you find this Plugin useful or and wanted to say thank you, then there are ways to [make me happy](http://sudarmuthu.com/if-you-wanna-thank-me) :) and I would really appreciate if you can do one of those.
+- Checkout other [WordPress Plugins][5] that I have written
 - If anything else, then contact me in [twitter][3].
 
  [1]: http://sudarmuthu.com/wordpress/bulk-delete
