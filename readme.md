@@ -4,7 +4,7 @@
 **Requires at least:** 2.0  
 **Tested up to:** 3.5.1  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 3.4  
+**Stable tag:** 3.5  
 
 Bulk delete posts from selected categories, tags, custom taxonomies or by post type like drafts, scheduled posts, revisions etc.
 
@@ -200,6 +200,10 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Changelog ##
 
+### 2013-05-28 - v3.5 - (Dev time: 10 hours) ###
+* Added support to delete custom post types
+* Added Gujarati translations
+
 ### 2013-05-22 - v3.4 - (Dev time: 20 hours) ###
 * Incorporated Screen API to select/deselect different sections of the page
 * Load only sections that are selected by the user
@@ -309,6 +313,9 @@ The ability to schedule deletion of posts is available as a pro addon.
 *   First version
 
 ## Upgrade Notice ##
+
+### 3.5 ###
+Added the ability to delete posts by custom post types.
 
 ### 3.4 ###
 Added the ability to disable different sections of the Plugin.
