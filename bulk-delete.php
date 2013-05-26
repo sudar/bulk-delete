@@ -105,7 +105,7 @@ class Bulk_Delete {
     const CRON_HOOK_POST_STATUS = 'do-bulk-delete-post-status';
     const CRON_HOOK_TAGS        = 'do-bulk-delete-tags';
     const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';
-    const CRON_HOOK_POST_TYPE   = 'do-bulk-delete-post-types';
+    const CRON_HOOK_POST_TYPES  = 'do-bulk-delete-post-types';
 
     // meta boxes
     const BOX_POST_STATUS       = 'bd_by_post_status';
@@ -1353,9 +1353,9 @@ class Bulk_Delete {
                         $time = strtotime($_POST['smbd_types_cron_start']) - ( get_option('gmt_offset') * 60 * 60 );
 
                         if ($freq == -1) {
-                            wp_schedule_single_event( $time, self::CRON_HOOK_POST_TYPE, array( $delete_options ) );
+                            wp_schedule_single_event( $time, self::CRON_HOOK_POST_TYPES, array( $delete_options ) );
                         } else {
-                            wp_schedule_event( $time, $freq, self::CRON_HOOK_POST_TYPE, array( $delete_options ) );
+                            wp_schedule_event( $time, $freq, self::CRON_HOOK_POST_TYPES, array( $delete_options ) );
                         }
 
                         $this->msg = __( 'Posts from the selected custom post type are scheduled for deletion.', 'bulk-delete') . ' ' . 

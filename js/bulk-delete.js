@@ -47,7 +47,7 @@ jQuery(document).ready(function () {
     // for post boxes
     postboxes.add_postbox_toggles(pagenow);
 
-    jQuery.each(['cats', 'tags', 'taxs', 'pages', 'post_status'], function (index, value) {
+    jQuery.each(['cats', 'tags', 'taxs', 'pages', 'post_status', 'types'], function (index, value) {
         // invoke the date time picker
         jQuery('#smbd_' + value + '_cron_start').datetimepicker({
             timeFormat: 'HH:mm:ss'
