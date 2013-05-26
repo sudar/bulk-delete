@@ -72,6 +72,7 @@ Domain Path: languages/
                   - Load only sections that are selected by the user
 2013-05-28 - v3.5 - (Dev time: 10 hours)
                   - Added support to delete custom post types
+                  - Added Gujarati translations
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)

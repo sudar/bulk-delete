@@ -136,6 +136,7 @@ The Plugin currently has translations for the following languages.
 *   Lithuanian (Thanks Vincent G)
 *   Hindi (Thanks Love Chandel)
 *   Serbian (Thanks Diana)
+*   Gujarati (Thanks Puneet)
 
 The pot file is available with the Plugin. If you are willing to do translation for the Plugin, use the pot file to create the .po files for your language and let me know.
 
