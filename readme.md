@@ -200,9 +200,10 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Changelog ##
 
-### 2013-05-28 - v3.5 - (Dev time: 10 hours) ###
-* Added support to delete custom post types
-* Added Gujarati translations
+### 2013-06-01 - v3.5 - (Dev time: 10 hours) ###
+- Added support to delete custom post types
+- Added Gujarati translations
+- Ignore sticky posts when deleting drafts
 
 ### 2013-05-22 - v3.4 - (Dev time: 20 hours) ###
 * Incorporated Screen API to select/deselect different sections of the page

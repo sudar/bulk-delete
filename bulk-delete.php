@@ -70,9 +70,10 @@ Domain Path: languages/
 2013-05-22 - v3.4 - (Dev time: 20 hours)
                   - Incorporated Screen API to select/deselect different sections of the page
                   - Load only sections that are selected by the user
-2013-05-28 - v3.5 - (Dev time: 10 hours)
+2013-06-01 - v3.5 - (Dev time: 10 hours)
                   - Added support to delete custom post types
                   - Added Gujarati translations
+                  - Ignore sticky posts when deleting drafts
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -1790,6 +1791,11 @@ class Bulk_Delete {
 
         // now retrieve all posts and delete them
         $options['post_status'] = $post_status;
+
+        // ignore sticky posts.
+        // For some reason, sticky posts also gets deleted when deleting drafts through a schedule
+        $options['post__not_in'] = get_option( 'sticky_posts' );
+
         $posts = $wp_query->query($options);
 
         foreach ($posts as $post) {
