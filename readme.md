@@ -176,6 +176,12 @@ Scroll down to the button of the Plugin page and you can see the current values 
 
 If you choose the option "Move to trash" then you can find them from trash. But if you choose "Delete permanently", then it is not possible to retrieve the posts. So be **very careful**.
 
+### Is it possible that some Plugin are not compatible with Bulk Delete? ###
+
+Yes. If a Plugin rewrites the query vars by using `add_filter( 'pre_get_posts' )` then it may be incompatible with this Plugin. [The event calendar](http://wordpress.org/plugins/the-events-calendar/) is one such Plugin.
+
+I currently disable and enable the `pre_get_posts` filter if I find that "The event calendar" Plugin is installed. It is not ideal, but it gets the work done. If you find any other Plugin with which Bulk Delete doesn't work, then let me know and I will try to see if I can add support through some hack like this.
+
 ### Is it possible to schedule deletion of posts ###
 
 The ability to schedule deletion of posts is available as a pro addon.
@@ -202,6 +208,7 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ### 2013-07-07 - v3.6.0 - (Dev time: 2 hours) ###
 - Change minimum requirement to WordPress 3.3
+- Fix compatibility issues with "The event calendar" Plugin
 
 ### 2013-06-01 - v3.5 - (Dev time: 10 hours) ###
 - Added support to delete custom post types
@@ -317,6 +324,9 @@ The ability to schedule deletion of posts is available as a pro addon.
 *   First version
 
 ## Upgrade Notice ##
+
+### 3.6.0 ###
+Fix compatibility issues with "The event calendar" Plugin
 
 ### 3.5 ###
 Added the ability to delete posts by custom post types.
