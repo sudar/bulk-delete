@@ -3,9 +3,9 @@
 Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
-Description: Bulk delete posts from selected categories, tags, custom taxonomies or by post type like drafts, scheduled posts, revisions etc.
+Description: Bulk delete posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 3.5
+Version: 3.6.0
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -74,6 +74,8 @@ Domain Path: languages/
                   - Added support to delete custom post types
                   - Added Gujarati translations
                   - Ignore sticky posts when deleting drafts
+2013-07-07 - v3.6.0 - (Dev time: 2 hours)
+                  - Change minimum requirement to WordPress 3.3
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)

@@ -1,16 +1,16 @@
 # Bulk Delete #
 **Contributors:** sudar  
 **Tags:** post, comment, delete, bulk, mass, draft, revision, page  
-**Requires at least:** 2.0  
-**Tested up to:** 3.5.1  
+**Requires at least:** 3.3  
+**Tested up to:** 3.5.2  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 3.5  
+**Stable tag:** 3.6.0  
 
-Bulk delete posts from selected categories, tags, custom taxonomies or by post type like drafts, scheduled posts, revisions etc.
+Bulk delete posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 
 ## Description ##
 
-Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from selected categories, tags or custom taxonomies. This Plugin can also delete all drafts, post revisions, scheduled posts or pages.
+Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from selected categories, tags, post types or custom taxonomies. This Plugin can also delete all drafts, post revisions, scheduled posts or pages.
 
 ### Features
 
@@ -199,6 +199,9 @@ The ability to schedule deletion of posts is available as a pro addon.
 8. The above screenshot shows how you can enable/disable different sections of the Plugin.
 
 ## Changelog ##
+
+### 2013-07-07 - v3.6.0 - (Dev time: 2 hours) ###
+- Change minimum requirement to WordPress 3.3
 
 ### 2013-06-01 - v3.5 - (Dev time: 10 hours) ###
 - Added support to delete custom post types
