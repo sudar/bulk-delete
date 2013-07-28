@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 3.6.0
+Version: 4.0.0
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -77,6 +77,8 @@ Domain Path: languages/
 2013-07-07 - v3.6.0 - (Dev time: 2 hours)
                   - Change minimum requirement to WordPress 3.3
                   - Fix compatibility issues with "The event calendar" Plugin
+2013-07-28 - v4.0.0 - (Dev time: 20 hours)
+                  - Add the ability to delete users
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -100,7 +102,12 @@ Domain Path: languages/
  */
 class Bulk_Delete {
     
-    const VERSION               = '3.5';
+    const VERSION               = '4.0';
+
+    // page slugs
+    const USERS_PAGE_SLUG       = 'bulk-delete-users';
+
+    // JS constants
     const JS_HANDLE             = 'bulk-delete';
     const JS_VARIABLE           = 'BULK_DELETE';
 
@@ -112,7 +119,7 @@ class Bulk_Delete {
     const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';
     const CRON_HOOK_POST_TYPES  = 'do-bulk-delete-post-types';
 
-    // meta boxes
+    // meta boxes for delete posts
     const BOX_POST_STATUS       = 'bd_by_post_status';
     const BOX_CATEGORY          = 'bd_by_category';
     const BOX_TAG               = 'bd_by_tag';
@@ -122,6 +129,9 @@ class Bulk_Delete {
     const BOX_URL               = 'bd_by_url';
     const BOX_POST_REVISION     = 'bd_by_post_revision';
     const BOX_DEBUG             = 'bd_debug';
+
+    // meta boxes for delete users
+    const BOX_USERS             = 'bdu_by_users';
 
     /**
      * Default constructor
@@ -144,45 +154,38 @@ class Bulk_Delete {
      * Add navigation menu
      */
 	function add_menu() {
-	    //Add a submenu to Manage
-        $this->admin_page = add_options_page(__("Bulk Delete", 'bulk-delete'), __("Bulk Delete", 'bulk-delete'), 'delete_posts', basename(__FILE__), array(&$this, 'display_setting_page'));
-        $this->cron_page = add_options_page(__("Bulk Delete Schedules", 'bulk-delete'), __("Bulk Delete Schedules", 'bulk-delete'), 'delete_posts', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
 
-		add_action( "load-{$this->admin_page}", array(&$this,'create_settings_panel' ) );
-        add_action('admin_print_scripts-' . $this->admin_page, array(&$this, 'add_script'));
+        $this->admin_page = add_options_page(__("Bulk Delete Posts", 'bulk-delete'), __("Bulk Delete Posts", 'bulk-delete'), 'delete_posts', basename(__FILE__), array(&$this, 'display_setting_page'));
+        $this->users_page = add_options_page(__("Bulk Delete Users", 'bulk-delete'), __("Bulk Delete Users", 'bulk-delete'), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ));
+        $this->cron_page  = add_options_page(__("Bulk Delete Schedules", 'bulk-delete'), __("Bulk Delete Schedules", 'bulk-delete'), 'delete_posts', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
 
-        add_action( "add_meta_boxes_{$this->admin_page}", array( &$this, 'add_meta_boxes' ));
+        // enqueue JavaScript
+        add_action( 'admin_print_scripts-' . $this->admin_page, array( &$this, 'add_script') );
+        add_action( 'admin_print_scripts-' . $this->users_page, array( &$this, 'add_script') );
+
+        // delete posts page
+		add_action( "load-{$this->admin_page}", array( &$this, 'add_delete_posts_settings_panel' ) );
+        add_action( "add_meta_boxes_{$this->admin_page}", array( &$this, 'add_delete_posts_meta_boxes' ) );
+
+        // delete users page
+        add_action( "load-{$this->users_page}", array( &$this, 'add_delete_users_settings_panel' ) );
+        add_action( "add_meta_boxes_{$this->users_page}", array( &$this, 'add_delete_users_meta_boxes' ) );
 	}
 
     /**
-     * Register meta boxes
-     */
-    function add_meta_boxes() {
-        add_meta_box( self::BOX_POST_STATUS, __( 'By Post Status', 'bulk-delete' ), array( &$this, 'render_by_post_status_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( self::BOX_CATEGORY, __( 'By Category', 'bulk-delete' ), array( &$this, 'render_by_category_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( self::BOX_TAG, __( 'By Tag', 'bulk-delete' ), array( &$this, 'render_by_tag_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( self::BOX_TAX, __( 'By Custom Taxonomy', 'bulk-delete' ), array( &$this, 'render_by_tax_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( self::BOX_POST_TYPE, __( 'By Custom Post Types', 'bulk-delete' ), array( &$this, 'render_by_post_type_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( self::BOX_PAGE, __( 'By Page', 'bulk-delete' ), array( &$this, 'render_by_page_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( self::BOX_URL, __( 'By URL', 'bulk-delete' ), array( &$this, 'render_by_url_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( self::BOX_POST_REVISION, __( 'By Post Revision', 'bulk-delete' ), array( &$this, 'render_by_post_revision_box' ), $this->admin_page, 'advanced' );
-        add_meta_box( self::BOX_DEBUG, __( 'Debug Information', 'bulk-delete' ), array( &$this, 'render_debug_box' ), $this->admin_page, 'advanced', 'low' );
-    }
-
-    /**
-     * Add settings Panel
+     * Add settings Panel for delete posts page
      */ 
-	function create_settings_panel() {
+	function add_delete_posts_settings_panel() {
  
 		/** 
 		 * Create the WP_Screen object using page handle
 		 */
-		$this->admin_screen = WP_Screen::get($this->admin_page);
+		$this->delete_posts_screen = WP_Screen::get($this->admin_page);
  
 		/**
 		 * Content specified inline
 		 */
-		$this->admin_screen->add_help_tab(
+		$this->delete_posts_screen->add_help_tab(
 			array(
 				'title'    => __('About Plugin', 'bulk-delete'),
 				'id'       => 'about_tab',
@@ -192,7 +195,7 @@ class Bulk_Delete {
 		);
  
         // Add help sidebar
-		$this->admin_screen->set_help_sidebar(
+		$this->delete_posts_screen->set_help_sidebar(
             '<p><strong>' . __('More information', 'bulk-delete') . '</strong></p>' .
             '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete">' . __('Plugin Homepage/support', 'bulk-delete') . '</a></p>' .
             '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons">' . __("Buy pro addons", 'bulk-delete') . '</a></p>' .
@@ -207,6 +210,67 @@ class Bulk_Delete {
         /* Enqueue WordPress' script for handling the meta boxes */
         wp_enqueue_script('postbox');
 	}
+
+    /**
+     * Register meta boxes for delete posts page
+     */
+    function add_delete_posts_meta_boxes() {
+        add_meta_box( self::BOX_POST_STATUS, __( 'By Post Status', 'bulk-delete' ), array( &$this, 'render_by_post_status_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_CATEGORY, __( 'By Category', 'bulk-delete' ), array( &$this, 'render_by_category_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_TAG, __( 'By Tag', 'bulk-delete' ), array( &$this, 'render_by_tag_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_TAX, __( 'By Custom Taxonomy', 'bulk-delete' ), array( &$this, 'render_by_tax_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_POST_TYPE, __( 'By Custom Post Types', 'bulk-delete' ), array( &$this, 'render_by_post_type_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_PAGE, __( 'By Page', 'bulk-delete' ), array( &$this, 'render_by_page_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_URL, __( 'By URL', 'bulk-delete' ), array( &$this, 'render_by_url_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_POST_REVISION, __( 'By Post Revision', 'bulk-delete' ), array( &$this, 'render_by_post_revision_box' ), $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_DEBUG, __( 'Debug Information', 'bulk-delete' ), array( &$this, 'render_debug_box' ), $this->admin_page, 'advanced', 'low' );
+    }
+
+    /**
+     * Add settings Panel for delete users page
+     */ 
+	function add_delete_users_settings_panel() {
+ 
+		/** 
+		 * Create the WP_Screen object using page handle
+		 */
+		$this->delete_users_screen = WP_Screen::get( $this->users_page );
+ 
+		/**
+		 * Content specified inline
+		 */
+		$this->delete_users_screen->add_help_tab(
+			array(
+				'title'    => __('About Plugin', 'bulk-delete'),
+				'id'       => 'about_tab',
+				'content'  => '<p>' . __('This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete') . '</p>',
+				'callback' => false
+			)
+		);
+ 
+        // Add help sidebar
+		$this->delete_users_screen->set_help_sidebar(
+            '<p><strong>' . __('More information', 'bulk-delete') . '</strong></p>' .
+            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete">' . __('Plugin Homepage/support', 'bulk-delete') . '</a></p>' .
+            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons">' . __("Buy pro addons", 'bulk-delete') . '</a></p>' .
+            '<p><a href = "http://sudarmuthu.com/blog">' . __("Plugin author's blog", 'bulk-delete') . '</a></p>' .
+            '<p><a href = "http://sudarmuthu.com/wordpress/">' . __("Other Plugin's by Author", 'bulk-delete') . '</a></p>'
+        );
+
+        /* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
+        do_action('add_meta_boxes_' . $this->users_page, null);
+        do_action('add_meta_boxes', $this->users_page, null);
+    
+        /* Enqueue WordPress' script for handling the meta boxes */
+        wp_enqueue_script('postbox');
+	}
+
+    /**
+     * Register meta boxes for delete users page
+     */
+    function add_delete_users_meta_boxes() {
+        add_meta_box( self::BOX_USERS, __( 'By User Role', 'bulk-delete' ), array( &$this, 'render_delete_users_box' ), $this->users_page, 'advanced' );
+    }
 
     /**
      * Enqueue JavaScript
@@ -249,8 +313,12 @@ class Bulk_Delete {
         if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
 
         if( $file == $this_plugin ) {
-            $settings_link = '<a href="options-general.php?page=bulk-delete.php">' . __('Manage', 'bulk-delete') . '</a>';
-            array_unshift( $links, $settings_link ); // before other links
+
+            $delete_users_link = '<a href="options-general.php?page=' . self::USERS_PAGE_SLUG . '">' . __('Bulk Delete Users', 'bulk-delete') . '</a>';
+            array_unshift( $links, $delete_users_link ); // before other links
+
+            $delete_posts_link = '<a href="options-general.php?page=bulk-delete.php">' . __('Bulk Delete Posts', 'bulk-delete') . '</a>';
+            array_unshift( $links, $delete_posts_link ); // before other links
         }
         return $links;
     }
@@ -275,7 +343,7 @@ class Bulk_Delete {
 ?>
 <div class="wrap">
     <?php screen_icon(); ?>
-    <h2><?php _e('Bulk Delete', 'bulk-delete');?></h2>
+    <h2><?php _e('Bulk Delete Posts', 'bulk-delete');?></h2>
 
     <form method = "post">
 <?php
@@ -327,7 +395,7 @@ class Bulk_Delete {
      */
     function render_by_post_status_box() {
 
-        if ( $this->is_hidden(self::BOX_POST_STATUS) ) {
+        if ( $this->is_posts_box_hidden(self::BOX_POST_STATUS) ) {
             printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
             return;
         }
@@ -437,7 +505,7 @@ class Bulk_Delete {
      */
     function render_by_category_box() {
 
-        if ( $this->is_hidden(self::BOX_CATEGORY) ) {
+        if ( $this->is_posts_box_hidden(self::BOX_CATEGORY) ) {
             printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
             return;
         }
@@ -555,7 +623,7 @@ class Bulk_Delete {
 
     function render_by_tag_box() {
 
-        if ( $this->is_hidden(self::BOX_TAG) ) {
+        if ( $this->is_posts_box_hidden(self::BOX_TAG) ) {
             printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
             return;
         }
@@ -675,7 +743,7 @@ class Bulk_Delete {
      */
     function render_by_tax_box() {
 
-        if ( $this->is_hidden(self::BOX_TAX) ) {
+        if ( $this->is_posts_box_hidden(self::BOX_TAX) ) {
             printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
             return;
         }
@@ -829,7 +897,7 @@ class Bulk_Delete {
      */
     function render_by_post_type_box() {
 
-        if ( $this->is_hidden(self::BOX_POST_TYPE) ) {
+        if ( $this->is_posts_box_hidden(self::BOX_POST_TYPE) ) {
             printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
             return;
         }
@@ -956,7 +1024,7 @@ class Bulk_Delete {
      */
     function render_by_page_box() {
 
-        if ( $this->is_hidden(self::BOX_PAGE) ) {
+        if ( $this->is_posts_box_hidden(self::BOX_PAGE) ) {
             printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
             return;
         }
@@ -1076,7 +1144,7 @@ class Bulk_Delete {
      */
     function render_by_url_box() {
 
-        if ( $this->is_hidden(self::BOX_URL) ) {
+        if ( $this->is_posts_box_hidden(self::BOX_URL) ) {
             printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
             return;
         }
@@ -1123,7 +1191,7 @@ class Bulk_Delete {
      */
     function render_by_post_revision_box() {
 
-        if ( $this->is_hidden(self::BOX_POST_REVISION) ) {
+        if ( $this->is_posts_box_hidden(self::BOX_POST_REVISION) ) {
             printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=bulk-delete.php' );
             return;
         }
@@ -1191,6 +1259,157 @@ class Bulk_Delete {
     }
 
     /**
+     * Render delete users box
+     */
+    function render_delete_users_box() {
+
+        if ( $this->is_users_box_hidden(self::BOX_USERS) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'options-general.php?page=' . self::USERS_PAGE_SLUG );
+            return;
+        }
+?>
+        <!-- Users Start-->
+        <h4><?php _e("Select the user roles from which you want to delete users", 'bulk-delete'); ?></h4>
+
+        <fieldset class="options">
+        <table class="optiontable">
+<?php
+        $users_count = count_users();
+        foreach( $users_count['avail_roles'] as $role => $count ) {
+?>
+            <tr>
+                <td scope="row" >
+                    <input name="smbdu_roles[]" value = "<?php echo $role; ?>" type = "checkbox" />
+                </td>
+                <td>
+                    <label for="smbdu_roles"><?php echo $role; ?> (<?php echo $count . " "; _e("Users", 'bulk-delete'); ?>)</label>
+                </td>
+            </tr>
+<?php
+        }
+?>
+            <tr>
+                <td colspan="2">
+                    <h4><?php _e("Choose your filtering options", 'bulk-delete'); ?></h4>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row">
+                    <input name="smbd_cats_restrict" id="smbd_cats_restrict" value = "true" type = "checkbox" >
+                </td>
+                <td>
+                    <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
+                    <select name="smbd_cats_op" id="smbd_cats_op" disabled>
+                        <option value ="<"><?php _e("older than", 'bulk-delete');?></option>
+                        <option value =">"><?php _e("posted within last", 'bulk-delete');?></option>
+                    </select>
+                    <input type ="textbox" name="smbd_cats_days" id="smbd_cats_days" disabled value ="0" maxlength="4" size="4" /><?php _e("days", 'bulk-delete');?>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row">
+                    <input name="smbdu_role_no_posts" id="smbdu_role_no_posts" value = "true" type = "checkbox" >
+                </td>
+                <td>
+                    <?php _e( "Only if user doesn't have any post", 'bulk-delete' ); ?>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row">
+                    <input name="smbdu_role_limit" id="smbdu_role_limit" value = "true" type = "checkbox">
+                </td>
+                <td>
+                    <?php _e("Only delete first ", 'bulk-delete');?>
+                    <input type ="textbox" name="smbdu_role_limit" id="smbdu_role_limit" disabled value ="0" maxlength="4" size="4" /><?php _e("users.", 'bulk-delete');?>
+                    <?php _e("Use this option if there are more than 1000 users and the script timesout.", 'bulk-delete') ?>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row" colspan="2">
+                    <input name="smbd_cats_cron" value = "false" type = "radio" checked="checked" /> <?php _e('Delete now', 'bulk-delete'); ?>
+                    <input name="smbd_cats_cron" value = "true" type = "radio" id = "smbd_cats_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
+                    <input name="smbd_cats_cron_start" id = "smbd_cats_cron_start" value = "now" type = "text" disabled><?php _e('repeat ', 'bulk-delete');?>
+                    <select name = "smbd_cats_cron_freq" id = "smbd_cats_cron_freq" disabled>
+                        <option value = "-1"><?php _e("Don't repeat", 'bulk-delete'); ?></option>
+<?php
+        $schedules = wp_get_schedules();
+        foreach($schedules as $key => $value) {
+?>
+                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
+<?php                        
+        }
+?>
+                    </select>
+                    <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-category-addon">Buy now</a></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row" colspan="2">
+                    <?php _e("Enter time in Y-m-d H:i:s format or enter now to use current time", 'bulk-delete');?>
+                </td>
+            </tr>
+
+        </table>
+        </fieldset>
+
+        <p>
+            <button type="submit" name="smbdu_action" value = "bulk-delete-users-by-role" class="button-primary"><?php _e("Bulk Delete ", 'bulk-delete') ?>&raquo;</button>
+        </p>
+        <!-- Users end-->
+<?php
+    }
+
+    /**
+     * Display bulk delete users page
+     */
+    function display_users_page() {
+?>
+<div class="wrap">
+    <?php screen_icon(); ?>
+    <h2><?php _e('Bulk Delete Users', 'bulk-delete');?></h2>
+
+    <form method = "post">
+<?php
+        // nonce for bulk delete
+        wp_nonce_field( 'sm-bulk-delete-users', 'sm-bulk-delete-users-nonce' );
+
+        /* Used to save closed meta boxes and their order */
+        wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+        wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+?>
+    <div id = "poststuff">
+        <div id="post-body" class="metabox-holder columns-2">
+
+            <div id="post-body-content">
+                <div style="background:#ff0;text-align:center;color: red;padding:1px">
+                    <p><strong><?php _e("WARNING: Users deleted once cannot be retrieved back. Use with caution.", 'bulk-delete'); ?></strong></p>
+                </div>
+            </div><!-- #post-body-content -->
+
+            <div id="postbox-container-1" class="postbox-container">
+                <iframe frameBorder="0" height = "1000" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>&version=<?php echo self::VERSION; ?>"></iframe>
+            </div>
+
+            <div id="postbox-container-2" class="postbox-container">
+                <?php do_meta_boxes( '', 'advanced', null ); ?>
+            </div> <!-- #postbox-container-2 -->
+
+        </div> <!-- #post-body -->
+    </div><!-- #poststuff -->
+    </form>
+</div><!-- .wrap -->
+
+<?php
+        // Display credits in Footer
+        add_action( 'in_admin_footer', array(&$this, 'admin_footer' ));
+    }
+
+    /**
      * Display the schedule page
      */
     function display_cron_page() {
@@ -1223,6 +1442,8 @@ class Bulk_Delete {
      * Request Handler. Handles both POST and GET requests
      */
     function request_handler() {
+
+        // delete schedules
         if (isset($_GET['smbd_action'])) {
 
             switch($_GET['smbd_action']) {
@@ -1234,13 +1455,33 @@ class Bulk_Delete {
                     wp_unschedule_event($cron_items[$cron_id]['timestamp'], $cron_items[$cron_id]['type'], $cron_items[$cron_id]['args']);
 
                     $this->msg = __('The selected scheduled job was successfully deleted ', 'bulk-delete');
-                    // hook the admin notices action
-                    add_action( 'admin_notices', array(&$this, 'deleted_notice'), 9 );
 
                     break;
             }
         }
 
+        // delete users
+        if ( isset( $_POST['smbdu_action'] ) && check_admin_referer( 'sm-bulk-delete-users', 'sm-bulk-delete-users-nonce' ) ) {
+
+            switch( $_POST['smbdu_action'] ) {
+
+                case "bulk-delete-users-by-role":
+                    // delete by user role
+
+                    $delete_options = array();
+                    $delete_options['selected_roles']   = array_get( $_POST, 'smbdu_roles' );
+                    $delete_options['no_posts']         = array_get( $_POST, 'smbdu_role_no_posts' );
+
+                    $delete_options['limit_to']         = array_get( $_POST, 'smbdu_role_limit' );
+
+                    $deleted_count = self::delete_users_by_role( $delete_options );
+                    $this->msg = sprintf( _n('Deleted %d user from the selected roles', 'Deleted %d users from the selected role' , $deleted_count, 'bulk-delete' ), $deleted_count );
+
+                    break;
+            }
+        }
+
+        // delete posts
         if ( isset( $_POST['smbd_action'] ) && check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
 
             switch($_POST['smbd_action']) {
@@ -1474,10 +1715,10 @@ class Bulk_Delete {
                     $this->msg = sprintf( _n( 'Deleted %d post revision', 'Deleted %d post revisions' , $deleted_count, 'bulk-delete' ), $deleted_count);
                     break;
             }
-
-            // hook the admin notices action
-            add_action( 'admin_notices', array(&$this, 'deleted_notice'), 9 );
         }
+
+        // hook the admin notices action
+        add_action( 'admin_notices', array(&$this, 'deleted_notice'), 9 );
     }
 
     /**
@@ -1494,25 +1735,47 @@ class Bulk_Delete {
     }
 
     /**
-     * @brief Check whether the box is hidden or not
+     * @brief Check whether the meta box in posts page is hidden or not
      *
      * @param $box
      *
      * @return 
      */
-    private function is_hidden( $box ) {
-        $hidden_boxes = $this->get_hidden_boxes();
+    private function is_posts_box_hidden( $box ) {
+        $hidden_boxes = $this->get_posts_hidden_boxes();
         return ( is_array( $hidden_boxes ) && in_array( $box, $hidden_boxes ) );
     }
 
     /**
-     * Get the list of hidden boxes
+     * Get the list of hidden boxes in posts page
      *
      * @return the array of hidden meta boxes
      */
-    private function get_hidden_boxes() {
+    private function get_posts_hidden_boxes() {
         $current_user = wp_get_current_user();
         return get_user_meta( $current_user->ID, 'metaboxhidden_settings_page_bulk-delete', TRUE );
+    }
+
+    /**
+     * @brief Check whether the meta box in users page is hidden or not
+     *
+     * @param $box
+     *
+     * @return 
+     */
+    private function is_users_box_hidden( $box ) {
+        $hidden_boxes = $this->get_users_hidden_boxes();
+        return ( is_array( $hidden_boxes ) && in_array( $box, $hidden_boxes ) );
+    }
+
+    /**
+     * Get the list of hidden boxes in users page
+     *
+     * @return the array of hidden meta boxes
+     */
+    private function get_users_hidden_boxes() {
+        $current_user = wp_get_current_user();
+        return get_user_meta( $current_user->ID, 'metaboxhidden_settings_page_bulk-delete-users', TRUE );
     }
 
     /**
@@ -1921,6 +2184,36 @@ class Bulk_Delete {
         }
 
         return 0;
+    }
+
+    /**
+     * Delete users by user role
+     */
+    static function delete_users_by_role( $delete_options ) {
+
+        if( !function_exists( 'wp_delete_users' ) ) {
+            require_once( ABSPATH . WPINC . '/user.php' );
+        }
+
+        $count = 0;
+
+        foreach ( $delete_options['selected_roles'] as $role ) {
+
+            $options = array();
+            $options['role'] = $role;
+            $users = get_users( $options );
+
+            foreach ( $users as $user ) {
+                if ( $delete_options['no_posts'] == TRUE && count_user_posts ( $user->ID ) > 0 ) {
+                    continue;
+                }
+
+                wp_delete_user( $user->ID );
+                $count ++;
+            }
+        }
+        
+        return $count;
     }
 
     /**
