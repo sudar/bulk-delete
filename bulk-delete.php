@@ -97,6 +97,14 @@ Domain Path: languages/
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+if ( !class_exists( 'Bulk_Delete_Users' ) ) {
+    require_once dirname( __FILE__ ) . '/include/class-bulk-delete-users.php';
+}
+
+if ( !class_exists( 'Bulk_Delete_Util' ) ) {
+    require_once dirname( __FILE__ ) . '/include/class-bulk-delete-util.php';
+}
+
 /**
  * Bulk Delete Main class
  */
@@ -1295,17 +1303,27 @@ class Bulk_Delete {
                 </td>
             </tr>
 
+<?php 
+        if ( !Bulk_Delete_Util::is_simple_login_log_present() ) {
+            $disabled = "disabled";
+        }
+?>
             <tr>
                 <td scope="row">
-                    <input name="smbd_cats_restrict" id="smbd_cats_restrict" value = "true" type = "checkbox" >
+                <input name="smbdu_login_restrict" id="smbdu_login_restrict" value = "true" type = "checkbox" <?php echo $disabled; ?> >
                 </td>
                 <td>
-                    <?php _e("Only restrict to posts which are ", 'bulk-delete');?>
-                    <select name="smbd_cats_op" id="smbd_cats_op" disabled>
-                        <option value ="<"><?php _e("older than", 'bulk-delete');?></option>
-                        <option value =">"><?php _e("posted within last", 'bulk-delete');?></option>
-                    </select>
-                    <input type ="textbox" name="smbd_cats_days" id="smbd_cats_days" disabled value ="0" maxlength="4" size="4" /><?php _e("days", 'bulk-delete');?>
+                    <?php _e("Only restrict to users who have not logged in the last ", 'bulk-delete');?>
+                    <input type ="textbox" name="smbdu_login_days" id="smbdu_login_days" value ="0" maxlength="4" size="4" <?php echo $disabled; ?> ><?php _e("days", 'bulk-delete');?>
+<?php 
+        if ( !Bulk_Delete_Util::is_simple_login_log_present() ) {
+?>
+                    <span style = "color:red">
+                        <?php _e('Need Simple Login Log Plugin', 'bulk-delete'); ?> <a href = "http://wordpress.org/plugins/simple-login-log/">Install now</a>
+                    </span>
+<?php
+        }
+?>
                 </td>
             </tr>
 
@@ -1418,6 +1436,7 @@ class Bulk_Delete {
         if(!class_exists('WP_List_Table')){
             require_once( ABSPATH . WPINC . '/class-wp-list-table.php' );
         }
+
         if (!class_exists('Cron_List_Table')) {
             require_once dirname(__FILE__) . '/include/class-cron-list-table.php';
         }
@@ -1473,9 +1492,11 @@ class Bulk_Delete {
                     $delete_options['selected_roles']   = array_get( $_POST, 'smbdu_roles' );
                     $delete_options['no_posts']         = array_get( $_POST, 'smbdu_role_no_posts' );
 
+                    $delete_options['login_restrict']   = array_get( $_POST, 'smbdu_login_restrict', FALSE );
+                    $delete_options['login_days']       = array_get( $_POST, 'smbdu_login_days' );
                     $delete_options['limit_to']         = array_get( $_POST, 'smbdu_role_limit' );
 
-                    $deleted_count = self::delete_users_by_role( $delete_options );
+                    $deleted_count = Bulk_Delete_Users::delete_users_by_role( $delete_options );
                     $this->msg = sprintf( _n('Deleted %d user from the selected roles', 'Deleted %d users from the selected role' , $deleted_count, 'bulk-delete' ), $deleted_count );
 
                     break;
@@ -2185,36 +2206,6 @@ class Bulk_Delete {
         }
 
         return 0;
-    }
-
-    /**
-     * Delete users by user role
-     */
-    static function delete_users_by_role( $delete_options ) {
-
-        if( !function_exists( 'wp_delete_users' ) ) {
-            require_once( ABSPATH . WPINC . '/user.php' );
-        }
-
-        $count = 0;
-
-        foreach ( $delete_options['selected_roles'] as $role ) {
-
-            $options = array();
-            $options['role'] = $role;
-            $users = get_users( $options );
-
-            foreach ( $users as $user ) {
-                if ( $delete_options['no_posts'] == TRUE && count_user_posts ( $user->ID ) > 0 ) {
-                    continue;
-                }
-
-                wp_delete_user( $user->ID );
-                $count ++;
-            }
-        }
-        
-        return $count;
     }
 
     /**
