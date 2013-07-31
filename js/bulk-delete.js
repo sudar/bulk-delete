@@ -98,7 +98,11 @@ jQuery(document).ready(function () {
         }
 
         if (valid) {
-            return confirm(BULK_DELETE.msg.deletewarning);
+            if (current_button.lastIndexOf('bulk-delete-users-', 0) === 0) {
+                return confirm(BULK_DELETE.msg.deletewarningusers);
+            } else {
+                return confirm(BULK_DELETE.msg.deletewarning);
+            }
         }
 
         return false;

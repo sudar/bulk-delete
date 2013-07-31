@@ -290,12 +290,13 @@ class Bulk_Delete {
 
         // JavaScript messages
         $msg = array(
-            'deletewarning' => __('Are you sure you want to delete all the selected posts', 'bulk-delete')
+            'deletewarning'      => __('Are you sure you want to delete all the selected posts', 'bulk-delete'),
+            'deletewarningusers' => __( 'Are you sure you want to delete all the selected users', 'bulk-delete' )
         );
 
         $error = array(
             'selectone' => __('Please select posts from at least one option', 'bulk-delete'),
-            'enterurl' => __('Please enter at least one page url', 'bulk-delete')
+            'enterurl'  => __('Please enter at least one page url', 'bulk-delete')
         );
 
         $translation_array = array( 'msg' => $msg, 'error' => $error );
