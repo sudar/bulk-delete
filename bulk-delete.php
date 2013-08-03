@@ -1337,17 +1337,6 @@ class Bulk_Delete {
             </tr>
 
             <tr>
-                <td scope="row">
-                    <input name="smbdu_role_limit" id="smbdu_role_limit" value = "true" type = "checkbox">
-                </td>
-                <td>
-                    <?php _e("Only delete first ", 'bulk-delete');?>
-                    <input type ="textbox" name="smbdu_role_limit" id="smbdu_role_limit" disabled value ="0" maxlength="4" size="4" /><?php _e("users.", 'bulk-delete');?>
-                    <?php _e("Use this option if there are more than 1000 users and the script timesout.", 'bulk-delete') ?>
-                </td>
-            </tr>
-
-            <tr>
                 <td scope="row" colspan="2">
                     <input name="smbd_cats_cron" value = "false" type = "radio" checked="checked" /> <?php _e('Delete now', 'bulk-delete'); ?>
                     <input name="smbd_cats_cron" value = "true" type = "radio" id = "smbd_cats_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
