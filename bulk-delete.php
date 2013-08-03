@@ -3,7 +3,7 @@
 Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
-Description: Bulk delete posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
+Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
 Version: 4.0.0
 License: GPL
@@ -126,6 +126,8 @@ class Bulk_Delete {
     const CRON_HOOK_TAGS        = 'do-bulk-delete-tags';
     const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';
     const CRON_HOOK_POST_TYPES  = 'do-bulk-delete-post-types';
+
+    const CRON_HOOK_USER_ROLE   = 'do-bulk-delete-users-by-role';
 
     // meta boxes for delete posts
     const BOX_POST_STATUS       = 'bd_by_post_status';
@@ -1338,10 +1340,10 @@ class Bulk_Delete {
 
             <tr>
                 <td scope="row" colspan="2">
-                    <input name="smbd_cats_cron" value = "false" type = "radio" checked="checked" /> <?php _e('Delete now', 'bulk-delete'); ?>
-                    <input name="smbd_cats_cron" value = "true" type = "radio" id = "smbd_cats_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
-                    <input name="smbd_cats_cron_start" id = "smbd_cats_cron_start" value = "now" type = "text" disabled><?php _e('repeat ', 'bulk-delete');?>
-                    <select name = "smbd_cats_cron_freq" id = "smbd_cats_cron_freq" disabled>
+                    <input name="smbdu_userrole_cron" value = "false" type = "radio" checked="checked" /> <?php _e('Delete now', 'bulk-delete'); ?>
+                    <input name="smbdu_userrole_cron" value = "true" type = "radio" id = "smbdu_userrole_cron" disabled > <?php _e('Schedule', 'bulk-delete'); ?>
+                    <input name="smbdu_userrole_cron_start" id = "smbdu_userrole_cron_start" value = "now" type = "text" disabled><?php _e('repeat ', 'bulk-delete');?>
+                    <select name = "smbdu_userrole_cron_freq" id = "smbdu_userrole_cron_freq" disabled>
                         <option value = "-1"><?php _e("Don't repeat", 'bulk-delete'); ?></option>
 <?php
         $schedules = wp_get_schedules();
@@ -1352,7 +1354,7 @@ class Bulk_Delete {
         }
 ?>
                     </select>
-                    <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-category-addon">Buy now</a></span>
+                    <span class = "bdu-users-by-role-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-users-by-role-addon">Buy now</a></span>
                 </td>
             </tr>
 
@@ -1479,14 +1481,28 @@ class Bulk_Delete {
 
                     $delete_options = array();
                     $delete_options['selected_roles']   = array_get( $_POST, 'smbdu_roles' );
-                    $delete_options['no_posts']         = array_get( $_POST, 'smbdu_role_no_posts' );
+                    $delete_options['no_posts']         = array_get( $_POST, 'smbdu_role_no_posts', FALSE );
 
                     $delete_options['login_restrict']   = array_get( $_POST, 'smbdu_login_restrict', FALSE );
                     $delete_options['login_days']       = array_get( $_POST, 'smbdu_login_days' );
                     $delete_options['limit_to']         = array_get( $_POST, 'smbdu_role_limit' );
 
-                    $deleted_count = Bulk_Delete_Users::delete_users_by_role( $delete_options );
-                    $this->msg = sprintf( _n('Deleted %d user from the selected roles', 'Deleted %d users from the selected role' , $deleted_count, 'bulk-delete' ), $deleted_count );
+                    if (array_get( $_POST, 'smbdu_userrole_cron', 'false' ) == 'true' ) {
+                        $freq = $_POST['smbdu_userrole_cron_freq'];
+                        $time = strtotime( $_POST['smbdu_userrole_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
+
+                        if ( $freq == -1 ) {
+                            wp_schedule_single_event( $time, self::CRON_HOOK_USER_ROLE, array( $delete_options ) );
+                        } else {
+                            wp_schedule_event( $time, $freq , self::CRON_HOOK_USER_ROLE, array( $delete_options ) );
+                        }
+
+                        $this->msg = __( 'Users from the selected userrole are scheduled for deletion.', 'bulk-delete' ) . ' ' . 
+                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/options-general.php?page=bulk-delete-cron' );
+                    } else {
+                        $deleted_count = Bulk_Delete_Users::delete_users_by_role( $delete_options );
+                        $this->msg = sprintf( _n('Deleted %d user from the selected roles', 'Deleted %d users from the selected role' , $deleted_count, 'bulk-delete' ), $deleted_count );
+                    }
 
                     break;
             }

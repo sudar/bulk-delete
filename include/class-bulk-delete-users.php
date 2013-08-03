@@ -12,8 +12,8 @@ class Bulk_Delete_Users {
      */
     public static function delete_users_by_role( $delete_options ) {
 
-        if( !function_exists( 'wp_delete_users' ) ) {
-            require_once( ABSPATH . WPINC . '/user.php' );
+        if( !function_exists( 'wp_delete_user' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/user.php' );
         }
 
         $count = 0;

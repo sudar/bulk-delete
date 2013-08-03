@@ -47,17 +47,17 @@ jQuery(document).ready(function () {
     // for post boxes
     postboxes.add_postbox_toggles(pagenow);
 
-    jQuery.each(['cats', 'tags', 'taxs', 'pages', 'post_status', 'types'], function (index, value) {
+    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', 'u_userrole'], function (index, value) {
         // invoke the date time picker
-        jQuery('#smbd_' + value + '_cron_start').datetimepicker({
+        jQuery('#smbd' + value + '_cron_start').datetimepicker({
             timeFormat: 'HH:mm:ss'
         });
 
-        jQuery('#smbd_' + value + '_restrict').change(function () {
+        jQuery('#smbd' + value + '_restrict').change(function () {
             toggle_date_restrict(value);
         });
 
-        jQuery('#smbd_' + value + '_limit').change(function () {
+        jQuery('#smbd' + value + '_limit').change(function () {
             toggle_limit_restrict(value);
         });
 
