@@ -1458,12 +1458,11 @@ class Bulk_Delete {
     function request_handler() {
 
         // delete schedules
-        if (isset($_GET['smbd_action'])) {
+        if ( isset( $_GET['smbd_action'] ) && check_admin_referer( 'sm-bulk-delete-cron', 'sm-bulk-delete-cron-nonce' ) ) {
 
             switch($_GET['smbd_action']) {
 
                 case 'delete-cron':
-                    //TODO: Check for nonce and referer
                     $cron_id = absint($_GET['cron_id']);
                     $cron_items = $this->get_cron_schedules();
                     wp_unschedule_event($cron_items[$cron_id]['timestamp'], $cron_items[$cron_id]['type'], $cron_items[$cron_id]['args']);
