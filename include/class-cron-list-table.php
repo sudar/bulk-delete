@@ -38,7 +38,7 @@ class Cron_List_Table extends WP_List_Table {
             echo '<strong>';
             _e('Note: ', 'bulk-delete');
             echo '</strong>';
-            _e('Scheduling auto post deletion is available only when you buy pro addons.', 'bulk-delete');
+            _e('Scheduling auto post or user deletion is available only when you buy pro addons.', 'bulk-delete');
             echo '</p>';
 
             echo '<p>';
@@ -48,45 +48,52 @@ class Cron_List_Table extends WP_List_Table {
             echo '<ul style="list-style:disc; padding-left:35px">';
 
             echo '<li>';
-            echo '<strong>', __('Bulk Delete Schedule Categories', 'bulk-delete'), '</strong>', ' - ';
+            echo '<strong>', __('Schedule auto delete of Posts by Categories', 'bulk-delete'), '</strong>', ' - ';
             echo __('Adds the ability to schedule auto delete of posts based on categories', 'bulk-delete');
             echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories">', __('More Info', 'bulk-delete'), '</a>.';
             echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-category-addon">', __('Buy now', 'bulk-delete'), '</a>';
             echo '</li>';
 
             echo '<li>';
-            echo '<strong>', __('Bulk Delete Schedule Tags', 'bulk-delete'), '</strong>', ' - ';
+            echo '<strong>', __('Schedule auto delete of Posts by Tags', 'bulk-delete'), '</strong>', ' - ';
             echo __('Adds the ability to schedule auto delete of posts based on tags', 'bulk-delete');
             echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags">', __('More Info', 'bulk-delete'), '</a>.';
             echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-tags-addon">', __('Buy now', 'bulk-delete'), '</a>';
             echo '</li>';
 
             echo '<li>';
-            echo '<strong>', __('Bulk Delete Schedule Custom Taxonomy', 'bulk-delete'), '</strong>', ' - ';
+            echo '<strong>', __('Schedule auto delete of posts by Custom Taxonomy', 'bulk-delete'), '</strong>', ' - ';
             echo __('Adds the ability to schedule auto delete of posts based on custom taxonomies', 'bulk-delete');
             echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-taxonomy">', __('More Info', 'bulk-delete'), '</a>.';
             echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-taxonomy-addon">', __('Buy now', 'bulk-delete'), '</a>';
             echo '</li>';
 
             echo '<li>';
-            echo '<strong>', __('Bulk Delete Schedule Custom Post Type', 'bulk-delete'), '</strong>', ' - ';
+            echo '<strong>', __('Schedule auto delete of Posts by Custom Post Type', 'bulk-delete'), '</strong>', ' - ';
             echo __('Adds the ability to schedule auto delete of posts based on custom post types', 'bulk-delete');
             echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-types">', __('More Info', 'bulk-delete'), '</a>.';
             echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-post-type-addon">', __('Buy now', 'bulk-delete'), '</a>';
             echo '</li>';
 
             echo '<li>';
-            echo '<strong>', __('Bulk Delete Schedule Pages', 'bulk-delete'), '</strong>', ' - ';
+            echo '<strong>', __('Schedule auto delete of Pages', 'bulk-delete'), '</strong>', ' - ';
             echo __('Adds the ability to schedule auto delete pages', 'bulk-delete');
             echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages">', __('More Info', 'bulk-delete'), '</a>.';
             echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-pages-addon">', __('Buy now', 'bulk-delete'), '</a>';
             echo '</li>';
 
             echo '<li>';
-            echo '<strong>', __('Bulk Delete Schedule by Post Status', 'bulk-delete'), '</strong>', ' - ';
+            echo '<strong>', __('Schedule auto delete of Posts by Post Status', 'bulk-delete'), '</strong>', ' - ';
             echo __('Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete');
             echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status">', __('More Info', 'bulk-delete'), '</a>.';
             echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon">', __('Buy now', 'bulk-delete'), '</a>';
+            echo '</li>';
+
+            echo '<li>';
+            echo '<strong>', __('Schedule auto delete of Users by User Role', 'bulk-delete'), '</strong>', ' - ';
+            echo __('Adds the ability to schedule auto delete of users based on user role', 'bulk-delete');
+            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-users-by-user-role">', __('More Info', 'bulk-delete'), '</a>.';
+            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-users-by-role-addon">', __('Buy now', 'bulk-delete'), '</a>';
             echo '</li>';
 
             echo '</ul>';
