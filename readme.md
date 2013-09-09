@@ -82,7 +82,7 @@ The following are the list of pro addons that are currently available for purcha
 - **Schedule auto delete of Posts by Custom post types** - Adds the ability to schedule auto delete of posts based on custom post types. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-types). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-type-addon)
 - **Schedule auto delete of Pages** - Adds the ability to schedule auto delete of pages. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-pages-addon)
 - **Schedule auto delete of Posts by Post Status** - Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon)
-- **Schedule auto delete of users by User Role** - Adds the ability to schedule auto delete of users based on user role. [More details](buy-bulk-delete-users-by-role-addon). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-users-by-role-addon)
+- **Schedule auto delete of users by User Role** - Adds the ability to schedule auto delete of users based on user role. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-users-by-user-role). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-users-by-role-addon)
 
 ### Development
 
