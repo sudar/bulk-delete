@@ -1308,6 +1308,8 @@ class Bulk_Delete {
 <?php 
         if ( !Bulk_Delete_Util::is_simple_login_log_present() ) {
             $disabled = "disabled";
+        } else {
+            $disabled = '';
         }
 ?>
             <tr>
@@ -1752,7 +1754,7 @@ class Bulk_Delete {
      * Show deleted notice messages
      */
     function deleted_notice() {
-        if ($this->msg != '') {
+        if ( isset( $this->msg ) && $this->msg != '' ) {
             echo "<div class = 'updated'><p>" . $this->msg . "</p></div>";
         }
 
