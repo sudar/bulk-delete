@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 4.0.0
+Version: 4.0
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -77,7 +77,7 @@ Domain Path: languages/
 2013-07-07 - v3.6.0 - (Dev time: 2 hours)
                   - Change minimum requirement to WordPress 3.3
                   - Fix compatibility issues with "The event calendar" Plugin
-2013-07-28 - v4.0.0 - (Dev time: 20 hours)
+2013-09-09 - v4.0 - (Dev time: 25 hours)
                   - Add the ability to delete users
                   - Move menu items under tools
 */

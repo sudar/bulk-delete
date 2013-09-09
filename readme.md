@@ -2,15 +2,15 @@
 **Contributors:** sudar  
 **Tags:** post, comment, delete, bulk, mass, draft, revision, page  
 **Requires at least:** 3.3  
-**Tested up to:** 3.5.2  
+**Tested up to:** 3.6  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 3.6.0  
+**Stable tag:** 4.0  
 
-Bulk delete posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
+Bulk delete users based on user role and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 
 ## Description ##
 
-Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from selected categories, tags, post types or custom taxonomies. This Plugin can also delete all drafts, post revisions, scheduled posts or pages.
+Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from selected categories, tags, post types or custom taxonomies. This Plugin can also delete all drafts, post revisions, scheduled posts or pages and users based on user role.
 
 ### Features
 
@@ -60,7 +60,11 @@ Like posts, all the above options support the following filters as well
 
 - Delete all post revisions
 
-#### Deleting by content and page views
+#### Deleting users
+
+- Delete users based on user role
+
+#### Deleting posts by content and page views
 
 Coming soon :)
 
@@ -72,12 +76,13 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 
 The following are the list of pro addons that are currently available for purchase to add more features to the Plugin.
 
-- **Bulk Delete Schedule Categories** - Adds the ability to schedule auto delete of posts based on categories. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-category-addon)
-- **Bulk Delete Schedule Tags** - Adds the ability to schedule auto delete of posts based on tags. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-tags-addon)
-- **Bulk Delete Schedule Custom Taxonomies** - Adds the ability to schedule auto delete of posts based on custom taxonomies. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-taxonomy). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-taxonomy-addon)
-- **Bulk Delete Schedule Custom post types** - Adds the ability to schedule auto delete of posts based on custom post types. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-types). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-type-addon)
-- **Bulk Delete Schedule Pages** - Adds the ability to schedule auto delete of pages. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-pages-addon)
-- **Bulk Delete Schedule by Post Status** - Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon)
+- **Schedule auto delete of Posts by Categories** - Adds the ability to schedule auto delete of posts based on categories. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-category-addon)
+- **Schedule auto delete of Posts by Tags** - Adds the ability to schedule auto delete of posts based on tags. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-tags-addon)
+- **Schedule auto delete of Posts by Custom Taxonomies** - Adds the ability to schedule auto delete of posts based on custom taxonomies. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-taxonomy). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-taxonomy-addon)
+- **Schedule auto delete of Posts by Custom post types** - Adds the ability to schedule auto delete of posts based on custom post types. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-types). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-type-addon)
+- **Schedule auto delete of Pages** - Adds the ability to schedule auto delete of pages. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-pages-addon)
+- **Schedule auto delete of Posts by Post Status** - Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon)
+- **Schedule auto delete of users by User Role** - Adds the ability to schedule auto delete of users based on user role. [More details](buy-bulk-delete-users-by-role-addon). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-users-by-role-addon)
 
 ### Development
 
@@ -206,6 +211,10 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Changelog ##
 
+### 2013-09-09 - v4.0 - (Dev time: 25 hours) ###
+- Add the ability to delete users
+- Move menu items under tools
+
 ### 2013-07-07 - v3.6.0 - (Dev time: 2 hours) ###
 - Change minimum requirement to WordPress 3.3
 - Fix compatibility issues with "The event calendar" Plugin
@@ -324,6 +333,9 @@ The ability to schedule deletion of posts is available as a pro addon.
 *   First version
 
 ## Upgrade Notice ##
+
+### 4.0 ###
+Add the ability to delete users
 
 ### 3.6.0 ###
 Fix compatibility issues with "The event calendar" Plugin
