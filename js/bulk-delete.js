@@ -24,12 +24,12 @@ jQuery(document).ready(function () {
      * Toggle the date restrict fields
      */
     function toggle_date_restrict(el) {
-        if (jQuery("#smbd_" + el + "_restrict").is(":checked")) {
-            jQuery("#smbd_" + el + "_op").removeAttr('disabled');
-            jQuery("#smbd_" + el + "_days").removeAttr('disabled');
+        if (jQuery("#smbd" + el + "_restrict").is(":checked")) {
+            jQuery("#smbd" + el + "_op").removeAttr('disabled');
+            jQuery("#smbd" + el + "_days").removeAttr('disabled');
         } else {
-            jQuery("#smbd_" + el + "_op").attr('disabled', 'true');
-            jQuery("#smbd_" + el + "_days").attr('disabled', 'true');
+            jQuery("#smbd" + el + "_op").attr('disabled', 'true');
+            jQuery("#smbd" + el + "_days").attr('disabled', 'true');
         }
     }
 
@@ -37,10 +37,10 @@ jQuery(document).ready(function () {
      * Toggle limit restrict fields
      */
     function toggle_limit_restrict(el) {
-        if (jQuery("#smbd_" + el + "_limit").is(":checked")) {
-            jQuery("#smbd_" + el + "_limit_to").removeAttr('disabled');
+        if (jQuery("#smbd" + el + "_limit").is(":checked")) {
+            jQuery("#smbd" + el + "_limit_to").removeAttr('disabled');
         } else {
-            jQuery("#smbd_" + el + "_limit_to").attr('disabled', 'true');
+            jQuery("#smbd" + el + "_limit_to").attr('disabled', 'true');
         }
     }
 
