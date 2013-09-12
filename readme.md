@@ -2,9 +2,9 @@
 **Contributors:** sudar  
 **Tags:** post, comment, delete, bulk, mass, draft, revision, page  
 **Requires at least:** 3.3  
-**Tested up to:** 3.6  
+**Tested up to:** 3.6.1  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 4.0  
+**Stable tag:** 4.0.1  
 
 Bulk delete users based on user role and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 
@@ -211,6 +211,9 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Changelog ##
 
+### 2013-09-12 - v4.0.1 - (Dev time: 1 hours) ###
+- Fix JavaScript bug that prevented deleting posts by days and in batches
+
 ### 2013-09-09 - v4.0 - (Dev time: 25 hours) ###
 - Add the ability to delete users
 - Move menu items under tools
@@ -333,6 +336,9 @@ The ability to schedule deletion of posts is available as a pro addon.
 *   First version
 
 ## Upgrade Notice ##
+
+### 4.0.1 ###
+Fixed JS bug that was introduced in v4.0
 
 ### 4.0 ###
 Add the ability to delete users
