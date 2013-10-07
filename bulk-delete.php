@@ -84,6 +84,7 @@ Domain Path: languages/
                   - Fix JavaScript bug that prevented deleting posts by days and in batches
 2013-10-07 - v4.0.2 - (Dev time: 1 hours)
                   - Fix issue in displaying meta boxes
+                  - Show taxonomy label instead of slug
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -799,7 +800,7 @@ class Bulk_Delete {
                         <input name="smbd_taxs" value = "<?php echo $tax; ?>" type = "radio"  class = "custom-tax">
                     </td>
                     <td>
-                        <label for="smbd_taxs"><?php echo $tax; ?> </label>
+                        <label for="smbd_taxs"><?php echo $taxs[$tax]->labels->name; ?> </label>
                     </td>
                 </tr>
 <?php
