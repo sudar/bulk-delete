@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 4.0.1
+Version: 4.0.2
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -82,6 +82,8 @@ Domain Path: languages/
                   - Move menu items under tools
 2013-09-12 - v4.0.1 - (Dev time: 1 hours)
                   - Fix JavaScript bug that prevented deleting posts by days and in batches
+2013-10-07 - v4.0.2 - (Dev time: 1 hours)
+                  - Fix issue in displaying meta boxes
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -113,7 +115,7 @@ if ( !class_exists( 'Bulk_Delete_Util' ) ) {
  */
 class Bulk_Delete {
     
-    const VERSION               = '4.0.1';
+    const VERSION               = '4.0.2';
 
     // page slugs
     const USERS_PAGE_SLUG       = 'bulk-delete-users';
@@ -145,6 +147,9 @@ class Bulk_Delete {
 
     // meta boxes for delete users
     const BOX_USERS             = 'bdu_by_users';
+
+    const VISIBLE_POST_BOXES    = 'metaboxhidden_tools_page_bulk-delete';
+    const VISIBLE_USER_BOXES    = 'metaboxhidden_tools_page_bulk-delete-users';
 
     /**
      * Default constructor
@@ -1784,7 +1789,7 @@ class Bulk_Delete {
      */
     private function get_posts_hidden_boxes() {
         $current_user = wp_get_current_user();
-        return get_user_meta( $current_user->ID, 'metaboxhidden_settings_page_bulk-delete', TRUE );
+        return get_user_meta( $current_user->ID, self::VISIBLE_POST_BOXES, TRUE );
     }
 
     /**
@@ -1806,7 +1811,7 @@ class Bulk_Delete {
      */
     private function get_users_hidden_boxes() {
         $current_user = wp_get_current_user();
-        return get_user_meta( $current_user->ID, 'metaboxhidden_settings_page_bulk-delete-users', TRUE );
+        return get_user_meta( $current_user->ID, self::VISIBLE_USER_BOXES, TRUE );
     }
 
     /**
