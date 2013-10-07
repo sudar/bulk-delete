@@ -85,6 +85,7 @@ Domain Path: languages/
 2013-10-07 - v4.0.2 - (Dev time: 1 hours)
                   - Fix issue in displaying meta boxes
                   - Show taxonomy label instead of slug
+                  - Fix issue in deleting posts by custom taxonomy
 */
 
 /*  Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -818,7 +819,7 @@ class Bulk_Delete {
 ?>
                     <tr>
                         <td scope="row" >
-                            <input name="smbd_tax_terms[]" value = "<?php echo $term->name; ?>" type = "checkbox" class = "terms" >
+                            <input name="smbd_tax_terms[]" value = "<?php echo $term->slug; ?>" type = "checkbox" class = "terms" >
                         </td>
                         <td>
                             <label for="smbd_tax_terms"><?php echo $term->name; ?> (<?php echo $term->count . " "; _e("Posts", 'bulk-delete'); ?>)</label>
