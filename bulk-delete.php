@@ -107,7 +107,7 @@ class Bulk_Delete {
      */
 	function add_menu() {
 
-        $this->admin_page = add_submenu_page( 'tools.php', __("Bulk Delete Posts", 'bulk-delete'), __("Bulk Delete Posts", 'bulk-delete'), 'delete_posts', basename(__FILE__), array(&$this, 'display_setting_page'));
+        $this->admin_page = add_submenu_page( 'tools.php', __("Bulk Delete Posts", 'bulk-delete'), __("Bulk Delete Posts", 'bulk-delete'), 'delete_posts', basename(__FILE__), array(&$this, 'display_posts_page'));
         $this->users_page = add_submenu_page( 'tools.php', __("Bulk Delete Users", 'bulk-delete'), __("Bulk Delete Users", 'bulk-delete'), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ));
         $this->cron_page  = add_submenu_page( 'tools.php', __("Bulk Delete Schedules", 'bulk-delete'), __("Bulk Delete Schedules", 'bulk-delete'), 'delete_posts', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
 
@@ -290,9 +290,9 @@ class Bulk_Delete {
     }
 
     /**
-     * Show the Admin page
+     * Show the delete posts page
      */
-    function display_setting_page() {
+    function display_posts_page() {
 ?>
 <div class="wrap">
     <?php screen_icon(); ?>
