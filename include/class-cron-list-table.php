@@ -48,6 +48,13 @@ class Cron_List_Table extends WP_List_Table {
             echo '<ul style="list-style:disc; padding-left:35px">';
 
             echo '<li>';
+            echo '<strong>', __('Delete posts by custom field', 'bulk-delete'), '</strong>', ' - ';
+            echo __('Adds the ability to delete posts based on custom fields', 'bulk-delete');
+            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-custom-field">', __('More Info', 'bulk-delete'), '</a>.';
+            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-custom-field">', __('Buy now', 'bulk-delete'), '</a>';
+            echo '</li>';
+
+            echo '<li>';
             echo '<strong>', __('Schedule auto delete of Posts by Categories', 'bulk-delete'), '</strong>', ' - ';
             echo __('Adds the ability to schedule auto delete of posts based on categories', 'bulk-delete');
             echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories">', __('More Info', 'bulk-delete'), '</a>.';
