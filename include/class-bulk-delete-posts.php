@@ -843,6 +843,32 @@ class Bulk_Delete_Posts {
     }
 
     /**
+     * Render delete posts by custom field box
+     */
+    public static function render_by_custom_field_box() {
+
+        if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_CUSTOM_FIELD ) ) {
+            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            return;
+        }
+
+        if ( !class_exists( 'Bulk_Delete_Custom_Field' ) ) {
+?>
+        <!-- Custom Field box start-->
+        <p>
+            <span class = "bd-post-status-pro" style = "color:red">
+                <?php _e( 'You need "Bulk Delete by Custom Field" Addon, to delete post by custom field.', 'bulk-delete'); ?>
+                <a href = "http://sudarmuthu.com/wordpress/pro-addons">Buy now</a>
+            </span>
+        </p>
+        <!-- Custom Field box end-->
+<?php
+        } else {
+            Bulk_Delete_Custom_Field::render_by_custom_field_box();
+        }
+    }
+
+    /**
      * Render debug box
      */
     public static function render_debug_box() {

@@ -47,7 +47,7 @@ jQuery(document).ready(function () {
     // for post boxes
     postboxes.add_postbox_toggles(pagenow);
 
-    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', 'u_userrole'], function (index, value) {
+    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', '_cf', 'u_userrole'], function (index, value) {
         // invoke the date time picker
         jQuery('#smbd' + value + '_cron_start').datetimepicker({
             timeFormat: 'HH:mm:ss'
@@ -87,6 +87,14 @@ jQuery(document).ready(function () {
                 // not valid
                 alert(BULK_DELETE.error.enterurl);
             }
+        } else if (jQuery(this).val() === 'bulk-delete-cf') {
+            if (jQuery('#smbd_cf_key').val() !== '') {
+                valid = true;
+            } else {
+                // not valid
+                alert(BULK_DELETE.error.enter_cf_key);
+            }
+
         } else {
             if (jQuery(this).parent().prev().children('table').find(":checkbox:checked[value!='true']").size() > 0) {
                 // monstrous selector
