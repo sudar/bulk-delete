@@ -5,7 +5,7 @@ Plugin Script: bulk-delete.php
 Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
 Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
-Version: 4.0.2
+Version: 4.1
 License: GPL
 Author: Sudar
 Author URI: http://sudarmuthu.com/
@@ -112,12 +112,16 @@ if ( !class_exists( 'Bulk_Delete_Util' ) ) {
     require_once dirname( __FILE__ ) . '/include/class-bulk-delete-util.php';
 }
 
+if ( !function_exists( 'array_get' ) ) {
+    require_once dirname( __FILE__ ) . '/include/util.php';
+}
+
 /**
  * Bulk Delete Main class
  */
 class Bulk_Delete {
     
-    const VERSION               = '4.0.2';
+    const VERSION               = '4.1';
 
     // page slugs
     const USERS_PAGE_SLUG       = 'bulk-delete-users';
@@ -2261,20 +2265,4 @@ class Bulk_Delete {
 
 // Start this plugin once all other plugins are fully loaded
 add_action( 'init', 'Bulk_Delete' ); function Bulk_Delete() { global $Bulk_Delete; $Bulk_Delete = new Bulk_Delete(); }
-
-/**
- * Check whether a key is present. If present returns the value, else returns the default value
- *
- * @param <array> $array - Array whose key has to be checked
- * @param <string> $key - key that has to be checked
- * @param <string> $default - the default value that has to be used, if the key is not found (optional)
- *
- * @return <mixed> If present returns the value, else returns the default value
- * @author Sudar
- */
-if (!function_exists('array_get')) {
-    function array_get($array, $key, $default = NULL) {
-        return isset($array[$key]) ? $array[$key] : $default;
-    }
-}
 ?>
