@@ -195,21 +195,37 @@ The ability to schedule deletion of posts is available as a pro addon.
 
 ## Screenshots ##
 
-1. The above screenshot shows how you can delete Posts by post status. You can choose between drafts, pending posts, scheduled posts, privates posts.
+![](assets-wp-repo/screenshot-1.png)
 
-2. The above screenshot shows how you can delete posts by category. 
+The above screenshot shows how you can delete Posts by post status. You can choose between drafts, pending posts, scheduled posts, privates posts.
 
-3. The above screenshot shows how you can delete posts by tags.
+![](assets-wp-repo/screenshot-2.png)
 
-4. The above screenshot shows how you can delete posts by custom taxonomies.
+The above screenshot shows how you can delete posts by category. 
 
-5. The above screenshot shows how you can delete pages by post status. You can choose between draft pages, pending pages, scheduled pages and privates pages.
+![](assets-wp-repo/screenshot-3.png)
 
-6. The above screenshot shows how you can schedule auto delete of posts. Note that this feature is available only when you buy [pro addons](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons).
+The above screenshot shows how you can delete posts by tags.
 
-7. The above screenshot shows the scheduled auto delete jobs will be displayed. Note that this feature is available only when you buy [pro addons](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons).
+![](assets-wp-repo/screenshot-4.png)
 
-8. The above screenshot shows how you can enable/disable different sections of the Plugin.
+The above screenshot shows how you can delete posts by custom taxonomies.
+
+![](assets-wp-repo/screenshot-5.png)
+
+The above screenshot shows how you can delete pages by post status. You can choose between draft pages, pending pages, scheduled pages and privates pages.
+
+![](assets-wp-repo/screenshot-6.png)
+
+The above screenshot shows how you can schedule auto delete of posts. Note that this feature is available only when you buy [pro addons](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons).
+
+![](assets-wp-repo/screenshot-7.png)
+
+The above screenshot shows the scheduled auto delete jobs will be displayed. Note that this feature is available only when you buy [pro addons](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons).
+
+![](assets-wp-repo/screenshot-8.png)
+
+The above screenshot shows how you can enable/disable different sections of the Plugin.
 
 ## Readme Generator ##
 
