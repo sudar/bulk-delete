@@ -587,7 +587,6 @@ class Bulk_Delete {
 
                     $delete_options['selected_types'] = array_get( $_POST, 'smbd_types' );
                     $delete_options['restrict']       = array_get($_POST, 'smbd_types_restrict', FALSE);
-                    $delete_options['private']        = array_get($_POST, 'smbd_types_private');
                     $delete_options['limit_to']       = absint(array_get($_POST, 'smbd_types_limit_to', 0));
                     $delete_options['force_delete']   = array_get($_POST, 'smbd_types_force_delete', 'false');
 
@@ -936,62 +935,67 @@ class Bulk_Delete {
      * Delete posts by custom post type
      */
     static function delete_post_types( $delete_options ) {
+        $count = 0;
         $selected_types = $delete_options['selected_types'];
 
-        $options = array(
-            'post_status' => 'publish', 
-            'post_type'   => $selected_types
-        );
+        foreach ( $selected_types as $selected_type ) {
 
-        $private = $delete_options['private'];
+            $type_status = Bulk_Delete_Util::split_post_type_status( $selected_type );
 
-        if ($private == 'true') {
-            $options['post_status']  = 'private';
-        }
+            $type        = $type_status['type'];
+            $status      = $type_status['status'];
 
-        $limit_to = $delete_options['limit_to'];
+            $options = array(
+                'post_status' => $status, 
+                'post_type'   => $type
+            );
 
-        if ($limit_to > 0) {
-            $options['showposts'] = $limit_to;
-        } else {
-            $options['nopaging'] = 'true';
-        }
+            $limit_to = $delete_options['limit_to'];
 
-        $force_delete = $delete_options['force_delete'];
-
-        if ($force_delete == 'true') {
-            $force_delete = true;
-        } else {
-            $force_delete = false;
-        }
-
-        self::pre_query();
-
-        if ($delete_options['restrict'] == "true") {
-            $options['op'] = $delete_options['types_op'];
-            $options['days'] = $delete_options['types_days'];
-
-            if (!class_exists('Bulk_Delete_By_Days')) {
-                require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
-            }
-            $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
-        }
-
-        $wp_query = new WP_Query();
-        $posts = $wp_query->query($options);
-
-        self::post_query();
-
-        foreach ($posts as $post) {
-            // $force delete parameter to custom post types doesn't work
-            if ( $force_delete ) {
-                wp_delete_post( $post->ID );
+            if ( $limit_to > 0 ) {
+                $options['showposts'] = $limit_to;
             } else {
-                wp_trash_post( $post->ID );
+                $options['nopaging'] = 'true';
             }
+
+            $force_delete = $delete_options['force_delete'];
+
+            if ( $force_delete == 'true' ) {
+                $force_delete = true;
+            } else {
+                $force_delete = false;
+            }
+
+            self::pre_query();
+
+            if ($delete_options['restrict'] == "true") {
+                $options['op'] = $delete_options['types_op'];
+                $options['days'] = $delete_options['types_days'];
+
+                if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+                    require_once dirname( __FILE__ ) . '/include/class-bulk-delete-by-days.php';
+                }
+                $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+            }
+
+            $wp_query = new WP_Query();
+            $posts = $wp_query->query( $options );
+
+            self::post_query();
+
+            foreach ( $posts as $post ) {
+                // $force delete parameter to custom post types doesn't work
+                if ( $force_delete ) {
+                    wp_delete_post( $post->ID );
+                } else {
+                    wp_trash_post( $post->ID );
+                }
+            }
+
+            $count += count( $posts );
         }
 
-        return count( $posts );
+        return $count;
     }
 
     /**

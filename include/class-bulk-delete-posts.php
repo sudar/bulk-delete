@@ -534,7 +534,19 @@ class Bulk_Delete_Posts {
             foreach ($types as $type) {
                 $post_count = wp_count_posts( $type );
                 if ( $post_count->publish > 0 ) {
-                    $types_array[$type] = $post_count->publish;
+                    $types_array["$type-publish"] = $post_count->publish;
+                }
+                if ( $post_count->future > 0 ) {
+                    $types_array["$type-future"] = $post_count->future;
+                }
+                if ( $post_count->pending > 0 ) {
+                    $types_array["$type-pending"] = $post_count->pending;
+                }
+                if ( $post_count->draft > 0 ) {
+                    $types_array["$type-draft"] = $post_count->draft;
+                }
+                if ( $post_count->private > 0 ) {
+                    $types_array["$type-private"] = $post_count->private;
                 }
             }
         }
@@ -554,7 +566,7 @@ class Bulk_Delete_Posts {
                         <input name="smbd_types[]" value = "<?php echo $type; ?>" type = "checkbox">
                     </td>
                     <td>
-                    <label for="smbd_types"><?php echo $type, ' (', $count, ')'; ?></label>
+                    <label for="smbd_types"><?php echo Bulk_Delete_Util::display_post_type_status( $type ), ' (', $count, ')'; ?></label>
                     </td>
                 </tr>
 <?php
@@ -584,13 +596,6 @@ class Bulk_Delete_Posts {
                     <td scope="row" colspan="2">
                         <input name="smbd_types_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e('Move to Trash', 'bulk-delete'); ?>
                         <input name="smbd_types_force_delete" value = "true" type = "radio" /> <?php _e('Delete permanently', 'bulk-delete'); ?>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td scope="row" colspan="2">
-                        <input name="smbd_types_private" value = "false" type = "radio" checked="checked" /> <?php _e('Public posts', 'bulk-delete'); ?>
-                        <input name="smbd_types_private" value = "true" type = "radio" /> <?php _e('Private Posts', 'bulk-delete'); ?>
                     </td>
                 </tr>
 

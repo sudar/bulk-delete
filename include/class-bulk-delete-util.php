@@ -105,5 +105,52 @@ class Bulk_Delete_Util {
         }
         return $cron_items;
     }
+
+    /**
+     * Generate display name from post type and status
+     */
+    public static function display_post_type_status( $str ) {
+        $type_status = self::split_post_type_status( $str );
+
+        $type        = $type_status['type'];
+        $status      = $type_status['status'];
+
+        switch ( $status ) {
+            case 'private':
+                return $type . ' - Private Posts';
+                break;
+            case 'future':
+                return $type . ' - Scheduled Posts';
+                break;
+            case 'draft':
+                return $type . ' - Draft Posts';
+                break;
+            case 'pending':
+                return $type . ' - Pending Posts';
+                break;
+            case 'publish':
+                return $type . ' - Published Posts';
+                break;
+        }
+    }
+
+    /**
+     * Split post type and status
+     */
+    public static function split_post_type_status( $str ) {
+        $type_status = array();
+
+        $str_arr = explode( '-', $str );
+
+        if ( count( $str_arr ) > 1 ) {
+            $type_status['status'] = end( $str_arr );
+            $type_status['type']   = implode( '', array_slice( $str_arr, 0, -1 ) );
+        } else {
+            $type_status['status'] = 'publish';
+            $type_status['type']   = $str;
+        }
+
+        return $type_status;
+    }
 }
 ?>

@@ -1,5 +1,8 @@
 ## Changelog ##
 
+### 2013-10-22 - v4.2 - (Dev time: 3 hours) ###
+- Add the ability to custom post type posts by post status
+
 ### 2013-10-12 - v4.1 - (Dev time: 6 hours) ###
 - Add the "delete by custom field" pro addon
 
@@ -133,6 +136,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 4.2 ###
+Add the ability to custom post type posts by post status
 
 ### 4.0.2 ###
 Fixed issue in deleting posts by custom taxonomy
