@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Bulk Delete package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Bulk Delete 4.1\n"
+"Project-Id-Version: Bulk Delete 4.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bulk-delete\n"
-"POT-Creation-Date: 2013-10-12 12:14:10+00:00\n"
+"POT-Creation-Date: 2013-10-22 15:39:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -152,8 +152,8 @@ msgid "Users from the selected userrole are scheduled for deletion."
 msgstr ""
 
 #: bulk-delete.php:474 bulk-delete.php:513 bulk-delete.php:544
-#: bulk-delete.php:576 bulk-delete.php:608 bulk-delete.php:642
-#: bulk-delete.php:677 bulk-delete.php:745
+#: bulk-delete.php:576 bulk-delete.php:607 bulk-delete.php:641
+#: bulk-delete.php:676 bulk-delete.php:744
 msgid "See the full list of <a href = \"%s\">scheduled tasks</a>"
 msgstr ""
 
@@ -193,54 +193,54 @@ msgid_plural "Deleted %d posts from the selected custom taxonomies"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bulk-delete.php:607
+#: bulk-delete.php:606
 msgid "Posts from the selected custom post type are scheduled for deletion."
 msgstr ""
 
-#: bulk-delete.php:611
+#: bulk-delete.php:610
 msgid "Deleted %d post from the selected custom post type"
 msgid_plural "Deleted %d posts from the selected custom post type"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bulk-delete.php:641
+#: bulk-delete.php:640
 msgid "Posts with the selected status are scheduled for deletion."
 msgstr ""
 
-#: bulk-delete.php:645
+#: bulk-delete.php:644
 msgid "Deleted %d post with the selected post status"
 msgid_plural "Deleted %d posts with the selected post status"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bulk-delete.php:676
+#: bulk-delete.php:675
 msgid "The selected pages are scheduled for deletion."
 msgstr ""
 
-#: bulk-delete.php:680
+#: bulk-delete.php:679
 msgid "Deleted %d page"
 msgid_plural "Deleted %d pages"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bulk-delete.php:706
+#: bulk-delete.php:705
 msgid "Deleted %d post with the specified urls"
 msgid_plural "Deleted %d posts with the specified urls"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bulk-delete.php:715
+#: bulk-delete.php:714
 msgid "Deleted %d post revision"
 msgid_plural "Deleted %d post revisions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: bulk-delete.php:744
+#: bulk-delete.php:743
 msgid ""
 "Posts matching the selected custom field setting are scheduled for deletion."
 msgstr ""
 
-#: bulk-delete.php:748
+#: bulk-delete.php:747
 msgid "Deleted %d post using the selected custom field condition"
 msgid_plural "Deleted %d posts using the selected custom field condition"
 msgstr[0] ""
@@ -251,10 +251,10 @@ msgstr[1] ""
 #: include/class-bulk-delete-posts.php:247
 #: include/class-bulk-delete-posts.php:367
 #: include/class-bulk-delete-posts.php:521
-#: include/class-bulk-delete-posts.php:648
-#: include/class-bulk-delete-posts.php:768
-#: include/class-bulk-delete-posts.php:815
-#: include/class-bulk-delete-posts.php:851
+#: include/class-bulk-delete-posts.php:653
+#: include/class-bulk-delete-posts.php:773
+#: include/class-bulk-delete-posts.php:820
+#: include/class-bulk-delete-posts.php:856
 #: include/class-bulk-delete-users.php:16
 msgid ""
 "This section just got enabled. Kindly <a href = \"%1$s\">refresh</a> the "
@@ -262,7 +262,7 @@ msgid ""
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:26
-#: include/class-bulk-delete-posts.php:824
+#: include/class-bulk-delete-posts.php:829
 msgid "Select the posts which you want to delete"
 msgstr ""
 
@@ -299,10 +299,11 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:162
 #: include/class-bulk-delete-posts.php:284
 #: include/class-bulk-delete-posts.php:438
-#: include/class-bulk-delete-posts.php:565
-#: include/class-bulk-delete-posts.php:701
-#: include/class-bulk-delete-posts.php:788
+#: include/class-bulk-delete-posts.php:577
+#: include/class-bulk-delete-posts.php:706
+#: include/class-bulk-delete-posts.php:793
 #: include/class-bulk-delete-users.php:42
+#: tmp_addon/bulk-delete-by-custom-field.php:80
 msgid "Choose your filtering options"
 msgstr ""
 
@@ -310,7 +311,8 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:171
 #: include/class-bulk-delete-posts.php:293
 #: include/class-bulk-delete-posts.php:447
-#: include/class-bulk-delete-posts.php:574
+#: include/class-bulk-delete-posts.php:586
+#: tmp_addon/bulk-delete-by-custom-field.php:89
 msgid "Only restrict to posts which are "
 msgstr ""
 
@@ -318,8 +320,9 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:173
 #: include/class-bulk-delete-posts.php:295
 #: include/class-bulk-delete-posts.php:449
-#: include/class-bulk-delete-posts.php:576
-#: include/class-bulk-delete-posts.php:710
+#: include/class-bulk-delete-posts.php:588
+#: include/class-bulk-delete-posts.php:715
+#: tmp_addon/bulk-delete-by-custom-field.php:91
 msgid "older than"
 msgstr ""
 
@@ -327,8 +330,9 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:174
 #: include/class-bulk-delete-posts.php:296
 #: include/class-bulk-delete-posts.php:450
-#: include/class-bulk-delete-posts.php:577
-#: include/class-bulk-delete-posts.php:711
+#: include/class-bulk-delete-posts.php:589
+#: include/class-bulk-delete-posts.php:716
+#: tmp_addon/bulk-delete-by-custom-field.php:92
 msgid "posted within last"
 msgstr ""
 
@@ -336,9 +340,10 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:176
 #: include/class-bulk-delete-posts.php:298
 #: include/class-bulk-delete-posts.php:452
-#: include/class-bulk-delete-posts.php:579
-#: include/class-bulk-delete-posts.php:713
+#: include/class-bulk-delete-posts.php:591
+#: include/class-bulk-delete-posts.php:718
 #: include/class-bulk-delete-users.php:59
+#: tmp_addon/bulk-delete-by-custom-field.php:94
 msgid "days"
 msgstr ""
 
@@ -346,9 +351,10 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:182
 #: include/class-bulk-delete-posts.php:304
 #: include/class-bulk-delete-posts.php:458
-#: include/class-bulk-delete-posts.php:585
-#: include/class-bulk-delete-posts.php:719
-#: include/class-bulk-delete-posts.php:794
+#: include/class-bulk-delete-posts.php:597
+#: include/class-bulk-delete-posts.php:724
+#: include/class-bulk-delete-posts.php:799
+#: tmp_addon/bulk-delete-by-custom-field.php:100
 msgid "Move to Trash"
 msgstr ""
 
@@ -356,9 +362,10 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:183
 #: include/class-bulk-delete-posts.php:305
 #: include/class-bulk-delete-posts.php:459
-#: include/class-bulk-delete-posts.php:586
-#: include/class-bulk-delete-posts.php:720
-#: include/class-bulk-delete-posts.php:795
+#: include/class-bulk-delete-posts.php:598
+#: include/class-bulk-delete-posts.php:725
+#: include/class-bulk-delete-posts.php:800
+#: tmp_addon/bulk-delete-by-custom-field.php:101
 msgid "Delete permanently"
 msgstr ""
 
@@ -366,8 +373,9 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:199
 #: include/class-bulk-delete-posts.php:321
 #: include/class-bulk-delete-posts.php:475
-#: include/class-bulk-delete-posts.php:602
-#: include/class-bulk-delete-posts.php:727
+#: include/class-bulk-delete-posts.php:607
+#: include/class-bulk-delete-posts.php:732
+#: tmp_addon/bulk-delete-by-custom-field.php:117
 msgid "Only delete first "
 msgstr ""
 
@@ -375,8 +383,9 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:200
 #: include/class-bulk-delete-posts.php:322
 #: include/class-bulk-delete-posts.php:476
-#: include/class-bulk-delete-posts.php:603
-#: include/class-bulk-delete-posts.php:728
+#: include/class-bulk-delete-posts.php:608
+#: include/class-bulk-delete-posts.php:733
+#: tmp_addon/bulk-delete-by-custom-field.php:118
 msgid "posts."
 msgstr ""
 
@@ -384,8 +393,9 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:201
 #: include/class-bulk-delete-posts.php:323
 #: include/class-bulk-delete-posts.php:477
-#: include/class-bulk-delete-posts.php:604
-#: include/class-bulk-delete-posts.php:729
+#: include/class-bulk-delete-posts.php:609
+#: include/class-bulk-delete-posts.php:734
+#: tmp_addon/bulk-delete-by-custom-field.php:119
 msgid ""
 "Use this option if there are more than 1000 posts and the script timesout."
 msgstr ""
@@ -394,9 +404,10 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:207
 #: include/class-bulk-delete-posts.php:329
 #: include/class-bulk-delete-posts.php:483
-#: include/class-bulk-delete-posts.php:610
-#: include/class-bulk-delete-posts.php:735
+#: include/class-bulk-delete-posts.php:615
+#: include/class-bulk-delete-posts.php:740
 #: include/class-bulk-delete-users.php:83
+#: tmp_addon/bulk-delete-by-custom-field.php:125
 msgid "Delete now"
 msgstr ""
 
@@ -404,10 +415,11 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:208
 #: include/class-bulk-delete-posts.php:330
 #: include/class-bulk-delete-posts.php:484
-#: include/class-bulk-delete-posts.php:611
-#: include/class-bulk-delete-posts.php:736
+#: include/class-bulk-delete-posts.php:616
+#: include/class-bulk-delete-posts.php:741
 #: include/class-bulk-delete-users.php:84
 #: include/class-cron-list-table.php:117
+#: tmp_addon/bulk-delete-by-custom-field.php:126
 msgid "Schedule"
 msgstr ""
 
@@ -415,9 +427,10 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:209
 #: include/class-bulk-delete-posts.php:331
 #: include/class-bulk-delete-posts.php:485
-#: include/class-bulk-delete-posts.php:612
-#: include/class-bulk-delete-posts.php:737
+#: include/class-bulk-delete-posts.php:617
+#: include/class-bulk-delete-posts.php:742
 #: include/class-bulk-delete-users.php:85
+#: tmp_addon/bulk-delete-by-custom-field.php:127
 msgid "repeat "
 msgstr ""
 
@@ -425,9 +438,10 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:211
 #: include/class-bulk-delete-posts.php:333
 #: include/class-bulk-delete-posts.php:487
-#: include/class-bulk-delete-posts.php:614
-#: include/class-bulk-delete-posts.php:739
+#: include/class-bulk-delete-posts.php:619
+#: include/class-bulk-delete-posts.php:744
 #: include/class-bulk-delete-users.php:87
+#: tmp_addon/bulk-delete-by-custom-field.php:129
 msgid "Don't repeat"
 msgstr ""
 
@@ -435,9 +449,10 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:221
 #: include/class-bulk-delete-posts.php:343
 #: include/class-bulk-delete-posts.php:497
-#: include/class-bulk-delete-posts.php:624
-#: include/class-bulk-delete-posts.php:749
+#: include/class-bulk-delete-posts.php:629
+#: include/class-bulk-delete-posts.php:754
 #: include/class-bulk-delete-users.php:97
+#: tmp_addon/bulk-delete-by-custom-field.php:139
 msgid "Only available in Pro Addon"
 msgstr ""
 
@@ -445,11 +460,12 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:235
 #: include/class-bulk-delete-posts.php:350
 #: include/class-bulk-delete-posts.php:504
-#: include/class-bulk-delete-posts.php:631
-#: include/class-bulk-delete-posts.php:756
-#: include/class-bulk-delete-posts.php:803
-#: include/class-bulk-delete-posts.php:839
+#: include/class-bulk-delete-posts.php:636
+#: include/class-bulk-delete-posts.php:761
+#: include/class-bulk-delete-posts.php:808
+#: include/class-bulk-delete-posts.php:844
 #: include/class-bulk-delete-users.php:111
+#: tmp_addon/bulk-delete-by-custom-field.php:153
 msgid "Bulk Delete "
 msgstr ""
 
@@ -464,19 +480,20 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:189
 #: include/class-bulk-delete-posts.php:311
 #: include/class-bulk-delete-posts.php:465
-#: include/class-bulk-delete-posts.php:592
+#: tmp_addon/bulk-delete-by-custom-field.php:107
 msgid "Public posts"
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:190
 #: include/class-bulk-delete-posts.php:312
 #: include/class-bulk-delete-posts.php:466
-#: include/class-bulk-delete-posts.php:593
+#: tmp_addon/bulk-delete-by-custom-field.php:108
 msgid "Private Posts"
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:227
 #: include/class-bulk-delete-users.php:103
+#: tmp_addon/bulk-delete-by-custom-field.php:145
 msgid "Enter time in Y-m-d H:i:s format or enter now to use current time"
 msgstr ""
 
@@ -506,102 +523,102 @@ msgstr ""
 msgid "You don't have any posts assigned to custom taxonomies in this blog."
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:545
+#: include/class-bulk-delete-posts.php:557
 msgid "Select the custom post type whose post you want to delete"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:637
+#: include/class-bulk-delete-posts.php:642
 msgid "You don't have any posts assigned to custom post types in this blog."
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:660
+#: include/class-bulk-delete-posts.php:665
 msgid "Select the pages which you want to delete"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:667
+#: include/class-bulk-delete-posts.php:672
 msgid "All Published Pages"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:667
-#: include/class-bulk-delete-posts.php:674
-#: include/class-bulk-delete-posts.php:681
-#: include/class-bulk-delete-posts.php:688
-#: include/class-bulk-delete-posts.php:695
+#: include/class-bulk-delete-posts.php:672
+#: include/class-bulk-delete-posts.php:679
+#: include/class-bulk-delete-posts.php:686
+#: include/class-bulk-delete-posts.php:693
+#: include/class-bulk-delete-posts.php:700
 msgid "Pages"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:674
+#: include/class-bulk-delete-posts.php:679
 msgid "All Draft Pages"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:681
+#: include/class-bulk-delete-posts.php:686
 msgid "All Scheduled Pages"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:688
+#: include/class-bulk-delete-posts.php:693
 msgid "All Pending Pages"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:695
+#: include/class-bulk-delete-posts.php:700
 msgid "All Private Pages"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:708
+#: include/class-bulk-delete-posts.php:713
 msgid "Only restrict to pages which are "
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:774
+#: include/class-bulk-delete-posts.php:779
 msgid "Delete these specific pages"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:780
+#: include/class-bulk-delete-posts.php:785
 msgid "Enter one post url (not post ids) per line"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:831
+#: include/class-bulk-delete-posts.php:836
 msgid "All Revisions"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:831
+#: include/class-bulk-delete-posts.php:836
 msgid "Revisions"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:860
+#: include/class-bulk-delete-posts.php:865
 msgid ""
 "You need \"Bulk Delete by Custom Field\" Addon, to delete post by custom "
 "field."
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:878
+#: include/class-bulk-delete-posts.php:883
 msgid ""
 "If you are seeing a blank page after clicking the Bulk Delete button, then "
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:878
+#: include/class-bulk-delete-posts.php:883
 msgid "check out this FAQ"
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:879
+#: include/class-bulk-delete-posts.php:884
 msgid "You also need need the following debug information."
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:883
+#: include/class-bulk-delete-posts.php:888
 msgid "PHP Version "
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:887
+#: include/class-bulk-delete-posts.php:892
 msgid "Plugin Version "
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:891
+#: include/class-bulk-delete-posts.php:896
 msgid "Available memory size "
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:895
+#: include/class-bulk-delete-posts.php:900
 msgid "Script time out "
 msgstr ""
 
-#: include/class-bulk-delete-posts.php:899
+#: include/class-bulk-delete-posts.php:904
 msgid "Script input time "
 msgstr ""
 
@@ -752,6 +769,30 @@ msgstr ""
 
 #: include/class-cron-list-table.php:197
 msgid "You have not scheduled any bulk delete jobs."
+msgstr ""
+
+#: tmp_addon/bulk-delete-by-custom-field.php:55
+msgid "Choose your custom field settings"
+msgstr ""
+
+#: tmp_addon/bulk-delete-by-custom-field.php:61
+msgid "Key "
+msgstr ""
+
+#: tmp_addon/bulk-delete-by-custom-field.php:64
+msgid "equal to"
+msgstr ""
+
+#: tmp_addon/bulk-delete-by-custom-field.php:65
+msgid "not equal to"
+msgstr ""
+
+#: tmp_addon/bulk-delete-by-custom-field.php:68
+msgid "Value "
+msgstr ""
+
+#: tmp_addon/bulk-delete-by-custom-field.php:74
+msgid "If you want to check for null values, then leave the value column blank"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
