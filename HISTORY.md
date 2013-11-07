@@ -1,5 +1,8 @@
 ## Changelog ##
 
+### 2013-11-07 - v4.2.1 - (Dev time: 0.5 hours) ###
+- Explicitly mark static methods as static
+
 ### 2013-10-22 - v4.2 - (Dev time: 3 hours) ###
 - Add the ability to custom post type posts by post status
 
@@ -136,6 +139,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 4.2.1 ###
+Fix warning message in PHP 5.2.x
 
 ### 4.2 ###
 Add the ability to custom post type posts by post status

@@ -10,7 +10,7 @@ class Bulk_Delete_Users {
     /**
      * Render delete users box
      */
-    function render_delete_users_box() {
+    public static function render_delete_users_box() {
 
         if ( Bulk_Delete_Util::is_users_box_hidden( Bulk_Delete::BOX_USERS ) ) {
             printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=' . Bulk_Delete::USERS_PAGE_SLUG );
