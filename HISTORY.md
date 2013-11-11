@@ -143,6 +143,9 @@
 
 ## Upgrade Notice ##
 
+### 4.2.2 ###
+Fix: Bug in deleting custom post types with hypen
+
 ### 4.2.1 ###
 Fix warning message in PHP 5.2.x
 
