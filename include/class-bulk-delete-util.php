@@ -144,7 +144,7 @@ class Bulk_Delete_Util {
 
         if ( count( $str_arr ) > 1 ) {
             $type_status['status'] = end( $str_arr );
-            $type_status['type']   = implode( '', array_slice( $str_arr, 0, -1 ) );
+            $type_status['type']   = implode( '-', array_slice( $str_arr, 0, -1 ) );
         } else {
             $type_status['status'] = 'publish';
             $type_status['type']   = $str;

@@ -1,5 +1,8 @@
 ## Changelog ##
 
+### 2013-11-11 - v4.2.2 - (Dev time: 1 hour) ###
+- Fix: Bug in deleting custom post types with hypen
+
 ### 2013-11-07 - v4.2.1 - (Dev time: 0.5 hours) ###
 - Explicitly mark static methods as static
 
