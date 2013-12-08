@@ -490,6 +490,7 @@ class Bulk_Delete {
                     // delete by cats
 
                     $delete_options = array();
+                    $delete_options['post_type']     = array_get( $_POST, 'smbd_cat_post_type', 'post' );
                     $delete_options['selected_cats'] = array_get($_POST, 'smbd_cats');
                     $delete_options['restrict']      = array_get($_POST, 'smbd_cats_restrict', FALSE);
                     $delete_options['private']       = array_get($_POST, 'smbd_cats_private');
@@ -773,22 +774,27 @@ class Bulk_Delete {
      */
     static function delete_cats($delete_options) {
 
+        // For compatibility reasons set default post type to 'post'
+        $post_type     = array_get( $delete_options, 'post_type', 'post' );
         $selected_cats = $delete_options['selected_cats'];
+
+        $options = array( 
+            'post_type'    => $post_type,
+            'category__in' => $selected_cats,
+            'post_status'  => 'publish',
+            'nopaging'     => 'true'
+        );
 
         $private = $delete_options['private'];
 
         if ($private == 'true') {
-            $options = array('category__in'=>$selected_cats,'post_status'=>'private', 'post_type'=>'post');
-        } else {
-            $options = array('category__in'=>$selected_cats,'post_status'=>'publish', 'post_type'=>'post');
+            $options[ 'post_status' ] = 'private';
         }
 
         $limit_to = $delete_options['limit_to'];
 
         if ($limit_to > 0) {
             $options['showposts'] = $limit_to;
-        } else {
-            $options['nopaging'] = 'true';
         }
 
         $force_delete = $delete_options['force_delete'];
@@ -813,7 +819,12 @@ class Bulk_Delete {
         $posts = $wp_query->query($options);
 
         foreach ($posts as $post) {
-            wp_delete_post($post->ID, $force_delete);
+            // $force delete parameter to custom post types doesn't work
+            if ( $force_delete ) {
+                wp_delete_post( $post->ID );
+            } else {
+                wp_trash_post( $post->ID );
+            }
         }
 
         return count($posts);
