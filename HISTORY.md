@@ -3,6 +3,7 @@
 ### 2013-12-08 - v4.3 - (Dev time: 2 hours) ###
 - New: Ability to delete custom post type posts by categories
 - New: Ability to delete custom post type posts by custom taxonomy
+- Fix: Fix link to "Custom Field" Addon
 
 ### 2013-11-11 - v4.2.2 - (Dev time: 1 hour) ###
 - Fix: Bug in deleting custom post types with hypen
