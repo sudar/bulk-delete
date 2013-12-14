@@ -13,7 +13,7 @@ class Bulk_Delete_Posts {
     public static function render_by_post_status_box() {
 
         if ( Bulk_Delete_Util::is_posts_box_hidden(Bulk_Delete::BOX_POST_STATUS) ) {
-            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
 
@@ -146,7 +146,7 @@ class Bulk_Delete_Posts {
     public static function render_by_category_box() {
 
         if ( Bulk_Delete_Util::is_posts_box_hidden(Bulk_Delete::BOX_CATEGORY) ) {
-            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
 
@@ -299,7 +299,7 @@ class Bulk_Delete_Posts {
     public static function render_by_tag_box() {
 
         if ( Bulk_Delete_Util::is_posts_box_hidden(Bulk_Delete::BOX_TAG) ) {
-            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
 
@@ -419,7 +419,7 @@ class Bulk_Delete_Posts {
     public static function render_by_tax_box() {
 
         if ( Bulk_Delete_Util::is_posts_box_hidden(Bulk_Delete::BOX_TAX) ) {
-            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
 
@@ -599,7 +599,7 @@ class Bulk_Delete_Posts {
     public static function render_by_post_type_box() {
 
         if ( Bulk_Delete_Util::is_posts_box_hidden(Bulk_Delete::BOX_POST_TYPE) ) {
-            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
 
@@ -731,7 +731,7 @@ class Bulk_Delete_Posts {
     public static function render_by_page_box() {
 
         if ( Bulk_Delete_Util::is_posts_box_hidden(Bulk_Delete::BOX_PAGE) ) {
-            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
 
@@ -851,7 +851,7 @@ class Bulk_Delete_Posts {
     public static function render_by_url_box() {
 
         if ( Bulk_Delete_Util::is_posts_box_hidden(Bulk_Delete::BOX_URL) ) {
-            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
 
@@ -898,7 +898,7 @@ class Bulk_Delete_Posts {
     public static function render_by_post_revision_box() {
 
         if ( Bulk_Delete_Util::is_posts_box_hidden(Bulk_Delete::BOX_POST_REVISION) ) {
-            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
 
@@ -934,7 +934,7 @@ class Bulk_Delete_Posts {
     public static function render_by_custom_field_box() {
 
         if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_CUSTOM_FIELD ) ) {
-            printf( __('This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'tools.php?page=bulk-delete.php' );
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
 

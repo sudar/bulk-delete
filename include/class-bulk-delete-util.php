@@ -11,8 +11,8 @@ class Bulk_Delete_Util {
     const SIMPLE_LOGIN_LOG_TABLE = 'simple_login_log';
 
     // Meta boxes
-    const VISIBLE_POST_BOXES     = 'metaboxhidden_tools_page_bulk-delete';
-    const VISIBLE_USER_BOXES     = 'metaboxhidden_tools_page_bulk-delete-users';
+    const VISIBLE_POST_BOXES     = 'metaboxhidden_toplevel_page_bulk-delete-posts';
+    const VISIBLE_USER_BOXES     = 'metaboxhidden_bulk-delete_page_bulk-delete-users';
 
     /**
      * Find out if Simple Login Log is installed or not

@@ -56,7 +56,9 @@ class Bulk_Delete {
     const VERSION               = '4.3';
 
     // page slugs
+    const POSTS_PAGE_SLUG       = 'bulk-delete-posts';
     const USERS_PAGE_SLUG       = 'bulk-delete-users';
+    const CRON_PAGE_SLUG        = 'bulk-delete-cron';
 
     // JS constants
     const JS_HANDLE             = 'bulk-delete';
@@ -109,10 +111,11 @@ class Bulk_Delete {
      * Add navigation menu
      */
 	function add_menu() {
+        add_menu_page( __( 'Bulk Delete', 'bulk-delete' ) , __( 'Bulk Delete', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ), '', 26 );
 
-        $this->admin_page = add_submenu_page( 'tools.php', __("Bulk Delete Posts", 'bulk-delete'), __("Bulk Delete Posts", 'bulk-delete'), 'delete_posts', basename(__FILE__), array(&$this, 'display_posts_page'));
-        $this->users_page = add_submenu_page( 'tools.php', __("Bulk Delete Users", 'bulk-delete'), __("Bulk Delete Users", 'bulk-delete'), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ));
-        $this->cron_page  = add_submenu_page( 'tools.php', __("Bulk Delete Schedules", 'bulk-delete'), __("Bulk Delete Schedules", 'bulk-delete'), 'delete_posts', 'bulk-delete-cron', array(&$this, 'display_cron_page'));
+        $this->admin_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ) );
+        $this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ) );
+        $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules', 'bulk-delete' ), __( 'Bulk Delete Schedules', 'bulk-delete' ), 'delete_posts', self::CRON_PAGE_SLUG, array( &$this, 'display_cron_page' ) );
 
         // enqueue JavaScript
         add_action( 'admin_print_scripts-' . $this->admin_page, array( &$this, 'add_script') );
@@ -272,10 +275,10 @@ class Bulk_Delete {
 
         if( $file == $this_plugin ) {
 
-            $delete_users_link = '<a href="tools.php?page=' . self::USERS_PAGE_SLUG . '">' . __('Bulk Delete Users', 'bulk-delete') . '</a>';
+            $delete_users_link = '<a href="admin.php?page=' . self::USERS_PAGE_SLUG . '">' . __( 'Bulk Delete Users', 'bulk-delete' ) . '</a>';
             array_unshift( $links, $delete_users_link ); // before other links
 
-            $delete_posts_link = '<a href="tools.php?page=bulk-delete.php">' . __('Bulk Delete Posts', 'bulk-delete') . '</a>';
+            $delete_posts_link = '<a href="admin.php?page=' . self::POSTS_PAGE_SLUG . '">' . __( 'Bulk Delete Posts', 'bulk-delete' ) . '</a>';
             array_unshift( $links, $delete_posts_link ); // before other links
         }
         return $links;
@@ -471,7 +474,7 @@ class Bulk_Delete {
                         }
 
                         $this->msg = __( 'Users from the selected userrole are scheduled for deletion.', 'bulk-delete' ) . ' ' . 
-                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/tools.php?page=bulk-delete-cron' );
+                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
                     } else {
                         $deleted_count = Bulk_Delete_Users::delete_users_by_role( $delete_options );
                         $this->msg = sprintf( _n('Deleted %d user from the selected roles', 'Deleted %d users from the selected role' , $deleted_count, 'bulk-delete' ), $deleted_count );
@@ -511,7 +514,7 @@ class Bulk_Delete {
                         }
 
                         $this->msg = __('Posts from the selected categories are scheduled for deletion.', 'bulk-delete') . ' ' . 
-                            sprintf( __('See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete'), get_bloginfo("wpurl") . '/wp-admin/tools.php?page=bulk-delete-cron');
+                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
                     } else {
                         $deleted_count = self::delete_cats($delete_options);
                         $this->msg = sprintf( _n('Deleted %d post from the selected categories', 'Deleted %d posts from the selected categories' , $deleted_count, 'bulk-delete' ), $deleted_count);
@@ -542,7 +545,7 @@ class Bulk_Delete {
                             wp_schedule_event($time, $freq, self::CRON_HOOK_TAGS, array($delete_options));
                         }
                         $this->msg = __('Posts from the selected tags are scheduled for deletion.', 'bulk-delete') . ' ' . 
-                            sprintf( __('See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete'), get_bloginfo("wpurl") . '/wp-admin/tools.php?page=bulk-delete-cron');
+                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
                     } else {
                         $deleted_count = self::delete_tags($delete_options);
                         $this->msg = sprintf( _n('Deleted %d post from the selected tags', 'Deleted %d posts from the selected tags' , $deleted_count, 'bulk-delete' ), $deleted_count);
@@ -575,7 +578,7 @@ class Bulk_Delete {
                             wp_schedule_event($time, $freq, self::CRON_HOOK_TAXONOMY, array($delete_options));
                         }
                         $this->msg = __('Posts from the selected custom taxonomies are scheduled for deletion.', 'bulk-delete') . ' ' . 
-                            sprintf( __('See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete'), get_bloginfo("wpurl") . '/wp-admin/tools.php?page=bulk-delete-cron');
+                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
                     } else {
                         $deleted_count = self::delete_taxs($delete_options);
                         $this->msg = sprintf( _n('Deleted %d post from the selected custom taxonomies', 'Deleted %d posts from the selected custom taxonomies' , $deleted_count, 'bulk-delete' ), $deleted_count);
@@ -606,7 +609,7 @@ class Bulk_Delete {
                         }
 
                         $this->msg = __( 'Posts from the selected custom post type are scheduled for deletion.', 'bulk-delete') . ' ' . 
-                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete'), get_bloginfo("wpurl") . '/wp-admin/tools.php?page=bulk-delete-cron' );
+                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
                     } else {
                         $deleted_count = self::delete_post_types( $delete_options );
                         $this->msg = sprintf( _n( 'Deleted %d post from the selected custom post type', 'Deleted %d posts from the selected custom post type' , $deleted_count, 'bulk-delete' ), $deleted_count );
@@ -642,7 +645,7 @@ class Bulk_Delete {
                             wp_schedule_event($time, $freq, self::CRON_HOOK_POST_STATUS, array($delete_options));
                         }
                         $this->msg = __('Posts with the selected status are scheduled for deletion.', 'bulk-delete') . ' ' . 
-                            sprintf( __('See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete'), get_bloginfo("wpurl") . '/wp-admin/tools.php?page=bulk-delete-cron');
+                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
                     } else {
                         $deleted_count = self::delete_post_status($delete_options);
                         $this->msg = sprintf( _n('Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status' , $deleted_count, 'bulk-delete' ), $deleted_count);
@@ -677,7 +680,7 @@ class Bulk_Delete {
                             wp_schedule_event($time, $freq , self::CRON_HOOK_PAGES, array($delete_options));
                         }
                         $this->msg = __('The selected pages are scheduled for deletion.', 'bulk-delete') . ' ' . 
-                            sprintf( __('See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete'), get_bloginfo("wpurl") . '/wp-admin/tools.php?page=bulk-delete-cron');
+                            sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
                     } else {
                         $deleted_count = self::delete_pages($delete_options);
                         $this->msg = sprintf( _n('Deleted %d page', 'Deleted %d pages' , $deleted_count, 'bulk-delete' ), $deleted_count);
@@ -745,7 +748,7 @@ class Bulk_Delete {
                             }
 
                             $this->msg = __( 'Posts matching the selected custom field setting are scheduled for deletion.', 'bulk-delete' ) . ' ' . 
-                                sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/tools.php?page=bulk-delete-cron' );
+                                sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
                         } else {
                             $deleted_count = Bulk_Delete_Custom_Field::delete_custom_field( $delete_options );
                             $this->msg = sprintf( _n( 'Deleted %d post using the selected custom field condition', 'Deleted %d posts using the selected custom field condition' , $deleted_count, 'bulk-delete' ), $deleted_count );
