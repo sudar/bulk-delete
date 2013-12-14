@@ -411,7 +411,7 @@ class Bulk_Delete {
 
         //Prepare Table of elements
         $cron_list_table = new Cron_List_Table();
-        $cron_list_table->prepare_items( Bulk_Delete_Util::get_cron_schedules() );
+        $cron_list_table->prepare_items();
 ?>
     <div class="wrap">
         <?php screen_icon(); ?>

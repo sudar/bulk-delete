@@ -122,18 +122,20 @@ class Cron_List_Table extends WP_List_Table {
 
 	/**
 	 * Decide which columns to activate the sorting functionality on
+     *
 	 * @return array $sortable, the array of columns that can be sorted by the user
 	 */
 	public function get_sortable_columns() {
 		return $sortable = array(
-			'col_cron_type'=>array('cron_type')
+			'col_cron_type' => array( 'cron_type', true )
 		);
 	}
 
 	/**
 	 * Prepare the table with different parameters, pagination, columns and table elements
 	 */
-	function prepare_items($cron_items) {
+	function prepare_items() {
+        $cron_items = Bulk_Delete_Util::get_cron_schedules();
         $totalitems = count($cron_items);
 
         //How many to display per page?
