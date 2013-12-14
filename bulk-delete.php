@@ -625,10 +625,12 @@ class Bulk_Delete {
                     $delete_options['post_status_op']   = array_get($_POST, 'smbd_post_status_op');
                     $delete_options['post_status_days'] = array_get($_POST, 'smbd_post_status_days');
 
+                    $delete_options['publish']          = array_get( $_POST, 'smbd_publish' );
                     $delete_options['drafts']           = array_get($_POST, 'smbd_drafts');
                     $delete_options['pending']          = array_get($_POST, 'smbd_pending');
                     $delete_options['future']           = array_get($_POST, 'smbd_future');
                     $delete_options['private']          = array_get($_POST, 'smbd_private');
+                    $delete_options['sticky']           = array_get( $_POST, 'smbd_sticky' );
                     
                     if (array_get($_POST, 'smbd_post_status_cron', 'false') == 'true') {
                         $freq = $_POST['smbd_post_status_cron_freq'];
@@ -1044,6 +1046,27 @@ class Bulk_Delete {
         global $wp_query;
         global $wpdb;
 
+        $deleted_posts = 0;
+
+        $force_delete = $delete_options['force_delete'];
+
+        if ($force_delete == 'true') {
+            $force_delete = true;
+        } else {
+            $force_delete = false;
+        }
+
+        // Delete sticky posts
+        if ( 'sticky' == $delete_options['sticky'] ) {
+            $sticky_post_ids = get_option( 'sticky_posts' );
+
+            foreach ( $sticky_post_ids as $sticky_post_id ) {
+                wp_delete_post( $sticky_post_id, $force_delete );
+            }
+
+            $deleted_posts += count( $sticky_post_ids );
+        }
+
         $options = array();
         $post_status = array();
 
@@ -1063,9 +1086,18 @@ class Bulk_Delete {
             $force_delete = false;
         }
 
+        // Published posts
+        if ( 'publish' == $delete_options['publish'] ) {
+            $post_status[] = 'publish';
+        }
+
         // Drafts
-        if ("drafts" == $delete_options['drafts']) {
+        if ( 'drafts' == $delete_options['drafts'] ) {
             $post_status[] = 'draft';
+
+            // ignore sticky posts.
+            // For some reason, sticky posts also gets deleted when deleting drafts through a schedule
+            $options['post__not_in'] = get_option( 'sticky_posts' );
         }
 
         // Pending Posts
@@ -1096,17 +1128,14 @@ class Bulk_Delete {
         // now retrieve all posts and delete them
         $options['post_status'] = $post_status;
 
-        // ignore sticky posts.
-        // For some reason, sticky posts also gets deleted when deleting drafts through a schedule
-        $options['post__not_in'] = get_option( 'sticky_posts' );
-
         $posts = $wp_query->query($options);
 
         foreach ($posts as $post) {
             wp_delete_post($post->ID, $force_delete);
         }
 
-        return count( $posts );
+        $deleted_posts += count( $posts );
+        return $deleted_posts;
     }
 
     /**

@@ -1,5 +1,9 @@
 ## Changelog ##
 
+### 2013-12-14 - v4.4 - (Dev time: 1 hours) ###
+- New: Ability to delete all published posts from "Post Status" module
+- New: Ability to delete all sticky posts from "Post Status" module
+
 ### 2013-12-08 - v4.3 - (Dev time: 2 hours) ###
 - New: Ability to delete custom post type posts by categories
 - New: Ability to delete custom post type posts by custom taxonomy

@@ -18,15 +18,25 @@ class Bulk_Delete_Posts {
         }
 
         $posts_count = wp_count_posts();
+        $publish     = $posts_count->publish;
         $drafts      = $posts_count->draft;
         $future      = $posts_count->future;
         $pending     = $posts_count->pending;
         $private     = $posts_count->private;
+
+        $sticky      = count( get_option( 'sticky_posts' ) );
 ?>
         <h4><?php _e("Select the posts which you want to delete", 'bulk-delete'); ?></h4>
 
         <fieldset class="options">
         <table class="optiontable">
+            <tr>
+                <td>
+                    <input name="smbd_publish" id ="smbd_publish" value = "publish" type = "checkbox" >
+                    <label for="smbd_publish"><?php _e( 'All publish posts', 'bulk-delete' ); ?> (<?php echo $publish . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                </td>
+            </tr>
+
             <tr>
                 <td scope="row" >
                     <input name="smbd_drafts" id ="smbd_drafts" value = "drafts" type = "checkbox" />
@@ -57,7 +67,20 @@ class Bulk_Delete_Posts {
 
             <tr>
                 <td>
+                    <input name="smbd_sticky" id ="smbd_sticky" value = "sticky" type = "checkbox" >
+                    <label for="smbd_sticky"><?php _e( 'All Sticky posts', 'bulk-delete' ); ?> (<?php echo $sticky . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
                     <h4><?php _e("Choose your filtering options", 'bulk-delete'); ?></h4>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <p><?php _e( 'Note: The date filter will not work for sticky posts', 'bulk-delete' ); ?></p>
                 </td>
             </tr>
 
