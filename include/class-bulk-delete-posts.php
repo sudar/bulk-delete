@@ -942,8 +942,8 @@ class Bulk_Delete_Posts {
 ?>
         <!-- Custom Field box start-->
         <p>
-            <span class = "bd-post-status-pro" style = "color:red">
-                <?php _e( 'You need "Bulk Delete by Custom Field" Addon, to delete post by custom field.', 'bulk-delete'); ?>
+            <span class = "bd-post-custom-field-pro" style = "color:red">
+                <?php _e( 'You need "Bulk Delete by Custom Field" Addon, to delete post by custom field.', 'bulk-delete' ); ?>
                 <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-custom-field">Buy now</a>
             </span>
         </p>
