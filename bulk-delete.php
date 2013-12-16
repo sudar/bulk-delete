@@ -307,7 +307,6 @@ class Bulk_Delete {
     function display_posts_page() {
 ?>
 <div class="wrap">
-    <?php screen_icon(); ?>
     <h2><?php _e('Bulk Delete Posts', 'bulk-delete');?></h2>
 
     <form method = "post">
@@ -361,7 +360,6 @@ class Bulk_Delete {
     function display_users_page() {
 ?>
 <div class="wrap">
-    <?php screen_icon(); ?>
     <h2><?php _e('Bulk Delete Users', 'bulk-delete');?></h2>
 
     <form method = "post">
@@ -418,7 +416,6 @@ class Bulk_Delete {
         $cron_list_table->prepare_items();
 ?>
     <div class="wrap">
-        <?php screen_icon(); ?>
         <h2><?php _e('Bulk Delete Schedules', 'bulk-delete');?></h2>
 <?php        
         //Table of elements
