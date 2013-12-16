@@ -24,6 +24,7 @@ This Plugin supports the following bulk delete options for deleting posts
 - Delete posts by custom post types
 - Delete posts by url
 - Delete posts by custom field (Available as a [Pro addon](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-custom-field))
+- Delete posts by title (Available as a [Pro addon](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-title))
 - Delete all draft posts
 - Delete all pending posts
 - Delete all private posts
@@ -78,6 +79,7 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 The following are the list of pro addons that are currently available for purchase to add more features to the Plugin.
 
 - **Delete posts by custom field** - Adds the ability to delete posts based on custom field. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-custom-field). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-custom-field-addon)
+- **Delete posts by title** - Adds the ability to delete posts based on title. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-title). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-title-addon)
 - **Schedule auto delete of Posts by Categories** - Adds the ability to schedule auto delete of posts based on categories. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-category-addon)
 - **Schedule auto delete of Posts by Tags** - Adds the ability to schedule auto delete of posts based on tags. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-tags-addon)
 - **Schedule auto delete of Posts by Custom Taxonomies** - Adds the ability to schedule auto delete of posts based on custom taxonomies. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-taxonomy). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-taxonomy-addon)
@@ -99,12 +101,12 @@ If you are looking for ideas, then you can start with one of the following TODO 
 The following are the features that I am thinking of adding to the Plugin, when I get some free time. If you have any feature request or want to increase the priority of a particular feature, then let me know.
 
 - Bulk Delete posts based on page views
-- Bulk Delete sticky posts
 - Bulk delete based on the presence/absence of a word
 - Bulk Delete empty posts
 - Bulk Delete posts based on users
 - Bulk delete comments
 - Delete images that are used by the posts that are being deleted
+- <del>Bulk Delete sticky posts</del> - Added in v4.4
 - <del>Change the message based on the option the user has chosen</del> - Added in v3.3
 - <del>Expandable/collapsible taxonomies</del> - Added in v3.3
 - <del>Ability to choose the different sections that should be loaded</del> - Added in v3.4

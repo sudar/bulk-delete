@@ -955,6 +955,36 @@ class Bulk_Delete_Posts {
     }
 
     /**
+     * Render posts by title box
+     *
+     * @since 4.4
+     * @static
+     * @access public
+     */
+    public static function render_by_title_box() {
+
+        if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_TITLE ) ) {
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+            return;
+        }
+
+        if ( !class_exists( 'Bulk_Delete_By_Title' ) ) {
+?>
+        <!-- Title box start-->
+        <p>
+            <span class = "bd-post-title-pro" style = "color:red">
+                <?php _e( 'You need "Bulk Delete by Title" Addon, to delete post by title.', 'bulk-delete' ); ?>
+                <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-title">Buy now</a>
+            </span>
+        </p>
+        <!-- Title box end-->
+<?php
+        } else {
+            Bulk_Delete_By_Title::render_by_title_box();
+        }
+    }
+
+    /**
      * Render debug box
      */
     public static function render_debug_box() {

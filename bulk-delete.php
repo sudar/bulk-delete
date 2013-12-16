@@ -72,6 +72,7 @@ class Bulk_Delete {
     const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';
     const CRON_HOOK_POST_TYPES  = 'do-bulk-delete-post-types';
     const CRON_HOOK_CUSTOM_FIELD= 'do-bulk-delete-custom-field';
+    const CRON_HOOK_TITLE       = 'do-bulk-delete-by-title';
 
     const CRON_HOOK_USER_ROLE   = 'do-bulk-delete-users-by-role';
 
@@ -85,6 +86,7 @@ class Bulk_Delete {
     const BOX_URL               = 'bd_by_url';
     const BOX_POST_REVISION     = 'bd_by_post_revision';
     const BOX_CUSTOM_FIELD      = 'bd_by_custom_field';
+    const BOX_TITLE             = 'bd_by_title';
     const BOX_DEBUG             = 'bd_debug';
 
     // meta boxes for delete users
@@ -182,6 +184,7 @@ class Bulk_Delete {
         add_meta_box( self::BOX_URL, __( 'By URL', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_url_box', $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_POST_REVISION, __( 'By Post Revision', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_post_revision_box', $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_CUSTOM_FIELD, __( 'By Custom Field', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_custom_field_box', $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_TITLE, __( 'By Title', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_title_box', $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_DEBUG, __( 'Debug Information', 'bulk-delete' ), 'Bulk_Delete_Posts::render_debug_box', $this->admin_page, 'advanced', 'low' );
     }
 
@@ -256,7 +259,8 @@ class Bulk_Delete {
         $error = array(
             'selectone'    => __( 'Please select posts from at least one option', 'bulk-delete' ),
             'enterurl'     => __( 'Please enter at least one page url', 'bulk-delete' ),
-            'enter_cf_key' => __( 'Please enter some value for custom field key', 'bulk-delete' )
+            'enter_cf_key' => __( 'Please enter some value for custom field key', 'bulk-delete' ),
+            'enter_title'  => __( 'Please enter some value for title', 'bulk-delete' )
         );
 
         $translation_array = array( 'msg' => $msg, 'error' => $error );
@@ -752,6 +756,41 @@ class Bulk_Delete {
                         } else {
                             $deleted_count = Bulk_Delete_Custom_Field::delete_custom_field( $delete_options );
                             $this->msg = sprintf( _n( 'Deleted %d post using the selected custom field condition', 'Deleted %d posts using the selected custom field condition' , $deleted_count, 'bulk-delete' ), $deleted_count );
+                        }
+                    } 
+                    break;
+
+                case "bulk-delete-by-title":
+                    // delete by title
+
+                    if ( class_exists( 'Bulk_Delete_By_Title' ) ) {
+                        $delete_options                   = array();
+                        $delete_options['title_field_op'] = array_get( $_POST, 'smbd_title_field_op' );
+                        $delete_options['title_value']    = array_get( $_POST, 'smbd_title_value' );
+
+                        $delete_options['restrict']       = array_get( $_POST, 'smbd_title_restrict', FALSE );
+                        $delete_options['private']        = array_get( $_POST, 'smbd_title_private' );
+                        $delete_options['limit_to']       = absint( array_get( $_POST, 'smbd_title_limit_to', 0) );
+                        $delete_options['force_delete']   = array_get( $_POST, 'smbd_title_force_delete', 'false' );
+
+                        $delete_options['title_op']       = array_get( $_POST, 'smbd_title_op' );
+                        $delete_options['title_days']     = array_get( $_POST, 'smbd_title_days' );
+                        
+                        if ( array_get( $_POST, 'smbd_title_cron', 'false' ) == 'true' ) {
+                            $freq = $_POST['smbd_title_cron_freq'];
+                            $time = strtotime( $_POST['smbd_title_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
+
+                            if ( $freq == -1 ) {
+                                wp_schedule_single_event( $time, self::CRON_HOOK_TITLE, array( $delete_options ) );
+                            } else {
+                                wp_schedule_event( $time, $freq , self::CRON_HOOK_TITLE, array( $delete_options ) );
+                            }
+
+                            $this->msg = __( 'Posts matching the selected title setting are scheduled for deletion.', 'bulk-delete' ) . ' ' . 
+                                sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
+                        } else {
+                            $deleted_count = Bulk_Delete_By_Title::delete_by_title( $delete_options );
+                            $this->msg = sprintf( _n( 'Deleted %d post using the selected title condition', 'Deleted %d posts using the selected title condition' , $deleted_count, 'bulk-delete' ), $deleted_count );
                         }
                     } 
                     break;
