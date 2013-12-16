@@ -2,7 +2,7 @@
 **Contributors:** sudar  
 **Tags:** post, comment, delete, bulk, mass, draft, revision, page  
 **Requires at least:** 3.3  
-**Tested up to:** 3.7.1  
+**Tested up to:** 3.8  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
 **Stable tag:** 4.3  
 

@@ -1,11 +1,12 @@
 ## Changelog ##
 
-### 2013-12-14 - v4.4 - (Dev time: 3 hours) ###
+### 2013-12-14 - v4.4 - (Dev time: 10 hours) ###
 - New: Ability to delete all published posts from "Post Status" module
 - New: Ability to delete all sticky posts from "Post Status" module
 - Tweak: Moved all option page to a separate top menu
 - Fix: Fix undefined notices and strict warnings
 - New: Ability to delete posts by title
+- Tweak: Tweak UI for WordPress 3.8
 
 ### 2013-12-08 - v4.3 - (Dev time: 2 hours) ###
 - New: Ability to delete custom post type posts by categories
