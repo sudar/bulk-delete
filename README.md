@@ -4,7 +4,7 @@
 **Requires at least:** 3.3  
 **Tested up to:** 3.8  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 4.4  
+**Stable tag:** 4.4.1  
 
 Bulk delete users based on user role and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 
