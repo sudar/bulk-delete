@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Bulk Delete package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Bulk Delete 4.4\n"
+"Project-Id-Version: Bulk Delete 4.4.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bulk-delete\n"
-"POT-Creation-Date: 2013-12-16 14:51:02+00:00\n"
+"POT-Creation-Date: 2013-12-18 13:47:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,6 +12,8 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
+#. #-#-#-#-#  bulk-delete.pot (Bulk Delete 4.4.1)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
 #: bulk-delete.php:116
 msgid "Bulk Delete"
 msgstr ""
@@ -33,7 +35,10 @@ msgid "About Plugin"
 msgstr ""
 
 #: bulk-delete.php:152 bulk-delete.php:208
-msgid "This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc."
+msgid ""
+"This plugin allows you to delete posts in bulk from selected categories, "
+"tags, custom taxonomies or by post status like drafts, pending posts, "
+"scheduled posts etc."
 msgstr ""
 
 #: bulk-delete.php:159 bulk-delete.php:215
@@ -245,7 +250,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: bulk-delete.php:751
-msgid "Posts matching the selected custom field setting are scheduled for deletion."
+msgid ""
+"Posts matching the selected custom field setting are scheduled for deletion."
 msgstr ""
 
 #: bulk-delete.php:755
@@ -275,7 +281,9 @@ msgstr[1] ""
 #: include/class-bulk-delete-posts.php:937
 #: include/class-bulk-delete-posts.php:967
 #: include/class-bulk-delete-users.php:16
-msgid "This section just got enabled. Kindly <a href = \"%1$s\">refresh</a> the page to fully enable it."
+msgid ""
+"This section just got enabled. Kindly <a href = \"%1$s\">refresh</a> the "
+"page to fully enable it."
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:29
@@ -437,7 +445,8 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:815
 #: tmp_addon/bulk-delete-by-custom-field.php:119
 #: tmp_addon/bulk-delete-by-title.php:123
-msgid "Use this option if there are more than 1000 posts and the script timesout."
+msgid ""
+"Use this option if there are more than 1000 posts and the script timesout."
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:117
@@ -458,7 +467,8 @@ msgstr ""
 #: include/class-bulk-delete-posts.php:565
 #: include/class-bulk-delete-posts.php:697
 #: include/class-bulk-delete-posts.php:822
-#: include/class-bulk-delete-users.php:84 include/class-cron-list-table.php:124
+#: include/class-bulk-delete-users.php:84
+#: include/class-cron-list-table.php:124
 #: tmp_addon/bulk-delete-by-custom-field.php:126
 #: tmp_addon/bulk-delete-by-title.php:130
 msgid "Schedule"
@@ -523,7 +533,9 @@ msgid "Select the categories whose post you want to delete"
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:182
-msgid "Note: The post count below for each category is the total number of posts in that category, irrespective of post type"
+msgid ""
+"Note: The post count below for each category is the total number of posts in "
+"that category, irrespective of post type"
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:209
@@ -574,11 +586,15 @@ msgid "Select the taxonomies whose post you want to delete"
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:492
-msgid "The selected taxonomy has the following terms. Select the terms whose post you want to delete"
+msgid ""
+"The selected taxonomy has the following terms. Select the terms whose post "
+"you want to delete"
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:493
-msgid "Note: The post count below for each term is the total number of posts in that term, irrespective of post type"
+msgid ""
+"Note: The post count below for each term is the total number of posts in "
+"that term, irrespective of post type"
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:591
@@ -646,7 +662,9 @@ msgid "Revisions"
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:946
-msgid "You need \"Bulk Delete by Custom Field\" Addon, to delete post by custom field."
+msgid ""
+"You need \"Bulk Delete by Custom Field\" Addon, to delete post by custom "
+"field."
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:976
@@ -654,7 +672,8 @@ msgid "You need \"Bulk Delete by Title\" Addon, to delete post by title."
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:994
-msgid "If you are seeing a blank page after clicking the Bulk Delete button, then "
+msgid ""
+"If you are seeing a blank page after clicking the Bulk Delete button, then "
 msgstr ""
 
 #: include/class-bulk-delete-posts.php:994
@@ -711,7 +730,9 @@ msgid "M j, Y @ G:i"
 msgstr ""
 
 #: include/class-cron-list-table.php:31
-msgid "This is the list of jobs that are currently scheduled for auto deleting posts in Bulk Delete Plugin."
+msgid ""
+"This is the list of jobs that are currently scheduled for auto deleting "
+"posts in Bulk Delete Plugin."
 msgstr ""
 
 #: include/class-cron-list-table.php:39
@@ -719,11 +740,15 @@ msgid "Note: "
 msgstr ""
 
 #: include/class-cron-list-table.php:41
-msgid "Scheduling auto post or user deletion is available only when you buy pro addons."
+msgid ""
+"Scheduling auto post or user deletion is available only when you buy pro "
+"addons."
 msgstr ""
 
 #: include/class-cron-list-table.php:45
-msgid "The following are the list of pro addons that are currently available for purchase."
+msgid ""
+"The following are the list of pro addons that are currently available for "
+"purchase."
 msgstr ""
 
 #: include/class-cron-list-table.php:51
@@ -779,7 +804,8 @@ msgid "Schedule auto delete of posts by Custom Taxonomy"
 msgstr ""
 
 #: include/class-cron-list-table.php:80
-msgid "Adds the ability to schedule auto delete of posts based on custom taxonomies"
+msgid ""
+"Adds the ability to schedule auto delete of posts based on custom taxonomies"
 msgstr ""
 
 #: include/class-cron-list-table.php:86
@@ -787,7 +813,8 @@ msgid "Schedule auto delete of Posts by Custom Post Type"
 msgstr ""
 
 #: include/class-cron-list-table.php:87
-msgid "Adds the ability to schedule auto delete of posts based on custom post types"
+msgid ""
+"Adds the ability to schedule auto delete of posts based on custom post types"
 msgstr ""
 
 #: include/class-cron-list-table.php:93
@@ -803,7 +830,9 @@ msgid "Schedule auto delete of Posts by Post Status"
 msgstr ""
 
 #: include/class-cron-list-table.php:101
-msgid "Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc."
+msgid ""
+"Adds the ability to schedule auto delete of posts based on post status like "
+"drafts, pending posts, scheduled posts etc."
 msgstr ""
 
 #: include/class-cron-list-table.php:107
@@ -883,16 +912,16 @@ msgstr ""
 #: tmp_addon/bulk-delete-by-title.php:76
 msgid "ends with"
 msgstr ""
-#. Plugin Name of the plugin/theme
-msgid "Bulk Delete"
-msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "http://sudarmuthu.com/wordpress/bulk-delete"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc."
+msgid ""
+"Bulk delete users and posts from selected categories, tags, post types, "
+"custom taxonomies or by post status like drafts, scheduled posts, revisions "
+"etc."
 msgstr ""
 
 #. Author of the plugin/theme
