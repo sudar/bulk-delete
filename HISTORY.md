@@ -1,5 +1,8 @@
 ## Changelog ##
 
+### 2013-12-18 - v4.4.1 - (Dev time: 0.5 hours) ###
+- Fix: Bulk Delete menu overrides other menus at the same position
+
 ### 2013-12-14 - v4.4 - (Dev time: 10 hours) ###
 - New: Ability to delete all published posts from "Post Status" module
 - New: Ability to delete all sticky posts from "Post Status" module
@@ -155,6 +158,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 4.4.1 ###
+Fix: Prevent Bulk Delete from overriding other menus
 
 ### 4.2.2 ###
 Fix: Bug in deleting custom post types with hypen
