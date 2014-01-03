@@ -1,5 +1,8 @@
 ## Changelog ##
 
+### 2014-01-01 - v4.4.2 - (Dev time: 0.5 hours) ###
+- Fix: Deleting first x posts deletes all posts while deleting by category (#44)
+
 ### 2013-12-18 - v4.4.1 - (Dev time: 0.5 hours) ###
 - Fix: Bulk Delete menu overrides other menus at the same position
 

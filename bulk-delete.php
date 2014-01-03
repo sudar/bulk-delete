@@ -823,8 +823,7 @@ class Bulk_Delete {
         $options = array( 
             'post_type'    => $post_type,
             'category__in' => $selected_cats,
-            'post_status'  => 'publish',
-            'nopaging'     => 'true'
+            'post_status'  => 'publish'
         );
 
         $private = $delete_options['private'];
@@ -837,6 +836,8 @@ class Bulk_Delete {
 
         if ($limit_to > 0) {
             $options['showposts'] = $limit_to;
+        } else {
+            $options['nopaging']  = 'true';
         }
 
         $force_delete = $delete_options['force_delete'];
