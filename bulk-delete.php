@@ -864,7 +864,7 @@ class Bulk_Delete {
         foreach ($posts as $post) {
             // $force delete parameter to custom post types doesn't work
             if ( $force_delete ) {
-                wp_delete_post( $post->ID );
+                wp_delete_post( $post->ID, TRUE );
             } else {
                 wp_trash_post( $post->ID );
             }
@@ -983,7 +983,7 @@ class Bulk_Delete {
         foreach ($posts as $post) {
             // $force delete parameter to custom post types doesn't work
             if ( $force_delete ) {
-                wp_delete_post( $post->ID );
+                wp_delete_post( $post->ID, TRUE );
             } else {
                 wp_trash_post( $post->ID );
             }
@@ -1047,7 +1047,7 @@ class Bulk_Delete {
             foreach ( $posts as $post ) {
                 // $force delete parameter to custom post types doesn't work
                 if ( $force_delete ) {
-                    wp_delete_post( $post->ID );
+                    wp_delete_post( $post->ID, TRUE );
                 } else {
                     wp_trash_post( $post->ID );
                 }
