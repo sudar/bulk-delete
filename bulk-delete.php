@@ -724,41 +724,17 @@ class Bulk_Delete {
 
                 case "bulk-delete-cf":
                     // delete by custom field
+                    // TODO: Handle this using filters
 
                     if ( class_exists( 'Bulk_Delete_Custom_Field' ) ) {
-                        $delete_options = array();
-                        $delete_options['cf_key']        = array_get($_POST, 'smbd_cf_key');
-                        $delete_options['cf_field_op']   = array_get($_POST, 'smbd_cf_field_op');
-                        $delete_options['cf_value']      = array_get($_POST, 'smbd_cf_value');
-                        $delete_options['restrict']      = array_get($_POST, 'smbd_cf_restrict', FALSE);
-                        $delete_options['private']       = array_get($_POST, 'smbd_cf_private');
-                        $delete_options['limit_to']      = absint(array_get($_POST, 'smbd_cf_limit_to', 0));
-                        $delete_options['force_delete']  = array_get($_POST, 'smbd_cf_force_delete', 'false');
-
-                        $delete_options['cf_op']         = array_get($_POST, 'smbd_cf_op');
-                        $delete_options['cf_days']       = array_get($_POST, 'smbd_cf_days');
-                        
-                        if (array_get($_POST, 'smbd_cf_cron', 'false') == 'true') {
-                            $freq = $_POST['smbd_cf_cron_freq'];
-                            $time = strtotime($_POST['smbd_cf_cron_start']) - ( get_option('gmt_offset') * 60 * 60 );
-
-                            if ($freq == -1) {
-                                wp_schedule_single_event($time, self::CRON_HOOK_CUSTOM_FIELD, array($delete_options));
-                            } else {
-                                wp_schedule_event($time, $freq , self::CRON_HOOK_CUSTOM_FIELD, array($delete_options));
-                            }
-
-                            $this->msg = __( 'Posts matching the selected custom field setting are scheduled for deletion.', 'bulk-delete' ) . ' ' . 
-                                sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . self::CRON_PAGE_SLUG );
-                        } else {
-                            $deleted_count = Bulk_Delete_Custom_Field::delete_custom_field( $delete_options );
-                            $this->msg = sprintf( _n( 'Deleted %d post using the selected custom field condition', 'Deleted %d posts using the selected custom field condition' , $deleted_count, 'bulk-delete' ), $deleted_count );
-                        }
+                        $this->msg = Bulk_Delete_Custom_Field::process_request();
                     } 
                     break;
 
                 case "bulk-delete-by-title":
                     // delete by title
+                    // TODO: Move this logic to Bulk Delete By Title addon
+                    // TODO: Handle this using filters
 
                     if ( class_exists( 'Bulk_Delete_By_Title' ) ) {
                         $delete_options                   = array();
