@@ -1,10 +1,10 @@
 # Bulk Delete #
 **Contributors:** sudar  
 **Tags:** post, comment, delete, bulk, mass, draft, revision, page  
-**Requires at least:** 3.3  
+**Requires at least:** 3.8  
 **Tested up to:** 3.8  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 4.4.1  
+**Stable tag:** 4.4.2  
 
 Bulk delete users based on user role and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 

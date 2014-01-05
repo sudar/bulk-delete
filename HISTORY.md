@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### 2014-01-01 - v4.4.2 - (Dev time: 1.5 hours) ###
+### 2014-01-05 - v4.4.2 - (Dev time: 1.5 hours) ###
 - Fix: Deleting first x posts deletes all posts while deleting by category (#44)
 - Fix: Posts are moved to trash even if "Delete permanently" option is selected (#45)
 - Tweak: Move request processing code for deleting by custom field to addon
