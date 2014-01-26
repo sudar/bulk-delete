@@ -151,7 +151,6 @@ class Bulk_Delete_Posts {
         }
 
         $types =  get_post_types( array(
-            'public'   => true,
             '_builtin' => false
             ), 'names'
         );
@@ -424,7 +423,6 @@ class Bulk_Delete_Posts {
         }
 
         $types =  get_post_types( array(
-            'public'   => true,
             '_builtin' => false
             ), 'names'
         );
@@ -606,7 +604,6 @@ class Bulk_Delete_Posts {
         $types_array = array();
 
         $types =  get_post_types( array(
-            'public'   => true,
             '_builtin' => false
             ), 'names'
         );
