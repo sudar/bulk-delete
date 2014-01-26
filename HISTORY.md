@@ -2,6 +2,7 @@
 
 ### 2014-01-26 - v4.4.3 - (Dev time: 1.5 hours) ###
 - Tweak: Ability to delete posts from non-public post types as well
+- Fix: Fix the height of the sidebar
 
 ### 2014-01-05 - v4.4.2 - (Dev time: 1.5 hours) ###
 - Fix: Deleting first x posts deletes all posts while deleting by category (#44)

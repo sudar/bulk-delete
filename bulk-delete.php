@@ -328,11 +328,10 @@ class Bulk_Delete {
             </div><!-- #post-body-content -->
 
             <div id="postbox-container-1" class="postbox-container">
-                <iframe frameBorder="0" height = "1000" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>&version=<?php echo self::VERSION; ?>"></iframe>
+                <iframe frameBorder="0" height = "1300" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo self::VERSION; ?>"></iframe>
             </div>
 
             <div id="postbox-container-2" class="postbox-container">
-                <?php //do_meta_boxes( '', 'normal', null ); ?>
                 <?php do_meta_boxes( '', 'advanced', null ); ?>
             </div> <!-- #postbox-container-2 -->
 
@@ -381,7 +380,7 @@ class Bulk_Delete {
             </div><!-- #post-body-content -->
 
             <div id="postbox-container-1" class="postbox-container">
-                <iframe frameBorder="0" height = "1000" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option('admin_color'); ?>&version=<?php echo self::VERSION; ?>"></iframe>
+                <iframe frameBorder="0" height = "1300" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo self::VERSION; ?>"></iframe>
             </div>
 
             <div id="postbox-container-2" class="postbox-container">
