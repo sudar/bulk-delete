@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Bulk Delete v4.4.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bulk-delete\n"
 "POT-Creation-Date: 2011-01-24 17:19:16+00:00\n"
-"PO-Revision-Date: 2014-02-11 23:59:40+0000\n"
+"PO-Revision-Date: 2014-03-21 20:18:21+0000\n"
 "Last-Translator: Alexander Ihrig <github@alexander-ihrig.de>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -150,7 +150,7 @@ msgstr "Massenlöschung "
 #: bulk-delete.php:179
 #@ bulk-delete
 msgid "By Category"
-msgstr "Nach Kategorie"
+msgstr "Abhängig von der Kategorie"
 
 #: include/class-bulk-delete-posts.php:180
 #@ bulk-delete
@@ -353,47 +353,47 @@ msgstr "Weitere Plug-ins des Autors"
 #: bulk-delete.php:178
 #@ bulk-delete
 msgid "By Post Status"
-msgstr "Nach Beitragsstatus"
+msgstr "Abhängig vom Beitragsstatus"
 
 #: bulk-delete.php:180
 #@ bulk-delete
 msgid "By Tag"
-msgstr "Nach Schlagwort"
+msgstr "Abhängig vom Schlagwort"
 
 #: bulk-delete.php:181
 #@ bulk-delete
 msgid "By Custom Taxonomy"
-msgstr "Nach spezieller Taxonomie"
+msgstr "Abhängig von spezieller Taxonomie"
 
 #: bulk-delete.php:182
 #@ bulk-delete
 msgid "By Custom Post Types"
-msgstr "Nach speziellen Beitragstypen"
+msgstr "Abhängig von speziellen Beitragstypen"
 
 #: bulk-delete.php:183
 #@ bulk-delete
 msgid "By Page"
-msgstr "Nach Seite"
+msgstr "Abhängig von der Seite"
 
 #: bulk-delete.php:184
 #@ bulk-delete
 msgid "By URL"
-msgstr "Nach URL"
+msgstr "Abhängig von der URL"
 
 #: bulk-delete.php:185
 #@ bulk-delete
 msgid "By Post Revision"
-msgstr "Nach Beitragsrevision"
+msgstr "Abhängig von der Beitragsrevision"
 
 #: bulk-delete.php:186
 #@ bulk-delete
 msgid "By Custom Field"
-msgstr "Nach speziellem Feld"
+msgstr "Abhängig von speziellem Feld"
 
 #: bulk-delete.php:187
 #@ bulk-delete
 msgid "By Title"
-msgstr "Nach Titel"
+msgstr "Abhängig vom Titel"
 
 #: bulk-delete.php:188
 #@ bulk-delete
@@ -403,7 +403,7 @@ msgstr "Debug-Informationen"
 #: bulk-delete.php:234
 #@ bulk-delete
 msgid "By User Role"
-msgstr "Nach Benutzerrolle"
+msgstr "Abhängig von der Benutzerrolle"
 
 #: bulk-delete.php:256
 #@ bulk-delete
