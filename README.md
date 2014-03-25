@@ -68,7 +68,9 @@ Like posts, all the above options support the following filters as well
 
 #### Deleting posts by content and page views
 
-Coming soon :)
+- Delete duplicate posts by title (Available as a [Pro addon](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-duplicate-title))
+
+More options coming soon :)
 
 As you can see, the Plugin provide comprehensive options and filters to perform bulk deletion.
 
@@ -80,6 +82,7 @@ The following are the list of pro addons that are currently available for purcha
 
 - **Delete posts by custom field** - Adds the ability to delete posts based on custom field. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-custom-field). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-custom-field-addon)
 - **Delete posts by title** - Adds the ability to delete posts based on title. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-title). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-title-addon)
+- **Delete posts by duplicate title** - Adds the ability to delete posts based on duplicate title. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-duplicate-title). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-duplicate-title-addon)
 - **Schedule auto delete of Posts by Categories** - Adds the ability to schedule auto delete of posts based on categories. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-category-addon)
 - **Schedule auto delete of Posts by Tags** - Adds the ability to schedule auto delete of posts based on tags. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-tags-addon)
 - **Schedule auto delete of Posts by Custom Taxonomies** - Adds the ability to schedule auto delete of posts based on custom taxonomies. [More details](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-taxonomy). [Buy now](http://sudarmuthu.com/out/buy-bulk-delete-taxonomy-addon)

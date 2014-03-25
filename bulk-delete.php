@@ -53,44 +53,46 @@ if ( !function_exists( 'array_get' ) ) {
  */
 class Bulk_Delete {
 
-    const VERSION               = '4.4.3';
+    const VERSION                   = '4.4.3';
 
     // page slugs
-    const POSTS_PAGE_SLUG       = 'bulk-delete-posts';
-    const USERS_PAGE_SLUG       = 'bulk-delete-users';
-    const CRON_PAGE_SLUG        = 'bulk-delete-cron';
+    const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
+    const USERS_PAGE_SLUG           = 'bulk-delete-users';
+    const CRON_PAGE_SLUG            = 'bulk-delete-cron';
 
     // JS constants
-    const JS_HANDLE             = 'bulk-delete';
-    const JS_VARIABLE           = 'BULK_DELETE';
+    const JS_HANDLE                 = 'bulk-delete';
+    const JS_VARIABLE               = 'BULK_DELETE';
 
     // Cron hooks
-    const CRON_HOOK_CATS        = 'do-bulk-delete-cats';
-    const CRON_HOOK_PAGES       = 'do-bulk-delete-pages';
-    const CRON_HOOK_POST_STATUS = 'do-bulk-delete-post-status';
-    const CRON_HOOK_TAGS        = 'do-bulk-delete-tags';
-    const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';
-    const CRON_HOOK_POST_TYPES  = 'do-bulk-delete-post-types';
-    const CRON_HOOK_CUSTOM_FIELD= 'do-bulk-delete-custom-field';
-    const CRON_HOOK_TITLE       = 'do-bulk-delete-by-title';
+    const CRON_HOOK_CATS            = 'do-bulk-delete-cats';
+    const CRON_HOOK_PAGES           = 'do-bulk-delete-pages';
+    const CRON_HOOK_POST_STATUS     = 'do-bulk-delete-post-status';
+    const CRON_HOOK_TAGS            = 'do-bulk-delete-tags';
+    const CRON_HOOK_TAXONOMY        = 'do-bulk-delete-taxonomy';
+    const CRON_HOOK_POST_TYPES      = 'do-bulk-delete-post-types';
+    const CRON_HOOK_CUSTOM_FIELD    = 'do-bulk-delete-custom-field';
+    const CRON_HOOK_TITLE           = 'do-bulk-delete-by-title';
+    const CRON_HOOK_DUPLICATE_TITLE = 'do-bulk-delete-by-duplicate-title';
 
-    const CRON_HOOK_USER_ROLE   = 'do-bulk-delete-users-by-role';
+    const CRON_HOOK_USER_ROLE       = 'do-bulk-delete-users-by-role';
 
     // meta boxes for delete posts
-    const BOX_POST_STATUS       = 'bd_by_post_status';
-    const BOX_CATEGORY          = 'bd_by_category';
-    const BOX_TAG               = 'bd_by_tag';
-    const BOX_TAX               = 'bd_by_tax';
-    const BOX_POST_TYPE         = 'bd_by_post_type';
-    const BOX_PAGE              = 'bd_by_page';
-    const BOX_URL               = 'bd_by_url';
-    const BOX_POST_REVISION     = 'bd_by_post_revision';
-    const BOX_CUSTOM_FIELD      = 'bd_by_custom_field';
-    const BOX_TITLE             = 'bd_by_title';
-    const BOX_DEBUG             = 'bd_debug';
+    const BOX_POST_STATUS           = 'bd_by_post_status';
+    const BOX_CATEGORY              = 'bd_by_category';
+    const BOX_TAG                   = 'bd_by_tag';
+    const BOX_TAX                   = 'bd_by_tax';
+    const BOX_POST_TYPE             = 'bd_by_post_type';
+    const BOX_PAGE                  = 'bd_by_page';
+    const BOX_URL                   = 'bd_by_url';
+    const BOX_POST_REVISION         = 'bd_by_post_revision';
+    const BOX_CUSTOM_FIELD          = 'bd_by_custom_field';
+    const BOX_TITLE                 = 'bd_by_title';
+    const BOX_DUPLICATE_TITLE       = 'bd_by_duplicate_title';
+    const BOX_DEBUG                 = 'bd_debug';
 
     // meta boxes for delete users
-    const BOX_USERS             = 'bdu_by_users';
+    const BOX_USERS                 = 'bdu_by_users';
 
     /**
      * Default constructor
@@ -185,6 +187,7 @@ class Bulk_Delete {
         add_meta_box( self::BOX_POST_REVISION, __( 'By Post Revision', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_post_revision_box', $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_CUSTOM_FIELD, __( 'By Custom Field', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_custom_field_box', $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_TITLE, __( 'By Title', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_title_box', $this->admin_page, 'advanced' );
+        add_meta_box( self::BOX_DUPLICATE_TITLE, __( 'By Duplicate Title', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_duplicate_title_box', $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_DEBUG, __( 'Debug Information', 'bulk-delete' ), 'Bulk_Delete_Posts::render_debug_box', $this->admin_page, 'advanced', 'low' );
     }
 
@@ -764,6 +767,15 @@ class Bulk_Delete {
                             $deleted_count = Bulk_Delete_By_Title::delete_by_title( $delete_options );
                             $this->msg = sprintf( _n( 'Deleted %d post using the selected title condition', 'Deleted %d posts using the selected title condition' , $deleted_count, 'bulk-delete' ), $deleted_count );
                         }
+                    }
+                    break;
+
+                case "bulk-delete-by-duplicate-title":
+                    // delete by duplicate title
+                    // TODO: Handle this using filters
+
+                    if ( class_exists( 'Bulk_Delete_Posts_By_Duplicate_Title' ) ) {
+                        $this->msg = Bulk_Delete_Posts_By_Duplicate_Title::process_request();
                     }
                     break;
             }

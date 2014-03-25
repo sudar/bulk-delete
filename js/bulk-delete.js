@@ -4,7 +4,7 @@
  * http://sudarmuthu.com/wordpress/bulk-delete
  *
  * @author: Sudar <http://sudarmuthu.com>
- * 
+ *
  */
 
 /*jslint browser: true, devel: true*/
@@ -47,7 +47,7 @@ jQuery(document).ready(function () {
     // for post boxes
     postboxes.add_postbox_toggles(pagenow);
 
-    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', '_cf', '_title', 'u_userrole'], function (index, value) {
+    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', '_cf', '_title', '_dup_title', 'u_userrole'], function (index, value) {
         // invoke the date time picker
         jQuery('#smbd' + value + '_cron_start').datetimepicker({
             timeFormat: 'HH:mm:ss'
@@ -104,6 +104,9 @@ jQuery(document).ready(function () {
                 alert(BULK_DELETE.error.enter_title);
             }
 
+        } else if (jQuery(this).val() === 'bulk-delete-by-duplicate-title') {
+            // nothing to check for duplicate title
+            valid = true;
         } else {
             if (jQuery(this).parent().prev().children('table').find(":checkbox:checked[value!='true']").size() > 0) {
                 // monstrous selector

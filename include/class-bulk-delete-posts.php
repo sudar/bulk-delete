@@ -982,13 +982,43 @@ class Bulk_Delete_Posts {
     }
 
     /**
+     * Render delete posts by duplicate title box
+     *
+     * @since 4.5
+     * @static
+     * @access public
+     */
+    public static function render_by_duplicate_title_box() {
+
+        if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_DUPLICATE_TITLE ) ) {
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+            return;
+        }
+
+        if ( !class_exists( 'Bulk_Delete_Posts_By_Duplicate_Title' ) ) {
+?>
+        <!-- Duplicate Title box start-->
+        <p>
+            <span class = "bd-post-title-pro" style = "color:red">
+                <?php _e( 'You need "Bulk Delete Posts by Duplicate Title" Addon, to delete post by duplicate title.', 'bulk-delete' ); ?>
+                <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-duplicate-title">Buy now</a>
+            </span>
+        </p>
+        <!-- Duplicate Title box end-->
+<?php
+        } else {
+            Bulk_Delete_Posts_By_Duplicate_Title::render_by_duplicate_title_box();
+        }
+    }
+
+    /**
      * Render debug box
      */
     public static function render_debug_box() {
 ?>
         <!-- Debug box start-->
         <p>
-            <?php _e('If you are seeing a blank page after clicking the Bulk Delete button, then ', 'bulk-delete'); ?><a href = "http://sudarmuthu.com/wordpress/bulk-delete#faq"><?php _e('check out this FAQ', 'bulk-delete');?></a>. 
+            <?php _e('If you are seeing a blank page after clicking the Bulk Delete button, then ', 'bulk-delete'); ?><a href = "http://sudarmuthu.com/wordpress/bulk-delete#faq"><?php _e('check out this FAQ', 'bulk-delete');?></a>.
             <?php _e('You also need need the following debug information.', 'bulk-delete'); ?>
         </p>
         <table cellspacing="10">
