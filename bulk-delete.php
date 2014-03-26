@@ -32,26 +32,31 @@ Check readme file for full release notes
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-if ( !class_exists( 'Bulk_Delete_Users' ) ) {
-    require_once dirname( __FILE__ ) . '/include/class-bulk-delete-users.php';
-}
+/**
+ * @package Bulk Delete
+ * @subpackage core
+ * @author Sudar
+ * @version 4.5
+ */
 
-if ( !class_exists( 'Bulk_Delete_Posts' ) ) {
-    require_once dirname( __FILE__ ) . '/include/class-bulk-delete-posts.php';
-}
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( !class_exists( 'Bulk_Delete_Util' ) ) {
-    require_once dirname( __FILE__ ) . '/include/class-bulk-delete-util.php';
-}
-
-if ( !function_exists( 'array_get' ) ) {
-    require_once dirname( __FILE__ ) . '/include/util.php';
-}
+if ( ! class_exists( 'Bulk_Delete' ) ) :
 
 /**
- * Bulk Delete Main class
+ * Main Bulk_Delete class
+ *
+ * Singleton @since 4.5
  */
-class Bulk_Delete {
+final class Bulk_Delete {
+    /** Singleton *************************************************************/
+
+    /**
+     * @var Bulk_Delete The one true Bulk_Delete
+     * @since 4.5
+     */
+    private static $instance;
 
     const VERSION                   = '4.4.3';
 
@@ -94,17 +99,122 @@ class Bulk_Delete {
     // meta boxes for delete users
     const BOX_USERS                 = 'bdu_by_users';
 
-    /**
-     * Default constructor
-     */
-    public function __construct() {
-        // Load localization domain
-        $this->translations = dirname(plugin_basename(__FILE__)) . '/languages/' ;
-        load_plugin_textdomain( 'bulk-delete', false, $this->translations);
+    // path variables
+    // Ideally these should be constants, but because of PHP's limitations, these are static varaibles
+    static $PLUGIN_DIR;
+    static $PLUGIN_URL;
+    static $PLUGIN_FILE;
 
+    /**
+     * Main Bulk_Delete Instance
+     *
+     * Insures that only one instance of Bulk_Delete exists in memory at any one
+     * time. Also prevents needing to define globals all over the place.
+     *
+     * @since 4.5
+     * @static
+     * @staticvar array $instance
+     * @uses Bulk_Delete::setup_paths() Setup the plugin paths
+     * @uses Bulk_Delete::includes() Include the required files
+     * @uses Bulk_Delete::load_textdomain() Load text domain for translation
+     * @uses Bulk_Delete::setup_actions() Setup the hooks and actions
+     * @see BULK_DELETE()
+     * @return The one true BULK_DELETE
+     */
+    public static function instance() {
+        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Bulk_Delete ) ) {
+            self::$instance = new Bulk_Delete;
+            self::$instance->setup_paths();
+            self::$instance->includes();
+            self::$instance->load_textdomain();
+            self::$instance->setup_actions();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Throw error on object clone
+     *
+     * The whole idea of the singleton design pattern is that there is a single
+     * object therefore, we don't want the object to be cloned.
+     *
+     * @since 4.5
+     * @access protected
+     * @return void
+     */
+    public function __clone() {
+        // Cloning instances of the class is forbidden
+        _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'bulk-delete' ), '4.5' );
+    }
+
+    /**
+     * Disable unserializing of the class
+     *
+     * @since 4.5
+     * @access protected
+     * @return void
+     */
+    public function __wakeup() {
+        // Unserializing instances of the class is forbidden
+        _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'bulk-delete' ), '4.5' );
+    }
+
+    /**
+     * Setup plugin constants
+     *
+     * @access private
+     * @since 4.5
+     * @return void
+     */
+    private function setup_paths() {
+        // Plugin Folder Path
+        self::$PLUGIN_DIR = plugin_dir_path( __FILE__ );
+
+        // Plugin Folder URL
+        self::$PLUGIN_URL = plugin_dir_url( __FILE__ );
+
+        // Plugin Root File
+        self::$PLUGIN_FILE = __FILE__;
+    }
+
+    /**
+     * Include required files
+     *
+     * @access private
+     * @since 4.5
+     * @return void
+     */
+    private function includes() {
+        require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-users.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-posts.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-util.php';
+        require_once self::$PLUGIN_DIR . '/include/util.php';
+    }
+
+    /**
+     * Loads the plugin language files
+     *
+     * @access public
+     * @since 4.5
+     * @return void
+     */
+    public function load_textdomain() {
+        // Load localization domain
+        $this->translations = dirname( plugin_basename( self::$PLUGIN_FILE ) ) . '/languages/';
+        load_plugin_textdomain( 'bulk-delete', false, $this->translations );
+    }
+
+    /**
+     * Loads the plugin's actions and hooks
+     *
+     * @access private
+     * @since 4.5
+     * @return void
+     */
+    private function setup_actions() {
         // Register hooks
-        add_action('admin_menu', array(&$this, 'add_menu'));
-        add_action('admin_init', array(&$this, 'request_handler'));
+        add_action( 'admin_menu', array( &$this, 'add_menu' ) );
+        add_action( 'admin_init', array( &$this, 'request_handler' ) );
 
         // Add more links in the plugin listing page
         add_filter( 'plugin_action_links', array( &$this, 'filter_plugin_actions' ), 10, 2 );
@@ -409,8 +519,8 @@ class Bulk_Delete {
             require_once( ABSPATH . WPINC . '/class-wp-list-table.php' );
         }
 
-        if (!class_exists('Cron_List_Table')) {
-            require_once dirname(__FILE__) . '/include/class-cron-list-table.php';
+        if ( !class_exists( 'Cron_List_Table' ) ) {
+            require_once self::$PLUGIN_DIR . '/include/class-cron-list-table.php';
         }
 
         //Prepare Table of elements
@@ -839,8 +949,8 @@ class Bulk_Delete {
             $options['op'] = $delete_options['cats_op'];
             $options['days'] = $delete_options['cats_days'];
 
-            if (!class_exists('Bulk_Delete_By_Days')) {
-                require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
+            if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+                require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
             }
             $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
         }
@@ -894,8 +1004,8 @@ class Bulk_Delete {
             $options['op'] = $delete_options['tags_op'];
             $options['days'] = $delete_options['tags_days'];
 
-            if (!class_exists('Bulk_Delete_By_Days')) {
-                require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
+            if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+                require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
             }
             $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
         }
@@ -958,8 +1068,8 @@ class Bulk_Delete {
             $options['op'] = $delete_options['taxs_op'];
             $options['days'] = $delete_options['taxs_days'];
 
-            if (!class_exists('Bulk_Delete_By_Days')) {
-                require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
+            if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+                require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
             }
             $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
         }
@@ -1021,7 +1131,7 @@ class Bulk_Delete {
                 $options['days'] = $delete_options['types_days'];
 
                 if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
-                    require_once dirname( __FILE__ ) . '/include/class-bulk-delete-by-days.php';
+                    require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
                 }
                 $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
             }
@@ -1146,8 +1256,8 @@ class Bulk_Delete {
             $options['op'] = $delete_options['post_status_op'];
             $options['days'] = $delete_options['post_status_days'];
 
-            if (!class_exists('Bulk_Delete_By_Days')) {
-                require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
+            if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+                require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
             }
             $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
         }
@@ -1222,8 +1332,8 @@ class Bulk_Delete {
             $options['op'] = $delete_options['page_op'];
             $options['days'] = $delete_options['page_days'];
 
-            if (!class_exists('Bulk_Delete_By_Days')) {
-                require_once dirname(__FILE__) . '/include/class-bulk-delete-by-days.php';
+            if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+                require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
             }
             $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
         }
@@ -1257,6 +1367,26 @@ class Bulk_Delete {
     }
 }
 
-// Start this plugin once all other plugins are fully loaded
-add_action( 'init', 'Bulk_Delete' ); function Bulk_Delete() { global $Bulk_Delete; $Bulk_Delete = new Bulk_Delete(); }
+endif; // End if class_exists check
+
+/**
+ * The main function responsible for returning the one true Bulk_Delete
+ * Instance to functions everywhere.
+ *
+ * Use this function like you would a global variable, except without needing
+ * to declare the global.
+ *
+ * Example: <?php $bulk_delete = BULK_DELETE(); ?>
+ *
+ * @since 4.5
+ * @return object The one true Bulk_Delete Instance
+ */
+function BULK_DELETE() {
+	return Bulk_Delete::instance();
+}
+
+// Get BULK_DELETE Running
+// TODO: Remove the global variable. This is present right now for compatibility reason
+global $Bulk_Delete;
+$Bulk_Delete = BULK_DELETE();
 ?>
