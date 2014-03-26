@@ -189,6 +189,7 @@ final class Bulk_Delete {
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-posts.php';
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-util.php';
         require_once self::$PLUGIN_DIR . '/include/util.php';
+        require_once self::$PLUGIN_DIR . '/include/deprecated.php';
     }
 
     /**
@@ -1386,7 +1387,5 @@ function BULK_DELETE() {
 }
 
 // Get BULK_DELETE Running
-// TODO: Remove the global variable. This is present right now for compatibility reason
-global $Bulk_Delete;
-$Bulk_Delete = BULK_DELETE();
+BULK_DELETE();
 ?>
