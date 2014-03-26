@@ -64,6 +64,7 @@ final class Bulk_Delete {
     const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
     const USERS_PAGE_SLUG           = 'bulk-delete-users';
     const CRON_PAGE_SLUG            = 'bulk-delete-cron';
+    const INFO_PAGE_SLUG            = 'bulk-delete-info';
 
     // JS constants
     const JS_HANDLE                 = 'bulk-delete';
@@ -94,7 +95,6 @@ final class Bulk_Delete {
     const BOX_CUSTOM_FIELD          = 'bd_by_custom_field';
     const BOX_TITLE                 = 'bd_by_title';
     const BOX_DUPLICATE_TITLE       = 'bd_by_duplicate_title';
-    const BOX_DEBUG                 = 'bd_debug';
 
     // meta boxes for delete users
     const BOX_USERS                 = 'bdu_by_users';
@@ -185,9 +185,10 @@ final class Bulk_Delete {
      * @return void
      */
     private function includes() {
-        require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-users.php';
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-posts.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-users.php';
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-util.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-system-info.php';
         require_once self::$PLUGIN_DIR . '/include/util.php';
         require_once self::$PLUGIN_DIR . '/include/deprecated.php';
     }
@@ -231,6 +232,7 @@ final class Bulk_Delete {
         $this->admin_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ) );
         $this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ) );
         $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules', 'bulk-delete' ), __( 'Bulk Delete Schedules', 'bulk-delete' ), 'delete_posts', self::CRON_PAGE_SLUG, array( &$this, 'display_cron_page' ) );
+        $this->info_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete System Info', 'bulk-delete' ), __( 'System Info', 'bulk-delete' ), 'manage_options', self::INFO_PAGE_SLUG, array( 'Bulk_Delete_System_Info', 'display_system_info' ) );
 
         // enqueue JavaScript
         add_action( 'admin_print_scripts-' . $this->admin_page, array( &$this, 'add_script') );
@@ -299,7 +301,6 @@ final class Bulk_Delete {
         add_meta_box( self::BOX_CUSTOM_FIELD, __( 'By Custom Field', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_custom_field_box', $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_TITLE, __( 'By Title', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_title_box', $this->admin_page, 'advanced' );
         add_meta_box( self::BOX_DUPLICATE_TITLE, __( 'By Duplicate Title', 'bulk-delete' ), 'Bulk_Delete_Posts::render_by_duplicate_title_box', $this->admin_page, 'advanced' );
-        add_meta_box( self::BOX_DEBUG, __( 'Debug Information', 'bulk-delete' ), 'Bulk_Delete_Posts::render_debug_box', $this->admin_page, 'advanced', 'low' );
     }
 
     /**
@@ -890,6 +891,15 @@ final class Bulk_Delete {
                     }
                     break;
             }
+        }
+
+        // controller
+        if ( isset( $_POST['bd_action'] ) ) {
+            do_action( 'bd_' . $_POST['bd_action'], $_POST );
+        }
+
+        if ( isset( $_GET['bd_action'] ) ) {
+            do_action( 'bd_' . $_GET['bd_action'], $_GET );
         }
 
         // hook the admin notices action

@@ -1010,41 +1010,5 @@ class Bulk_Delete_Posts {
             Bulk_Delete_Posts_By_Duplicate_Title::render_by_duplicate_title_box();
         }
     }
-
-    /**
-     * Render debug box
-     */
-    public static function render_debug_box() {
-?>
-        <!-- Debug box start-->
-        <p>
-            <?php _e('If you are seeing a blank page after clicking the Bulk Delete button, then ', 'bulk-delete'); ?><a href = "http://sudarmuthu.com/wordpress/bulk-delete#faq"><?php _e('check out this FAQ', 'bulk-delete');?></a>.
-            <?php _e('You also need need the following debug information.', 'bulk-delete'); ?>
-        </p>
-        <table cellspacing="10">
-            <tr>
-                <th align = "right"><?php _e('PHP Version ', 'bulk-delete'); ?></th>
-                <td><?php echo phpversion(); ?></td>
-            </tr>
-            <tr>
-                <th align = "right"><?php _e('Plugin Version ', 'bulk-delete'); ?></th>
-                <td><?php echo Bulk_Delete::VERSION; ?></td>
-            </tr>
-            <tr>
-                <th align = "right"><?php _e('Available memory size ', 'bulk-delete');?></th>
-                <td><?php echo ini_get( 'memory_limit' ); ?></td>
-            </tr>
-            <tr>
-                <th align = "right"><?php _e('Script time out ', 'bulk-delete');?></th>
-                <td><?php echo ini_get( 'max_execution_time' ); ?></td>
-            </tr>
-            <tr>
-                <th align = "right"><?php _e('Script input time ', 'bulk-delete'); ?></th>
-                <td><?php echo ini_get( 'max_input_time' ); ?></td>
-            </tr>
-        </table>
-        <!-- Debug box end-->
-<?php
-    }
 }
 ?>
