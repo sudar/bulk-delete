@@ -190,6 +190,7 @@ final class Bulk_Delete {
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-util.php';
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-system-info.php';
         require_once self::$PLUGIN_DIR . '/include/util.php';
+        require_once self::$PLUGIN_DIR . '/include/admin-footer.php';
         require_once self::$PLUGIN_DIR . '/include/deprecated.php';
     }
 
@@ -456,16 +457,15 @@ final class Bulk_Delete {
 </div><!-- .wrap -->
 
 <?php
-        // Display credits in Footer
-        add_action( 'in_admin_footer', array(&$this, 'admin_footer' ));
-    }
 
-    /**
-     * Adds Footer links.
-     */
-    function admin_footer() {
-        $plugin_data = get_plugin_data( __FILE__ );
-        printf('%1$s ' . __("plugin", 'bulk-delete') .' | ' . __("Version", 'bulk-delete') . ' %2$s | '. __('by', 'bulk-delete') . ' %3$s<br />', $plugin_data['Title'], $plugin_data['Version'], $plugin_data['Author']);
+        /**
+         * Runs just before displaying the footer text in the "Bulk Delete Posts" admin page.
+         *
+         * This action is primarily for adding extra content in the footer of "Bulk Delete Posts" admin page.
+         *
+         * @since 4.5
+         */
+        do_action( 'bd_admin_footer_posts_page' );
     }
 
     /**
@@ -508,8 +508,14 @@ final class Bulk_Delete {
 </div><!-- .wrap -->
 
 <?php
-        // Display credits in Footer
-        add_action( 'in_admin_footer', array(&$this, 'admin_footer' ));
+        /**
+         * Runs just before displaying the footer text in the "Bulk Delete Users" admin page.
+         *
+         * This action is primarily for adding extra content in the footer of "Bulk Delete Users" admin page.
+         *
+         * @since 4.5
+         */
+        do_action( 'bd_admin_footer_users_page' );
     }
 
     /**
@@ -537,8 +543,14 @@ final class Bulk_Delete {
 ?>
     </div>
 <?php
-        // Display credits in Footer
-        add_action( 'in_admin_footer', array(&$this, 'admin_footer' ));
+        /**
+         * Runs just before displaying the footer text in the "Schedules" admin page.
+         *
+         * This action is primarily for adding extra content in the footer of "Schedules" admin page.
+         *
+         * @since 4.5
+         */
+        do_action( 'bd_admin_footer_cron_page' );
     }
 
     /**

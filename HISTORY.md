@@ -5,6 +5,7 @@
 - Tweak: Make Bulk_Delete class singleton
 - Tweak: Move all deprecated functions and code to a separate file
 - New: Add a new page that displays system information for debugging
+- Tweak: Add the ability to filter text displayed in admin footer
 
 ### 2014-01-26 - v4.4.3 - (Dev time: 1.5 hours) ###
 - Tweak: Ability to delete posts from non-public post types as well

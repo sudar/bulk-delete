@@ -164,6 +164,14 @@ NETWORK ACTIVE PLUGINS:
         </div>
     </div>
 <?php
+        /**
+         * Runs just before displaying the footer text in the "System Info" admin page.
+         *
+         * This action is primarily for adding extra content in the footer of "System Info" admin page.
+         *
+         * @since 4.5
+         */
+        do_action( 'bd_admin_footer_info_page' );
     }
 
     /**
