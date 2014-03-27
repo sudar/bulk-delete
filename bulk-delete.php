@@ -232,7 +232,7 @@ final class Bulk_Delete {
 
         $this->admin_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ) );
         $this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ) );
-        $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules', 'bulk-delete' ), __( 'Bulk Delete Schedules', 'bulk-delete' ), 'delete_posts', self::CRON_PAGE_SLUG, array( &$this, 'display_cron_page' ) );
+        $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules', 'bulk-delete' ), __( 'Schedules', 'bulk-delete' ), 'delete_posts', self::CRON_PAGE_SLUG, array( &$this, 'display_cron_page' ) );
         $this->info_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete System Info', 'bulk-delete' ), __( 'System Info', 'bulk-delete' ), 'manage_options', self::INFO_PAGE_SLUG, array( 'Bulk_Delete_System_Info', 'display_system_info' ) );
 
         // enqueue JavaScript
