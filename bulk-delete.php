@@ -33,10 +33,10 @@ Check readme file for full release notes
 */
 
 /**
- * @package Bulk Delete
+ * @package    Bulk_Delete
  * @subpackage core
- * @author Sudar
- * @version 4.5
+ * @author     Sudar
+ * @version    4.5
  */
 
 // Exit if accessed directly
@@ -138,7 +138,7 @@ final class Bulk_Delete {
      * The whole idea of the singleton design pattern is that there is a single
      * object therefore, we don't want the object to be cloned.
      *
-     * @since 4.5
+     * @since  4.5
      * @access protected
      * @return void
      */
@@ -150,7 +150,7 @@ final class Bulk_Delete {
     /**
      * Disable unserializing of the class
      *
-     * @since 4.5
+     * @since  4.5
      * @access protected
      * @return void
      */
@@ -163,7 +163,7 @@ final class Bulk_Delete {
      * Setup plugin constants
      *
      * @access private
-     * @since 4.5
+     * @since  4.5
      * @return void
      */
     private function setup_paths() {
@@ -181,7 +181,7 @@ final class Bulk_Delete {
      * Include required files
      *
      * @access private
-     * @since 4.5
+     * @since  4.5
      * @return void
      */
     private function includes() {
@@ -197,9 +197,7 @@ final class Bulk_Delete {
     /**
      * Loads the plugin language files
      *
-     * @access public
-     * @since 4.5
-     * @return void
+     * @since  4.5
      */
     public function load_textdomain() {
         // Load localization domain
@@ -211,7 +209,7 @@ final class Bulk_Delete {
      * Loads the plugin's actions and hooks
      *
      * @access private
-     * @since 4.5
+     * @since  4.5
      * @return void
      */
     private function setup_actions() {
@@ -251,27 +249,27 @@ final class Bulk_Delete {
     /**
      * Add settings Panel for delete posts page
      */
-	function add_delete_posts_settings_panel() {
+    function add_delete_posts_settings_panel() {
 
-		/**
+        /**
          * Create the WP_Screen object using page handle
          */
-		$this->delete_posts_screen = WP_Screen::get($this->admin_page);
+        $this->delete_posts_screen = WP_Screen::get($this->admin_page);
 
-		/**
-		 * Content specified inline
-		 */
-		$this->delete_posts_screen->add_help_tab(
-			array(
-				'title'    => __('About Plugin', 'bulk-delete'),
-				'id'       => 'about_tab',
-				'content'  => '<p>' . __('This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete') . '</p>',
-				'callback' => false
-			)
-		);
+        /**
+         * Content specified inline
+         */
+        $this->delete_posts_screen->add_help_tab(
+            array(
+                'title'    => __('About Plugin', 'bulk-delete'),
+                'id'       => 'about_tab',
+                'content'  => '<p>' . __('This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete') . '</p>',
+                'callback' => false
+            )
+        );
 
         // Add help sidebar
-		$this->delete_posts_screen->set_help_sidebar(
+        $this->delete_posts_screen->set_help_sidebar(
             '<p><strong>' . __('More information', 'bulk-delete') . '</strong></p>' .
             '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete">' . __('Plugin Homepage/support', 'bulk-delete') . '</a></p>' .
             '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons">' . __("Buy pro addons", 'bulk-delete') . '</a></p>' .
@@ -285,7 +283,7 @@ final class Bulk_Delete {
 
         /* Enqueue WordPress' script for handling the meta boxes */
         wp_enqueue_script('postbox');
-	}
+    }
 
     /**
      * Register meta boxes for delete posts page
@@ -307,27 +305,27 @@ final class Bulk_Delete {
     /**
      * Add settings Panel for delete users page
      */
-	function add_delete_users_settings_panel() {
+    function add_delete_users_settings_panel() {
 
-		/**
-		 * Create the WP_Screen object using page handle
-		 */
-		$this->delete_users_screen = WP_Screen::get( $this->users_page );
+        /**
+         * Create the WP_Screen object using page handle
+         */
+        $this->delete_users_screen = WP_Screen::get( $this->users_page );
 
-		/**
-		 * Content specified inline
-		 */
-		$this->delete_users_screen->add_help_tab(
-			array(
-				'title'    => __('About Plugin', 'bulk-delete'),
-				'id'       => 'about_tab',
-				'content'  => '<p>' . __('This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete') . '</p>',
-				'callback' => false
-			)
-		);
+        /**
+         * Content specified inline
+         */
+        $this->delete_users_screen->add_help_tab(
+            array(
+                'title'    => __('About Plugin', 'bulk-delete'),
+                'id'       => 'about_tab',
+                'content'  => '<p>' . __('This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete') . '</p>',
+                'callback' => false
+            )
+        );
 
         // Add help sidebar
-		$this->delete_users_screen->set_help_sidebar(
+        $this->delete_users_screen->set_help_sidebar(
             '<p><strong>' . __('More information', 'bulk-delete') . '</strong></p>' .
             '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete">' . __('Plugin Homepage/support', 'bulk-delete') . '</a></p>' .
             '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons">' . __("Buy pro addons", 'bulk-delete') . '</a></p>' .
@@ -341,7 +339,7 @@ final class Bulk_Delete {
 
         /* Enqueue WordPress' script for handling the meta boxes */
         wp_enqueue_script('postbox');
-	}
+    }
 
     /**
      * Register meta boxes for delete users page
@@ -457,7 +455,6 @@ final class Bulk_Delete {
 </div><!-- .wrap -->
 
 <?php
-
         /**
          * Runs just before displaying the footer text in the "Bulk Delete Posts" admin page.
          *
