@@ -12,11 +12,16 @@ class Bulk_Delete_Util {
 
     // Meta boxes
     const VISIBLE_POST_BOXES     = 'metaboxhidden_toplevel_page_bulk-delete-posts';
+    const VISIBLE_PAGE_BOXES     = 'metaboxhidden_bulk-delete_page_bulk-delete-pages';
     const VISIBLE_USER_BOXES     = 'metaboxhidden_bulk-delete_page_bulk-delete-users';
 
     /**
      * Find out if Simple Login Log is installed or not
      * http://wordpress.org/plugins/simple-login-log/
+     *
+     * @static
+     * @access public
+     * @return bool    True if plugin is installed, False otherwise
      */
     public static function is_simple_login_log_present() {
         global $wpdb;
@@ -29,11 +34,12 @@ class Bulk_Delete_Util {
     }
 
     /**
-     * @brief Check whether the meta box in posts page is hidden or not
+     * Check whether the meta box in posts page is hidden or not
      *
-     * @param $box
-     *
-     * @return 
+     * @static
+     * @access public
+     * @param  string $box The name of the box
+     * @return bool        True if the box is hidden, False otherwise
      */
     public static function is_posts_box_hidden( $box ) {
         $hidden_boxes = self::get_posts_hidden_boxes();
@@ -43,7 +49,9 @@ class Bulk_Delete_Util {
     /**
      * Get the list of hidden boxes in posts page
      *
-     * @return the array of hidden meta boxes
+     * @static
+     * @access public
+     * @return array The list of hidden meta boxes
      */
     public static function get_posts_hidden_boxes() {
         $current_user = wp_get_current_user();
@@ -51,11 +59,39 @@ class Bulk_Delete_Util {
     }
 
     /**
-     * @brief Check whether the meta box in users page is hidden or not
+     * Check whether the meta box in pages page is hidden or not
      *
-     * @param $box
+     * @since  4.5
+     * @static
+     * @access public
+     * @param  string $box The name of the box to check
+     * @return bool        True if the box is hidden, False otherwise
+     */
+    public static function is_pages_box_hidden( $box ) {
+        $hidden_boxes = self::get_pages_hidden_boxes();
+        return ( is_array( $hidden_boxes ) && in_array( $box, $hidden_boxes ) );
+    }
+
+    /**
+     * Get the list of hidden boxes in posts page
      *
-     * @return 
+     * @since  4.5
+     * @static
+     * @access public
+     * @return the array of hidden meta boxes
+     */
+    public static function get_pages_hidden_boxes() {
+        $current_user = wp_get_current_user();
+        return get_user_meta( $current_user->ID, self::VISIBLE_PAGE_BOXES, TRUE );
+    }
+
+    /**
+     * Check whether the meta box in users page is hidden or not
+     *
+     * @static
+     * @access public
+     * @param  string $box The name of the box to check
+     * @return bool        True if the box is hidden, False otherwise
      */
     public static function is_users_box_hidden( $box ) {
         $hidden_boxes = self::get_users_hidden_boxes();
@@ -65,7 +101,9 @@ class Bulk_Delete_Util {
     /**
      * Get the list of hidden boxes in users page
      *
-     * @return the array of hidden meta boxes
+     * @static
+     * @access public
+     * @return array The array of hidden meta boxes
      */
     public static function get_users_hidden_boxes() {
         $current_user = wp_get_current_user();
@@ -75,7 +113,9 @@ class Bulk_Delete_Util {
     /**
      * Get the list of cron schedules
      *
-     * @return array - The list of cron schedules
+     * @static
+     * @access public
+     * @return array The list of cron schedules
      */
     public static function get_cron_schedules() {
 
@@ -108,6 +148,9 @@ class Bulk_Delete_Util {
 
     /**
      * Generate display name from post type and status
+     *
+     * @static
+     * @access public
      */
     public static function display_post_type_status( $str ) {
         $type_status = self::split_post_type_status( $str );
@@ -136,6 +179,9 @@ class Bulk_Delete_Util {
 
     /**
      * Split post type and status
+     *
+     * @static
+     * @access public
      */
     public static function split_post_type_status( $str ) {
         $type_status = array();
