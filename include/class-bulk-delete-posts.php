@@ -984,7 +984,7 @@ class Bulk_Delete_Posts {
     /**
      * Render delete posts by duplicate title box
      *
-     * @since 4.5
+     * @since 5.0
      * @static
      * @access public
      */

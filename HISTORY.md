@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### 2014-04-26 - v4.5 - (Dev time: 20 hours) ###
+### 2014-04-26 - v5.0 - (Dev time: 20 hours) ###
 - New: Add the ability to delete posts by duplicate title (#56)
 - Tweak: Make Bulk_Delete class singleton
 - Tweak: Move all deprecated functions and code to a separate file

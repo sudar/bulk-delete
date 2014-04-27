@@ -5,13 +5,13 @@
  * @package    Bulk_Delete
  * @subpackage Settings
  * @author     Sudar
- * @since      4.5
+ * @since      5.0
  */
 class BD_Settings {
     /**
      * Register settings used by the plugin
      *
-     * @since 4.5
+     * @since 5.0
      * @static
      */
     public static function create_settings() {
@@ -34,7 +34,7 @@ class BD_Settings {
          * Runs just after registering license form fields
          *
          * This action is primarily for adding more fields to the license form
-         * @since 4.5
+         * @since 5.0
          */
         do_action( 'bd_license_field' );
     }
@@ -42,14 +42,14 @@ class BD_Settings {
     /**
      * Callback for sanitizing settings
      *
-     * @since 4.5
+     * @since 5.0
      * @static
      */
     public static function check_license( $input ) {
         /**
          * Filter license form inputs
          *
-         * @since 4.5
+         * @since 5.0
          */
         return apply_filters( 'bd_license_input', $input );
     }

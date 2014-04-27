@@ -5,21 +5,21 @@
  * @package    Bulk_Delete
  * @subpackage EDD
  * @author     Sudar
- * @since      4.5
+ * @since      5.0
  */
 class BD_EDD_API_Wrapper {
 
     /**
      * Store url
      *
-     * @since 4.5
+     * @since 5.0
      */
     const STORE_URL = 'http://bulkwp.com';
 
     /**
      * Check license
      *
-     * @since  4.5
+     * @since  5.0
      * @static
      * @param  string $addon   Addon name
      * @param  string $license The license code
@@ -57,7 +57,7 @@ class BD_EDD_API_Wrapper {
     /**
      * Activate license
      *
-     * @since  4.5
+     * @since  5.0
      * @static
      * @param  string    $addon   The addon that needs to be activated
      * @param  string    $license The license code
@@ -94,7 +94,7 @@ class BD_EDD_API_Wrapper {
     /**
      * Deactivate License
      *
-     * @since  4.5
+     * @since  5.0
      * @static
      * @param  string $addon   The addon that needs to be deactivated
      * @param  string $license The license code
@@ -122,7 +122,7 @@ class BD_EDD_API_Wrapper {
     /**
      * Call the EDD API
      *
-     * @since  4.5
+     * @since  5.0
      * @static
      * @access private
      * @param  array      $api_params   Parameters for API

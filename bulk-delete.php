@@ -36,7 +36,7 @@ Check readme file for full release notes
  * @package    Bulk_Delete
  * @subpackage core
  * @author     Sudar
- * @version    4.5
+ * @version    5.0
  */
 
 // Exit if accessed directly
@@ -47,12 +47,12 @@ if ( ! class_exists( 'Bulk_Delete' ) ) :
 /**
  * Main Bulk_Delete class
  *
- * Singleton @since 4.5
+ * Singleton @since 5.0
  */
 final class Bulk_Delete {
     /**
      * @var Bulk_Delete The one true Bulk_Delete
-     * @since 4.5
+     * @since 5.0
      */
     private static $instance;
 
@@ -122,7 +122,7 @@ final class Bulk_Delete {
      * Insures that only one instance of Bulk_Delete exists in memory at any one
      * time. Also prevents needing to define globals all over the place.
      *
-     * @since 4.5
+     * @since 5.0
      * @static
      * @staticvar array $instance
      * @uses Bulk_Delete::setup_paths() Setup the plugin paths
@@ -149,32 +149,32 @@ final class Bulk_Delete {
      * The whole idea of the singleton design pattern is that there is a single
      * object therefore, we don't want the object to be cloned.
      *
-     * @since  4.5
+     * @since  5.0
      * @access protected
      * @return void
      */
     public function __clone() {
         // Cloning instances of the class is forbidden
-        _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'bulk-delete' ), '4.5' );
+        _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'bulk-delete' ), '5.0' );
     }
 
     /**
      * Disable unserializing of the class
      *
-     * @since  4.5
+     * @since  5.0
      * @access protected
      * @return void
      */
     public function __wakeup() {
         // Unserializing instances of the class is forbidden
-        _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'bulk-delete' ), '4.5' );
+        _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'bulk-delete' ), '5.0' );
     }
 
     /**
      * Setup plugin constants
      *
      * @access private
-     * @since  4.5
+     * @since  5.0
      * @return void
      */
     private function setup_paths() {
@@ -192,7 +192,7 @@ final class Bulk_Delete {
      * Include required files
      *
      * @access private
-     * @since  4.5
+     * @since  5.0
      * @return void
      */
     private function includes() {
@@ -213,7 +213,7 @@ final class Bulk_Delete {
     /**
      * Loads the plugin language files
      *
-     * @since  4.5
+     * @since  5.0
      */
     public function load_textdomain() {
         // Load localization domain
@@ -225,7 +225,7 @@ final class Bulk_Delete {
      * Loads the plugin's actions and hooks
      *
      * @access private
-     * @since  4.5
+     * @since  5.0
      * @return void
      */
     private function setup_actions() {
@@ -327,7 +327,7 @@ final class Bulk_Delete {
     /**
      * Setup settings panel for delete pages page
      *
-     * @since 4.5
+     * @since 5.0
      */
     function add_delete_pages_settings_panel() {
 
@@ -368,7 +368,7 @@ final class Bulk_Delete {
     /**
      * Register meta boxes for delete pages page
      *
-     * @since 4.5
+     * @since 5.0
      */
     function add_delete_pages_meta_boxes() {
         add_meta_box( self::BOX_PAGE_STATUS, __( 'By Page status', 'bulk-delete' ), 'Bulk_Delete_Pages::render_delete_page_by_status_box', $this->pages_page, 'advanced' );
@@ -532,7 +532,7 @@ final class Bulk_Delete {
          *
          * This action is primarily for adding extra content in the footer of "Bulk Delete Posts" admin page.
          *
-         * @since 4.5
+         * @since 5.0
          */
         do_action( 'bd_admin_footer_posts_page' );
     }
@@ -540,7 +540,7 @@ final class Bulk_Delete {
     /**
      * Display the delete pages page
      *
-     * @since 4.5
+     * @since 5.0
      */
     function display_pages_page() {
 ?>
@@ -584,7 +584,7 @@ final class Bulk_Delete {
          *
          * This action is primarily for adding extra content in the footer of "Bulk Delete Pages" admin page.
          *
-         * @since 4.5
+         * @since 5.0
          */
         do_action( 'bd_admin_footer_pages_page' );
     }
@@ -634,7 +634,7 @@ final class Bulk_Delete {
          *
          * This action is primarily for adding extra content in the footer of "Bulk Delete Users" admin page.
          *
-         * @since 4.5
+         * @since 5.0
          */
         do_action( 'bd_admin_footer_users_page' );
     }
@@ -669,7 +669,7 @@ final class Bulk_Delete {
          *
          * This action is primarily for adding extra content in the footer of "Schedules" admin page.
          *
-         * @since 4.5
+         * @since 5.0
          */
         do_action( 'bd_admin_footer_cron_page' );
     }
@@ -1416,7 +1416,7 @@ endif; // End if class_exists check
  *
  * Example: <?php $bulk_delete = BULK_DELETE(); ?>
  *
- * @since 4.5
+ * @since 5.0
  * @return object The one true Bulk_Delete Instance
  */
 function BULK_DELETE() {

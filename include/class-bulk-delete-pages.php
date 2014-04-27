@@ -4,7 +4,7 @@
  *
  * @package Bulk_Move
  * @author  Sudar
- * @since   4.5
+ * @since   5.0
  */
 class Bulk_Delete_Pages {
 
@@ -13,7 +13,7 @@ class Bulk_Delete_Pages {
      *
      * @access public
      * @static
-     * @since  4.5
+     * @since  5.0
      */
     public static function render_delete_page_by_status_box() {
 
@@ -135,7 +135,7 @@ class Bulk_Delete_Pages {
     /**
      * Request handler for deleting pages by status
      *
-     * @since 4.5
+     * @since 5.0
      */
     public static function handle_delete_page_by_status() {
         if ( check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
@@ -177,7 +177,7 @@ class Bulk_Delete_Pages {
     /**
      * Bulk Delete pages
      *
-     * @since 4.5
+     * @since 5.0
      */
     public static function delete_page_by_status( $delete_options ) {
         global $wp_query;

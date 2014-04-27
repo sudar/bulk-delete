@@ -61,7 +61,7 @@ class Bulk_Delete_Util {
     /**
      * Check whether the meta box in pages page is hidden or not
      *
-     * @since  4.5
+     * @since  5.0
      * @static
      * @access public
      * @param  string $box The name of the box to check
@@ -75,7 +75,7 @@ class Bulk_Delete_Util {
     /**
      * Get the list of hidden boxes in posts page
      *
-     * @since  4.5
+     * @since  5.0
      * @static
      * @access public
      * @return the array of hidden meta boxes

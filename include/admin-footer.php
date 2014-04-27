@@ -5,13 +5,13 @@
  * @package Bulk Delete
  * @subpackage admin
  * @author Sudar
- * @since 4.5
+ * @since 5.0
  */
 
 /**
  * Add rating links to the admin dashboard
  *
- * @since	    4.5
+ * @since	    5.0
  * @param       string $footer_text The existing footer text
  * @return      string
  */
@@ -28,7 +28,7 @@ function bd_add_rating_link( $footer_text ) {
 /**
  * Modify admin footer in Bulk Delete plugin pages
  *
- * @since	    4.5
+ * @since	    5.0
  */
 function bd_modify_admin_footer() {
     add_filter( 'admin_footer_text', 'bd_add_rating_link' );
