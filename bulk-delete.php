@@ -50,8 +50,6 @@ if ( ! class_exists( 'Bulk_Delete' ) ) :
  * Singleton @since 4.5
  */
 final class Bulk_Delete {
-    /** Singleton *************************************************************/
-
     /**
      * @var Bulk_Delete The one true Bulk_Delete
      * @since 4.5
@@ -65,6 +63,7 @@ final class Bulk_Delete {
     const PAGES_PAGE_SLUG           = 'bulk-delete-pages';
     const USERS_PAGE_SLUG           = 'bulk-delete-users';
     const CRON_PAGE_SLUG            = 'bulk-delete-cron';
+    const ADDON_PAGE_SLUG           = 'bulk-delete-addon';
     const INFO_PAGE_SLUG            = 'bulk-delete-info';
 
     // JS constants
@@ -102,6 +101,14 @@ final class Bulk_Delete {
 
     // meta boxes for delete users
     const BOX_USERS                 = 'bdu_by_users';
+
+    // Settings constants
+    const SETTING_OPTION_GROUP      = 'bd_settings';
+    const SETTING_OPTION_NAME       = 'bd_licenses';
+    const SETTING_SECTION_ID        = 'bd_license_section';
+
+    // Transient keys
+    const LICENSE_CACHE_KEY_PREFIX  = 'bd-license_';
 
     // path variables
     // Ideally these should be constants, but because of PHP's limitations, these are static variables
@@ -192,8 +199,12 @@ final class Bulk_Delete {
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-posts.php';
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-pages.php';
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-users.php';
-        require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-util.php';
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-system-info.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-util.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bd-license.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bd-license-handler.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bd-edd-api-wrapper.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bd-settings.php';
         require_once self::$PLUGIN_DIR . '/include/util.php';
         require_once self::$PLUGIN_DIR . '/include/admin-footer.php';
         require_once self::$PLUGIN_DIR . '/include/deprecated.php';
@@ -237,6 +248,7 @@ final class Bulk_Delete {
         $this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( &$this, 'display_pages_page' ) );
         $this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ) );
         $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules', 'bulk-delete' ), __( 'Schedules', 'bulk-delete' ), 'delete_posts', self::CRON_PAGE_SLUG, array( &$this, 'display_cron_page' ) );
+        $this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Addon Licenses', 'bulk-delete' ), __( 'Addon Licenses', 'bulk-delete' ), 'activate_plugins', self::ADDON_PAGE_SLUG, array( 'BD_License', 'display_addon_page' ) );
         $this->info_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete System Info', 'bulk-delete' ), __( 'System Info', 'bulk-delete' ), 'manage_options', self::INFO_PAGE_SLUG, array( 'Bulk_Delete_System_Info', 'display_system_info' ) );
 
         // enqueue JavaScript

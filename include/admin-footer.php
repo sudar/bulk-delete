@@ -38,6 +38,7 @@ function bd_modify_admin_footer() {
 add_action( 'bd_admin_footer_posts_page', 'bd_modify_admin_footer' );
 add_action( 'bd_admin_footer_pages_page', 'bd_modify_admin_footer' );
 add_action( 'bd_admin_footer_users_page', 'bd_modify_admin_footer' );
-add_action( 'bd_admin_footer_cron_page', 'bd_modify_admin_footer' );
-add_action( 'bd_admin_footer_info_page', 'bd_modify_admin_footer' );
+add_action( 'bd_admin_footer_cron_page' , 'bd_modify_admin_footer' );
+add_action( 'bd_admin_footer_addon_page', 'bd_modify_admin_footer' );
+add_action( 'bd_admin_footer_info_page' , 'bd_modify_admin_footer' );
 ?>

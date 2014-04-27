@@ -2,9 +2,9 @@
 /**
  * Table to show cron list
  *
- * @package Bulk Delete
+ * @package    Bulk_Delete
  * @subpackage Cron
- * @author Sudar
+ * @author     Sudar
  */
 class Cron_List_Table extends WP_List_Table {
 
@@ -14,15 +14,16 @@ class Cron_List_Table extends WP_List_Table {
 	 */
 	 function __construct() {
 		 parent::__construct( array(
-		'singular'=> 'cron_list', //Singular label
-		'plural' => 'cron_lists', //plural label, also this well be one of the table css class
-		'ajax'	=> false //We won't support Ajax for this table
+		'singular' => 'cron_list', //Singular label
+		'plural'   => 'cron_lists', //plural label, also this well be one of the table css class
+		'ajax'     => false //We won't support Ajax for this table
 		) );
 	 }
 
 	/**
 	 * Add extra markup in the toolbars before or after the list
-	 * @param string $which, helps you decide if you add the markup after (bottom) or before (top) the list
+     *
+	 * @param string $which Whether the markup should appear after (bottom) or before (top) the list
 	 */
 	function extra_tablenav( $which ) {
 		if ( $which == "top" ){
@@ -41,83 +42,7 @@ class Cron_List_Table extends WP_List_Table {
             _e('Scheduling auto post or user deletion is available only when you buy pro addons.', 'bulk-delete');
             echo '</p>';
 
-            echo '<p>';
-            _e('The following are the list of pro addons that are currently available for purchase.', 'bulk-delete');
-            echo '</p>';
-
-            echo '<ul style="list-style:disc; padding-left:35px">';
-
-            echo '<li>';
-            echo '<strong>', __('Delete posts by custom field', 'bulk-delete'), '</strong>', ' - ';
-            echo __('Adds the ability to delete posts based on custom fields', 'bulk-delete');
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-custom-field">', __('More Info', 'bulk-delete'), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-custom-field">', __('Buy now', 'bulk-delete'), '</a>';
-            echo '</li>';
-
-            echo '<li>';
-            echo '<strong>', __( 'Delete posts by duplicate title', 'bulk-delete' ), '</strong>', ' - ';
-            echo __( 'Adds the ability to delete posts based on duplicate title', 'bulk-delete' );
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-duplicate-title">', __( 'More Info', 'bulk-delete' ), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-duplicate-title">', __( 'Buy now', 'bulk-delete' ), '</a>';
-            echo '</li>';
-
-            echo '<li>';
-            echo '<strong>', __( 'Delete posts by title', 'bulk-delete' ), '</strong>', ' - ';
-            echo __( 'Adds the ability to delete posts based on title', 'bulk-delete' );
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-title">', __( 'More Info', 'bulk-delete' ), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-title">', __( 'Buy now', 'bulk-delete' ), '</a>';
-            echo '</li>';
-
-            echo '<li>';
-            echo '<strong>', __('Schedule auto delete of Posts by Categories', 'bulk-delete'), '</strong>', ' - ';
-            echo __('Adds the ability to schedule auto delete of posts based on categories', 'bulk-delete');
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-categories">', __('More Info', 'bulk-delete'), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-category-addon">', __('Buy now', 'bulk-delete'), '</a>';
-            echo '</li>';
-
-            echo '<li>';
-            echo '<strong>', __('Schedule auto delete of Posts by Tags', 'bulk-delete'), '</strong>', ' - ';
-            echo __('Adds the ability to schedule auto delete of posts based on tags', 'bulk-delete');
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-tags">', __('More Info', 'bulk-delete'), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-tags-addon">', __('Buy now', 'bulk-delete'), '</a>';
-            echo '</li>';
-
-            echo '<li>';
-            echo '<strong>', __('Schedule auto delete of posts by Custom Taxonomy', 'bulk-delete'), '</strong>', ' - ';
-            echo __('Adds the ability to schedule auto delete of posts based on custom taxonomies', 'bulk-delete');
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-taxonomy">', __('More Info', 'bulk-delete'), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-taxonomy-addon">', __('Buy now', 'bulk-delete'), '</a>';
-            echo '</li>';
-
-            echo '<li>';
-            echo '<strong>', __('Schedule auto delete of Posts by Custom Post Type', 'bulk-delete'), '</strong>', ' - ';
-            echo __('Adds the ability to schedule auto delete of posts based on custom post types', 'bulk-delete');
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-types">', __('More Info', 'bulk-delete'), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-post-type-addon">', __('Buy now', 'bulk-delete'), '</a>';
-            echo '</li>';
-
-            echo '<li>';
-            echo '<strong>', __('Schedule auto delete of Pages', 'bulk-delete'), '</strong>', ' - ';
-            echo __('Adds the ability to schedule auto delete pages', 'bulk-delete');
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-pages">', __('More Info', 'bulk-delete'), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-pages-addon">', __('Buy now', 'bulk-delete'), '</a>';
-            echo '</li>';
-
-            echo '<li>';
-            echo '<strong>', __('Schedule auto delete of Posts by Post Status', 'bulk-delete'), '</strong>', ' - ';
-            echo __('Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete');
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-post-status">', __('More Info', 'bulk-delete'), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-post-status-addon">', __('Buy now', 'bulk-delete'), '</a>';
-            echo '</li>';
-
-            echo '<li>';
-            echo '<strong>', __('Schedule auto delete of Users by User Role', 'bulk-delete'), '</strong>', ' - ';
-            echo __('Adds the ability to schedule auto delete of users based on user role', 'bulk-delete');
-            echo ' <a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-schedule-users-by-user-role">', __('More Info', 'bulk-delete'), '</a>.';
-            echo ' <a href = "http://sudarmuthu.com/out/buy-bulk-delete-users-by-role-addon">', __('Buy now', 'bulk-delete'), '</a>';
-            echo '</li>';
-
-            echo '</ul>';
+            BD_License::display_available_addon_list();
 		}
 	}
 
@@ -165,7 +90,7 @@ class Cron_List_Table extends WP_List_Table {
 			"per_page" => $perpage,
 		) );
 		//The pagination links are automatically built according to those parameters
-		
+
 		/* — Register the Columns — */
 		$columns = $this->get_columns();
 		$hidden = array();
@@ -180,14 +105,14 @@ class Cron_List_Table extends WP_List_Table {
         $actions = array(
             'delete'    => sprintf( '<a href="?page=%s&smbd_action=%s&cron_id=%s&%s=%s">%s</a>',
                                 $_REQUEST['page'],
-                                'delete-cron', 
+                                'delete-cron',
                                 $item['id'],
                                 'sm-bulk-delete-cron-nonce',
                                 wp_create_nonce( 'sm-bulk-delete-cron' ),
                                 __( 'Delete', 'bulk-delete' )
                             ),
         );
-        
+
         //Return the title contents
         return sprintf('%1$s <span style="color:silver">(%2$s)</span>%3$s',
             /*$1%s*/ $item['due'],

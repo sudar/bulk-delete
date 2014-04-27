@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### 2014-04-26 - v4.5 - (Dev time: 4.5 hours) ###
+### 2014-04-26 - v4.5 - (Dev time: 20 hours) ###
 - New: Add the ability to delete posts by duplicate title (#56)
 - Tweak: Make Bulk_Delete class singleton
 - Tweak: Move all deprecated functions and code to a separate file
@@ -8,6 +8,7 @@
 - Tweak: Add the ability to filter text displayed in admin footer
 - Tweak: Change the menu text for Schedule page
 - Tweak: Move delete page modules to a separate page
+- Add: Add the ability to handle addon license
 
 ### 2014-01-26 - v4.4.3 - (Dev time: 1.5 hours) ###
 - Tweak: Ability to delete posts from non-public post types as well

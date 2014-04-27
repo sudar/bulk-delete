@@ -59,7 +59,7 @@ class Bulk_Delete_System_Info {
     <div class="wrap">
         <h2><?php _e( 'System Information', 'bulk-delete' ); ?></h2><br/>
         <form action="<?php echo esc_url( admin_url( 'admin.php?page=' . $bd::INFO_PAGE_SLUG ) ); ?>" method="post" dir="ltr">
-            <textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="bulk-delete-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'bulk-delete' ); ?>">
+            <textarea style="width:800px;height:400px;font-family:Menlo,Monaco,monospace;white-space:pre;" readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="bulk-delete-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'bulk-delete' ); ?>">
 ### Begin System Info ###
 
 ## Please include this information when posting support requests ##
