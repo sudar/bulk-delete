@@ -166,11 +166,22 @@ class BD_License_Handler {
      */
     public function parse_license_input( $input ) {
         if ( is_array( $input ) && key_exists( $this->addon_code, $input ) ) {
-            if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
-                $activated = BD_License::activate_license( $this->addon_name, $this->addon_code, $input[ $this->addon_code ] );
-                if ( !$activated ) {
-                    unset( $input[ $this->addon_code ] );
+            $license_code = trim( $input[ $this->addon_code ] );
+
+            if ( !empty( $license_code ) ) {
+                if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
+                    $activated = BD_License::activate_license( $this->addon_name, $this->addon_code, $license_code );
+                    if ( !$activated ) {
+                        unset( $input[ $this->addon_code ] );
+                    }
                 }
+            } else {
+                unset( $input[ $this->addon_code ] );
+            }
+        } else {
+            if ( BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
+                $license_code = BD_License::get_license_code( $this->addon_code );
+                $input[ $this->addon_code ] = $license_code;
             }
         }
         return $input;

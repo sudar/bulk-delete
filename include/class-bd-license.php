@@ -82,7 +82,7 @@ class BD_License {
             // if data about license is not present, then fetch it.
             // ideally this should not happen
             $licenses = get_option( $bd::SETTING_OPTION_NAME );
-            if ( key_exists( $addon_code, $licenses ) ) {
+            if ( is_array( $licenses ) && key_exists( $addon_code, $licenses ) ) {
                 $license_data = BD_EDD_API_Wrapper::check_license( $addon_name, $licenses[ $addon_code ] );
                 update_option( $key, $license_data );
             }
@@ -162,7 +162,8 @@ class BD_License {
     public static function get_license_code( $addon_code ) {
         $bd = BULK_DELETE();
         $licenses = get_option( $bd::SETTING_OPTION_NAME );
-        if ( key_exists( $addon_code, $licenses ) ) {
+
+        if ( is_array($licenses ) && key_exists( $addon_code, $licenses ) ) {
             return $licenses[ $addon_code ];
         }
         else {
@@ -255,7 +256,7 @@ class BD_License {
             $msg['type']
         );
 
-        if ( !$valid ) {
+        if ( !$valid && isset( $key ) ) {
             delete_option( $key );
         }
         return $valid;
