@@ -200,11 +200,11 @@ class BD_License {
                 }
                 update_option( $bd::SETTING_OPTION_NAME, $licenses );
 
-                $msg['msg'] =  __( 'The license key was successfully deactivated', 'bulk-delete' );
+                $msg['msg']  = sprintf( __( 'The license key for "%s" addon was successfully deactivated', 'bulk-delete' ), $addon_name );
                 $msg['type'] = 'updated';
 
             } else {
-                $msg['msg'] =  __( 'There was some problem while trying to deactivated the license. Kindly try again', 'bulk-delete' );
+                $msg['msg'] = sprintf( __( 'There was some problem while trying to deactivate license key for "%s" addon. Kindly try again', 'bulk-delete' ), $addon_name );
             }
 
             add_settings_error(
@@ -238,15 +238,15 @@ class BD_License {
                 $license_data['addon-code'] = $addon_code;
                 update_option( $key, $license_data );
 
-                $msg['msg']  = __( 'The license key was successfully activated', 'bulk-delete' );
+                $msg['msg']  = sprintf( __( 'The license key for "%s" addon was successfully activated', 'bulk-delete' ), $addon_name );
                 $msg['type'] = 'updated';
                 $valid = TRUE;
             } else {
                 //TODO Get the reason why it is invalid
-                $msg['msg'] = __( 'The license key that you entered is invalid', 'bulk-delete' );
+                $msg['msg'] = sprintf( __( 'The license key for "%s" addon is invalid', 'bulk-delete' ), $addon_name );
             }
         } else {
-            $msg['msg'] = __( 'There was some problem in contacting our store to activate the license key', 'bulk-delete' );
+            $msg['msg'] = sprintf( __( 'There was some problem in contacting our store to activate the license key for "%s" addon', 'bulk-delete' ), $addon_name );
         }
 
         add_settings_error(
