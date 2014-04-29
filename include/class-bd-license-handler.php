@@ -65,7 +65,7 @@ class BD_License_Handler {
 
         $this->hooks();
 
-        if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
+        if ( BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
             $license_code = BD_License::get_license_code( $this->addon_code );
             if ( FALSE != $license_code ) {
                 $this->hook_updater( $license_code );
