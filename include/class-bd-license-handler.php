@@ -131,7 +131,7 @@ class BD_License_Handler {
 
             add_settings_field(
                 $this->addon_code, // ID
-                '"' . $this->addon_name . '"' . __( 'Addon License Key', 'bulk-delete' ), // Title
+                '"' . $this->addon_name . '" ' . __( 'Addon License Key', 'bulk-delete' ), // Title
                 array( &$this, 'print_license_key_field' ), // Callback
                 $bd::ADDON_PAGE_SLUG, // Page
                 $bd::SETTING_SECTION_ID // Section
