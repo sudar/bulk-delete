@@ -229,24 +229,43 @@ class BD_License {
     public static function activate_license( $addon_name, $addon_code, $license ) {
         $license_data = BD_EDD_API_Wrapper::activate_license( $addon_name, $license );
         $bd           = BULK_DELETE();
-        $msg          = array( 'msg' => '', 'type' => 'error' );
         $valid        = FALSE;
+        $msg          = array(
+            'msg'  => sprintf( __( 'There was some problem in contacting our store to activate the license key for "%s" addon', 'bulk-delete' ), $addon_name ),
+            'type' => 'error'
+        );
 
-        if ( $license_data && is_array( $license_data ) ) {
-            if ( key_exists( 'validity', $license_data ) && 'valid' == $license_data['validity'] ) {
+        if ( $license_data && is_array( $license_data ) && key_exists( 'validity', $license_data ) ) {
+            if ( 'valid' == $license_data['validity'] ) {
                 $key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
                 $license_data['addon-code'] = $addon_code;
                 update_option( $key, $license_data );
 
-                $msg['msg']  = sprintf( __( 'The license key for "%s" addon was successfully activated', 'bulk-delete' ), $addon_name );
+                $msg['msg']  = sprintf( __( 'The license key for "%s" addon was successfully activated. The addon will get updates automatically till the license key is valid.', 'bulk-delete' ), $addon_name );
                 $msg['type'] = 'updated';
                 $valid = TRUE;
             } else {
-                //TODO Get the reason why it is invalid
-                $msg['msg'] = sprintf( __( 'The license key for "%s" addon is invalid', 'bulk-delete' ), $addon_name );
+                if ( key_exists( 'error', $license_data ) ) {
+                    switch( $license_data['error'] ) {
+
+                        case 'no_activations_left':
+                            $msg['msg'] = sprintf( __( 'The license key for "%s" addon doesn\'t have any more activations left. Kindly buy a new license.', 'bulk-delete' ), $addon_name );
+                            break;
+
+                        case 'revoked':
+                            $msg['msg'] = sprintf( __( 'The license key for "%s" addon is revoked. Kindly buy a new license.', 'bulk-delete' ), $addon_name );
+                            break;
+
+                        case 'expired':
+                            $msg['msg'] = sprintf( __( 'The license key for "%s" addon has expired. Kindly buy a new license.', 'bulk-delete' ), $addon_name );
+                            break;
+
+                        default:
+                            $msg['msg'] = sprintf( __( 'The license key for "%s" addon is invalid', 'bulk-delete' ), $addon_name );
+                            break;
+                    }
+                }
             }
-        } else {
-            $msg['msg'] = sprintf( __( 'There was some problem in contacting our store to activate the license key for "%s" addon', 'bulk-delete' ), $addon_name );
         }
 
         add_settings_error(

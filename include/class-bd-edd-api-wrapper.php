@@ -73,18 +73,24 @@ class BD_EDD_API_Wrapper {
 
         $response = self::call_edd_api( $api_params );
 
-        if ( $response && isset( $response->license ) ) {
-            if ( 'valid' == $response->license ) {
+        if ( $response && isset( $response->success ) ) {
+            if ( 'true' == $response->success ) {
                 return array(
                     'license'    => $license,
                     'validity'   => 'valid',
                     'expires'    => $response->expires,
                     'addon-name' => $response->item_name
                 );
-            } elseif ( 'invalid' == $response->license ) {
-                return array(
+            } else {
+                $err_response = array(
                     'validity'   => 'invalid'
                 );
+
+                if ( isset( $response->error ) ) {
+                    $err_response['error'] = $response->error;
+                }
+
+                return $err_response;
             }
         }
 
