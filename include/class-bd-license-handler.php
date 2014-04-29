@@ -88,11 +88,11 @@ class BD_License_Handler {
         }
 
         $this->updater = new EDD_SL_Plugin_Updater( BD_EDD_API_Wrapper::STORE_URL, $this->plugin_file, array(
-            'version'   => $this->version,
-            'license'   => $license_code,
-            'item_name' => $this->addon_name,
-            'author'    => $this->author,
-            'url'       => home_url()
+            'version'   => rawurlencode( $this->version ),
+            'license'   => rawurlencode( $license_code ),
+            'item_name' => rawurlencode( $this->addon_name ),
+            'author'    => rawurlencode( $this->author ),
+            'url'       => rawurlencode( home_url() )
         ));
     }
 
