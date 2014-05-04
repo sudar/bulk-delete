@@ -87,7 +87,7 @@ jQuery(document).ready(function () {
                 // not valid
                 alert(BULK_DELETE.error.enterurl);
             }
-        } else if (jQuery(this).val() === 'bulk-delete-cf') {
+        } else if (jQuery(this).val() === 'delete_posts_by_custom_field') {
             if (jQuery('#smbd_cf_key').val() !== '') {
                 valid = true;
             } else {
@@ -95,7 +95,7 @@ jQuery(document).ready(function () {
                 alert(BULK_DELETE.error.enter_cf_key);
             }
 
-        } else if (jQuery(this).val() === 'bulk-delete-by-title') {
+        } else if (jQuery(this).val() === 'delete_posts_by_title') {
 
             if (jQuery('#smbd_title_value').val() !== '') {
                 valid = true;
@@ -104,7 +104,7 @@ jQuery(document).ready(function () {
                 alert(BULK_DELETE.error.enter_title);
             }
 
-        } else if (jQuery(this).val() === 'bulk-delete-by-duplicate-title') {
+        } else if (jQuery(this).val() === 'delete_posts_by_duplicate_title') {
             // nothing to check for duplicate title
             valid = true;
         } else {
@@ -118,7 +118,7 @@ jQuery(document).ready(function () {
         }
 
         if (valid) {
-            if (current_button.lastIndexOf('bulk-delete-users-', 0) === 0) {
+            if (current_button.lastIndexOf('delete_users_by_role', 0) === 0) {
                 return confirm(BULK_DELETE.msg.deletewarningusers);
             } else {
                 return confirm(BULK_DELETE.msg.deletewarning);

@@ -103,9 +103,9 @@ class Cron_List_Table extends WP_List_Table {
     function column_col_cron_due($item) {
         //Build row actions
         $actions = array(
-            'delete'    => sprintf( '<a href="?page=%s&smbd_action=%s&cron_id=%s&%s=%s">%s</a>',
+            'delete'    => sprintf( '<a href="?page=%s&bd_action=%s&cron_id=%s&%s=%s">%s</a>',
                                 $_REQUEST['page'],
-                                'delete-cron',
+                                'delete_cron',
                                 $item['id'],
                                 'sm-bulk-delete-cron-nonce',
                                 wp_create_nonce( 'sm-bulk-delete-cron' ),

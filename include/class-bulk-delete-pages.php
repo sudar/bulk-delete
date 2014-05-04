@@ -2,7 +2,8 @@
 /**
  * Utility class for deleting pages
  *
- * @package Bulk_Move
+ * @package Bulk_Delete
+ * @package Page
  * @author  Sudar
  * @since   5.0
  */
@@ -15,7 +16,7 @@ class Bulk_Delete_Pages {
      * @static
      * @since  5.0
      */
-    public static function render_delete_page_by_status_box() {
+    public static function render_delete_pages_by_status_box() {
 
         if ( Bulk_Delete_Util::is_pages_box_hidden( Bulk_Delete::BOX_PAGE_STATUS ) ) {
             printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::PAGES_PAGE_SLUG );
@@ -126,7 +127,7 @@ class Bulk_Delete_Pages {
         </fieldset>
 
         <p>
-            <button type="submit" name="bd_action" value = "delete_page_by_status" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ) ?>&raquo;</button>
+            <button type="submit" name="bd_action" value = "delete_pages_by_status" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ) ?>&raquo;</button>
         </p>
         <!-- Pages end-->
 <?php
@@ -137,41 +138,43 @@ class Bulk_Delete_Pages {
      *
      * @since 5.0
      */
-    public static function handle_delete_page_by_status() {
-        if ( check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
+    public static function do_delete_pages_by_status() {
+        $delete_options = array();
+        $delete_options['restrict']     = array_get( $_POST, 'smbd_pages_restrict', FALSE );
+        $delete_options['limit_to']     = absint( array_get( $_POST, 'smbd_pages_limit_to', 0 ) );
+        $delete_options['force_delete'] = array_get( $_POST, 'smbd_pages_force_delete', 'false' );
 
-            $bd = BULK_DELETE();
+        $delete_options['page_op']      = array_get( $_POST, 'smbd_pages_op' );
+        $delete_options['page_days']    = array_get( $_POST, 'smbd_pages_days' );
 
-            $delete_options = array();
-            $delete_options['restrict']     = array_get( $_POST, 'smbd_pages_restrict', FALSE );
-            $delete_options['limit_to']     = absint( array_get( $_POST, 'smbd_pages_limit_to', 0 ) );
-            $delete_options['force_delete'] = array_get( $_POST, 'smbd_pages_force_delete', 'false' );
+        $delete_options['publish']      = array_get( $_POST, 'smbd_published_pages' );
+        $delete_options['drafts']       = array_get( $_POST, 'smbd_draft_pages' );
+        $delete_options['pending']      = array_get( $_POST, 'smbd_pending_pages' );
+        $delete_options['future']       = array_get( $_POST, 'smbd_future_pages' );
+        $delete_options['private']      = array_get( $_POST, 'smbd_private_pages' );
 
-            $delete_options['page_op']      = array_get( $_POST, 'smbd_pages_op' );
-            $delete_options['page_days']    = array_get( $_POST, 'smbd_pages_days' );
+        if ( array_get( $_POST, 'smbd_pages_cron', 'false' ) == 'true' ) {
+            $freq = $_POST['smbd_pages_cron_freq'];
+            $time = strtotime( $_POST['smbd_pages_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
-            $delete_options['publish']      = array_get( $_POST, 'smbd_published_pages' );
-            $delete_options['drafts']       = array_get( $_POST, 'smbd_draft_pages' );
-            $delete_options['pending']      = array_get( $_POST, 'smbd_pending_pages' );
-            $delete_options['future']       = array_get( $_POST, 'smbd_future_pages' );
-            $delete_options['private']      = array_get( $_POST, 'smbd_private_pages' );
-
-            if ( array_get( $_POST, 'smbd_pages_cron', 'false' ) == 'true' ) {
-                $freq = $_POST['smbd_pages_cron_freq'];
-                $time = strtotime( $_POST['smbd_pages_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
-
-                if ( $freq == -1 ) {
-                    wp_schedule_single_event( $time, Bulk_Delete::CRON_HOOK_PAGES_STATUS, array( $delete_options ) );
-                } else {
-                    wp_schedule_event( $time, $freq , Bulk_Delete::CRON_HOOK_PAGES_STATUS, array( $delete_options ) );
-                }
-                $bd->msg = __( 'The selected pages are scheduled for deletion.', 'bulk-delete' ) . ' ' .
-                    sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
+            if ( $freq == -1 ) {
+                wp_schedule_single_event( $time, Bulk_Delete::CRON_HOOK_PAGES_STATUS, array( $delete_options ) );
             } else {
-                $deleted_count = self::delete_page_by_status( $delete_options );
-                $bd->msg = sprintf( _n( 'Deleted %d page', 'Deleted %d pages' , $deleted_count, 'bulk-delete' ), $deleted_count );
+                wp_schedule_event( $time, $freq , Bulk_Delete::CRON_HOOK_PAGES_STATUS, array( $delete_options ) );
             }
+            $msg = __( 'The selected pages are scheduled for deletion.', 'bulk-delete' ) . ' ' .
+                sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
+        } else {
+            $deleted_count = self::delete_pages_by_status( $delete_options );
+            $msg = sprintf( _n( 'Deleted %d page', 'Deleted %d pages' , $deleted_count, 'bulk-delete' ), $deleted_count );
         }
+
+        add_settings_error(
+            Bulk_Delete::PAGES_PAGE_SLUG,
+            'deleted-cron',
+            $msg,
+            'updated'
+        );
     }
 
     /**
@@ -179,7 +182,7 @@ class Bulk_Delete_Pages {
      *
      * @since 5.0
      */
-    public static function delete_page_by_status( $delete_options ) {
+    public static function delete_pages_by_status( $delete_options ) {
         global $wp_query;
 
         $bd          = BULK_DELETE();
@@ -249,5 +252,5 @@ class Bulk_Delete_Pages {
     }
 }
 
-add_action( 'bd_delete_page_by_status', array( 'Bulk_Delete_Pages', 'handle_delete_page_by_status' ) );
+add_action( 'bd_delete_pages_by_status', array( 'Bulk_Delete_Pages', 'do_delete_pages_by_status' ) );
 ?>

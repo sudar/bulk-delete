@@ -8,7 +8,9 @@
 - Tweak: Add the ability to filter text displayed in admin footer
 - Tweak: Change the menu text for Schedule page
 - Tweak: Move delete page modules to a separate page
-- Add: Add the ability to handle addon license
+- New: Add the ability to handle addon license
+- Tweak: Refactored the way request was handled
+- New: Use `add_settings_error` method to display information to users
 
 ### 2014-01-26 - v4.4.3 - (Dev time: 1.5 hours) ###
 - Tweak: Ability to delete posts from non-public post types as well
