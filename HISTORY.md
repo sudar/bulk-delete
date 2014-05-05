@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### 2014-04-26 - v5.0 - (Dev time: 20 hours) ###
+### 2014-04-26 - v5.0 - (Dev time: 30 hours) ###
 - New: Add the ability to delete posts by duplicate title (#56)
 - Tweak: Make Bulk_Delete class singleton
 - Tweak: Move all deprecated functions and code to a separate file
@@ -11,6 +11,7 @@
 - New: Add the ability to handle addon license
 - Tweak: Refactored the way request was handled
 - New: Use `add_settings_error` method to display information to users
+- Tweak: Update screenshots
 
 ### 2014-01-26 - v4.4.3 - (Dev time: 1.5 hours) ###
 - Tweak: Ability to delete posts from non-public post types as well
