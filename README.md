@@ -6,11 +6,13 @@
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
 **Stable tag:** 4.4.3  
 
-Bulk delete users based on user role and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
+Bulk delete posts, pages or users in bulk based on different conditions and filters.
 
 ## Description ##
 
-Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from selected categories, tags, post types or custom taxonomies. This Plugin can also delete all drafts, post revisions, scheduled posts or pages and users based on user role.
+Bulk Delete is a WordPress Plugin that allows you to delete posts, pages and users in bulk based on different conditions and filters.
+
+The following conditions and filters are supported.
 
 ### Features
 
@@ -19,12 +21,13 @@ Bulk Delete is a WordPress Plugin which can be used to delete posts in bulk from
 This Plugin supports the following bulk delete options for deleting posts
 
 - Delete posts by category
-- Delete posts by tags
-- Delete posts by custom taxonomies
-- Delete posts by custom post types
+- Delete posts by tag
+- Delete posts by custom taxonomy
+- Delete posts by custom post type
 - Delete posts by url
 - Delete posts by custom field (Available as a [Pro addon](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-custom-field))
 - Delete posts by title (Available as a [Pro addon](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons#bulk-delete-by-title))
+- Delete posts by duplicate title (Available as a [Pro addon](http://sudarmuthu.com/wordpress/bulk-delete/pro-addons))
 - Delete all draft posts
 - Delete all pending posts
 - Delete all private posts
@@ -65,6 +68,7 @@ Like posts, all the above options support the following filters as well
 #### Deleting users
 
 - Delete users based on user role
+- Delete users who have not logged in in the last X days
 
 #### Deleting posts by content and page views
 
@@ -131,7 +135,7 @@ The following are the features that I am thinking of adding to the Plugin, when 
  [5]: http://sudarmuthu.com/wordpress
  [6]: https://github.com/sudar/bulk-delete
  [7]: https://github.com/sudar/bulk-delete/issues
- [8]: http://wordpress.org/extend/plugins/bulk-delete/
+ [8]: http://wordpress.org/support/view/plugin-reviews/bulk-delete
 
 ## Translation ##
 
