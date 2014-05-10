@@ -35,12 +35,12 @@ class BD_EDD_API_Wrapper {
 
         $license_data = array(
             'license'   => $license,
-            'item_name' => $addon
+            'item_name' => $addon,
+            'validity'  => 'invalid'
         );
 
         $response = self::call_edd_api( $api_params );
 
-        //TODO Encapsulate the below code into a separate function
         if ( $response && isset( $response->license ) ) {
             if ( 'valid' == $response->license ) {
                 $license_data['license']    = $license;

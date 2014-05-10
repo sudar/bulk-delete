@@ -195,6 +195,7 @@ class BD_License {
                 $msg['type'] = 'updated';
 
             } else {
+                self::validate_license( $addon_code, $addon_name );
                 $msg['msg'] = sprintf( __( 'There was some problem while trying to deactivate license key for "%s" addon. Kindly try again', 'bulk-delete' ), $addon_name );
             }
 
