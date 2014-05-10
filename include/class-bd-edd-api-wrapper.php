@@ -33,22 +33,27 @@ class BD_EDD_API_Wrapper {
 			'url'       => home_url()
         );
 
+        $license_data = array(
+            'license'   => $license,
+            'item_name' => $addon
+        );
+
         $response = self::call_edd_api( $api_params );
 
         //TODO Encapsulate the below code into a separate function
         if ( $response && isset( $response->license ) ) {
             if ( 'valid' == $response->license ) {
-                return array(
-                    'license'    => $license,
-                    'validity'   => 'valid',
-                    'expires'    => $response->expires,
-                    'addon-name' => $response->item_name
-                );
+                $license_data['license']    = $license;
+                $license_data['validity']   = 'valid';
+                $license_data['expires']    = $response->expires;
+                $license_data['addon-name'] = $response->item_name;
             } elseif ( 'invalid' == $response->license ) {
-                return array(
-                    'validity'   => 'invalid'
-                );
+                $license_data['validity']   = 'invalid';
+            } elseif ( 'site_inactive' == $response->license ) {
+                $license_data['validity']   = 'invalid';
             }
+
+            return $license_data;
         }
 
         return FALSE;

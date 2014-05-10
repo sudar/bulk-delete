@@ -154,6 +154,12 @@ class EDD_SL_Plugin_Updater {
 			$request = json_decode( wp_remote_retrieve_body( $request ) );
 			if( $request && isset( $request->sections ) )
 				$request->sections = maybe_unserialize( $request->sections );
+
+            if ( $request && isset( $request->license_check ) && 'site_inactive' == $request->license_check ) {
+                // if the license is not valid anymore
+                do_action( 'bd_validate_license', urldecode( $data['addon_code'] ), urldecode( $data['item_name'] ) );
+            }
+
 			return $request;
 		else:
 			return false;

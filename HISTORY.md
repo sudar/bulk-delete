@@ -12,6 +12,7 @@
 - Tweak: Refactored the way request was handled
 - New: Use `add_settings_error` method to display information to users
 - Tweak: Update screenshots
+- Tweak: Handle expired license properly
 
 ### 2014-01-26 - v4.4.3 - (Dev time: 1.5 hours) ###
 - Tweak: Ability to delete posts from non-public post types as well

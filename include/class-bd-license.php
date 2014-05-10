@@ -190,16 +190,7 @@ class BD_License {
             $deactivated  = BD_EDD_API_Wrapper::deactivate_license( $addon_name, $license );
 
             if ( $deactivated ) {
-                $key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
-                delete_option( $key );
-
-                $licenses = get_option( $bd::SETTING_OPTION_NAME );
-
-                if ( is_array( $licenses ) && key_exists( $addon_code, $licenses ) ) {
-                    unset( $licenses[ $addon_code ] );
-                }
-                update_option( $bd::SETTING_OPTION_NAME, $licenses );
-
+                self::delete_license_from_cache( $addon_code );
                 $msg['msg']  = sprintf( __( 'The license key for "%s" addon was successfully deactivated', 'bulk-delete' ), $addon_name );
                 $msg['type'] = 'updated';
 
@@ -214,6 +205,50 @@ class BD_License {
                 $msg['type']
             );
         }
+    }
+
+    /**
+     * Delete license
+     *
+     * @since 5.0
+     * @static
+     */
+    public static function delete_license() {
+        if ( check_admin_referer( 'bd-deactivate-license', 'bd-deactivate-license-nonce' ) ) {
+            $bd           = BULK_DELETE();
+            $msg          = array( 'msg' => '', 'type' => 'updated' );
+            $addon_code   = $_GET['addon-code'];
+
+            self::delete_license_from_cache( $addon_code );
+
+            $msg['msg']  = __( 'The license key was successfully deleted', 'bulk-delete' );
+
+            add_settings_error(
+                $bd::ADDON_PAGE_SLUG,
+                'license-deleted',
+                $msg['msg'],
+                $msg['type']
+            );
+        }
+    }
+
+    /**
+     * Delete license information from cache
+     *
+     * @since 5.0
+     * @static
+     * @param string $addon_code Addon code
+     */
+    private static function delete_license_from_cache( $addon_code ) {
+        $key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
+        delete_option( $key );
+
+        $licenses = get_option( Bulk_Delete::SETTING_OPTION_NAME );
+
+        if ( is_array( $licenses ) && key_exists( $addon_code, $licenses ) ) {
+            unset( $licenses[ $addon_code ] );
+        }
+        update_option( Bulk_Delete::SETTING_OPTION_NAME, $licenses );
     }
 
     /*
@@ -279,6 +314,39 @@ class BD_License {
             delete_option( $key );
         }
         return $valid;
+    }
+
+    /**
+     * Validate the license for the given addon
+     *
+     * @since 5.0
+     * @static
+     * @param  string $addon_name Addon name
+     * @param  string $addon_code Addon code
+     */
+    public static function validate_license( $addon_code, $addon_name ) {
+        $key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
+
+        $licenses = get_option( Bulk_Delete::SETTING_OPTION_NAME );
+        if ( is_array( $licenses ) && key_exists( $addon_code, $licenses ) ) {
+            $license_data = BD_EDD_API_Wrapper::check_license( $addon_name, $licenses[ $addon_code ] );
+            if ( $license_data ) {
+                $license_data['addon-code'] = $addon_code;
+                $license_data['addon-name'] = $license_data['item_name'];
+                update_option( $key, $license_data );
+            } else {
+                delete_option( $key );
+            }
+        }
+
+        if ( $license_data && is_array( $license_data ) && key_exists( 'validity', $license_data ) ) {
+            if ( 'valid' == $license_data['validity'] ) {
+                if ( strtotime( 'now' ) > strtotime( $license_data['expires'] ) ) {
+                    $license_data['validity'] = 'expired';
+                    update_option( $key, $license_data );
+                }
+            }
+        }
     }
 
     /**
@@ -370,6 +438,8 @@ class BD_License {
 }
 
 // hooks
-add_action( 'bd_license_form', array( 'BD_License', 'display_activate_license_form' ), 100 );
-add_action( 'bd_deactivate_license', array( 'BD_License', 'deactivate_license' ) );
+add_action( 'bd_license_form'       , array( 'BD_License' , 'display_activate_license_form' ), 100 );
+add_action( 'bd_deactivate_license' , array( 'BD_License' , 'deactivate_license' ) );
+add_action( 'bd_delete_license'     , array( 'BD_License' , 'delete_license' ) );
+add_action( 'bd_validate_license'   , array( 'BD_License' , 'validate_license' ), 10, 2 );
 ?>

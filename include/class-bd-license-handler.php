@@ -88,11 +88,12 @@ class BD_License_Handler {
         }
 
         $this->updater = new EDD_SL_Plugin_Updater( BD_EDD_API_Wrapper::STORE_URL, $this->plugin_file, array(
-            'version'   => rawurlencode( $this->version ),
-            'license'   => rawurlencode( $license_code ),
-            'item_name' => rawurlencode( $this->addon_name ),
-            'author'    => rawurlencode( $this->author ),
-            'url'       => rawurlencode( home_url() )
+            'version'    => rawurlencode( $this->version ),
+            'license'    => rawurlencode( $license_code ),
+            'item_name'  => rawurlencode( $this->addon_name ),
+            'addon_code' => rawurlencode( $this->addon_code ),
+            'author'     => rawurlencode( $this->author ),
+            'url'        => rawurlencode( home_url() )
         ));
     }
 

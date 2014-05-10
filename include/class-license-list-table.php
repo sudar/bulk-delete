@@ -86,22 +86,24 @@ class License_List_Table extends WP_List_Table {
      * @param array $item Single row of data
      */
     function column_col_addon_name( $item ) {
-        $validity    = $item['validity'];
-        $action_name = __( 'Delete', 'bulk-delete' );
+        $validity     = $item['validity'];
+        $action_label = __( 'Delete', 'bulk-delete' );
+        $action_name  = 'delete_license';
 
         if ( 'valid' == $validity ) {
-            $action_name = __( 'Deactivate', 'bulk-delete' );
+            $action_label = __( 'Deactivate', 'bulk-delete' );
+            $action_name  = 'deactivate_license';
         }
 
         // Build row actions
         $actions = array(
             'deactivate' => sprintf( '<a href="?page=%s&bd_action=%s&addon-code=%s&%s=%s">%s</a>',
                                 $_REQUEST['page'],
-                                'deactivate_license',
+                                $action_name,
                                 $item['addon-code'],
                                 'bd-deactivate-license-nonce',
                                 wp_create_nonce( 'bd-deactivate-license' ),
-                                $action_name
+                                $action_label
                             ),
         );
 
@@ -144,7 +146,11 @@ class License_List_Table extends WP_List_Table {
      * @param array $item Single row of data
      */
     function column_col_expires( $item ) {
-        return $item['expires'];
+        if ( key_exists( 'expires', $item ) ) {
+            return $item['expires'];
+        } else {
+            return __( 'N/A', 'bulk-delete' );
+        }
     }
 
     /**
