@@ -205,7 +205,7 @@ final class Bulk_Delete {
         require_once self::$PLUGIN_DIR . '/include/class-bd-license-handler.php';
         require_once self::$PLUGIN_DIR . '/include/class-bd-edd-api-wrapper.php';
         require_once self::$PLUGIN_DIR . '/include/class-bd-settings.php';
-        require_once self::$PLUGIN_DIR . '/include/admin-footer.php';
+        require_once self::$PLUGIN_DIR . '/include/admin-ui.php';
     }
 
     /**
@@ -227,13 +227,8 @@ final class Bulk_Delete {
      * @return void
      */
     private function setup_actions() {
-        // Register hooks
         add_action( 'admin_menu', array( &$this, 'add_menu' ) );
         add_action( 'admin_init', array( &$this, 'request_handler' ) );
-
-        // Add more links in the plugin listing page
-        add_filter( 'plugin_action_links', array( &$this, 'filter_plugin_actions' ), 10, 2 );
-        add_filter( 'plugin_row_meta', array( &$this, 'add_plugin_links' ), 10, 2 );
     }
 
     /**
@@ -449,40 +444,6 @@ final class Bulk_Delete {
 
         $translation_array = array( 'msg' => $msg, 'error' => $error );
         wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
-    }
-
-    /**
-     * Adds the settings link in the Plugin page. Based on http://striderweb.com/nerdaphernalia/2008/06/wp-use-action-links/
-     * @staticvar <type> $this_plugin
-     * @param <type> $links
-     * @param <type> $file
-     */
-    function filter_plugin_actions($links, $file) {
-        static $this_plugin;
-        if( ! $this_plugin ) $this_plugin = plugin_basename(__FILE__);
-
-        if( $file == $this_plugin ) {
-
-            $delete_users_link = '<a href="admin.php?page=' . self::USERS_PAGE_SLUG . '">' . __( 'Bulk Delete Users', 'bulk-delete' ) . '</a>';
-            array_unshift( $links, $delete_users_link ); // before other links
-
-            $delete_posts_link = '<a href="admin.php?page=' . self::POSTS_PAGE_SLUG . '">' . __( 'Bulk Delete Posts', 'bulk-delete' ) . '</a>';
-            array_unshift( $links, $delete_posts_link ); // before other links
-        }
-        return $links;
-    }
-
-    /**
-     * Adds additional links in the Plugin listing. Based on http://zourbuth.com/archives/751/creating-additional-wordpress-plugin-links-row-meta/
-     */
-    function add_plugin_links($links, $file) {
-        $plugin = plugin_basename(__FILE__);
-
-        if ($file == $plugin) // only for this plugin
-            return array_merge( $links,
-            array( '<a href="http://sudarmuthu.com/wordpress/bulk-delete/pro-addons" target="_blank">' . __('Buy Addons', 'bulk-delete') . '</a>' )
-        );
-        return $links;
     }
 
     /**
