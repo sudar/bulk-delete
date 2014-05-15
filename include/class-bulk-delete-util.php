@@ -2,8 +2,9 @@
 /**
  * Utility class
  *
- * @package Bulk Delete
- * @author Sudar
+ * @package    Bulk_Delete
+ * @subpackage Util
+ * @author     Sudar
  */
 class Bulk_Delete_Util {
 
@@ -197,6 +198,22 @@ class Bulk_Delete_Util {
         }
 
         return $type_status;
+    }
+}
+
+/**
+ * Get a value from an array based on key.
+ * If key is present returns the value, else returns the default value
+ *
+ * @param array $array Array from which value has to be retrieved
+ * @param string $key key, whose value to be retrieved
+ * @param string $default Optional. Default value to be returned, if the key is not found
+ *
+ * @return mixed Value if key is present, else the default value
+ */
+if ( !function_exists( 'array_get' ) ) {
+    function array_get( $array, $key, $default = NULL ) {
+        return isset( $array[ $key ] ) ? $array[ $key ] : $default;
     }
 }
 ?>
