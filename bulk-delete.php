@@ -206,7 +206,6 @@ final class Bulk_Delete {
         require_once self::$PLUGIN_DIR . '/include/class-bd-edd-api-wrapper.php';
         require_once self::$PLUGIN_DIR . '/include/class-bd-settings.php';
         require_once self::$PLUGIN_DIR . '/include/admin-footer.php';
-        require_once self::$PLUGIN_DIR . '/include/deprecated.php';
     }
 
     /**
