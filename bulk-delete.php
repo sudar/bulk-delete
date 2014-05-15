@@ -2,7 +2,7 @@
 /**
 Plugin Name: Bulk Delete
 Plugin Script: bulk-delete.php
-Plugin URI: http://sudarmuthu.com/wordpress/bulk-delete
+Plugin URI: http://bulkwp.com
 Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
 Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
 Version: 4.4.3

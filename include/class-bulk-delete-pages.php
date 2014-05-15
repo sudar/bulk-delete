@@ -120,7 +120,7 @@ class Bulk_Delete_Pages {
         }
 ?>
                     </select>
-                    <span class = "bd-pages-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://sudarmuthu.com/out/buy-bulk-delete-pages-addon">Buy now</a></span>
+                    <span class = "bd-pages-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/">Buy now</a></span>
                 </td>
             </tr>
         </table>
