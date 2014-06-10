@@ -182,6 +182,9 @@
 
 ## Upgrade Notice ##
 
+### 5.0 ###
+This version is only compatible with addons above v0.5
+
 ### 4.4.1 ###
 Fix: Prevent Bulk Delete from overriding other menus
 
