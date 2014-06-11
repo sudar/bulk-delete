@@ -1,6 +1,9 @@
 ## Changelog ##
 
-### 2014-04-26 - v5.0 - (Dev time: 30 hours) ###
+### 2014-04-26 - v5.0.1 - (Dev time: 1 hours) ###
+- Fix: Deleting users had as issue that was introduced in v5.0
+
+### 2014-06-10 - v5.0 - (Dev time: 60 hours) ###
 - New: Add the ability to delete posts by duplicate title (#56)
 - Tweak: Make Bulk_Delete class singleton
 - Tweak: Move all deprecated functions and code to a separate file
@@ -181,6 +184,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.0.1 ###
+Fix delete users. Note: This version is only compatible with addons above v0.5
 
 ### 5.0 ###
 This version is only compatible with addons above v0.5

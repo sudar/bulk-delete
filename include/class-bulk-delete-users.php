@@ -209,5 +209,5 @@ class Bulk_Delete_Users {
     }
 }
 
-add_action( 'bd_delete_users_by_role', array( 'Bulk_Delete_Users', 'process_deleting_users_by_role' ) );
+add_action( 'bd_delete_users_by_role', array( 'Bulk_Delete_Users', 'do_delete_users_by_role' ) );
 ?>
