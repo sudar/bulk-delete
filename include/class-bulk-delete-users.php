@@ -89,7 +89,7 @@ class Bulk_Delete_Users {
         }
 ?>
                     </select>
-                    <span class = "bdu-users-by-role-pro" style = "color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-users-by-role/">Buy now</a></span>
+                    <span class = "bdu-users-by-role-pro" style = "color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-users-by-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a></span>
                 </td>
             </tr>
 

@@ -129,7 +129,7 @@ class Bulk_Delete_Posts {
         }
 ?>
                     </select>
-                    <span class = "bd-post-status-pro" style = "color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/">Buy now</a></span>
+                    <span class = "bd-post-status-pro" style = "color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a></span>
                 </td>
             </tr>
         </table>
@@ -425,7 +425,7 @@ class Bulk_Delete_Posts {
         }
 ?>
                     </select>
-                    <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/">Buy now</a></span>
+                    <span class = "bd-cats-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a></span>
                 </td>
             </tr>
 
@@ -659,7 +659,7 @@ class Bulk_Delete_Posts {
         }
 ?>
                     </select>
-                    <span class = "bd-tags-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/">Buy now</a></span>
+                    <span class = "bd-tags-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a></span>
                 </td>
             </tr>
 
@@ -936,7 +936,7 @@ class Bulk_Delete_Posts {
         }
 ?>
                     </select>
-                    <span class = "bd-taxs-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/">Buy now</a></span>
+                    <span class = "bd-taxs-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a></span>
                 </td>
             </tr>
 
@@ -1189,7 +1189,7 @@ class Bulk_Delete_Posts {
         }
 ?>
                     </select>
-                    <span class = "bd-types-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/">Buy now</a></span>
+                    <span class = "bd-types-pro" style = "color:red"><?php _e('Only available in Pro Addon', 'bulk-delete'); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a></span>
                 </td>
             </tr>
 
@@ -1533,7 +1533,7 @@ class Bulk_Delete_Posts {
         <p>
             <span class = "bd-post-custom-field-pro" style = "color:red">
                 <?php _e( 'You need "Bulk Delete Posts by Custom Field" Addon, to delete post by custom field.', 'bulk-delete' ); ?>
-                <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-custom-field/">Buy now</a>
+                <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-custom-field/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a>
             </span>
         </p>
         <!-- Custom Field box end-->
@@ -1562,7 +1562,7 @@ class Bulk_Delete_Posts {
         <p>
             <span class = "bd-post-title-pro" style = "color:red">
                 <?php _e( 'You need "Bulk Delete Posts by Title" Addon, to delete post by title.', 'bulk-delete' ); ?>
-                <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-title/">Buy now</a>
+                <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a>
             </span>
         </p>
         <!-- Title box end-->
@@ -1592,7 +1592,7 @@ class Bulk_Delete_Posts {
         <p>
             <span class = "bd-post-title-pro" style = "color:red">
                 <?php _e( 'You need "Bulk Delete Posts by Duplicate Title" Addon, to delete post by duplicate title.', 'bulk-delete' ); ?>
-                <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/">Buy now</a>
+                <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a>
             </span>
         </p>
         <!-- Duplicate Title box end-->

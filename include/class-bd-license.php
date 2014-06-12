@@ -367,61 +367,61 @@ class BD_License {
         echo '<li>';
         echo '<strong>', __('Delete posts by custom field', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to delete posts based on custom fields', 'bulk-delete');
-        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-custom-field/">', __('More Info', 'bulk-delete'), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-custom-field/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
         echo '</li>';
 
         echo '<li>';
         echo '<strong>', __( 'Delete posts by duplicate title', 'bulk-delete' ), '</strong>', ' - ';
         echo __( 'Adds the ability to delete posts based on duplicate title', 'bulk-delete' );
-        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/">', __( 'More Info', 'bulk-delete' ), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
         echo '</li>';
 
         echo '<li>';
         echo '<strong>', __( 'Delete posts by title', 'bulk-delete' ), '</strong>', ' - ';
         echo __( 'Adds the ability to delete posts based on title', 'bulk-delete' );
-        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-title/">', __( 'More Info', 'bulk-delete' ), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
         echo '</li>';
 
         echo '<li>';
         echo '<strong>', __('Scheduler for deleting Posts by Category', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to schedule auto delete of posts based on category', 'bulk-delete');
-        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/">', __('More Info', 'bulk-delete'), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
         echo '</li>';
 
         echo '<li>';
         echo '<strong>', __('Scheduler for deleting Posts by Tag', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to schedule auto delete of posts based on tag', 'bulk-delete');
-        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/">', __('More Info', 'bulk-delete'), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
         echo '</li>';
 
         echo '<li>';
         echo '<strong>', __('Scheduler for deleting Posts by Custom Taxonomy', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to schedule auto delete of posts based on custom taxonomy', 'bulk-delete');
-        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/">', __('More Info', 'bulk-delete'), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
         echo '</li>';
 
         echo '<li>';
         echo '<strong>', __('Scheduler for deleting Posts by Custom Post Type', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to schedule auto delete of posts based on custom post type', 'bulk-delete');
-        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/">', __('More Info', 'bulk-delete'), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
         echo '</li>';
 
         echo '<li>';
         echo '<strong>', __('Scheduler for deleting Posts by Post Status', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete');
-        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/">', __('More Info', 'bulk-delete'), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
         echo '</li>';
 
         echo '<li>';
         echo '<strong>', __('Scheduler for deleting Pages by Status', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to schedule auto delete pages based on status', 'bulk-delete');
-        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/">', __('More Info', 'bulk-delete'), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
         echo '</li>';
 
         echo '<li>';
         echo '<strong>', __('Scheduler for deleting Users by User Role', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to schedule auto delete of users based on user role', 'bulk-delete');
-        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-users-by-role/">', __('More Info', 'bulk-delete'), '</a>.';
+        echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-users-by-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
         echo '</li>';
 
         echo '</ul>';
