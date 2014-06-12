@@ -188,6 +188,9 @@
 
 ## Upgrade Notice ##
 
+### 5.0.2 ###
+Added compatibility for PHP version 5.2.4
+
 ### 5.0.1 ###
 Fix delete users. Note: This version is only compatible with addons above v0.5
 
