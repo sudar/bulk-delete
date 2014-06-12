@@ -36,7 +36,7 @@ class Bulk_Delete_System_Info {
         $bd = BULK_DELETE();
 
         if ( ! class_exists( 'Browser' ) ) {
-            require_once $bd::$PLUGIN_DIR . 'include/libraries/browser.php';
+            require_once Bulk_Delete::$PLUGIN_DIR . 'include/libraries/browser.php';
         }
 
         $browser = new Browser();

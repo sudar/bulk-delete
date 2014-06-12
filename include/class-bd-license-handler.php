@@ -84,7 +84,7 @@ class BD_License_Handler {
         $bd = BULK_DELETE();
 
         if( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
-            require_once $bd::$PLUGIN_DIR . '/include/libraries/EDD_SL_Plugin_Updater.php';
+            require_once Bulk_Delete::$PLUGIN_DIR . '/include/libraries/EDD_SL_Plugin_Updater.php';
         }
 
         $this->updater = new EDD_SL_Plugin_Updater( BD_EDD_API_Wrapper::STORE_URL, $this->plugin_file, array(
