@@ -206,6 +206,7 @@ final class Bulk_Delete {
         require_once self::$PLUGIN_DIR . '/include/class-bd-edd-api-wrapper.php';
         require_once self::$PLUGIN_DIR . '/include/class-bd-settings.php';
         require_once self::$PLUGIN_DIR . '/include/admin-ui.php';
+        require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-help-screen.php';
     }
 
     /**
@@ -268,30 +269,11 @@ final class Bulk_Delete {
     function add_delete_posts_settings_panel() {
 
         /**
-         * Create the WP_Screen object using page handle
+         * Add contextual help for admin screens
+         *
+         * @since 5.1
          */
-        $this->delete_posts_screen = WP_Screen::get($this->posts_page);
-
-        /**
-         * Content specified inline
-         */
-        $this->delete_posts_screen->add_help_tab(
-            array(
-                'title'    => __('About Plugin', 'bulk-delete'),
-                'id'       => 'about_tab',
-                'content'  => '<p>' . __('This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete') . '</p>',
-                'callback' => false
-            )
-        );
-
-        // Add help sidebar
-        $this->delete_posts_screen->set_help_sidebar(
-            '<p><strong>' . __('More information', 'bulk-delete') . '</strong></p>' .
-            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete">' . __('Plugin Homepage/support', 'bulk-delete') . '</a></p>' .
-            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons">' . __("Buy pro addons", 'bulk-delete') . '</a></p>' .
-            '<p><a href = "http://sudarmuthu.com/blog">' . __("Plugin author's blog", 'bulk-delete') . '</a></p>' .
-            '<p><a href = "http://sudarmuthu.com/wordpress/">' . __("Other Plugin's by Author", 'bulk-delete') . '</a></p>'
-        );
+        do_action( 'bd_add_contextual_help', $this->posts_page );
 
         /* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
         do_action('add_meta_boxes_' . $this->posts_page, null);
@@ -325,30 +307,11 @@ final class Bulk_Delete {
     function add_delete_pages_settings_panel() {
 
         /**
-         * Create the WP_Screen object using page handle
+         * Add contextual help for admin screens
+         *
+         * @since 5.1
          */
-        $this->delete_pages_screen = WP_Screen::get( $this->pages_page );
-
-        /**
-         * Content specified inline
-         */
-        $this->delete_pages_screen->add_help_tab(
-            array(
-                'title'    => __('About Plugin', 'bulk-delete'),
-                'id'       => 'about_tab',
-                'content'  => '<p>' . __('This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete') . '</p>',
-                'callback' => false
-            )
-        );
-
-        // Add help sidebar
-        $this->delete_pages_screen->set_help_sidebar(
-            '<p><strong>' . __('More information', 'bulk-delete') . '</strong></p>' .
-            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete">' . __('Plugin Homepage/support', 'bulk-delete') . '</a></p>' .
-            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons">' . __("Buy pro addons", 'bulk-delete') . '</a></p>' .
-            '<p><a href = "http://sudarmuthu.com/blog">' . __("Plugin author's blog", 'bulk-delete') . '</a></p>' .
-            '<p><a href = "http://sudarmuthu.com/wordpress/">' . __("Other Plugin's by Author", 'bulk-delete') . '</a></p>'
-        );
+        do_action( 'bd_add_contextual_help', $this->pages_page );
 
         /* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
         do_action('add_meta_boxes_' . $this->pages_page, null);
@@ -373,30 +336,11 @@ final class Bulk_Delete {
     function add_delete_users_settings_panel() {
 
         /**
-         * Create the WP_Screen object using page handle
+         * Add contextual help for admin screens
+         *
+         * @since 5.1
          */
-        $this->delete_users_screen = WP_Screen::get( $this->users_page );
-
-        /**
-         * Content specified inline
-         */
-        $this->delete_users_screen->add_help_tab(
-            array(
-                'title'    => __('About Plugin', 'bulk-delete'),
-                'id'       => 'about_tab',
-                'content'  => '<p>' . __('This plugin allows you to delete posts in bulk from selected categories, tags, custom taxonomies or by post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete') . '</p>',
-                'callback' => false
-            )
-        );
-
-        // Add help sidebar
-        $this->delete_users_screen->set_help_sidebar(
-            '<p><strong>' . __('More information', 'bulk-delete') . '</strong></p>' .
-            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete">' . __('Plugin Homepage/support', 'bulk-delete') . '</a></p>' .
-            '<p><a href = "http://sudarmuthu.com/wordpress/bulk-delete/pro-addons">' . __("Buy pro addons", 'bulk-delete') . '</a></p>' .
-            '<p><a href = "http://sudarmuthu.com/blog">' . __("Plugin author's blog", 'bulk-delete') . '</a></p>' .
-            '<p><a href = "http://sudarmuthu.com/wordpress/">' . __("Other Plugin's by Author", 'bulk-delete') . '</a></p>'
-        );
+        do_action( 'bd_add_contextual_help', $this->users_page );
 
         /* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
         do_action('add_meta_boxes_' . $this->users_page, null);
