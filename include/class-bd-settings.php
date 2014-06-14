@@ -15,19 +15,17 @@ class BD_Settings {
      * @static
      */
     public static function create_settings() {
-        $bd = BULK_DELETE();
-
         register_setting(
-            $bd::SETTING_OPTION_GROUP,                       // Option group
-            $bd::SETTING_OPTION_NAME,                        // Option name
-            array( 'BD_Settings', 'check_license' ) // Sanitize
+            Bulk_Delete::SETTING_OPTION_GROUP,        // Option group
+            Bulk_Delete::SETTING_OPTION_NAME,         // Option name
+            array( 'BD_Settings', 'check_license' )   // Sanitize
         );
 
         add_settings_section(
-            $bd::SETTING_SECTION_ID,                  // ID
+            Bulk_Delete::SETTING_SECTION_ID,          // ID
             __( 'Add Addon License', 'bulk-delete' ), // Title
             '__return_null',                          // Callback
-            $bd::ADDON_PAGE_SLUG                      // Page
+            Bulk_Delete::ADDON_PAGE_SLUG              // Page
         );
 
         /**

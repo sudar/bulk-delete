@@ -128,14 +128,12 @@ class BD_License_Handler {
      */
     public function add_license_field() {
         if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
-            $bd = BULK_DELETE();
-
             add_settings_field(
                 $this->addon_code, // ID
                 '"' . $this->addon_name . '" ' . __( 'Addon License Key', 'bulk-delete' ), // Title
                 array( &$this, 'print_license_key_field' ), // Callback
-                $bd::ADDON_PAGE_SLUG, // Page
-                $bd::SETTING_SECTION_ID // Section
+                Bulk_Delete::ADDON_PAGE_SLUG, // Page
+                Bulk_Delete::SETTING_SECTION_ID // Section
             );
         }
     }
@@ -147,12 +145,10 @@ class BD_License_Handler {
      */
     public function print_license_key_field() {
         if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
-            $bd = BULK_DELETE();
-
             printf(
                 '<input type="text" id="%s" name="%s[%s]" placeholder="%s">',
                 $this->addon_code,
-                $bd::SETTING_OPTION_NAME,
+                Bulk_Delete::SETTING_OPTION_NAME,
                 $this->addon_code,
                 __( 'Enter license key', 'bulk-delete' )
             );

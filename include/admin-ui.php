@@ -43,9 +43,7 @@ function bd_modify_admin_footer() {
  * @return array  $links Modified list of links
  */
 function bd_add_plugin_action_links( $links, $file ) {
-    $bd = BULK_DELETE();
-
-    $this_plugin = plugin_basename( $bd::$PLUGIN_FILE );
+    $this_plugin = plugin_basename( Bulk_Delete::$PLUGIN_FILE );
 
     if ( $file == $this_plugin ) {
         $delete_users_link = '<a href="admin.php?page=' . Bulk_Delete::USERS_PAGE_SLUG . '">' . __( 'Bulk Delete Users', 'bulk-delete' ) . '</a>';
@@ -67,9 +65,7 @@ function bd_add_plugin_action_links( $links, $file ) {
  * @return array  $links Modified list of links
  */
 function bd_add_links_in_plugin_listing( $links, $file ) {
-    $bd = BULK_DELETE();
-
-    $plugin = plugin_basename( $bd::$PLUGIN_FILE );
+    $plugin = plugin_basename( Bulk_Delete::$PLUGIN_FILE );
 
     if ( $file == $plugin ) { // only for this plugin
         return array_merge( $links, array(

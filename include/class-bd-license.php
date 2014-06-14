@@ -58,8 +58,8 @@ class BD_License {
         $bd = BULK_DELETE();
         if ( isset( $bd->display_activate_license_form ) && TRUE == $bd->display_activate_license_form ) {
             // This prints out all hidden setting fields
-            settings_fields( $bd::SETTING_OPTION_GROUP );
-            do_settings_sections( $bd::ADDON_PAGE_SLUG );
+            settings_fields( Bulk_Delete::SETTING_OPTION_GROUP );
+            do_settings_sections( Bulk_Delete::ADDON_PAGE_SLUG );
             submit_button( __( 'Activate License', 'bulk-delete' ) );
         }
     }
@@ -74,14 +74,13 @@ class BD_License {
      * @return bool   True if addon has a valid license, False otherwise
      */
     public static function has_valid_license( $addon_name, $addon_code ) {
-        $bd = BULK_DELETE();
         $key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
         $license_data = get_option( $key, FALSE );
 
         if ( ! $license_data ) {
             // if data about license is not present, then fetch it.
             // ideally this should not happen
-            $licenses = get_option( $bd::SETTING_OPTION_NAME );
+            $licenses = get_option( Bulk_Delete::SETTING_OPTION_NAME );
             if ( is_array( $licenses ) && key_exists( $addon_code, $licenses ) ) {
                 $license_data = BD_EDD_API_Wrapper::check_license( $addon_name, $licenses[ $addon_code ] );
                 update_option( $key, $license_data );
@@ -111,8 +110,7 @@ class BD_License {
      * @return array $license_data License information
      */
     public static function get_licenses() {
-        $bd = BULK_DELETE();
-        $licenses = get_option( $bd::SETTING_OPTION_NAME );
+        $licenses = get_option( Bulk_Delete::SETTING_OPTION_NAME );
         $license_data = array();
 
         if ( is_array( $licenses ) ) {
@@ -160,8 +158,7 @@ class BD_License {
      * @return bool|string License code of the addon, False otherwise
      */
     public static function get_license_code( $addon_code ) {
-        $bd = BULK_DELETE();
-        $licenses = get_option( $bd::SETTING_OPTION_NAME );
+        $licenses = get_option( Bulk_Delete::SETTING_OPTION_NAME );
 
         if ( is_array($licenses ) && key_exists( $addon_code, $licenses ) ) {
             return $licenses[ $addon_code ];
@@ -179,7 +176,6 @@ class BD_License {
      */
     public static function deactivate_license() {
         if ( check_admin_referer( 'bd-deactivate-license', 'bd-deactivate-license-nonce' ) ) {
-            $bd           = BULK_DELETE();
             $msg          = array( 'msg' => '', 'type' => 'error' );
             $addon_code   = $_GET['addon-code'];
             $license_data = self::get_license( $addon_code );
@@ -200,7 +196,7 @@ class BD_License {
             }
 
             add_settings_error(
-                $bd::ADDON_PAGE_SLUG,
+                Bulk_Delete::ADDON_PAGE_SLUG,
                 'license-deactivation',
                 $msg['msg'],
                 $msg['type']
@@ -216,7 +212,6 @@ class BD_License {
      */
     public static function delete_license() {
         if ( check_admin_referer( 'bd-deactivate-license', 'bd-deactivate-license-nonce' ) ) {
-            $bd           = BULK_DELETE();
             $msg          = array( 'msg' => '', 'type' => 'updated' );
             $addon_code   = $_GET['addon-code'];
 
@@ -225,7 +220,7 @@ class BD_License {
             $msg['msg']  = __( 'The license key was successfully deleted', 'bulk-delete' );
 
             add_settings_error(
-                $bd::ADDON_PAGE_SLUG,
+                Bulk_Delete::ADDON_PAGE_SLUG,
                 'license-deleted',
                 $msg['msg'],
                 $msg['type']
@@ -264,7 +259,6 @@ class BD_License {
      */
     public static function activate_license( $addon_name, $addon_code, $license ) {
         $license_data = BD_EDD_API_Wrapper::activate_license( $addon_name, $license );
-        $bd           = BULK_DELETE();
         $valid        = FALSE;
         $msg          = array(
             'msg'  => sprintf( __( 'There was some problem in contacting our store to activate the license key for "%s" addon', 'bulk-delete' ), $addon_name ),
@@ -305,7 +299,7 @@ class BD_License {
         }
 
         add_settings_error(
-            $bd::ADDON_PAGE_SLUG,
+            Bulk_Delete::ADDON_PAGE_SLUG,
             'license-activation',
             $msg['msg'],
             $msg['type']

@@ -1,5 +1,8 @@
 ## Changelog ##
 
+### 2014-06-14 - v5.1 - (Dev time: 1 hours) ###
+- Bug: Added compatibility for PHP version 5.2.4 (Issue #66)
+
 ### 2014-06-12 - v5.0.2 - (Dev time: 1 hours) ###
 - Bug: Added compatibility for PHP version 5.2.4 (Issue #64)
 
