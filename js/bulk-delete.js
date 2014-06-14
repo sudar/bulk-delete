@@ -80,7 +80,7 @@ jQuery(document).ready(function () {
         var current_button = jQuery(this).val(),
             valid = false;
 
-        if (jQuery(this).val() === 'bulk-delete-specific') {
+        if (jQuery(this).val() === 'delete_posts_by_url') {
             if (jQuery(this).parent().prev().children('table').find("textarea").val() !== '') {
                 valid = true;
             } else {

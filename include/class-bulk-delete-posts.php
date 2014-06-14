@@ -1360,10 +1360,9 @@ class Bulk_Delete_Posts {
             printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
             return;
         }
-
 ?>
         <!-- URLs start-->
-        <h4><?php _e("Delete these specific pages", 'bulk-delete'); ?></h4>
+        <h4><?php _e( 'Delete posts and pages that have the following Permalink', 'bulk-delete' ); ?></h4>
 
         <fieldset class="options">
         <table class="optiontable">
