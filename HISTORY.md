@@ -198,6 +198,9 @@
 
 ## Upgrade Notice ##
 
+### 5.1 ###
+Added the ability to delete posts and pages from trash
+
 ### 5.0.2 ###
 Added compatibility for PHP version 5.2.4
 
