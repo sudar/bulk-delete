@@ -99,8 +99,8 @@ class Bulk_Delete_Pages {
                 <td scope="row">
                     <input name="smbd_pages_limit" id="smbd_pages_limit" value = "true" type = "checkbox">
                     <?php _e("Only delete first ", 'bulk-delete');?>
-                    <input type ="textbox" name="smbd_pages_limit_to" id="smbd_pages_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("posts.", 'bulk-delete');?>
-                    <?php _e("Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete') ?>
+                    <input type ="textbox" name="smbd_pages_limit_to" id="smbd_pages_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e("pages.", 'bulk-delete');?>
+                    <?php _e("Use this option if there are more than 1000 pages and the script timesout.", 'bulk-delete') ?>
                 </td>
             </tr>
 
@@ -215,17 +215,17 @@ class Bulk_Delete_Pages {
             $post_status[] = 'draft';
         }
 
-        // Pending Posts
+        // Pending pages
         if ("pending_pages" == $delete_options['pending']) {
             $post_status[] = 'pending';
         }
 
-        // Future Posts
+        // Future pages
         if ("future_pages" == $delete_options['future']) {
             $post_status[] = 'future';
         }
 
-        // Private Posts
+        // Private pages
         if ("private_pages" == $delete_options['private']) {
             $post_status[] = 'private';
         }
@@ -249,6 +249,34 @@ class Bulk_Delete_Pages {
         }
 
         return count( $pages );
+    }
+
+    /**
+     * Render delete pages from trash box
+     *
+     * @since 5.1
+     * @static
+     */
+    public static function render_delete_pages_from_trash() {
+        if ( Bulk_Delete_Util::is_pages_box_hidden( Bulk_Delete::BOX_PAGE_FROM_TRASH ) ) {
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::PAGES_PAGE_SLUG );
+            return;
+        }
+
+        if ( !class_exists( 'Bulk_Delete_From_Trash' ) ) {
+?>
+        <!-- pages In Trash box start-->
+        <p>
+            <span class = "bd-pages-trash-pro" style = "color:red">
+                <?php _e( 'You need "Bulk Delete From Trash" Addon, to delete pages in Trash.', 'bulk-delete' ); ?>
+                <a href = "http://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a>
+            </span>
+        </p>
+        <!-- pages In Trash box end-->
+<?php
+        } else {
+            Bulk_Delete_From_Trash::render_delete_pages_from_trash();
+        }
     }
 }
 

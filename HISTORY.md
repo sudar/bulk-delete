@@ -1,6 +1,8 @@
 ## Changelog ##
 
-### 2014-06-14 - v5.1 - (Dev time: 3 hours) ###
+### 2014-06-14 - v5.1 - (Dev time: 8 hours) ###
+- New: Added the "Delete posts from trash" addon (Issue #65)
+
 - Tweak: Added `EMPTY_TRASH_DAYS` to system info page (Issue #67)
 - Tweak: Change the contextual help content for admin screens (Issue #68)
 
@@ -239,9 +241,7 @@ Added the ability to disable different sections of the Plugin.
 Fixed issues in deleting posts using custom taxonomy
 
 ### 3.2 ###
-
 Fixed bugs in handling post revisions and dates in categories. Added more options to delete pages.
 
 ### 3.1 ###
-
 Added the option to delete by date for pages, drafts, revisions, future posts etc

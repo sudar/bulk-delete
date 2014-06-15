@@ -95,9 +95,11 @@ final class Bulk_Delete {
     const BOX_CUSTOM_FIELD          = 'bd_by_custom_field';
     const BOX_TITLE                 = 'bd_by_title';
     const BOX_DUPLICATE_TITLE       = 'bd_by_duplicate_title';
+    const BOX_POST_FROM_TRASH       = 'bd_posts_from_trash';
 
     // meta boxes for delete pages
     const BOX_PAGE_STATUS           = 'bd_by_page_status';
+    const BOX_PAGE_FROM_TRASH       = 'bd_pages_from_trash';
 
     // meta boxes for delete users
     const BOX_USERS                 = 'bdu_by_users';
@@ -238,12 +240,12 @@ final class Bulk_Delete {
 	function add_menu() {
         add_menu_page( __( 'Bulk Delete', 'bulk-delete' ) , __( 'Bulk Delete', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ), 'dashicons-trash', '26.9966' );
 
-        $this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ) );
-        $this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( &$this, 'display_pages_page' ) );
-        $this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ) );
-        $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules', 'bulk-delete' ), __( 'Schedules', 'bulk-delete' ), 'delete_posts', self::CRON_PAGE_SLUG, array( &$this, 'display_cron_page' ) );
-        $this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Addon Licenses', 'bulk-delete' ), __( 'Addon Licenses', 'bulk-delete' ), 'activate_plugins', self::ADDON_PAGE_SLUG, array( 'BD_License', 'display_addon_page' ) );
-        $this->info_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete System Info', 'bulk-delete' ), __( 'System Info', 'bulk-delete' ), 'manage_options', self::INFO_PAGE_SLUG, array( 'Bulk_Delete_System_Info', 'display_system_info' ) );
+        $this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Posts'       , 'bulk-delete' ) , __( 'Bulk Delete Posts' , 'bulk-delete' ) , 'delete_posts'     , self::POSTS_PAGE_SLUG , array( &$this                    , 'display_posts_page' ) );
+        $this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Pages'       , 'bulk-delete' ) , __( 'Bulk Delete Pages' , 'bulk-delete' ) , 'delete_pages'     , self::PAGES_PAGE_SLUG , array( &$this                    , 'display_pages_page' ) );
+        $this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Users'       , 'bulk-delete' ) , __( 'Bulk Delete Users' , 'bulk-delete' ) , 'delete_users'     , self::USERS_PAGE_SLUG , array( &$this                    , 'display_users_page' ) );
+        $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Schedules'   , 'bulk-delete' ) , __( 'Schedules'         , 'bulk-delete' ) , 'delete_posts'     , self::CRON_PAGE_SLUG  , array( &$this                    , 'display_cron_page' ) );
+        $this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Addon Licenses'          , 'bulk-delete' ) , __( 'Addon Licenses'    , 'bulk-delete' ) , 'activate_plugins' , self::ADDON_PAGE_SLUG , array( 'BD_License'              , 'display_addon_page' ) );
+        $this->info_page  = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete System Info' , 'bulk-delete' ) , __( 'System Info'       , 'bulk-delete' ) , 'manage_options'   , self::INFO_PAGE_SLUG  , array( 'Bulk_Delete_System_Info' , 'display_system_info' ) );
 
         // enqueue JavaScript
         add_action( 'admin_print_scripts-' . $this->posts_page, array( &$this, 'add_script') );
@@ -287,16 +289,17 @@ final class Bulk_Delete {
      * Register meta boxes for delete posts page
      */
     function add_delete_posts_meta_boxes() {
-        add_meta_box( self::BOX_POST_STATUS, __( 'By Post Status', 'bulk-delete' ), 'Bulk_Delete_Posts::render_delete_posts_by_status_box', $this->posts_page, 'advanced' );
-        add_meta_box( self::BOX_CATEGORY, __( 'By Category', 'bulk-delete' ), 'Bulk_Delete_Posts::render_delete_posts_by_category_box', $this->posts_page, 'advanced' );
-        add_meta_box( self::BOX_TAG, __( 'By Tag', 'bulk-delete' ), 'Bulk_Delete_Posts::render_delete_posts_by_tag_box', $this->posts_page, 'advanced' );
-        add_meta_box( self::BOX_TAX, __( 'By Custom Taxonomy', 'bulk-delete' ), 'Bulk_Delete_Posts::render_delete_posts_by_taxonomy_box', $this->posts_page, 'advanced' );
-        add_meta_box( self::BOX_POST_TYPE, __( 'By Custom Post Types', 'bulk-delete' ), 'Bulk_Delete_Posts::render_delete_posts_by_post_type_box', $this->posts_page, 'advanced' );
-        add_meta_box( self::BOX_URL, __( 'By URL', 'bulk-delete' ), 'Bulk_Delete_Posts::render_delete_posts_by_url_box', $this->posts_page, 'advanced' );
-        add_meta_box( self::BOX_POST_REVISION, __( 'By Post Revision', 'bulk-delete' ), 'Bulk_Delete_Posts::render_posts_by_revision_box', $this->posts_page, 'advanced' );
-        add_meta_box( self::BOX_CUSTOM_FIELD, __( 'By Custom Field', 'bulk-delete' ), 'Bulk_Delete_Posts::render_delete_posts_by_custom_field_box', $this->posts_page, 'advanced' );
-        add_meta_box( self::BOX_TITLE, __( 'By Title', 'bulk-delete' ), 'Bulk_Delete_Posts::render_delete_posts_by_title_box', $this->posts_page, 'advanced' );
-        add_meta_box( self::BOX_DUPLICATE_TITLE, __( 'By Duplicate Title', 'bulk-delete' ), 'Bulk_Delete_Posts::render_delete_posts_by_duplicate_title_box', $this->posts_page, 'advanced' );
+        add_meta_box( self::BOX_POST_STATUS     , __( 'By Post Status'       , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_status_box'          , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_CATEGORY        , __( 'By Category'          , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_category_box'        , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_TAG             , __( 'By Tag'               , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_tag_box'             , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_TAX             , __( 'By Custom Taxonomy'   , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_taxonomy_box'        , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_POST_TYPE       , __( 'By Custom Post Types' , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_post_type_box'       , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_URL             , __( 'By URL'               , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_url_box'             , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_POST_REVISION   , __( 'By Post Revision'     , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_posts_by_revision_box'               , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_CUSTOM_FIELD    , __( 'By Custom Field'      , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_custom_field_box'    , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_TITLE           , __( 'By Title'             , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_title_box'           , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_DUPLICATE_TITLE , __( 'By Duplicate Title'   , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_duplicate_title_box' , $this->posts_page , 'advanced' );
+        add_meta_box( self::BOX_POST_FROM_TRASH , __( 'Posts in Trash'       , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_from_trash'             , $this->posts_page , 'advanced' );
     }
 
     /**
@@ -327,7 +330,8 @@ final class Bulk_Delete {
      * @since 5.0
      */
     function add_delete_pages_meta_boxes() {
-        add_meta_box( self::BOX_PAGE_STATUS, __( 'By Page status', 'bulk-delete' ), 'Bulk_Delete_Pages::render_delete_pages_by_status_box', $this->pages_page, 'advanced' );
+        add_meta_box( self::BOX_PAGE_STATUS     , __( 'By Page status' , 'bulk-delete' ) , 'Bulk_Delete_Pages::render_delete_pages_by_status_box' , $this->pages_page , 'advanced' );
+        add_meta_box( self::BOX_PAGE_FROM_TRASH , __( 'Pages in Trash' , 'bulk-delete' ) , 'Bulk_Delete_Pages::render_delete_pages_from_trash'    , $this->pages_page , 'advanced' );
     }
 
     /**

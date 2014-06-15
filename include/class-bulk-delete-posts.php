@@ -1602,6 +1602,34 @@ class Bulk_Delete_Posts {
     }
 
     /**
+     * Render delete posts from trash box
+     *
+     * @since 5.1
+     * @static
+     */
+    public static function render_delete_posts_from_trash() {
+        if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_FROM_TRASH ) ) {
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+            return;
+        }
+
+        if ( !class_exists( 'Bulk_Delete_From_Trash' ) ) {
+?>
+        <!-- Posts In Trash box start-->
+        <p>
+            <span class = "bd-post-trash-pro" style = "color:red">
+                <?php _e( 'You need "Bulk Delete From Trash" Addon, to delete post in Trash.', 'bulk-delete' ); ?>
+                <a href = "http://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a>
+            </span>
+        </p>
+        <!-- Posts In Trash box end-->
+<?php
+        } else {
+            Bulk_Delete_From_Trash::render_delete_posts_from_trash();
+        }
+    }
+
+    /**
      * Process delete cron job request.
      * This should ideally go in a separate class. But I was
      * lazy to create a separate class for a single function

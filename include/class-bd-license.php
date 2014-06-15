@@ -377,6 +377,12 @@ class BD_License {
         echo '</li>';
 
         echo '<li>';
+        echo '<strong>', __( 'Delete from trash', 'bulk-delete' ), '</strong>', ' - ';
+        echo __( 'Adds the ability to delete posts and pages from trash', 'bulk-delete' );
+        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
+        echo '</li>';
+
+        echo '<li>';
         echo '<strong>', __('Scheduler for deleting Posts by Category', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to schedule auto delete of posts based on category', 'bulk-delete');
         echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
