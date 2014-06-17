@@ -69,7 +69,17 @@ class Bulk_Delete_Users {
             <tr>
                 <td scope="row">
                     <input name="smbdu_role_no_posts" id="smbdu_role_no_posts" value = "true" type = "checkbox">
-                    <?php _e( "Only if user doesn't have any post", 'bulk-delete' ); ?>
+                    <?php _e( "Only if user doesn't have any post. Only posts from 'post' post type would be considered.", 'bulk-delete' ); ?>
+                </td>
+            </tr>
+
+            <tr>
+                <td scope="row">
+                    <input name="smbdu_userrole_limit" id="smbdu_userrole_limit" value = "true" type = "checkbox">
+                    <?php _e( 'Only delete first ', 'bulk-delete' );?>
+					<input type="textbox" name="smbdu_userrole_limit_to" id="smbdu_userrole_limit_to" disabled value ="0" maxlength="4" size="4">
+					<?php _e( 'users.', 'bulk-delete' );?>
+                    <?php _e( 'Use this option if there are more than 1000 users or the script timesout.', 'bulk-delete' ) ?>
                 </td>
             </tr>
 
@@ -123,7 +133,7 @@ class Bulk_Delete_Users {
 
         $delete_options['login_restrict']   = array_get( $_POST, 'smbdu_login_restrict', FALSE );
         $delete_options['login_days']       = array_get( $_POST, 'smbdu_login_days' );
-        $delete_options['limit_to']         = array_get( $_POST, 'smbdu_role_limit' );
+        $delete_options['limit_to']         = absint( array_get( $_POST, 'smbdu_userrole_limit_to', 0 ) );
 
         if (array_get( $_POST, 'smbdu_userrole_cron', 'false' ) == 'true' ) {
             $freq = $_POST['smbdu_userrole_cron_freq'];
@@ -167,6 +177,10 @@ class Bulk_Delete_Users {
 
             $options = array();
             $options['role'] = $role;
+			if ( $delete_options['limit_to'] > 0 ) {
+				$options['number'] = $limit_to;
+			}
+
             $users = get_users( $options );
 
             foreach ( $users as $user ) {
