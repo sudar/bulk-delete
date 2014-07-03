@@ -365,15 +365,21 @@ class BD_License {
         echo '</li>';
 
         echo '<li>';
+        echo '<strong>', __( 'Delete posts by title', 'bulk-delete' ), '</strong>', ' - ';
+        echo __( 'Adds the ability to delete posts based on title', 'bulk-delete' );
+        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
+        echo '</li>';
+
+        echo '<li>';
         echo '<strong>', __( 'Delete posts by duplicate title', 'bulk-delete' ), '</strong>', ' - ';
         echo __( 'Adds the ability to delete posts based on duplicate title', 'bulk-delete' );
         echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
         echo '</li>';
 
         echo '<li>';
-        echo '<strong>', __( 'Delete posts by title', 'bulk-delete' ), '</strong>', ' - ';
-        echo __( 'Adds the ability to delete posts based on title', 'bulk-delete' );
-        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
+        echo '<strong>', __( 'Delete posts by user role', 'bulk-delete' ), '</strong>', ' - ';
+        echo __( 'Adds the ability to delete posts based on user role', 'bulk-delete' );
+        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-user-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
         echo '</li>';
 
         echo '<li>';

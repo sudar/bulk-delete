@@ -1,7 +1,8 @@
 ## Changelog ##
 
-### 2014-06-17 - v5.2 - (Dev time: 2 hours) ###
+### 2014-07-03 - v5.2 - (Dev time: 8 hours) ###
 - New: Ability to delete users in batches (Issue #47)
+- New: A new addon to delete posts based on users (Issue #6)
 
 
 ### 2014-06-14 - v5.1 - (Dev time: 8 hours) ###
@@ -201,6 +202,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.2 ###
+Ability to delete users in batches and a new addon to delete posts based on users
 
 ### 5.1 ###
 Added the ability to delete posts and pages from trash

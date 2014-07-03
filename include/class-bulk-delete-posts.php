@@ -1602,6 +1602,34 @@ class Bulk_Delete_Posts {
     }
 
     /**
+     * Delete posts by user role
+     *
+     * @static
+     * @since 5.2
+     */
+    public static function render_delete_posts_by_user_role_box() {
+
+        if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_BY_ROLE ) ) {
+            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+            return;
+        }
+        if ( !class_exists( 'Bulk_Delete_Posts_By_User_Role' ) ) {
+?>
+        <!-- Posts by user role start-->
+        <p>
+            <span class = "bd-post-by-role-pro" style = "color:red">
+                <?php _e( 'You need "Bulk Delete Posts by User Role" Addon, to delete post based on User Role', 'bulk-delete' ); ?>
+                <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-user-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow">Buy now</a>
+            </span>
+        </p>
+        <!-- Posts by user role end-->
+<?php
+        } else {
+            Bulk_Delete_Posts_By_User_Role::render_delete_posts_by_user_role_box();
+        }
+    }
+
+    /**
      * Render delete posts from trash box
      *
      * @since 5.1
