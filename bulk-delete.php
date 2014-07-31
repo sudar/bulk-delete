@@ -56,7 +56,11 @@ final class Bulk_Delete {
      */
     private static $instance;
 
+    // version
     const VERSION                   = '5.2';
+
+    // Numeric constants
+    const MENU_ORDER                = '26.9966';
 
     // page slugs
     const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
@@ -240,7 +244,7 @@ final class Bulk_Delete {
      * Add navigation menu
      */
 	function add_menu() {
-        add_menu_page( __( 'Bulk Delete', 'bulk-delete' ) , __( 'Bulk Delete', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ), 'dashicons-trash', '26.9966' );
+        add_menu_page( __( 'Bulk Delete', 'bulk-delete' ) , __( 'Bulk Delete', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
 
         $this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Posts'       , 'bulk-delete' ) , __( 'Bulk Delete Posts' , 'bulk-delete' ) , 'delete_posts'     , self::POSTS_PAGE_SLUG , array( &$this                    , 'display_posts_page' ) );
         $this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Pages'       , 'bulk-delete' ) , __( 'Bulk Delete Pages' , 'bulk-delete' ) , 'delete_pages'     , self::PAGES_PAGE_SLUG , array( &$this                    , 'display_pages_page' ) );
