@@ -1,5 +1,9 @@
 ## Changelog ##
 
+### 2014-07-31 - v5.3 - (Dev time: 0.5 hours) ###
+- Tweak: Tweak the names of the menu items (Issue #73)
+
+
 ### 2014-07-03 - v5.2 - (Dev time: 8 hours) ###
 - New: Ability to delete users in batches (Issue #47)
 - New: A new addon to delete posts based on users (Issue #6)

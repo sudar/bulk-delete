@@ -244,12 +244,12 @@ final class Bulk_Delete {
      * Add navigation menu
      */
 	function add_menu() {
-        add_menu_page( __( 'Bulk Delete', 'bulk-delete' ) , __( 'Bulk Delete', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
+        add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
 
         $this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Posts'       , 'bulk-delete' ) , __( 'Bulk Delete Posts' , 'bulk-delete' ) , 'delete_posts'     , self::POSTS_PAGE_SLUG , array( &$this                    , 'display_posts_page' ) );
         $this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Pages'       , 'bulk-delete' ) , __( 'Bulk Delete Pages' , 'bulk-delete' ) , 'delete_pages'     , self::PAGES_PAGE_SLUG , array( &$this                    , 'display_pages_page' ) );
         $this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Users'       , 'bulk-delete' ) , __( 'Bulk Delete Users' , 'bulk-delete' ) , 'delete_users'     , self::USERS_PAGE_SLUG , array( &$this                    , 'display_users_page' ) );
-        $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Schedules'   , 'bulk-delete' ) , __( 'Schedules'         , 'bulk-delete' ) , 'delete_posts'     , self::CRON_PAGE_SLUG  , array( &$this                    , 'display_cron_page' ) );
+        $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Schedules'   , 'bulk-delete' ) , __( 'Scheduled Jobs'    , 'bulk-delete' ) , 'delete_posts'     , self::CRON_PAGE_SLUG  , array( &$this                    , 'display_cron_page' ) );
         $this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Addon Licenses'          , 'bulk-delete' ) , __( 'Addon Licenses'    , 'bulk-delete' ) , 'activate_plugins' , self::ADDON_PAGE_SLUG , array( 'BD_License'              , 'display_addon_page' ) );
         $this->info_page  = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete System Info' , 'bulk-delete' ) , __( 'System Info'       , 'bulk-delete' ) , 'manage_options'   , self::INFO_PAGE_SLUG  , array( 'Bulk_Delete_System_Info' , 'display_system_info' ) );
 
