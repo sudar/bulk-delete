@@ -47,7 +47,7 @@ class Bulk_Delete_System_Info {
             $theme      = $theme_data->Name . ' ' . $theme_data->Version;
         }
 
-        // Try to identifty the hosting provider
+        // Try to identity the hosting provider
         $host = false;
         if( defined( 'WPE_APIKEY' ) ) {
             $host = 'WP Engine';
@@ -55,14 +55,28 @@ class Bulk_Delete_System_Info {
             $host = 'Pagely';
         }
 ?>
-    <div class="wrap">
-        <h2><?php _e( 'System Information', 'bulk-delete' ); ?></h2><br/>
-        <form action="<?php echo esc_url( admin_url( 'admin.php?page=' . Bulk_Delete::INFO_PAGE_SLUG ) ); ?>" method="post" dir="ltr">
-            <textarea style="width:800px;height:400px;font-family:Menlo,Monaco,monospace;white-space:pre;" readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="bulk-delete-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'bulk-delete' ); ?>">
+<div class="wrap">
+    <h2><?php _e( 'System Information', 'bulk-delete' ); ?></h2>
+    <?php settings_errors(); ?>
+
+    <form action="<?php echo esc_url( admin_url( 'admin.php?page=' . Bulk_Delete::INFO_PAGE_SLUG ) ); ?>" method="post" dir="ltr">
+    <div id = "poststuff">
+        <div id="post-body" class="metabox-holder columns-2">
+
+            <div id="post-body-content">
+                <div class="updated" >
+                    <p><strong><?php _e( 'Please include this information when posting support requests.', 'bulk-delete' ); ?></strong></p>
+                </div>
+            </div><!-- #post-body-content -->
+
+            <div id="postbox-container-1" class="postbox-container">
+                <iframe frameBorder="0" height = "1300" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo Bulk_Delete::VERSION; ?>"></iframe>
+            </div>
+
+            <div id="postbox-container-2" class="postbox-container">
+
+            <textarea style="width:800px;height:500px;font-family:Menlo,Monaco,monospace;white-space:pre;" readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="bulk-delete-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'bulk-delete' ); ?>">
 ### Begin System Info ###
-
-## Please include this information when posting support requests ##
-
 <?php
         do_action( 'bd_system_info_before' );
 ?>
@@ -161,9 +175,11 @@ NETWORK ACTIVE PLUGINS:
                 <input type="hidden" name="bd_action" value="download_sysinfo">
                 <?php submit_button( 'Download System Info File', 'primary', 'bulk-delete-download-sysinfo', false ); ?>
             </p>
-        </form>
-        </div>
-    </div>
+            </div> <!-- #postbox-container-2 -->
+        </div> <!-- #post-body -->
+    </div><!-- #poststuff -->
+    </form>
+</div><!-- .wrap -->
 <?php
         /**
          * Runs just before displaying the footer text in the "System Info" admin page.
