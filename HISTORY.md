@@ -1,7 +1,8 @@
 ## Changelog ##
 
-### 2014-07-31 - v5.3 - (Dev time: 0.5 hours) ###
+### 2014-07-31 - v5.3 - (Dev time: 1 hours) ###
 - Tweak: Tweak the names of the menu items (Issue #73)
+- Tweak: Add information about `DISABLE_WP_CRON` in system info
 
 
 ### 2014-07-03 - v5.2 - (Dev time: 8 hours) ###
