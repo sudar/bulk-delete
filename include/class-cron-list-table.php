@@ -52,7 +52,7 @@ class Cron_List_Table extends WP_List_Table {
 	 */
 	function get_columns() {
 		return $columns= array(
-			'col_cron_due'=>__('Next Due (GMT/UTC)', 'bulk-delete'),
+			'col_cron_due'=>__('Next Due', 'bulk-delete'),
 			'col_cron_schedule'=>__('Schedule', 'bulk-delete'),
 			'col_cron_type'=>__('Type', 'bulk-delete'),
 			'col_cron_options'=>__('Options', 'bulk-delete')
