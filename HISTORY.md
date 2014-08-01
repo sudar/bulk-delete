@@ -5,6 +5,7 @@
 - Tweak: Add information about `DISABLE_WP_CRON` in system info
 - Tweak: Tweak labels in Scheduled Jobs page (Issue #71)
 - Tweak: Removed unused variable
+- Tweak: Removed old compatibility code for `The Events Calendar` plugin
 
 - Bug: Fixed a warning that happened because of duplicate call to `add_meta_boxes`
 

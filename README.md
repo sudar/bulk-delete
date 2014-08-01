@@ -200,9 +200,9 @@ If you choose the option "Move to trash" then you can find them from trash. But 
 
 ### Is it possible that some Plugin are not compatible with Bulk Delete? ###
 
-Yes. If a Plugin rewrites the query vars by using `add_filter( 'pre_get_posts' )` then it may be incompatible with this Plugin. [The event calendar](http://wordpress.org/plugins/the-events-calendar/) is one such Plugin.
+Yes. If a Plugin rewrites the query vars by using `add_filter( 'pre_get_posts' )` then it may be incompatible with this Plugin.
 
-I currently disable and enable the `pre_get_posts` filter if I find that "The event calendar" Plugin is installed. It is not ideal, but it gets the work done. If you find any other Plugin with which Bulk Delete doesn't work, then let me know and I will try to see if I can add support through some hack like this.
+If you find any Plugin with which Bulk Delete doesn't work, then let me know and I will try to see if I can add support through some hack.
 
 ### Is it possible to schedule deletion of posts? ###
 

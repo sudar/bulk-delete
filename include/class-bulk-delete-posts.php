@@ -1287,8 +1287,6 @@ class Bulk_Delete_Posts {
                 $force_delete = false;
             }
 
-            self::pre_query();
-
             if ($delete_options['restrict'] == "true") {
                 $options['op'] = $delete_options['types_op'];
                 $options['days'] = $delete_options['types_days'];
@@ -1301,8 +1299,6 @@ class Bulk_Delete_Posts {
 
             $wp_query = new WP_Query();
             $posts = $wp_query->query( $options );
-
-            self::post_query();
 
             foreach ( $posts as $post ) {
                 // $force delete parameter to custom post types doesn't work
@@ -1317,32 +1313,6 @@ class Bulk_Delete_Posts {
         }
 
         return $count;
-    }
-
-    /**
-     * The event calendar Plugin changes query parameters which results in compatibility issues.
-     * So we disable it before executing our query
-     *
-     * @static
-     * @access private
-     */
-    private static function pre_query() {
-        if ( class_exists( 'TribeEventsQuery' ) ) {
-            remove_filter( 'pre_get_posts', array( TribeEventsQuery, 'pre_get_posts' ), 0 );
-        }
-    }
-
-    /**
-     * The event calendar Plugin changes query parameters which results in compatibility issues.
-     * So we disable it before executing our query and then enable it after our query
-     *
-     * @static
-     * @access private
-     */
-    private static function post_query() {
-        if ( class_exists( 'TribeEventsQuery' ) ) {
-            add_filter( 'pre_get_posts', array( TribeEventsQuery, 'pre_get_posts' ), 0 );
-        }
     }
 
     /**
