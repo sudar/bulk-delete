@@ -285,7 +285,6 @@ final class Bulk_Delete {
 
         /* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
         do_action('add_meta_boxes_' . $this->posts_page, null);
-        do_action('add_meta_boxes', $this->posts_page, null);
 
         /* Enqueue WordPress' script for handling the meta boxes */
         wp_enqueue_script('postbox');
@@ -325,7 +324,6 @@ final class Bulk_Delete {
 
         /* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
         do_action('add_meta_boxes_' . $this->pages_page, null);
-        do_action('add_meta_boxes', $this->pages_page, null);
 
         /* Enqueue WordPress' script for handling the meta boxes */
         wp_enqueue_script('postbox');
@@ -355,7 +353,6 @@ final class Bulk_Delete {
 
         /* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
         do_action('add_meta_boxes_' . $this->users_page, null);
-        do_action('add_meta_boxes', $this->users_page, null);
 
         /* Enqueue WordPress' script for handling the meta boxes */
         wp_enqueue_script('postbox');

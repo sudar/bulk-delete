@@ -5,6 +5,8 @@
 - Tweak: Add information about `DISABLE_WP_CRON` in system info
 - Tweak: Tweak labels in Scheduled Jobs page (Issue #71)
 
+- Bug: Fixed a warning that happened because of duplicate call to `add_meta_boxes`
+
 
 ### 2014-07-03 - v5.2 - (Dev time: 8 hours) ###
 - New: Ability to delete users in batches (Issue #47)
