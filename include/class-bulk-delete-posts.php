@@ -536,7 +536,6 @@ class Bulk_Delete_Posts {
             $options['days'] = $delete_options['cats_days'];
 
             if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
-                $bd = BULK_DELETE();
                 require_once Bulk_Delete::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
             }
             $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
@@ -759,7 +758,6 @@ class Bulk_Delete_Posts {
             $options['days'] = $delete_options['tags_days'];
 
             if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
-                $bd = BULK_DELETE();
                 require_once Bulk_Delete::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
             }
             $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
@@ -1052,7 +1050,6 @@ class Bulk_Delete_Posts {
             $options['days'] = $delete_options['taxs_days'];
 
             if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
-                $bd = BULK_DELETE();
                 require_once Bulk_Delete::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
             }
             $bulk_Delete_By_Days = new Bulk_Delete_By_Days;
@@ -1297,7 +1294,6 @@ class Bulk_Delete_Posts {
                 $options['days'] = $delete_options['types_days'];
 
                 if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
-                    $bd = BULK_DELETE();
                     require_once Bulk_Delete::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
                 }
                 $bulk_Delete_By_Days = new Bulk_Delete_By_Days;

@@ -185,7 +185,6 @@ class Bulk_Delete_Pages {
     public static function delete_pages_by_status( $delete_options ) {
         global $wp_query;
 
-        $bd          = BULK_DELETE();
         $options     = array();
         $post_status = array();
 
