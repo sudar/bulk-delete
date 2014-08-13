@@ -9,6 +9,7 @@
 - Tweak: Removed unused variable
 - Tweak: Removed old compatibility code for `The Events Calendar` plugin
 - Tweak: Add filters to extend menu items (Issue #74)
+- Tweak: Add filters to extend meta boxes in each page (Issue #75)
 
 - Bug: Fixed a warning that happened because of duplicate call to `add_meta_boxes`
 

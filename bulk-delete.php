@@ -329,6 +329,14 @@ final class Bulk_Delete {
         add_meta_box( self::BOX_DUPLICATE_TITLE , __( 'By Duplicate Title'   , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_duplicate_title_box' , $this->posts_page , 'advanced' );
         add_meta_box( self::BOX_POST_BY_ROLE    , __( 'By User Role'         , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_user_role_box'       , $this->posts_page , 'advanced' );
         add_meta_box( self::BOX_POST_FROM_TRASH , __( 'Posts in Trash'       , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_from_trash'             , $this->posts_page , 'advanced' );
+
+        /**
+         * Add meta box in delete posts page
+         * This hook can be used for adding additional meta boxes in delete posts page
+         *
+         * @since 5.3
+         */
+        do_action( 'bd_add_meta_box_for_posts' );
     }
 
     /**
@@ -360,6 +368,14 @@ final class Bulk_Delete {
     function add_delete_pages_meta_boxes() {
         add_meta_box( self::BOX_PAGE_STATUS     , __( 'By Page status' , 'bulk-delete' ) , 'Bulk_Delete_Pages::render_delete_pages_by_status_box' , $this->pages_page , 'advanced' );
         add_meta_box( self::BOX_PAGE_FROM_TRASH , __( 'Pages in Trash' , 'bulk-delete' ) , 'Bulk_Delete_Pages::render_delete_pages_from_trash'    , $this->pages_page , 'advanced' );
+
+        /**
+         * Add meta box in delete pages page
+         * This hook can be used for adding additional meta boxes in delete pages page
+         *
+         * @since 5.3
+         */
+        do_action( 'bd_add_meta_box_for_pages' );
     }
 
     /**
@@ -386,6 +402,14 @@ final class Bulk_Delete {
      */
     function add_delete_users_meta_boxes() {
         add_meta_box( self::BOX_USERS, __( 'By User Role', 'bulk-delete' ), 'Bulk_Delete_Users::render_delete_users_by_role_box', $this->users_page, 'advanced' );
+
+        /**
+         * Add meta box in delete users page
+         * This hook can be used for adding additional meta boxes in delete users page
+         *
+         * @since 5.3
+         */
+        do_action( 'bd_add_meta_box_for_users' );
     }
 
     /**
