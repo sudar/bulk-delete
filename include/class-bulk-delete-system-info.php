@@ -87,7 +87,6 @@ SITE_URL:                 <?php echo site_url() . "\n"; ?>
 HOME_URL:                 <?php echo home_url() . "\n"; ?>
 
 Bulk Delete Version:      <?php echo Bulk_Delete::VERSION . "\n"; ?>
-Upgraded From:            <?php echo get_option( 'bulk-delete_version_upgraded_from', 'None' ) . "\n"; ?>
 WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 Permalink Structure:      <?php echo get_option( 'permalink_structure' ) . "\n"; ?>
 Active Theme:             <?php echo $theme . "\n"; ?>
