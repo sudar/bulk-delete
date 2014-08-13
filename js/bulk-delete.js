@@ -47,7 +47,7 @@ jQuery(document).ready(function () {
     // for post boxes
     postboxes.add_postbox_toggles(pagenow);
 
-    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', '_cf', '_title', '_dup_title', '_post_by_role', 'u_userrole'], function (index, value) {
+    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', '_cf', '_title', '_dup_title', '_post_by_role', 'u_userrole', '_feedback'], function (index, value) {
         // invoke the date time picker
         jQuery('#smbd' + value + '_cron_start').datetimepicker({
             timeFormat: 'HH:mm:ss'
@@ -106,6 +106,9 @@ jQuery(document).ready(function () {
 
         } else if (jQuery(this).val() === 'delete_posts_by_duplicate_title') {
             // nothing to check for duplicate title
+            valid = true;
+        } else if (jQuery(this).val() === 'delete_jetpack_messages') {
+            // nothing to check for jetpack messages
             valid = true;
         } else {
             if (jQuery(this).parent().prev().children('table').find(":checkbox:checked[value!='true']").size() > 0) {

@@ -1,6 +1,8 @@
 ## Changelog ##
 
-### 2014-07-31 - v5.3 - (Dev time: 1 hours) ###
+### 2014-08-13 - v5.3 - (Dev time: 10 hours) ###
+- New: Ability to delete Jetpack Contact Form Messages (Issue #72)
+
 - Tweak: Tweak the names of the menu items (Issue #73)
 - Tweak: Add information about `DISABLE_WP_CRON` in system info
 - Tweak: Tweak labels in Scheduled Jobs page (Issue #71)
