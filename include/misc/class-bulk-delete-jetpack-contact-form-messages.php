@@ -201,7 +201,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
                 wp_schedule_event( $time, $freq, self::CRON_HOOK, array( $delete_options ) );
             }
             $msg = __( 'Jetpack contact form messages with the selected criteria are scheduled for deletion.', 'bulk-delete' ) . ' ' .
-                sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . Bulk_Delete_Misc::MISC_PAGE_SLUG );
+                sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
         } else {
             $deleted_count = self::delete_jetpack_messages( $delete_options );
             $msg = sprintf( _n( 'Deleted %d Jetpack contact form message', 'Deleted %d Jetpack contact form messages' , $deleted_count, 'bulk-delete' ), $deleted_count );
