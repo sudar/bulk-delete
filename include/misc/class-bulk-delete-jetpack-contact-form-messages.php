@@ -11,7 +11,6 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 
     // box slugs
     const BOX_JETPACK_MESSAGES = 'bd-jetpack-feedback';
-    const VISIBLE_MISC_BOXES   = 'metaboxhidden_bulk-delete_page_bulk-delete-misc';
 
     const FEEDBACK_POST_TYPE   = 'feedback';
     const CRON_HOOK            = 'bd-delete-feedback';
@@ -41,7 +40,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
      * @since 5.3
      */
     public static function render_delete_jetpack_messages_box() {
-        if ( self::is_misc_box_hidden( self::BOX_JETPACK_MESSAGES ) ) {
+        if ( Bulk_Delete_Misc::is_misc_box_hidden( self::BOX_JETPACK_MESSAGES ) ) {
             printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete_Misc::MISC_PAGE_SLUG );
             return;
         }
@@ -300,33 +299,6 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
         }
 
         return FALSE;
-    }
-
-    /**
-     * Check whether the meta box in misc page is hidden or not
-     *
-     * @static
-     * @access private
-     * @since  5.3
-     * @param  string $box The name of the box to check
-     * @return bool        True if the box is hidden, False otherwise
-     */
-    private static function is_misc_box_hidden( $box ) {
-        $hidden_boxes = self::get_misc_hidden_boxes();
-        return ( is_array( $hidden_boxes ) && in_array( $box, $hidden_boxes ) );
-    }
-
-    /**
-     * Get the list of hidden boxes in misc page
-     *
-     * @static
-     * @access private
-     * @since  5.3
-     * @return array The array of hidden meta boxes
-     */
-    private static function get_misc_hidden_boxes() {
-        $current_user = wp_get_current_user();
-        return get_user_meta( $current_user->ID, self::VISIBLE_MISC_BOXES, TRUE );
     }
 }
 

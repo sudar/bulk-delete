@@ -16,6 +16,8 @@ class Bulk_Delete_Misc {
      */
     const MISC_PAGE_SLUG = 'bulk-delete-misc';
 
+    const VISIBLE_MISC_BOXES   = 'metaboxhidden_bulk-delete_page_bulk-delete-misc';
+
     /**
      * Add *misc* menu
      *
@@ -133,6 +135,33 @@ class Bulk_Delete_Misc {
          * @since 5.3
          */
         do_action( 'bd_admin_footer_misc_page' );
+    }
+
+    /**
+     * Check whether the meta box in misc page is hidden or not
+     *
+     * @static
+     * @access private
+     * @since  5.3
+     * @param  string $box The name of the box to check
+     * @return bool        True if the box is hidden, False otherwise
+     */
+    public static function is_misc_box_hidden( $box ) {
+        $hidden_boxes = self::get_misc_hidden_boxes();
+        return ( is_array( $hidden_boxes ) && in_array( $box, $hidden_boxes ) );
+    }
+
+    /**
+     * Get the list of hidden boxes in misc page
+     *
+     * @static
+     * @access private
+     * @since  5.3
+     * @return array The array of hidden meta boxes
+     */
+    private static function get_misc_hidden_boxes() {
+        $current_user = wp_get_current_user();
+        return get_user_meta( $current_user->ID, self::VISIBLE_MISC_BOXES, TRUE );
     }
 }
 
