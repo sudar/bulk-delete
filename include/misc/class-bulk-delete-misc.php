@@ -137,7 +137,7 @@ class Bulk_Delete_Misc {
 }
 
 // Add menu
-add_action( 'bd_after_delete_menus', array( 'Bulk_Delete_Misc' , 'add_menu' ) );
+add_action( 'bd_after_primary_menus', array( 'Bulk_Delete_Misc' , 'add_menu' ) );
 
 // Modify admin footer
 add_action( 'bd_admin_footer_misc_page', 'bd_modify_admin_footer' );

@@ -261,7 +261,16 @@ final class Bulk_Delete {
          *
          * @since 5.3
          */
-        do_action( 'bd_after_delete_menus' );
+        do_action( 'bd_after_primary_menus' );
+
+        /**
+         * Runs just before adding non-action menu items to Bulk WP main menu
+         *
+         * This action is primarily for adding extra menu items before non-action menu items to the Bulk WP main menu.
+         *
+         * @since 5.3
+         */
+        do_action( 'bd_before_secondary_menus' );
 
         $this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Schedules'   , 'bulk-delete' ) , __( 'Scheduled Jobs'    , 'bulk-delete' ) , 'delete_posts'     , self::CRON_PAGE_SLUG  , array( &$this                    , 'display_cron_page' ) );
         $this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Addon Licenses'          , 'bulk-delete' ) , __( 'Addon Licenses'    , 'bulk-delete' ) , 'activate_plugins' , self::ADDON_PAGE_SLUG , array( 'BD_License'              , 'display_addon_page' ) );
