@@ -13,7 +13,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
     const BOX_JETPACK_MESSAGES = 'bd-jetpack-feedback';
 
     const FEEDBACK_POST_TYPE   = 'feedback';
-    const CRON_HOOK            = 'bd-delete-feedback';
+    const CRON_HOOK            = 'do-bulk-delete-feedback';
 
     /**
      * Register Jetpack Feedback meta box for delete misc page
