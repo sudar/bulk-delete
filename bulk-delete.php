@@ -211,6 +211,8 @@ final class Bulk_Delete {
         require_once self::$PLUGIN_DIR . '/include/misc/class-bulk-delete-misc.php';
         require_once self::$PLUGIN_DIR . '/include/misc/class-bulk-delete-jetpack-contact-form-messages.php';
 
+        require_once self::$PLUGIN_DIR . '/include/settings/class-bd-settings-page.php';
+
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-system-info.php';
         require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-util.php';
         require_once self::$PLUGIN_DIR . '/include/class-bd-license.php';
