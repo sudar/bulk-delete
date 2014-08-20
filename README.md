@@ -10,8 +10,6 @@ Bulk delete posts, pages or users in bulk based on different conditions and filt
 
 ## Description ##
 
-**NOTE: v5.0 and the above of this plugin is NOT compatible with any addons whose version is less than v0.5. If you are using an addon for this plugin, then make sure you that you have at least v0.5 or above of the addon before upgrading to v5.0 of this plugin. If you have any questions regarding this, then post them in the [BulkWP support forums][1]**
-
 Bulk Delete is a WordPress Plugin that allows you to delete posts, pages and users in bulk based on different conditions and filters.
 
 The following conditions and filters are supported.
