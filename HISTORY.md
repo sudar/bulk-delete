@@ -221,6 +221,9 @@
 
 ## Upgrade Notice ##
 
+### 5.3 ###
+Ability to delete Jetpack Contact Form messages
+
 ### 5.2 ###
 Ability to delete users in batches and a new addon to delete posts based on users
 

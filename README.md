@@ -1,10 +1,10 @@
 # Bulk Delete #
 **Contributors:** sudar  
 **Tags:** post, comment, delete, bulk, mass, draft, revision, page  
-**Requires at least:** 3.8  
-**Tested up to:** 3.9.1  
+**Requires at least:** 3.9  
+**Tested up to:** 3.9.2  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 5.2  
+**Stable tag:** 5.3  
 
 Bulk delete posts, pages or users in bulk based on different conditions and filters.
 
