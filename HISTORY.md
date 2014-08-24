@@ -2,6 +2,7 @@
 
 ### 2014-08-17 - v5.3 - (Dev time: 17 hours) ###
 - New: Ability to delete Jetpack Contact Form Messages (Issue #72)
+- New: New Addon to send email whenever a Bulk WP Scheduler runs
 - New: Settings screen for addons (Issue #78)
 - New: Add setting helper functions for addons
 

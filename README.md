@@ -77,6 +77,9 @@ Like posts, all the above options support the following filters as well
 
 - Delete duplicate posts by title (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme))
 
+#### Deleting other items
+- Delete Jetpack Contact Form Messages
+
 More options coming soon :)
 
 As you can see, the Plugin provide comprehensive options and filters to perform bulk deletion.
@@ -92,6 +95,8 @@ The following are the popular pro addons that are available for purchase. The fu
 - **Delete posts by duplicate title** - Adds the ability to delete posts based on duplicate title. [More details](http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme).
 - **Delete posts by user role** - Adds the ability to delete posts based on user role. [More details](http://bulkwp.com/addons/bulk-delete-posts-by-user-role/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme).
 - **Delete from trash** - Adds the ability to delete posts and pages from trash. [More details](http://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme).
+- **Delete Jetpack Contact Form Messages** - Adds the ability to delete Jetpack Contact Form Messages based on filters and to schedule automatic deletion. [More details](http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme).
+- **Scheduler Email** - Sends email whenever a Bulk WP Scheduler runs. [More details](http://bulkwp.com/addons/scheduler-email/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme).
 - **Scheduler for deleting posts Category** - Adds the ability to schedule auto delete of posts based on category. [More details](http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme).
 - **Scheduler for deleting posts Tag** - Adds the ability to schedule auto delete of posts based on tag. [More details](http://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme).
 - **Scheduler for deleting posts by Custom Taxonomy** - Adds the ability to schedule auto delete of posts based on custom taxonomy. [More details](http://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme).

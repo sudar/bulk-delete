@@ -389,6 +389,18 @@ class BD_License {
         echo '</li>';
 
         echo '<li>';
+        echo '<strong>', __( 'Delete Jetpack Contact Form Messages', 'bulk-delete' ), '</strong>', ' - ';
+        echo __( 'Adds the ability to delete Jetpack Contact Form Messages based on filters and to schedule automatic deletion', 'bulk-delete' );
+        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
+        echo '</li>';
+
+        echo '<li>';
+        echo '<strong>', __( 'Scheduler Email', 'bulk-delete' ), '</strong>', ' - ';
+        echo __( 'Sends an email every time a Bulk WP scheduler runs', 'bulk-delete' );
+        echo ' <a href = "http://bulkwp.com/addons/scheduler-email/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
+        echo '</li>';
+
+        echo '<li>';
         echo '<strong>', __('Scheduler for deleting Posts by Category', 'bulk-delete'), '</strong>', ' - ';
         echo __('Adds the ability to schedule auto delete of posts based on category', 'bulk-delete');
         echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __('More Info', 'bulk-delete'), '</a>.';
