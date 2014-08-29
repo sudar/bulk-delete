@@ -72,7 +72,7 @@ final class Bulk_Delete {
 
     // JS constants
     const JS_HANDLE                 = 'bulk-delete';
-    const JS_VARIABLE               = 'BULK_DELETE';
+    const JS_VARIABLE               = 'BulkWP';
 
     // Cron hooks
     const CRON_HOOK_CATEGORY        = 'do-bulk-delete-cat';
@@ -442,18 +442,22 @@ final class Bulk_Delete {
 
         // JavaScript messages
         $msg = array(
-            'deletewarning'      => __('Are you sure you want to delete all the selected posts', 'bulk-delete'),
-            'deletewarningusers' => __( 'Are you sure you want to delete all the selected users', 'bulk-delete' )
+            'deletePostsWarning' => __( 'Are you sure you want to delete all the selected posts', 'bulk-delete' ),
+            'deleteUsersWarning' => __( 'Are you sure you want to delete all the selected users', 'bulk-delete' ),
+            'selectPostOption'   => __( 'Please select posts from at least one option', 'bulk-delete' ),
+            'enterUrl'           => __( 'Please enter at least one page url', 'bulk-delete' ),
+            'enter_cf_key'       => __( 'Please enter some value for custom field key', 'bulk-delete' ),
+            'enter_title'        => __( 'Please enter some value for title', 'bulk-delete' )
         );
 
-        $error = array(
-            'selectone'    => __( 'Please select posts from at least one option', 'bulk-delete' ),
-            'enterurl'     => __( 'Please enter at least one page url', 'bulk-delete' ),
-            'enter_cf_key' => __( 'Please enter some value for custom field key', 'bulk-delete' ),
-            'enter_title'  => __( 'Please enter some value for title', 'bulk-delete' )
-        );
-
-        $translation_array = array( 'msg' => $msg, 'error' => $error );
+        /**
+         * Filter JavaScript array
+         *
+         * This filter can be used to extend the array that is passed to JavaScript
+         *
+         * @since 5.4
+         */
+        $translation_array = apply_filters( 'bd_javascript_array', array( 'msg' => $msg, 'validators' => array() ) );
         wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
     }
 

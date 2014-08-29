@@ -8,17 +8,12 @@
  */
 
 /*jslint browser: true, devel: true*/
-/*global BULK_DELETE, jQuery, document, postboxes, pagenow*/
+/*global BulkWP, jQuery, document, postboxes, pagenow*/
 jQuery(document).ready(function () {
-
-    // hide all terms
-    function hideAllTerms() {
-        jQuery('table.terms').hide();
-        jQuery('input.terms').attr('checked', false);
-    }
-
-    // call it for the first time
-    hideAllTerms();
+    /**
+     * Enable Postbox handling
+     */
+    postboxes.add_postbox_toggles(pagenow);
 
     /**
      * Toggle the date restrict fields
@@ -44,24 +39,13 @@ jQuery(document).ready(function () {
         }
     }
 
-    // for post boxes
-    postboxes.add_postbox_toggles(pagenow);
-
-    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', '_cf', '_title', '_dup_title', '_post_by_role', 'u_userrole', '_feedback'], function (index, value) {
-        // invoke the date time picker
-        jQuery('#smbd' + value + '_cron_start').datetimepicker({
-            timeFormat: 'HH:mm:ss'
-        });
-
-        jQuery('#smbd' + value + '_restrict').change(function () {
-            toggle_date_restrict(value);
-        });
-
-        jQuery('#smbd' + value + '_limit').change(function () {
-            toggle_limit_restrict(value);
-        });
-
-    });
+    // hide all terms
+    function hideAllTerms() {
+        jQuery('table.terms').hide();
+        jQuery('input.terms').attr('checked', false);
+    }
+    // call it for the first time
+    hideAllTerms();
 
     // taxonomy click handling
     jQuery('.custom-tax').change(function () {
@@ -73,62 +57,6 @@ jQuery(document).ready(function () {
             hideAllTerms();
             $terms.show('slow');
         }
-    });
-
-    // Handle clicking of submit buttons
-    jQuery('button').click(function () {
-        var current_button = jQuery(this).val(),
-            valid = false;
-
-        if (jQuery(this).val() === 'delete_posts_by_url') {
-            if (jQuery(this).parent().prev().children('table').find("textarea").val() !== '') {
-                valid = true;
-            } else {
-                // not valid
-                alert(BULK_DELETE.error.enterurl);
-            }
-        } else if (jQuery(this).val() === 'delete_posts_by_custom_field') {
-            if (jQuery('#smbd_cf_key').val() !== '') {
-                valid = true;
-            } else {
-                // not valid
-                alert(BULK_DELETE.error.enter_cf_key);
-            }
-
-        } else if (jQuery(this).val() === 'delete_posts_by_title') {
-
-            if (jQuery('#smbd_title_value').val() !== '') {
-                valid = true;
-            } else {
-                // not valid
-                alert(BULK_DELETE.error.enter_title);
-            }
-
-        } else if (jQuery(this).val() === 'delete_posts_by_duplicate_title') {
-            // nothing to check for duplicate title
-            valid = true;
-        } else if (jQuery(this).val() === 'delete_jetpack_messages') {
-            // nothing to check for jetpack messages
-            valid = true;
-        } else {
-            if (jQuery(this).parent().prev().children('table').find(":checkbox:checked[value!='true']").size() > 0) {
-                // monstrous selector
-                valid = true;
-            } else {
-                // not valid
-                alert(BULK_DELETE.error.selectone);
-            }
-        }
-
-        if (valid) {
-            if (current_button.lastIndexOf('delete_users_by_role', 0) === 0) {
-                return confirm(BULK_DELETE.msg.deletewarningusers);
-            } else {
-                return confirm(BULK_DELETE.msg.deletewarning);
-            }
-        }
-
-        return false;
     });
 
     // Handle selection of all checkboxes of cats
@@ -148,4 +76,66 @@ jQuery(document).ready(function () {
             jQuery('input[name="smbd_tags[]"]').attr('checked', false);
         }
     });
+
+    // date time picker
+    // TODO: Extend this list
+    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', '_cf', '_title', '_dup_title', '_post_by_role', 'u_userrole', '_feedback'], function (index, value) {
+        // invoke the date time picker
+        jQuery('#smbd' + value + '_cron_start').datetimepicker({
+            timeFormat: 'HH:mm:ss'
+        });
+
+        jQuery('#smbd' + value + '_restrict').change(function () {
+            toggle_date_restrict(value);
+        });
+
+        jQuery('#smbd' + value + '_limit').change(function () {
+            toggle_limit_restrict(value);
+        });
+
+    });
+
+    // Validate user action
+    jQuery('button[name="bd_action"]').click(function () {
+        var currentButton = jQuery(this).val(),
+            valid = false;
+
+        if (currentButton in BulkWP.validators) {
+            valid = BulkWP[BulkWP.validators[currentButton]](this)
+        } else {
+            if (jQuery(this).parent().prev().children('table').find(":checkbox:checked[value!='true']").size() > 0) {
+                // monstrous selector
+                valid = true;
+            } else {
+                // not valid
+                alert(BulkWP.msg.selectPostOption);
+            }
+        }
+
+        if (valid) {
+            if (currentButton.lastIndexOf('delete_users_by_role', 0) === 0) {
+                return confirm(BulkWP.msg.deleteUsersWarning);
+            } else {
+                return confirm(BulkWP.msg.deletePostsWarning);
+            }
+        }
+
+        return false;
+    });
+
+    /**
+     * Validation functions
+     */
+    BulkWP.noValidation = function(that) {
+        return true;
+    }
+
+    BulkWP.validateUrl = function(that) {
+        if (jQuery(that).parent().prev().children('table').find("textarea").val() !== '') {
+            return true;
+        } else {
+            alert(BulkWP.msg.enterUrl);
+            return false;
+        }
+    }
 });

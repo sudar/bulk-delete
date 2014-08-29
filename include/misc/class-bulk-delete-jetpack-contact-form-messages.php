@@ -157,11 +157,24 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
             </table>
             </fieldset>
             <p class="submit">
-                <button type='submit' name='bd_action' value = 'delete_jetpack_messages' class='button-primary'><?php _e( 'Bulk Delete ', 'bulk-delete' ) ?>&raquo;</button>
+                <button type='submit' name='bd_action' value='delete_jetpack_messages' class='button-primary'><?php _e( 'Bulk Delete ', 'bulk-delete' ) ?>&raquo;</button>
             </p>
             <!-- Delete Jetpack Feedback box end-->
 <?php
         }
+    }
+
+    /**
+     * Filter JS Array and add validation hooks
+     *
+     * @since 5.4
+     * @static
+     * @param  array $js_array JavaScript Array
+     * @return array           Modified JavaScript Array
+     */
+    public static function filter_js_array( $js_array ) {
+        $js_array['validators']['delete_jetpack_messages'] = 'noValidation';
+        return $js_array;
     }
 
     /**
@@ -303,6 +316,8 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 }
 
 // hooks
-add_action( 'bd_add_meta_box_for_misc',   array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'add_delete_jetpack_messages_meta_box' ) );
+add_action( 'bd_add_meta_box_for_misc'  , array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'add_delete_jetpack_messages_meta_box' ) );
 add_action( 'bd_delete_jetpack_messages', array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'do_delete_jetpack_messages' ) );
+
+add_filter( 'bd_javascript_array'       , array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'filter_js_array' ) );
 ?>

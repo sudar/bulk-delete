@@ -1624,6 +1624,19 @@ class Bulk_Delete_Posts {
     }
 
     /**
+     * Filter JS Array and add validation hooks
+     *
+     * @since 5.4
+     * @static
+     * @param  array $js_array JavaScript Array
+     * @return array           Modified JavaScript Array
+     */
+    public static function filter_js_array( $js_array ) {
+        $js_array['validators']['delete_posts_by_url'] = 'validateUrl';
+        return $js_array;
+    }
+
+    /**
      * Process delete cron job request.
      * This should ideally go in a separate class. But I was
      * lazy to create a separate class for a single function
@@ -1659,4 +1672,5 @@ add_action( 'bd_delete_posts_by_url'       , array( 'Bulk_Delete_Posts' , 'do_de
 add_action( 'bd_delete_posts_by_revision'  , array( 'Bulk_Delete_Posts' , 'do_delete_posts_by_revision' ) );
 
 add_action( 'bd_delete_cron'               , array( 'Bulk_Delete_Posts' , 'do_delete_cron' ) );
+add_filter( 'bd_javascript_array'          , array( 'Bulk_Delete_Posts' , 'filter_js_array' ) );
 ?>
