@@ -1633,6 +1633,12 @@ class Bulk_Delete_Posts {
      */
     public static function filter_js_array( $js_array ) {
         $js_array['validators']['delete_posts_by_url'] = 'validateUrl';
+        $js_array['dt_iterators'][] = '_cats';
+        $js_array['dt_iterators'][] = '_tags';
+        $js_array['dt_iterators'][] = '_taxs';
+        $js_array['dt_iterators'][] = '_types';
+        $js_array['dt_iterators'][] = '_post_status';
+        $js_array['dt_iterators'][] = '_post_by_role';
         return $js_array;
     }
 

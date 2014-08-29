@@ -1,7 +1,7 @@
 ## Changelog ##
 
 ### 2014-08-29 - v5.4 - (Dev time: 5 hours) ###
-- New: Added the ability to hook into JavaScript message and validation (Issue #82, #83)
+- New: Added the ability to hook into JavaScript message, date picker and validation (Issue #82, #83, #84)
 
 - Tweak: Group memory related info together in system info output
 

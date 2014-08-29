@@ -277,7 +277,21 @@ class Bulk_Delete_Pages {
             Bulk_Delete_From_Trash::render_delete_pages_from_trash();
         }
     }
+
+    /**
+     * Filter JS Array and add validation hooks
+     *
+     * @since 5.4
+     * @static
+     * @param  array $js_array JavaScript Array
+     * @return array           Modified JavaScript Array
+     */
+    public static function filter_js_array( $js_array ) {
+        $js_array['dt_iterators'][] = '_pages';
+        return $js_array;
+    }
 }
 
 add_action( 'bd_delete_pages_by_status', array( 'Bulk_Delete_Pages', 'do_delete_pages_by_status' ) );
+add_filter( 'bd_javascript_array', array( 'Bulk_Delete_Pages' , 'filter_js_array' ) );
 ?>

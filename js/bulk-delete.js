@@ -78,8 +78,7 @@ jQuery(document).ready(function () {
     });
 
     // date time picker
-    // TODO: Extend this list
-    jQuery.each(['_cats', '_tags', '_taxs', '_pages', '_post_status', '_types', '_cf', '_title', '_dup_title', '_post_by_role', 'u_userrole', '_feedback'], function (index, value) {
+    jQuery.each(BulkWP.dt_iterators, function (index, value) {
         // invoke the date time picker
         jQuery('#smbd' + value + '_cron_start').datetimepicker({
             timeFormat: 'HH:mm:ss'

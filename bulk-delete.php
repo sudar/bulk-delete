@@ -457,7 +457,7 @@ final class Bulk_Delete {
          *
          * @since 5.4
          */
-        $translation_array = apply_filters( 'bd_javascript_array', array( 'msg' => $msg, 'validators' => array() ) );
+        $translation_array = apply_filters( 'bd_javascript_array', array( 'msg' => $msg, 'validators' => array(), 'dt_iterators' => array() ) );
         wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
     }
 

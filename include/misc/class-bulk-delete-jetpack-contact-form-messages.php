@@ -174,6 +174,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
      */
     public static function filter_js_array( $js_array ) {
         $js_array['validators']['delete_jetpack_messages'] = 'noValidation';
+        $js_array['dt_iterators'][] = '_feedback';
         return $js_array;
     }
 

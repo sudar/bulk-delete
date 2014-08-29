@@ -210,6 +210,19 @@ class Bulk_Delete_Users {
     }
 
     /**
+     * Filter JS Array and add validation hooks
+     *
+     * @since 5.4
+     * @static
+     * @param  array $js_array JavaScript Array
+     * @return array           Modified JavaScript Array
+     */
+    public static function filter_js_array( $js_array ) {
+        $js_array['dt_iterators'][] = 'u_userrole';
+        return $js_array;
+    }
+
+    /**
      * Find the last login date/time of a user
      *
      * @static
@@ -224,4 +237,5 @@ class Bulk_Delete_Users {
 }
 
 add_action( 'bd_delete_users_by_role', array( 'Bulk_Delete_Users', 'do_delete_users_by_role' ) );
+add_filter( 'bd_javascript_array', array( 'Bulk_Delete_Users' , 'filter_js_array' ) );
 ?>
