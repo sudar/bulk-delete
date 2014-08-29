@@ -1,7 +1,8 @@
 ## Changelog ##
 
-### 2014-08-29 - v5.4 - (Dev time: 6 hours) ###
+### 2014-08-29 - v5.4 - (Dev time: 6.5 hours) ###
 - New: Added the ability to hook into JavaScript message, date picker and validation (Issue #82, #83, #84)
+- New: Prevent PHP from timing out while performing bulk operations(Issue #81)
 
 - Tweak: Group memory related info together in system info output
 - Tweak: Tweak the warning and error messages that are shown to the users

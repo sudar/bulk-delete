@@ -245,6 +245,8 @@ final class Bulk_Delete {
     private function setup_actions() {
         add_action( 'admin_menu', array( &$this, 'add_menu' ) );
         add_action( 'admin_init', array( &$this, 'request_handler' ) );
+        add_action( 'bd_pre_bulk_action', array( &$this, 'increase_timeout' ), 9 );
+        add_action( 'bd_before_scheduler', array( &$this, 'increase_timeout' ), 9 );
     }
 
     /**
@@ -653,7 +655,7 @@ final class Bulk_Delete {
      *
      * This method automatically triggers all the actions
      */
-    function request_handler() {
+    public function request_handler() {
 
         if ( isset( $_POST['bd_action'] ) ) {
             if ( 'delete_pages_' === substr( $_POST['bd_action'], 0, strlen('delete_pages_') ) &&
@@ -671,13 +673,33 @@ final class Bulk_Delete {
                 return FALSE;
             }
 
+            /**
+             * Before performing a bulk action
+             *
+             * This hook is for doing actions just before performing any bulk operation
+             *
+             * @since 5.4
+             */
+            do_action( 'bd_pre_bulk_action' );
             do_action( 'bd_' . $_POST['bd_action'], $_POST );
         }
 
         if ( isset( $_GET['bd_action'] ) ) {
             do_action( 'bd_' . $_GET['bd_action'], $_GET );
         }
+    }
 
+    /**
+     * Increase PHP timeout.
+     *
+     * This is to prevent bulk operations from timing out
+     *
+     * @since 5.4
+     */
+    public function increase_timeout() {
+        if (! ini_get( 'safe_mode' ) ) {
+            @set_time_limit( 0 );
+        }
     }
 }
 
