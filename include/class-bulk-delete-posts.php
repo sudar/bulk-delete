@@ -1632,13 +1632,18 @@ class Bulk_Delete_Posts {
      * @return array           Modified JavaScript Array
      */
     public static function filter_js_array( $js_array ) {
+        $js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
+        $js_array['msg']['selectPostOption'] = __( 'Please select posts from at least one option', 'bulk-delete' );
+
         $js_array['validators']['delete_posts_by_url'] = 'validateUrl';
+        $js_array['error_msg']['delete_posts_by_url'] = 'enterUrl';
+        $js_array['msg']['enterUrl'] = __( 'Please enter at least one post url', 'bulk-delete' );
+
         $js_array['dt_iterators'][] = '_cats';
         $js_array['dt_iterators'][] = '_tags';
         $js_array['dt_iterators'][] = '_taxs';
         $js_array['dt_iterators'][] = '_types';
         $js_array['dt_iterators'][] = '_post_status';
-        $js_array['dt_iterators'][] = '_post_by_role';
         return $js_array;
     }
 

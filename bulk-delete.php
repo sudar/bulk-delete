@@ -440,16 +440,6 @@ final class Bulk_Delete {
         wp_enqueue_style('jquery-ui-smoothness', $url, false, $ui->ver);
         wp_enqueue_style('jquery-ui-timepicker', plugins_url('/style/jquery-ui-timepicker.css', __FILE__), array(), '1.1.1');
 
-        // JavaScript messages
-        $msg = array(
-            'deletePostsWarning' => __( 'Are you sure you want to delete all the selected posts', 'bulk-delete' ),
-            'deleteUsersWarning' => __( 'Are you sure you want to delete all the selected users', 'bulk-delete' ),
-            'selectPostOption'   => __( 'Please select posts from at least one option', 'bulk-delete' ),
-            'enterUrl'           => __( 'Please enter at least one page url', 'bulk-delete' ),
-            'enter_cf_key'       => __( 'Please enter some value for custom field key', 'bulk-delete' ),
-            'enter_title'        => __( 'Please enter some value for title', 'bulk-delete' )
-        );
-
         /**
          * Filter JavaScript array
          *
@@ -457,7 +447,13 @@ final class Bulk_Delete {
          *
          * @since 5.4
          */
-        $translation_array = apply_filters( 'bd_javascript_array', array( 'msg' => $msg, 'validators' => array(), 'dt_iterators' => array() ) );
+        $translation_array = apply_filters( 'bd_javascript_array', array(
+            'msg' => array(),
+            'validators' => array(),
+            'dt_iterators' => array(),
+            'pre_action_msg' => array(),
+            'error_msg' => array()
+        ) );
         wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
     }
 

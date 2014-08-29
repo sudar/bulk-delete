@@ -173,8 +173,11 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
      * @return array           Modified JavaScript Array
      */
     public static function filter_js_array( $js_array ) {
-        $js_array['validators']['delete_jetpack_messages'] = 'noValidation';
         $js_array['dt_iterators'][] = '_feedback';
+        $js_array['validators']['delete_jetpack_messages'] = 'noValidation';
+
+        $js_array['pre_action_msg']['delete_jetpack_messages'] = 'deleteJetpackWarning';
+        $js_array['msg']['deleteJetpackWarning'] = __( 'Are you sure you want to delete all the Jetpack contact form messages based on the selected filters?', 'bulk-delete' );
         return $js_array;
     }
 

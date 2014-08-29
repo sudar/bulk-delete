@@ -97,7 +97,9 @@ jQuery(document).ready(function () {
     // Validate user action
     jQuery('button[name="bd_action"]').click(function () {
         var currentButton = jQuery(this).val(),
-            valid = false;
+            valid = false,
+            msg_key = "deletePostsWarning",
+            error_key = "selectPostOption";
 
         if (currentButton in BulkWP.validators) {
             valid = BulkWP[BulkWP.validators[currentButton]](this)
@@ -105,18 +107,21 @@ jQuery(document).ready(function () {
             if (jQuery(this).parent().prev().children('table').find(":checkbox:checked[value!='true']").size() > 0) {
                 // monstrous selector
                 valid = true;
-            } else {
-                // not valid
-                alert(BulkWP.msg.selectPostOption);
             }
         }
 
         if (valid) {
-            if (currentButton.lastIndexOf('delete_users_by_role', 0) === 0) {
-                return confirm(BulkWP.msg.deleteUsersWarning);
-            } else {
-                return confirm(BulkWP.msg.deletePostsWarning);
+            if (currentButton in BulkWP.pre_action_msg) {
+                msg_key = BulkWP.pre_action_msg[currentButton];
             }
+
+            return confirm(BulkWP.msg[msg_key])
+        } else {
+            if (currentButton in BulkWP.error_msg) {
+                error_key = BulkWP.error_msg[currentButton];
+            }
+
+            alert(BulkWP.msg[error_key]);
         }
 
         return false;
@@ -133,7 +138,6 @@ jQuery(document).ready(function () {
         if (jQuery(that).parent().prev().children('table').find("textarea").val() !== '') {
             return true;
         } else {
-            alert(BulkWP.msg.enterUrl);
             return false;
         }
     }

@@ -219,6 +219,13 @@ class Bulk_Delete_Users {
      */
     public static function filter_js_array( $js_array ) {
         $js_array['dt_iterators'][] = 'u_userrole';
+
+        $js_array['pre_action_msg']['delete_users_by_role'] = 'deleteUsersWarning';
+        $js_array['msg']['deleteUsersWarning'] = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );
+
+        $js_array['error_msg']['delete_users_by_role'] = 'selectOneUserRole';
+        $js_array['msg']['selectOneUserRole'] = __( 'Select at least one user role from which users should be deleted', 'bulk-delete' );
+
         return $js_array;
     }
 

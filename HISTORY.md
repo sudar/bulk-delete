@@ -1,9 +1,10 @@
 ## Changelog ##
 
-### 2014-08-29 - v5.4 - (Dev time: 5 hours) ###
+### 2014-08-29 - v5.4 - (Dev time: 6 hours) ###
 - New: Added the ability to hook into JavaScript message, date picker and validation (Issue #82, #83, #84)
 
 - Tweak: Group memory related info together in system info output
+- Tweak: Tweak the warning and error messages that are shown to the users
 
 ### 2014-08-17 - v5.3 - (Dev time: 17 hours) ###
 - New: Ability to delete Jetpack Contact Form Messages (Issue #72)
