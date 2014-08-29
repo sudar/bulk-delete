@@ -1,5 +1,8 @@
 ## Changelog ##
 
+### 2014-08-29 - v5.4 - (Dev time: 0.5 hours) ###
+- Tweak: Group memory related info together in system info output
+
 ### 2014-08-17 - v5.3 - (Dev time: 17 hours) ###
 - New: Ability to delete Jetpack Contact Form Messages (Issue #72)
 - New: New Addon to send email whenever a Bulk WP Scheduler runs
