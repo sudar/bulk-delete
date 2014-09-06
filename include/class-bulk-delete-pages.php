@@ -274,7 +274,12 @@ class Bulk_Delete_Pages {
         <!-- pages In Trash box end-->
 <?php
         } else {
-            Bulk_Delete_From_Trash::render_delete_pages_from_trash();
+            /**
+             * Render delete pages from trash box
+             *
+             * @since 5.4
+             */
+            do_action( 'bd_render_delete_pages_from_trash' );
         }
     }
 

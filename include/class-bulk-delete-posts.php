@@ -1619,7 +1619,12 @@ class Bulk_Delete_Posts {
         <!-- Posts In Trash box end-->
 <?php
         } else {
-            Bulk_Delete_From_Trash::render_delete_posts_from_trash();
+            /**
+             * Render delete posts from trash box
+             *
+             * @since 5.4
+             */
+            do_action( 'bd_render_delete_posts_from_trash' );
         }
     }
 
