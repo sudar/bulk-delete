@@ -107,11 +107,9 @@ class Bulk_Delete_Misc {
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
-            <div id="post-body-content">
-                <div class="updated" >
-                    <p><strong><?php _e( 'WARNING: Posts deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
-                </div>
-            </div><!-- #post-body-content -->
+            <div class="updated" >
+                <p><strong><?php _e( 'WARNING: Posts deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
+            </div>
 
             <div id="postbox-container-1" class="postbox-container">
                 <iframe frameBorder="0" height = "1300" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo Bulk_Delete::VERSION; ?>"></iframe>
