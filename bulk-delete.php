@@ -255,9 +255,9 @@ final class Bulk_Delete {
 	function add_menu() {
         add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
 
-        $this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Posts'       , 'bulk-delete' ) , __( 'Bulk Delete Posts' , 'bulk-delete' ) , 'delete_posts'     , self::POSTS_PAGE_SLUG , array( &$this                    , 'display_posts_page' ) );
-        $this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Pages'       , 'bulk-delete' ) , __( 'Bulk Delete Pages' , 'bulk-delete' ) , 'delete_pages'     , self::PAGES_PAGE_SLUG , array( &$this                    , 'display_pages_page' ) );
-        $this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG , __( 'Bulk Delete Users'       , 'bulk-delete' ) , __( 'Bulk Delete Users' , 'bulk-delete' ) , 'delete_users'     , self::USERS_PAGE_SLUG , array( &$this                    , 'display_users_page' ) );
+        $this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ) );
+        $this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( &$this, 'display_pages_page' ) );
+        $this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ) );
 
         /**
          * Runs just after adding all *delete* menu items to Bulk WP main menu
@@ -460,7 +460,9 @@ final class Bulk_Delete {
     }
 
     /**
-     * Show the delete posts page
+     * Show the delete posts page.
+     *
+     * @Todo Move this function to Bulk_Delete_Posts class
      */
     function display_posts_page() {
 ?>
@@ -511,6 +513,7 @@ final class Bulk_Delete {
     /**
      * Display the delete pages page
      *
+     * @Todo Move this function to Bulk_Delete_Pages class
      * @since 5.0
      */
     function display_pages_page() {
@@ -561,6 +564,7 @@ final class Bulk_Delete {
 
     /**
      * Display bulk delete users page
+     * @Todo Move this function to Bulk_Delete_Users class
      */
     function display_users_page() {
 ?>
@@ -653,17 +657,22 @@ final class Bulk_Delete {
 
         if ( isset( $_POST['bd_action'] ) ) {
             if ( 'delete_pages_' === substr( $_POST['bd_action'], 0, strlen('delete_pages_') ) &&
-                !check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
+                ! check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
                 return FALSE;
             }
 
             if ( 'delete_posts_' === substr( $_POST['bd_action'], 0, strlen('delete_posts_') ) &&
-                !check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
+                ! check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
                 return FALSE;
             }
 
             if ( 'delete_users_' === substr( $_POST['bd_action'], 0, strlen('delete_users_') ) &&
-                !check_admin_referer( 'sm-bulk-delete-users', 'sm-bulk-delete-users-nonce' ) ) {
+                ! check_admin_referer( 'sm-bulk-delete-users', 'sm-bulk-delete-users-nonce' ) ) {
+                return FALSE;
+            }
+
+            if ( 'delete_meta_' === substr( $_POST['bd_action'], 0, strlen('delete_meta_') ) &&
+                ! check_admin_referer( 'sm-bulk-delete-meta', 'sm-bulk-delete-meta-nonce' ) ) {
                 return FALSE;
             }
 
@@ -691,7 +700,7 @@ final class Bulk_Delete {
      * @since 5.4
      */
     public function increase_timeout() {
-        if (! ini_get( 'safe_mode' ) ) {
+        if ( ! ini_get( 'safe_mode' ) ) {
             @set_time_limit( 0 );
         }
     }
