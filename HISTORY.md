@@ -1,6 +1,7 @@
 ## Changelog ##
 
-### 2014-09-09 - v5.4 - (Dev time: 8 hours) ###
+### 2014-09-10 - v5.4 - (Dev time: 13 hours) ###
+- New: Added the ability to delete post meta fields (Issue #43)
 - New: Added the ability to hook into JavaScript message, date picker and validation (Issue #82, #83, #84)
 - New: Prevent PHP from timing out while performing bulk operations(Issue #81)
 
