@@ -449,6 +449,12 @@ class BD_License {
         echo '</li>';
 
         echo '<li>';
+        echo '<strong>', __( 'Delete User Meta Fields', 'bulk-delete' ), '</strong>', ' - ';
+        echo __( 'Adds the ability to delete user meta fields based on value and to schedule automatic deletion', 'bulk-delete' );
+        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
+        echo '</li>';
+
+        echo '<li>';
         echo '<strong>', __( 'Delete Jetpack Contact Form Messages', 'bulk-delete' ), '</strong>', ' - ';
         echo __( 'Adds the ability to delete Jetpack Contact Form Messages based on filters and to schedule automatic deletion', 'bulk-delete' );
         echo ' <a href = "http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist">', __( 'More Info', 'bulk-delete' ), '</a>.';
