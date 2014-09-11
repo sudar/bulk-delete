@@ -205,15 +205,28 @@ class Bulk_Delete_Util {
  * Get a value from an array based on key.
  * If key is present returns the value, else returns the default value
  *
- * @param array $array Array from which value has to be retrieved
- * @param string $key key, whose value to be retrieved
- * @param string $default Optional. Default value to be returned, if the key is not found
- *
- * @return mixed Value if key is present, else the default value
+ * @param  array  $array   Array from which value has to be retrieved
+ * @param  string $key     Key, whose value to be retrieved
+ * @param  string $default Optional. Default value to be returned, if the key is not found
+ * @return mixed           Value if key is present, else the default value
  */
-if ( !function_exists( 'array_get' ) ) {
+if ( ! function_exists( 'array_get' ) ) {
     function array_get( $array, $key, $default = NULL ) {
         return isset( $array[ $key ] ) ? $array[ $key ] : $default;
+    }
+}
+
+/**
+ * Get a value from an array based on key and convert it into bool.
+ *
+ * @param  array  $array   Array from which value has to be retrieved
+ * @param  string $key     Key, whose value to be retrieved
+ * @param  string $default Optional. Default value to be returned, if the key is not found
+ * @return mixed           Boolean converted Value if key is present, else the default value
+ */
+if ( ! function_exists( 'array_get_bool' ) ) {
+    function array_get_bool( $array, $key, $default = NULL ) {
+        return filter_var( array_get( $array, $key, $default ), FILTER_VALIDATE_BOOLEAN );
     }
 }
 ?>
