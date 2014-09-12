@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### 2014-09-11 - v5.4 - (Dev time: 17 hours) ###
+### 2014-09-11 - v5.4 - (Dev time: 18 hours) ###
 - New: Added the ability to delete post meta fields (Issue #43)
 - New: Added the ability to delete comment meta fields (Issue #70)
 - New: Added the ability to delete user meta fields (Issue #87)
@@ -10,7 +10,7 @@
 - Tweak: Group memory related info together in system info output
 - Tweak: Tweak the warning and error messages that are shown to the users
 - Tweak: Remove hard dependency on "Bulk Delete From Trash" addon in code
-- Tweak: Tweak the admin UI for WordPress 4.0
+- Tweak: Tweak the admin UI for WordPress 4.0 and added custom plugin icons
 - Tweak: Tweak the code that handles automatic update of addons
 
 ### 2014-08-17 - v5.3 - (Dev time: 17 hours) ###
