@@ -83,17 +83,17 @@ class BD_License_Handler {
     private function hook_updater( $license_code ) {
         $bd = BULK_DELETE();
 
-        if( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
+        if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
             require_once Bulk_Delete::$PLUGIN_DIR . '/include/libraries/EDD_SL_Plugin_Updater.php';
         }
 
         $this->updater = new EDD_SL_Plugin_Updater( BD_EDD_API_Wrapper::STORE_URL, $this->plugin_file, array(
-            'version'    => rawurlencode( $this->version ),
-            'license'    => rawurlencode( $license_code ),
-            'item_name'  => rawurlencode( $this->addon_name ),
-            'addon_code' => rawurlencode( $this->addon_code ),
-            'author'     => rawurlencode( $this->author ),
-            'url'        => rawurlencode( home_url() )
+            'version'    => $this->version,
+            'license'    => $license_code,
+            'item_name'  => $this->addon_name,
+            'addon_code' => $this->addon_code,
+            'author'     => $this->author,
+            'url'        => home_url()
         ));
     }
 
@@ -165,10 +165,10 @@ class BD_License_Handler {
         if ( is_array( $input ) && key_exists( $this->addon_code, $input ) ) {
             $license_code = trim( $input[ $this->addon_code ] );
 
-            if ( !empty( $license_code ) ) {
+            if ( ! empty( $license_code ) ) {
                 if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
                     $activated = BD_License::activate_license( $this->addon_name, $this->addon_code, $license_code );
-                    if ( !$activated ) {
+                    if ( ! $activated ) {
                         unset( $input[ $this->addon_code ] );
                     }
                 }

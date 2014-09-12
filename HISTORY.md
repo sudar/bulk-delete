@@ -11,6 +11,7 @@
 - Tweak: Tweak the warning and error messages that are shown to the users
 - Tweak: Remove hard dependency on "Bulk Delete From Trash" addon in code
 - Tweak: Tweak the admin UI for WordPress 4.0
+- Tweak: Tweak the code that handles automatic update of addons
 
 ### 2014-08-17 - v5.3 - (Dev time: 17 hours) ###
 - New: Ability to delete Jetpack Contact Form Messages (Issue #72)
