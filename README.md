@@ -119,23 +119,7 @@ The development of the Plugin happens over at [github][6]. If you want to contri
 
 If you are not familiar with either git or Github then refer to this [guide to see how fork and send pull request](http://sudarmuthu.com/blog/contributing-to-project-hosted-in-github).
 
-If you are looking for ideas, then you can start with one of the following TODO items :)
-
-### TODO
-
-The following are the features that I am thinking of adding to the Plugin, when I get some free time. If you have any feature request or want to increase the priority of a particular feature, then let me know.
-
-- Bulk Delete posts based on page views
-- Bulk delete based on the presence/absence of a word
-- Bulk Delete empty posts
-- Bulk delete comments
-- Delete images that are used by the posts that are being deleted
-- <del>Bulk Delete posts based on users</del> - Added in v5.2
-- <del>Bulk Delete sticky posts</del> - Added in v4.4
-- <del>Change the message based on the option the user has chosen</del> - Added in v3.3
-- <del>Expandable/collapsible taxonomies</del> - Added in v3.3
-- <del>Ability to choose the different sections that should be loaded</del> - Added in v3.4
-- <del>Bulk Delete by custom post types</del> - Added in v3.5
+If you are looking for ideas, then you can start with one of TODO items from the [issue tracker](7) :)
 
 ### Support
 
@@ -181,7 +165,7 @@ Thanks to [Time picker addon](http://trentrichardson.com/examples/timepicker/) J
 
 ## Installation ##
 
-Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
+Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page or simply use the automatic plugin installer to directly install the plugin.
 
 ## Frequently Asked Questions ##
 
@@ -203,7 +187,7 @@ You can enable or disable different sections of the Plugin by choosing the requi
 
 ### How do I know what are the current values for these options configured in my server? ###
 
-Scroll down to the button of the Plugin page and you can see the current values of these options printed for your reference under the “Debug Information” heading
+Access the System Info page using the menu Bulk WP -> System Info. The System info page displays the values for the different configuration options that are configured in your server.
 
 ### Is it possible to restore the posts that I have deleted through the Plugin?  ###
 
