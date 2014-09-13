@@ -185,10 +185,10 @@ class Bulk_Delete_User_Meta {
      */
     public static function do_delete_user_meta() {
         $delete_options              = array();
-        $delete_options['user_role'] = array_get( $_POST, 'smbd_um_role', 'user' );
+        $delete_options['user_role'] = array_get( $_POST, 'smbd_um_role', 'administrator' );
 
         $delete_options['use_value'] = array_get_bool( $_POST, 'smbd_um_use_value', FALSE );
-        $delete_options['meta_key']  = array_get( $_POST, 'smbd_um_key', '' );
+        $delete_options['meta_key']  = esc_sql( array_get( $_POST, 'smbd_um_key', '' ) );
 
         $delete_options['limit_to']  = absint( array_get( $_POST, 'smbd_um_limit_to', 0 ) );
 

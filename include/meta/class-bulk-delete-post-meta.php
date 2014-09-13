@@ -205,14 +205,14 @@ class Bulk_Delete_Post_Meta {
      */
     public static function do_delete_post_meta() {
         $delete_options              = array();
-        $delete_options['post_type'] = array_get( $_POST, 'smbd_pm_post_type', 'post' );
+        $delete_options['post_type'] = esc_sql( array_get( $_POST, 'smbd_pm_post_type', 'post' ) );
 
-        $delete_options['use_value'] = array_get( $_POST, 'smbd_pm_use_value', 'false' );
-        $delete_options['meta_key']  = array_get( $_POST, 'smbd_pm_key', '' );
+        $delete_options['use_value'] = array_get_bool( $_POST, 'smbd_pm_use_value', FALSE );
+        $delete_options['meta_key']  = esc_sql( array_get( $_POST, 'smbd_pm_key', '' ) );
 
         $delete_options['limit_to']  = absint( array_get( $_POST, 'smbd_pm_limit_to', 0 ) );
 
-        $delete_options['restrict']  = array_get( $_POST, 'smbd_pm_restrict', FALSE );
+        $delete_options['restrict']  = array_get_bool( $_POST, 'smbd_pm_restrict', FALSE );
         $delete_options['op']        = esc_sql( array_get( $_POST, 'smbd_pm_op', 'before' ) );
         $delete_options['days']      = absint( array_get( $_POST, 'smbd_pm_days', 0 ) );
 
@@ -259,6 +259,7 @@ class Bulk_Delete_Post_Meta {
     public static function delete_post_meta( $delete_options ) {
         $count     = 0;
         $post_type = $delete_options['post_type'];
+        $limit_to  = $delete_options['limit_to'];
         $meta_key  = $delete_options['meta_key'];
         $use_value = $delete_options['use_value'];
         $restrict  = $delete_options['restrict'];
@@ -269,8 +270,6 @@ class Bulk_Delete_Post_Meta {
             'post_status' => 'publish',
             'post_type'   => $post_type,
         );
-
-        $limit_to = $delete_options['limit_to'];
 
         if ( $limit_to > 0 ) {
             $options['showposts'] = $limit_to;
@@ -287,7 +286,7 @@ class Bulk_Delete_Post_Meta {
             );
         }
 
-        if ( 'true' == $use_value ) {
+        if ( $use_value ) {
             $meta_value = $delete_options['meta_value'];
             $options['meta_query'] = apply_filters( 'bd_delete_post_meta_query', array(), $delete_options );
         } else {
