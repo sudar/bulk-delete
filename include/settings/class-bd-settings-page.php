@@ -93,7 +93,7 @@ class BD_Settings_Page {
             <div id="post-body" class="metabox-holder columns-2">
 
                 <div id="postbox-container-1" class="postbox-container">
-                    <iframe frameBorder="0" height = "1300" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo Bulk_Delete::VERSION; ?>"></iframe>
+                    <iframe frameBorder="0" height = "1500" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo Bulk_Delete::VERSION; ?>"></iframe>
                 </div>
 
                 <div id="postbox-container-2" class="postbox-container">
