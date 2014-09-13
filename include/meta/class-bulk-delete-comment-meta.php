@@ -92,7 +92,7 @@ class Bulk_Delete_Comment_Meta {
                     <input name="smbd_cm_use_value" id="smbd_cm_use_value" value="true" type="radio" disabled>
                     <label for="smbd_cm_use_value"><?php echo __( 'Delete based on comment meta key name and value', 'bulk-delete' ); ?></label>
                     <span class="bd-cm-pro" style="color:red; vertical-align: middle;">
-                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-comment-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_source=bd-m-c" target="_blank">Buy now</a>
+                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-comment-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-c" target="_blank">Buy now</a>
                     </span>
                 </td>
             </tr>
@@ -158,7 +158,7 @@ class Bulk_Delete_Comment_Meta {
 ?>
                     </select>
                     <span class="bd-cm-pro" style="color:red">
-                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-comment-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_source=bd-m-c">Buy now</a>
+                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-comment-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-c">Buy now</a>
                     </span>
                 </td>
             </tr>
