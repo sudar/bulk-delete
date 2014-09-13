@@ -377,6 +377,12 @@ class BD_License {
         echo '</li>';
 
         echo '<li>';
+        echo '<strong>', __( 'Delete posts by attachment', 'bulk-delete' ), '</strong>', ' - ';
+        echo __( 'Adds the ability to delete posts based on whether it contains attachment or not', 'bulk-delete' );
+        echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-attachment/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-p-at">', __( 'More Info', 'bulk-delete' ), '</a>.';
+        echo '</li>';
+
+        echo '<li>';
         echo '<strong>', __( 'Delete posts by user role', 'bulk-delete' ), '</strong>', ' - ';
         echo __( 'Adds the ability to delete posts based on user role', 'bulk-delete' );
         echo ' <a href = "http://bulkwp.com/addons/bulk-delete-posts-by-user-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-ur">', __( 'More Info', 'bulk-delete' ), '</a>.';
@@ -465,8 +471,8 @@ class BD_License {
 }
 
 // hooks
-add_action( 'bd_license_form'       , array( 'BD_License' , 'display_activate_license_form' ), 100 );
-add_action( 'bd_deactivate_license' , array( 'BD_License' , 'deactivate_license' ) );
-add_action( 'bd_delete_license'     , array( 'BD_License' , 'delete_license' ) );
-add_action( 'bd_validate_license'   , array( 'BD_License' , 'validate_license' ), 10, 2 );
+add_action( 'bd_license_form'      , array( 'BD_License', 'display_activate_license_form' ), 100 );
+add_action( 'bd_deactivate_license', array( 'BD_License', 'deactivate_license' ) );
+add_action( 'bd_delete_license'    , array( 'BD_License', 'delete_license' ) );
+add_action( 'bd_validate_license'  , array( 'BD_License', 'validate_license' ), 10, 2 );
 ?>

@@ -45,6 +45,11 @@ All the above options support the following filters
 - Delete permanently or just move to trash
 - Schedule deletion of posts automatically (Available as a [Pro addon](http://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme))
 
+#### Deleting posts by content
+
+- Delete duplicate posts by title (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dti))
+- Delete posts based on whether it contains attachment or not (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-attachment/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-at))
+
 #### Deleting pages
 
 - Delete all published pages
@@ -72,10 +77,6 @@ Like posts, all the above options support the following filters as well
 
 - Delete users based on user role
 - Delete users who have not logged in in the last X days
-
-#### Deleting posts by content and page views
-
-- Delete duplicate posts by title (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dti))
 
 #### Deleting Meta Fields
 - Delete Post meta fields

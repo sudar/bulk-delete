@@ -1,9 +1,10 @@
 ## Changelog ##
 
-### 2014-09-11 - v5.4 - (Dev time: 18 hours) ###
+### 2014-09-13 - v5.4 - (Dev time: 20 hours) ###
 - New: Added the ability to delete post meta fields (Issue #43)
 - New: Added the ability to delete comment meta fields (Issue #70)
 - New: Added the ability to delete user meta fields (Issue #87)
+- New: (Addon) Added the ability to delete posts based on attachment
 - New: Added the ability to hook into JavaScript message, date picker and validation (Issue #82, #83, #84)
 - New: Prevent PHP from timing out while performing bulk operations(Issue #81)
 
