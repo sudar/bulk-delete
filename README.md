@@ -244,7 +244,11 @@ The above screenshot shows how you can schedule auto delete of posts. Note that 
 
 ![](assets-wp-repo/screenshot-9.png)
 
-The above screenshot shows how you can enable/disable different sections of the Plugin.
+The above screenshot shows how you can enable/disable different sections in the delete posts page of the Plugin. Similarly you can enable different sections in the other pages of the plugin.
+
+![](assets-wp-repo/screenshot-10.png)
+
+The above screenshot shows the different pages that are available in the plugin.
 
 ## Readme Generator ##
 
