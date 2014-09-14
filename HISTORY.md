@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### 2014-09-13 - v5.4 - (Dev time: 20 hours) ###
+### 2014-09-14 - v5.4 - (Dev time: 20 hours) ###
 - New: Added the ability to delete post meta fields (Issue #43)
 - New: Added the ability to delete comment meta fields (Issue #70)
 - New: Added the ability to delete user meta fields (Issue #87)
@@ -31,11 +31,9 @@
 
 - Bug: Fixed a warning that happened because of duplicate call to `add_meta_boxes`
 
-
 ### 2014-07-03 - v5.2 - (Dev time: 8 hours) ###
 - New: Ability to delete users in batches (Issue #47)
 - New: A new addon to delete posts based on users (Issue #6)
-
 
 ### 2014-06-14 - v5.1 - (Dev time: 8 hours) ###
 - New: Added the "Delete posts from trash" addon (Issue #65)
@@ -46,7 +44,6 @@
 - Bug: Added compatibility for PHP version 5.2.4 (Issue #66)
 - Bug: Fixed a bug in JavaScript validation in "Delete by URL" module (Issue #69)
 
-
 ### 2014-06-12 - v5.0.2 - (Dev time: 1 hours) ###
 - Bug: Added compatibility for PHP version 5.2.4 (Issue #64)
 
@@ -55,15 +52,16 @@
 
 ### 2014-06-10 - v5.0 - (Dev time: 60 hours) ###
 - New: Add the ability to delete posts by duplicate title (#56)
+- New: Add a new page that displays system information for debugging
+- New: Add the ability to handle addon license
+- New: Use `add_settings_error` method to display information to users
+
 - Tweak: Make Bulk_Delete class singleton
 - Tweak: Move all deprecated functions and code to a separate file
-- New: Add a new page that displays system information for debugging
 - Tweak: Add the ability to filter text displayed in admin footer
 - Tweak: Change the menu text for Schedule page
 - Tweak: Move delete page modules to a separate page
-- New: Add the ability to handle addon license
 - Tweak: Refactored the way request was handled
-- New: Use `add_settings_error` method to display information to users
 - Tweak: Update screenshots
 - Tweak: Handle expired license properly
 
@@ -72,9 +70,9 @@
 - Fix: Fix the height of the sidebar
 
 ### 2014-01-05 - v4.4.2 - (Dev time: 1.5 hours) ###
+- Tweak: Move request processing code for deleting by custom field to addon
 - Fix: Deleting first x posts deletes all posts while deleting by category (#44)
 - Fix: Posts are moved to trash even if "Delete permanently" option is selected (#45)
-- Tweak: Move request processing code for deleting by custom field to addon
 
 ### 2013-12-18 - v4.4.1 - (Dev time: 0.5 hours) ###
 - Fix: Bulk Delete menu overrides other menus at the same position
@@ -82,10 +80,10 @@
 ### 2013-12-14 - v4.4 - (Dev time: 10 hours) ###
 - New: Ability to delete all published posts from "Post Status" module
 - New: Ability to delete all sticky posts from "Post Status" module
-- Tweak: Moved all option page to a separate top menu
-- Fix: Fix undefined notices and strict warnings
 - New: Ability to delete posts by title
+- Tweak: Moved all option page to a separate top menu
 - Tweak: Tweak UI for WordPress 3.8
+- Fix: Fix undefined notices and strict warnings
 
 ### 2013-12-08 - v4.3 - (Dev time: 2 hours) ###
 - New: Ability to delete custom post type posts by categories
@@ -234,6 +232,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.4 ###
+Ability to delete post, comment and user meta fields
 
 ### 5.3 ###
 Ability to delete Jetpack Contact Form messages

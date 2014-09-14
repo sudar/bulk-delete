@@ -1,16 +1,16 @@
 # Bulk Delete #
 **Contributors:** sudar  
-**Tags:** post, comment, delete, bulk, mass, draft, revision, page  
+**Tags:** post, comment, delete, bulk, mass, draft, revision, page, meta fields  
 **Requires at least:** 3.9  
-**Tested up to:** 3.9.2  
+**Tested up to:** 4.0  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 5.3  
+**Stable tag:** 5.4  
 
-Bulk delete posts, pages or users in bulk based on different conditions and filters.
+Bulk delete posts, pages, users and meta fields in bulk based on different conditions and filters.
 
 ## Description ##
 
-Bulk Delete is a WordPress Plugin that allows you to delete posts, pages and users in bulk based on different conditions and filters.
+Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, users and meta fields in bulk based on different conditions and filters.
 
 The following conditions and filters are supported.
 
