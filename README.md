@@ -166,7 +166,9 @@ Thanks to [Time picker addon](http://trentrichardson.com/examples/timepicker/) J
 
 ## Installation ##
 
-Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page or simply use the automatic plugin installer to directly install the plugin.
+The simplest way to install the plugin is to use the built-in automatic plugin installer. Go to plugins -> Add New and then enter the name of the plugin to automatically install it.
+
+If for some reason the above method doesn't work then you can download the plugin as a zip file, extract it and then use your favorite FTP client and then upload the contents of the zip file to the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
 
 ## Frequently Asked Questions ##
 
