@@ -443,7 +443,7 @@ final class Bulk_Delete {
 
         $ui = $wp_scripts->query('jquery-ui-core');
 
-        $url = "http://ajax.aspnetcdn.com/ajax/jquery.ui/{$ui->ver}/themes/smoothness/jquery-ui.css";
+        $url = "http://ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
         wp_enqueue_style('jquery-ui-smoothness', $url, false, $ui->ver);
         wp_enqueue_style('jquery-ui-timepicker', plugins_url('/style/jquery-ui-timepicker.css', __FILE__), array(), '1.1.1');
 
