@@ -4,7 +4,7 @@
 **Requires at least:** 3.9  
 **Tested up to:** 4.0  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 5.4  
+**Stable tag:** 5.4.1  
 
 Bulk delete posts, pages, users and meta fields in bulk based on different conditions and filters.
 

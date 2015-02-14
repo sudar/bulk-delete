@@ -1,5 +1,8 @@
 ## Changelog ##
 
+### 2015-02-14 - v5.4.1 - (Dev time: 0.5 hours) ###
+- Tweak: Use Google CDN for jQuery UI CSS, instead of ASP.NET
+
 ### 2014-09-14 - v5.4 - (Dev time: 20 hours) ###
 - New: Added the ability to delete post meta fields (Issue #43)
 - New: Added the ability to delete comment meta fields (Issue #70)
@@ -232,6 +235,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.4.1 ###
+Changed jQuery UI CSS CDN to Google CDN from ASP.NET, which seems to be discontinued
 
 ### 5.4 ###
 Ability to delete post, comment and user meta fields
