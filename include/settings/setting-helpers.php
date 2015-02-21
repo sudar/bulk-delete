@@ -3,18 +3,19 @@
  * Helper functions for settings API.
  * Most of these functions are copied from Easy Digital Downloads
  *
- * @package    Bulk_Delete
- * @subpackage Settings
- * @author     Sudar
  * @since 5.3
+ * @author     Sudar
+ * @package    BulkDelete\Settings
  */
+
+
 /**
  * Header Callback
  *
  * Renders the header.
  *
  * @since  5.3
- * @param  array $args Arguments passed by the setting
+ * @param array   $args Arguments passed by the setting
  * @return void
  */
 function bd_header_callback( $args ) {
@@ -27,12 +28,12 @@ function bd_header_callback( $args ) {
  * Renders text fields.
  *
  * @since  5.3
- * @param  array $args Arguments passed by the setting
+ * @param array   $args Arguments passed by the setting
  * @return void
  */
 function bd_text_callback( $args ) {
-    $option_name = $args['option'];
-    $bd_options = get_option( $option_name );
+	$option_name = $args['option'];
+	$bd_options = get_option( $option_name );
 
 	if ( isset( $bd_options[ $args['id'] ] ) )
 		$value = $bd_options[ $args['id'] ];
@@ -52,20 +53,20 @@ function bd_text_callback( $args ) {
  * Renders rich editor fields.
  *
  * @since 5.3
- * @param array $args Arguments passed by the setting
+ * @param array   $args Arguments passed by the setting
  */
 function bd_rich_editor_callback( $args ) {
-    $option_name = $args['option'];
-    $bd_options = get_option( $option_name );
+	$option_name = $args['option'];
+	$bd_options = get_option( $option_name );
 
 	if ( isset( $bd_options[ $args['id'] ] ) )
 		$value = $bd_options[ $args['id'] ];
 	else
 		$value = isset( $args['std'] ) ? $args['std'] : '';
 
-    ob_start();
-    wp_editor( stripslashes( $value ), $option_name . '_' . $args['id'], array( 'textarea_name' => $option_name . '[' . $args['id'] . ']', 'media_buttons' => FALSE ) );
-    $html = ob_get_clean();
+	ob_start();
+	wp_editor( stripslashes( $value ), $option_name . '_' . $args['id'], array( 'textarea_name' => $option_name . '[' . $args['id'] . ']', 'media_buttons' => FALSE ) );
+	$html = ob_get_clean();
 
 	$html .= '<br/><label for="' . $option_name . '[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
 

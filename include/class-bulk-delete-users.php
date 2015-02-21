@@ -2,21 +2,22 @@
 /**
  * Utility class for deleting users
  *
- * @package    Bulk_Delete
- * @subpackage Users
  * @author     Sudar
+ * @package    BulkDelete
  */
+
+
 class Bulk_Delete_Users {
 
-    /**
-     * Render delete users box
-     */
-    public static function render_delete_users_by_role_box() {
+	/**
+	 * Render delete users box
+	 */
+	public static function render_delete_users_by_role_box() {
 
-        if ( Bulk_Delete_Util::is_users_box_hidden( Bulk_Delete::BOX_USERS ) ) {
-            printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::USERS_PAGE_SLUG );
-            return;
-        }
+		if ( Bulk_Delete_Util::is_users_box_hidden( Bulk_Delete::BOX_USERS ) ) {
+			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::USERS_PAGE_SLUG );
+			return;
+		}
 ?>
         <!-- Users Start-->
         <h4><?php _e( 'Select the user roles from which you want to delete users', 'bulk-delete' ); ?></h4>
@@ -24,8 +25,8 @@ class Bulk_Delete_Users {
         <fieldset class="options">
         <table class="optiontable">
 <?php
-        $users_count = count_users();
-        foreach( $users_count['avail_roles'] as $role => $count ) {
+		$users_count = count_users();
+		foreach ( $users_count['avail_roles'] as $role => $count ) {
 ?>
             <tr>
                 <td scope="row" >
@@ -34,7 +35,7 @@ class Bulk_Delete_Users {
                 </td>
             </tr>
 <?php
-        }
+		}
 ?>
             <tr>
                 <td scope="row">
@@ -43,11 +44,11 @@ class Bulk_Delete_Users {
             </tr>
 
 <?php
-        if ( !Bulk_Delete_Util::is_simple_login_log_present() ) {
-            $disabled = "disabled";
-        } else {
-            $disabled = '';
-        }
+		if ( !Bulk_Delete_Util::is_simple_login_log_present() ) {
+			$disabled = "disabled";
+		} else {
+			$disabled = '';
+		}
 ?>
             <tr>
                 <td scope="row">
@@ -55,13 +56,13 @@ class Bulk_Delete_Users {
                     <?php _e( 'Only restrict to users who have not logged in the last ', 'bulk-delete' );?>
                     <input type ="textbox" name="smbdu_login_days" id="smbdu_login_days" value ="0" maxlength="4" size="4" <?php echo $disabled; ?> ><?php _e( 'days', 'bulk-delete' );?>
 <?php
-        if ( !Bulk_Delete_Util::is_simple_login_log_present() ) {
+		if ( !Bulk_Delete_Util::is_simple_login_log_present() ) {
 ?>
                     <span style = "color:red">
                         <?php _e( 'Need Simple Login Log Plugin', 'bulk-delete' ); ?> <a href = "http://wordpress.org/plugins/simple-login-log/">Install now</a>
                     </span>
 <?php
-        }
+		}
 ?>
                 </td>
             </tr>
@@ -91,12 +92,12 @@ class Bulk_Delete_Users {
                     <select name = "smbdu_userrole_cron_freq" id = "smbdu_userrole_cron_freq" disabled>
                         <option value = "-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
 <?php
-        $schedules = wp_get_schedules();
-        foreach($schedules as $key => $value) {
+		$schedules = wp_get_schedules();
+		foreach ( $schedules as $key => $value ) {
 ?>
                         <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
 <?php
-        }
+		}
 ?>
                     </select>
                     <span class = "bdu-users-by-role-pro" style = "color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-users-by-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-u-ur">Buy now</a></span>
@@ -117,130 +118,134 @@ class Bulk_Delete_Users {
         </p>
         <!-- Users end-->
 <?php
-    }
+	}
 
-    /**
-     * Process the request for deleting users by role
-     *
-     * @static
-     * @since 5.0
-     */
-    public static function do_delete_users_by_role() {
+	/**
+	 * Process the request for deleting users by role
+	 *
+	 * @static
+	 * @since 5.0
+	 */
+	public static function do_delete_users_by_role() {
 
-        $delete_options = array();
-        $delete_options['selected_roles']   = array_get( $_POST, 'smbdu_roles' );
-        $delete_options['no_posts']         = array_get( $_POST, 'smbdu_role_no_posts', FALSE );
+		$delete_options = array();
+		$delete_options['selected_roles']   = array_get( $_POST, 'smbdu_roles' );
+		$delete_options['no_posts']         = array_get( $_POST, 'smbdu_role_no_posts', FALSE );
 
-        $delete_options['login_restrict']   = array_get( $_POST, 'smbdu_login_restrict', FALSE );
-        $delete_options['login_days']       = array_get( $_POST, 'smbdu_login_days' );
-        $delete_options['limit_to']         = absint( array_get( $_POST, 'smbdu_userrole_limit_to', 0 ) );
+		$delete_options['login_restrict']   = array_get( $_POST, 'smbdu_login_restrict', FALSE );
+		$delete_options['login_days']       = array_get( $_POST, 'smbdu_login_days' );
+		$delete_options['limit_to']         = absint( array_get( $_POST, 'smbdu_userrole_limit_to', 0 ) );
 
-        if (array_get( $_POST, 'smbdu_userrole_cron', 'false' ) == 'true' ) {
-            $freq = $_POST['smbdu_userrole_cron_freq'];
-            $time = strtotime( $_POST['smbdu_userrole_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
+		if ( array_get( $_POST, 'smbdu_userrole_cron', 'false' ) == 'true' ) {
+			$freq = $_POST['smbdu_userrole_cron_freq'];
+			$time = strtotime( $_POST['smbdu_userrole_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
-            if ( $freq == -1 ) {
-                wp_schedule_single_event( $time, Bulk_Delete::CRON_HOOK_USER_ROLE, array( $delete_options ) );
-            } else {
-                wp_schedule_event( $time, $freq , Bulk_Delete::CRON_HOOK_USER_ROLE, array( $delete_options ) );
-            }
+			if ( $freq == -1 ) {
+				wp_schedule_single_event( $time, Bulk_Delete::CRON_HOOK_USER_ROLE, array( $delete_options ) );
+			} else {
+				wp_schedule_event( $time, $freq , Bulk_Delete::CRON_HOOK_USER_ROLE, array( $delete_options ) );
+			}
 
-            $msg = __( 'Users from the selected userrole are scheduled for deletion.', 'bulk-delete' ) . ' ' .
-                sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
-        } else {
-            $deleted_count = self::delete_users_by_role( $delete_options );
-            $msg = sprintf( _n('Deleted %d user from the selected roles', 'Deleted %d users from the selected role' , $deleted_count, 'bulk-delete' ), $deleted_count );
-        }
+			$msg = __( 'Users from the selected userrole are scheduled for deletion.', 'bulk-delete' ) . ' ' .
+				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
+		} else {
+			$deleted_count = self::delete_users_by_role( $delete_options );
+			$msg = sprintf( _n( 'Deleted %d user from the selected roles', 'Deleted %d users from the selected role' , $deleted_count, 'bulk-delete' ), $deleted_count );
+		}
 
-        add_settings_error(
-            Bulk_Delete::USERS_PAGE_SLUG,
-            'deleted-users',
-            $msg,
-            'updated'
-        );
-    }
+		add_settings_error(
+			Bulk_Delete::USERS_PAGE_SLUG,
+			'deleted-users',
+			$msg,
+			'updated'
+		);
+	}
 
-    /**
-     * Delete users by user role
-     *
-     * @static
-     */
-    public static function delete_users_by_role( $delete_options ) {
+	/**
+	 * Delete users by user role
+	 *
+	 * @static
+	 * @param unknown $delete_options
+	 * @return unknown
+	 */
+	public static function delete_users_by_role( $delete_options ) {
 
-        if( !function_exists( 'wp_delete_user' ) ) {
-            require_once( ABSPATH . 'wp-admin/includes/user.php' );
-        }
+		if ( !function_exists( 'wp_delete_user' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/user.php';
+		}
 
-        $count = 0;
+		$count = 0;
 
-        foreach ( $delete_options['selected_roles'] as $role ) {
+		foreach ( $delete_options['selected_roles'] as $role ) {
 
-            $options = array();
-            $options['role'] = $role;
+			$options = array();
+			$options['role'] = $role;
 			if ( $delete_options['limit_to'] > 0 ) {
 				$options['number'] = $limit_to;
 			}
 
-            $users = get_users( $options );
+			$users = get_users( $options );
 
-            foreach ( $users as $user ) {
-                if ( $delete_options['no_posts'] == TRUE && count_user_posts ( $user->ID ) > 0 ) {
-                    continue;
-                }
+			foreach ( $users as $user ) {
+				if ( $delete_options['no_posts'] == TRUE && count_user_posts ( $user->ID ) > 0 ) {
+					continue;
+				}
 
-                if ( $delete_options['login_restrict'] == TRUE ) {
-                    $login_days = $delete_options['login_days'];
-                    $last_login = self::get_last_login( $user->ID );
+				if ( $delete_options['login_restrict'] == TRUE ) {
+					$login_days = $delete_options['login_days'];
+					$last_login = self::get_last_login( $user->ID );
 
-                    if ( $last_login != NULL ) {
-                        if ( strtotime( $last_login ) > strtotime( '-' . $login_days . 'days' ) ) {
-                            continue;
-                        }
-                    } else {
-                        continue;
-                    }
-                }
+					if ( $last_login != NULL ) {
+						if ( strtotime( $last_login ) > strtotime( '-' . $login_days . 'days' ) ) {
+							continue;
+						}
+					} else {
+						continue;
+					}
+				}
 
-                wp_delete_user( $user->ID );
-                $count ++;
-            }
-        }
+				wp_delete_user( $user->ID );
+				$count ++;
+			}
+		}
 
-        return $count;
-    }
+		return $count;
+	}
 
-    /**
-     * Filter JS Array and add validation hooks
-     *
-     * @since 5.4
-     * @static
-     * @param  array $js_array JavaScript Array
-     * @return array           Modified JavaScript Array
-     */
-    public static function filter_js_array( $js_array ) {
-        $js_array['dt_iterators'][] = 'u_userrole';
+	/**
+	 * Filter JS Array and add validation hooks
+	 *
+	 * @since 5.4
+	 * @static
+	 * @param array   $js_array JavaScript Array
+	 * @return array           Modified JavaScript Array
+	 */
+	public static function filter_js_array( $js_array ) {
+		$js_array['dt_iterators'][] = 'u_userrole';
 
-        $js_array['pre_action_msg']['delete_users_by_role'] = 'deleteUsersWarning';
-        $js_array['msg']['deleteUsersWarning'] = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );
+		$js_array['pre_action_msg']['delete_users_by_role'] = 'deleteUsersWarning';
+		$js_array['msg']['deleteUsersWarning'] = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );
 
-        $js_array['error_msg']['delete_users_by_role'] = 'selectOneUserRole';
-        $js_array['msg']['selectOneUserRole'] = __( 'Select at least one user role from which users should be deleted', 'bulk-delete' );
+		$js_array['error_msg']['delete_users_by_role'] = 'selectOneUserRole';
+		$js_array['msg']['selectOneUserRole'] = __( 'Select at least one user role from which users should be deleted', 'bulk-delete' );
 
-        return $js_array;
-    }
+		return $js_array;
+	}
 
-    /**
-     * Find the last login date/time of a user
-     *
-     * @static
-     * @access private
-     */
-    private static function get_last_login( $user_id ) {
-        global $wpdb;
+	/**
+	 * Find the last login date/time of a user
+	 *
+	 * @static
+	 * @access private
+	 * @param unknown $user_id
+	 * @return unknown
+	 */
+	private static function get_last_login( $user_id ) {
+		global $wpdb;
 
-        return $wpdb->get_var( $wpdb->prepare( "SELECT time FROM {$wpdb->prefix}" . Bulk_Delete_Util::SIMPLE_LOGIN_LOG_TABLE .
-                    " WHERE uid = %d ORDER BY time DESC LIMIT 1", $user_id ) );
-    }
+		return $wpdb->get_var( $wpdb->prepare( "SELECT time FROM {$wpdb->prefix}" . Bulk_Delete_Util::SIMPLE_LOGIN_LOG_TABLE .
+				" WHERE uid = %d ORDER BY time DESC LIMIT 1", $user_id ) );
+	}
 }
 
 add_action( 'bd_delete_users_by_role', array( 'Bulk_Delete_Users', 'do_delete_users_by_role' ) );

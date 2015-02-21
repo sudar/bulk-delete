@@ -2,34 +2,53 @@
 /**
  * Class that encapsulates the deletion of posts based on days
  *
- * @package Bulk Delete
  * @author Sudar
+ * @package BulkDelete
  */
+
+
 class Bulk_Delete_By_Days {
-    var $days;
-    var $op;
+	var $days;
+	var $op;
 
-    public function __construct(){
-        add_action( 'parse_query', array( $this, 'parse_query' ) );
-    }
+	/**
+	 * Default constructor.
+	 */
+	public function __construct() {
+		add_action( 'parse_query', array( $this, 'parse_query' ) );
+	}
 
-    public function parse_query( $query ) {
-        if( isset( $query->query_vars['days'] ) ){
-            $this->days = $query->query_vars['days'];
-            $this->op = $query->query_vars['op'];
+	/**
+	 * Parse the query.
+	 *
+	 * @param unknown $query
+	 */
+	public function parse_query( $query ) {
+		if ( isset( $query->query_vars['days'] ) ) {
+			$this->days = $query->query_vars['days'];
+			$this->op = $query->query_vars['op'];
 
-            add_filter( 'posts_where', array( $this, 'filter_where' ) );
-            add_filter( 'posts_selection', array( $this, 'remove_where' ) );
-        }
-    }
+			add_filter( 'posts_where', array( $this, 'filter_where' ) );
+			add_filter( 'posts_selection', array( $this, 'remove_where' ) );
+		}
+	}
 
-    public function filter_where($where = '') {
-        $where .= " AND post_date " . $this->op . " '" . date('y-m-d', strtotime('-' . $this->days . ' days')) . "'";
-        return $where;
-    }
+	/**
+	 * Modify the where clause.
+	 *
+	 * @param unknown $where (optional)
+	 * @return unknown
+	 */
+	public function filter_where( $where = '' ) {
+		$where .= ' AND post_date ' . $this->op . " '" . date( 'y-m-d', strtotime( '-' . $this->days . ' days' ) ) . "'";
+		return $where;
+	}
 
-    public function remove_where() {
-        remove_filter( 'posts_where', array( $this, 'filter_where' ) );
-    }
+	/**
+	 * Remove the `posts_where` filter.
+	 */
+	public function remove_where() {
+		remove_filter( 'posts_where', array( $this, 'filter_where' ) );
+	}
 }
 ?>
