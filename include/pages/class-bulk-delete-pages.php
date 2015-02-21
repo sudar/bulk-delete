@@ -240,7 +240,7 @@ class Bulk_Delete_Pages {
 			$options['days'] = $delete_options['page_days'];
 
 			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
-				require_once Bulk_Delete::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
+				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 			}
 			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
 		}

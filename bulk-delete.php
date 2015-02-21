@@ -200,9 +200,9 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function includes() {
-		require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-posts.php';
-		require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-pages.php';
-		require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-users.php';
+		require_once self::$PLUGIN_DIR . '/include/posts/class-bulk-delete-posts.php';
+		require_once self::$PLUGIN_DIR . '/include/pages/class-bulk-delete-pages.php';
+		require_once self::$PLUGIN_DIR . '/include/users/class-bulk-delete-users.php';
 
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-post-meta.php';
@@ -214,15 +214,17 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/settings/class-bd-settings-page.php';
 		require_once self::$PLUGIN_DIR . '/include/settings/setting-helpers.php';
+		require_once self::$PLUGIN_DIR . '/include/settings/class-bd-settings.php';
 
-		require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-system-info.php';
-		require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-util.php';
-		require_once self::$PLUGIN_DIR . '/include/class-bd-license.php';
-		require_once self::$PLUGIN_DIR . '/include/class-bd-license-handler.php';
-		require_once self::$PLUGIN_DIR . '/include/class-bd-edd-api-wrapper.php';
-		require_once self::$PLUGIN_DIR . '/include/class-bd-settings.php';
-		require_once self::$PLUGIN_DIR . '/include/admin-ui.php';
-		require_once self::$PLUGIN_DIR . '/include/class-bulk-delete-help-screen.php';
+		require_once self::$PLUGIN_DIR . '/include/util/class-bulk-delete-util.php';
+
+		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license.php';
+		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license-handler.php';
+		require_once self::$PLUGIN_DIR . '/include/license/class-bd-edd-api-wrapper.php';
+
+		require_once self::$PLUGIN_DIR . '/include/ui/admin-ui.php';
+		require_once self::$PLUGIN_DIR . '/include/ui/class-bulk-delete-system-info.php';
+		require_once self::$PLUGIN_DIR . '/include/ui/class-bulk-delete-help-screen.php';
 	}
 
 	/**
@@ -624,7 +626,7 @@ final class Bulk_Delete {
 		}
 
 		if ( ! class_exists( 'Cron_List_Table' ) ) {
-			require_once self::$PLUGIN_DIR . '/include/class-cron-list-table.php';
+			require_once self::$PLUGIN_DIR . '/include/cron/class-cron-list-table.php';
 		}
 
 		//Prepare Table of elements

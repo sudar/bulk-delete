@@ -22,7 +22,7 @@ class BD_License {
 		}
 
 		if ( ! class_exists( 'License_List_Table' ) ) {
-			require_once Bulk_Delete::$PLUGIN_DIR . '/include/class-license-list-table.php';
+			require_once Bulk_Delete::$PLUGIN_DIR . '/include/license/class-license-list-table.php';
 		}
 
 		$license_list_table = new License_List_Table();
