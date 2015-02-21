@@ -290,7 +290,6 @@ class Bulk_Delete_Post_Meta {
 		}
 
 		if ( $use_value ) {
-			$meta_value = $delete_options['meta_value'];
 			$options['meta_query'] = apply_filters( 'bd_delete_post_meta_query', array(), $delete_options );
 		} else {
 			$options['meta_key'] = $meta_key;

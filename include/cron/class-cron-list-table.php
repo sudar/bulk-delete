@@ -48,26 +48,26 @@ class Cron_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Define the columns that are going to be used in the table
+	 * Define the columns that are going to be used in the table.
 	 *
-	 * @return array $columns, the array of columns to use with the table
+	 * @return array Array of columns to use with the table
 	 */
 	public function get_columns() {
-		return $columns= array(
-			'col_cron_due'=>__( 'Next Due', 'bulk-delete' ),
-			'col_cron_schedule'=>__( 'Schedule', 'bulk-delete' ),
-			'col_cron_type'=>__( 'Type', 'bulk-delete' ),
-			'col_cron_options'=>__( 'Options', 'bulk-delete' )
+		return array(
+			'col_cron_due'      => __( 'Next Due', 'bulk-delete' ),
+			'col_cron_schedule' => __( 'Schedule', 'bulk-delete' ),
+			'col_cron_type'     => __( 'Type', 'bulk-delete' ),
+			'col_cron_options'  => __( 'Options', 'bulk-delete' ),
 		);
 	}
 
 	/**
-	 * Decide which columns to activate the sorting functionality on
+	 * Decide which columns to activate the sorting functionality on.
 	 *
-	 * @return array $sortable, the array of columns that can be sorted by the user
+	 * @return array Array of columns that can be sorted by the user
 	 */
 	public function get_sortable_columns() {
-		return $sortable = array(
+		return array(
 			'col_cron_type' => array( 'cron_type', true )
 		);
 	}

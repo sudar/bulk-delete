@@ -251,7 +251,6 @@ class Bulk_Delete_User_Meta {
 		}
 
 		if ( $use_value ) {
-			$meta_value = $delete_options['meta_value'];
 			$options['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $delete_options );
 		} else {
 			$options['meta_key'] = $meta_key;

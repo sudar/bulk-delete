@@ -33,6 +33,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -46,7 +47,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Bulk_Delete {
 
 	/**
-	 *
 	 * @var Bulk_Delete The one true Bulk_Delete
 	 * @since 5.0
 	 */
@@ -119,6 +119,16 @@ final class Bulk_Delete {
 	static $PLUGIN_DIR;
 	static $PLUGIN_URL;
 	static $PLUGIN_FILE;
+
+	// Instance variables
+	public $translations;
+	public $posts_page;
+	public $pages_page;
+	public $users_page;
+	public $cron_page;
+	public $addon_page;
+	public $info_page;
+	public $settings_page;
 
 	/**
 	 * Main Bulk_Delete Instance

@@ -275,10 +275,10 @@ class Bulk_Delete_Posts {
 			$options['op'] = $delete_options['post_status_op'];
 			$options['days'] = $delete_options['post_status_days'];
 
-			if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
 				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 			}
-			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+			new Bulk_Delete_By_Days;
 		}
 
 		// now retrieve all posts and delete them
@@ -304,8 +304,8 @@ class Bulk_Delete_Posts {
 			return;
 		}
 
-		$types =  get_post_types( array(
-				'_builtin' => false
+		$types = get_post_types( array(
+				'_builtin' => false,
 			), 'names'
 		);
 
@@ -536,10 +536,10 @@ class Bulk_Delete_Posts {
 			$options['op'] = $delete_options['cats_op'];
 			$options['days'] = $delete_options['cats_days'];
 
-			if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
 				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 			}
-			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+			new Bulk_Delete_By_Days;
 		}
 
 		$wp_query = new WP_Query();
@@ -758,10 +758,10 @@ class Bulk_Delete_Posts {
 			$options['op'] = $delete_options['tags_op'];
 			$options['days'] = $delete_options['tags_days'];
 
-			if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
 				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 			}
-			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+			new Bulk_Delete_By_Days;
 		}
 
 		$wp_query = new WP_Query();
@@ -1050,10 +1050,10 @@ class Bulk_Delete_Posts {
 			$options['op'] = $delete_options['taxs_op'];
 			$options['days'] = $delete_options['taxs_days'];
 
-			if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
 				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 			}
-			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+			new Bulk_Delete_By_Days;
 		}
 
 		$wp_query = new WP_Query();
@@ -1292,10 +1292,10 @@ class Bulk_Delete_Posts {
 				$options['op'] = $delete_options['types_op'];
 				$options['days'] = $delete_options['types_days'];
 
-				if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+				if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
 					require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 				}
-				$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+				new Bulk_Delete_By_Days;
 			}
 
 			$wp_query = new WP_Query();
@@ -1389,7 +1389,7 @@ class Bulk_Delete_Posts {
 			wp_delete_post( $postid, $force_delete );
 		}
 
-		$deleted_count = count( $url );
+		$deleted_count = count( $urls );
 		$msg = sprintf( _n( 'Deleted %d post with the specified urls', 'Deleted %d posts with the specified urls' , $deleted_count, 'bulk-delete' ), $deleted_count );
 
 		add_settings_error(
@@ -1683,14 +1683,14 @@ class Bulk_Delete_Posts {
 }
 
 // hooks
-add_action( 'bd_delete_posts_by_status'    , array( 'Bulk_Delete_Posts' , 'do_delete_posts_by_status' ) );
-add_action( 'bd_delete_posts_by_category'  , array( 'Bulk_Delete_Posts' , 'do_delete_posts_by_category' ) );
-add_action( 'bd_delete_posts_by_tag'       , array( 'Bulk_Delete_Posts' , 'do_delete_posts_by_tag' ) );
-add_action( 'bd_delete_posts_by_taxonomy'  , array( 'Bulk_Delete_Posts' , 'do_delete_posts_by_taxonomy' ) );
-add_action( 'bd_delete_posts_by_post_type' , array( 'Bulk_Delete_Posts' , 'do_delete_posts_by_post_type' ) );
-add_action( 'bd_delete_posts_by_url'       , array( 'Bulk_Delete_Posts' , 'do_delete_posts_by_url' ) );
-add_action( 'bd_delete_posts_by_revision'  , array( 'Bulk_Delete_Posts' , 'do_delete_posts_by_revision' ) );
+add_action( 'bd_delete_posts_by_status'    , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_status' ) );
+add_action( 'bd_delete_posts_by_category'  , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_category' ) );
+add_action( 'bd_delete_posts_by_tag'       , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_tag' ) );
+add_action( 'bd_delete_posts_by_taxonomy'  , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_taxonomy' ) );
+add_action( 'bd_delete_posts_by_post_type' , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_post_type' ) );
+add_action( 'bd_delete_posts_by_url'       , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_url' ) );
+add_action( 'bd_delete_posts_by_revision'  , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_revision' ) );
 
-add_action( 'bd_delete_cron'               , array( 'Bulk_Delete_Posts' , 'do_delete_cron' ) );
-add_filter( 'bd_javascript_array'          , array( 'Bulk_Delete_Posts' , 'filter_js_array' ) );
+add_action( 'bd_delete_cron'               , array( 'Bulk_Delete_Posts', 'do_delete_cron' ) );
+add_filter( 'bd_javascript_array'          , array( 'Bulk_Delete_Posts', 'filter_js_array' ) );
 ?>

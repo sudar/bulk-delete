@@ -46,7 +46,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 			return;
 		}
 
-		if ( !self::is_jetpack_contact_active() ) {
+		if ( ! self::is_jetpack_contact_active() ) {
 ?>
             <!-- Delete Jetpack Feedback box start-->
             <p>
@@ -193,7 +193,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 
 		$delete_options['use_filter']    = array_get( $_POST, 'smbd_feedback_use_filter', 'false' );
 
-		$delete_options['restrict']      = array_get( $_POST, 'smbd_feedback_restrict', FALSE );
+		$delete_options['restrict']      = array_get( $_POST, 'smbd_feedback_restrict', false );
 		$delete_options['limit_to']      = absint( array_get( $_POST, 'smbd_feedback_limit_to', 0 ) );
 		$delete_options['force_delete']  = array_get( $_POST, 'smbd_feedback_force_delete', 'false' );
 
@@ -208,7 +208,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 		 */
 		$delete_options = apply_filters( 'bd_delete_jetpack_messages_delete_options', $delete_options, $_POST );
 
-		if ( array_get( $_POST, 'smbd_feedback_cron', 'false' ) == 'true' ) {
+		if ( 'true' == array_get( $_POST, 'smbd_feedback_cron', 'false' ) ) {
 			$freq = $_POST['smbd_feedback_cron_freq'];
 			$time = strtotime( $_POST['smbd_feedback_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
@@ -218,7 +218,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 				wp_schedule_event( $time, $freq, self::CRON_HOOK, array( $delete_options ) );
 			}
 			$msg = __( 'Jetpack contact form messages with the selected criteria are scheduled for deletion.', 'bulk-delete' ) . ' ' .
-				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
+				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_jetpack_messages( $delete_options );
 			$msg = sprintf( _n( 'Deleted %d Jetpack contact form message', 'Deleted %d Jetpack contact form messages' , $deleted_count, 'bulk-delete' ), $deleted_count );
@@ -246,7 +246,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 
 		$options = array(
 			'post_status' => 'publish',
-			'post_type'   => self::FEEDBACK_POST_TYPE
+			'post_type'   => self::FEEDBACK_POST_TYPE,
 		);
 
 		$limit_to = $delete_options['limit_to'];
@@ -259,20 +259,20 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 
 		$force_delete = $delete_options['force_delete'];
 
-		if ( $force_delete == 'true' ) {
+		if ( 'true' == $force_delete ) {
 			$force_delete = true;
 		} else {
 			$force_delete = false;
 		}
 
-		if ( $delete_options['restrict'] == "true" ) {
+		if ( 'true' == $delete_options['restrict'] ) {
 			$options['op'] = $delete_options['feedback_op'];
 			$options['days'] = $delete_options['feedback_days'];
 
-			if ( !class_exists( 'Bulk_Delete_By_Days' ) ) {
+			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
 				require_once Bulk_Delete::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
 			}
-			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+			new Bulk_Delete_By_Days;
 		}
 
 		$wp_query = new WP_Query();
@@ -294,7 +294,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 
 			// $force delete parameter to custom post types doesn't work
 			if ( $force_delete ) {
-				wp_delete_post( $post->ID, TRUE );
+				wp_delete_post( $post->ID, true );
 			} else {
 				wp_trash_post( $post->ID );
 			}
@@ -313,11 +313,11 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	 */
 	public static function is_jetpack_contact_active() {
 		$jetpack_active_modules = get_option( 'jetpack_active_modules' );
-		if ( class_exists( 'Jetpack', FALSE ) && $jetpack_active_modules && in_array( 'contact-form', $jetpack_active_modules ) ) {
-			return TRUE;
+		if ( class_exists( 'Jetpack', false ) && $jetpack_active_modules && in_array( 'contact-form', $jetpack_active_modules ) ) {
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 }
 

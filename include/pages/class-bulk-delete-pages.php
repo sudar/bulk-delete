@@ -242,7 +242,7 @@ class Bulk_Delete_Pages {
 			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
 				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 			}
-			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+			new Bulk_Delete_By_Days;
 		}
 
 		$pages = $wp_query->query( $options );

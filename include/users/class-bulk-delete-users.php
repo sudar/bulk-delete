@@ -181,7 +181,7 @@ class Bulk_Delete_Users {
 			$options = array();
 			$options['role'] = $role;
 			if ( $delete_options['limit_to'] > 0 ) {
-				$options['number'] = $limit_to;
+				$options['number'] = $delete_options['limit_to'];
 			}
 
 			$users = get_users( $options );

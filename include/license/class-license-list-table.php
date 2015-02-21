@@ -19,8 +19,9 @@ class License_List_Table extends WP_List_Table {
 		parent::__construct( array(
 				'singular' => 'license_list',  // Singular label
 				'plural'   => 'license_lists', // plural label, also this well be one of the table css class
-				'ajax'     => false            // We won't support Ajax for this table
-			) );
+				'ajax'     => false,           // We won't support Ajax for this table
+			)
+		);
 	}
 
 	/**
@@ -31,7 +32,7 @@ class License_List_Table extends WP_List_Table {
 	 * @param string  $which Whether the markup should be after (bottom) or before (top) the list
 	 */
 	public function extra_tablenav( $which ) {
-		if ( $which == "top" ) {
+		if ( 'top' == $which ) {
 			echo '<p>';
 			_e( 'This is the list of addon license that are currently registered with the plugin.', 'bulk-delete' );
 			echo '</p>';
@@ -39,13 +40,13 @@ class License_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Define the list of columns that will be used in the table
+	 * Define the list of columns that will be used in the table.
 	 *
 	 * @since  5.0
-	 * @return array $columns The list of columns in the table
+	 * @return array The list of columns in the table
 	 */
 	public function get_columns() {
-		return $columns = array(
+		return array(
 			'col_addon_name'       => __( 'Addon Name', 'bulk-delete' ),
 			'col_license'          => __( 'License Code', 'bulk-delete' ),
 			'col_license_validity' => __( 'Validity', 'bulk-delete' ),
@@ -57,11 +58,11 @@ class License_List_Table extends WP_List_Table {
 	 * Defines columns that can be sorted
 	 *
 	 * @since  5.0
-	 * @return array $sortable List of columns that can be sorted
+	 * @return array List of columns that can be sorted
 	 */
 	public function get_sortable_columns() {
-		return $sortable = array(
-			'col_addon_name' => array( 'addon_name', FALSE )
+		return array(
+			'col_addon_name' => array( 'addon_name', false )
 		);
 	}
 

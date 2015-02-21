@@ -133,7 +133,6 @@ class BD_License {
 	 * @return object $license_data License information
 	 */
 	public static function get_license( $addon_code ) {
-		$bd = BULK_DELETE();
 		$key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
 		$license_data = get_option( $key, false );
 

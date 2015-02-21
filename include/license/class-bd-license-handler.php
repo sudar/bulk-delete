@@ -45,6 +45,13 @@ class BD_License_Handler {
 	 */
 	private $author;
 
+	/**
+	 * Instance of the updater class.
+	 *
+	 * @since 5.5
+	 */
+	private $updater;
+
 
 	/**
 	 * Constructor
@@ -76,15 +83,13 @@ class BD_License_Handler {
 	}
 
 	/**
-	 * Start the updater
+	 * Start the updater.
 	 *
 	 * @since 5.0
 	 * @access private
 	 * @param string  $license_code License Code
 	 */
 	private function hook_updater( $license_code ) {
-		$bd = BULK_DELETE();
-
 		if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 			require_once Bulk_Delete::$PLUGIN_DIR . '/include/libraries/EDD_SL_Plugin_Updater.php';
 		}
@@ -96,7 +101,8 @@ class BD_License_Handler {
 				'addon_code' => $this->addon_code,
 				'author'     => $this->author,
 				'url'        => home_url()
-			) );
+			)
+		);
 	}
 
 	/**

@@ -210,12 +210,12 @@ class Bulk_Delete_Comment_Meta {
 		$delete_options              = array();
 		$delete_options['post_type'] = esc_sql( array_get( $_POST, 'smbd_cm_post_type', 'post' ) );
 
-		$delete_options['use_value'] = array_get_bool( $_POST, 'smbd_cm_use_value', FALSE );
+		$delete_options['use_value'] = array_get_bool( $_POST, 'smbd_cm_use_value', false );
 		$delete_options['meta_key']  = esc_sql( array_get( $_POST, 'smbd_cm_key', '' ) );
 
 		$delete_options['limit_to']  = absint( array_get( $_POST, 'smbd_cm_limit_to', 0 ) );
 
-		$delete_options['restrict']  = array_get_bool( $_POST, 'smbd_cm_restrict', FALSE );
+		$delete_options['restrict']  = array_get_bool( $_POST, 'smbd_cm_restrict', false );
 		$delete_options['op']        = esc_sql( array_get( $_POST, 'smbd_cm_op', 'before' ) );
 		$delete_options['days']      = absint( array_get( $_POST, 'smbd_cm_days', 0 ) );
 
@@ -227,7 +227,7 @@ class Bulk_Delete_Comment_Meta {
 		 */
 		$delete_options = apply_filters( 'bd_delete_comment_meta_options', $delete_options, $_POST );
 
-		if ( array_get( $_POST, 'smbd_cm_cron', 'false' ) == 'true' ) {
+		if ( 'true' == array_get( $_POST, 'smbd_cm_cron', 'false' ) ) {
 			$freq = $_POST['smbd_cm_cron_freq'];
 			$time = strtotime( $_POST['smbd_cm_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
@@ -287,7 +287,6 @@ class Bulk_Delete_Comment_Meta {
 		}
 
 		if ( $use_value ) {
-			$meta_value = $delete_options['meta_value'];
 			$options['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $delete_options );
 		} else {
 			$options['meta_key'] = $meta_key;

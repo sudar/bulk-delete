@@ -93,7 +93,7 @@ Bulk Delete Version:      <?php echo Bulk_Delete::VERSION . "\n"; ?>
 WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 Permalink Structure:      <?php echo get_option( 'permalink_structure' ) . "\n"; ?>
 Active Theme:             <?php echo $theme . "\n"; ?>
-<?php if ( $host ) : ?>
+<?php if ( false !== $host ) : ?>
 Host:                     <?php echo $host . "\n"; ?>
 <?php endif; ?>
 
