@@ -76,7 +76,7 @@ class Cron_List_Table extends WP_List_Table {
 	 * Prepare the table with different parameters, pagination, columns and table elements
 	 */
 	public function prepare_items() {
-		$cron_items = Bulk_Delete_Util::get_cron_schedules();
+		$cron_items = BD_Util::get_cron_schedules();
 		$totalitems = count( $cron_items );
 
 		//How many to display per page?

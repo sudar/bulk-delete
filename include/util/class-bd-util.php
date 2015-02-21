@@ -1,13 +1,18 @@
 <?php
 /**
- * Utility class
+ * Utility classes and functions.
  *
  * @author     Sudar
  * @package    BulkDelete\Util
  */
 
 
-class Bulk_Delete_Util {
+/**
+ * Utility class.
+ *
+ * Ideally most of the functions should be inside the `BulkDelete\Util` and not as static functions.
+ */
+class BD_Util {
 
 	// simple login log
 	const SIMPLE_LOGIN_LOG_TABLE = 'simple_login_log';
@@ -29,10 +34,10 @@ class Bulk_Delete_Util {
 		global $wpdb;
 
 		if ( $wpdb->get_row( "SHOW TABLES LIKE '{$wpdb->prefix}" . self::SIMPLE_LOGIN_LOG_TABLE . "'" ) ) {
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -57,7 +62,7 @@ class Bulk_Delete_Util {
 	 */
 	public static function get_posts_hidden_boxes() {
 		$current_user = wp_get_current_user();
-		return get_user_meta( $current_user->ID, self::VISIBLE_POST_BOXES, TRUE );
+		return get_user_meta( $current_user->ID, self::VISIBLE_POST_BOXES, true );
 	}
 
 	/**
@@ -84,7 +89,7 @@ class Bulk_Delete_Util {
 	 */
 	public static function get_pages_hidden_boxes() {
 		$current_user = wp_get_current_user();
-		return get_user_meta( $current_user->ID, self::VISIBLE_PAGE_BOXES, TRUE );
+		return get_user_meta( $current_user->ID, self::VISIBLE_PAGE_BOXES, true );
 	}
 
 	/**
@@ -109,7 +114,7 @@ class Bulk_Delete_Util {
 	 */
 	public static function get_users_hidden_boxes() {
 		$current_user = wp_get_current_user();
-		return get_user_meta( $current_user->ID, self::VISIBLE_USER_BOXES, TRUE );
+		return get_user_meta( $current_user->ID, self::VISIBLE_USER_BOXES, true );
 	}
 
 	/**
@@ -128,7 +133,7 @@ class Bulk_Delete_Util {
 
 		foreach ( $cron as $timestamp => $cronhooks ) {
 			foreach ( (array) $cronhooks as $hook => $events ) {
-				if ( substr( $hook, 0, 15 ) == 'do-bulk-delete-' ) {
+				if ( 'do-bulk-delete-' == substr( $hook, 0, 15 ) ) {
 					$cron_item = array();
 
 					foreach ( (array) $events as $key => $event ) {
@@ -216,7 +221,7 @@ class Bulk_Delete_Util {
  * @return mixed           Value if key is present, else the default value
  */
 if ( ! function_exists( 'array_get' ) ) {
-	function array_get( $array, $key, $default = NULL ) {
+	function array_get( $array, $key, $default = null ) {
 		return isset( $array[ $key ] ) ? $array[ $key ] : $default;
 	}
 }
@@ -230,7 +235,7 @@ if ( ! function_exists( 'array_get' ) ) {
  * @return mixed           Boolean converted Value if key is present, else the default value
  */
 if ( ! function_exists( 'array_get_bool' ) ) {
-	function array_get_bool( $array, $key, $default = NULL ) {
+	function array_get_bool( $array, $key, $default = null ) {
 		return filter_var( array_get( $array, $key, $default ), FILTER_VALIDATE_BOOLEAN );
 	}
 }

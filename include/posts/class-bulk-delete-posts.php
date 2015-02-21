@@ -14,7 +14,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_status_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_STATUS ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_STATUS ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -299,7 +299,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_category_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_CATEGORY ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_CATEGORY ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -562,7 +562,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_tag_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_TAG ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_TAG ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -779,7 +779,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_taxonomy_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_TAX ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_TAX ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -1079,7 +1079,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_post_type_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_TYPE ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_TYPE ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -1127,7 +1127,7 @@ class Bulk_Delete_Posts {
                         <input name="smbd_types[]" value = "<?php echo $type; ?>" type = "checkbox">
                     </td>
                     <td>
-                    <label for="smbd_types"><?php echo Bulk_Delete_Util::display_post_type_status( $type ), ' (', $count, ')'; ?></label>
+                    <label for="smbd_types"><?php echo BD_Util::display_post_type_status( $type ), ' (', $count, ')'; ?></label>
                     </td>
                 </tr>
 <?php
@@ -1262,7 +1262,7 @@ class Bulk_Delete_Posts {
 
 		foreach ( $selected_types as $selected_type ) {
 
-			$type_status = Bulk_Delete_Util::split_post_type_status( $selected_type );
+			$type_status = BD_Util::split_post_type_status( $selected_type );
 
 			$type        = $type_status['type'];
 			$status      = $type_status['status'];
@@ -1323,7 +1323,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_url_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_URL ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_URL ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -1407,7 +1407,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_posts_by_revision_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_REVISION ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_REVISION ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -1490,7 +1490,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_custom_field_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_CUSTOM_FIELD ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_CUSTOM_FIELD ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -1519,7 +1519,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_title_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_TITLE ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_TITLE ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -1549,7 +1549,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_duplicate_title_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_DUPLICATE_TITLE ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_DUPLICATE_TITLE ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -1578,7 +1578,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function render_delete_posts_by_user_role_box() {
 
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_BY_ROLE ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_BY_ROLE ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -1605,7 +1605,7 @@ class Bulk_Delete_Posts {
 	 * @static
 	 */
 	public static function render_delete_posts_from_trash() {
-		if ( Bulk_Delete_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_FROM_TRASH ) ) {
+		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_FROM_TRASH ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
@@ -1667,7 +1667,7 @@ class Bulk_Delete_Posts {
 	public static function do_delete_cron() {
 		if ( check_admin_referer( 'sm-bulk-delete-cron', 'sm-bulk-delete-cron-nonce' ) ) {
 			$cron_id = absint( $_GET['cron_id'] );
-			$cron_items = Bulk_Delete_Util::get_cron_schedules();
+			$cron_items = BD_Util::get_cron_schedules();
 			wp_unschedule_event( $cron_items[$cron_id]['timestamp'], $cron_items[$cron_id]['type'], $cron_items[$cron_id]['args'] );
 
 			$msg = __( 'The selected scheduled job was successfully deleted ', 'bulk-delete' );

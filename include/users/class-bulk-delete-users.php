@@ -14,7 +14,7 @@ class Bulk_Delete_Users {
 	 */
 	public static function render_delete_users_by_role_box() {
 
-		if ( Bulk_Delete_Util::is_users_box_hidden( Bulk_Delete::BOX_USERS ) ) {
+		if ( BD_Util::is_users_box_hidden( Bulk_Delete::BOX_USERS ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::USERS_PAGE_SLUG );
 			return;
 		}
@@ -44,7 +44,7 @@ class Bulk_Delete_Users {
             </tr>
 
 <?php
-		if ( !Bulk_Delete_Util::is_simple_login_log_present() ) {
+		if ( !BD_Util::is_simple_login_log_present() ) {
 			$disabled = "disabled";
 		} else {
 			$disabled = '';
@@ -56,7 +56,7 @@ class Bulk_Delete_Users {
                     <?php _e( 'Only restrict to users who have not logged in the last ', 'bulk-delete' );?>
                     <input type ="textbox" name="smbdu_login_days" id="smbdu_login_days" value ="0" maxlength="4" size="4" <?php echo $disabled; ?> ><?php _e( 'days', 'bulk-delete' );?>
 <?php
-		if ( !Bulk_Delete_Util::is_simple_login_log_present() ) {
+		if ( !BD_Util::is_simple_login_log_present() ) {
 ?>
                     <span style = "color:red">
                         <?php _e( 'Need Simple Login Log Plugin', 'bulk-delete' ); ?> <a href = "http://wordpress.org/plugins/simple-login-log/">Install now</a>
@@ -243,7 +243,7 @@ class Bulk_Delete_Users {
 	private static function get_last_login( $user_id ) {
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT time FROM {$wpdb->prefix}" . Bulk_Delete_Util::SIMPLE_LOGIN_LOG_TABLE .
+		return $wpdb->get_var( $wpdb->prepare( "SELECT time FROM {$wpdb->prefix}" . BD_Util::SIMPLE_LOGIN_LOG_TABLE .
 				" WHERE uid = %d ORDER BY time DESC LIMIT 1", $user_id ) );
 	}
 }

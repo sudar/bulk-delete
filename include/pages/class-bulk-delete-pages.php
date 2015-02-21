@@ -19,7 +19,7 @@ class Bulk_Delete_Pages {
 	 */
 	public static function render_delete_pages_by_status_box() {
 
-		if ( Bulk_Delete_Util::is_pages_box_hidden( Bulk_Delete::BOX_PAGE_STATUS ) ) {
+		if ( BD_Util::is_pages_box_hidden( Bulk_Delete::BOX_PAGE_STATUS ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::PAGES_PAGE_SLUG );
 			return;
 		}
@@ -260,7 +260,7 @@ class Bulk_Delete_Pages {
 	 * @static
 	 */
 	public static function render_delete_pages_from_trash() {
-		if ( Bulk_Delete_Util::is_pages_box_hidden( Bulk_Delete::BOX_PAGE_FROM_TRASH ) ) {
+		if ( BD_Util::is_pages_box_hidden( Bulk_Delete::BOX_PAGE_FROM_TRASH ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::PAGES_PAGE_SLUG );
 			return;
 		}

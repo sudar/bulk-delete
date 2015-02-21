@@ -226,7 +226,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/settings/setting-helpers.php';
 		require_once self::$PLUGIN_DIR . '/include/settings/class-bd-settings.php';
 
-		require_once self::$PLUGIN_DIR . '/include/util/class-bulk-delete-util.php';
+		require_once self::$PLUGIN_DIR . '/include/util/class-bd-util.php';
 
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license.php';
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license-handler.php';
