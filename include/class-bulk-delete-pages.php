@@ -183,7 +183,7 @@ class Bulk_Delete_Pages {
 	 *
 	 * @since 5.0
 	 * @param unknown $delete_options
-	 * @return unknown
+	 * @return integer
 	 */
 	public static function delete_pages_by_status( $delete_options ) {
 		global $wp_query;

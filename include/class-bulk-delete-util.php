@@ -154,7 +154,7 @@ class Bulk_Delete_Util {
 	 * @static
 	 * @access public
 	 * @param unknown $str
-	 * @return unknown
+	 * @return string|null
 	 */
 	public static function display_post_type_status( $str ) {
 		$type_status = self::split_post_type_status( $str );

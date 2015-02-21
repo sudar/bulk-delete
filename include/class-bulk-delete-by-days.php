@@ -37,7 +37,7 @@ class Bulk_Delete_By_Days {
 	 * Modify the where clause.
 	 *
 	 * @param unknown $where (optional)
-	 * @return unknown
+	 * @return string
 	 */
 	public function filter_where( $where = '' ) {
 		$where .= ' AND post_date ' . $this->op . " '" . date( 'y-m-d', strtotime( '-' . $this->days . ' days' ) ) . "'";

@@ -256,7 +256,7 @@
 		function getBrowser() { return $this->_browser_name; }
 		/**
 		* Set the name of the browser
-		* @param $browser The name of the Browser
+		* @param string $browser The name of the Browser
 		*/
 		function setBrowser($browser) { return $this->_browser_name = $browser; }
 		/**
@@ -266,7 +266,7 @@
 		function getPlatform() { return $this->_platform; }
 		/**
 		* Set the name of the platform
-		* @param $platform The name of the Platform
+		* @param string $platform The name of the Platform
 		*/
 		function setPlatform($platform) { return $this->_platform = $platform; }
 		/**
@@ -306,7 +306,7 @@
 		function isRobot() { return $this->_is_robot; }
 		/**
 		* Set the browser to be from AOL
-		* @param $isAol
+		* @param boolean $isAol
 		*/
 		function setAol($isAol) { $this->_is_aol = $isAol; }
 		/**
@@ -326,7 +326,7 @@
 		function getUserAgent() { return $this->_agent; }
 		/**
 		* Set the user agent value (the construction will use the HTTP header value - this will overwrite it)
-		* @param $agent_string The value for the User Agent
+		* @param string $agent_string The value for the User Agent
 		*/
 		function setUserAgent($agent_string) {
 			$this->reset();

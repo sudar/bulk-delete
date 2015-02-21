@@ -166,7 +166,7 @@ class Bulk_Delete_Users {
 	 *
 	 * @static
 	 * @param unknown $delete_options
-	 * @return unknown
+	 * @return integer
 	 */
 	public static function delete_users_by_role( $delete_options ) {
 
@@ -238,7 +238,7 @@ class Bulk_Delete_Users {
 	 * @static
 	 * @access private
 	 * @param unknown $user_id
-	 * @return unknown
+	 * @return string
 	 */
 	private static function get_last_login( $user_id ) {
 		global $wpdb;
