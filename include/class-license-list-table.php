@@ -85,7 +85,7 @@ class License_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.0
 	 * @param array   $item Single row of data
-	 * @return unknown
+	 * @return string
 	 */
 	public function column_col_addon_name( $item ) {
 		$validity     = $item['validity'];
@@ -132,7 +132,7 @@ class License_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.0
 	 * @param array   $item Single row of data
-	 * @return unknown
+	 * @return string
 	 */
 	public function column_col_license_validity( $item ) {
 		$validity = $item['validity'];

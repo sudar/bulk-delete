@@ -655,7 +655,7 @@ final class Bulk_Delete {
 	 *
 	 * This method automatically triggers all the actions
 	 *
-	 * @return unknown
+	 * @return false|null
 	 */
 	public function request_handler() {
 

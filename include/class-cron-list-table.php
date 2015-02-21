@@ -105,7 +105,7 @@ class Cron_List_Table extends WP_List_Table {
 	/**
 	 *
 	 * @param unknown $item
-	 * @return unknown
+	 * @return string
 	 */
 	public function column_col_cron_due( $item ) {
 		//Build row actions

@@ -1464,7 +1464,7 @@ class Bulk_Delete_Posts {
 	 * @since 5.0
 	 * @static
 	 * @param unknown $delete_options
-	 * @return unknown
+	 * @return integer
 	 */
 	public static function delete_posts_by_revision( $delete_options ) {
 		global $wpdb;
