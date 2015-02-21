@@ -199,7 +199,6 @@ class Bulk_Delete_Posts {
 	 * @return int   $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_status( $delete_options ) {
-		global $wp_query;
 		global $wpdb;
 
 		$posts_deleted = 0;
@@ -284,10 +283,9 @@ class Bulk_Delete_Posts {
 		// now retrieve all posts and delete them
 		$options['post_status'] = $post_status;
 
-		$posts = $wp_query->query( $options );
-
-		foreach ( $posts as $post ) {
-			wp_delete_post( $post->ID, $force_delete );
+		$post_ids = bd_query( $options );
+		foreach ( $post_ids as $post_id ) {
+			wp_delete_post( $post_id, $force_delete );
 		}
 
 		$posts_deleted += count( $posts );
@@ -524,14 +522,6 @@ class Bulk_Delete_Posts {
 			$options['nopaging']  = 'true';
 		}
 
-		$force_delete = $delete_options['force_delete'];
-
-		if ( $force_delete == 'true' ) {
-			$force_delete = true;
-		} else {
-			$force_delete = false;
-		}
-
 		if ( $delete_options['restrict'] == "true" ) {
 			$options['op'] = $delete_options['cats_op'];
 			$options['days'] = $delete_options['cats_days'];
@@ -542,19 +532,17 @@ class Bulk_Delete_Posts {
 			new Bulk_Delete_By_Days;
 		}
 
-		$wp_query = new WP_Query();
-		$posts = $wp_query->query( $options );
-
-		foreach ( $posts as $post ) {
+		$post_ids = bd_query( $options );
+		foreach ( $post_ids as $post_id ) {
 			// $force delete parameter to custom post types doesn't work
-			if ( $force_delete ) {
-				wp_delete_post( $post->ID, true );
+			if ( 'true' == $delete_options['force_delete'] ) {
+				wp_delete_post( $post_id, true );
 			} else {
-				wp_trash_post( $post->ID );
+				wp_trash_post( $post_id );
 			}
 		}
 
-		return count( $posts );
+		return count( $post_ids );
 	}
 
 	/**
@@ -724,18 +712,21 @@ class Bulk_Delete_Posts {
 	 *
 	 * @since 5.0
 	 * @static
-	 * @param array   $delete_options Options for deleting posts
+	 * @param  array $delete_options Options for deleting posts
 	 * @return int   $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_tag( $delete_options ) {
-
 		$selected_tags = $delete_options['selected_tags'];
-		$options = array( 'tag__in'=>$selected_tags, 'post_status'=>'publish', 'post_type'=>'post' );
+		$options = array(
+			'tag__in'     => $selected_tags,
+			'post_status' => 'publish',
+			'post_type'   => 'post',
+		);
 
 		$private = $delete_options['private'];
 
 		if ( $private == 'true' ) {
-			$options['post_status']  = 'private';
+			$options['post_status'] = 'private';
 		}
 
 		$limit_to = $delete_options['limit_to'];
@@ -764,14 +755,12 @@ class Bulk_Delete_Posts {
 			new Bulk_Delete_By_Days;
 		}
 
-		$wp_query = new WP_Query();
-		$posts = $wp_query->query( $options );
-
-		foreach ( $posts as $post ) {
-			wp_delete_post( $post->ID, $force_delete );
+		$post_ids = bd_query( $options );
+		foreach ( $post_ids as $post_id ) {
+			wp_delete_post( $post_id, $force_delete );
 		}
 
-		return count( $posts );
+		return count( $post_ids );
 	}
 
 	/**
@@ -1006,7 +995,6 @@ class Bulk_Delete_Posts {
 	 * @return int   $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_taxonomy( $delete_options ) {
-
 		// For compatibility reasons set default post type to 'post'
 		$post_type          = array_get( $delete_options, 'post_type', 'post' );
 		$selected_taxs      = $delete_options['selected_taxs'];
@@ -1019,8 +1007,8 @@ class Bulk_Delete_Posts {
 				array(
 					'taxonomy' => $selected_taxs,
 					'terms'    => $selected_tax_terms,
-					'field'    => 'slug'
-				)
+					'field'    => 'slug',
+				),
 			)
 		);
 
@@ -1056,19 +1044,17 @@ class Bulk_Delete_Posts {
 			new Bulk_Delete_By_Days;
 		}
 
-		$wp_query = new WP_Query();
-		$posts = $wp_query->query( $options );
-
-		foreach ( $posts as $post ) {
+		$post_ids = bd_query( $options );
+		foreach ( $post_ids as $post_id ) {
 			// $force delete parameter to custom post types doesn't work
 			if ( $force_delete ) {
-				wp_delete_post( $post->ID, true );
+				wp_delete_post( $post_id, true );
 			} else {
-				wp_trash_post( $post->ID );
+				wp_trash_post( $post_id );
 			}
 		}
 
-		return count( $posts );
+		return count( $post_ids );
 	}
 
 
@@ -1252,8 +1238,8 @@ class Bulk_Delete_Posts {
 	 * Delete posts by custom post type
 	 *
 	 * @static
-	 * @since 5.0
-	 * @param array   $delete_options Options for deleting posts
+	 * @since  5.0
+	 * @param  array $delete_options Options for deleting posts
 	 * @return int   $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_post_type( $delete_options ) {
@@ -1269,7 +1255,7 @@ class Bulk_Delete_Posts {
 
 			$options = array(
 				'post_status' => $status,
-				'post_type'   => $type
+				'post_type'   => $type,
 			);
 
 			$limit_to = $delete_options['limit_to'];
@@ -1298,19 +1284,17 @@ class Bulk_Delete_Posts {
 				new Bulk_Delete_By_Days;
 			}
 
-			$wp_query = new WP_Query();
-			$posts = $wp_query->query( $options );
-
-			foreach ( $posts as $post ) {
+			$post_ids = bd_query( $options );
+			foreach ( $post_ids as $post_id ) {
 				// $force delete parameter to custom post types doesn't work
 				if ( $force_delete ) {
-					wp_delete_post( $post->ID, true );
+					wp_delete_post( $post_id, true );
 				} else {
-					wp_trash_post( $post->ID );
+					wp_trash_post( $post_id );
 				}
 			}
 
-			$count += count( $posts );
+			$count += count( $post_ids );
 		}
 
 		return $count;

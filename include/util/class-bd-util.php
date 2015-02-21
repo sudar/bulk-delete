@@ -239,4 +239,26 @@ if ( ! function_exists( 'array_get_bool' ) ) {
 		return filter_var( array_get( $array, $key, $default ), FILTER_VALIDATE_BOOLEAN );
 	}
 }
-?>
+
+/**
+ * Wrapper for WP_query.
+ *
+ * Adds some performance enhancing defaults.
+ *
+ * @since  5.5
+ * @param  array $options List of options
+ * @return array          Result array
+ */
+function bd_query( $options ) {
+	$defaults = array(
+		'cache_results'          => false, // don't cache results
+		'update_post_meta_cache' => false, // No need to fetch post meta fields
+		'update_post_term_cache' => false, // No need to fetch taxonomy fields
+		'no_found_rows'          => true,  // No need for pagination
+		'fields'                 => 'ids', // retrieve only ids
+	);
+	$options = wp_parse_args( $options, $defaults );
+
+	$wp_query = new WP_Query();
+	return $wp_query->query( $options );
+}

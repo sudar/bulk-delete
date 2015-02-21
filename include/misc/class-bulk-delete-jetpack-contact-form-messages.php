@@ -275,10 +275,8 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 			new Bulk_Delete_By_Days;
 		}
 
-		$wp_query = new WP_Query();
-		$posts = $wp_query->query( $options );
-
-		foreach ( $posts as $post ) {
+		$post_ids = bd_query( $options );
+		foreach ( $post_ids as $post_id ) {
 			if ( 'true' == $use_filter ) {
 
 				/**
@@ -286,7 +284,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 				 *
 				 * @since 5.3
 				 */
-				$can_delete = apply_filters( 'bd_delete_jetpack_messages_can_delete', $delete_options, $post->ID );
+				$can_delete = apply_filters( 'bd_delete_jetpack_messages_can_delete', $delete_options, $post_id );
 				if ( ! $can_delete ) {
 					continue;
 				}
@@ -294,9 +292,9 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 
 			// $force delete parameter to custom post types doesn't work
 			if ( $force_delete ) {
-				wp_delete_post( $post->ID, true );
+				wp_delete_post( $post_id, true );
 			} else {
-				wp_trash_post( $post->ID );
+				wp_trash_post( $post_id );
 			}
 			$count++;
 		}

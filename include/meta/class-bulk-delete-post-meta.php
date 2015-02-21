@@ -295,14 +295,13 @@ class Bulk_Delete_Post_Meta {
 			$options['meta_key'] = $meta_key;
 		}
 
-		$wp_query = new WP_Query();
-		$posts    = $wp_query->query( $options );
-
-		foreach ( $posts as $post ) {
-			if ( delete_post_meta( $post->ID, $meta_key ) ) {
+		$post_ids = bd_query( $options );
+		foreach ( $post_ids as $post_id ) {
+			if ( delete_post_meta( $post_id, $meta_key ) ) {
 				$count++;
 			}
 		}
+
 		return $count;
 	}
 }
