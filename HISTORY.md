@@ -1,5 +1,8 @@
 ## Changelog ##
 
+### Unreleased (Dev time: 1.0 hours) ###
+- Tweak: Improve performance of DB queries to prevent timeouts. (Issue #93)
+
 ### 2015-02-14 - v5.4.1 - (Dev time: 0.5 hours) ###
 - Tweak: Use Google CDN for jQuery UI CSS, instead of ASP.NET
 

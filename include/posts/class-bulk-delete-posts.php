@@ -288,7 +288,7 @@ class Bulk_Delete_Posts {
 			wp_delete_post( $post_id, $force_delete );
 		}
 
-		$posts_deleted += count( $posts );
+		$posts_deleted += count( $post_ids );
 		return $posts_deleted;
 	}
 
