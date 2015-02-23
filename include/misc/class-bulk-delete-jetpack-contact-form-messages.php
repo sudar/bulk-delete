@@ -270,7 +270,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 			$options['days'] = $delete_options['feedback_days'];
 
 			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
-				require_once Bulk_Delete::$PLUGIN_DIR . '/include/class-bulk-delete-by-days.php';
+				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 			}
 			new Bulk_Delete_By_Days;
 		}
