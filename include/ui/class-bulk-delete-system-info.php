@@ -6,7 +6,7 @@
  *
  * @since       5.0
  * @note        Based on the code from Easy Digital Downloads plugin
- * @author Sudar
+ * @author		Sudar
  * @package     BulkDelete\Admin
  */
 
@@ -15,8 +15,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-if ( ! class_exists( 'Bulk_Delete_System_Info' ) ) :
 
 /**
  * Encapsulates System info
@@ -66,11 +64,9 @@ class Bulk_Delete_System_Info {
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
-            <div id="post-body-content">
-                <div class="updated" >
-                    <p><strong><?php _e( 'Please include this information when posting support requests.', 'bulk-delete' ); ?></strong></p>
-                </div>
-            </div><!-- #post-body-content -->
+			<div class="updated" >
+				<p><strong><?php _e( 'Please include this information when posting support requests.', 'bulk-delete' ); ?></strong></p>
+			</div>
 
             <div id="postbox-container-1" class="postbox-container">
                 <iframe frameBorder="0" height = "1500" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo Bulk_Delete::VERSION; ?>"></iframe>
@@ -78,7 +74,7 @@ class Bulk_Delete_System_Info {
 
             <div id="postbox-container-2" class="postbox-container">
 
-            <textarea style="width:800px;height:500px;font-family:Menlo,Monaco,monospace;white-space:pre;" readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="bulk-delete-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'bulk-delete' ); ?>">
+            <textarea wrap="off" style="width:100%;height:500px;font-family:Menlo,Monaco,monospace;white-space:pre;" readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="bulk-delete-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'bulk-delete' ); ?>">
 ### Begin System Info ###
 <?php
 		do_action( 'bd_system_info_before' );
@@ -89,18 +85,37 @@ Multisite:                <?php echo is_multisite() ? 'Yes' . "\n" : 'No' . "\n"
 SITE_URL:                 <?php echo site_url() . "\n"; ?>
 HOME_URL:                 <?php echo home_url() . "\n"; ?>
 
-Bulk Delete Version:      <?php echo Bulk_Delete::VERSION . "\n"; ?>
-WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 Permalink Structure:      <?php echo get_option( 'permalink_structure' ) . "\n"; ?>
 Active Theme:             <?php echo $theme . "\n"; ?>
-<?php if ( false !== $host ) : ?>
+<?php
+		if ( false !== $host ) { ?>
 Host:                     <?php echo $host . "\n"; ?>
-<?php endif; ?>
-
-Registered Post types     <?php echo implode( ', ', get_post_types() ) . "\n\n"; ?>
+<?php
+		}
+?>
 
 <?php echo $browser ; ?>
 
+<?php
+		$post_types = get_post_types();
+?>
+Registered Post types:    <?php echo implode( ', ', $post_types ) . "\n"; ?>
+<?php
+		foreach ( $post_types as $post_type ) {
+			echo $post_type;
+			if ( strlen( $post_type ) < 26 ) {
+				echo str_repeat( ' ', 26 - strlen( $post_type ) );
+			}
+			$post_count = wp_count_posts( $post_type );
+			foreach ( $post_count as $key => $value ) {
+				echo $key, '=', $value, ', ';
+			}
+			echo "\n";
+		}
+?>
+
+Bulk Delete Version:      <?php echo Bulk_Delete::VERSION . "\n"; ?>
+WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 PHP Version:              <?php echo PHP_VERSION . "\n"; ?>
 MySQL Version:            <?php echo mysql_get_server_info() . "\n"; ?>
 Web Server Info:          <?php echo $_SERVER['SERVER_SOFTWARE'] . "\n"; ?>
@@ -108,20 +123,20 @@ Web Server Info:          <?php echo $_SERVER['SERVER_SOFTWARE'] . "\n"; ?>
 WordPress Memory Limit:   <?php echo WP_MEMORY_LIMIT; ?><?php echo "\n"; ?>
 PHP Memory Limit:         <?php echo ini_get( 'memory_limit' ) . "\n"; ?>
 
-PHP Safe Mode:            <?php echo ini_get( 'safe_mode' ) ? "Yes" : "No\n"; ?>
+WP_DEBUG:                 <?php echo defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' . "\n" : 'Disabled' . "\n" : 'Not set' . "\n" ?>
+DISABLE_WP_CRON:          <?php echo defined( 'DISABLE_WP_CRON' ) ? DISABLE_WP_CRON ? 'Yes' . "\n" : 'No' . "\n" : 'Not set' . "\n" ?>
+EMPTY_TRASH_DAYS:         <?php echo defined( 'EMPTY_TRASH_DAYS' ) ? EMPTY_TRASH_DAYS : 'Not set', "\n" ?>
+
+PHP Safe Mode:            <?php echo ini_get( 'safe_mode' ) ? 'Yes' : 'No', "\n"; ?>
 PHP Upload Max Size:      <?php echo ini_get( 'upload_max_filesize' ) . "\n"; ?>
 PHP Post Max Size:        <?php echo ini_get( 'post_max_size' ) . "\n"; ?>
 PHP Upload Max Filesize:  <?php echo ini_get( 'upload_max_filesize' ) . "\n"; ?>
 PHP Time Limit:           <?php echo ini_get( 'max_execution_time' ) . "\n"; ?>
 PHP Max Input Vars:       <?php echo ini_get( 'max_input_vars' ) . "\n"; ?>
 PHP Arg Separator:        <?php echo ini_get( 'arg_separator.output' ) . "\n"; ?>
-PHP Allow URL File Open:  <?php echo ini_get( 'allow_url_fopen' ) ? "Yes" : "No\n"; ?>
+PHP Allow URL File Open:  <?php echo ini_get( 'allow_url_fopen' ) ? 'Yes' : 'No', "\n"; ?>
 
-WP_DEBUG:                 <?php echo defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' . "\n" : 'Disabled' . "\n" : 'Not set' . "\n" ?>
-DISABLE_WP_CRON:          <?php echo defined( 'DISABLE_WP_CRON' ) ? DISABLE_WP_CRON ? 'Yes' . "\n" : 'No' . "\n" : 'Not set' . "\n" ?>
-EMPTY_TRASH_DAYS:         <?php echo defined( 'EMPTY_TRASH_DAYS' ) ? EMPTY_TRASH_DAYS : 'Not set' . "\n" ?>
-
-WP Table Prefix:          <?php echo "Length: ". strlen( $wpdb->prefix ); echo " Status:"; if ( strlen( $wpdb->prefix )>16 ) {echo " ERROR: Too Long";} else {echo " Acceptable";} echo "\n"; ?>
+WP Table Prefix:          <?php echo 'Length: '. strlen( $wpdb->prefix ), "\n";?>
 
 Session:                  <?php echo isset( $_SESSION ) ? 'Enabled' : 'Disabled'; ?><?php echo "\n"; ?>
 Session Name:             <?php echo esc_html( ini_get( 'session.name' ) ); ?><?php echo "\n"; ?>
@@ -144,8 +159,9 @@ ACTIVE PLUGINS:
 
 		foreach ( $plugins as $plugin_path => $plugin ) {
 			// If the plugin isn't active, don't show it.
-			if ( ! in_array( $plugin_path, $active_plugins ) )
+			if ( ! in_array( $plugin_path, $active_plugins ) ) {
 				continue;
+			}
 
 			echo $plugin['Name'] . ': ' . $plugin['Version'] ."\n";
 		}
@@ -163,8 +179,9 @@ NETWORK ACTIVE PLUGINS:
 				$plugin_base = plugin_basename( $plugin_path );
 
 				// If the plugin isn't active, don't show it.
-				if ( ! array_key_exists( $plugin_base, $active_plugins ) )
+				if ( ! array_key_exists( $plugin_base, $active_plugins ) ) {
 					continue;
+				}
 
 				$plugin = get_plugin_data( $plugin_path );
 
@@ -203,14 +220,13 @@ NETWORK ACTIVE PLUGINS:
 	public static function generate_sysinfo_download() {
 		nocache_headers();
 
-		header( "Content-type: text/plain" );
+		header( 'Content-type: text/plain' );
 		header( 'Content-Disposition: attachment; filename="bulk-delete-system-info.txt"' );
 
 		echo wp_strip_all_tags( $_POST['bulk-delete-sysinfo'] );
 		die();
 	}
 }
-endif;
 
 add_action( 'bd_download_sysinfo', array( 'Bulk_Delete_System_Info', 'generate_sysinfo_download' ) );
 ?>
