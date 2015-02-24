@@ -87,6 +87,7 @@ HOME_URL:                 <?php echo home_url() . "\n"; ?>
 
 Permalink Structure:      <?php echo get_option( 'permalink_structure' ) . "\n"; ?>
 Active Theme:             <?php echo $theme . "\n"; ?>
+GMT Offset:               <?php echo esc_html( get_option( 'gmt_offset' ) ), "\n"; ?>
 <?php
 		if ( false !== $host ) { ?>
 Host:                     <?php echo $host . "\n"; ?>
