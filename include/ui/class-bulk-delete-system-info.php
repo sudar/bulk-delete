@@ -35,11 +35,6 @@ class Bulk_Delete_System_Info {
 	public static function display_system_info() {
 		global $wpdb;
 
-		if ( ! class_exists( 'Browser' ) ) {
-			require_once Bulk_Delete::$PLUGIN_DIR . 'include/libraries/browser.php';
-		}
-
-		$browser = new Browser();
 		if ( get_bloginfo( 'version' ) < '3.4' ) {
 			$theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
 			$theme      = $theme_data['Name'] . ' ' . $theme_data['Version'];
@@ -60,7 +55,7 @@ class Bulk_Delete_System_Info {
     <h2><?php _e( 'System Information', 'bulk-delete' ); ?></h2>
     <?php settings_errors(); ?>
 
-    <form action="<?php echo esc_url( admin_url( 'admin.php?page=' . Bulk_Delete::INFO_PAGE_SLUG ) ); ?>" method="post" dir="ltr">
+    <form action="<?php echo esc_url( admin_url( 'admin.php?page=' . Bulk_Delete::INFO_PAGE_SLUG ) ); ?>" method="post">
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
@@ -84,20 +79,17 @@ Multisite:                <?php echo is_multisite() ? 'Yes' . "\n" : 'No' . "\n"
 
 SITE_URL:                 <?php echo site_url() . "\n"; ?>
 HOME_URL:                 <?php echo home_url() . "\n"; ?>
+Browser:                  <?php echo esc_html( $_SERVER['HTTP_USER_AGENT'] ), "\n"; ?>
 
 Permalink Structure:      <?php echo get_option( 'permalink_structure' ) . "\n"; ?>
 Active Theme:             <?php echo $theme . "\n"; ?>
-GMT Offset:               <?php echo esc_html( get_option( 'gmt_offset' ) ), "\n"; ?>
+GMT Offset:               <?php echo esc_html( get_option( 'gmt_offset' ) ), "\n\n"; ?>
 <?php
 		if ( false !== $host ) { ?>
-Host:                     <?php echo $host . "\n"; ?>
+Host:                     <?php echo $host . "\n\n"; ?>
 <?php
 		}
-?>
 
-<?php echo $browser ; ?>
-
-<?php
 		$post_types = get_post_types();
 ?>
 Registered Post types:    <?php echo implode( ', ', $post_types ) . "\n"; ?>
