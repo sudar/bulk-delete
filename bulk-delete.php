@@ -116,9 +116,9 @@ final class Bulk_Delete {
 
 	// path variables
 	// Ideally these should be constants, but because of PHP's limitations, these are static variables
-	static $PLUGIN_DIR;
-	static $PLUGIN_URL;
-	static $PLUGIN_FILE;
+	public static $PLUGIN_DIR;
+	public static $PLUGIN_URL;
+	public static $PLUGIN_FILE;
 
 	// Instance variables
 	public $translations;
@@ -144,7 +144,7 @@ final class Bulk_Delete {
 	 * @uses Bulk_Delete::includes() Include the required files
 	 * @uses Bulk_Delete::load_textdomain() Load text domain for translation
 	 * @uses Bulk_Delete::setup_actions() Setup the hooks and actions
-	 * @return The one true BULK_DELETE
+	 * @return Bulk_Delete The one true instance of Bulk_Delete
 	 */
 	public static function instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Bulk_Delete ) ) {
@@ -730,10 +730,10 @@ final class Bulk_Delete {
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * Example: <?php $bulk_delete = BULK_DELETE(); ?>
+ * Example: `<?php $bulk_delete = BULK_DELETE(); ?>`
  *
  * @since 5.0
- * @return object The one true Bulk_Delete Instance
+ * @return Bulk_Delete The one true Bulk_Delete Instance
  */
 function BULK_DELETE() {
 	return Bulk_Delete::instance();
