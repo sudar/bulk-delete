@@ -64,7 +64,7 @@ class BD_License_Handler {
 	 * @param string  $plugin_file Addon file name
 	 * @param string  $author      (optional) Author of the addon
 	 */
-	function __construct( $addon_name, $addon_code, $version, $plugin_file, $author = 'Sudar Muthu' ) {
+	public function __construct( $addon_name, $addon_code, $version, $plugin_file, $author = 'Sudar Muthu' ) {
 
 		$this->addon_name  = $addon_name;
 		$this->addon_code  = $addon_code;

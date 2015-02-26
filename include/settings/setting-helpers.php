@@ -35,10 +35,11 @@ function bd_text_callback( $args ) {
 	$option_name = $args['option'];
 	$bd_options = get_option( $option_name );
 
-	if ( isset( $bd_options[ $args['id'] ] ) )
+	if ( isset( $bd_options[ $args['id'] ] ) ) {
 		$value = $bd_options[ $args['id'] ];
-	else
+	} else {
 		$value = isset( $args['std'] ) ? $args['std'] : '';
+	}
 
 	$size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
 	$html = '<input type="text" class="' . $size . '-text" id="' . $option_name . '[' . $args['id'] . ']" name="' . $option_name . '[' . $args['id'] . ']" value="' . esc_attr( stripslashes( $value ) ) . '">';
@@ -59,13 +60,14 @@ function bd_rich_editor_callback( $args ) {
 	$option_name = $args['option'];
 	$bd_options = get_option( $option_name );
 
-	if ( isset( $bd_options[ $args['id'] ] ) )
+	if ( isset( $bd_options[ $args['id'] ] ) ) {
 		$value = $bd_options[ $args['id'] ];
-	else
+	} else {
 		$value = isset( $args['std'] ) ? $args['std'] : '';
+	}
 
 	ob_start();
-	wp_editor( stripslashes( $value ), $option_name . '_' . $args['id'], array( 'textarea_name' => $option_name . '[' . $args['id'] . ']', 'media_buttons' => FALSE ) );
+	wp_editor( stripslashes( $value ), $option_name . '_' . $args['id'], array( 'textarea_name' => $option_name . '[' . $args['id'] . ']', 'media_buttons' => false ) );
 	$html = ob_get_clean();
 
 	$html .= '<br/><label for="' . $option_name . '[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
