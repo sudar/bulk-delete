@@ -62,8 +62,8 @@ class BD_Settings_Page {
 	 *
 	 * @static
 	 * @since 5.3
-	 * @param unknown $input (optional)
-	 * @return unknown
+	 * @param array $input (optional) Input array
+	 * @return array Sanitized input
 	 */
 	public static function sanitize_settings( $input = array() ) {
 		return apply_filters( 'bd_sanitize_settings_page_fields', $input );
@@ -74,7 +74,7 @@ class BD_Settings_Page {
 	 *
 	 * @since 5.3
 	 * @static
-	 * @return unknown
+	 * @return array Addon settings
 	 */
 	public static function get_addon_settings() {
 		$options = get_option( self::ADDON_SETTING_OPTION_NAME, array() );

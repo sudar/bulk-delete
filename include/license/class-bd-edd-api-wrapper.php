@@ -24,7 +24,7 @@ class BD_EDD_API_Wrapper {
 	 * @static
 	 * @param string  $addon   Addon name
 	 * @param string  $license The license code
-	 * @return bool|array      False if request fails, API response otherwise
+	 * @return array|false     False if request fails, API response otherwise
 	 */
 	public static function check_license( $addon, $license ) {
 		$api_params = array(
@@ -67,7 +67,7 @@ class BD_EDD_API_Wrapper {
 	 * @static
 	 * @param string  $addon   The addon that needs to be activated
 	 * @param string  $license The license code
-	 * @return bool|array         False if request fails, License info otherwise
+	 * @return array|false     False if request fails, License info otherwise
 	 */
 	public static function activate_license( $addon, $license ) {
 		$api_params = array(

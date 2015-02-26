@@ -157,15 +157,14 @@ class BD_Util {
 	 * Generate display name from post type and status
 	 *
 	 * @static
-	 * @access public
-	 * @param unknown $str
-	 * @return string|null
+	 * @param string $str
+	 * @return string
 	 */
 	public static function display_post_type_status( $str ) {
 		$type_status = self::split_post_type_status( $str );
 
-		$type        = $type_status['type'];
-		$status      = $type_status['status'];
+		$type   = $type_status['type'];
+		$status = $type_status['status'];
 
 		switch ( $status ) {
 			case 'private':
@@ -191,8 +190,8 @@ class BD_Util {
 	 *
 	 * @static
 	 * @access public
-	 * @param unknown $str
-	 * @return unknown
+	 * @param string $str
+	 * @return string
 	 */
 	public static function split_post_type_status( $str ) {
 		$type_status = array();

@@ -131,7 +131,7 @@ class Bulk_Delete_Comment_Meta {
                         <option value ="before"><?php _e( 'older than', 'bulk-delete' );?></option>
                         <option value ="after"><?php _e( 'commented within last', 'bulk-delete' );?></option>
                     </select>
-                    <input type ="textbox" name="smbd_cm_days" id="smbd_cm_days" disabled value ="0" maxlength="4" size="4"><?php _e( 'days', 'bulk-delete' );?>
+                    <input type="number" name="smbd_cm_days" id="smbd_cm_days" disabled value ="0" maxlength="4" size="4"><?php _e( 'days', 'bulk-delete' );?>
                 </td>
             </tr>
 
@@ -139,7 +139,7 @@ class Bulk_Delete_Comment_Meta {
                 <td>
                     <input name="smbd_cm_limit" id="smbd_cm_limit" value = "true" type = "checkbox">
                     <?php _e( 'Only delete comment meta field from first ', 'bulk-delete' );?>
-                    <input type ="textbox" name="smbd_cm_limit_to" id="smbd_cm_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'comments.', 'bulk-delete' );?>
+                    <input type="number" name="smbd_cm_limit_to" id="smbd_cm_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'comments.', 'bulk-delete' );?>
                     <?php _e( 'Use this option if there are more than 1000 posts and the script timesout.', 'bulk-delete' ) ?>
                 </td>
             </tr>
