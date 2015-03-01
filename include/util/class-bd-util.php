@@ -261,3 +261,52 @@ function bd_query( $options ) {
 	$wp_query = new WP_Query();
 	return $wp_query->query( $options );
 }
+
+/**
+ * Process delete options array and build query.
+ *
+ * @param array $delete_options Delete Options
+ * @param array $options        (optional) Options query
+ */
+function bd_build_query_options( $delete_options, $options = array() ) {
+	// private posts
+	if ( isset( $delete_options['private'] ) ) {
+		if ( $delete_options['private'] ) {
+			$options['post_status'] = 'private';
+		} else {
+			$options['post_status'] = 'publish';
+		}
+	}
+
+	// limit to query
+	if ( $delete_options['limit_to'] > 0 ) {
+		$options['showposts'] = $delete_options['limit_to'];
+	} else {
+		$options['nopaging']  = 'true';
+	}
+
+	// date query
+	if ( $delete_options['restrict'] ) {
+		if ( 'before' == $delete_options['op'] || 'after' == $delete_options['op'] ) {
+			$options['date_query'] = array(
+				array(
+					'column'              => 'post_date',
+					$delete_options['op'] => "{$delete_options['days']} day ago",
+				),
+			);
+		} else {
+			// backward compatibility. This will be removed in Bulk Delete v6.0
+			$options['op']   = $delete_options['op'];
+			$options['days'] = $delete_options['days'];
+
+			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
+				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
+			}
+			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+		}
+	}
+
+	return $options;
+}
+
+?>
