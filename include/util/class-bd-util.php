@@ -287,16 +287,16 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 
 	// date query
 	if ( $delete_options['restrict'] ) {
-		if ( 'before' == $delete_options['op'] || 'after' == $delete_options['op'] ) {
+		if ( 'before' == $delete_options['date_op'] || 'after' == $delete_options['date_op'] ) {
 			$options['date_query'] = array(
 				array(
-					'column'              => 'post_date',
-					$delete_options['op'] => "{$delete_options['days']} day ago",
+					'column'                   => 'post_date',
+					$delete_options['date_op'] => "{$delete_options['days']} day ago",
 				),
 			);
 		} else {
 			// backward compatibility. This will be removed in Bulk Delete v6.0
-			$options['op']   = $delete_options['op'];
+			$options['op']   = $delete_options['date_op'];
 			$options['days'] = $delete_options['days'];
 
 			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
@@ -308,5 +308,4 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 
 	return $options;
 }
-
 ?>
