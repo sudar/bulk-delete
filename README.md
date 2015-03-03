@@ -1,10 +1,10 @@
 # Bulk Delete #
 **Contributors:** sudar  
-**Tags:** post, comment, delete, bulk, mass, draft, revision, page, meta fields  
+**Tags:** mass, bulk, delete, post, comment, draft, revision, page, user, meta fields  
 **Requires at least:** 3.9  
-**Tested up to:** 4.0  
+**Tested up to:** 4.1.1  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 5.4.1  
+**Stable tag:** 5.4.2  
 
 Bulk delete posts, pages, users and meta fields in bulk based on different conditions and filters.
 

@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### Unreleased (Dev time: 2.0 hours) ###
+### 2015-03-03 - 5.4.2 (Dev time: 5.0 hours) ###
 - Tweak: Improve performance of DB queries to prevent timeouts. (Issue #93)
 - Tweak: Add details about different post types in system info. (Issue #100)
 - Tweak: Add details about timezone settings in system info. (Issue #100)
