@@ -19,7 +19,6 @@
  * @package    BulkDelete
  */
 
-
 /**
  * Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
  * This program is free software; you can redistribute it and/or modify
@@ -35,9 +34,7 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) ||  exit;
 
 /**
  * Main Bulk_Delete class
