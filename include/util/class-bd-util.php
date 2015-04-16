@@ -285,6 +285,11 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 		$options['nopaging']  = 'true';
 	}
 
+	// post type
+	if ( isset( $delete_options['post_type'] ) ) {
+		$options['post_type'] = $delete_options['post_type'];
+	}
+
 	// date query
 	if ( $delete_options['restrict'] ) {
 		if ( 'before' == $delete_options['date_op'] || 'after' == $delete_options['date_op'] ) {
