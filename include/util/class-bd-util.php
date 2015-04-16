@@ -307,7 +307,7 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
 				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 			}
-			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+			new Bulk_Delete_By_Days();
 		}
 	}
 
