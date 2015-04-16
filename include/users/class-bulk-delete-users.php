@@ -6,6 +6,7 @@
  * @package    BulkDelete
  */
 
+
 class Bulk_Delete_Users {
 
 	/**
@@ -36,13 +37,6 @@ class Bulk_Delete_Users {
 <?php
 		}
 ?>
-            <tr>
-                <td scope="row" >
-                    <input name="smbdu_roles[]" value="none" type="checkbox">
-                    <label for="smbdu_roles"><?php _e( 'None' ); ?> (<?php echo _e( "Users who don't belong to any user role", 'bulk-delete' ); ?>)</label>
-                </td>
-            </tr>
-
             <tr>
                 <td scope="row">
                     <h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
@@ -181,32 +175,6 @@ class Bulk_Delete_Users {
 		}
 
 		$count = 0;
-
-		if ( in_array( 'none', $delete_options['selected_roles'] ) ) {
-			$args = array(
-				'meta_key'     => 'wp_capabilities',
-				'meta_value'   => 'a:0:{}',
-				'meta_compare' => '=',
-			);
-
-			if ( $delete_options['limit_to'] > 0 ) {
-				$args['number'] = $delete_options['limit_to'];
-			}
-
-			$noroleusers = get_users( $args );
-
-			if ( ! empty( $noroleusers ) ) {
-				foreach ( $noroleusers as $noroleuser ) {
-					if ( wp_delete_user( $noroleuser->ID ) ) {
-						$count++;
-					}
-				}
-			}
-
-			if ( ( $key = array_search( 'none', $delete_options['selected_roles'] ) ) !== false ) {
-				unset( $delete_options['selected_roles'][$key] );
-			}
-		}
 
 		foreach ( $delete_options['selected_roles'] as $role ) {
 
