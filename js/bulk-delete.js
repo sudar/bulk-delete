@@ -102,10 +102,9 @@ jQuery(document).ready(function () {
             error_key = "selectPostOption";
 
         if (currentButton in BulkWP.validators) {
-            valid = BulkWP[BulkWP.validators[currentButton]](this)
+            valid = BulkWP[BulkWP.validators[currentButton]](this);
         } else {
-            if (jQuery(this).parent().prev().children('table').find(":checkbox:checked[value!='true']").size() > 0) {
-                // monstrous selector
+            if (jQuery(this).parent().prev().children('table').find(":checkbox:checked[value!='true']").size() > 0) { // monstrous selector
                 valid = true;
             }
         }
@@ -115,7 +114,7 @@ jQuery(document).ready(function () {
                 msg_key = BulkWP.pre_action_msg[currentButton];
             }
 
-            return confirm(BulkWP.msg[msg_key])
+            return confirm(BulkWP.msg[msg_key]);
         } else {
             if (currentButton in BulkWP.error_msg) {
                 error_key = BulkWP.error_msg[currentButton];
