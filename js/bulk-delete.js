@@ -7,8 +7,7 @@
  *
  */
 
-/*jslint browser: true, devel: true*/
-/*global BulkWP, jQuery, document, postboxes, pagenow*/
+/*global BulkWP, jQuery, postboxes, pagenow*/
 jQuery(document).ready(function () {
     /**
      * Enable Postbox handling
