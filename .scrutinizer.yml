@@ -1,0 +1,76 @@
+tools:
+    jshint: true
+    php_sim: true
+    php_pdepend: true
+    php_analyzer: true
+    php_code_sniffer: true
+    sensiolabs_security_checker: true
+    php_code_coverage: true
+    php_pdepend: true
+    php_mess_detector:
+        config:
+            code_size_rules:
+                cyclomatic_complexity:  false
+                npath_complexity:     false
+                excessive_method_length:  false
+                excessive_class_length:  false
+                excessive_parameter_list:  false
+                excessive_public_count:  false
+                too_many_fields:      false
+                too_many_methods:     false
+                excessive_class_complexity:  false
+
+    php_loc:
+        enabled: true
+        excluded_dirs: [vendor, tests, languages, bin, assets, assets-wp-repo]
+    php_cpd:
+        enabled: true
+        excluded_dirs: [vendor, tests, languages, bin, assets, assets-wp-repo]
+
+checks:
+    php:
+        verify_property_names: true
+        variable_existence: true
+        verify_access_scope_valid: true
+        useless_calls: true
+        use_statement_alias_conflict: false
+        uppercase_constants: true
+        unused_variables: true
+        remove_extra_empty_lines: true
+        return_doc_comment_if_not_inferrable: true
+        return_doc_comments: true
+        simplify_boolean_return: true
+        prefer_while_loop_over_for_loop: true
+        parameter_doc_comments: true
+        param_doc_comment_if_not_inferrable: true
+        optional_parameters_at_the_end: true
+        avoid_perl_style_comments: true
+        coding_standard:
+            name: WordPress
+        encourage_postdec_operator: true
+        encourage_single_quotes: true
+        fix_line_ending: true
+        more_specific_types_in_doc_comments: true
+        symfony_request_injection: false
+        switch_fallthrough_commented: false
+        single_namespace_per_use: false
+        side_effects_or_types: false
+        security_vulnerabilities: true
+        psr2_class_declaration: false
+        one_class_per_file: false
+        no_underscore_prefix_in_properties: false
+        no_underscore_prefix_in_methods: false
+        no_global_keyword: false
+        no_exit: false
+        no_error_suppression: false
+        avoid_closing_tag: false
+        avoid_superglobals: false
+        use_self_instead_of_fqcn: true
+        no_goto: true
+        avoid_multiple_statements_on_same_line: true
+    javascript:
+        vars_on_top: true
+        valid_jsdoc: true
+        valid_typeof: true
+        use_isnan: true
+        one_var: true
