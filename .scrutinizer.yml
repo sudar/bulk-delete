@@ -1,5 +1,4 @@
 tools:
-    jshint: true
     php_sim: true
     php_pdepend: true
     php_analyzer: true
@@ -19,7 +18,6 @@ tools:
                 too_many_fields:      false
                 too_many_methods:     false
                 excessive_class_complexity:  false
-
     php_loc:
         enabled: true
         excluded_dirs: [vendor, tests, languages, bin, assets, assets-wp-repo]
