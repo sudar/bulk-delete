@@ -1,3 +1,10 @@
+filter:
+    excluded_paths:
+        - assets-wp-repo/*
+        - languages/*
+        - includes/libraries/*
+        - tests/*
+
 tools:
     php_sim: true
     php_pdepend: true
@@ -20,7 +27,7 @@ tools:
                 excessive_class_complexity:  false
     php_loc:
         enabled: true
-        excluded_dirs: [vendor, tests, languages, bin, assets, assets-wp-repo]
+        excluded_dirs: [vendor, tests, languages, bin, assets, assets-wp-repo, includes/libraries]
 
 checks:
     php:
