@@ -6,13 +6,12 @@ filter:
         - tests/*
 
 tools:
-    php_sim: true
+    php_sim: false
     php_pdepend: true
     php_analyzer: true
     php_code_sniffer: true
-    sensiolabs_security_checker: true
     php_code_coverage: true
-    php_pdepend: true
+    sensiolabs_security_checker: true
     php_mess_detector:
         config:
             code_size_rules:
