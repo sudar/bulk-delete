@@ -2,7 +2,7 @@ filter:
     excluded_paths:
         - assets-wp-repo/*
         - languages/*
-        - includes/libraries/*
+        - include/libraries/*
         - tests/*
 
 tools:
@@ -14,7 +14,7 @@ tools:
     sensiolabs_security_checker: true
     php_loc:
         enabled: true
-        excluded_dirs: [vendor, tests, languages, bin, assets, assets-wp-repo, includes/libraries]
+        excluded_dirs: [vendor, tests, languages, bin, assets, assets-wp-repo, include/libraries]
 
 checks:
     php:
