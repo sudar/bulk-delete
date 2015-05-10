@@ -313,4 +313,34 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 
 	return $options;
 }
+
+/**
+ * Get the formatted list of allowed mime types.
+ * This function was originally defined in the Bulk Delete Attachment addon.
+ *
+ * @since 5.5
+ * @return array List of allowed mime types
+ */
+function bd_get_allowed_mime_types() {
+	$mime_types = get_allowed_mime_types();
+	sort( $mime_types );
+
+	$processed_mime_types = array();
+	$processed_mime_types['all'] = __( 'All mime types', 'bulk-delete' );
+
+	$last_value = '';
+	foreach ( $mime_types as $key => $value ) {
+		$splitted = explode( '/', $value, 2 );
+		$prefix = $splitted[0];
+
+		if ( '' == $last_value || $prefix != $last_value ) {
+			$processed_mime_types[ $prefix ] = __( 'All', 'bulk-delete' ) . ' ' . $prefix;
+			$last_value = $prefix;
+		}
+
+		$processed_mime_types[$value] = $value;
+	}
+
+	return $processed_mime_types;
+}
 ?>
