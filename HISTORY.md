@@ -1,7 +1,9 @@
 ## Changelog ##
 
-### 5.5 - In Development (Dev time: 2 hours) ###
-- New: Add Bulk Delete Attachment Addon. (Issue #98)
+### 5.5 - In Development (Dev time: 3 hours) ###
+- New: (Addon) Added the ability to delete attachments. (Issue #98)
+
+- Tweak: Tweak the code that retrieves Mysql version. (Issue #102)
 
 - Tweak: Tweak the build process
 

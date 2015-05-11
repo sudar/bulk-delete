@@ -110,7 +110,7 @@ Registered Post types:    <?php echo implode( ', ', $post_types ) . "\n"; ?>
 Bulk Delete Version:      <?php echo Bulk_Delete::VERSION . "\n"; ?>
 WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 PHP Version:              <?php echo PHP_VERSION . "\n"; ?>
-MySQL Version:            <?php echo mysql_get_server_info() . "\n"; ?>
+MySQL Version:            <?php echo $wpdb->db_version() . "\n"; ?>
 Web Server Info:          <?php echo $_SERVER['SERVER_SOFTWARE'] . "\n"; ?>
 
 WordPress Memory Limit:   <?php echo WP_MEMORY_LIMIT; ?><?php echo "\n"; ?>
