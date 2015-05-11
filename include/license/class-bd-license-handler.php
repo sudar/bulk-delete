@@ -191,7 +191,7 @@ class BD_License_Handler {
 	public function print_license_key_field() {
 		if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
 			printf(
-				'<input type="text" id="%s" name="%s[%s]" placeholder="%s">',
+				'<input type="text" id="%s" name="%s[%s]" placeholder="%s" size="40">',
 				$this->addon_code,
 				Bulk_Delete::SETTING_OPTION_NAME,
 				$this->addon_code,
