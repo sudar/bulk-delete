@@ -7,6 +7,7 @@
  * @package    BulkDelete/License
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class BD_License_Handler {
 
@@ -39,6 +40,13 @@ class BD_License_Handler {
 	private $plugin_file;
 
 	/**
+	 * Plugin base name
+	 *
+	 * @since 5.5
+	 */
+	private $plugin_basename;
+
+	/**
 	 * Author of the plugin
 	 *
 	 * @since 5.0
@@ -52,7 +60,6 @@ class BD_License_Handler {
 	 */
 	private $updater;
 
-
 	/**
 	 * Constructor
 	 *
@@ -65,15 +72,16 @@ class BD_License_Handler {
 	 * @param string  $author      (optional) Author of the addon
 	 */
 	public function __construct( $addon_name, $addon_code, $version, $plugin_file, $author = 'Sudar Muthu' ) {
-
-		$this->addon_name  = $addon_name;
-		$this->addon_code  = $addon_code;
-		$this->version     = $version;
-		$this->plugin_file = $plugin_file;
-		$this->author      = $author;
+		$this->addon_name      = $addon_name;
+		$this->addon_code      = $addon_code;
+		$this->version         = $version;
+		$this->plugin_file     = $plugin_file;
+		$this->plugin_basename = plugin_basename( $plugin_file );
+		$this->author          = $author;
 
 		$this->hooks();
 
+		// TODO: Don't check license on every load
 		if ( BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
 			$license_code = BD_License::get_license_code( $this->addon_code );
 			if ( false != $license_code ) {
@@ -112,9 +120,38 @@ class BD_License_Handler {
 	 * @since 5.0
 	 */
 	private function hooks() {
-		add_action( 'bd_license_form' , array( &$this, 'display_license_form' ) );
-		add_action( 'bd_license_field', array( &$this, 'add_license_field' ) );
-		add_filter( 'bd_license_input', array( &$this, 'parse_license_input' ), 1 );
+		add_action( 'bd_license_form' , array( $this, 'display_license_form' ) );
+		add_action( 'bd_license_field', array( $this, 'add_license_field' ) );
+		add_filter( 'bd_license_input', array( $this, 'parse_license_input' ), 1 );
+
+		add_action( 'after_plugin_row_' . $this->plugin_basename, array( $this, 'plugin_row' ), 11, 3 );
+	}
+
+	/**
+	 * Display license information about addon in plugin list table.
+	 *
+	 * @since 5.5
+	 * @param string $plugin_file Path to the plugin file, relative to the plugins directory.
+	 * @param array  $plugin_data An array of plugin data.
+	 * @param string $status      Status of the plugin.
+	 */
+	public function plugin_row( $plugin_file, $plugin_data, $status ) {
+		if ( $plugin_file != $this->plugin_basename ) {
+			return;
+		}
+
+		$license_code = BD_License::get_license_code( $this->addon_code );
+		if ( false == $license_code ) {
+			$addon_url = 'http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=plugin-list&utm_content=' . strtolower( $this->addon_code );
+			$message = sprintf( __( 'Addon is not activated. To activate the addon, please <a href="%1$s">enter your license key</a>. If you don\'t have a license key, then you can <a href="%2$s" target="_blank">purchase one</a>', 'bulk-delete' ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ), esc_url( $addon_url ) );
+?>
+			<tr class="plugin-update-tr">
+				<td colspan="3" class="plugin-update">
+					<div class="update-message"><span class="bd-licence-activate-notice"><?php echo $message; ?></span></div>
+				</td>
+			</tr>
+<?php
+		}
 	}
 
 	/**
