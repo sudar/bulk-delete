@@ -285,6 +285,11 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 		$options['nopaging']  = 'true';
 	}
 
+	// post type
+	if ( isset( $delete_options['post_type'] ) ) {
+		$options['post_type'] = $delete_options['post_type'];
+	}
+
 	// date query
 	if ( $delete_options['restrict'] ) {
 		if ( 'before' == $delete_options['date_op'] || 'after' == $delete_options['date_op'] ) {
@@ -302,7 +307,7 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
 				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
 			}
-			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
+			new Bulk_Delete_By_Days();
 		}
 	}
 

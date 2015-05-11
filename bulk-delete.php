@@ -5,7 +5,7 @@
  * Plugin URI: http://bulkwp.com
  * Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
  * Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
- * Version: 5.4.2
+ * Version: 5.5-dev
  * License: GPL
  * Author: Sudar
  * Author URI: http://sudarmuthu.com/
@@ -14,11 +14,10 @@
  * === RELEASE NOTES ===
  * Check readme file for full release notes
  *
- * @version    5.4.1
+ * @version    5.5-dev
  * @author     Sudar
  * @package    BulkDelete
  */
-
 
 /**
  * Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -35,9 +34,7 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) ||  exit;
 
 /**
  * Main Bulk_Delete class
@@ -53,7 +50,7 @@ final class Bulk_Delete {
 	private static $instance;
 
 	// version
-	const VERSION                   = '5.4.1';
+	const VERSION                   = '5.5-dev';
 
 	// Numeric constants
 	const MENU_ORDER                = '26.9966';
