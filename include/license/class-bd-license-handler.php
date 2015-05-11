@@ -140,9 +140,10 @@ class BD_License_Handler {
 			return;
 		}
 
+		$addon_url = 'http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=plugin-list&utm_content=' . strtolower( $this->addon_code );
+
 		$license_code = BD_License::get_license_code( $this->addon_code );
 		if ( false == $license_code ) {
-			$addon_url = 'http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=plugin-list&utm_content=' . strtolower( $this->addon_code );
 			$message = sprintf( __( 'Addon is not activated. To activate the addon, please <a href="%1$s">enter your license key</a>. If you don\'t have a license key, then you can <a href="%2$s" target="_blank">purchase one</a>', 'bulk-delete' ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ), esc_url( $addon_url ) );
 ?>
 			<tr class="plugin-update-tr">
@@ -151,6 +152,17 @@ class BD_License_Handler {
 				</td>
 			</tr>
 <?php
+		} else {
+			if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
+				$message = sprintf( __( 'The license for this addon is either invalid or has expired. Please <a href="%1$s" target="_blank">renew the license</a> or <a href="%2$s">enter a new license key</a> to receive updates and support.', 'bulk-delete' ), esc_url( $addon_url ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ) );
+?>
+				<tr class="plugin-update-tr">
+					<td colspan="3" class="plugin-update">
+						<div class="update-message"><span class="bd-licence-activate-notice"><?php echo $message; ?></span></div>
+					</td>
+				</tr>
+<?php
+			}
 		}
 	}
 
@@ -176,7 +188,7 @@ class BD_License_Handler {
 			add_settings_field(
 				$this->addon_code, // ID
 				'"' . $this->addon_name . '" ' . __( 'Addon License Key', 'bulk-delete' ), // Title
-				array( &$this, 'print_license_key_field' ), // Callback
+				array( $this, 'print_license_key_field' ), // Callback
 				Bulk_Delete::ADDON_PAGE_SLUG, // Page
 				Bulk_Delete::SETTING_SECTION_ID // Section
 			);
