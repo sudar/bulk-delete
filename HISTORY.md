@@ -1,10 +1,10 @@
 ## Changelog ##
 
-### 5.5 - In Development (Dev time: 3 hours) ###
+### 5.5 - In Development (Dev time: 5 hours) ###
 - New: (Addon) Added the ability to delete attachments. (Issue #98)
 
 - Tweak: Tweak the code that retrieves Mysql version. (Issue #102)
-
+- Tweak: Tweak the license handling code. (Issue #92)
 - Tweak: Tweak the build process
 
 ### 2015-03-03 - 5.4.2 (Dev time: 5.0 hours) ###
