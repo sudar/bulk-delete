@@ -1,6 +1,7 @@
 ## Changelog ##
 
-### 5.5 - In Development (Dev time: 0 hours) ###
+### 5.5 - In Development (Dev time: 2 hours) ###
+- New: Add Bulk Delete Attachment Addon. (Issue #98)
 
 - Tweak: Tweak the build process
 
