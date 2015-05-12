@@ -469,7 +469,7 @@ final class Bulk_Delete {
 		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/assets/js/bulk-delete' . $postfix . '.js', __FILE__ ), array( 'jquery-ui-timepicker' ), self::VERSION, true );
 
 		$ui = $wp_scripts->query( 'jquery-ui-core' );
-		$url = "http://ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
+		$url = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
 		wp_enqueue_style( 'jquery-ui-smoothness', $url, false, $ui->ver );
 
 		/**
