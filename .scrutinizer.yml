@@ -15,7 +15,7 @@ tools:
     php_code_sniffer:
         enabled: true
         config:
-            include_standard:
+            include_standards:
                 - ../wordpress-coding-standard/
             ruleset: ./phpcs.xml
 
