@@ -7,6 +7,7 @@
  * @package    BulkDelete\Admin\Settings
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class BD_Settings_Page {
 

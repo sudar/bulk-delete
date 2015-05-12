@@ -7,6 +7,7 @@
  * @package    BulkDelete\Admin
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Add rating links to the admin dashboard

@@ -7,6 +7,7 @@
  * @package    BulkDelete\Meta
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Meta {
 

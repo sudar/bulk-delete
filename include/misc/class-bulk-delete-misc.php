@@ -7,6 +7,7 @@
  * @package    BulkDelete\Misc
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Misc {
 

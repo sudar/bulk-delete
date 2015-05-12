@@ -9,6 +9,7 @@
  * @package    BulkDelete\Help
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Help_Screen {
 
