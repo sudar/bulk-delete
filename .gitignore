@@ -1,0 +1,19 @@
+# Folders #
+######################
+/.sass-cache/
+/node_modules/
+/vendor/
+/assets/vendor/
+/assets/js/*.js
+/assets/css/*.css
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db

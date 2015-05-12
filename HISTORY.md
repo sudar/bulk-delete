@@ -6,6 +6,7 @@
 - Tweak: Tweak the code that retrieves Mysql version. (Issue #102)
 - Tweak: Tweak the license handling code. (Issue #92)
 - Tweak: Tweak the build process
+- Tweak: Load compressed JS and CSS Files. (Issue #62)
 
 ### 2015-03-03 - 5.4.2 (Dev time: 5.0 hours) ###
 - Tweak: Improve performance of DB queries to prevent timeouts. (Issue #93)

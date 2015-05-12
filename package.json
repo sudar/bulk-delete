@@ -1,0 +1,33 @@
+{
+	"name": "bulk-delete",
+	"title": "Bulk Delete",
+	"description": "Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, users and meta fields in bulk based on different conditions and filters.",
+	"version": "5.5.0",
+	"homepage": "http://bulkwp.com",
+	"author": {
+		"name": "Bulk WP",
+		"email": "support@bulkwp.com",
+		"url": "http://bulkwp.com"
+	},
+	"bugs": {
+		"url" : "https://github.com/sudar/bulk-delete/issues",
+		"email" : "support@bulkwp.com"
+	},
+	"repository" : {
+		"type" : "git",
+		"url" : "https://github.com/sudar/bulk-delete.git"
+	},
+	"devDependencies": {
+		"grunt"                  : "latest",
+		"matchdep"               : "latest",
+		"grunt-contrib-concat"   : "latest",
+		"grunt-contrib-uglify"   : "latest",
+		"grunt-contrib-cssmin"   : "latest",
+		"grunt-contrib-jshint"   : "latest",
+		"grunt-contrib-watch"    : "latest",
+		"grunt-contrib-clean"    : "latest",
+		"grunt-contrib-copy"     : "latest",
+		"time-grunt"             : "latest"
+	},
+	"private": true
+}

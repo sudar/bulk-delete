@@ -455,20 +455,22 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Enqueue JavaScript
+	 * Enqueue JavaScript.
+	 *
+	 * Uses code from http://trentrichardson.com/examples/timepicker/
 	 */
 	public function add_script() {
 		global $wp_scripts;
 
-		// uses code from http://trentrichardson.com/examples/timepicker/
-		wp_enqueue_script( 'jquery-ui-timepicker', plugins_url( '/js/jquery-ui-timepicker.js', __FILE__ ), array( 'jquery-ui-slider', 'jquery-ui-datepicker' ), '1.4', true );
-		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/js/bulk-delete.js', __FILE__ ), array( 'jquery-ui-timepicker' ), self::VERSION, true );
+		wp_enqueue_script( 'jquery-ui-timepicker', plugins_url( '/assets/js/jquery-ui-timepicker-addon.min.js', __FILE__ ), array( 'jquery-ui-slider', 'jquery-ui-datepicker' ), '1.5.4', true );
+		wp_enqueue_style( 'jquery-ui-timepicker', plugins_url( '/assets/css/jquery-ui-timepicker-addon.min.css', __FILE__ ), array(), '1.5.4' );
+
+		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/assets/js/bulk-delete' . $postfix . '.js', __FILE__ ), array( 'jquery-ui-timepicker' ), self::VERSION, true );
 
 		$ui = $wp_scripts->query( 'jquery-ui-core' );
-
 		$url = "http://ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
 		wp_enqueue_style( 'jquery-ui-smoothness', $url, false, $ui->ver );
-		wp_enqueue_style( 'jquery-ui-timepicker', plugins_url( '/style/jquery-ui-timepicker.css', __FILE__ ), array(), '1.1.1' );
 
 		/**
 		 * Filter JavaScript array
@@ -478,11 +480,11 @@ final class Bulk_Delete {
 		 * @since 5.4
 		 */
 		$translation_array = apply_filters( 'bd_javascript_array', array(
-				'msg' => array(),
-				'validators' => array(),
-				'dt_iterators' => array(),
+				'msg'            => array(),
+				'validators'     => array(),
+				'dt_iterators'   => array(),
 				'pre_action_msg' => array(),
-				'error_msg' => array()
+				'error_msg'      => array()
 			) );
 		wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
 	}

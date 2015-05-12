@@ -1,1 +1,2 @@
-js/jquery-ui-timepicker.js
+assets/js/jquery-ui-timepicker-addon.min.js
+assets/vendor/*
