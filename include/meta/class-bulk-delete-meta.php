@@ -42,6 +42,8 @@ class Bulk_Delete_Meta {
 			array( __CLASS__, 'display_meta_page' )
 		);
 
+		$bd->page_slugs[] = self::META_PAGE_SLUG;
+
 		// enqueue JavaScript
 		add_action( 'admin_print_scripts-' . $bd->meta_page, array( $bd, 'add_script' ) );
 

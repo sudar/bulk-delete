@@ -128,6 +128,13 @@ final class Bulk_Delete {
 	public $settings_page;
 
 	/**
+	 * List of page slugs.
+	 *
+	 * @since 5.5
+	 */
+	public $page_slugs = array();
+
+	/**
 	 * Main Bulk_Delete Instance
 	 *
 	 * Insures that only one instance of Bulk_Delete exists in memory at any one
@@ -269,6 +276,10 @@ final class Bulk_Delete {
 		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( $this, 'display_pages_page' ) );
 		$this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( $this, 'display_users_page' ) );
 
+		$this->page_slugs[] = self::POSTS_PAGE_SLUG;
+		$this->page_slugs[] = self::POSTS_PAGE_SLUG;
+		$this->page_slugs[] = self::USERS_PAGE_SLUG;
+
 		/**
 		 * Runs just after adding all *delete* menu items to Bulk WP main menu
 		 *
@@ -290,6 +301,10 @@ final class Bulk_Delete {
 		$this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules'  , 'bulk-delete' ), __( 'Scheduled Jobs', 'bulk-delete' ), 'delete_posts'    , self::CRON_PAGE_SLUG , array( $this, 'display_cron_page' ) );
 		$this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Addon Licenses'         , 'bulk-delete' ), __( 'Addon Licenses', 'bulk-delete' ), 'activate_plugins', self::ADDON_PAGE_SLUG, array( 'BD_License', 'display_addon_page' ) );
 		$this->info_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete System Info', 'bulk-delete' ), __( 'System Info'   , 'bulk-delete' ), 'manage_options'  , self::INFO_PAGE_SLUG , array( 'Bulk_Delete_System_Info', 'display_system_info' ) );
+
+		$this->page_slugs[] = self::CRON_PAGE_SLUG;
+		$this->page_slugs[] = self::ADDON_PAGE_SLUG;
+		$this->page_slugs[] = self::INFO_PAGE_SLUG;
 
 		/**
 		 * Runs just after adding all menu items to Bulk WP main menu
@@ -716,6 +731,20 @@ final class Bulk_Delete {
 		if ( ! ini_get( 'safe_mode' ) ) {
 			@set_time_limit( 0 );
 		}
+	}
+
+	/**
+	 * Get the list of BD page slugs.
+	 *
+	 * @since 5.5
+	 */
+	public function get_page_slugs() {
+		/**
+		 * Filter list of page slugs.
+		 *
+		 * @since 5.5
+		 */
+		return apply_filters( 'bd_page_slugs', $this->page_slugs );
 	}
 }
 
