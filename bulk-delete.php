@@ -230,6 +230,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/settings/class-bd-settings.php';
 
 		require_once self::$PLUGIN_DIR . '/include/util/class-bd-util.php';
+		require_once self::$PLUGIN_DIR . '/include/util/addons.php';
 
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license.php';
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license-handler.php';
@@ -660,6 +661,7 @@ final class Bulk_Delete {
 <?php
 		//Table of elements
 		$cron_list_table->display();
+		bd_display_available_addon_list();
 ?>
     </div>
 <?php

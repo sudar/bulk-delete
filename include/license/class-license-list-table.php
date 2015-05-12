@@ -28,7 +28,6 @@ class License_List_Table extends WP_List_Table {
 	 * Add extra markup in the toolbars before or after the list
 	 *
 	 * @since 5.0
-	 * @uses  Bulk_Delete_Adddon::display_available_addon_list() Display the list of available addons
 	 * @param string  $which Whether the markup should be after (bottom) or before (top) the list
 	 */
 	public function extra_tablenav( $which ) {
