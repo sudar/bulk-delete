@@ -253,21 +253,21 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function setup_actions() {
-		add_action( 'admin_menu', array( &$this, 'add_menu' ) );
-		add_action( 'admin_init', array( &$this, 'request_handler' ) );
-		add_action( 'bd_pre_bulk_action', array( &$this, 'increase_timeout' ), 9 );
-		add_action( 'bd_before_scheduler', array( &$this, 'increase_timeout' ), 9 );
+		add_action( 'admin_menu', array( $this, 'add_menu' ) );
+		add_action( 'admin_init', array( $this, 'request_handler' ) );
+		add_action( 'bd_pre_bulk_action', array( $this, 'increase_timeout' ), 9 );
+		add_action( 'bd_before_scheduler', array( $this, 'increase_timeout' ), 9 );
 	}
 
 	/**
 	 * Add navigation menu
 	 */
 	public function add_menu() {
-		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
+		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
 
-		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ) );
-		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( &$this, 'display_pages_page' ) );
-		$this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ) );
+		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ) );
+		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( $this, 'display_pages_page' ) );
+		$this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( $this, 'display_users_page' ) );
 
 		/**
 		 * Runs just after adding all *delete* menu items to Bulk WP main menu
@@ -301,21 +301,21 @@ final class Bulk_Delete {
 		do_action( 'bd_after_all_menus' );
 
 		// enqueue JavaScript
-		add_action( 'admin_print_scripts-' . $this->posts_page, array( &$this, 'add_script' ) );
-		add_action( 'admin_print_scripts-' . $this->pages_page, array( &$this, 'add_script' ) );
-		add_action( 'admin_print_scripts-' . $this->users_page, array( &$this, 'add_script' ) );
+		add_action( 'admin_print_scripts-' . $this->posts_page, array( $this, 'add_script' ) );
+		add_action( 'admin_print_scripts-' . $this->pages_page, array( $this, 'add_script' ) );
+		add_action( 'admin_print_scripts-' . $this->users_page, array( $this, 'add_script' ) );
 
 		// delete posts page
-		add_action( "load-{$this->posts_page}", array( &$this, 'add_delete_posts_settings_panel' ) );
-		add_action( "add_meta_boxes_{$this->posts_page}", array( &$this, 'add_delete_posts_meta_boxes' ) );
+		add_action( "load-{$this->posts_page}", array( $this, 'add_delete_posts_settings_panel' ) );
+		add_action( "add_meta_boxes_{$this->posts_page}", array( $this, 'add_delete_posts_meta_boxes' ) );
 
 		// delete pages page
-		add_action( "load-{$this->pages_page}", array( &$this, 'add_delete_pages_settings_panel' ) );
-		add_action( "add_meta_boxes_{$this->pages_page}", array( &$this, 'add_delete_pages_meta_boxes' ) );
+		add_action( "load-{$this->pages_page}", array( $this, 'add_delete_pages_settings_panel' ) );
+		add_action( "add_meta_boxes_{$this->pages_page}", array( $this, 'add_delete_pages_meta_boxes' ) );
 
 		// delete users page
-		add_action( "load-{$this->users_page}", array( &$this, 'add_delete_users_settings_panel' ) );
-		add_action( "add_meta_boxes_{$this->users_page}", array( &$this, 'add_delete_users_meta_boxes' ) );
+		add_action( "load-{$this->users_page}", array( $this, 'add_delete_users_settings_panel' ) );
+		add_action( "add_meta_boxes_{$this->users_page}", array( $this, 'add_delete_users_meta_boxes' ) );
 	}
 
 	/**
