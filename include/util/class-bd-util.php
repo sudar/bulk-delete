@@ -146,7 +146,7 @@ class BD_Util {
 						$cron_item['id'] = $i;
 					}
 
-					$cron_items[$i] = $cron_item;
+					$cron_items[ $i ] = $cron_item;
 					$i++;
 				}
 			}
@@ -320,7 +320,7 @@ function bd_build_query_options( $delete_options, $options = array() ) {
  * This function was originally defined in the Bulk Delete Attachment addon.
  *
  * @since 5.5
- * @return array List of allowed mime types
+ * @return array List of allowed mime types after formatting
  */
 function bd_get_allowed_mime_types() {
 	$mime_types = get_allowed_mime_types();
@@ -339,7 +339,7 @@ function bd_get_allowed_mime_types() {
 			$last_value = $prefix;
 		}
 
-		$processed_mime_types[$value] = $value;
+		$processed_mime_types[ $value ] = $value;
 	}
 
 	return $processed_mime_types;

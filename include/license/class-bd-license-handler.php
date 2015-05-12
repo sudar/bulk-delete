@@ -61,6 +61,13 @@ class BD_License_Handler {
 	private $updater;
 
 	/**
+	 * Notice Message.
+	 *
+	 * @since 5.5
+	 */
+	private $notice_msg = '';
+
+	/**
 	 * Constructor
 	 *
 	 * @since 5.0
@@ -80,12 +87,49 @@ class BD_License_Handler {
 		$this->author          = $author;
 
 		$this->hooks();
+	}
 
-		// TODO: Don't check license on every load
-		if ( BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
-			$license_code = BD_License::get_license_code( $this->addon_code );
-			if ( false != $license_code ) {
-				$this->hook_updater( $license_code );
+	/**
+	 * setup hooks
+	 *
+	 * @access private
+	 * @since 5.0
+	 */
+	private function hooks() {
+		add_action( 'admin_init', array( $this, 'check_license' ), 0 );
+		add_action( 'admin_notices', array( $this, 'show_admin_notices' ) );
+		add_action( 'after_plugin_row_' . $this->plugin_basename, array( $this, 'plugin_row' ), 11, 3 );
+
+		add_action( 'bd_license_form' , array( $this, 'display_license_form' ) );
+		add_action( 'bd_license_field', array( $this, 'add_license_field' ) );
+		add_filter( 'bd_license_input', array( $this, 'parse_license_input' ), 1 );
+	}
+
+	/**
+	 * Check whether the license is valid for the addon.
+	 *
+	 * If the license is not valid then add a notice about it.
+	 * If it is valid then hook the plugin updater.
+	 *
+	 * @since 5.5
+	 */
+	public function check_license() {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return;
+		}
+
+		$addon_url = 'http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=plugin-list&utm_content=' . strtolower( $this->addon_code );
+		$license_code = BD_License::get_license_code( $this->addon_code );
+
+		if ( false == $license_code ) {
+			$this->notice_msg = sprintf( __( '"%1$s" addon is installed but not activated. To activate the addon, please <a href="%2$s">enter your license key</a>. If you don\'t have a license key, then you can <a href="%3$s" target="_blank">purchase one</a>.', 'bulk-delete' ), $this->addon_name, esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ), esc_url( $addon_url ) );
+		} else {
+			if ( BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
+				if ( false != $license_code ) {
+					$this->hook_updater( $license_code );
+				}
+			} else {
+				$this->notice_msg = sprintf( __( 'The license for "%1$s" addon is either invalid or has expired. Please <a href="%2$s" target="_blank">renew the license</a> or <a href="%3$s">enter a new license key</a> to receive updates and support.', 'bulk-delete' ), $this->addon_name, esc_url( $addon_url ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ) );
 			}
 		}
 	}
@@ -113,18 +157,10 @@ class BD_License_Handler {
 		);
 	}
 
-	/**
-	 * setup hooks
-	 *
-	 * @access private
-	 * @since 5.0
-	 */
-	private function hooks() {
-		add_action( 'bd_license_form' , array( $this, 'display_license_form' ) );
-		add_action( 'bd_license_field', array( $this, 'add_license_field' ) );
-		add_filter( 'bd_license_input', array( $this, 'parse_license_input' ), 1 );
-
-		add_action( 'after_plugin_row_' . $this->plugin_basename, array( $this, 'plugin_row' ), 11, 3 );
+	public function show_admin_notices() {
+		if ( '' != $this->notice_msg ) {
+			printf( '<div class="error"><p><strong>%s</strong></p></div>', $this->notice_msg );
+		}
 	}
 
 	/**
@@ -141,24 +177,23 @@ class BD_License_Handler {
 		}
 
 		$addon_url = 'http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=plugin-list&utm_content=' . strtolower( $this->addon_code );
-
 		$license_code = BD_License::get_license_code( $this->addon_code );
 		if ( false == $license_code ) {
-			$message = sprintf( __( 'Addon is not activated. To activate the addon, please <a href="%1$s">enter your license key</a>. If you don\'t have a license key, then you can <a href="%2$s" target="_blank">purchase one</a>', 'bulk-delete' ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ), esc_url( $addon_url ) );
+			$plugin_row_msg = sprintf( __( 'Addon is not activated. To activate the addon, please <a href="%1$s">enter your license key</a>. If you don\'t have a license key, then you can <a href="%2$s" target="_blank">purchase one</a>.', 'bulk-delete' ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ), esc_url( $addon_url ) );
 ?>
 			<tr class="plugin-update-tr">
 				<td colspan="3" class="plugin-update">
-					<div class="update-message"><span class="bd-licence-activate-notice"><?php echo $message; ?></span></div>
+					<div class="update-message"><span class="bd-licence-activate-notice"><?php echo $plugin_row_msg; ?></span></div>
 				</td>
 			</tr>
 <?php
 		} else {
 			if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
-				$message = sprintf( __( 'The license for this addon is either invalid or has expired. Please <a href="%1$s" target="_blank">renew the license</a> or <a href="%2$s">enter a new license key</a> to receive updates and support.', 'bulk-delete' ), esc_url( $addon_url ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ) );
+				$plugin_row_msg = sprintf( __( 'The license for this addon is either invalid or has expired. Please <a href="%1$s" target="_blank">renew the license</a> or <a href="%2$s">enter a new license key</a> to receive updates and support.', 'bulk-delete' ), esc_url( $addon_url ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ) );
 ?>
 				<tr class="plugin-update-tr">
 					<td colspan="3" class="plugin-update">
-						<div class="update-message"><span class="bd-licence-activate-notice"><?php echo $message; ?></span></div>
+						<div class="update-message"><span class="bd-licence-activate-notice"><?php echo $plugin_row_msg; ?></span></div>
 					</td>
 				</tr>
 <?php
