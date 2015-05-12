@@ -1,3 +1,6 @@
+before_commands:
+    - git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards ../wordpress-coding-standards/
+
 filter:
     excluded_paths:
         - assets-wp-repo/*
@@ -9,7 +12,13 @@ tools:
     php_sim: false
     php_pdepend: true
     php_analyzer: true
-    php_code_sniffer: true
+    php_code_sniffer:
+        enabled: true
+        config:
+            include_standard:
+                - ../wordpress-coding-standard/
+            ruleset: ./phpcs.xml
+
     php_code_coverage: true
     sensiolabs_security_checker: true
     php_loc:
@@ -36,8 +45,6 @@ checks:
         param_doc_comment_if_not_inferrable: true
         optional_parameters_at_the_end: true
         avoid_perl_style_comments: true
-        coding_standard:
-            name: WordPress-Extra
         encourage_postdec_operator: true
         encourage_single_quotes: true
         fix_line_ending: true
