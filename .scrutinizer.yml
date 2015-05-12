@@ -17,7 +17,7 @@ tools:
         excluded_dirs: [vendor, tests, languages, bin, assets, assets-wp-repo, include/libraries]
 
 checks:
-	php:
+    php:
         code_rating: true
         duplication: true
         verify_property_names: true
