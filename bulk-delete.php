@@ -125,6 +125,9 @@ final class Bulk_Delete {
 	public $addon_page;
 	public $info_page;
 	public $settings_page;
+	public $meta_page;
+	public $misc_page;
+	public $display_activate_license_form = false;
 
 	/**
 	 * List of page slugs.
