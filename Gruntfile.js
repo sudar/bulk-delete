@@ -37,24 +37,13 @@ module.exports = function( grunt ) {
 					' */\n'
 			},
 			bulkdelete: {
-				src: [
-					'assets/js/src/bulk-delete.js'
-				],
+				src: 'assets/js/src/bulk-delete.js',
 				dest: 'assets/js/bulk-delete.js'
-			},
-			timepicker: {
-				src: [
-					'assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js'
-				],
-				dest: 'assets/js/jquery-ui-timepicker-addon.min.js'
 			}
 		},
 
 		uglify: {
 			all: {
-				files: {
-					'assets/js/bulk-delete.min.js': ['assets/js/bulk-delete.js']
-				},
 				options: {
 					banner: '/*! <%= pkg.title %> - v<%= pkg.version %> \n' +
 						' * <%= pkg.homepage %>\n' +
@@ -64,14 +53,17 @@ module.exports = function( grunt ) {
 					mangle: {
 						except: ['jQuery']
 					}
+				},
+				files: {
+					'assets/js/bulk-delete.min.js': ['assets/js/bulk-delete.js']
 				}
 			}
 		},
 
 		watch:  {
 			scripts: {
-				files: ['assets/js/src/*.js', 'assets/js/src/**/*.js'],
-				tasks: ['jshint', 'concat', 'uglify'],
+				files: ['assets/js/src/**/*.js'],
+				tasks: ['jshint:browser', 'concat', 'uglify'],
 				options: {
 					debounceDelay: 500
 				}
@@ -79,19 +71,31 @@ module.exports = function( grunt ) {
 		},
 
 		copy: {
-			main: {
+			timepicker: {
 				files: [{
-					src : ['assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js'],
+					src : 'assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
 					dest: 'assets/js/jquery-ui-timepicker-addon.min.js'
 				},
 				{
-					src : ['assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css'],
+					src : 'assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css',
 					dest: 'assets/css/jquery-ui-timepicker-addon.min.css'
+				}]
+			},
+			select2: {
+				files: [{
+					src : 'assets/vendor/select2/dist/js/select2.min.js',
+					dest: 'assets/js/select2.min.js'
+				},
+				{
+					src : 'assets/vendor/select2/dist/css/select2.min.css',
+					dest: 'assets/css/select2.min.css'
 				}]
 			}
 		}
 	} );
 
-	grunt.registerTask( 'default', ['jshint', 'concat', 'uglify', 'copy'] );
+	grunt.registerTask('default', ['jshint:browser', 'concat', 'uglify']);
+	grunt.registerTask('build', ['copy']);
+
 	grunt.util.linefeed = '\n';
 };

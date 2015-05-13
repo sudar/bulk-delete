@@ -1,33 +1,34 @@
 {
-	"name": "bulk-delete",
-	"title": "Bulk Delete",
-	"description": "Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, users and meta fields in bulk based on different conditions and filters.",
-	"version": "5.5.0",
-	"homepage": "http://bulkwp.com",
-	"author": {
-		"name": "Bulk WP",
-		"email": "support@bulkwp.com",
-		"url": "http://bulkwp.com"
-	},
-	"bugs": {
-		"url" : "https://github.com/sudar/bulk-delete/issues",
-		"email" : "support@bulkwp.com"
-	},
-	"repository" : {
-		"type" : "git",
-		"url" : "https://github.com/sudar/bulk-delete.git"
-	},
-	"devDependencies": {
-		"grunt"                  : "latest",
-		"matchdep"               : "latest",
-		"grunt-contrib-concat"   : "latest",
-		"grunt-contrib-uglify"   : "latest",
-		"grunt-contrib-cssmin"   : "latest",
-		"grunt-contrib-jshint"   : "latest",
-		"grunt-contrib-watch"    : "latest",
-		"grunt-contrib-clean"    : "latest",
-		"grunt-contrib-copy"     : "latest",
-		"time-grunt"             : "latest"
-	},
-	"private": true
+  "name": "bulk-delete",
+  "title": "Bulk Delete",
+  "description": "Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, users and meta fields in bulk based on different conditions and filters.",
+  "version": "5.5.0",
+  "homepage": "http://bulkwp.com",
+  "license": "GPLv2+",
+  "author": {
+    "name": "Bulk WP",
+    "email": "support@bulkwp.com",
+    "url": "http://bulkwp.com"
+  },
+  "bugs": {
+    "url": "https://github.com/sudar/bulk-delete/issues",
+    "email": "support@bulkwp.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sudar/bulk-delete.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-cssmin": "^0.12.3",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "matchdep": "^0.3.0",
+    "time-grunt": "^1.2.0"
+  },
+  "private": true
 }
