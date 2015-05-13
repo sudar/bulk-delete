@@ -10,17 +10,17 @@ module.exports = function( grunt ) {
 
 		jshint: {
 			browser: {
-				all: [
-					'assets/js/src/**/*.js',
-				],
+				files: {
+					src: [ 'assets/js/src/*.js' ]
+				},
 				options: {
 					jshintrc: '.jshintrc'
 				}
 			},
 			grunt: {
-				all: [
-					'Gruntfile.js'
-				],
+				files:{
+					src: [ 'Gruntfile.js' ] 
+				},
 				options: {
 					jshintrc: '.gruntjshintrc'
 				}
