@@ -314,51 +314,34 @@ class Bulk_Delete_Posts {
         <h4><?php _e( 'Select the post type whose category posts you want to delete', 'bulk-delete' ); ?></h4>
         <fieldset class="options">
         <table class="optiontable">
-<?php
-		foreach ( $types as $type ) {
-?>
             <tr>
                 <td scope="row" >
-                <input name="smbd_cat_post_type" value = "<?php echo $type; ?>" type = "radio"  class = "smbd_cat_post_type" <?php checked( $type, 'post' ); ?>>
-                </td>
-                <td>
-                    <label for="smbd_cat_post_type"><?php echo $type; ?> </label>
+					<select class="select2" name="smbd_cat_post_type">
+						<?php foreach ( $types as $type ) { ?>
+							<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_html( $type ); ?></option>
+						<?php } ?>
+					</select>
                 </td>
             </tr>
-<?php
-		}
-?>
         </table>
 
         <h4><?php _e( 'Select the categories whose post you want to delete', 'bulk-delete' ); ?></h4>
         <p><?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?></p>
 <?php
-		$categories =  get_categories( array(
-				'hide_empty' => false
+		$categories = get_categories( array(
+				'hide_empty' => false,
 			)
 		);
 ?>
         <table class="optiontable">
-<?php
-		foreach ( $categories as $category ) {
-?>
             <tr>
-                <td scope="row" >
-                    <input name="smbd_cats[]" value = "<?php echo $category->cat_ID; ?>" type = "checkbox" >
-                </td>
-                <td>
-                    <label for="smbd_cats"><?php echo $category->cat_name; ?> (<?php echo $category->count . " "; _e( 'Posts', 'bulk-delete' ); ?>)</label>
-                </td>
-            </tr>
-<?php
-		}
-?>
-            <tr>
-                <td scope="row" >
-                    <input name="smbd_cats_all" id ="smbd_cats_all" value = "-1" type = "checkbox" >
-                </td>
-                <td>
-                    <label for="smbd_cats_all"><?php _e( "All Categories", 'bulk-delete' ) ?></label>
+                <td scope="row">
+					<select class="select2" name="smbd_cats[]">
+						<option value="all"><?php _e( 'All Categories', 'bulk-delete' ); ?></option>
+		<?php foreach ( $categories as $category ) { ?>
+			<option value="<?php echo $category->cat_ID; ?>"><?php echo $category->cat_name, ' (', $category->count, ' ', __( 'Posts', 'bulk-delete' ), ')'; ?></option>
+		<?php } ?>
+					</select>
                 </td>
             </tr>
         </table>
@@ -366,7 +349,7 @@ class Bulk_Delete_Posts {
         <table class="optiontable">
             <tr>
                 <td colspan="2">
-                    <h4><?php _e( "Choose your filtering options", 'bulk-delete' ); ?></h4>
+                    <h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
                 </td>
             </tr>
 
@@ -375,12 +358,12 @@ class Bulk_Delete_Posts {
                     <input name="smbd_cats_restrict" id="smbd_cats_restrict" value = "true" type = "checkbox" >
                 </td>
                 <td>
-                    <?php _e( "Only restrict to posts which are ", 'bulk-delete' );?>
+                    <?php _e( 'Only restrict to posts which are ', 'bulk-delete' );?>
                     <select name="smbd_cats_op" id="smbd_cats_op" disabled>
-                        <option value ="<"><?php _e( "older than", 'bulk-delete' );?></option>
-                        <option value =">"><?php _e( "posted within last", 'bulk-delete' );?></option>
+                        <option value='before'><?php _e( 'older than', 'bulk-delete' );?></option>
+                        <option value='after'><?php _e( 'posted within last', 'bulk-delete' );?></option>
                     </select>
-                    <input type ="textbox" name="smbd_cats_days" id="smbd_cats_days" disabled value ="0" maxlength="4" size="4" /><?php _e( "days", 'bulk-delete' );?>
+                    <input type="number" name="smbd_cats_days" id="smbd_cats_days" class="screen-per-page" disabled value="0" min="0"><?php _e( 'days', 'bulk-delete' );?>
                 </td>
             </tr>
 
@@ -403,9 +386,9 @@ class Bulk_Delete_Posts {
                     <input name="smbd_cats_limit" id="smbd_cats_limit" value = "true" type = "checkbox">
                 </td>
                 <td>
-                    <?php _e( "Only delete first ", 'bulk-delete' );?>
+                    <?php _e( 'Only delete first ', 'bulk-delete' );?>
                     <input type ="textbox" name="smbd_cats_limit_to" id="smbd_cats_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e( "posts.", 'bulk-delete' );?>
-                    <?php _e( "Use this option if there are more than 1000 posts and the script timesout.", 'bulk-delete' ) ?>
+                    <?php _e( 'Use this option if there are more than 1000 posts and the script timesout.', 'bulk-delete' ) ?>
                 </td>
             </tr>
 
@@ -452,19 +435,19 @@ class Bulk_Delete_Posts {
 	 * @static
 	 */
 	public static function do_delete_posts_by_category() {
-
 		$delete_options = array();
+
 		$delete_options['post_type']     = array_get( $_POST, 'smbd_cat_post_type', 'post' );
 		$delete_options['selected_cats'] = array_get( $_POST, 'smbd_cats' );
-		$delete_options['restrict']      = array_get( $_POST, 'smbd_cats_restrict', false );
-		$delete_options['private']       = array_get( $_POST, 'smbd_cats_private' );
+		$delete_options['restrict']      = array_get_bool( $_POST, 'smbd_cats_restrict', false );
+		$delete_options['private']       = array_get_bool( $_POST, 'smbd_cats_private', false );
 		$delete_options['limit_to']      = absint( array_get( $_POST, 'smbd_cats_limit_to', 0 ) );
-		$delete_options['force_delete']  = array_get( $_POST, 'smbd_cats_force_delete', 'false' );
+		$delete_options['force_delete']  = array_get_bool( $_POST, 'smbd_cats_force_delete', false );
 
-		$delete_options['cats_op']       = array_get( $_POST, 'smbd_cats_op' );
-		$delete_options['cats_days']     = array_get( $_POST, 'smbd_cats_days' );
+		$delete_options['date_op']       = array_get( $_POST, 'smbd_cats_op' );
+		$delete_options['days']          = absint( array_get( $_POST, 'smbd_cats_days' ) );
 
-		if ( array_get( $_POST, 'smbd_cats_cron', 'false' ) == 'true' ) {
+		if ( array_get_bool( $_POST, 'smbd_cats_cron', false ) ) {
 			$freq = $_POST['smbd_cats_cron_freq'];
 			$time = strtotime( $_POST['smbd_cats_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
@@ -498,45 +481,30 @@ class Bulk_Delete_Posts {
 	 * @return int   $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_category( $delete_options ) {
+		// Backward compatibility code. Will be removed in Bulk Delete v6.0
+		$delete_options['post_type'] = array_get( $delete_options, 'post_type', 'post' );
 
-		// For compatibility reasons set default post type to 'post'
-		$post_type     = array_get( $delete_options, 'post_type', 'post' );
+		if ( array_key_exists( 'cats_op', $delete_options ) ) {
+			$delete_options['date_op'] = $delete_options['cats_op'];
+			$delete_options['days']    = $delete_options['cats_days'];
+		}
+
+		$delete_options = bd_delete_options_compatibility( $delete_options );
+
+		$options = array();
 		$selected_cats = $delete_options['selected_cats'];
-
-		$options = array(
-			'post_type'    => $post_type,
-			'category__in' => $selected_cats,
-			'post_status'  => 'publish'
-		);
-
-		$private = $delete_options['private'];
-
-		if ( $private == 'true' ) {
-			$options[ 'post_status' ] = 'private';
-		}
-
-		$limit_to = $delete_options['limit_to'];
-
-		if ( $limit_to > 0 ) {
-			$options['showposts'] = $limit_to;
+		if ( in_array( 'all', $selected_cats ) ) {
+			$options['category__not__in'] = array(0);
 		} else {
-			$options['nopaging']  = 'true';
+			$options['category__in'] = $selected_cats;
 		}
 
-		if ( $delete_options['restrict'] == "true" ) {
-			$options['op'] = $delete_options['cats_op'];
-			$options['days'] = $delete_options['cats_days'];
-
-			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
-				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
-			}
-			new Bulk_Delete_By_Days;
-		}
-
+		$options = bd_build_query_options( $delete_options, $options );
 		$post_ids = bd_query( $options );
+
 		foreach ( $post_ids as $post_id ) {
 			// $force delete parameter to custom post types doesn't work
-			if ( 'true' == $delete_options['force_delete'] ) {
+			if ( $delete_options['force_delete'] ) {
 				wp_delete_post( $post_id, true );
 			} else {
 				wp_trash_post( $post_id );
@@ -1628,6 +1596,8 @@ class Bulk_Delete_Posts {
 	public static function filter_js_array( $js_array ) {
 		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
 		$js_array['msg']['selectPostOption'] = __( 'Please select posts from at least one option', 'bulk-delete' );
+
+		$js_array['validators']['delete_posts_by_category'] = 'noValidation';
 
 		$js_array['validators']['delete_posts_by_url'] = 'validateUrl';
 		$js_array['error_msg']['delete_posts_by_url'] = 'enterUrl';

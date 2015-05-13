@@ -234,6 +234,7 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/util/class-bd-util.php';
 		require_once self::$PLUGIN_DIR . '/include/util/addons.php';
+		require_once self::$PLUGIN_DIR . '/include/util/deprecated.php';
 
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license.php';
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license-handler.php';
@@ -464,6 +465,9 @@ final class Bulk_Delete {
 
 		wp_enqueue_script( 'jquery-ui-timepicker', plugins_url( '/assets/js/jquery-ui-timepicker-addon.min.js', __FILE__ ), array( 'jquery-ui-slider', 'jquery-ui-datepicker' ), '1.5.4', true );
 		wp_enqueue_style( 'jquery-ui-timepicker', plugins_url( '/assets/css/jquery-ui-timepicker-addon.min.css', __FILE__ ), array(), '1.5.4' );
+
+		wp_enqueue_script( 'select2', plugins_url( '/assets/js/select2.min.js', __FILE__ ), array( 'jquery' ), '4.0.0', true );
+		wp_enqueue_style( 'select2', plugins_url( '/assets/css/select2.min.css', __FILE__ ), array(), '4.0.0' );
 
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/assets/js/bulk-delete' . $postfix . '.js', __FILE__ ), array( 'jquery-ui-timepicker' ), self::VERSION, true );

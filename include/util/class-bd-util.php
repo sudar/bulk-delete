@@ -241,6 +241,17 @@ if ( ! function_exists( 'array_get_bool' ) ) {
 }
 
 /**
+ * Convert a string value into boolean, based on whether the value "True" or "False" is present.
+ *
+ * @since 5.5
+ * @param string $string String value to compare.
+ * @return bool True if string is "True", False otherwise.
+ */
+function bd_to_bool( $string ) {
+	return filter_var( $string, FILTER_VALIDATE_BOOLEAN );
+}
+
+/**
  * Wrapper for WP_query.
  *
  * Adds some performance enhancing defaults.
@@ -300,15 +311,6 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 					$delete_options['date_op'] => "{$delete_options['days']} day ago",
 				),
 			);
-		} else {
-			// backward compatibility. This will be removed in Bulk Delete v6.0
-			$options['op']   = $delete_options['date_op'];
-			$options['days'] = $delete_options['days'];
-
-			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
-				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
-			}
-			new Bulk_Delete_By_Days();
 		}
 	}
 

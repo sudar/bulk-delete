@@ -1,14 +1,18 @@
 /**
  * JavaScript for Bulk Delete Plugin
  *
- * http://sudarmuthu.com/wordpress/bulk-delete
+ * http://bulkwp.com
  *
  * @author: Sudar <http://sudarmuthu.com>
- *
  */
 
-/*global BulkWP, jQuery, postboxes, pagenow*/
+/*global BulkWP, postboxes, pagenow*/
 jQuery(document).ready(function () {
+	/**
+	 * Enable select2
+	 */
+	jQuery( '.select2' ).select2();
+
     /**
      * Enable Postbox handling
      */
@@ -55,15 +59,6 @@ jQuery(document).ready(function () {
         if ($this.is(':checked')) {
             hideAllTerms();
             $terms.show('slow');
-        }
-    });
-
-    // Handle selection of all checkboxes of cats
-    jQuery('#smbd_cats_all').change(function () {
-        if (jQuery(this).is(':checked')) {
-            jQuery('input[name="smbd_cats[]"]').attr('checked', true);
-        } else {
-            jQuery('input[name="smbd_cats[]"]').attr('checked', false);
         }
     });
 
@@ -128,9 +123,9 @@ jQuery(document).ready(function () {
     /**
      * Validation functions
      */
-    BulkWP.noValidation = function(that) {
+    BulkWP.noValidation = function() {
         return true;
-    }
+    };
 
     BulkWP.validateUrl = function(that) {
         if (jQuery(that).parent().prev().children('table').find("textarea").val() !== '') {
@@ -138,5 +133,5 @@ jQuery(document).ready(function () {
         } else {
             return false;
         }
-    }
+    };
 });
