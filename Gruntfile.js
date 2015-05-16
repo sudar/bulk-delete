@@ -90,16 +90,6 @@ module.exports = function( grunt ) {
 					src : 'assets/vendor/select2/dist/css/select2.min.css',
 					dest: 'assets/css/select2.min.css'
 				}]
-			},
-			select2: {
-				files: [{
-					src : 'assets/vendor/select2/dist/js/select2.min.js',
-					dest: 'assets/js/select2.min.js'
-				},
-				{
-					src : 'assets/vendor/select2/dist/css/select2.min.css',
-					dest: 'assets/css/select2.min.css'
-				}]
 			}
 		}
 	} );
