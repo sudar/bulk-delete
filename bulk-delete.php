@@ -232,6 +232,8 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/settings/setting-helpers.php';
 		require_once self::$PLUGIN_DIR . '/include/settings/class-bd-settings.php';
 
+		require_once self::$PLUGIN_DIR . '/include/system-info/class-bulk-delete-system-info.php';
+
 		require_once self::$PLUGIN_DIR . '/include/util/class-bd-util.php';
 		require_once self::$PLUGIN_DIR . '/include/util/addons.php';
 		require_once self::$PLUGIN_DIR . '/include/util/deprecated.php';
@@ -241,7 +243,6 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-edd-api-wrapper.php';
 
 		require_once self::$PLUGIN_DIR . '/include/ui/admin-ui.php';
-		require_once self::$PLUGIN_DIR . '/include/ui/class-bulk-delete-system-info.php';
 		require_once self::$PLUGIN_DIR . '/include/ui/class-bulk-delete-help-screen.php';
 	}
 
