@@ -62,15 +62,6 @@ jQuery(document).ready(function () {
         }
     });
 
-    // Handle selection of all checkboxes of tags
-    jQuery('#smbd_tags_all').change(function () {
-        if (jQuery(this).is(':checked')) {
-            jQuery('input[name="smbd_tags[]"]').attr('checked', true);
-        } else {
-            jQuery('input[name="smbd_tags[]"]').attr('checked', false);
-        }
-    });
-
     // date time picker
     jQuery.each(BulkWP.dt_iterators, function (index, value) {
         // invoke the date time picker
