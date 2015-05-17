@@ -523,7 +523,7 @@ final class Bulk_Delete {
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
-            <div class="updated" >
+            <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Posts deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
 
@@ -575,7 +575,7 @@ final class Bulk_Delete {
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
-            <div class = "updated">
+            <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Pages deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
 
@@ -626,7 +626,7 @@ final class Bulk_Delete {
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
-            <div class = "updated">
+            <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Users deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
 
