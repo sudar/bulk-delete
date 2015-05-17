@@ -66,6 +66,8 @@ final class Bulk_Delete {
 	const JS_HANDLE                 = 'bulk-delete';
 	const JS_VARIABLE               = 'BulkWP';
 
+	const CSS_HANDLE                = 'bulk-delete';
+
 	// Cron hooks
 	const CRON_HOOK_CATEGORY        = 'do-bulk-delete-cat';
 	const CRON_HOOK_POST_STATUS     = 'do-bulk-delete-post-status';
@@ -475,6 +477,7 @@ final class Bulk_Delete {
 
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/assets/js/bulk-delete' . $postfix . '.js', __FILE__ ), array( 'jquery-ui-timepicker' ), self::VERSION, true );
+		wp_enqueue_style( self::CSS_HANDLE, plugins_url( '/assets/css/bulk-delete' . $postfix . '.css', __FILE__ ), array( 'select2' ), self::VERSION );
 
 		$ui = $wp_scripts->query( 'jquery-ui-core' );
 		$url = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";

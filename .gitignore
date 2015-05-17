@@ -6,6 +6,7 @@
 /assets/vendor/
 /assets/js/*.js
 /assets/css/*.css
+/assets/**/*.map
 
 # OS generated files #
 ######################

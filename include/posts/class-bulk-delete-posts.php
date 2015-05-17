@@ -252,11 +252,11 @@ class Bulk_Delete_Posts {
 			)
 		);
 ?>
-        <table class="optiontable">
+        <table class="form-table">
             <tr>
                 <td scope="row">
-					<select class="select2" name="smbd_cats[]">
-						<option value="all"><?php _e( 'All Categories', 'bulk-delete' ); ?></option>
+				<select class="select2" name="smbd_cats[]" multiple data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>">
+					<option value="all"><?php _e( 'All Categories', 'bulk-delete' ); ?></option>
 		<?php foreach ( $categories as $category ) { ?>
 			<option value="<?php echo $category->cat_ID; ?>"><?php echo $category->cat_name, ' (', $category->count, ' ', __( 'Posts', 'bulk-delete' ), ')'; ?></option>
 		<?php } ?>
@@ -266,85 +266,17 @@ class Bulk_Delete_Posts {
         </table>
 
         <table class="optiontable">
-            <tr>
-                <td colspan="2">
-                    <h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
-                </td>
-            </tr>
-
-            <tr>
-                <td scope="row">
-                    <input name="smbd_cats_restrict" id="smbd_cats_restrict" value = "true" type = "checkbox" >
-                </td>
-                <td>
-                    <?php _e( 'Only restrict to posts which are ', 'bulk-delete' );?>
-                    <select name="smbd_cats_op" id="smbd_cats_op" disabled>
-                        <option value='before'><?php _e( 'older than', 'bulk-delete' );?></option>
-                        <option value='after'><?php _e( 'posted within last', 'bulk-delete' );?></option>
-                    </select>
-                    <input type="number" name="smbd_cats_days" id="smbd_cats_days" class="screen-per-page" disabled value="0" min="0"><?php _e( 'days', 'bulk-delete' );?>
-                </td>
-            </tr>
-
-            <tr>
-                <td scope="row" colspan="2">
-                    <input name="smbd_cats_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
-                    <input name="smbd_cats_force_delete" value = "true" type = "radio" /> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
-                </td>
-            </tr>
-
-            <tr>
-                <td scope="row" colspan="2">
-                    <input name="smbd_cats_private" value = "false" type = "radio" checked="checked" /> <?php _e( 'Public posts', 'bulk-delete' ); ?>
-                    <input name="smbd_cats_private" value = "true" type = "radio" /> <?php _e( 'Private Posts', 'bulk-delete' ); ?>
-                </td>
-            </tr>
-
-            <tr>
-                <td scope="row">
-                    <input name="smbd_cats_limit" id="smbd_cats_limit" value = "true" type = "checkbox">
-                </td>
-                <td>
-                    <?php _e( 'Only delete first ', 'bulk-delete' );?>
-                    <input type ="textbox" name="smbd_cats_limit_to" id="smbd_cats_limit_to" disabled value ="0" maxlength="4" size="4" /><?php _e( "posts.", 'bulk-delete' );?>
-                    <?php _e( 'Use this option if there are more than 1000 posts and the script timesout.', 'bulk-delete' ) ?>
-                </td>
-            </tr>
-
-            <tr>
-                <td scope="row" colspan="2">
-                    <input name="smbd_cats_cron" value = "false" type = "radio" checked="checked" /> <?php _e( 'Delete now', 'bulk-delete' ); ?>
-                    <input name="smbd_cats_cron" value = "true" type = "radio" id = "smbd_cats_cron" disabled > <?php _e( 'Schedule', 'bulk-delete' ); ?>
-                    <input name="smbd_cats_cron_start" id = "smbd_cats_cron_start" value = "now" type = "text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
-                    <select name = "smbd_cats_cron_freq" id = "smbd_cats_cron_freq" disabled>
-                        <option value = "-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
-<?php
-		$schedules = wp_get_schedules();
-		foreach ( $schedules as $key => $value ) {
-?>
-                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
-<?php
-		}
-?>
-                    </select>
-                    <span class = "bd-cats-pro" style = "color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sc">Buy now</a></span>
-                </td>
-            </tr>
-
-            <tr>
-                <td scope="row" colspan="2">
-                    <?php _e( "Enter time in Y-m-d H:i:s format or enter now to use current time", 'bulk-delete' );?>
-                </td>
-            </tr>
-
+			<?php bd_render_filtering_table_header(); ?>
+			<?php bd_render_restrict_settings( 'cats' ); ?>
+			<?php bd_render_delete_settings( 'cats' ); ?>
+			<?php bd_render_private_post_settings( 'cats' ); ?>
+			<?php bd_render_limit_settings( 'cats' ); ?>
+			<?php bd_render_cron_settings( 'cats', 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sc' ); ?>
         </table>
-        </fieldset>
 
-        <p>
-            <button type="submit" name="bd_action" value = "delete_posts_by_category" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ); ?>&raquo;</button>
-        </p>
-        <!-- Category end-->
+        </fieldset>
 <?php
+		bd_render_submit_button( 'delete_posts_by_category' );
 	}
 
 	/**
@@ -396,7 +328,7 @@ class Bulk_Delete_Posts {
 	 *
 	 * @since 5.0
 	 * @static
-	 * @param array   $delete_options Options for deleting posts
+	 * @param array  $delete_options Options for deleting posts
 	 * @return int   $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_category( $delete_options ) {
@@ -1516,7 +1448,9 @@ class Bulk_Delete_Posts {
 		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
 		$js_array['msg']['selectPostOption'] = __( 'Please select posts from at least one option', 'bulk-delete' );
 
-		$js_array['validators']['delete_posts_by_category'] = 'noValidation';
+		$js_array['validators']['delete_posts_by_category'] = 'validateSelect2';
+		$js_array['error_msg']['delete_posts_by_category'] = 'selectCategory';
+		$js_array['msg']['selectCategory'] = __( 'Please select at least one category', 'bulk-delete' );
 
 		$js_array['validators']['delete_posts_by_url'] = 'validateUrl';
 		$js_array['error_msg']['delete_posts_by_url'] = 'enterUrl';

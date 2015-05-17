@@ -127,6 +127,14 @@ jQuery(document).ready(function () {
         return true;
     };
 
+    BulkWP.validateSelect2 = function(that) {
+    	if (null !== jQuery(that).parent().prev().children().find(".select2[multiple]").val()) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    };
+
     BulkWP.validateUrl = function(that) {
         if (jQuery(that).parent().prev().children('table').find("textarea").val() !== '') {
             return true;

@@ -34,11 +34,18 @@ module.exports = function( grunt ) {
 					' * <%= pkg.homepage %>\n' +
 					' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
 					' * Licensed GPLv2+' +
-					' */\n'
+					' */\n',
+				sourceMap: true
 			},
-			bulkdelete: {
-				src: 'assets/js/src/bulk-delete.js',
-				dest: 'assets/js/bulk-delete.js'
+			css: {
+				files: {
+					'assets/css/bulk-delete.css': ['assets/css/src/**/*.css']
+				}
+			},
+			scripts: {
+				files: {
+					'assets/js/bulk-delete.js': ['assets/js/src/**/*.js']
+				}
 			}
 		},
 
@@ -60,10 +67,24 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		cssmin: {
+			minify: {
+				src: 'assets/css/bulk-delete.css',
+				dest: 'assets/css/bulk-delete.min.css'
+			}
+		},
+
 		watch:  {
 			scripts: {
 				files: ['assets/js/src/**/*.js'],
 				tasks: ['jshint:browser', 'concat', 'uglify'],
+				options: {
+					debounceDelay: 500
+				}
+			},
+			css: {
+				files: ['assets/css/src/**/*.css'],
+				tasks: ['concat', 'cssmin'],
 				options: {
 					debounceDelay: 500
 				}
@@ -94,7 +115,7 @@ module.exports = function( grunt ) {
 		}
 	} );
 
-	grunt.registerTask('default', ['jshint:browser', 'concat', 'uglify']);
+	grunt.registerTask('default', ['jshint:browser', 'concat', 'uglify', 'cssmin']);
 	grunt.registerTask('build', ['copy']);
 
 	grunt.util.linefeed = '\n';
