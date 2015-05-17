@@ -1,9 +1,10 @@
 ## Changelog ##
 
-### 5.5 - In Development (Dev time: 25 hours) ###
+### 5.5 - In Development (Dev time: 30 hours) ###
 - New: (Addon) Added the ability to delete attachments. (Issue #98)
 - New: Improve UI of dropdowns. (Issue #101)
 
+- Tweak: Tweak the code that generates the UI and lot of hidden improvement.
 - Tweak: Tweak the code that retrieves Mysql version. (Issue #102)
 - Tweak: Tweak the license handling code. (Issue #92)
 - Tweak: Tweak the build process

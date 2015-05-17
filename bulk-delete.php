@@ -216,6 +216,8 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function includes() {
+		require_once self::$PLUGIN_DIR . '/include/ui/form.php';
+
 		require_once self::$PLUGIN_DIR . '/include/posts/class-bulk-delete-posts.php';
 		require_once self::$PLUGIN_DIR . '/include/pages/class-bulk-delete-pages.php';
 		require_once self::$PLUGIN_DIR . '/include/users/class-bulk-delete-users.php';
