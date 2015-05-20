@@ -158,7 +158,6 @@ class Bulk_Delete_Posts {
 		}
 		$delete_options = bd_delete_options_compatibility( $delete_options );
 
-		$post_status = array();
 		$posts_deleted = 0;
 
 		// Delete sticky posts
@@ -171,6 +170,9 @@ class Bulk_Delete_Posts {
 
 			$posts_deleted += count( $sticky_post_ids );
 		}
+
+		$options = array();
+		$post_status = array();
 
 		// Published posts
 		if ( 'publish' == $delete_options['publish'] ) {
@@ -187,21 +189,21 @@ class Bulk_Delete_Posts {
 		}
 
 		// Pending Posts
-		if ( "pending" == $delete_options['pending'] ) {
+		if ( 'pending' == $delete_options['pending'] ) {
 			$post_status[] = 'pending';
 		}
 
 		// Future Posts
-		if ( "future" == $delete_options['future'] ) {
+		if ( 'future' == $delete_options['future'] ) {
 			$post_status[] = 'future';
 		}
 
 		// Private Posts
-		if ( "private" == $delete_options['private'] ) {
+		if ( 'private' == $delete_options['private'] ) {
 			$post_status[] = 'private';
 		}
 
-		$options = array( 'post_status' => $post_status );
+		$options['post_status'] = $post_status;
 		$options = bd_build_query_options( $delete_options, $options );
 		$post_ids = bd_query( $options );
 		foreach ( $post_ids as $post_id ) {
