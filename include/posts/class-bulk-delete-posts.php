@@ -1026,12 +1026,11 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Render delete by url box
+	 * Render delete by url box.
 	 *
 	 * @static
 	 */
 	public static function render_delete_posts_by_url_box() {
-
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_URL ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
@@ -1043,34 +1042,20 @@ class Bulk_Delete_Posts {
         <fieldset class="options">
         <table class="optiontable">
             <tr>
-                <td scope="row">
-                    <label for="smdb_specific_pages"><?php _e( "Enter one post url (not post ids) per line", 'bulk-delete' ); ?></label>
-                    <br/>
-                    <textarea style="width: 450px; height: 80px;" id="smdb_specific_pages_urls" name="smdb_specific_pages_urls" rows="5" columns="80" ></textarea>
+                <td scope="row" colspan="2">
+                    <label for="smdb_specific_pages"><?php _e( 'Enter one post url (not post ids) per line', 'bulk-delete' ); ?></label>
+                    <br>
+                    <textarea style="width: 450px; height: 80px;" id="smdb_specific_pages_urls" name="smdb_specific_pages_urls" rows="5" columns="80"></textarea>
                 </td>
             </tr>
 
-            <tr>
-                <td>
-                    <h4><?php _e( "Choose your filtering options", 'bulk-delete' ); ?></h4>
-                </td>
-            </tr>
-
-            <tr>
-                <td scope="row">
-                    <input name="smbd_specific_force_delete" value = "false" type = "radio" checked="checked" /> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
-                    <input name="smbd_specific_force_delete" value = "true" type = "radio" /> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
-                </td>
-            </tr>
+			<?php bd_render_filtering_table_header(); ?>
+			<?php bd_render_delete_settings( 'specific' ); ?>
 
         </table>
         </fieldset>
-
-        <p>
-            <button type="submit" name="bd_action" value = "delete_posts_by_url" class="button-primary"><?php _e( "Bulk Delete ", 'bulk-delete' ) ?>&raquo;</button>
-        </p>
-        <!-- URLs end-->
 <?php
+		bd_render_submit_button( 'delete_posts_by_url' );
 	}
 
 	/**
@@ -1080,13 +1065,7 @@ class Bulk_Delete_Posts {
 	 * @since 5.0
 	 */
 	public static function do_delete_posts_by_url() {
-
-		$force_delete = array_get( $_POST, 'smbd_specific_force_delete' );
-		if ( $force_delete == 'true' ) {
-			$force_delete = true;
-		} else {
-			$force_delete = false;
-		}
+		$force_delete = array_get_bool( $_POST, 'smbd_specific_force_delete', false );
 
 		$urls = preg_split( '/\r\n|\r|\n/', array_get( $_POST, 'smdb_specific_pages_urls' ) );
 		foreach ( $urls as $url ) {
