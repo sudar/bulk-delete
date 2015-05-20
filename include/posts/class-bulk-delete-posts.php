@@ -1115,36 +1115,31 @@ class Bulk_Delete_Posts {
 	 * @static
 	 */
 	public static function render_posts_by_revision_box() {
+		global $wpdb;
 
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_REVISION ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
 
-		global $wpdb;
-
 		$revisions = $wpdb->get_var( "select count(*) from $wpdb->posts where post_type = 'revision'" );
 ?>
         <!-- Post Revisions start-->
-        <h4><?php _e( "Select the posts which you want to delete", 'bulk-delete' ); ?></h4>
+        <h4><?php _e( 'Select the posts which you want to delete', 'bulk-delete' ); ?></h4>
 
         <fieldset class="options">
         <table class="optiontable">
             <tr>
                 <td>
-                    <input name="smbd_revisions" id ="smbd_revisions" value = "revisions" type = "checkbox" />
-                    <label for="smbd_revisions"><?php _e( "All Revisions", 'bulk-delete' ); ?> (<?php echo $revisions . " "; _e( "Revisions", 'bulk-delete' ); ?>)</label>
+                    <input name="smbd_revisions" id ="smbd_revisions" value="revisions" type="checkbox">
+                    <label for="smbd_revisions"><?php _e( 'All Revisions', 'bulk-delete' ); ?> (<?php echo $revisions . ' '; _e( 'Revisions', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 
         </table>
         </fieldset>
-
-        <p>
-            <button type="submit" name="bd_action" value = "delete_posts_by_revision" class="button-primary"><?php _e( "Bulk Delete ", 'bulk-delete' ) ?>&raquo;</button>
-        </p>
-        <!-- Post Revisions end-->
 <?php
+		bd_render_submit_button( 'delete_posts_by_revision' );
 	}
 
 	/**
@@ -1173,13 +1168,13 @@ class Bulk_Delete_Posts {
 	 * @since 5.0
 	 * @static
 	 * @param array $delete_options
-	 * @return integer
+	 * @return int  The number of posts that were deleted
 	 */
 	public static function delete_posts_by_revision( $delete_options ) {
 		global $wpdb;
 
 		// Revisions
-		if ( "revisions" == $delete_options['revisions'] ) {
+		if ( 'revisions' == $delete_options['revisions'] ) {
 			$revisions = $wpdb->get_results( "select ID from $wpdb->posts where post_type = 'revision'" );
 
 			foreach ( $revisions as $revision ) {
