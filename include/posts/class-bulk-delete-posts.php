@@ -1172,7 +1172,7 @@ class Bulk_Delete_Posts {
 	 *
 	 * @since 5.0
 	 * @static
-	 * @param unknown $delete_options
+	 * @param array $delete_options
 	 * @return integer
 	 */
 	public static function delete_posts_by_revision( $delete_options ) {

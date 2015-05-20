@@ -159,31 +159,34 @@ class BD_Util {
 	 *
 	 * @static
 	 * @param string $str
-	 * @return string
+	 * @return string Label
 	 */
 	public static function display_post_type_status( $str ) {
 		$type_status = self::split_post_type_status( $str );
 
-		$type   = $type_status['type'];
 		$status = $type_status['status'];
+		$type   = $type_status['type'];
+		$label  = '';
 
 		switch ( $status ) {
 			case 'private':
-				return $type . ' - Private Posts';
+				$label = $type . ' - Private Posts';
 				break;
 			case 'future':
-				return $type . ' - Scheduled Posts';
+				$label = $type . ' - Scheduled Posts';
 				break;
 			case 'draft':
-				return $type . ' - Draft Posts';
+				$label = $type . ' - Draft Posts';
 				break;
 			case 'pending':
-				return $type . ' - Pending Posts';
+				$label = $type . ' - Pending Posts';
 				break;
 			case 'publish':
-				return $type . ' - Published Posts';
+				$label = $type . ' - Published Posts';
 				break;
 		}
+
+		return $label;
 	}
 
 	/**
@@ -192,7 +195,7 @@ class BD_Util {
 	 * @static
 	 * @access public
 	 * @param string $str
-	 * @return string
+	 * @return array
 	 */
 	public static function split_post_type_status( $str ) {
 		$type_status = array();
@@ -211,30 +214,30 @@ class BD_Util {
 	}
 }
 
-/**
- * Get a value from an array based on key.
- * If key is present returns the value, else returns the default value
- *
- * @param array   $array   Array from which value has to be retrieved
- * @param string  $key     Key, whose value to be retrieved
- * @param string  $default Optional. Default value to be returned, if the key is not found
- * @return mixed           Value if key is present, else the default value
- */
 if ( ! function_exists( 'array_get' ) ) {
+	/**
+	 * Get a value from an array based on key.
+	 * If key is present returns the value, else returns the default value
+	 *
+	 * @param array   $array   Array from which value has to be retrieved
+	 * @param string  $key     Key, whose value to be retrieved
+	 * @param string  $default Optional. Default value to be returned, if the key is not found
+	 * @return mixed           Value if key is present, else the default value
+	 */
 	function array_get( $array, $key, $default = null ) {
 		return isset( $array[ $key ] ) ? $array[ $key ] : $default;
 	}
 }
 
-/**
- * Get a value from an array based on key and convert it into bool.
- *
- * @param array   $array   Array from which value has to be retrieved
- * @param string  $key     Key, whose value to be retrieved
- * @param string  $default Optional. Default value to be returned, if the key is not found
- * @return mixed           Boolean converted Value if key is present, else the default value
- */
 if ( ! function_exists( 'array_get_bool' ) ) {
+	/**
+	 * Get a value from an array based on key and convert it into bool.
+	 *
+	 * @param array   $array   Array from which value has to be retrieved
+	 * @param string  $key     Key, whose value to be retrieved
+	 * @param string  $default Optional. Default value to be returned, if the key is not found
+	 * @return mixed           Boolean converted Value if key is present, else the default value
+	 */
 	function array_get_bool( $array, $key, $default = null ) {
 		return filter_var( array_get( $array, $key, $default ), FILTER_VALIDATE_BOOLEAN );
 	}

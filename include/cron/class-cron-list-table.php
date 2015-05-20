@@ -96,8 +96,9 @@ class Cron_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Display cron due date column.
 	 *
-	 * @param unknown $item
+	 * @param array $item
 	 * @return string
 	 */
 	public function column_col_cron_due( $item ) {
@@ -122,24 +123,27 @@ class Cron_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Display cron schedule column.
 	 *
-	 * @param unknown $item
+	 * @param array $item
 	 */
 	public function column_col_cron_schedule( $item ) {
 		echo $item['schedule'];
 	}
 
 	/**
+	 * Display cron type column.
 	 *
-	 * @param unknown $item
+	 * @param array $item
 	 */
 	public function column_col_cron_type( $item ) {
 		echo $item['type'];
 	}
 
 	/**
+	 * Display cron options column.
 	 *
-	 * @param unknown $item
+	 * @param array $item
 	 */
 	public function column_col_cron_options( $item ) {
 		// TODO: Make it pretty

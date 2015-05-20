@@ -754,6 +754,7 @@ final class Bulk_Delete {
 	 * Get the list of BD page slugs.
 	 *
 	 * @since 5.5
+	 * @return array List of page slugs.
 	 */
 	public function get_page_slugs() {
 		/**

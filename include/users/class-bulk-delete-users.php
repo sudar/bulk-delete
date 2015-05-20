@@ -166,7 +166,7 @@ class Bulk_Delete_Users {
 	 * Delete users by user role
 	 *
 	 * @static
-	 * @param unknown $delete_options
+	 * @param array $delete_options
 	 * @return integer
 	 */
 	public static function delete_users_by_role( $delete_options ) {
@@ -238,7 +238,7 @@ class Bulk_Delete_Users {
 	 *
 	 * @static
 	 * @access private
-	 * @param unknown $user_id
+	 * @param int $user_id
 	 * @return string
 	 */
 	private static function get_last_login( $user_id ) {

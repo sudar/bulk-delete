@@ -7,6 +7,7 @@
  * @package    BulkDelete\Addon
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class License_List_Table extends WP_List_Table {
 
@@ -121,7 +122,7 @@ class License_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.0
 	 * @param array   $item Single row of data
-	 * @return unknown
+	 * @return string
 	 */
 	public function column_col_license( $item ) {
 		return $item['license'];
@@ -148,7 +149,7 @@ class License_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.0
 	 * @param array   $item Single row of data
-	 * @return unknown
+	 * @return string
 	 */
 	public function column_col_expires( $item ) {
 		if ( key_exists( 'expires', $item ) ) {

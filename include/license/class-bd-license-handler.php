@@ -252,8 +252,8 @@ class BD_License_Handler {
 	 * If the key is invalid, then don't save it in the setting option
 	 *
 	 * @since 5.0
-	 * @param unknown $input
-	 * @return unknown
+	 * @param array $input
+	 * @return array
 	 */
 	public function parse_license_input( $input ) {
 		if ( is_array( $input ) && key_exists( $this->addon_code, $input ) ) {

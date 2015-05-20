@@ -7,6 +7,7 @@
  * @package BulkDelete
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Pages {
 
@@ -182,7 +183,7 @@ class Bulk_Delete_Pages {
 	 * Bulk Delete pages
 	 *
 	 * @since 5.0
-	 * @param unknown $delete_options
+	 * @param array $delete_options
 	 * @return integer
 	 */
 	public static function delete_pages_by_status( $delete_options ) {

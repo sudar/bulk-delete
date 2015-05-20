@@ -6,6 +6,7 @@
  * @package BulkDelete
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_By_Days {
 	var $days;
@@ -21,7 +22,7 @@ class Bulk_Delete_By_Days {
 	/**
 	 * Parse the query.
 	 *
-	 * @param unknown $query
+	 * @param array $query
 	 */
 	public function parse_query( $query ) {
 		if ( isset( $query->query_vars['days'] ) ) {
@@ -36,7 +37,7 @@ class Bulk_Delete_By_Days {
 	/**
 	 * Modify the where clause.
 	 *
-	 * @param unknown $where (optional)
+	 * @param string $where (optional)
 	 * @return string
 	 */
 	public function filter_where( $where = '' ) {
