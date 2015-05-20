@@ -59,7 +59,7 @@ class BD_License {
 	 */
 	public static function display_activate_license_form() {
 		$bd = BULK_DELETE();
-		if ( isset( $bd->display_activate_license_form ) && true == $bd->display_activate_license_form ) {
+		if ( isset( $bd->display_activate_license_form ) && true === $bd->display_activate_license_form ) {
 			// This prints out all hidden setting fields
 			settings_fields( Bulk_Delete::SETTING_OPTION_GROUP );
 			do_settings_sections( Bulk_Delete::ADDON_PAGE_SLUG );
@@ -118,7 +118,7 @@ class BD_License {
 
 		if ( is_array( $licenses ) ) {
 			foreach ( $licenses as $addon_code => $license ) {
-				$license_data[ $addon_code ] = self::get_license( $addon_code, $license );
+				$license_data[ $addon_code ] = self::get_license( $addon_code );
 			}
 		}
 

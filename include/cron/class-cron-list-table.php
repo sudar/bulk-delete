@@ -28,7 +28,7 @@ class Cron_List_Table extends WP_List_Table {
 	 * @param string  $which Whether the markup should appear after (bottom) or before (top) the list
 	 */
 	public function extra_tablenav( $which ) {
-		if ( $which == "top" ) {
+		if ( 'top' == $which ) {
 			//The code that goes before the table is here
 			echo '<p>';
 			_e( 'This is the list of jobs that are currently scheduled for auto deleting posts in Bulk Delete Plugin.', 'bulk-delete' );
@@ -80,10 +80,11 @@ class Cron_List_Table extends WP_List_Table {
 
 		/* -- Register the pagination -- */
 		$this->set_pagination_args( array(
-				"total_items" => $totalitems,
-				"total_pages" => $totalpages,
-				"per_page" => $perpage,
+				'total_items' => $totalitems,
+				'total_pages' => $totalpages,
+				'per_page'    => $perpage,
 			) );
+
 		//The pagination links are automatically built according to those parameters
 
 		/* — Register the Columns — */

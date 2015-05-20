@@ -125,7 +125,7 @@ class Bulk_Delete_Posts {
 				wp_schedule_event( $time, $freq, Bulk_Delete::CRON_HOOK_POST_STATUS, array( $delete_options ) );
 			}
 			$msg = __( 'Posts with the selected status are scheduled for deletion.', 'bulk-delete' ) . ' ' .
-				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
+				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_posts_by_status( $delete_options );
 			$msg = sprintf( _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status' , $deleted_count, 'bulk-delete' ), $deleted_count );
@@ -1149,7 +1149,8 @@ class Bulk_Delete_Posts {
 	 * @since 5.0
 	 */
 	public static function do_delete_posts_by_revision() {
-		$delete_options['revisions'] = array_get( $_POST, 'smbd_revisions' );
+		$delete_options = array( 'revisions' => array_get( $_POST, 'smbd_revisions' ) );
+
 		$deleted_count = self::delete_posts_by_revision( $delete_options );
 
 		$msg = sprintf( _n( 'Deleted %d post revision', 'Deleted %d post revisions' , $deleted_count, 'bulk-delete' ), $deleted_count );
