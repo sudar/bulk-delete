@@ -70,8 +70,6 @@ checks:
         no_unused_vars: true
         no_unreachable: true
         no_underscore_dangle: true
-        no_undefined: true
-        no_undef: true
         no_trailing_spaces: true
         no_script_url: true
         no_redeclare: true
