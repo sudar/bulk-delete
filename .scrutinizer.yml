@@ -17,7 +17,6 @@ tools:
 
 checks:
     php:
-        code_rating: true
         verify_property_names: true
         variable_existence: true
         verify_access_scope_valid: true
@@ -54,8 +53,8 @@ checks:
         avoid_superglobals: false
         use_self_instead_of_fqcn: true
         no_goto: true
-        avoid_multiple_statements_on_same_line: true
         duplication: false
+        avoid_unnecessary_concatenation: true
     javascript:
         vars_on_top: true
         valid_typeof: true
