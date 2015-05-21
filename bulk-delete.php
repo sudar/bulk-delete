@@ -244,6 +244,7 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/addons/addon-list.php';
 		require_once self::$PLUGIN_DIR . '/include/addons/posts.php';
+		require_once self::$PLUGIN_DIR . '/include/addons/pages.php';
 
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license.php';
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license-handler.php';
@@ -413,7 +414,6 @@ final class Bulk_Delete {
 	 */
 	public function add_delete_pages_meta_boxes() {
 		add_meta_box( self::BOX_PAGE_STATUS     , __( 'By Page status' , 'bulk-delete' ) , 'Bulk_Delete_Pages::render_delete_pages_by_status_box' , $this->pages_page , 'advanced' );
-		add_meta_box( self::BOX_PAGE_FROM_TRASH , __( 'Pages in Trash' , 'bulk-delete' ) , 'Bulk_Delete_Pages::render_delete_pages_from_trash'    , $this->pages_page , 'advanced' );
 
 		/**
 		 * Add meta box in delete pages page
