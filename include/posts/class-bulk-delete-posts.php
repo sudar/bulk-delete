@@ -723,7 +723,7 @@ class Bulk_Delete_Posts {
 			bd_render_restrict_settings( 'types' );
 			bd_render_delete_settings( 'types' );
 			bd_render_limit_settings( 'types' );
-			bd_render_cron_settings( 'types','http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-spt' );
+			bd_render_cron_settings( 'types', 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-spt' );
 ?>
             </table>
             </fieldset>
