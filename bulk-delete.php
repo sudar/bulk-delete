@@ -240,8 +240,9 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/util/class-bd-util.php';
 		require_once self::$PLUGIN_DIR . '/include/util/query.php';
-		require_once self::$PLUGIN_DIR . '/include/util/addons.php';
 		require_once self::$PLUGIN_DIR . '/include/util/deprecated.php';
+
+		require_once self::$PLUGIN_DIR . '/include/addons/addon-list.php';
 
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license.php';
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license-handler.php';
