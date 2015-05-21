@@ -61,11 +61,8 @@ checks:
         use_isnan: true
         one_var: true
         no_reserved_keys: true
-        yoda:
-            setting: 'Require Yoda Conditions'
         radix: true
         no_with: true
-        no_var: true
         no_unused_vars: true
         no_unreachable: true
         no_underscore_dangle: true
@@ -74,7 +71,6 @@ checks:
         no_redeclare: true
         no_octal_escape: true
         no_mixed_spaces_and_tabs: true
-        no_lonely_if: true
         no_irregular_whitespace: true
         no_dupe_keys: true
         eqeqeq: true
