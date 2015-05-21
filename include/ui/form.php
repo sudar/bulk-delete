@@ -152,4 +152,26 @@ function bd_render_submit_button( $action ) {
 	</p>
 <?php
 }
+
+/**
+ * Render the post type dropdown.
+ *
+ * @since 5.5
+ * @param string $slug The slug to be used in field names.
+ */
+function bd_render_post_type_dropdown( $slug ) {
+	$types = get_post_types( array( '_builtin' => false ), 'names' );
+	array_unshift( $types, 'post' );
+?>
+	<tr>
+		<td scope="row" >
+			<select class="select2" name="smbd_<?php echo $slug; ?>_post_type">
+				<?php foreach ( $types as $type ) { ?>
+					<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_html( $type ); ?></option>
+				<?php } ?>
+			</select>
+		</td>
+	</tr>
+<?php
+}
 ?>

@@ -218,32 +218,16 @@ class Bulk_Delete_Posts {
 	 * Render Delete posts by category box
 	 */
 	public static function render_delete_posts_by_category_box() {
-
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_CATEGORY ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
 			return;
 		}
-
-		$types = get_post_types( array(
-				'_builtin' => false,
-			), 'names'
-		);
-
-		array_unshift( $types, 'post' );
 ?>
         <!-- Category Start-->
         <h4><?php _e( 'Select the post type whose category posts you want to delete', 'bulk-delete' ); ?></h4>
         <fieldset class="options">
         <table class="optiontable">
-            <tr>
-                <td scope="row" >
-					<select class="select2" name="smbd_cat_post_type">
-						<?php foreach ( $types as $type ) { ?>
-							<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_html( $type ); ?></option>
-						<?php } ?>
-					</select>
-                </td>
-            </tr>
+			<?php bd_render_post_type_dropdown( 'cats' ); ?>
         </table>
 
         <h4><?php _e( 'Select the categories whose post you want to delete', 'bulk-delete' ); ?></h4>
