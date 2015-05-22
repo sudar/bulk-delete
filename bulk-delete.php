@@ -101,9 +101,6 @@ final class Bulk_Delete {
 	const BOX_PAGE_STATUS           = 'bd_by_page_status';
 	const BOX_PAGE_FROM_TRASH       = 'bd_pages_from_trash';
 
-	// meta boxes for delete users
-	const BOX_USERS                 = 'bdu_by_users';
-
 	// Settings constants
 	const SETTING_OPTION_GROUP      = 'bd_settings';
 	const SETTING_OPTION_NAME       = 'bd_licenses';
@@ -218,11 +215,15 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function includes() {
+		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
+
 		require_once self::$PLUGIN_DIR . '/include/ui/form.php';
 
 		require_once self::$PLUGIN_DIR . '/include/posts/class-bulk-delete-posts.php';
 		require_once self::$PLUGIN_DIR . '/include/pages/class-bulk-delete-pages.php';
+
 		require_once self::$PLUGIN_DIR . '/include/users/class-bulk-delete-users.php';
+		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-role.php';
 
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-post-meta.php';
@@ -447,15 +448,13 @@ final class Bulk_Delete {
 	 * Register meta boxes for delete users page
 	 */
 	public function add_delete_users_meta_boxes() {
-		add_meta_box( self::BOX_USERS, __( 'By User Role', 'bulk-delete' ), 'Bulk_Delete_Users::render_delete_users_by_role_box', $this->users_page, 'advanced' );
-
 		/**
-		 * Add meta box in delete users page
+		 * Add meta box in delete users page.
 		 * This hook can be used for adding additional meta boxes in delete users page
 		 *
 		 * @since 5.3
 		 */
-		do_action( 'bd_add_meta_box_for_users' );
+		do_action( 'bd_add_meta_box_for_users', $this->users_page, self::USERS_PAGE_SLUG  );
 	}
 
 	/**

@@ -88,8 +88,9 @@ function bd_render_private_post_settings( $slug ) {
  *
  * @since 5.5
  * @param string $slug The slug to be used in field names.
+ * @param string $item (Optional) Item type. Possible values are 'posts', 'pages', 'users'
  */
-function bd_render_limit_settings( $slug ) {
+function bd_render_limit_settings( $slug, $item = 'posts' ) {
 ?>
 	<tr>
 		<td scope="row">
@@ -97,8 +98,8 @@ function bd_render_limit_settings( $slug ) {
 		</td>
 		<td>
 			<?php _e( 'Only delete first ', 'bulk-delete' );?>
-			<input type="number" name="smbd_<?php echo $slug; ?>_limit_to" id="smbd_<?php echo $slug; ?>_limit_to" class="screen-per-page" disabled value="0" min="0"> <?php _e( 'items', 'bulk-delete' );?>.
-			<?php _e( 'Use this option if there are more than 1000 items and the script timesout.', 'bulk-delete' ) ?>
+			<input type="number" name="smbd_<?php echo $slug; ?>_limit_to" id="smbd_<?php echo $slug; ?>_limit_to" class="screen-per-page" disabled value="0" min="0"> <?php echo $item;?>.
+			<?php printf( __( 'Use this option if there are more than 1000 %s and the script timesout.', 'bulk-delete' ), $item ); ?>
 		</td>
 	</tr>
 <?php
