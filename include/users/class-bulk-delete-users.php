@@ -9,7 +9,6 @@
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Users {
-
 	/**
 	 * Render delete users box
 	 */
@@ -32,7 +31,7 @@ class Bulk_Delete_Users {
             <tr>
                 <td scope="row" >
                     <input name="smbdu_roles[]" value = "<?php echo $role; ?>" type = "checkbox">
-                    <label for="smbdu_roles"><?php echo $role; ?> (<?php echo $count . " "; _e( 'Users', 'bulk-delete' ); ?>)</label>
+                    <label for="smbdu_roles"><?php echo $role; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 <?php
@@ -45,8 +44,8 @@ class Bulk_Delete_Users {
             </tr>
 
 <?php
-		if ( !BD_Util::is_simple_login_log_present() ) {
-			$disabled = "disabled";
+		if ( ! BD_Util::is_simple_login_log_present() ) {
+			$disabled = 'disabled';
 		} else {
 			$disabled = '';
 		}
@@ -131,9 +130,9 @@ class Bulk_Delete_Users {
 
 		$delete_options = array();
 		$delete_options['selected_roles']   = array_get( $_POST, 'smbdu_roles' );
-		$delete_options['no_posts']         = array_get( $_POST, 'smbdu_role_no_posts', FALSE );
+		$delete_options['no_posts']         = array_get_bool( $_POST, 'smbdu_role_no_posts', false );
 
-		$delete_options['login_restrict']   = array_get( $_POST, 'smbdu_login_restrict', FALSE );
+		$delete_options['login_restrict']   = array_get_bool( $_POST, 'smbdu_login_restrict', false );
 		$delete_options['login_days']       = array_get( $_POST, 'smbdu_login_days' );
 		$delete_options['limit_to']         = absint( array_get( $_POST, 'smbdu_userrole_limit_to', 0 ) );
 
@@ -148,7 +147,7 @@ class Bulk_Delete_Users {
 			}
 
 			$msg = __( 'Users from the selected userrole are scheduled for deletion.', 'bulk-delete' ) . ' ' .
-				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( "wpurl" ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
+				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_users_by_role( $delete_options );
 			$msg = sprintf( _n( 'Deleted %d user from the selected roles', 'Deleted %d users from the selected role' , $deleted_count, 'bulk-delete' ), $deleted_count );
@@ -170,7 +169,6 @@ class Bulk_Delete_Users {
 	 * @return integer
 	 */
 	public static function delete_users_by_role( $delete_options ) {
-
 		if ( ! function_exists( 'wp_delete_user' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
 		}
@@ -245,7 +243,7 @@ class Bulk_Delete_Users {
 		global $wpdb;
 
 		return $wpdb->get_var( $wpdb->prepare( "SELECT time FROM {$wpdb->prefix}" . BD_Util::SIMPLE_LOGIN_LOG_TABLE .
-				" WHERE uid = %d ORDER BY time DESC LIMIT 1", $user_id ) );
+				' WHERE uid = %d ORDER BY time DESC LIMIT 1', $user_id ) );
 	}
 }
 
