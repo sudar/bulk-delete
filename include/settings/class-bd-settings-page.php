@@ -50,8 +50,6 @@ class BD_Settings_Page {
 			array( __CLASS__, 'display_settings_page' )
 		);
 
-		$bd->page_slugs[] = self::SETTINGS_PAGE_SLUG;
-
 		// register settings
 		register_setting(
 			self::ADDON_SETTING_OPTION_GROUP,       // Option group

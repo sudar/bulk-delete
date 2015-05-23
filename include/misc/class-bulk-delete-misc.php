@@ -38,8 +38,6 @@ class Bulk_Delete_Misc {
 			array( __CLASS__, 'display_misc_page' )
 		);
 
-		$bd->page_slugs[] = self::MISC_PAGE_SLUG;
-
 		// enqueue JavaScript
 		add_action( 'admin_print_scripts-' . $bd->misc_page, array( $bd, 'add_script' ) );
 
