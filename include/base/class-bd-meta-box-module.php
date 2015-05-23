@@ -150,12 +150,40 @@ abstract class BD_Meta_Box_Module {
 	 * @since 5.5
 	 */
 	public function render_box() {
-		if ( BD_Util::is_users_box_hidden( $this->meta_box_slug ) ) {
+		if ( $this->is_hidden() ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . $this->page_slug );
 			return;
 		}
 
 		$this->render();
+	}
+
+	/**
+	 * Is the current meta box hidden by user.
+	 *
+	 * @since 5.5
+	 * @return True, if hidden. False, otherwise.
+	 */
+	protected function is_hidden() {
+		$current_user = wp_get_current_user();
+		$user_meta_field = $this->get_hidden_box_user_meta_field();
+		$hidden_boxes = get_user_meta( $current_user->ID, $user_meta_field, true );
+
+		return is_array( $hidden_boxes ) && in_array( $this->meta_box_slug, $hidden_boxes );
+	}
+
+	/**
+	 * Get the user meta field that stores the status of the hidden meta boxes.
+	 *
+	 * @since 5.5
+	 * @return string Name of the User Meta field.
+	 */
+	protected function get_hidden_box_user_meta_field() {
+		if ( 'posts' == $this->item_type ) {
+			return 'metaboxhidden_toplevel_page_bulk-delete-posts';
+		} else {
+			return 'metaboxhidden_bulk-wp_page_' . $this->page_slug;
+		}
 	}
 
 	/**
