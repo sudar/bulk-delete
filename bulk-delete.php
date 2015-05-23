@@ -81,8 +81,6 @@ final class Bulk_Delete {
 
 	const CRON_HOOK_PAGES_STATUS    = 'do-bulk-delete-pages-by-status';
 
-	const CRON_HOOK_USER_ROLE       = 'do-bulk-delete-users-by-role';
-
 	// meta boxes for delete posts
 	const BOX_POST_STATUS           = 'bd_by_post_status';
 	const BOX_CATEGORY              = 'bd_by_category';
@@ -134,6 +132,10 @@ final class Bulk_Delete {
 	 * @since 5.5
 	 */
 	public $page_slugs = array();
+
+	// Deprecated.
+	// Will be removed in v6.0
+	const CRON_HOOK_USER_ROLE       = 'do-bulk-delete-users-by-role';
 
 	/**
 	 * Main Bulk_Delete Instance
@@ -222,7 +224,6 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/posts/class-bulk-delete-posts.php';
 		require_once self::$PLUGIN_DIR . '/include/pages/class-bulk-delete-pages.php';
 
-		require_once self::$PLUGIN_DIR . '/include/users/class-bulk-delete-users.php';
 		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-role.php';
 
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
@@ -244,6 +245,7 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/compatibility/simple-login-log.php';
 
+		require_once self::$PLUGIN_DIR . '/include/deprecated/class-bulk-delete-users.php';
 		require_once self::$PLUGIN_DIR . '/include/deprecated/deprecated.php';
 
 		require_once self::$PLUGIN_DIR . '/include/addons/addon-list.php';
