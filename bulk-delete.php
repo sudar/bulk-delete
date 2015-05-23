@@ -241,9 +241,10 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/util/class-bd-util.php';
 		require_once self::$PLUGIN_DIR . '/include/util/query.php';
-		require_once self::$PLUGIN_DIR . '/include/util/deprecated.php';
 
 		require_once self::$PLUGIN_DIR . '/include/compatibility/simple-login-log.php';
+
+		require_once self::$PLUGIN_DIR . '/include/deprecated/deprecated.php';
 
 		require_once self::$PLUGIN_DIR . '/include/addons/addon-list.php';
 		require_once self::$PLUGIN_DIR . '/include/addons/posts.php';
