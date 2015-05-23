@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Bulk Delete Users by User Role.
- * 
+ *
  * @since 5.5
  */
 class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
@@ -54,7 +54,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 
 	/**
 	 * Render delete users box.
-	 * 
+	 *
 	 * @since 5.5
 	 */
 	public function render() {
@@ -81,8 +81,8 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 
         <table class="optiontable">
 <?php
-			$this->render_filtering_table_header();
-		if ( ! BD_Util::is_simple_login_log_present() ) {
+		$this->render_filtering_table_header();
+		if ( ! bd_is_simple_login_log_present() ) {
 			$disabled = 'disabled';
 		} else {
 			$disabled = '';
@@ -94,7 +94,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
                     <?php _e( 'Only restrict to users who have not logged in the last ', 'bulk-delete' );?>
                     <input type="number" name="smbd_u_login_days" id="smbd_u_login_days" class="screen-per-page" value="0" min="0" <?php echo $disabled; ?>> <?php _e( 'days', 'bulk-delete' );?>
 <?php
-		if ( ! BD_Util::is_simple_login_log_present() ) {
+		if ( ! bd_is_simple_login_log_present() ) {
 ?>
                     <span style = "color:red">
                         <?php _e( 'Need Simple Login Log Plugin', 'bulk-delete' ); ?> <a href = "http://wordpress.org/plugins/simple-login-log/">Install now</a>
@@ -154,9 +154,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 		$count = 0;
 
 		foreach ( $delete_options['selected_roles'] as $role ) {
-
-			$options = array();
-			$options['role'] = $role;
+			$options = array('role' => $role);
 			if ( $delete_options['limit_to'] > 0 ) {
 				$options['number'] = $delete_options['limit_to'];
 			}
@@ -164,13 +162,13 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 			$users = get_users( $options );
 
 			foreach ( $users as $user ) {
-				if ( $delete_options['no_posts'] == true && count_user_posts ( $user->ID ) > 0 ) {
+				if ( $delete_options['no_posts'] && count_user_posts( $user->ID ) > 0 ) {
 					continue;
 				}
 
-				if ( $delete_options['login_restrict'] == true ) {
+				if ( $delete_options['login_restrict'] ) {
 					$login_days = $delete_options['login_days'];
-					$last_login = $this->get_last_login( $user->ID );
+					$last_login = bd_get_last_login( $user->ID );
 
 					if ( null != $last_login ) {
 						if ( strtotime( $last_login ) > strtotime( '-' . $login_days . 'days' ) ) {
@@ -206,21 +204,6 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 		$js_array['msg']['selectOneUserRole'] = __( 'Select at least one user role from which users should be deleted', 'bulk-delete' );
 
 		return $js_array;
-	}
-
-	/**
-	 * Find the last login date/time of a user.
-	 *
-	 * @since 5.5
-	 * @access private
-	 * @param int $user_id
-	 * @return string
-	 */
-	private function get_last_login( $user_id ) {
-		global $wpdb;
-
-		return $wpdb->get_var( $wpdb->prepare( "SELECT time FROM {$wpdb->prefix}" . BD_Util::SIMPLE_LOGIN_LOG_TABLE .
-				' WHERE uid = %d ORDER BY time DESC LIMIT 1', $user_id ) );
 	}
 }
 

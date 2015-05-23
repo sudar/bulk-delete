@@ -14,32 +14,10 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  * Ideally most of the functions should be inside the `BulkDelete\Util` and not as static functions.
  */
 class BD_Util {
-
-	// simple login log
-	const SIMPLE_LOGIN_LOG_TABLE = 'simple_login_log';
-
 	// Meta boxes
 	const VISIBLE_POST_BOXES     = 'metaboxhidden_toplevel_page_bulk-delete-posts';
 	const VISIBLE_PAGE_BOXES     = 'metaboxhidden_bulk-delete_page_bulk-delete-pages';
 	const VISIBLE_USER_BOXES     = 'metaboxhidden_bulk-delete_page_bulk-delete-users';
-
-	/**
-	 * Find out if Simple Login Log is installed or not
-	 * http://wordpress.org/plugins/simple-login-log/
-	 *
-	 * @static
-	 * @access public
-	 * @return bool    True if plugin is installed, False otherwise
-	 */
-	public static function is_simple_login_log_present() {
-		global $wpdb;
-
-		if ( $wpdb->get_row( "SHOW TABLES LIKE '{$wpdb->prefix}" . self::SIMPLE_LOGIN_LOG_TABLE . "'" ) ) {
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 * Check whether the meta box in posts page is hidden or not
