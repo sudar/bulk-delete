@@ -133,7 +133,8 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 		$delete_options['no_posts']       = array_get_bool( $_POST, 'smbd_u_role_no_posts', false );
 
 		$delete_options['login_restrict'] = array_get_bool( $_POST, 'smbd_u_login_restrict', false );
-		$delete_options['login_days']     = absint( array_get( $_POST, 'smbd_u_login_days' ) );
+		$delete_options['login_days']     = absint( array_get( $_POST, 'smbd_u_login_days', 0 ) );
+
 		$delete_options['limit_to']       = absint( array_get( $_POST, 'smbd_u_role_limit_to', 0 ) );
 
 		$this->process_delete( $delete_options );
