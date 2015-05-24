@@ -47,9 +47,6 @@ function bd_add_plugin_action_links( $links, $file ) {
 	$this_plugin = plugin_basename( Bulk_Delete::$PLUGIN_FILE );
 
 	if ( $file == $this_plugin ) {
-		$delete_users_link = '<a href="admin.php?page=' . Bulk_Delete::USERS_PAGE_SLUG . '">' . __( 'Bulk Delete Users', 'bulk-delete' ) . '</a>';
-		array_unshift( $links, $delete_users_link ); // before other links
-
 		$delete_posts_link = '<a href="admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG . '">' . __( 'Bulk Delete Posts', 'bulk-delete' ) . '</a>';
 		array_unshift( $links, $delete_posts_link ); // before other links
 	}
@@ -80,7 +77,6 @@ function bd_add_links_in_plugin_listing( $links, $file ) {
 // Modify admin footer
 add_action( 'bd_admin_footer_posts_page', 'bd_modify_admin_footer' );
 add_action( 'bd_admin_footer_pages_page', 'bd_modify_admin_footer' );
-add_action( 'bd_admin_footer_users_page', 'bd_modify_admin_footer' );
 add_action( 'bd_admin_footer_cron_page' , 'bd_modify_admin_footer' );
 add_action( 'bd_admin_footer_addon_page', 'bd_modify_admin_footer' );
 add_action( 'bd_admin_footer_info_page' , 'bd_modify_admin_footer' );

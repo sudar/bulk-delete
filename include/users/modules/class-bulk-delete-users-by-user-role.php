@@ -40,7 +40,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 		$this->item_type     = 'users';
 		$this->field_slug    = 'u_role';
 		$this->meta_box_slug = 'bd_users_by_role';
-		$this->meta_box_hook = 'bd_add_meta_box_for_users';
+		$this->meta_box_hook = "bd_add_meta_box_for_{$this->item_type}";
 		$this->delete_action = 'delete_users_by_role';
 		$this->cron_hook     = 'do-bulk-delete-users-by-role';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-users-by-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-u-ur';
