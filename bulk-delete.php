@@ -219,6 +219,7 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/users/class-bd-users-page.php';
 		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-role.php';
+		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-meta.php';
 
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-post-meta.php';

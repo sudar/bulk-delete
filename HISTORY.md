@@ -1,6 +1,7 @@
 ## Changelog ##
 
 ### 5.5 - In Development (Dev time: 40 hours) ###
+- New: Added the ability to delete users based on user meta. (Issue #79)
 - New: (Addon) Added the ability to delete attachments. (Issue #98)
 - New: Improve UI of dropdowns. (Issue #101)
 

@@ -106,6 +106,12 @@ function bd_display_available_addon_list() {
 	echo '</li>';
 
 	echo '<li>';
+	echo '<strong>', __( 'Scheduler for deleting Users by User Meta', 'bulk-delete' ), '</strong>', ' - ';
+	echo __( 'Adds the ability to schedule auto delete of users based on user meta', 'bulk-delete' );
+	echo ' <a href = "http://bulkwp.com/addons/scheduler-for-deleting-users-by-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-u-ma">', __( 'More Info', 'bulk-delete' ), '</a>.';
+	echo '</li>';
+
+	echo '<li>';
 	echo '<strong>', __( 'Delete Post Meta Fields', 'bulk-delete' ), '</strong>', ' - ';
 	echo __( 'Adds the ability to delete post meta fields based on value and to schedule automatic deletion', 'bulk-delete' );
 	echo ' <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-m-p">', __( 'More Info', 'bulk-delete' ), '</a>.';
