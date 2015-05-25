@@ -119,7 +119,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
         </fieldset>
         <!-- Users end-->
 <?php
-		$this->render_submit_button();
+		$this->render_submit_button( $this->delete_action );
 	}
 
 	/**
@@ -198,10 +198,10 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][] = '_u_role';
 
-		$js_array['pre_action_msg']['delete_users_by_role'] = 'deleteUsersWarning';
+		$js_array['pre_action_msg'][ $this->delete_action ] = 'deleteUsersWarning';
 		$js_array['msg']['deleteUsersWarning'] = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );
 
-		$js_array['error_msg']['delete_users_by_role'] = 'selectOneUserRole';
+		$js_array['error_msg'][ $this->delete_action ] = 'selectOneUserRole';
 		$js_array['msg']['selectOneUserRole'] = __( 'Select at least one user role from which users should be deleted', 'bulk-delete' );
 
 		return $js_array;
