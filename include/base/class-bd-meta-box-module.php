@@ -235,7 +235,7 @@ abstract class BD_Meta_Box_Module {
 	 * @since 5.5
 	 */
 	protected function render_submit_button() {
-		bd_render_submit_button();
+		bd_render_submit_button( $this->delete_action );
 	}
 
 	/**

@@ -119,7 +119,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
         </fieldset>
         <!-- Users end-->
 <?php
-		$this->render_submit_button( $this->delete_action );
+		$this->render_submit_button();
 	}
 
 	/**
