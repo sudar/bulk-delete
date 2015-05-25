@@ -51,6 +51,7 @@ abstract class BD_Page {
 	 *
 	 * @since 5.5
 	 * @abstract
+	 * @return void
 	 */
 	abstract protected function initialize();
 
@@ -154,8 +155,9 @@ abstract class BD_Page {
 	 * Modify help tabs for the current page.
 	 *
 	 * @since 5.5
-	 * @param array  $help_tabls Current list of help tabs.
-	 * @param string $string Current screen name.
+	 * @param array  $help_tabs Current list of help tabs.
+	 * @param string $screen Current screen name.
+	 * @return array Modified list of help tabs.
 	 */
 	public function render_help_tab( $help_tabs, $screen ) {
 		if ( $this->screen == $screen ) {
@@ -170,6 +172,8 @@ abstract class BD_Page {
 	 * Help tabs can be added by overriding this function in the child class.
 	 *
 	 * @since 5.5
+	 * @param array $help_tabs Current list of help tabs.
+	 * @return array List of help tabs.
 	 */
 	protected function add_help_tab( $help_tabs ) {
 		return $help_tabs;

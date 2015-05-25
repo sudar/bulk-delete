@@ -18,14 +18,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  */
 function bd_is_simple_login_log_present() {
 	global $wpdb;
-
 	$simple_login_log_table = 'simple_login_log';
 
-	if ( $wpdb->get_row( "SHOW TABLES LIKE '{$wpdb->prefix}{$simple_login_log_table}'" ) ) {
-		return true;
-	}
-
-	return false;
+	return (bool) $wpdb->get_row( "SHOW TABLES LIKE '{$wpdb->prefix}{$simple_login_log_table}'" );
 }
 
 /**

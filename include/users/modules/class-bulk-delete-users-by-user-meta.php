@@ -124,7 +124,7 @@ class Bulk_Delete_Users_By_User_Meta extends BD_Meta_Box_Module {
         </fieldset>
         <!-- Users end-->
 <?php
-		$this->render_submit_button( $this->delete_action );
+		$this->render_submit_button();
 	}
 
 	/**
@@ -218,6 +218,12 @@ class Bulk_Delete_Users_By_User_Meta extends BD_Meta_Box_Module {
 		return $js_array;
 	}
 
+	/**
+	 * Get unique user meta keys.
+	 *
+	 * @since 5.5
+	 * @return array List of unique meta keys.
+	 */
 	private function get_unique_meta_keys() {
 		global $wpdb;
 

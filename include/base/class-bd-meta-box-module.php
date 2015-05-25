@@ -72,6 +72,7 @@ abstract class BD_Meta_Box_Module {
 	 *
 	 * @since 5.5
 	 * @abstract
+	 * @return void
 	 */
 	abstract protected function initialize();
 
@@ -80,6 +81,7 @@ abstract class BD_Meta_Box_Module {
 	 *
 	 * @since 5.5
 	 * @abstract
+	 * @return void
 	 */
 	abstract public function render();
 
@@ -88,6 +90,7 @@ abstract class BD_Meta_Box_Module {
 	 *
 	 * @since 5.5
 	 * @abstract
+	 * @return void
 	 */
 	abstract public function process();
 
@@ -96,6 +99,7 @@ abstract class BD_Meta_Box_Module {
 	 *
 	 * @since 5.5
 	 * @abstract
+	 * @return int  Number of users deleted
 	 */
 	abstract public function delete( $delete_options );
 
@@ -162,7 +166,7 @@ abstract class BD_Meta_Box_Module {
 	 * Is the current meta box hidden by user.
 	 *
 	 * @since 5.5
-	 * @return True, if hidden. False, otherwise.
+	 * @return bool True, if hidden. False, otherwise.
 	 */
 	protected function is_hidden() {
 		$current_user = wp_get_current_user();
@@ -231,7 +235,7 @@ abstract class BD_Meta_Box_Module {
 	 * @since 5.5
 	 */
 	protected function render_submit_button() {
-		bd_render_submit_button( $this->delete_action );
+		bd_render_submit_button();
 	}
 
 	/**
