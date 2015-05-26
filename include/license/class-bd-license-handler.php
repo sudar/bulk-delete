@@ -157,6 +157,11 @@ class BD_License_Handler {
 		);
 	}
 
+	/**
+	 * Display notification at the top of all admin pages.
+	 *
+	 * @since 5.5
+	 */
 	public function show_admin_notices() {
 		if ( '' != $this->notice_msg ) {
 			printf( '<div class="error"><p><strong>%s</strong></p></div>', $this->notice_msg );
