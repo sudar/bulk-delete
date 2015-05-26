@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  */
 function bd_add_rating_link( $footer_text ) {
 	$rating_text = sprintf( __( 'Thank you for using <a href = "%1$s">Bulk Delete</a> plugin! Kindly <a href = "%2$s">rate us</a> at <a href = "%2$s">WordPress.org</a>', 'bulk-delete' ),
-		'http://bulkwp.com',
+		'http://bulkwp.com?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=footer',
 		'http://wordpress.org/support/view/plugin-reviews/bulk-delete?filter=5#postform'
 	);
 
@@ -67,7 +67,7 @@ function bd_add_links_in_plugin_listing( $links, $file ) {
 
 	if ( $file == $plugin ) { // only for this plugin
 		return array_merge( $links, array(
-				'<a href="http://bulkwp.com/addons" target="_blank">' . __( 'Buy Addons', 'bulk-delete' ) . '</a>'
+				'<a href="http://bulkwp.com/addons?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=plugin-page" target="_blank">' . __( 'Buy Addons', 'bulk-delete' ) . '</a>'
 			) );
 	}
 

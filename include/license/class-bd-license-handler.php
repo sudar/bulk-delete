@@ -118,7 +118,7 @@ class BD_License_Handler {
 			return;
 		}
 
-		$addon_url = 'http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=plugin-list&utm_content=' . strtolower( $this->addon_code );
+		$addon_url = 'http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=header-notice&utm_content=' . strtolower( $this->addon_code );
 		$license_code = BD_License::get_license_code( $this->addon_code );
 
 		if ( false == $license_code ) {
@@ -176,7 +176,7 @@ class BD_License_Handler {
 			return;
 		}
 
-		$addon_url = 'http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=plugin-list&utm_content=' . strtolower( $this->addon_code );
+		$addon_url = 'http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=plugin-page&utm_content=' . strtolower( $this->addon_code );
 		$license_code = BD_License::get_license_code( $this->addon_code );
 		if ( false == $license_code ) {
 			$plugin_row_msg = sprintf( __( 'Addon is not activated. To activate the addon, please <a href="%1$s">enter your license key</a>. If you don\'t have a license key, then you can <a href="%2$s" target="_blank">purchase one</a>.', 'bulk-delete' ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ), esc_url( $addon_url ) );
