@@ -42,6 +42,17 @@ jQuery(document).ready(function () {
 		}
 	}
 
+	/**
+	 * Toggle user login restrict fields
+	 */
+	function toggle_login_restrict(el) {
+		if (jQuery("#smbd" + el + "_login_restrict").is(":checked")) {
+			jQuery("#smbd" + el + "_login_days").removeAttr('disabled');
+		} else {
+			jQuery("#smbd" + el + "_login_days").attr('disabled', 'true');
+		}
+	}
+
 	// hide all terms
 	function hideAllTerms() {
 		jQuery('table.terms').hide();
@@ -77,6 +88,9 @@ jQuery(document).ready(function () {
 			toggle_limit_restrict(value);
 		});
 
+		jQuery('#smbd' + value + '_login_restrict').change(function () {
+			toggle_login_restrict(value);
+		});
 	});
 
 	// Validate user action

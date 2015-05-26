@@ -82,39 +82,11 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
         <table class="optiontable">
 <?php
 		$this->render_filtering_table_header();
-		if ( ! bd_is_simple_login_log_present() ) {
-			$disabled = 'disabled';
-		} else {
-			$disabled = '';
-		}
+		$this->render_user_login_restrict_settings();
+		$this->render_user_with_no_posts_settings();
+		$this->render_limit_settings();
+		$this->render_cron_settings();
 ?>
-            <tr>
-                <td scope="row" colspan="2">
-                <input name="smbd_u_login_restrict" id="smbd_u_login_restrict" value = "true" type = "checkbox" <?php echo $disabled; ?>>
-                    <?php _e( 'Only restrict to users who have not logged in the last ', 'bulk-delete' );?>
-                    <input type="number" name="smbd_u_login_days" id="smbd_u_login_days" class="screen-per-page" value="0" min="0" <?php echo $disabled; ?>> <?php _e( 'days', 'bulk-delete' );?>
-<?php
-		if ( ! bd_is_simple_login_log_present() ) {
-?>
-                    <span style = "color:red">
-                        <?php _e( 'Need Simple Login Log Plugin', 'bulk-delete' ); ?> <a href = "http://wordpress.org/plugins/simple-login-log/">Install now</a>
-                    </span>
-<?php
-		}
-?>
-                </td>
-            </tr>
-
-            <tr>
-                <td scope="row" colspan="2">
-                    <input name="smbd_u_role_no_posts" id="smbd_u_role_no_posts" value="true" type="checkbox">
-                    <?php _e( "Only if user doesn't have any post. Only posts from 'post' post type would be considered.", 'bulk-delete' ); ?>
-                </td>
-            </tr>
-
-			<?php $this->render_limit_settings(); ?>
-			<?php $this->render_cron_settings(); ?>
-
         </table>
         </fieldset>
         <!-- Users end-->
@@ -130,12 +102,12 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 	public function process() {
 		$delete_options                   = array();
 		$delete_options['selected_roles'] = array_get( $_POST, 'smbd_u_roles' );
-		$delete_options['no_posts']       = array_get_bool( $_POST, 'smbd_u_role_no_posts', false );
+		$delete_options['no_posts']       = array_get_bool( $_POST, "smbd_{$this->field_slug}_no_posts", false );
 
-		$delete_options['login_restrict'] = array_get_bool( $_POST, 'smbd_u_login_restrict', false );
-		$delete_options['login_days']     = absint( array_get( $_POST, 'smbd_u_login_days', 0 ) );
+		$delete_options['login_restrict'] = array_get_bool( $_POST, "smbd_{$this->field_slug}_login_restrict", false );
+		$delete_options['login_days']     = absint( array_get( $_POST, "smbd_{$this->field_slug}_login_days", 0 ) );
 
-		$delete_options['limit_to']       = absint( array_get( $_POST, 'smbd_u_role_limit_to', 0 ) );
+		$delete_options['limit_to']       = absint( array_get( $_POST, "smbd_{$this->field_slug}_limit_to", 0 ) );
 
 		$this->process_delete( $delete_options );
 	}
@@ -196,7 +168,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 	 * @return array           Modified JavaScript Array
 	 */
 	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][] = '_u_role';
+		$js_array['dt_iterators'][] = '_' . $this->field_slug;
 
 		$js_array['pre_action_msg'][ $this->delete_action ] = 'deleteUsersWarning';
 		$js_array['msg']['deleteUsersWarning'] = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );
