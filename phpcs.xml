@@ -4,6 +4,7 @@
 
 	<file>./</file>
 
+ 	<!-- Non code directories -->
 	<exclude-pattern>docs/*</exclude-pattern>
  	<exclude-pattern>node_modules/*</exclude-pattern>
  	<exclude-pattern>test/*</exclude-pattern>
@@ -11,6 +12,7 @@
  	<exclude-pattern>vendor/*</exclude-pattern>
  	<exclude-pattern>Gruntfile.js</exclude-pattern>
 
+ 	<!-- 3rd Party provided libraries -->
 	<exclude-pattern>include/libraries/*</exclude-pattern>
 
  	<!-- Compiled and Vendor-provided assets -->
@@ -20,5 +22,13 @@
  	<exclude-pattern>assets/js/vendor/*</exclude-pattern>
  	<exclude-pattern>assets/js/*.min.js</exclude-pattern>
 
- 	<rule ref="WordPress-Extra" />
+	<!--Code-->
+	<rule ref="WordPress-Extra">
+		<!-- Exclude suggestion to use esc_html__() instead of _e() -->
+		<exclude name="WordPress.XSS.EscapeOutput.UnsafePrintingFunction"/>
+	</rule>
+
+	<!--Docs-->
+	<rule ref="WordPress-Docs">
+	</rule>
 </ruleset>
