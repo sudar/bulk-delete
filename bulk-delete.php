@@ -49,7 +49,7 @@ final class Bulk_Delete {
 	private static $instance;
 
 	// version
-	const VERSION                   = '5.5-dev';
+	const VERSION                   = '5.5';
 
 	// Numeric constants
 	const MENU_ORDER                = '26.9966';
@@ -445,7 +445,7 @@ final class Bulk_Delete {
 				'validators'     => array(),
 				'dt_iterators'   => array(),
 				'pre_action_msg' => array(),
-				'error_msg'      => array()
+				'error_msg'      => array(),
 			) );
 		wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
 	}
@@ -566,7 +566,7 @@ final class Bulk_Delete {
 			require_once self::$PLUGIN_DIR . '/include/cron/class-cron-list-table.php';
 		}
 
-		//Prepare Table of elements
+		// Prepare Table of elements
 		$cron_list_table = new Cron_List_Table();
 		$cron_list_table->prepare_items();
 ?>
@@ -574,7 +574,7 @@ final class Bulk_Delete {
         <h2><?php _e( 'Bulk Delete Schedules', 'bulk-delete' );?></h2>
         <?php settings_errors(); ?>
 <?php
-		//Table of elements
+		// Table of elements
 		$cron_list_table->display();
 		bd_display_available_addon_list();
 ?>
@@ -641,7 +641,7 @@ final class Bulk_Delete {
 		}
 
 		if ( isset( $_GET['bd_action'] ) ) {
-			//TODO: check nonce for get requests as well.
+			// TODO: check nonce for get requests as well.
 			do_action( 'bd_' . $_GET['bd_action'], $_GET );
 		}
 	}
