@@ -100,7 +100,7 @@ abstract class BD_Page {
 	public function nonce_check( $result, $action ) {
 		$action_prefix = "delete_{$this->item_type}_";
 
-		if ( "delete_{$this->item_type}_" === substr( $action, 0, strlen( $action_prefix ) )
+		if ( $action_prefix === substr( $action, 0, strlen( $action_prefix ) )
 			&& check_admin_referer( "bd-{$this->page_slug}", "bd-{$this->page_slug}-nonce" ) ) {
 			return true;
 		} else {
