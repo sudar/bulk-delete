@@ -243,6 +243,10 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/deprecated/class-bulk-delete-users.php';
 		require_once self::$PLUGIN_DIR . '/include/deprecated/deprecated.php';
 
+		require_once self::$PLUGIN_DIR . '/include/addons/base/class-bd-addon.php';
+		require_once self::$PLUGIN_DIR . '/include/addons/base/class-bd-base-addon.php';
+		require_once self::$PLUGIN_DIR . '/include/addons/base/class-bd-scheduler-addon.php';
+
 		require_once self::$PLUGIN_DIR . '/include/addons/addon-list.php';
 		require_once self::$PLUGIN_DIR . '/include/addons/posts.php';
 		require_once self::$PLUGIN_DIR . '/include/addons/pages.php';
