@@ -212,6 +212,24 @@ abstract class BD_Meta_Box_Module {
 	}
 
 	/**
+	 * Render restrict settings.
+	 *
+	 * @since 5.5
+	 */
+	protected function render_restrict_settings() {
+		bd_render_restrict_settings( $this->field_slug, $this->item_type );
+	}
+
+	/**
+	 * Render delete settings.
+	 *
+	 * @since 5.5
+	 */
+	protected function render_delete_settings() {
+		bd_render_delete_settings( $this->field_slug );
+	}
+
+	/**
 	 * Render limit settings.
 	 *
 	 * @since 5.5
@@ -325,6 +343,16 @@ abstract class BD_Meta_Box_Module {
 	 */
 	public function get_cron_hook() {
 	    return $this->cron_hook;
+	}
+
+	/**
+	 * Getter for field slug.
+	 *
+	 * @since 5.5
+	 * @return string Field Slug.
+	 */
+	public function get_field_slug() {
+	    return $this->field_slug;
 	}
 }
 ?>
