@@ -451,6 +451,7 @@ final class Bulk_Delete {
 				'dt_iterators'   => array(),
 				'pre_action_msg' => array(),
 				'error_msg'      => array(),
+				'pro_iterators'  => array(),
 			) );
 		wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
 	}

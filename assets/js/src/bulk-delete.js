@@ -93,6 +93,11 @@ jQuery(document).ready(function () {
 		});
 	});
 
+	jQuery.each( BulkWP.pro_iterators, function ( index, value) {
+		jQuery('.bd-' + value.replace( '_', '-' ) + '-pro').hide();
+		jQuery('#smbd_' + value + '_cron_freq, #smbd_' + value + '_cron_start, #smbd_' + value + '_cron').removeAttr('disabled');
+	} );
+
 	// Validate user action
 	jQuery('button[name="bd_action"]').click(function () {
 		var currentButton = jQuery(this).val(),
