@@ -18,6 +18,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 abstract class BD_Scheduler_Addon extends BD_Addon {
 
 	/**
+	 * @var No base addon for this scheduler addon.
+	 */
+	protected $no_base_addon = false;
+
+	/**
 	 * @var Base addon name.
 	 */
 	protected $base_addon;
@@ -113,7 +118,7 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 	 * @return array           Modified JavaScript Array
 	 */
 	public function filter_js_array( $js_array ) {
-		$js_array['pro_iterators'][] = $this->base_addon_obj->get_module()->get_field_slug();
+		$js_array['pro_iterators'][] = $this->get_module()->get_field_slug();
 
 		return $js_array;
 	}
@@ -126,7 +131,7 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 	 */
 	public function do_delete( $delete_options ) {
 		do_action( 'bd_before_scheduler', $this->addon_name );
-		$count = $this->base_addon_obj->get_module()->delete( $delete_options );
+		$count = $this->get_module()->delete( $delete_options );
 		do_action( 'bd_after_scheduler', $this->addon_name, $count );
 	}
 
@@ -144,6 +149,21 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 		}
 
 		return $cron_hook;
+	}
+
+	/**
+	 * Get base module.
+	 *
+	 * @access protected
+	 * @since 5.5
+	 * @return object Base module object
+	 */
+	protected function get_module() {
+		if ( $this->no_base_addon ) {
+			return $this->base_addon_obj;
+		} else {
+			return $this->base_addon_obj->get_module();
+		}
 	}
 }
 ?>
