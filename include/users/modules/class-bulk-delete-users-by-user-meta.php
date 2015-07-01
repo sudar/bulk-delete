@@ -64,7 +64,7 @@ class Bulk_Delete_Users_By_User_Meta extends BD_Meta_Box_Module {
 
         <fieldset class="options">
         <table class="optiontable">
-		<select name="smbd_u_meta_key">
+		<select name="smbd_u_meta_key" class="select2">
 <?php
 		$meta_keys = $this->get_unique_meta_keys();
 		foreach ( $meta_keys as $meta_key ) {
