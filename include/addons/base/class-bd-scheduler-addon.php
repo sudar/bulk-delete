@@ -93,7 +93,18 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 	 * @since 5.5
 	 */
 	public function addon_missing_notice() {
-		printf( '<div class="error"><p>%s</p></div>', sprintf( __( '%s requires %s to be installed and activated!', 'bulk-delete' ), $this->addon_name, $this->base_addon ) );
+		$campaign_args = array(
+			'utm_source'   => 'wpadmin',
+			'utm_campaign' => 'BulkDelete',
+			'utm_medium'   => 'header-notice',
+			'utm_content'  => $this->addon_code,
+		);
+		$addon_url = bd_get_addon_url( $this->base_addon, $campaign_args );
+
+		printf(
+			'<div class="error"><p>%s</p></div>',
+			sprintf( __( '"%s" addon requires "<a href="%s" target="_blank">%s</a>" addon to be installed and activated!', 'bulk-delete' ), $this->addon_name, $addon_url , $this->base_addon )
+		);
 	}
 
 	/**
