@@ -76,7 +76,19 @@ abstract class BD_Addon {
 	protected function setup() {
 		$this->initialize();
 		$this->setup_translation();
-		$this->setup_hooks();
+		if ( $this->dependencies_met() ) {
+			$this->setup_hooks();
+		}
+	}
+
+	/**
+	 * Check if all dependencies are met.
+	 * To check for dependencies overload this method in the child class.
+	 *
+	 * @return book True if dependencies met, False otherwise.
+	 */
+	protected function dependencies_met() {
+		return true;
 	}
 
 	/**
