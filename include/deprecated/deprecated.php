@@ -37,6 +37,7 @@ function bd_delete_options_compatibility( $options ) {
 
 	return $options;
 }
+add_filter( 'bd_delete_options', 'bd_delete_options_compatibility' );
 
 /**
  * Enable cron for old pro addons that required separate JavaScript.

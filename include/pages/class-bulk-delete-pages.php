@@ -145,7 +145,7 @@ class Bulk_Delete_Pages {
 			$delete_options['date_op'] = $delete_options['page_op'];
 			$delete_options['days']    = $delete_options['page_days'];
 		}
-		$delete_options = bd_delete_options_compatibility( $delete_options );
+		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$post_status = array();
 

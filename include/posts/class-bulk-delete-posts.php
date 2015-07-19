@@ -156,7 +156,8 @@ class Bulk_Delete_Posts {
 			$delete_options['date_op'] = $delete_options['post_status_op'];
 			$delete_options['days']    = $delete_options['post_status_days'];
 		}
-		$delete_options = bd_delete_options_compatibility( $delete_options );
+
+		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$posts_deleted = 0;
 
@@ -326,7 +327,7 @@ class Bulk_Delete_Posts {
 			$delete_options['days']    = $delete_options['cats_days'];
 		}
 
-		$delete_options = bd_delete_options_compatibility( $delete_options );
+		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$options = array();
 		$selected_cats = $delete_options['selected_cats'];
@@ -453,7 +454,8 @@ class Bulk_Delete_Posts {
 			$delete_options['date_op'] = $delete_options['tags_op'];
 			$delete_options['days']    = $delete_options['tags_days'];
 		}
-		$delete_options = bd_delete_options_compatibility( $delete_options );
+
+		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$options = array();
 		$selected_tags = $delete_options['selected_tags'];
@@ -628,7 +630,8 @@ class Bulk_Delete_Posts {
 			$delete_options['date_op'] = $delete_options['taxs_op'];
 			$delete_options['days']    = $delete_options['taxs_days'];
 		}
-		$delete_options = bd_delete_options_compatibility( $delete_options );
+
+		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$selected_taxs      = $delete_options['selected_taxs'];
 		$selected_tax_terms = $delete_options['selected_tax_terms'];
@@ -790,7 +793,8 @@ class Bulk_Delete_Posts {
 			$delete_options['date_op'] = $delete_options['types_op'];
 			$delete_options['days']    = $delete_options['types_days'];
 		}
-		$delete_options = bd_delete_options_compatibility( $delete_options );
+
+		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$count = 0;
 		$selected_types = $delete_options['selected_types'];
