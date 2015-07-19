@@ -116,7 +116,6 @@ final class Bulk_Delete {
 	public $translations;
 	public $posts_page;
 	public $pages_page;
-	public $users_page;
 	public $cron_page;
 	public $addon_page;
 	public $info_page;
@@ -127,7 +126,8 @@ final class Bulk_Delete {
 
 	// Deprecated.
 	// Will be removed in v6.0
-	const CRON_HOOK_USER_ROLE       = 'do-bulk-delete-users-by-role';
+	const CRON_HOOK_USER_ROLE = 'do-bulk-delete-users-by-role';
+	public $users_page;
 
 	/**
 	 * Main Bulk_Delete Instance

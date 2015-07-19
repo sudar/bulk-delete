@@ -37,4 +37,25 @@ function bd_delete_options_compatibility( $options ) {
 
 	return $options;
 }
+
+/**
+ * Enable cron for old pro addons that required separate JavaScript.
+ * This will be removed in v6.0
+ *
+ * @since 5.5
+ * @param array  $js_array JavaScript Array
+ * @return array           Modified JavaScript Array
+ */
+function bd_enable_cron_for_old_addons( $js_array ) {
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	}
+
+	if ( is_plugin_active( 'bulk-delete-scheduler-for-deleting-users-by-role/bulk-delete-scheduler-for-deleting-users-by-role.php' ) ) {
+		$js_array['pro_iterators'][] = 'u_role';
+	}
+
+	return $js_array;
+}
+add_filter( 'bd_javascript_array', 'bd_enable_cron_for_old_addons' );
 ?>
