@@ -113,6 +113,7 @@ function bd_render_limit_settings( $slug, $item = 'posts' ) {
  * @param string $addon_url Url for the pro addon.
  */
 function bd_render_cron_settings( $slug, $addon_url ) {
+	$pro_class = 'bd-' . str_replace( '_', '-', $slug ) . '-pro';
 ?>
 	<tr>
 		<td scope="row" colspan="2">
@@ -128,7 +129,7 @@ function bd_render_cron_settings( $slug, $addon_url ) {
 				<option value="<?php echo $key; ?>"><?php echo $value['display']; ?></option>
 <?php } ?>
 			</select>
-			<span class="bd-<?php echo str_replace( '_', '-', $slug ); ?>-pro" style="color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href="<?php echo $addon_url; ?>">Buy now</a></span>
+			<span class="<?php echo sanitize_html_class( apply_filters( 'bd_pro_class', $pro_class, $slug ) ); ?>" style="color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href="<?php echo $addon_url; ?>">Buy now</a></span>
 		</td>
 	</tr>
 
