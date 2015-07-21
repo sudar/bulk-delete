@@ -117,7 +117,7 @@ module.exports = function( grunt ) {
 	} );
 
 	grunt.registerTask('default', ['jshint:browser', 'concat', 'uglify', 'cssmin']);
-	grunt.registerTask('build', ['copy']);
+	grunt.registerTask('vendor', ['copy:timepicker', 'copy:select2']);
 
 	grunt.util.linefeed = '\n';
 };
