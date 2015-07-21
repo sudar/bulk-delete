@@ -29,6 +29,6 @@
 	</rule>
 
 	<!--Docs-->
-	<rule ref="WordPress-Docs">
-	</rule>
+	<!-- disabled for now, since these are reported as errors and not as warnings -->
+	<!--<rule ref="WordPress-Docs"></rule>-->
 </ruleset>
