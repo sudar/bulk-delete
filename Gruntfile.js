@@ -92,6 +92,10 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		clean   : {
+			dist: ['dist/']
+		},
+
 		copy: {
 			timepicker: {
 				files: [{
@@ -112,6 +116,27 @@ module.exports = function( grunt ) {
 					src : 'assets/vendor/select2/dist/css/select2.min.css',
 					dest: 'assets/css/select2.min.css'
 				}]
+			},
+			dist: {
+				files : [
+					{
+						expand: true,
+						src: [
+							'**',
+							'!dist/**',
+							'!assets-wp-repo/**',
+							'!node_modules/**',
+							'!assets/vendor/**',
+							'!assets/js/src/**',
+							'!assets/css/src/**',
+							'!Gruntfile.js',
+							'!bower.json',
+							'!package.json',
+							'!phpcs.xml'
+						],
+						dest: 'dist/'
+					}
+				]
 			}
 		}
 	} );
@@ -120,6 +145,7 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask('default', ['jshint:browser', 'concat', 'uglify', 'cssmin']);
 	grunt.registerTask('vendor', ['copy:timepicker', 'copy:select2']);
+	grunt.registerTask('build', [ 'default', 'vendor', 'clean', 'copy:dist']);
 
 	grunt.util.linefeed = '\n';
 };

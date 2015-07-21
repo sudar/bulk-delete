@@ -1,5 +1,6 @@
 # Folders #
 ######################
+/dist/
 /.sass-cache/
 /node_modules/
 /vendor/
