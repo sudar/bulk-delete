@@ -93,7 +93,7 @@ Like posts, all the above options support the following filters as well
 
 #### Deleting Meta Fields
 
-- Delete Attachments (Available as a [Pro addon]()http://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at)
+- Delete Attachments (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at))
 
 #### Deleting other items
 - Delete Jetpack Contact Form Messages
