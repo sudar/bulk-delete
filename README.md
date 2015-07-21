@@ -2,9 +2,9 @@
 **Contributors:** sudar  
 **Tags:** mass, bulk, delete, post, comment, draft, revision, page, user, meta fields  
 **Requires at least:** 3.9  
-**Tested up to:** 4.1.1  
+**Tested up to:** 4.2.2  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 5.4.2  
+**Stable tag:** 5.5  
 
 [![Build Status](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/build-status/master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master)
 

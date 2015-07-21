@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### 5.5 - In Development (Dev time: 50 hours) ###
+### 2015-07-21 - v5.5 (Dev time: 50 hours) ###
 - New Features
     - Added the ability to delete users based on user meta. (Issue #79)
     - Improved the UI of dropdowns. (Issue #101)
@@ -13,7 +13,7 @@
     - Tweaked the build process
     - Use compressed JS and CSS files for better performance. (Issue #62)
 
-### 2015-03-03 - 5.4.2 (Dev time: 5.0 hours) ###
+### 2015-03-03 - v5.4.2 (Dev time: 5.0 hours) ###
 - Tweak: Improve performance of DB queries to prevent timeouts. (Issue #93)
 - Tweak: Add details about different post types in system info. (Issue #100)
 - Tweak: Add details about timezone settings in system info. (Issue #100)
