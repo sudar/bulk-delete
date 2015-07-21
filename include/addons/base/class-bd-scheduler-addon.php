@@ -68,7 +68,7 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 	 * @todo check for version as well
 	 *
 	 * @param string Base Addon class name. Default null. If not specified then it is auto calculated based on addon name.
-	 * @return book True if base addon is found, False other wise
+	 * @return bool True if base addon is found, False other wise
 	 */
 	protected function check_base_addon( $addon_class_name = null ) {
 		if ( null == $addon_class_name ) {

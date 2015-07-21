@@ -85,7 +85,7 @@ abstract class BD_Addon {
 	 * Check if all dependencies are met.
 	 * To check for dependencies overload this method in the child class.
 	 *
-	 * @return book True if dependencies met, False otherwise.
+	 * @return bool True if dependencies met, False otherwise.
 	 */
 	protected function dependencies_met() {
 		return true;
