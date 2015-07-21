@@ -7,6 +7,7 @@
  * @package    BulkDelete\Meta
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Meta {
 
@@ -113,7 +114,7 @@ class Bulk_Delete_Meta {
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
-            <div class="updated" >
+            <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Items deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
 

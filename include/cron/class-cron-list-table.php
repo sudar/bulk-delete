@@ -6,6 +6,7 @@
  * @package    BulkDelete\Cron
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Cron_List_Table extends WP_List_Table {
 
@@ -27,23 +28,15 @@ class Cron_List_Table extends WP_List_Table {
 	 * @param string  $which Whether the markup should appear after (bottom) or before (top) the list
 	 */
 	public function extra_tablenav( $which ) {
-		if ( $which == "top" ) {
+		if ( 'top' == $which ) {
 			//The code that goes before the table is here
 			echo '<p>';
 			_e( 'This is the list of jobs that are currently scheduled for auto deleting posts in Bulk Delete Plugin.', 'bulk-delete' );
-			echo '</p>';
-		}
-		if ( $which == "bottom" ) {
-			//The code that goes after the table is there
-			echo '<p>&nbsp;</p>';
-			echo '<p>';
-			echo '<strong>';
+			echo ' <strong>';
 			_e( 'Note: ', 'bulk-delete' );
 			echo '</strong>';
 			_e( 'Scheduling auto post or user deletion is available only when you buy pro addons.', 'bulk-delete' );
 			echo '</p>';
-
-			BD_License::display_available_addon_list();
 		}
 	}
 
@@ -87,10 +80,11 @@ class Cron_List_Table extends WP_List_Table {
 
 		/* -- Register the pagination -- */
 		$this->set_pagination_args( array(
-				"total_items" => $totalitems,
-				"total_pages" => $totalpages,
-				"per_page" => $perpage,
+				'total_items' => $totalitems,
+				'total_pages' => $totalpages,
+				'per_page'    => $perpage,
 			) );
+
 		//The pagination links are automatically built according to those parameters
 
 		/* — Register the Columns — */
@@ -103,8 +97,9 @@ class Cron_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Display cron due date column.
 	 *
-	 * @param unknown $item
+	 * @param array $item
 	 * @return string
 	 */
 	public function column_col_cron_due( $item ) {
@@ -129,24 +124,27 @@ class Cron_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Display cron schedule column.
 	 *
-	 * @param unknown $item
+	 * @param array $item
 	 */
 	public function column_col_cron_schedule( $item ) {
 		echo $item['schedule'];
 	}
 
 	/**
+	 * Display cron type column.
 	 *
-	 * @param unknown $item
+	 * @param array $item
 	 */
 	public function column_col_cron_type( $item ) {
 		echo $item['type'];
 	}
 
 	/**
+	 * Display cron options column.
 	 *
-	 * @param unknown $item
+	 * @param array $item
 	 */
 	public function column_col_cron_options( $item ) {
 		// TODO: Make it pretty

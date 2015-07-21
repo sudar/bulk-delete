@@ -7,6 +7,7 @@
  * @package    BulkDelete\License
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class BD_EDD_API_Wrapper {
 

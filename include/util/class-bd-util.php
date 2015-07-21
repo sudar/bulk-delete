@@ -6,6 +6,7 @@
  * @package    BulkDelete\Util
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Utility class.
@@ -13,32 +14,10 @@
  * Ideally most of the functions should be inside the `BulkDelete\Util` and not as static functions.
  */
 class BD_Util {
-
-	// simple login log
-	const SIMPLE_LOGIN_LOG_TABLE = 'simple_login_log';
-
 	// Meta boxes
 	const VISIBLE_POST_BOXES     = 'metaboxhidden_toplevel_page_bulk-delete-posts';
 	const VISIBLE_PAGE_BOXES     = 'metaboxhidden_bulk-delete_page_bulk-delete-pages';
 	const VISIBLE_USER_BOXES     = 'metaboxhidden_bulk-delete_page_bulk-delete-users';
-
-	/**
-	 * Find out if Simple Login Log is installed or not
-	 * http://wordpress.org/plugins/simple-login-log/
-	 *
-	 * @static
-	 * @access public
-	 * @return bool    True if plugin is installed, False otherwise
-	 */
-	public static function is_simple_login_log_present() {
-		global $wpdb;
-
-		if ( $wpdb->get_row( "SHOW TABLES LIKE '{$wpdb->prefix}" . self::SIMPLE_LOGIN_LOG_TABLE . "'" ) ) {
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 * Check whether the meta box in posts page is hidden or not
@@ -145,7 +124,7 @@ class BD_Util {
 						$cron_item['id'] = $i;
 					}
 
-					$cron_items[$i] = $cron_item;
+					$cron_items[ $i ] = $cron_item;
 					$i++;
 				}
 			}
@@ -158,31 +137,34 @@ class BD_Util {
 	 *
 	 * @static
 	 * @param string $str
-	 * @return string
+	 * @return string Label
 	 */
 	public static function display_post_type_status( $str ) {
 		$type_status = self::split_post_type_status( $str );
 
-		$type   = $type_status['type'];
 		$status = $type_status['status'];
+		$type   = $type_status['type'];
+		$label  = '';
 
 		switch ( $status ) {
 			case 'private':
-				return $type . ' - Private Posts';
+				$label = $type . ' - Private Posts';
 				break;
 			case 'future':
-				return $type . ' - Scheduled Posts';
+				$label = $type . ' - Scheduled Posts';
 				break;
 			case 'draft':
-				return $type . ' - Draft Posts';
+				$label = $type . ' - Draft Posts';
 				break;
 			case 'pending':
-				return $type . ' - Pending Posts';
+				$label = $type . ' - Pending Posts';
 				break;
 			case 'publish':
-				return $type . ' - Published Posts';
+				$label = $type . ' - Published Posts';
 				break;
 		}
+
+		return $label;
 	}
 
 	/**
@@ -191,7 +173,7 @@ class BD_Util {
 	 * @static
 	 * @access public
 	 * @param string $str
-	 * @return string
+	 * @return array
 	 */
 	public static function split_post_type_status( $str ) {
 		$type_status = array();
@@ -210,102 +192,73 @@ class BD_Util {
 	}
 }
 
-/**
- * Get a value from an array based on key.
- * If key is present returns the value, else returns the default value
- *
- * @param array   $array   Array from which value has to be retrieved
- * @param string  $key     Key, whose value to be retrieved
- * @param string  $default Optional. Default value to be returned, if the key is not found
- * @return mixed           Value if key is present, else the default value
- */
 if ( ! function_exists( 'array_get' ) ) {
+	/**
+	 * Get a value from an array based on key.
+	 * If key is present returns the value, else returns the default value
+	 *
+	 * @param array   $array   Array from which value has to be retrieved
+	 * @param string  $key     Key, whose value to be retrieved
+	 * @param string  $default Optional. Default value to be returned, if the key is not found
+	 * @return mixed           Value if key is present, else the default value
+	 */
 	function array_get( $array, $key, $default = null ) {
 		return isset( $array[ $key ] ) ? $array[ $key ] : $default;
 	}
 }
 
-/**
- * Get a value from an array based on key and convert it into bool.
- *
- * @param array   $array   Array from which value has to be retrieved
- * @param string  $key     Key, whose value to be retrieved
- * @param string  $default Optional. Default value to be returned, if the key is not found
- * @return mixed           Boolean converted Value if key is present, else the default value
- */
 if ( ! function_exists( 'array_get_bool' ) ) {
-	function array_get_bool( $array, $key, $default = null ) {
+	/**
+	 * Get a value from an array based on key and convert it into bool.
+	 *
+	 * @param array  $array   Array from which value has to be retrieved
+	 * @param string $key     Key, whose value to be retrieved
+	 * @param bool   $default (Optional) Default value to be returned, if the key is not found
+	 * @return mixed          Boolean converted Value if key is present, else the default value
+	 */
+	function array_get_bool( $array, $key, $default = false ) {
 		return filter_var( array_get( $array, $key, $default ), FILTER_VALIDATE_BOOLEAN );
 	}
 }
 
 /**
- * Wrapper for WP_query.
+ * Convert a string value into boolean, based on whether the value "True" or "False" is present.
  *
- * Adds some performance enhancing defaults.
- *
- * @since  5.5
- * @param  array $options List of options
- * @return array          Result array
+ * @since 5.5
+ * @param string $string String value to compare.
+ * @return bool True if string is "True", False otherwise.
  */
-function bd_query( $options ) {
-	$defaults = array(
-		'cache_results'          => false, // don't cache results
-		'update_post_meta_cache' => false, // No need to fetch post meta fields
-		'update_post_term_cache' => false, // No need to fetch taxonomy fields
-		'no_found_rows'          => true,  // No need for pagination
-		'fields'                 => 'ids', // retrieve only ids
-	);
-	$options = wp_parse_args( $options, $defaults );
-
-	$wp_query = new WP_Query();
-	return $wp_query->query( $options );
+function bd_to_bool( $string ) {
+	return filter_var( $string, FILTER_VALIDATE_BOOLEAN );
 }
 
 /**
- * Process delete options array and build query.
+ * Get the formatted list of allowed mime types.
+ * This function was originally defined in the Bulk Delete Attachment addon.
  *
- * @param array $delete_options Delete Options
- * @param array $options        (optional) Options query
+ * @since 5.5
+ * @return array List of allowed mime types after formatting
  */
-function bd_build_query_options( $delete_options, $options = array() ) {
-	// private posts
-	if ( isset( $delete_options['private'] ) ) {
-		if ( $delete_options['private'] ) {
-			$options['post_status'] = 'private';
-		} else {
-			$options['post_status'] = 'publish';
+function bd_get_allowed_mime_types() {
+	$mime_types = get_allowed_mime_types();
+	sort( $mime_types );
+
+	$processed_mime_types = array();
+	$processed_mime_types['all'] = __( 'All mime types', 'bulk-delete' );
+
+	$last_value = '';
+	foreach ( $mime_types as $key => $value ) {
+		$splitted = explode( '/', $value, 2 );
+		$prefix = $splitted[0];
+
+		if ( '' == $last_value || $prefix != $last_value ) {
+			$processed_mime_types[ $prefix ] = __( 'All', 'bulk-delete' ) . ' ' . $prefix;
+			$last_value = $prefix;
 		}
+
+		$processed_mime_types[ $value ] = $value;
 	}
 
-	// limit to query
-	if ( $delete_options['limit_to'] > 0 ) {
-		$options['showposts'] = $delete_options['limit_to'];
-	} else {
-		$options['nopaging']  = 'true';
-	}
-
-	// date query
-	if ( $delete_options['restrict'] ) {
-		if ( 'before' == $delete_options['date_op'] || 'after' == $delete_options['date_op'] ) {
-			$options['date_query'] = array(
-				array(
-					'column'                   => 'post_date',
-					$delete_options['date_op'] => "{$delete_options['days']} day ago",
-				),
-			);
-		} else {
-			// backward compatibility. This will be removed in Bulk Delete v6.0
-			$options['op']   = $delete_options['date_op'];
-			$options['days'] = $delete_options['days'];
-
-			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
-				require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
-			}
-			$bulk_Delete_By_Days = new Bulk_Delete_By_Days;
-		}
-	}
-
-	return $options;
+	return $processed_mime_types;
 }
 ?>

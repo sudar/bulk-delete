@@ -7,6 +7,7 @@
  * @package    BulkDelete\Settings
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class BD_Settings {
 
@@ -45,11 +46,10 @@ class BD_Settings {
 	 *
 	 * @since 5.0
 	 * @static
-	 * @param unknown $input
-	 * @return unknown
+	 * @param array $input
+	 * @return array
 	 */
 	public static function check_license( $input ) {
-
 		/**
 		 * Filter license form inputs
 		 *

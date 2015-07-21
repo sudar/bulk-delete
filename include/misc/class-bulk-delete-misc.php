@@ -7,6 +7,7 @@
  * @package    BulkDelete\Misc
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Misc {
 
@@ -109,7 +110,7 @@ class Bulk_Delete_Misc {
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
-            <div class="updated" >
+            <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Posts deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
 

@@ -5,7 +5,7 @@
  * Plugin URI: http://bulkwp.com
  * Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
  * Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
- * Version: 5.4.2
+ * Version: 5.5
  * License: GPL
  * Author: Sudar
  * Author URI: http://sudarmuthu.com/
@@ -14,11 +14,10 @@
  * === RELEASE NOTES ===
  * Check readme file for full release notes
  *
- * @version    5.4.1
+ * @version    5.5
  * @author     Sudar
  * @package    BulkDelete
  */
-
 
 /**
  * Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -34,10 +33,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Main Bulk_Delete class
@@ -53,7 +49,7 @@ final class Bulk_Delete {
 	private static $instance;
 
 	// version
-	const VERSION                   = '5.4.1';
+	const VERSION                   = '5.5';
 
 	// Numeric constants
 	const MENU_ORDER                = '26.9966';
@@ -61,7 +57,6 @@ final class Bulk_Delete {
 	// page slugs
 	const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
 	const PAGES_PAGE_SLUG           = 'bulk-delete-pages';
-	const USERS_PAGE_SLUG           = 'bulk-delete-users';
 	const CRON_PAGE_SLUG            = 'bulk-delete-cron';
 	const ADDON_PAGE_SLUG           = 'bulk-delete-addon';
 	const INFO_PAGE_SLUG            = 'bulk-delete-info';
@@ -69,6 +64,8 @@ final class Bulk_Delete {
 	// JS constants
 	const JS_HANDLE                 = 'bulk-delete';
 	const JS_VARIABLE               = 'BulkWP';
+
+	const CSS_HANDLE                = 'bulk-delete';
 
 	// Cron hooks
 	const CRON_HOOK_CATEGORY        = 'do-bulk-delete-cat';
@@ -82,8 +79,6 @@ final class Bulk_Delete {
 	const CRON_HOOK_POST_BY_ROLE    = 'do-bulk-delete-posts-by-role';
 
 	const CRON_HOOK_PAGES_STATUS    = 'do-bulk-delete-pages-by-status';
-
-	const CRON_HOOK_USER_ROLE       = 'do-bulk-delete-users-by-role';
 
 	// meta boxes for delete posts
 	const BOX_POST_STATUS           = 'bd_by_post_status';
@@ -103,9 +98,6 @@ final class Bulk_Delete {
 	const BOX_PAGE_STATUS           = 'bd_by_page_status';
 	const BOX_PAGE_FROM_TRASH       = 'bd_pages_from_trash';
 
-	// meta boxes for delete users
-	const BOX_USERS                 = 'bdu_by_users';
-
 	// Settings constants
 	const SETTING_OPTION_GROUP      = 'bd_settings';
 	const SETTING_OPTION_NAME       = 'bd_licenses';
@@ -124,11 +116,18 @@ final class Bulk_Delete {
 	public $translations;
 	public $posts_page;
 	public $pages_page;
-	public $users_page;
 	public $cron_page;
 	public $addon_page;
 	public $info_page;
 	public $settings_page;
+	public $meta_page;
+	public $misc_page;
+	public $display_activate_license_form = false;
+
+	// Deprecated.
+	// Will be removed in v6.0
+	const CRON_HOOK_USER_ROLE = 'do-bulk-delete-users-by-role';
+	public $users_page;
 
 	/**
 	 * Main Bulk_Delete Instance
@@ -210,9 +209,17 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function includes() {
+		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
+		require_once self::$PLUGIN_DIR . '/include/base/class-bd-page.php';
+
+		require_once self::$PLUGIN_DIR . '/include/ui/form.php';
+
 		require_once self::$PLUGIN_DIR . '/include/posts/class-bulk-delete-posts.php';
 		require_once self::$PLUGIN_DIR . '/include/pages/class-bulk-delete-pages.php';
-		require_once self::$PLUGIN_DIR . '/include/users/class-bulk-delete-users.php';
+
+		require_once self::$PLUGIN_DIR . '/include/users/class-bd-users-page.php';
+		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-role.php';
+		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-meta.php';
 
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-post-meta.php';
@@ -226,14 +233,30 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/settings/setting-helpers.php';
 		require_once self::$PLUGIN_DIR . '/include/settings/class-bd-settings.php';
 
+		require_once self::$PLUGIN_DIR . '/include/system-info/class-bulk-delete-system-info.php';
+
 		require_once self::$PLUGIN_DIR . '/include/util/class-bd-util.php';
+		require_once self::$PLUGIN_DIR . '/include/util/query.php';
+
+		require_once self::$PLUGIN_DIR . '/include/compatibility/simple-login-log.php';
+
+		require_once self::$PLUGIN_DIR . '/include/deprecated/class-bulk-delete-users.php';
+		require_once self::$PLUGIN_DIR . '/include/deprecated/deprecated.php';
+
+		require_once self::$PLUGIN_DIR . '/include/addons/base/class-bd-addon.php';
+		require_once self::$PLUGIN_DIR . '/include/addons/base/class-bd-base-addon.php';
+		require_once self::$PLUGIN_DIR . '/include/addons/base/class-bd-scheduler-addon.php';
+
+		require_once self::$PLUGIN_DIR . '/include/addons/addon-list.php';
+		require_once self::$PLUGIN_DIR . '/include/addons/posts.php';
+		require_once self::$PLUGIN_DIR . '/include/addons/pages.php';
+		require_once self::$PLUGIN_DIR . '/include/addons/util.php';
 
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license.php';
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-license-handler.php';
 		require_once self::$PLUGIN_DIR . '/include/license/class-bd-edd-api-wrapper.php';
 
 		require_once self::$PLUGIN_DIR . '/include/ui/admin-ui.php';
-		require_once self::$PLUGIN_DIR . '/include/ui/class-bulk-delete-system-info.php';
 		require_once self::$PLUGIN_DIR . '/include/ui/class-bulk-delete-help-screen.php';
 	}
 
@@ -256,21 +279,20 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function setup_actions() {
-		add_action( 'admin_menu', array( &$this, 'add_menu' ) );
-		add_action( 'admin_init', array( &$this, 'request_handler' ) );
-		add_action( 'bd_pre_bulk_action', array( &$this, 'increase_timeout' ), 9 );
-		add_action( 'bd_before_scheduler', array( &$this, 'increase_timeout' ), 9 );
+		add_action( 'admin_menu', array( $this, 'add_menu' ) );
+		add_action( 'admin_init', array( $this, 'request_handler' ) );
+		add_action( 'bd_pre_bulk_action', array( $this, 'increase_timeout' ), 9 );
+		add_action( 'bd_before_scheduler', array( $this, 'increase_timeout' ), 9 );
 	}
 
 	/**
 	 * Add navigation menu
 	 */
 	public function add_menu() {
-		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
+		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
 
-		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( &$this, 'display_posts_page' ) );
-		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( &$this, 'display_pages_page' ) );
-		$this->users_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Users', 'bulk-delete' ), __( 'Bulk Delete Users', 'bulk-delete' ), 'delete_users', self::USERS_PAGE_SLUG, array( &$this, 'display_users_page' ) );
+		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ) );
+		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( $this, 'display_pages_page' ) );
 
 		/**
 		 * Runs just after adding all *delete* menu items to Bulk WP main menu
@@ -304,21 +326,16 @@ final class Bulk_Delete {
 		do_action( 'bd_after_all_menus' );
 
 		// enqueue JavaScript
-		add_action( 'admin_print_scripts-' . $this->posts_page, array( &$this, 'add_script' ) );
-		add_action( 'admin_print_scripts-' . $this->pages_page, array( &$this, 'add_script' ) );
-		add_action( 'admin_print_scripts-' . $this->users_page, array( &$this, 'add_script' ) );
+		add_action( 'admin_print_scripts-' . $this->posts_page, array( $this, 'add_script' ) );
+		add_action( 'admin_print_scripts-' . $this->pages_page, array( $this, 'add_script' ) );
 
 		// delete posts page
-		add_action( "load-{$this->posts_page}", array( &$this, 'add_delete_posts_settings_panel' ) );
-		add_action( "add_meta_boxes_{$this->posts_page}", array( &$this, 'add_delete_posts_meta_boxes' ) );
+		add_action( "load-{$this->posts_page}", array( $this, 'add_delete_posts_settings_panel' ) );
+		add_action( "add_meta_boxes_{$this->posts_page}", array( $this, 'add_delete_posts_meta_boxes' ) );
 
 		// delete pages page
-		add_action( "load-{$this->pages_page}", array( &$this, 'add_delete_pages_settings_panel' ) );
-		add_action( "add_meta_boxes_{$this->pages_page}", array( &$this, 'add_delete_pages_meta_boxes' ) );
-
-		// delete users page
-		add_action( "load-{$this->users_page}", array( &$this, 'add_delete_users_settings_panel' ) );
-		add_action( "add_meta_boxes_{$this->users_page}", array( &$this, 'add_delete_users_meta_boxes' ) );
+		add_action( "load-{$this->pages_page}", array( $this, 'add_delete_pages_settings_panel' ) );
+		add_action( "add_meta_boxes_{$this->pages_page}", array( $this, 'add_delete_pages_meta_boxes' ) );
 	}
 
 	/**
@@ -344,18 +361,13 @@ final class Bulk_Delete {
 	 * Register meta boxes for delete posts page
 	 */
 	public function add_delete_posts_meta_boxes() {
-		add_meta_box( self::BOX_POST_STATUS     , __( 'By Post Status'       , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_status_box'          , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_CATEGORY        , __( 'By Category'          , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_category_box'        , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_TAG             , __( 'By Tag'               , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_tag_box'             , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_TAX             , __( 'By Custom Taxonomy'   , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_taxonomy_box'        , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_POST_TYPE       , __( 'By Custom Post Types' , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_post_type_box'       , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_URL             , __( 'By URL'               , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_url_box'             , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_POST_REVISION   , __( 'By Post Revision'     , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_posts_by_revision_box'               , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_CUSTOM_FIELD    , __( 'By Custom Field'      , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_custom_field_box'    , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_TITLE           , __( 'By Title'             , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_title_box'           , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_DUPLICATE_TITLE , __( 'By Duplicate Title'   , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_duplicate_title_box' , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_POST_BY_ROLE    , __( 'By User Role'         , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_user_role_box'       , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_POST_FROM_TRASH , __( 'Posts in Trash'       , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_from_trash'             , $this->posts_page , 'advanced' );
+		add_meta_box( self::BOX_POST_STATUS   , __( 'By Post Status'       , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_status_box'    , $this->posts_page , 'advanced' );
+		add_meta_box( self::BOX_CATEGORY      , __( 'By Category'          , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_category_box'  , $this->posts_page , 'advanced' );
+		add_meta_box( self::BOX_TAG           , __( 'By Tag'               , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_tag_box'       , $this->posts_page , 'advanced' );
+		add_meta_box( self::BOX_TAX           , __( 'By Custom Taxonomy'   , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_taxonomy_box'  , $this->posts_page , 'advanced' );
+		add_meta_box( self::BOX_POST_TYPE     , __( 'By Custom Post Types' , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_post_type_box' , $this->posts_page , 'advanced' );
+		add_meta_box( self::BOX_URL           , __( 'By URL'               , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_url_box'       , $this->posts_page , 'advanced' );
+		add_meta_box( self::BOX_POST_REVISION , __( 'By Post Revision'     , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_posts_by_revision_box'         , $this->posts_page , 'advanced' );
 
 		/**
 		 * Add meta box in delete posts page
@@ -394,7 +406,6 @@ final class Bulk_Delete {
 	 */
 	public function add_delete_pages_meta_boxes() {
 		add_meta_box( self::BOX_PAGE_STATUS     , __( 'By Page status' , 'bulk-delete' ) , 'Bulk_Delete_Pages::render_delete_pages_by_status_box' , $this->pages_page , 'advanced' );
-		add_meta_box( self::BOX_PAGE_FROM_TRASH , __( 'Pages in Trash' , 'bulk-delete' ) , 'Bulk_Delete_Pages::render_delete_pages_from_trash'    , $this->pages_page , 'advanced' );
 
 		/**
 		 * Add meta box in delete pages page
@@ -406,54 +417,26 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Add settings Panel for delete users page
-	 */
-	public function add_delete_users_settings_panel() {
-
-		/**
-		 * Add contextual help for admin screens
-		 *
-		 * @since 5.1
-		 */
-		do_action( 'bd_add_contextual_help', $this->users_page );
-
-		/* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
-		do_action( 'add_meta_boxes_' . $this->users_page, null );
-
-		/* Enqueue WordPress' script for handling the meta boxes */
-		wp_enqueue_script( 'postbox' );
-	}
-
-	/**
-	 * Register meta boxes for delete users page
-	 */
-	public function add_delete_users_meta_boxes() {
-		add_meta_box( self::BOX_USERS, __( 'By User Role', 'bulk-delete' ), 'Bulk_Delete_Users::render_delete_users_by_role_box', $this->users_page, 'advanced' );
-
-		/**
-		 * Add meta box in delete users page
-		 * This hook can be used for adding additional meta boxes in delete users page
-		 *
-		 * @since 5.3
-		 */
-		do_action( 'bd_add_meta_box_for_users' );
-	}
-
-	/**
-	 * Enqueue JavaScript
+	 * Enqueue JavaScript.
+	 *
+	 * Uses code from http://trentrichardson.com/examples/timepicker/
 	 */
 	public function add_script() {
 		global $wp_scripts;
 
-		// uses code from http://trentrichardson.com/examples/timepicker/
-		wp_enqueue_script( 'jquery-ui-timepicker', plugins_url( '/js/jquery-ui-timepicker.js', __FILE__ ), array( 'jquery-ui-slider', 'jquery-ui-datepicker' ), '1.4', true );
-		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/js/bulk-delete.js', __FILE__ ), array( 'jquery-ui-timepicker' ), self::VERSION, true );
+		wp_enqueue_script( 'jquery-ui-timepicker', plugins_url( '/assets/js/jquery-ui-timepicker-addon.min.js', __FILE__ ), array( 'jquery-ui-slider', 'jquery-ui-datepicker' ), '1.5.4', true );
+		wp_enqueue_style( 'jquery-ui-timepicker', plugins_url( '/assets/css/jquery-ui-timepicker-addon.min.css', __FILE__ ), array(), '1.5.4' );
+
+		wp_enqueue_script( 'select2', plugins_url( '/assets/js/select2.min.js', __FILE__ ), array( 'jquery' ), '4.0.0', true );
+		wp_enqueue_style( 'select2', plugins_url( '/assets/css/select2.min.css', __FILE__ ), array(), '4.0.0' );
+
+		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/assets/js/bulk-delete' . $postfix . '.js', __FILE__ ), array( 'jquery-ui-timepicker' ), self::VERSION, true );
+		wp_enqueue_style( self::CSS_HANDLE, plugins_url( '/assets/css/bulk-delete' . $postfix . '.css', __FILE__ ), array( 'select2' ), self::VERSION );
 
 		$ui = $wp_scripts->query( 'jquery-ui-core' );
-
-		$url = "http://ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
+		$url = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
 		wp_enqueue_style( 'jquery-ui-smoothness', $url, false, $ui->ver );
-		wp_enqueue_style( 'jquery-ui-timepicker', plugins_url( '/style/jquery-ui-timepicker.css', __FILE__ ), array(), '1.1.1' );
 
 		/**
 		 * Filter JavaScript array
@@ -463,11 +446,12 @@ final class Bulk_Delete {
 		 * @since 5.4
 		 */
 		$translation_array = apply_filters( 'bd_javascript_array', array(
-				'msg' => array(),
-				'validators' => array(),
-				'dt_iterators' => array(),
+				'msg'            => array(),
+				'validators'     => array(),
+				'dt_iterators'   => array(),
 				'pre_action_msg' => array(),
-				'error_msg' => array()
+				'error_msg'      => array(),
+				'pro_iterators'  => array(),
 			) );
 		wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
 	}
@@ -495,7 +479,7 @@ final class Bulk_Delete {
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
-            <div class="updated" >
+            <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Posts deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
 
@@ -547,7 +531,7 @@ final class Bulk_Delete {
     <div id = "poststuff">
         <div id="post-body" class="metabox-holder columns-2">
 
-            <div class = "updated">
+            <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Pages deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
 
@@ -576,57 +560,6 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Display bulk delete users page
-	 *
-	 * @Todo Move this function to Bulk_Delete_Users class
-	 */
-	public function display_users_page() {
-?>
-<div class="wrap">
-    <h2><?php _e( 'Bulk Delete Users', 'bulk-delete' );?></h2>
-    <?php settings_errors(); ?>
-
-    <form method = "post">
-<?php
-		// nonce for bulk delete
-		wp_nonce_field( 'sm-bulk-delete-users', 'sm-bulk-delete-users-nonce' );
-
-		/* Used to save closed meta boxes and their order */
-		wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
-		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-?>
-    <div id = "poststuff">
-        <div id="post-body" class="metabox-holder columns-2">
-
-            <div class = "updated">
-                <p><strong><?php _e( 'WARNING: Users deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
-            </div>
-
-            <div id="postbox-container-1" class="postbox-container">
-                <iframe frameBorder="0" height = "1500" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo self::VERSION; ?>"></iframe>
-            </div>
-
-            <div id="postbox-container-2" class="postbox-container">
-                <?php do_meta_boxes( '', 'advanced', null ); ?>
-            </div> <!-- #postbox-container-2 -->
-
-        </div> <!-- #post-body -->
-    </div><!-- #poststuff -->
-    </form>
-</div><!-- .wrap -->
-
-<?php
-		/**
-		 * Runs just before displaying the footer text in the "Bulk Delete Users" admin page.
-		 *
-		 * This action is primarily for adding extra content in the footer of "Bulk Delete Users" admin page.
-		 *
-		 * @since 5.0
-		 */
-		do_action( 'bd_admin_footer_users_page' );
-	}
-
-	/**
 	 * Display the schedule page
 	 */
 	public function display_cron_page() {
@@ -639,7 +572,7 @@ final class Bulk_Delete {
 			require_once self::$PLUGIN_DIR . '/include/cron/class-cron-list-table.php';
 		}
 
-		//Prepare Table of elements
+		// Prepare Table of elements
 		$cron_list_table = new Cron_List_Table();
 		$cron_list_table->prepare_items();
 ?>
@@ -647,8 +580,9 @@ final class Bulk_Delete {
         <h2><?php _e( 'Bulk Delete Schedules', 'bulk-delete' );?></h2>
         <?php settings_errors(); ?>
 <?php
-		//Table of elements
+		// Table of elements
 		$cron_list_table->display();
+		bd_display_available_addon_list();
 ?>
     </div>
 <?php
@@ -663,47 +597,57 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Handle both POST and GET requests
-	 *
-	 * This method automatically triggers all the actions
-	 *
-	 * @return false|null
+	 * Handle both POST and GET requests.
+	 * This method automatically triggers all the actions after checking the nonce.
 	 */
 	public function request_handler() {
-
 		if ( isset( $_POST['bd_action'] ) ) {
+			$bd_action = sanitize_text_field( $_POST['bd_action'] );
+			$nonce_valid = false;
+
 			if ( 'delete_pages_' === substr( $_POST['bd_action'], 0, strlen( 'delete_pages_' ) )
-				&& ! check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
-				return false;
+				&& check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
+				$nonce_valid = true;
 			}
 
 			if ( 'delete_posts_' === substr( $_POST['bd_action'], 0, strlen( 'delete_posts_' ) )
-				&& ! check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
-				return false;
-			}
-
-			if ( 'delete_users_' === substr( $_POST['bd_action'], 0, strlen( 'delete_users_' ) )
-				&& ! check_admin_referer( 'sm-bulk-delete-users', 'sm-bulk-delete-users-nonce' ) ) {
-				return false;
+				&& check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
+				$nonce_valid = true;
 			}
 
 			if ( 'delete_meta_' === substr( $_POST['bd_action'], 0, strlen( 'delete_meta_' ) )
-				&& ! check_admin_referer( 'sm-bulk-delete-meta', 'sm-bulk-delete-meta-nonce' ) ) {
-				return false;
+				&& check_admin_referer( 'sm-bulk-delete-meta', 'sm-bulk-delete-meta-nonce' ) ) {
+				$nonce_valid = true;
 			}
 
 			/**
-			 * Before performing a bulk action
+			 * Perform nonce check.
 			 *
+			 * @since 5.5
+			 */
+			if ( ! apply_filters( 'bd_action_nonce_check', $nonce_valid, $bd_action ) ) {
+				return;
+			}
+
+			/**
+			 * Before performing a bulk action.
 			 * This hook is for doing actions just before performing any bulk operation
 			 *
 			 * @since 5.4
 			 */
-			do_action( 'bd_pre_bulk_action' );
+			do_action( 'bd_pre_bulk_action', $bd_action );
+
+			/**
+			 * Perform the bulk operation.
+			 * This hook is for doing the bulk operation. Nonce check has already happened by this point.
+			 *
+			 * @since 5.4
+			 */
 			do_action( 'bd_' . $_POST['bd_action'], $_POST );
 		}
 
 		if ( isset( $_GET['bd_action'] ) ) {
+			// TODO: check nonce for get requests as well.
 			do_action( 'bd_' . $_GET['bd_action'], $_GET );
 		}
 	}

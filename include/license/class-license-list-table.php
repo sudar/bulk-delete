@@ -7,6 +7,7 @@
  * @package    BulkDelete\Addon
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class License_List_Table extends WP_List_Table {
 
@@ -28,7 +29,6 @@ class License_List_Table extends WP_List_Table {
 	 * Add extra markup in the toolbars before or after the list
 	 *
 	 * @since 5.0
-	 * @uses  Bulk_Delete_Adddon::display_available_addon_list() Display the list of available addons
 	 * @param string  $which Whether the markup should be after (bottom) or before (top) the list
 	 */
 	public function extra_tablenav( $which ) {
@@ -122,7 +122,7 @@ class License_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.0
 	 * @param array   $item Single row of data
-	 * @return unknown
+	 * @return string
 	 */
 	public function column_col_license( $item ) {
 		return $item['license'];
@@ -149,7 +149,7 @@ class License_List_Table extends WP_List_Table {
 	 *
 	 * @since 5.0
 	 * @param array   $item Single row of data
-	 * @return unknown
+	 * @return string
 	 */
 	public function column_col_expires( $item ) {
 		if ( key_exists( 'expires', $item ) ) {

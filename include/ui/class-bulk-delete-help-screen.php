@@ -9,6 +9,7 @@
  * @package    BulkDelete\Help
  */
 
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Help_Screen {
 
@@ -69,18 +70,6 @@ class Bulk_Delete_Help_Screen {
 					'title'    => __( 'Overview', 'bulk-delete' ),
 					'id'       => 'overview_tab',
 					'content'  => '<p>' . __( 'This screen contains different modules that allows you to delete pages or schedule them for deletion.', 'bulk-delete' ) . '</p>',
-					'callback' => false,
-				);
-
-				$help_tabs['overview_tab'] = $overview_tab;
-				break;
-
-			case $bd->users_page:
-				// Overview tab
-				$overview_tab = array(
-					'title'    => __( 'Overview', 'bulk-delete' ),
-					'id'       => 'overview_tab',
-					'content'  => '<p>' . __( 'This screen contains different modules that allows you to delete users or schedule them for deletion.', 'bulk-delete' ) . '</p>',
 					'callback' => false,
 				);
 

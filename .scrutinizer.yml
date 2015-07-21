@@ -1,0 +1,77 @@
+filter:
+    excluded_paths:
+        - assets-wp-repo/*
+        - languages/*
+        - include/libraries/*
+        - tests/*
+
+tools:
+    php_sim: false
+    php_pdepend: true
+    php_analyzer: true
+    php_code_coverage: true
+    sensiolabs_security_checker: true
+    php_loc:
+        enabled: true
+        excluded_dirs: [vendor, tests, languages, bin, assets, assets-wp-repo, include/libraries]
+
+checks:
+    php:
+        verify_property_names: true
+        variable_existence: true
+        verify_access_scope_valid: true
+        useless_calls: true
+        use_statement_alias_conflict: false
+        uppercase_constants: true
+        unused_variables: true
+        remove_extra_empty_lines: true
+        return_doc_comment_if_not_inferrable: true
+        return_doc_comments: true
+        simplify_boolean_return: true
+        prefer_while_loop_over_for_loop: true
+        parameter_doc_comments: true
+        param_doc_comment_if_not_inferrable: true
+        optional_parameters_at_the_end: true
+        avoid_perl_style_comments: true
+        encourage_postdec_operator: true
+        encourage_single_quotes: true
+        fix_line_ending: true
+        more_specific_types_in_doc_comments: true
+        symfony_request_injection: false
+        switch_fallthrough_commented: false
+        single_namespace_per_use: false
+        side_effects_or_types: false
+        security_vulnerabilities: true
+        psr2_class_declaration: false
+        one_class_per_file: false
+        no_underscore_prefix_in_properties: false
+        no_underscore_prefix_in_methods: false
+        no_global_keyword: false
+        no_exit: false
+        no_error_suppression: false
+        avoid_closing_tag: false
+        avoid_superglobals: false
+        use_self_instead_of_fqcn: true
+        no_goto: true
+        duplication: false
+        avoid_unnecessary_concatenation: true
+    javascript:
+        vars_on_top: true
+        valid_typeof: true
+        use_isnan: true
+        one_var: true
+        no_reserved_keys: true
+        radix: true
+        no_with: true
+        no_unused_vars: true
+        no_unreachable: true
+        no_underscore_dangle: true
+        no_trailing_spaces: true
+        no_script_url: true
+        no_redeclare: true
+        no_octal_escape: true
+        no_mixed_spaces_and_tabs: true
+        no_irregular_whitespace: true
+        no_dupe_keys: true
+        eqeqeq: true
+        curly: true

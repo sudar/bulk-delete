@@ -1,0 +1,8 @@
+select[multiple].select2 {
+	width: 60%;
+}
+
+#post-body .select2-search__field {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}

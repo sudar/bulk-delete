@@ -1,6 +1,19 @@
 ## Changelog ##
 
-### 2015-03-03 - 5.4.2 (Dev time: 5.0 hours) ###
+### 2015-07-21 - v5.5 (Dev time: 50 hours) ###
+- New Features
+    - Added the ability to delete users based on user meta. (Issue #79)
+    - Improved the UI of dropdowns. (Issue #101)
+    - (Addon) Added the ability to delete attachments. (Issue #98)
+
+- Enhancements
+    - Tweaked the code that generates the UI and lot of hidden improvements.
+    - Tweaked the code that retrieves Mysql version. (Issue #102)
+    - Tweaked the license handling code. (Issue #92)
+    - Tweaked the build process
+    - Use compressed JS and CSS files for better performance. (Issue #62)
+
+### 2015-03-03 - v5.4.2 (Dev time: 5.0 hours) ###
 - Tweak: Improve performance of DB queries to prevent timeouts. (Issue #93)
 - Tweak: Add details about different post types in system info. (Issue #100)
 - Tweak: Add details about timezone settings in system info. (Issue #100)
@@ -13,7 +26,7 @@
 - New: Added the ability to delete comment meta fields (Issue #70)
 - New: Added the ability to delete user meta fields (Issue #87)
 - New: (Addon) Added the ability to delete posts based on attachment
-- New: Added the ability to hook into JavaScript message, date picker and validation (Issue #82, #83, #84)
+- New: Added the ability to hook into JavaScript message, date picker and validation (Issue 82, 83, 84)
 - New: Prevent PHP from timing out while performing bulk operations(Issue #81)
 
 - Tweak: Group memory related info together in system info output
@@ -240,6 +253,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5 ###
+Added the ability to delete users based on user meta and lot of UI improvement
 
 ### 5.4.1 ###
 Changed jQuery UI CSS CDN to Google CDN from ASP.NET, which seems to be discontinued
