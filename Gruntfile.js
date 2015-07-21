@@ -116,6 +116,8 @@ module.exports = function( grunt ) {
 		}
 	} );
 
+	require('time-grunt')(grunt);
+
 	grunt.registerTask('default', ['jshint:browser', 'concat', 'uglify', 'cssmin']);
 	grunt.registerTask('vendor', ['copy:timepicker', 'copy:select2']);
 
