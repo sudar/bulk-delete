@@ -21,7 +21,9 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 		if ( $delete_options['private'] ) {
 			$options['post_status'] = 'private';
 		} else {
-			$options['post_status'] = 'publish';
+			if ( ! isset( $options['post_status'] ) ) {
+				$options['post_status'] = 'publish';
+			}
 		}
 	}
 
