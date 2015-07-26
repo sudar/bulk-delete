@@ -21,7 +21,9 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 		if ( $delete_options['private'] ) {
 			$options['post_status'] = 'private';
 		} else {
-			$options['post_status'] = 'publish';
+			if ( ! isset( $options['post_status'] ) ) {
+				$options['post_status'] = 'publish';
+			}
 		}
 	}
 
@@ -39,7 +41,7 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 
 	// date query
 	if ( $delete_options['restrict'] ) {
-		if ( 'before' == $delete_options['date_op'] || 'after' == $delete_options['date_op'] ) {
+		if ( 'before' === $delete_options['date_op'] || 'after' === $delete_options['date_op'] ) {
 			$options['date_query'] = array(
 				array(
 					'column'                   => 'post_date',
