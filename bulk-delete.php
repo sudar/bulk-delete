@@ -239,6 +239,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/util/query.php';
 
 		require_once self::$PLUGIN_DIR . '/include/compatibility/simple-login-log.php';
+		require_once self::$PLUGIN_DIR . '/include/compatibility/the-event-calendar.php';
 
 		require_once self::$PLUGIN_DIR . '/include/deprecated/class-bulk-delete-users.php';
 		require_once self::$PLUGIN_DIR . '/include/deprecated/deprecated.php';

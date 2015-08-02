@@ -4,6 +4,9 @@
 - New Features
 	- Add actions that are executed before and after a query is executed.
 
+- Enhancements
+	- Add compatibility with "The Events Calendar" plugin.
+
 ### 2015-07-21 - v5.5 (Dev time: 50 hours) ###
 - New Features
     - Added the ability to delete users based on user meta. (Issue #79)
