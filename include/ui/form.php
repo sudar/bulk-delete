@@ -163,6 +163,7 @@ function bd_render_submit_button( $action ) {
  */
 function bd_render_post_type_dropdown( $slug ) {
 	$types = get_post_types( array( '_builtin' => false ), 'names' );
+	array_unshift( $types, 'page' );
 	array_unshift( $types, 'post' );
 ?>
 	<tr>
