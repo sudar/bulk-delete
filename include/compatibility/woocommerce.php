@@ -11,6 +11,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Deregister select2 script registered by WooCommerce plugin.
+ * WooCommerce is using an older version of select2 which is conflicting with the version used by Bulk WP.
+ * @see https://github.com/sudar/bulk-delete/issues/111
+ * @see https://github.com/woothemes/woocommerce/issues/8766
  *
  * @since 5.5.1
  */
