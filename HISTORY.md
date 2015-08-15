@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### In Development (Dev time: 2.5 hours) ###
+### 2015-08-15 - v5.5.1 (Dev time: 2.5 hours) ###
 - New Features
 	- Added actions that are executed before and after a query is executed.
 	- Added actions that are executed before and after scripts and styles are enqueued.
@@ -264,6 +264,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5.1 ###
+Fixed compatibility issues with WooCommerce and The Event Calendar plugins
 
 ### 5.5 ###
 Added the ability to delete users based on user meta and lot of UI improvement
