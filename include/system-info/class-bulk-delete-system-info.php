@@ -58,6 +58,22 @@ class Bulk_Delete_System_Info {
 				<p><strong><?php _e( 'Please include this information when posting support requests.', 'bulk-delete' ); ?></strong></p>
 			</div>
 
+			<?php if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) { ?>
+				<div class="notice notice-warning">
+					<p><strong>
+						<?php printf( __( 'SAVEQUERIES is <a href="%s" target="_blank">enabled</a>. This puts additional load on the memory and will restrict the number of items that can be deleted.', 'bulk-delete' ), 'https://codex.wordpress.org/Editing_wp-config.php#Save_queries_for_analysis' ); ?>
+					</strong></p>
+				</div>
+			<?php } ?>
+
+			<?php if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) { ?>
+				<div class="notice notice-warning">
+					<p><strong>
+						<?php printf( __( 'DISABLE_WP_CRON is <a href="%s" target="_blank">enabled</a>. This prevents scheduler from running.', 'bulk-delete' ), 'https://codex.wordpress.org/Editing_wp-config.php#Disable_Cron_and_Cron_Timeout' ); ?>
+					</strong></p>
+				</div>
+			<?php } ?>
+
             <div id="postbox-container-1" class="postbox-container">
                 <iframe frameBorder="0" height = "1500" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo Bulk_Delete::VERSION; ?>"></iframe>
             </div>
