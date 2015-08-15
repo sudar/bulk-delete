@@ -2,13 +2,14 @@
 
 ### In Development (Dev time: 2.5 hours) ###
 - New Features
-	- Add actions that are executed before and after a query is executed.
-	- Add actions that are executed before and after scripts and styles are enqueued.
+	- Added actions that are executed before and after a query is executed.
+	- Added actions that are executed before and after scripts and styles are enqueued.
 
 - Enhancements
-	- Add compatibility with "The Events Calendar" plugin.
-	- Add compatibility with "WooCommerce" plugin. (Issue #111)
+	- Added compatibility with "The Events Calendar" plugin.
+	- Added compatibility with "WooCommerce" plugin. (Issue #111)
 	- Display warning in the System Info page if certain required options are disabled. (Issue #106)
+	- Added information about "WP_CRON_LOCK_TIMEOUT" to System Info
 
 ### 2015-07-21 - v5.5 (Dev time: 50 hours) ###
 - New Features
