@@ -1,12 +1,13 @@
 ## Changelog ##
 
-### In Development (Dev time: 1.5 hours) ###
+### In Development (Dev time: 2.0 hours) ###
 - New Features
 	- Add actions that are executed before and after a query is executed.
 	- Add actions that are executed before and after scripts and styles are enqueued.
 
 - Enhancements
 	- Add compatibility with "The Events Calendar" plugin.
+	- Add compatibility with "WooCommerce" plugin. (Issue #111)
 
 ### 2015-07-21 - v5.5 (Dev time: 50 hours) ###
 - New Features
