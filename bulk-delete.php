@@ -418,12 +418,19 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Enqueue JavaScript.
-	 *
-	 * Uses code from http://trentrichardson.com/examples/timepicker/
+	 * Enqueue Scripts and Styles.
 	 */
 	public function add_script() {
 		global $wp_scripts;
+
+		/**
+		 * Runs just before enqueuing scripts and styles in all Bulk WP admin pages.
+		 *
+		 * This action is primarily for registering or deregistering additional scripts or styles.
+		 *
+		 * @since 5.5.1
+		 */
+		do_action( 'bd_before_admin_enqueue_scripts' );
 
 		wp_enqueue_script( 'jquery-ui-timepicker', plugins_url( '/assets/js/jquery-ui-timepicker-addon.min.js', __FILE__ ), array( 'jquery-ui-slider', 'jquery-ui-datepicker' ), '1.5.4', true );
 		wp_enqueue_style( 'jquery-ui-timepicker', plugins_url( '/assets/css/jquery-ui-timepicker-addon.min.css', __FILE__ ), array(), '1.5.4' );
@@ -455,6 +462,15 @@ final class Bulk_Delete {
 				'pro_iterators'  => array(),
 			) );
 		wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
+
+		/**
+		 * Runs just after enqueuing scripts and styles in all Bulk WP admin pages.
+		 *
+		 * This action is primarily for registering additional scripts or styles.
+		 *
+		 * @since 5.5.1
+		 */
+		do_action( 'bd_after_admin_enqueue_scripts' );
 	}
 
 	/**
