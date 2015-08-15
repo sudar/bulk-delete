@@ -35,7 +35,7 @@ class Bulk_Delete_Posts {
             <tr>
                 <td>
                     <input name="smbd_publish" id="smbd_publish" value="publish" type="checkbox">
-                    <label for="smbd_publish"><?php _e( 'All publish posts', 'bulk-delete' ); ?> (<?php echo $publish . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                    <label for="smbd_publish"><?php _e( 'All published posts', 'bulk-delete' ); ?> (<?php echo $publish . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 
@@ -56,14 +56,14 @@ class Bulk_Delete_Posts {
             <tr>
                 <td>
                     <input name="smbd_future" id="smbd_future" value="future" type="checkbox">
-                    <label for="smbd_future"><?php _e( 'All scheduled posts', 'bulk-delete' ); ?> (<?php echo $future . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                    <label for="smbd_future"><?php _e( 'All Scheduled posts', 'bulk-delete' ); ?> (<?php echo $future . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 
             <tr>
                 <td>
                     <input name="smbd_private" id="smbd_private" value="private" type="checkbox">
-                    <label for="smbd_private"><?php _e( 'All private posts', 'bulk-delete' ); ?> (<?php echo $private . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                    <label for="smbd_private"><?php _e( 'All Private posts', 'bulk-delete' ); ?> (<?php echo $private . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 

@@ -74,6 +74,23 @@ function bd_query( $options ) {
 	$options = wp_parse_args( $options, $defaults );
 
 	$wp_query = new WP_Query();
-	return $wp_query->query( $options );
+
+	/**
+	 * This action runs before the query happens.
+	 *
+	 * @since 5.5
+	 */
+	do_action( 'bd_before_query' );
+
+	$posts = $wp_query->query( $options );
+
+	/**
+	 * This action runs after the query happens.
+	 *
+	 * @since 5.5
+	 */
+	do_action( 'bd_after_query' );
+
+	return $posts;
 }
 ?>

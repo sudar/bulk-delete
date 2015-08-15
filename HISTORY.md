@@ -1,5 +1,16 @@
 ## Changelog ##
 
+### 2015-08-15 - v5.5.1 (Dev time: 2.5 hours) ###
+- New Features
+	- Added actions that are executed before and after a query is executed.
+	- Added actions that are executed before and after scripts and styles are enqueued.
+
+- Enhancements
+	- Added compatibility with "The Events Calendar" plugin.
+	- Added compatibility with "WooCommerce" plugin. (Issue #111)
+	- Display warning in the System Info page if certain required options are disabled. (Issue #106)
+	- Added information about "WP_CRON_LOCK_TIMEOUT" to System Info
+
 ### 2015-07-21 - v5.5 (Dev time: 50 hours) ###
 - New Features
     - Added the ability to delete users based on user meta. (Issue #79)
@@ -253,6 +264,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5.1 ###
+Fixed compatibility issues with WooCommerce and The Event Calendar plugins
 
 ### 5.5 ###
 Added the ability to delete users based on user meta and lot of UI improvement

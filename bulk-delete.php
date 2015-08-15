@@ -5,7 +5,7 @@
  * Plugin URI: http://bulkwp.com
  * Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
  * Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
- * Version: 5.5
+ * Version: 5.5.1
  * License: GPL
  * Author: Sudar
  * Author URI: http://sudarmuthu.com/
@@ -14,7 +14,7 @@
  * === RELEASE NOTES ===
  * Check readme file for full release notes
  *
- * @version    5.5
+ * @version    5.5.1
  * @author     Sudar
  * @package    BulkDelete
  */
@@ -49,7 +49,7 @@ final class Bulk_Delete {
 	private static $instance;
 
 	// version
-	const VERSION                   = '5.5';
+	const VERSION                   = '5.5.1';
 
 	// Numeric constants
 	const MENU_ORDER                = '26.9966';
@@ -239,6 +239,8 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/util/query.php';
 
 		require_once self::$PLUGIN_DIR . '/include/compatibility/simple-login-log.php';
+		require_once self::$PLUGIN_DIR . '/include/compatibility/the-event-calendar.php';
+		require_once self::$PLUGIN_DIR . '/include/compatibility/woocommerce.php';
 
 		require_once self::$PLUGIN_DIR . '/include/deprecated/class-bulk-delete-users.php';
 		require_once self::$PLUGIN_DIR . '/include/deprecated/deprecated.php';
@@ -417,12 +419,19 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Enqueue JavaScript.
-	 *
-	 * Uses code from http://trentrichardson.com/examples/timepicker/
+	 * Enqueue Scripts and Styles.
 	 */
 	public function add_script() {
 		global $wp_scripts;
+
+		/**
+		 * Runs just before enqueuing scripts and styles in all Bulk WP admin pages.
+		 *
+		 * This action is primarily for registering or deregistering additional scripts or styles.
+		 *
+		 * @since 5.5.1
+		 */
+		do_action( 'bd_before_admin_enqueue_scripts' );
 
 		wp_enqueue_script( 'jquery-ui-timepicker', plugins_url( '/assets/js/jquery-ui-timepicker-addon.min.js', __FILE__ ), array( 'jquery-ui-slider', 'jquery-ui-datepicker' ), '1.5.4', true );
 		wp_enqueue_style( 'jquery-ui-timepicker', plugins_url( '/assets/css/jquery-ui-timepicker-addon.min.css', __FILE__ ), array(), '1.5.4' );
@@ -454,6 +463,15 @@ final class Bulk_Delete {
 				'pro_iterators'  => array(),
 			) );
 		wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
+
+		/**
+		 * Runs just after enqueuing scripts and styles in all Bulk WP admin pages.
+		 *
+		 * This action is primarily for registering additional scripts or styles.
+		 *
+		 * @since 5.5.1
+		 */
+		do_action( 'bd_after_admin_enqueue_scripts' );
 	}
 
 	/**

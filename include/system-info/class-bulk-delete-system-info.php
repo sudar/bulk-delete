@@ -58,6 +58,22 @@ class Bulk_Delete_System_Info {
 				<p><strong><?php _e( 'Please include this information when posting support requests.', 'bulk-delete' ); ?></strong></p>
 			</div>
 
+			<?php if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) { ?>
+				<div class="notice notice-warning">
+					<p><strong>
+						<?php printf( __( 'SAVEQUERIES is <a href="%s" target="_blank">enabled</a>. This puts additional load on the memory and will restrict the number of items that can be deleted.', 'bulk-delete' ), 'https://codex.wordpress.org/Editing_wp-config.php#Save_queries_for_analysis' ); ?>
+					</strong></p>
+				</div>
+			<?php } ?>
+
+			<?php if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) { ?>
+				<div class="notice notice-warning">
+					<p><strong>
+						<?php printf( __( 'DISABLE_WP_CRON is <a href="%s" target="_blank">enabled</a>. This prevents scheduler from running.', 'bulk-delete' ), 'https://codex.wordpress.org/Editing_wp-config.php#Disable_Cron_and_Cron_Timeout' ); ?>
+					</strong></p>
+				</div>
+			<?php } ?>
+
             <div id="postbox-container-1" class="postbox-container">
                 <iframe frameBorder="0" height = "1500" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo Bulk_Delete::VERSION; ?>"></iframe>
             </div>
@@ -78,7 +94,6 @@ Browser:                  <?php echo esc_html( $_SERVER['HTTP_USER_AGENT'] ), "\
 
 Permalink Structure:      <?php echo get_option( 'permalink_structure' ) . "\n"; ?>
 Active Theme:             <?php echo $theme . "\n"; ?>
-GMT Offset:               <?php echo esc_html( get_option( 'gmt_offset' ) ), "\n\n"; ?>
 <?php
 		if ( false !== $host ) { ?>
 Host:                     <?php echo $host . "\n\n"; ?>
@@ -115,7 +130,10 @@ PHP Memory Limit:         <?php echo ini_get( 'memory_limit' ) . "\n"; ?>
 SAVEQUERIES:              <?php echo defined( 'SAVEQUERIES' ) ? SAVEQUERIES ? 'Enabled' . "\n" : 'Disabled' . "\n" : 'Not set' . "\n" ?>
 WP_DEBUG:                 <?php echo defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' . "\n" : 'Disabled' . "\n" : 'Not set' . "\n" ?>
 WP_SCRIPT_DEBUG:          <?php echo defined( 'WP_SCRIPT_DEBUG' ) ? WP_SCRIPT_DEBUG ? 'Enabled' . "\n" : 'Disabled' . "\n" : 'Not set' . "\n" ?>
+
+GMT Offset:               <?php echo esc_html( get_option( 'gmt_offset' ) ), "\n\n"; ?>
 DISABLE_WP_CRON:          <?php echo defined( 'DISABLE_WP_CRON' ) ? DISABLE_WP_CRON ? 'Yes' . "\n" : 'No' . "\n" : 'Not set' . "\n" ?>
+WP_CRON_LOCK_TIMEOUT:     <?php echo defined( 'WP_CRON_LOCK_TIMEOUT' ) ? WP_CRON_LOCK_TIMEOUT : 'Not set', "\n" ?>
 EMPTY_TRASH_DAYS:         <?php echo defined( 'EMPTY_TRASH_DAYS' ) ? EMPTY_TRASH_DAYS : 'Not set', "\n" ?>
 
 PHP Safe Mode:            <?php echo ini_get( 'safe_mode' ) ? 'Yes' : 'No', "\n"; ?>
