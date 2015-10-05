@@ -1,5 +1,7 @@
 ## Changelog ##
 
+### v5.5.2 (In Development) ###
+
 ### 2015-08-15 - v5.5.1 (Dev time: 2.5 hours) ###
 - New Features
 	- Added actions that are executed before and after a query is executed.
