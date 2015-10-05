@@ -1,8 +1,11 @@
 ## Changelog ##
 
-### v5.5.2 (Dev time: 0.5 hours) ###
+### v5.5.2 (Dev time: 1 hours) ###
 - Enhancements
 	- Added compatibility with "Advanced Custom Fields Pro" plugin.
+
+- Bug Fixes
+	- Fixed issue in deleting posts by category
 
 ### 2015-08-15 - v5.5.1 (Dev time: 2.5 hours) ###
 - New Features
