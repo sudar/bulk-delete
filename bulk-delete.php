@@ -241,6 +241,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/compatibility/simple-login-log.php';
 		require_once self::$PLUGIN_DIR . '/include/compatibility/the-event-calendar.php';
 		require_once self::$PLUGIN_DIR . '/include/compatibility/woocommerce.php';
+		require_once self::$PLUGIN_DIR . '/include/compatibility/advanced-custom-fields-pro.php';
 
 		require_once self::$PLUGIN_DIR . '/include/deprecated/class-bulk-delete-users.php';
 		require_once self::$PLUGIN_DIR . '/include/deprecated/deprecated.php';

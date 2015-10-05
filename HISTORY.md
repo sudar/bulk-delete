@@ -1,6 +1,8 @@
 ## Changelog ##
 
-### v5.5.2 (In Development) ###
+### v5.5.2 (Dev time: 0.5 hours) ###
+- Enhancements
+	- Added compatibility with "Advanced Custom Fields Pro" plugin.
 
 ### 2015-08-15 - v5.5.1 (Dev time: 2.5 hours) ###
 - New Features
