@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  *
  * @since 5.5.1
  */
-function bd_deregister_select2() {
+function bd_deregister_woo_select2() {
 	wp_deregister_script( 'select2' );
 }
-add_action( 'bd_before_admin_enqueue_scripts', 'bd_deregister_select2' );
+add_action( 'bd_before_admin_enqueue_scripts', 'bd_deregister_woo_select2' );
