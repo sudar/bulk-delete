@@ -275,7 +275,7 @@ class Bulk_Delete_Posts {
 	public static function do_delete_posts_by_category() {
 		$delete_options = array();
 
-		$delete_options['post_type']     = array_get( $_POST, 'smbd_cat_post_type', 'post' );
+		$delete_options['post_type']     = array_get( $_POST, 'smbd_cats_post_type', 'post' );
 		$delete_options['selected_cats'] = array_get( $_POST, 'smbd_cats' );
 		$delete_options['restrict']      = array_get_bool( $_POST, 'smbd_cats_restrict', false );
 		$delete_options['private']       = array_get_bool( $_POST, 'smbd_cats_private', false );

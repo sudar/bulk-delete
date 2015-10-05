@@ -1,5 +1,15 @@
 ## Changelog ##
 
+### 2015-10-05 - v5.5.2 (Dev time: 2 hours) ###
+- New Features
+	- Added the ability to delete users who have never logged in.
+
+- Enhancements
+	- Added compatibility with "Advanced Custom Fields Pro" plugin.
+
+- Bug Fixes
+	- Fixed issue in deleting posts by category
+
 ### 2015-08-15 - v5.5.1 (Dev time: 2.5 hours) ###
 - New Features
 	- Added actions that are executed before and after a query is executed.
@@ -264,6 +274,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5.2 ###
+Added the ability to delete users who have never logged in
 
 ### 5.5.1 ###
 Fixed compatibility issues with WooCommerce and The Event Calendar plugins

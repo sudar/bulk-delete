@@ -5,7 +5,7 @@
  * Plugin URI: http://bulkwp.com
  * Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
  * Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
- * Version: 5.5.1
+ * Version: 5.5.2
  * License: GPL
  * Author: Sudar
  * Author URI: http://sudarmuthu.com/
@@ -14,7 +14,7 @@
  * === RELEASE NOTES ===
  * Check readme file for full release notes
  *
- * @version    5.5.1
+ * @version    5.5.2
  * @author     Sudar
  * @package    BulkDelete
  */
@@ -49,7 +49,7 @@ final class Bulk_Delete {
 	private static $instance;
 
 	// version
-	const VERSION                   = '5.5.1';
+	const VERSION                   = '5.5.2';
 
 	// Numeric constants
 	const MENU_ORDER                = '26.9966';
@@ -210,6 +210,7 @@ final class Bulk_Delete {
 	 */
 	private function includes() {
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
+		require_once self::$PLUGIN_DIR . '/include/base/users/class-bd-user-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-page.php';
 
 		require_once self::$PLUGIN_DIR . '/include/ui/form.php';
@@ -241,6 +242,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/compatibility/simple-login-log.php';
 		require_once self::$PLUGIN_DIR . '/include/compatibility/the-event-calendar.php';
 		require_once self::$PLUGIN_DIR . '/include/compatibility/woocommerce.php';
+		require_once self::$PLUGIN_DIR . '/include/compatibility/advanced-custom-fields-pro.php';
 
 		require_once self::$PLUGIN_DIR . '/include/deprecated/class-bulk-delete-users.php';
 		require_once self::$PLUGIN_DIR . '/include/deprecated/deprecated.php';
