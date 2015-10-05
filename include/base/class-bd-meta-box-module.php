@@ -248,53 +248,6 @@ abstract class BD_Meta_Box_Module {
 	}
 
 	/**
-	 * Render User Login restrict settings.
-	 *
-	 * @since 5.5
-	 */
-	protected function render_user_login_restrict_settings() {
-		if ( bd_is_simple_login_log_present() ) {
-			$disabled = '';
-		} else {
-			$disabled = 'disabled';
-		}
-?>
-		<tr>
-			<td scope="row" colspan="2">
-			<input name="smbd_<?php echo $this->field_slug; ?>_login_restrict" id="smbd_<?php echo $this->field_slug; ?>_login_restrict" value="true" type="checkbox" <?php echo $disabled; ?>>
-				<?php _e( 'Only restrict to users who have not logged in the last ', 'bulk-delete' );?>
-				<input type="number" name="smbd_<?php echo $this->field_slug; ?>_login_days" id="smbd_<?php echo $this->field_slug; ?>_login_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days', 'bulk-delete' );?>.
-<?php
-		if ( 'disabled' == $disabled ) {
-?>
-				<span style = "color:red">
-					<?php _e( 'Need the free "Simple Login Log" Plugin', 'bulk-delete' ); ?> <a href = "http://wordpress.org/plugins/simple-login-log/">Install now</a>
-				</span>
-<?php
-		}
-?>
-			</td>
-		</tr>
-<?php
-	}
-
-	/**
-	 * Render delete user with no posts settings.
-	 *
-	 * @since 5.5
-	 */
-	protected function render_user_with_no_posts_settings() {
-?>
-		<tr>
-			<td scope="row" colspan="2">
-				<input name="smbd_<?php echo $this->field_slug; ?>_no_posts" id="smbd_<?php echo $this->field_slug; ?>_no_posts" value="true" type="checkbox">
-				<?php _e( "Only if user doesn't have any post. Only posts from 'post' post type would be considered.", 'bulk-delete' ); ?>
-			</td>
-		</tr>
-<?php
-	}
-
-	/**
 	 * Render submit button.
 	 *
 	 * @since 5.5

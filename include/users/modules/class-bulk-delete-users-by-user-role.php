@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  *
  * @since 5.5
  */
-class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
+class Bulk_Delete_Users_By_User_Role extends BD_User_Meta_Box_Module {
 	/**
 	 * Make this class a "hybrid Singleton".
 	 *
@@ -132,29 +132,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_Meta_Box_Module {
 				$options['number'] = $delete_options['limit_to'];
 			}
 
-			$users = get_users( $options );
-
-			foreach ( $users as $user ) {
-				if ( $delete_options['no_posts'] && count_user_posts( $user->ID ) > 0 ) {
-					continue;
-				}
-
-				if ( $delete_options['login_restrict'] ) {
-					$login_days = $delete_options['login_days'];
-					$last_login = bd_get_last_login( $user->ID );
-
-					if ( null != $last_login ) {
-						if ( strtotime( $last_login ) > strtotime( '-' . $login_days . 'days' ) ) {
-							continue;
-						}
-					} else {
-						continue;
-					}
-				}
-
-				wp_delete_user( $user->ID );
-				$count ++;
-			}
+			$count += $this->delete_users( $options, $delete_options );
 		}
 
 		return $count;

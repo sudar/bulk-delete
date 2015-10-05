@@ -1,6 +1,9 @@
 ## Changelog ##
 
-### v5.5.2 (Dev time: 1 hours) ###
+### v5.5.2 (Dev time: 2 hours) ###
+- New Features
+	- Added the ability to delete users who have never logged in.
+
 - Enhancements
 	- Added compatibility with "Advanced Custom Fields Pro" plugin.
 
