@@ -4,7 +4,7 @@
 **Requires at least:** 3.9  
 **Tested up to:** 4.3.1  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 5.5.1  
+**Stable tag:** 5.5.2  
 [![Build Status](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/build-status/master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master)
 
 Bulk delete posts, pages, users, attachments and meta fields based on different conditions and filters.

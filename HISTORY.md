@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### v5.5.2 (Dev time: 2 hours) ###
+### 2015-10-05 - v5.5.2 (Dev time: 2 hours) ###
 - New Features
 	- Added the ability to delete users who have never logged in.
 
@@ -274,6 +274,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5.2 ###
+Added the ability to delete users who have never logged in
 
 ### 5.5.1 ###
 Fixed compatibility issues with WooCommerce and The Event Calendar plugins
