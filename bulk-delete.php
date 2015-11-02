@@ -625,17 +625,17 @@ final class Bulk_Delete {
 			$bd_action = sanitize_text_field( $_POST['bd_action'] );
 			$nonce_valid = false;
 
-			if ( 'delete_pages_' === substr( $_POST['bd_action'], 0, strlen( 'delete_pages_' ) )
+			if ( 'delete_pages_' === substr( $bd_action, 0, strlen( 'delete_pages_' ) )
 				&& check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
 				$nonce_valid = true;
 			}
 
-			if ( 'delete_posts_' === substr( $_POST['bd_action'], 0, strlen( 'delete_posts_' ) )
+			if ( 'delete_posts_' === substr( $bd_action, 0, strlen( 'delete_posts_' ) )
 				&& check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
 				$nonce_valid = true;
 			}
 
-			if ( 'delete_meta_' === substr( $_POST['bd_action'], 0, strlen( 'delete_meta_' ) )
+			if ( 'delete_meta_' === substr( $bd_action, 0, strlen( 'delete_meta_' ) )
 				&& check_admin_referer( 'sm-bulk-delete-meta', 'sm-bulk-delete-meta-nonce' ) ) {
 				$nonce_valid = true;
 			}
@@ -663,7 +663,7 @@ final class Bulk_Delete {
 			 *
 			 * @since 5.4
 			 */
-			do_action( 'bd_' . $_POST['bd_action'], $_POST );
+			do_action( 'bd_' . $bd_action, $_POST );
 		}
 
 		if ( isset( $_GET['bd_action'] ) ) {

@@ -1,6 +1,8 @@
 ## Changelog ##
 
-### v5.5.3 (In Development) ###
+### v5.5.3 - In Development - (Dev time: 0.5 hours) ###
+- Enhancements
+	- Sanitize action post field before using it 
 
 ### 2015-10-05 - v5.5.2 (Dev time: 2 hours) ###
 - New Features
