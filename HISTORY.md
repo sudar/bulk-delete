@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### v5.5.3 - In Development - (Dev time: 2 hours) ###
+### 2015-11-02 - v5.5.3 - (Dev time: 3 hours) ###
 - New Features
 	- Added the ability to delete users based on their registered date. (Issue #115)
 
@@ -286,6 +286,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5.3 ###
+Added the ability to delete users based on registration date
 
 ### 5.5.2 ###
 Added the ability to delete users who have never logged in
