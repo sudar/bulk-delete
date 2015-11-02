@@ -234,11 +234,11 @@ You can contact us by posting about it in our [support forum](http://bulkwp.com/
 
 ![](assets-wp-repo/screenshot-1.png)
 
-The above screenshot shows how you can delete Posts by post status. You can choose between drafts, pending posts, scheduled posts, privates posts.
+The above screenshot shows how you can delete posts by post status. You can choose to delete published posts, draft posts, pending posts, scheduled posts, private posts or sticky posts.
 
 ![](assets-wp-repo/screenshot-2.png)
 
-The above screenshot shows how you can delete posts by category.
+The above screenshot shows how you can delete posts by category. You can choose the post type from which you want to delete the posts.
 
 ![](assets-wp-repo/screenshot-3.png)
 
@@ -246,31 +246,43 @@ The above screenshot shows how you can delete posts by tag.
 
 ![](assets-wp-repo/screenshot-4.png)
 
-The above screenshot shows how you can delete posts by custom taxonomy.
+The above screenshot shows how you can delete posts by custom taxonomy. You can choose the post type, taxonomy name and the terms from which you want to delete the posts.
 
 ![](assets-wp-repo/screenshot-5.png)
 
-The above screenshot shows how you can delete posts by post type.
+The above screenshot shows how you can delete posts by custom post type.
 
 ![](assets-wp-repo/screenshot-6.png)
 
-The above screenshot shows how you can delete pages by post status. You can choose between draft pages, pending pages, scheduled pages and privates pages.
+The above screenshot shows how you can delete pages by status. You can choose between published pages, draft pages, pending pages, scheduled pages and private pages.
 
 ![](assets-wp-repo/screenshot-7.png)
 
-The above screenshot shows how you can delete users by user role.
+The above screenshot shows how you can delete users by user role. You can also filter by user's registered date or login date.
 
 ![](assets-wp-repo/screenshot-8.png)
 
-The above screenshot shows how you can schedule auto delete of posts. Note that this feature is available only when you buy [pro addons](http://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro).
+The above screenshot shows how you can delete users by user meta You can also filter by user's registered date or login date.
 
 ![](assets-wp-repo/screenshot-9.png)
 
-The above screenshot shows how you can enable/disable different sections in the delete posts page of the Plugin. Similarly you can enable different sections in the other pages of the plugin.
+The above screenshot shows how you can enable/disable different sections in the delete posts page of the Plugin. Similarly you can enable different sections in the other pages of the plugin like delete posts, delete pages, delete users, delete meta fields and delete misc.
 
 ![](assets-wp-repo/screenshot-10.png)
 
+The above screenshot shows how you can enable/disable different sections in the delete users page of the Plugin.
+
+![](assets-wp-repo/screenshot-11.png)
+
+The above screenshot shows how you can enable/disable different sections in the delete meta fields page of the Plugin.
+
+![](assets-wp-repo/screenshot-12.png)
+
 The above screenshot shows the different pages that are available in the plugin.
+
+![](assets-wp-repo/screenshot-13.png)
+
+The above screenshot shows how you can schedule auto delete of posts. Note that this feature is available only when you buy [pro addons](http://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro).
 
 ## Readme Generator ##
 

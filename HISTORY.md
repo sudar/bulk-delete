@@ -6,6 +6,7 @@
 
 - Enhancements
 	- Sanitize action post field before using it.
+	- Updated Screenshots that are linked in the readme.
 
 - Bug Fixes
 	- Fixed a bug that caused a warning while updating addons. (Issue #113)
