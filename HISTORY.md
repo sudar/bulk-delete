@@ -1,11 +1,14 @@
 ## Changelog ##
 
-### v5.5.3 - In Development - (Dev time: 1.5 hours) ###
+### v5.5.3 - In Development - (Dev time: 2 hours) ###
 - New Features
 	- Added the ability to delete users based on their registered date. (Issue #115)
 
 - Enhancements
-	- Sanitize action post field before using it 
+	- Sanitize action post field before using it.
+
+- Bug Fixes
+	- Fixed a bug that caused a warning while updating addons. (Issue #113)
 
 ### 2015-10-05 - v5.5.2 (Dev time: 2 hours) ###
 - New Features
