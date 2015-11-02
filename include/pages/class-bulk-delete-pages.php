@@ -32,7 +32,7 @@ class Bulk_Delete_Pages {
 		$page_private = $pages_count->private;
 ?>
         <!-- Pages start-->
-        <h4><?php _e( 'Select the pages which you want to delete', 'bulk-delete' ); ?></h4>
+        <h4><?php _e( 'Select the status from which you want to delete pages', 'bulk-delete' ); ?></h4>
 
         <fieldset class="options">
         <table class="optiontable">

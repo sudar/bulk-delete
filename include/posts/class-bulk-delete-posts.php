@@ -28,14 +28,14 @@ class Bulk_Delete_Posts {
 
 		$sticky      = count( get_option( 'sticky_posts' ) );
 ?>
-        <h4><?php _e( 'Select the posts which you want to delete', 'bulk-delete' ); ?></h4>
+        <h4><?php _e( 'Select the post status from which you want to delete posts', 'bulk-delete' ); ?></h4>
 
         <fieldset class="options">
         <table class="optiontable">
             <tr>
                 <td>
                     <input name="smbd_publish" id="smbd_publish" value="publish" type="checkbox">
-                    <label for="smbd_publish"><?php _e( 'All published posts', 'bulk-delete' ); ?> (<?php echo $publish . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                    <label for="smbd_publish"><?php _e( 'All Published Posts', 'bulk-delete' ); ?> (<?php echo $publish . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 
@@ -49,39 +49,37 @@ class Bulk_Delete_Posts {
             <tr>
                 <td>
                     <input name="smbd_pending" id="smbd_pending" value="pending" type="checkbox">
-                    <label for="smbd_pending"><?php _e( 'All Pending posts', 'bulk-delete' ); ?> (<?php echo $pending . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                    <label for="smbd_pending"><?php _e( 'All Pending Posts', 'bulk-delete' ); ?> (<?php echo $pending . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 
             <tr>
                 <td>
                     <input name="smbd_future" id="smbd_future" value="future" type="checkbox">
-                    <label for="smbd_future"><?php _e( 'All Scheduled posts', 'bulk-delete' ); ?> (<?php echo $future . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                    <label for="smbd_future"><?php _e( 'All Scheduled Posts', 'bulk-delete' ); ?> (<?php echo $future . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 
             <tr>
                 <td>
                     <input name="smbd_private" id="smbd_private" value="private" type="checkbox">
-                    <label for="smbd_private"><?php _e( 'All Private posts', 'bulk-delete' ); ?> (<?php echo $private . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                    <label for="smbd_private"><?php _e( 'All Private Posts', 'bulk-delete' ); ?> (<?php echo $private . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 
             <tr>
                 <td>
                     <input name="smbd_sticky" id="smbd_sticky" value="sticky" type="checkbox">
-                    <label for="smbd_sticky"><?php _e( 'All Sticky posts', 'bulk-delete' ); ?> (<?php echo $sticky . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+					<label for="smbd_sticky">
+						<?php _e( 'All Sticky Posts', 'bulk-delete' ); ?> (<?php echo $sticky . ' '; _e( 'Posts', 'bulk-delete' ); ?>)
+						<?php echo '<strong>', __( 'Note', 'bulk-delete' ), '</strong>: ', __( 'The date filter will not work for sticky posts', 'bulk-delete' ); ?>
+					</label>
                 </td>
             </tr>
 		</table>
 
         <table class="optiontable">
 			<?php bd_render_filtering_table_header(); ?>
-            <tr>
-                <td colspan="2">
-                    <p><?php _e( 'Note: The date filter will not work for sticky posts', 'bulk-delete' ); ?></p>
-                </td>
-            </tr>
 			<?php bd_render_restrict_settings( 'post_status' ); ?>
 			<?php bd_render_delete_settings( 'post_status' ); ?>
 			<?php bd_render_limit_settings( 'post_status' ); ?>
@@ -225,14 +223,14 @@ class Bulk_Delete_Posts {
 		}
 ?>
         <!-- Category Start-->
-        <h4><?php _e( 'Select the post type whose category posts you want to delete', 'bulk-delete' ); ?></h4>
+        <h4><?php _e( 'Select the post type from which you want to delete posts by category', 'bulk-delete' ); ?></h4>
         <fieldset class="options">
         <table class="optiontable">
 			<?php bd_render_post_type_dropdown( 'cats' ); ?>
         </table>
 
-        <h4><?php _e( 'Select the categories whose post you want to delete', 'bulk-delete' ); ?></h4>
-        <p><?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?></p>
+        <h4><?php _e( 'Select the categories from which you wan to delete posts', 'bulk-delete' ); ?></h4>
+        <p><?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?>.</p>
 <?php
 		$categories = get_categories( array(
 				'hide_empty' => false,
@@ -364,7 +362,7 @@ class Bulk_Delete_Posts {
 		$tags = get_tags();
 		if ( count( $tags ) > 0 ) {
 ?>
-            <h4><?php _e( 'Select the tags whose post you want to delete', 'bulk-delete' ) ?></h4>
+            <h4><?php _e( 'Select the tags from which you want to delete posts', 'bulk-delete' ) ?></h4>
 
             <!-- Tags start-->
             <fieldset class="options">
@@ -502,14 +500,14 @@ class Bulk_Delete_Posts {
 		if ( count( $terms_array ) > 0 ) {
 ?>
         <!-- Custom tax Start-->
-        <h4><?php _e( 'Select the post type whose taxonomy posts you want to delete', 'bulk-delete' ); ?></h4>
+        <h4><?php _e( 'Select the post type from which you want to delete posts by custom taxonomy', 'bulk-delete' ); ?></h4>
 
         <fieldset class="options">
             <table class="optiontable">
 				<?php bd_render_post_type_dropdown( 'tax' ); ?>
             </table>
 
-            <h4><?php _e( 'Select the taxonomies whose post you want to delete', 'bulk-delete' ) ?></h4>
+            <h4><?php _e( 'Select the taxonomies from which you want to delete posts', 'bulk-delete' ) ?></h4>
 
             <table class="optiontable">
 <?php
@@ -528,8 +526,8 @@ class Bulk_Delete_Posts {
 ?>
             </table>
 
-            <h4><?php _e( 'The selected taxonomy has the following terms. Select the terms whose post you want to delete', 'bulk-delete' ) ?></h4>
-            <p><?php _e( 'Note: The post count below for each term is the total number of posts in that term, irrespective of post type', 'bulk-delete' ); ?></p>
+            <h4><?php _e( 'The selected taxonomy has the following terms. Select the terms from which you want to delete posts', 'bulk-delete' ) ?></h4>
+            <p><?php _e( 'Note: The post count below for each term is the total number of posts in that term, irrespective of post type', 'bulk-delete' ); ?>.</p>
 <?php
 			foreach ( $terms_array as $tax => $terms ) {
 ?>
@@ -566,7 +564,7 @@ class Bulk_Delete_Posts {
 			bd_render_submit_button( 'delete_posts_by_taxonomy' );
 		} else {
 ?>
-            <h4><?php _e( "You don't have any posts assigned to custom taxonomies in this blog.", 'bulk-delete' ) ?></h4>
+            <h4><?php _e( "This WordPress installation doesn't have any non-empty custom taxonomies defined", 'bulk-delete' ) ?></h4>
 <?php
 		}
 	}
@@ -675,8 +673,8 @@ class Bulk_Delete_Posts {
 
 		$types_array = array();
 
-		$types =  get_post_types( array(
-				'_builtin' => false
+		$types = get_post_types( array(
+				'_builtin' => false,
 			), 'names'
 		);
 
@@ -704,7 +702,7 @@ class Bulk_Delete_Posts {
 		if ( count( $types_array ) > 0 ) {
 ?>
             <!-- Custom post type Start-->
-            <h4><?php _e( 'Select the custom post type whose post you want to delete', 'bulk-delete' ) ?></h4>
+            <h4><?php _e( 'Select the custom post types from which you want to delete posts', 'bulk-delete' ) ?></h4>
 
             <fieldset class="options">
             <table class="optiontable">
@@ -733,7 +731,7 @@ class Bulk_Delete_Posts {
 <?php
 			bd_render_submit_button( 'delete_posts_by_post_type' );
 		} else {
-            printf( '<h4>%s</h4>', __( "You don't have any posts assigned to custom post types in this blog.", 'bulk-delete' ) );
+            printf( '<h4>%s</h4>', __( "This WordPress installation doesn't have any non-empty custom post types", 'bulk-delete' ) );
 		}
 	}
 

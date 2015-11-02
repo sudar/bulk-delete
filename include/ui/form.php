@@ -135,7 +135,7 @@ function bd_render_cron_settings( $slug, $addon_url ) {
 
 	<tr>
 		<td scope="row" colspan="2">
-			<?php _e( 'Enter time in Y-m-d H:i:s format or enter now to use current time', 'bulk-delete' );?>
+			<?php _e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time', 'bulk-delete' );?>
 		</td>
 	</tr>
 <?php

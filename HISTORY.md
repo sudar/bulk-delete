@@ -1,5 +1,17 @@
 ## Changelog ##
 
+### 2015-11-02 - v5.5.3 - (Dev time: 3 hours) ###
+- New Features
+	- Added the ability to delete users based on their registered date. (Issue #115)
+
+- Enhancements
+	- Sanitize action post field before using it.
+	- Updated Screenshots that are linked in the readme.
+
+- Bug Fixes
+	- Fixed a bug that caused a warning while updating addons. (Issue #113)
+	- Fixed typos and enhanced labels.
+
 ### 2015-10-05 - v5.5.2 (Dev time: 2 hours) ###
 - New Features
 	- Added the ability to delete users who have never logged in.
@@ -274,6 +286,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5.3 ###
+Added the ability to delete users based on registration date
 
 ### 5.5.2 ###
 Added the ability to delete users who have never logged in

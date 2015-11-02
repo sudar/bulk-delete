@@ -5,7 +5,7 @@
  * Plugin URI: http://bulkwp.com
  * Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
  * Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
- * Version: 5.5.2
+ * Version: 5.5.3
  * License: GPL
  * Author: Sudar
  * Author URI: http://sudarmuthu.com/
@@ -14,7 +14,7 @@
  * === RELEASE NOTES ===
  * Check readme file for full release notes
  *
- * @version    5.5.2
+ * @version    5.5.3
  * @author     Sudar
  * @package    BulkDelete
  */
@@ -49,7 +49,7 @@ final class Bulk_Delete {
 	private static $instance;
 
 	// version
-	const VERSION                   = '5.5.2';
+	const VERSION                   = '5.5.3';
 
 	// Numeric constants
 	const MENU_ORDER                = '26.9966';
@@ -369,7 +369,7 @@ final class Bulk_Delete {
 		add_meta_box( self::BOX_CATEGORY      , __( 'By Category'          , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_category_box'  , $this->posts_page , 'advanced' );
 		add_meta_box( self::BOX_TAG           , __( 'By Tag'               , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_tag_box'       , $this->posts_page , 'advanced' );
 		add_meta_box( self::BOX_TAX           , __( 'By Custom Taxonomy'   , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_taxonomy_box'  , $this->posts_page , 'advanced' );
-		add_meta_box( self::BOX_POST_TYPE     , __( 'By Custom Post Types' , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_post_type_box' , $this->posts_page , 'advanced' );
+		add_meta_box( self::BOX_POST_TYPE     , __( 'By Custom Post Type'  , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_post_type_box' , $this->posts_page , 'advanced' );
 		add_meta_box( self::BOX_URL           , __( 'By URL'               , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_url_box'       , $this->posts_page , 'advanced' );
 		add_meta_box( self::BOX_POST_REVISION , __( 'By Post Revision'     , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_posts_by_revision_box'         , $this->posts_page , 'advanced' );
 
@@ -409,7 +409,7 @@ final class Bulk_Delete {
 	 * @since 5.0
 	 */
 	public function add_delete_pages_meta_boxes() {
-		add_meta_box( self::BOX_PAGE_STATUS     , __( 'By Page status' , 'bulk-delete' ) , 'Bulk_Delete_Pages::render_delete_pages_by_status_box' , $this->pages_page , 'advanced' );
+		add_meta_box( self::BOX_PAGE_STATUS, __( 'By Page Status', 'bulk-delete' ), 'Bulk_Delete_Pages::render_delete_pages_by_status_box', $this->pages_page, 'advanced' );
 
 		/**
 		 * Add meta box in delete pages page
@@ -625,17 +625,17 @@ final class Bulk_Delete {
 			$bd_action = sanitize_text_field( $_POST['bd_action'] );
 			$nonce_valid = false;
 
-			if ( 'delete_pages_' === substr( $_POST['bd_action'], 0, strlen( 'delete_pages_' ) )
+			if ( 'delete_pages_' === substr( $bd_action, 0, strlen( 'delete_pages_' ) )
 				&& check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
 				$nonce_valid = true;
 			}
 
-			if ( 'delete_posts_' === substr( $_POST['bd_action'], 0, strlen( 'delete_posts_' ) )
+			if ( 'delete_posts_' === substr( $bd_action, 0, strlen( 'delete_posts_' ) )
 				&& check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
 				$nonce_valid = true;
 			}
 
-			if ( 'delete_meta_' === substr( $_POST['bd_action'], 0, strlen( 'delete_meta_' ) )
+			if ( 'delete_meta_' === substr( $bd_action, 0, strlen( 'delete_meta_' ) )
 				&& check_admin_referer( 'sm-bulk-delete-meta', 'sm-bulk-delete-meta-nonce' ) ) {
 				$nonce_valid = true;
 			}
@@ -663,7 +663,7 @@ final class Bulk_Delete {
 			 *
 			 * @since 5.4
 			 */
-			do_action( 'bd_' . $_POST['bd_action'], $_POST );
+			do_action( 'bd_' . $bd_action, $_POST );
 		}
 
 		if ( isset( $_GET['bd_action'] ) ) {
