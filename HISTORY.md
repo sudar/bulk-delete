@@ -1,6 +1,9 @@
 ## Changelog ##
 
-### v5.5.3 - In Development - (Dev time: 0.5 hours) ###
+### v5.5.3 - In Development - (Dev time: 1.5 hours) ###
+- New Features
+	- Added the ability to delete users based on their registered date. (Issue #115)
+
 - Enhancements
 	- Sanitize action post field before using it 
 

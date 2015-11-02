@@ -84,6 +84,7 @@ Like posts, all the above options support the following filters as well
 - Delete users based on user role
 - Delete users based on user meta fields
 - Delete users who have not logged in in the last X days
+- Delete users based on their registered date
 
 #### Deleting Meta Fields
 
