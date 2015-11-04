@@ -132,7 +132,8 @@ module.exports = function( grunt ) {
 							'!Gruntfile.js',
 							'!bower.json',
 							'!package.json',
-							'!phpcs.xml'
+							'!phpcs.xml',
+							'!tags'
 						],
 						dest: 'dist/'
 					}
