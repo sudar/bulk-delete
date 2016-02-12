@@ -508,9 +508,7 @@ final class Bulk_Delete {
                 <p><strong><?php _e( 'WARNING: Posts deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
 
-            <div id="postbox-container-1" class="postbox-container">
-                <iframe frameBorder="0" height = "1500" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo self::VERSION; ?>"></iframe>
-            </div>
+			<?php bd_render_sidebar_iframe(); ?>
 
             <div id="postbox-container-2" class="postbox-container">
                 <?php do_meta_boxes( '', 'advanced', null ); ?>
@@ -560,9 +558,7 @@ final class Bulk_Delete {
                 <p><strong><?php _e( 'WARNING: Pages deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
 
-            <div id="postbox-container-1" class="postbox-container">
-                <iframe frameBorder="0" height = "1500" src = "http://sudarmuthu.com/projects/wordpress/bulk-delete/sidebar.php?color=<?php echo get_user_option( 'admin_color' ); ?>&version=<?php echo self::VERSION; ?>"></iframe>
-            </div>
+			<?php bd_render_sidebar_iframe(); ?>
 
             <div id="postbox-container-2" class="postbox-container">
                 <?php do_meta_boxes( '', 'advanced', null ); ?>
