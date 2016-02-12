@@ -49,10 +49,10 @@ abstract class BD_Base_Addon extends BD_Addon {
 	}
 
 	/**
- 	 * Return reference to the module.
+	 * Return reference to the module.
 	 *
 	 * @since 5.5
-	 * @return object Reference to Module Object
+	 * @return Module Reference to Module Object
 	 */
 	public function get_module() {
 		return $this->module;
