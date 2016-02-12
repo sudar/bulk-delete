@@ -48,6 +48,8 @@ final class Bulk_Delete {
 	 */
 	private static $instance;
 
+	private $controller;
+
 	// version
 	const VERSION                   = '5.5.4-dev';
 
