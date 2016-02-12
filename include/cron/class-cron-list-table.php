@@ -109,8 +109,8 @@ class Cron_List_Table extends WP_List_Table {
 				$_REQUEST['page'],
 				'delete_cron',
 				$item['id'],
-				'sm-bulk-delete-cron-nonce',
-				wp_create_nonce( 'sm-bulk-delete-cron' ),
+				'bd-delete_cron-nonce',
+				wp_create_nonce( 'bd-delete_cron' ),
 				__( 'Delete', 'bulk-delete' )
 			),
 		);

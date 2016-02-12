@@ -213,6 +213,8 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/base/users/class-bd-user-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-page.php';
 
+		require_once self::$PLUGIN_DIR . '/include/controller/controller.php';
+
 		require_once self::$PLUGIN_DIR . '/include/ui/form.php';
 
 		require_once self::$PLUGIN_DIR . '/include/posts/class-bulk-delete-posts.php';
@@ -283,8 +285,9 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function setup_actions() {
+		$this->controller = new BD_Controller();
+
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
-		add_action( 'admin_init', array( $this, 'request_handler' ) );
 		add_action( 'bd_pre_bulk_action', array( $this, 'increase_timeout' ), 9 );
 		add_action( 'bd_before_scheduler', array( $this, 'increase_timeout' ), 9 );
 	}
@@ -614,62 +617,6 @@ final class Bulk_Delete {
 		 * @since 5.0
 		 */
 		do_action( 'bd_admin_footer_cron_page' );
-	}
-
-	/**
-	 * Handle both POST and GET requests.
-	 * This method automatically triggers all the actions after checking the nonce.
-	 */
-	public function request_handler() {
-		if ( isset( $_POST['bd_action'] ) ) {
-			$bd_action = sanitize_text_field( $_POST['bd_action'] );
-			$nonce_valid = false;
-
-			if ( 'delete_pages_' === substr( $bd_action, 0, strlen( 'delete_pages_' ) )
-				&& check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
-				$nonce_valid = true;
-			}
-
-			if ( 'delete_posts_' === substr( $bd_action, 0, strlen( 'delete_posts_' ) )
-				&& check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
-				$nonce_valid = true;
-			}
-
-			if ( 'delete_meta_' === substr( $bd_action, 0, strlen( 'delete_meta_' ) )
-				&& check_admin_referer( 'sm-bulk-delete-meta', 'sm-bulk-delete-meta-nonce' ) ) {
-				$nonce_valid = true;
-			}
-
-			/**
-			 * Perform nonce check.
-			 *
-			 * @since 5.5
-			 */
-			if ( ! apply_filters( 'bd_action_nonce_check', $nonce_valid, $bd_action ) ) {
-				return;
-			}
-
-			/**
-			 * Before performing a bulk action.
-			 * This hook is for doing actions just before performing any bulk operation
-			 *
-			 * @since 5.4
-			 */
-			do_action( 'bd_pre_bulk_action', $bd_action );
-
-			/**
-			 * Perform the bulk operation.
-			 * This hook is for doing the bulk operation. Nonce check has already happened by this point.
-			 *
-			 * @since 5.4
-			 */
-			do_action( 'bd_' . $bd_action, $_POST );
-		}
-
-		if ( isset( $_GET['bd_action'] ) ) {
-			// TODO: check nonce for get requests as well.
-			do_action( 'bd_' . $_GET['bd_action'], $_GET );
-		}
 	}
 
 	/**

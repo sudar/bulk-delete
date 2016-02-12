@@ -1010,20 +1010,18 @@ class Bulk_Delete_Posts {
 	 * @static
 	 */
 	public static function do_delete_cron() {
-		if ( check_admin_referer( 'sm-bulk-delete-cron', 'sm-bulk-delete-cron-nonce' ) ) {
-			$cron_id = absint( $_GET['cron_id'] );
-			$cron_items = BD_Util::get_cron_schedules();
-			wp_unschedule_event( $cron_items[$cron_id]['timestamp'], $cron_items[$cron_id]['type'], $cron_items[$cron_id]['args'] );
+		$cron_id = absint( $_GET['cron_id'] );
+		$cron_items = BD_Util::get_cron_schedules();
+		wp_unschedule_event( $cron_items[$cron_id]['timestamp'], $cron_items[$cron_id]['type'], $cron_items[$cron_id]['args'] );
 
-			$msg = __( 'The selected scheduled job was successfully deleted ', 'bulk-delete' );
+		$msg = __( 'The selected scheduled job was successfully deleted ', 'bulk-delete' );
 
-			add_settings_error(
-				Bulk_Delete::CRON_PAGE_SLUG,
-				'deleted-cron',
-				$msg,
-				'updated'
-			);
-		}
+		add_settings_error(
+			Bulk_Delete::CRON_PAGE_SLUG,
+			'deleted-cron',
+			$msg,
+			'updated'
+		);
 	}
 }
 

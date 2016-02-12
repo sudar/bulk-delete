@@ -104,8 +104,8 @@ class License_List_Table extends WP_List_Table {
 				$_REQUEST['page'],
 				$action_name,
 				$item['addon-code'],
-				'bd-deactivate-license-nonce',
-				wp_create_nonce( 'bd-deactivate-license' ),
+				"bd-{$action_name}-nonce",
+				wp_create_nonce( "bd-{$action_name}" ),
 				$action_label
 			),
 		);

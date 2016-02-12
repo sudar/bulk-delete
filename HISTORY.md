@@ -1,6 +1,9 @@
 ## Changelog ##
 
-### v5.5.4 - In Development ###
+### v5.5.4 - In Development (Dev time: 3 hours) ###
+
+- Bug Fixes
+	- Security fix that prevents non-privileged users from deleting posts.
 
 ### 2015-11-02 - v5.5.3 - (Dev time: 3 hours) ###
 - New Features

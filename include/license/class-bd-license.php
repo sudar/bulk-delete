@@ -177,33 +177,31 @@ class BD_License {
 	 * @static
 	 */
 	public static function deactivate_license() {
-		if ( check_admin_referer( 'bd-deactivate-license', 'bd-deactivate-license-nonce' ) ) {
-			$msg          = array( 'msg' => '', 'type' => 'error' );
-			$addon_code   = $_GET['addon-code'];
-			$license_data = self::get_license( $addon_code );
+		$msg          = array( 'msg' => '', 'type' => 'error' );
+		$addon_code   = $_GET['addon-code'];
+		$license_data = self::get_license( $addon_code );
 
-			$license      = $license_data['license'];
-			$addon_name   = $license_data['addon-name'];
+		$license      = $license_data['license'];
+		$addon_name   = $license_data['addon-name'];
 
-			$deactivated  = BD_EDD_API_Wrapper::deactivate_license( $addon_name, $license );
+		$deactivated  = BD_EDD_API_Wrapper::deactivate_license( $addon_name, $license );
 
-			if ( $deactivated ) {
-				self::delete_license_from_cache( $addon_code );
-				$msg['msg']  = sprintf( __( 'The license key for "%s" addon was successfully deactivated', 'bulk-delete' ), $addon_name );
-				$msg['type'] = 'updated';
+		if ( $deactivated ) {
+			self::delete_license_from_cache( $addon_code );
+			$msg['msg']  = sprintf( __( 'The license key for "%s" addon was successfully deactivated', 'bulk-delete' ), $addon_name );
+			$msg['type'] = 'updated';
 
-			} else {
-				self::validate_license( $addon_code, $addon_name );
-				$msg['msg'] = sprintf( __( 'There was some problem while trying to deactivate license key for "%s" addon. Kindly try again', 'bulk-delete' ), $addon_name );
-			}
-
-			add_settings_error(
-				Bulk_Delete::ADDON_PAGE_SLUG,
-				'license-deactivation',
-				$msg['msg'],
-				$msg['type']
-			);
+		} else {
+			self::validate_license( $addon_code, $addon_name );
+			$msg['msg'] = sprintf( __( 'There was some problem while trying to deactivate license key for "%s" addon. Kindly try again', 'bulk-delete' ), $addon_name );
 		}
+
+		add_settings_error(
+			Bulk_Delete::ADDON_PAGE_SLUG,
+			'license-deactivation',
+			$msg['msg'],
+			$msg['type']
+		);
 	}
 
 	/**
@@ -213,21 +211,19 @@ class BD_License {
 	 * @static
 	 */
 	public static function delete_license() {
-		if ( check_admin_referer( 'bd-deactivate-license', 'bd-deactivate-license-nonce' ) ) {
-			$msg          = array( 'msg' => '', 'type' => 'updated' );
-			$addon_code   = $_GET['addon-code'];
+		$msg          = array( 'msg' => '', 'type' => 'updated' );
+		$addon_code   = $_GET['addon-code'];
 
-			self::delete_license_from_cache( $addon_code );
+		self::delete_license_from_cache( $addon_code );
 
-			$msg['msg']  = __( 'The license key was successfully deleted', 'bulk-delete' );
+		$msg['msg']  = __( 'The license key was successfully deleted', 'bulk-delete' );
 
-			add_settings_error(
-				Bulk_Delete::ADDON_PAGE_SLUG,
-				'license-deleted',
-				$msg['msg'],
-				$msg['type']
-			);
-		}
+		add_settings_error(
+			Bulk_Delete::ADDON_PAGE_SLUG,
+			'license-deleted',
+			$msg['msg'],
+			$msg['type']
+		);
 	}
 
 	/**
