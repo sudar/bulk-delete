@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+	<title>Bulk Delete</title>
+	<parser>
+		<target>docs/codex</target>
+	</parser>
+	<transformer>
+		<target>docs/codex</target>
+	</transformer>
+	<files>
+		<directory>.</directory>
+		<ignore>include/libraries/*</ignore>
+		<ignore>test/*</ignore>
+		<ignore>dist/*</ignore>
+		<ignore>node_modules/*</ignore>
+		<ignore>vendor/*</ignore>
+		<ignore>docs/*</ignore>
+	</files>
+</phpdoc>
