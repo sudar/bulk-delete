@@ -200,7 +200,6 @@ NETWORK ACTIVE PLUGINS:
 ### End System Info ###</textarea>
             <p class="submit">
                 <input type="hidden" name="bd_action" value="download_sysinfo">
-				<?php wp_nonce_field( 'bd-download_sysinfo', 'bd-download_sysinfo-nonce' ); ?>
                 <?php submit_button( 'Download System Info File', 'primary', 'bulk-delete-download-sysinfo', false ); ?>
             </p>
             </div> <!-- #postbox-container-2 -->

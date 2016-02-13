@@ -17,8 +17,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 class BD_Controller {
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'request_handler' ) );
-		add_filter( 'bd_get_action_nonce_check', array( $this, 'verify_request_nonce' ), 10, 2 );
-		add_filter( 'bd_action_nonce_check', array( $this, 'verify_request_nonce' ), 10, 2 );
+		add_filter( 'bd_get_action_nonce_check', array( $this, 'verify_get_request_nonce' ), 10, 2 );
 	}
 
 	/**
@@ -95,14 +94,14 @@ class BD_Controller {
 	}
 
 	/**
-	 * Verify if request has a valid nonce.
+	 * Verify if GET request has a valid nonce.
 	 *
 	 * @since  5.5.4
 	 * @param  bool   $result Whether nonce is valid.
 	 * @param  string $action Action name
 	 * @return bool           True if nonce is valid, otherwise return $result.
 	 */
-	public function verify_request_nonce( $result, $action ) {
+	public function verify_get_request_nonce( $result, $action ) {
 		if ( check_admin_referer( "bd-{$action}", "bd-{$action}-nonce" ) ) {
 			return true;
 		}
