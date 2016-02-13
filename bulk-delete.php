@@ -214,7 +214,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-base-page.php';
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-page.php';
 
-		require_once self::$PLUGIN_DIR . '/include/controller/controller.php';
+		require_once self::$PLUGIN_DIR . '/include/controller/class-bd-controller.php';
 
 		require_once self::$PLUGIN_DIR . '/include/ui/form.php';
 
