@@ -61,7 +61,6 @@ final class Bulk_Delete {
 	const PAGES_PAGE_SLUG           = 'bulk-delete-pages';
 	const CRON_PAGE_SLUG            = 'bulk-delete-cron';
 	const ADDON_PAGE_SLUG           = 'bulk-delete-addon';
-	const INFO_PAGE_SLUG            = 'bulk-delete-info';
 
 	// JS constants
 	const JS_HANDLE                 = 'bulk-delete';
@@ -120,7 +119,6 @@ final class Bulk_Delete {
 	public $pages_page;
 	public $cron_page;
 	public $addon_page;
-	public $info_page;
 	public $settings_page;
 	public $meta_page;
 	public $misc_page;
@@ -239,7 +237,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/settings/setting-helpers.php';
 		require_once self::$PLUGIN_DIR . '/include/settings/class-bd-settings.php';
 
-		require_once self::$PLUGIN_DIR . '/include/system-info/class-bulk-delete-system-info.php';
+		require_once self::$PLUGIN_DIR . '/include/system-info/class-bd-system-info-page.php';
 
 		require_once self::$PLUGIN_DIR . '/include/util/class-bd-util.php';
 		require_once self::$PLUGIN_DIR . '/include/util/query.php';
@@ -322,9 +320,8 @@ final class Bulk_Delete {
 		 */
 		do_action( 'bd_before_secondary_menus' );
 
-		$this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules'  , 'bulk-delete' ), __( 'Scheduled Jobs', 'bulk-delete' ), 'delete_posts'    , self::CRON_PAGE_SLUG , array( $this, 'display_cron_page' ) );
-		$this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Addon Licenses'         , 'bulk-delete' ), __( 'Addon Licenses', 'bulk-delete' ), 'activate_plugins', self::ADDON_PAGE_SLUG, array( 'BD_License', 'display_addon_page' ) );
-		$this->info_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete System Info', 'bulk-delete' ), __( 'System Info'   , 'bulk-delete' ), 'manage_options'  , self::INFO_PAGE_SLUG , array( 'Bulk_Delete_System_Info', 'display_system_info' ) );
+		$this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules', 'bulk-delete' ), __( 'Scheduled Jobs', 'bulk-delete' ), 'delete_posts'    , self::CRON_PAGE_SLUG , array( $this, 'display_cron_page' ) );
+		$this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Addon Licenses'       , 'bulk-delete' ), __( 'Addon Licenses', 'bulk-delete' ), 'activate_plugins', self::ADDON_PAGE_SLUG, array( 'BD_License', 'display_addon_page' ) );
 
 		/**
 		 * Runs just after adding all menu items to Bulk WP main menu
