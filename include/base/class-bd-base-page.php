@@ -70,6 +70,7 @@ abstract class BD_Base_Page {
 	 *
 	 * @since 5.5.4
 	 * @abstract
+	 * @return void
 	 */
 	abstract protected function render_body();
 
