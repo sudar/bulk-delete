@@ -114,8 +114,6 @@ abstract class BD_Base_Page {
 	 * @since 5.5.4
 	 */
 	public function add_menu() {
-		$bd = BULK_DELETE();
-
 		$this->screen = add_submenu_page(
 			Bulk_Delete::POSTS_PAGE_SLUG,
 			$this->label['page_title'],

@@ -58,6 +58,8 @@ abstract class BD_Page extends BD_Base_Page {
 	public function add_menu() {
 		parent::add_menu();
 
+		$bd = BULK_DELETE();
+
 		add_action( "admin_print_scripts-{$this->screen}", array( $bd, 'add_script' ) );
 
 		add_action( "load-{$this->screen}", array( $this, 'add_settings_panel' ) );
