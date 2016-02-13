@@ -261,4 +261,79 @@ function bd_get_allowed_mime_types() {
 
 	return $processed_mime_types;
 }
+
+/**
+ * Get current theme name.
+ *
+ * @since 5.5.4
+ * @return string Current theme name.
+ */
+function bd_get_current_theme_name() {
+	if ( get_bloginfo( 'version' ) < '3.4' ) {
+		$theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
+		return $theme_data['Name'] . ' ' . $theme_data['Version'];
+	} else {
+		$theme_data = wp_get_theme();
+		return $theme_data->Name . ' ' . $theme_data->Version;
+	}
+}
+
+/**
+ * Try to identity the hosting provider.
+ *
+ * @since 5.5.4
+ * @return string Web host name if identified, empty string otherwise.
+ */
+function bd_identify_host() {
+	$host = '';
+	if ( defined( 'WPE_APIKEY' ) ) {
+		$host = 'WP Engine';
+	} elseif ( defined( 'PAGELYBIN' ) ) {
+		$host = 'Pagely';
+	}
+
+	return $host;
+}
+
+/**
+ * Print plugins that are currently active.
+ *
+ * @sicne 5.5.4
+ */
+function bd_print_current_plugins() {
+	$plugins = get_plugins();
+	$active_plugins = get_option( 'active_plugins', array() );
+
+	foreach ( $plugins as $plugin_path => $plugin ) {
+		// If the plugin isn't active, don't show it.
+		if ( ! in_array( $plugin_path, $active_plugins ) ) {
+			continue;
+		}
+
+		echo $plugin['Name'] . ': ' . $plugin['Version'] ."\n";
+	}
+}
+
+/**
+ * Print network active plugins.
+ *
+ * @since 5.5.4
+ */
+function bd_print_network_active_plugins() {
+	$plugins = wp_get_active_network_plugins();
+	$active_plugins = get_site_option( 'active_sitewide_plugins', array() );
+
+	foreach ( $plugins as $plugin_path ) {
+		$plugin_base = plugin_basename( $plugin_path );
+
+		// If the plugin isn't active, don't show it.
+		if ( ! array_key_exists( $plugin_base, $active_plugins ) ) {
+			continue;
+		}
+
+		$plugin = get_plugin_data( $plugin_path );
+
+		echo $plugin['Name'] . ' :' . $plugin['Version'] ."\n";
+	}
+}
 ?>

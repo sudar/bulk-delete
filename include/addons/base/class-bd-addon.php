@@ -47,6 +47,11 @@ abstract class BD_Addon {
 	protected $module;
 
 	/**
+	 * @var object License Handler.
+	 */
+	protected $license_handler;
+
+	/**
 	 * Initialize and setup variables.
 	 *
 	 * @since 5.5

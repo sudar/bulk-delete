@@ -1,5 +1,13 @@
 ## Changelog ##
 
+### 2016-02-13 - v5.5.4 - (Dev time: 5 hours) ###
+
+- Bug Fixes
+	- Security fix that prevents non-privileged users from deleting posts.
+
+- Enhancements
+	- Lot of code refactoring to improve quality.
+
 ### 2015-11-02 - v5.5.3 - (Dev time: 3 hours) ###
 - New Features
 	- Added the ability to delete users based on their registered date. (Issue #115)
@@ -286,6 +294,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5.4 ###
+Fixed a security bug that allowed non-privileged users to delete posts
 
 ### 5.5.3 ###
 Added the ability to delete users based on registration date
