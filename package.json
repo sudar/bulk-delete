@@ -2,7 +2,7 @@
   "name": "bulk-delete",
   "title": "Bulk Delete",
   "description": "Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, users and meta fields in bulk based on different conditions and filters.",
-  "version": "5.5.3",
+  "version": "5.5.4",
   "homepage": "http://bulkwp.com",
   "license": "GPLv2+",
   "author": {
