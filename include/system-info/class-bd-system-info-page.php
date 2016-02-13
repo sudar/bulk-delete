@@ -183,7 +183,7 @@ PHP Max Input Vars:       <?php echo ini_get( 'max_input_vars' ) . "\n"; ?>
 PHP Arg Separator:        <?php echo ini_get( 'arg_separator.output' ) . "\n"; ?>
 PHP Allow URL File Open:  <?php echo ini_get( 'allow_url_fopen' ) ? 'Yes' : 'No', "\n"; ?>
 
-WP Table Prefix:          <?php echo 'Length: '. strlen( $wpdb->prefix ), "\n";?>
+WP Table Prefix:          <?php echo $wpdb->prefix, "\n";?>
 
 Session:                  <?php echo isset( $_SESSION ) ? 'Enabled' : 'Disabled'; ?><?php echo "\n"; ?>
 Session Name:             <?php echo esc_html( ini_get( 'session.name' ) ); ?><?php echo "\n"; ?>
