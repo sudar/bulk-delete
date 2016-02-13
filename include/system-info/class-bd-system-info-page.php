@@ -96,22 +96,6 @@ class BD_System_Info_page extends BD_Base_Page {
 	 */
 	protected function render_body() {
 		global $wpdb;
-
-		if ( get_bloginfo( 'version' ) < '3.4' ) {
-			$theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
-			$theme      = $theme_data['Name'] . ' ' . $theme_data['Version'];
-		} else {
-			$theme_data = wp_get_theme();
-			$theme      = $theme_data->Name . ' ' . $theme_data->Version;
-		}
-
-		// Try to identity the hosting provider
-		$host = false;
-		if ( defined( 'WPE_APIKEY' ) ) {
-			$host = 'WP Engine';
-		} elseif ( defined( 'PAGELYBIN' ) ) {
-			$host = 'Pagely';
-		}
 ?>
 		<textarea wrap="off" style="width:100%;height:500px;font-family:Menlo,Monaco,monospace;white-space:pre;" readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="bulk-delete-sysinfo" title="<?php _e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'bulk-delete' ); ?>">
 ### Begin System Info ###
@@ -131,12 +115,13 @@ HOME_URL:                 <?php echo home_url() . "\n"; ?>
 Browser:                  <?php echo esc_html( $_SERVER['HTTP_USER_AGENT'] ), "\n"; ?>
 
 Permalink Structure:      <?php echo get_option( 'permalink_structure' ) . "\n"; ?>
-Active Theme:             <?php echo $theme . "\n"; ?>
+Active Theme:             <?php echo bd_get_current_theme_name() . "\n"; ?>
 <?php
-		if ( false !== $host ) { ?>
+		$host = bd_identify_host();
+		if ( '' !== $host ) : ?>
 Host:                     <?php echo $host . "\n\n"; ?>
 <?php
-		}
+		endif;
 
 		$post_types = get_post_types();
 ?>
@@ -200,44 +185,20 @@ SUHOSIN:                  <?php echo ( extension_loaded( 'suhosin' ) ) ? 'Your s
 
 ACTIVE PLUGINS:
 
+<?php bd_print_current_plugins(); ?>
+
 <?php
-		$plugins = get_plugins();
-		$active_plugins = get_option( 'active_plugins', array() );
-
-		foreach ( $plugins as $plugin_path => $plugin ) {
-			// If the plugin isn't active, don't show it.
-			if ( ! in_array( $plugin_path, $active_plugins ) ) {
-				continue;
-			}
-
-			echo $plugin['Name'] . ': ' . $plugin['Version'] ."\n";
-		}
-
-		if ( is_multisite() ) {
-?>
-
+		if ( is_multisite() ) : ?>
 NETWORK ACTIVE PLUGINS:
 
 <?php
-			$plugins = wp_get_active_network_plugins();
-			$active_plugins = get_site_option( 'active_sitewide_plugins', array() );
-
-			foreach ( $plugins as $plugin_path ) {
-				$plugin_base = plugin_basename( $plugin_path );
-
-				// If the plugin isn't active, don't show it.
-				if ( ! array_key_exists( $plugin_base, $active_plugins ) ) {
-					continue;
-				}
-
-				$plugin = get_plugin_data( $plugin_path );
-
-				echo $plugin['Name'] . ' :' . $plugin['Version'] ."\n";
-			}
-		}
-		do_action( 'bd_system_info_after' );
+			bd_print_network_active_plugins();
+		endif;
 ?>
+
+<?php do_action( 'bd_system_info_after' );?>
 ### End System Info ###</textarea>
+
 		<p class="submit">
 			<input type="hidden" name="bd_action" value="download_sysinfo">
 			<?php submit_button( 'Download System Info File', 'primary', 'bulk-delete-download-sysinfo', false ); ?>
