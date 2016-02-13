@@ -17,6 +17,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 class BD_Controller {
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'request_handler' ) );
+		add_action( 'bd_pre_bulk_action', array( $this, 'increase_timeout' ), 9 );
+		add_action( 'bd_before_scheduler', array( $this, 'increase_timeout' ), 9 );
+
 		add_filter( 'bd_get_action_nonce_check', array( $this, 'verify_get_request_nonce' ), 10, 2 );
 	}
 
@@ -107,5 +110,18 @@ class BD_Controller {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Increase PHP timeout.
+	 *
+	 * This is to prevent bulk operations from timing out
+	 *
+	 * @since 5.5.4
+	 */
+	public function increase_timeout() {
+		if ( ! ini_get( 'safe_mode' ) ) {
+			@set_time_limit( 0 );
+		}
 	}
 }

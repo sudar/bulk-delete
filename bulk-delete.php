@@ -289,8 +289,6 @@ final class Bulk_Delete {
 		$this->controller = new BD_Controller();
 
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
-		add_action( 'bd_pre_bulk_action', array( $this, 'increase_timeout' ), 9 );
-		add_action( 'bd_before_scheduler', array( $this, 'increase_timeout' ), 9 );
 	}
 
 	/**
@@ -613,19 +611,6 @@ final class Bulk_Delete {
 		 * @since 5.0
 		 */
 		do_action( 'bd_admin_footer_cron_page' );
-	}
-
-	/**
-	 * Increase PHP timeout.
-	 *
-	 * This is to prevent bulk operations from timing out
-	 *
-	 * @since 5.4
-	 */
-	public function increase_timeout() {
-		if ( ! ini_get( 'safe_mode' ) ) {
-			@set_time_limit( 0 );
-		}
 	}
 }
 
