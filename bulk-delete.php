@@ -213,6 +213,7 @@ final class Bulk_Delete {
 	private function includes() {
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/users/class-bd-user-meta-box-module.php';
+		require_once self::$PLUGIN_DIR . '/include/base/class-bd-base-page.php';
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-page.php';
 
 		require_once self::$PLUGIN_DIR . '/include/controller/controller.php';
