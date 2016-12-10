@@ -10,6 +10,10 @@
 /assets/css/*.css
 /assets/**/*.map
 
+# IDE #
+######################
+.idea/
+
 # OS generated files #
 ######################
 .DS_Store
