@@ -124,6 +124,7 @@ module.exports = function( grunt ) {
 						src: [
 							'**',
 							'!dist/**',
+							'!docs/**',
 							'!assets-wp-repo/**',
 							'!node_modules/**',
 							'!assets/vendor/**',
@@ -133,6 +134,7 @@ module.exports = function( grunt ) {
 							'!bower.json',
 							'!package.json',
 							'!phpcs.xml',
+							'!phpdoc.dist.xml',
 							'!tags'
 						],
 						dest: 'dist/'
