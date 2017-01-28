@@ -298,7 +298,7 @@ function bd_identify_host() {
 /**
  * Print plugins that are currently active.
  *
- * @sicne 5.5.5
+ * @since 5.5.4
  */
 function bd_print_current_plugins() {
 	$plugins = get_plugins();
