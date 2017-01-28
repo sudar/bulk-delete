@@ -47,6 +47,10 @@ class BD_Controller {
 				$nonce_valid = true;
 			}
 
+			if ( 'delete_jetpack_messages' === $bd_action && wp_verify_nonce( $_POST['sm-bulk-delete-misc-nonce'], 'sm-bulk-delete-misc' ) ) {
+				$nonce_valid = true;
+			}
+
 			/**
 			 * Perform nonce check.
 			 *

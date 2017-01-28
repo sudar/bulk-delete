@@ -1,5 +1,10 @@
 ## Changelog ##
 
+### 2017-01-28 - v5.5.5 - (Dev time: 1 hour) ###
+
+- Bug Fixes
+	- Fixed a bug that caused Jetpack messages to be not deleted properly.
+
 ### 2016-02-13 - v5.5.4 - (Dev time: 5 hours) ###
 
 - Bug Fixes
@@ -294,6 +299,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5.5 ###
+Fixed a bug that caused Jetpack messages to be not deleted properly
 
 ### 5.5.4 ###
 Fixed a security bug that allowed non-privileged users to delete posts
