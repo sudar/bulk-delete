@@ -54,7 +54,7 @@ final class Bulk_Delete {
 	const VERSION                   = '5.5.4';
 
 	// Numeric constants
-	const MENU_ORDER                = '26.9966';
+	const MENU_ORDER                = '26';
 
 	// page slugs
 	const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
