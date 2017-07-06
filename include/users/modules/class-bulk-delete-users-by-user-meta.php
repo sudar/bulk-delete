@@ -84,6 +84,10 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 
 		</table>
 
+		<p>
+			<?php _e( 'If you want to check for null values, then leave the value column blank', 'bulk-delete' ); ?>
+		</p>
+
         <table class="optiontable">
 <?php
 		$this->render_filtering_table_header();
@@ -126,9 +130,13 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 		}
 
 		$options = array(
-			'meta_key'     => $delete_options['meta_key'],
-			'meta_value'   => $delete_options['meta_value'],
-			'meta_compare' => $delete_options['meta_compare'],
+			'meta_query' => array(
+				array(
+					'key'     => $delete_options['meta_key'],
+					'value'   => $delete_options['meta_value'],
+					'compare' => $delete_options['meta_compare'],
+				),
+			),
 		);
 
 		if ( $delete_options['limit_to'] > 0 ) {
@@ -147,7 +155,7 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][] = '_' . $this->field_slug;
-        $js_array['validators'][ $this->delete_action ] = 'validateUserMeta';
+		$js_array['validators'][ $this->delete_action ] = 'noValidation';
 
 		$js_array['pre_action_msg'][ $this->delete_action ] = 'deleteUsersByMetaWarning';
 		$js_array['msg']['deleteUsersByMetaWarning'] = __( 'Are you sure you want to delete all the users from the selected user meta?', 'bulk-delete' );

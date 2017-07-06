@@ -1,5 +1,10 @@
 ## Changelog ##
 
+### (In Development) - (Dev time: 1 hour) ###
+
+- Enhancements
+	- Ability to delete users who have null values for a user meta field.
+
 ### 2017-01-28 - v5.5.5 - (Dev time: 1 hour) ###
 
 - Bug Fixes
