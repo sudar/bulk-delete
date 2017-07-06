@@ -1,9 +1,11 @@
 ## Changelog ##
 
-### (In Development) - (Dev time: 1 hour) ###
+### 2017-07-06 - v5.5.6 - (Dev time: 1 hour) ###
+
+- New Features
+	- Ability to delete users who have empty value in a user meta field.
 
 - Enhancements
-	- Ability to delete users who have null values for a user meta field.
 	- Added custom taxonomies in System Info.
 
 ### 2017-01-28 - v5.5.5 - (Dev time: 1 hour) ###
