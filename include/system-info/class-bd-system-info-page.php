@@ -120,11 +120,9 @@ Active Theme:             <?php echo bd_get_current_theme_name() . "\n"; ?>
 		$host = bd_identify_host();
 		if ( '' !== $host ) : ?>
 Host:                     <?php echo $host . "\n\n"; ?>
-<?php
-		endif;
+<?php endif; ?>
 
-		$post_types = get_post_types();
-?>
+<?php $post_types = get_post_types(); ?>
 Registered Post types:    <?php echo implode( ', ', $post_types ) . "\n"; ?>
 <?php
 		foreach ( $post_types as $post_type ) {
@@ -139,6 +137,9 @@ Registered Post types:    <?php echo implode( ', ', $post_types ) . "\n"; ?>
 			echo "\n";
 		}
 ?>
+
+<?php $taxonomies = get_taxonomies(); ?>
+Registered Taxonomies:    <?php echo implode( ', ', $taxonomies ) . "\n"; ?>
 
 Bulk Delete Version:      <?php echo Bulk_Delete::VERSION . "\n"; ?>
 WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
