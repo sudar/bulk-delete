@@ -1,5 +1,10 @@
 ## Changelog ##
 
+### v5.6.0 - (In Development) ###
+
+- Enhancements
+	- Now works in PHP version from 5.2 to 7.2
+
 ### 2017-07-06 - v5.5.6 - (Dev time: 1 hour) ###
 
 - New Features
