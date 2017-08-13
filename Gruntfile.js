@@ -89,6 +89,13 @@ module.exports = function( grunt ) {
 				options: {
 					debounceDelay: 500
 				}
+			},
+			build: {
+				files: ['**', '!dist/**'],
+				tasks: ['build'],
+				options: {
+					debounceDelay: 500
+				}
 			}
 		},
 
