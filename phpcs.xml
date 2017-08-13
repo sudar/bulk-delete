@@ -34,6 +34,8 @@
 	</rule>
 
 	<!--Docs-->
-	<!-- disabled for now, since these are reported as errors and not as warnings -->
-	<!--<rule ref="WordPress-Docs"></rule>-->
+	<rule ref="WordPress-Docs">
+		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
+		<exclude name="Squiz.Commenting.FileComment.Missing"/>
+	</rule>
 </ruleset>
