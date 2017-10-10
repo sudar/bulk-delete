@@ -99,11 +99,11 @@ module.exports = function( grunt ) {
 		copy: {
 			timepicker: {
 				files: [{
-					src : 'assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
+					src : 'assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.js',
 					dest: 'assets/js/jquery-ui-timepicker-addon.min.js'
 				},
 				{
-					src : 'assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css',
+					src : 'assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.css',
 					dest: 'assets/css/jquery-ui-timepicker-addon.min.css'
 				}]
 			},
