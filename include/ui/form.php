@@ -178,6 +178,7 @@ function bd_render_post_type_dropdown( $slug ) {
 <?php
 }
 
+// TODO: Remove method after confirming on `class-bd-settings-page.php` file.
 /**
  * Render sidebar iframe.
  *

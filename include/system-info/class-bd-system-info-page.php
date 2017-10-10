@@ -84,7 +84,6 @@ class BD_System_Info_page extends BD_Base_Page {
 			</div>
 		<?php } ?>
 
-		<?php bd_render_sidebar_iframe(); ?>
 <?php
 	}
 

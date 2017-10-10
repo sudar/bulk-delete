@@ -31,10 +31,11 @@ abstract class BD_Base_Page {
 	 */
 	protected $capability = 'manage_options';
 
+	// TODO: Remove property after confirming on `class-bd-settings-page.php` file.
 	/**
 	 * @var bool Whether sidebar is needed or not.
 	 */
-	protected $render_sidebar = true;
+	protected $render_sidebar = false;
 
 	/**
 	 * @var string The screen variable for this page.
@@ -185,7 +186,7 @@ abstract class BD_Base_Page {
 			<?php $this->render_nonce_fields(); ?>
 
 			<div id = "poststuff">
-				<div id="post-body" class="metabox-holder columns-2">
+				<div id="post-body" class="metabox-holder columns-1">
 
 					<?php $this->render_header(); ?>
 
