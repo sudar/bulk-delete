@@ -224,9 +224,6 @@ abstract class BD_Base_Page {
 			<p><strong><?php echo $this->messages['warning_message']; ?></strong></p>
 		</div>
 <?php
-		if ( $this->render_sidebar ) {
-			bd_render_sidebar_iframe();
-		}
 	}
 
 	/**

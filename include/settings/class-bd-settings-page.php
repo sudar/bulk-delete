@@ -97,8 +97,6 @@ class BD_Settings_Page {
         <div id = "poststuff">
             <div id="post-body" class="metabox-holder columns-2">
 
-				<?php bd_render_sidebar_iframe(); ?>
-
                 <div id="postbox-container-2" class="postbox-container">
                     <form method = "post" action="options.php">
                         <table class="form-table">
