@@ -112,13 +112,11 @@ class Bulk_Delete_Meta {
 		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 ?>
     <div id = "poststuff">
-        <div id="post-body" class="metabox-holder columns-2">
+        <div id="post-body" class="metabox-holder columns-1">
 
             <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Items deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
-
-			<?php bd_render_sidebar_iframe(); ?>
 
             <div id="postbox-container-2" class="postbox-container">
                 <?php do_meta_boxes( '', 'advanced', null ); ?>
