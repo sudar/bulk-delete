@@ -15,7 +15,6 @@ enabled:
   - braces
   - cast_spaces
   - class_definition
-  - concat_with_spaces
   - combine_consecutive_unsets
   - concat_with_spaces
   - elseif
