@@ -68,7 +68,9 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
 	protected function can_delete_by_post_count( $delete_options, $user ) {
-		if ( $delete_options['no_posts'] && count_user_posts( $user->ID ) > 0 ) {
+		if ( $delete_options['no_posts'] &&
+			 array_key_exists( 'post_type', $delete_options ) &&
+			 count_user_posts( $user->ID, $delete_options['post_type'] ) > 0 ) {
 			return false;
 		}
 

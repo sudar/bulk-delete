@@ -115,6 +115,7 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 		$delete_options['meta_key']       = array_get( $_POST, 'smbd_u_meta_key' );
 		$delete_options['meta_compare']   = array_get( $_POST, 'smbd_u_meta_compare', '=' );
 		$delete_options['meta_value']     = array_get( $_POST, 'smbd_u_meta_value' );
+		$delete_options['post_type']      = array_merge( array( 'post', 'page' ), get_post_types( array( '_builtin' => false ) ) );
 
 		$this->process_user_delete( $delete_options );
 	}
