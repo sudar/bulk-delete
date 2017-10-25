@@ -64,7 +64,9 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @return bool                      True if the user can be deleted, false otherwise.
 	 */
 	protected function can_delete_by_post_count( $delete_options, $user ) {
-		if ( $delete_options['no_posts'] && count_user_posts( $user->ID ) > 0 ) {
+		if ( $delete_options['no_posts'] &&
+			 array_key_exists( 'post_type', $delete_options ) &&
+			 count_user_posts( $user->ID, $delete_options['post_type'] ) > 0 ) {
 			return false;
 		}
 
@@ -199,7 +201,7 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 		<tr>
 			<td scope="row" colspan="2">
 				<input name="smbd_<?php echo $this->field_slug; ?>_no_posts" id="smbd_<?php echo $this->field_slug; ?>_no_posts" value="true" type="checkbox">
-				<?php _e( "Only if user doesn't have any post. Only posts from 'post' post type would be considered.", 'bulk-delete' ); ?>
+				<?php _e( "Only if user doesn't have any post. Posts from 'post', 'page' & all custom post types would be considered.", 'bulk-delete' ); ?>
 			</td>
 		</tr>
 <?php
