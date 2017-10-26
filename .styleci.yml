@@ -18,7 +18,6 @@ enabled:
   - concat_with_spaces
   - elseif
   - encoding
-  - function_declaration
   - function_typehint_space
   - hash_to_slash_comment
   - include
