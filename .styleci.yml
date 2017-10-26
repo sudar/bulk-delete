@@ -12,7 +12,6 @@ enabled:
   - blank_line_before_return
   - blank_line_before_throw
   - blank_line_before_try
-  - braces
   - cast_spaces
   - combine_consecutive_unsets
   - concat_with_spaces
