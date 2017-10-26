@@ -70,7 +70,6 @@ enabled:
   - single_line_after_imports
   - single_quote
   - standardize_not_equals
-  - strict_comparison
   - switch_case_semicolon_to_colon
   - ternary_operator_spaces
   - trailing_comma_in_multiline_array
