@@ -1,53 +1,53 @@
 <?php
 /**
- * License Handler for Bulk Delete Addons
+ * License Handler for Bulk Delete Addons.
  *
  * @since      5.0
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete/License
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class BD_License_Handler {
-
 	/**
-	 * Name of the addon
+	 * Name of the addon.
 	 *
 	 * @since 5.0
 	 */
 	private $addon_name;
 
 	/**
-	 * Code of the addon
+	 * Code of the addon.
 	 *
 	 * @since 5.0
 	 */
 	private $addon_code;
 
 	/**
-	 * Version of the plugin
+	 * Version of the plugin.
 	 *
 	 * @since 5.0
 	 */
 	private $version;
 
 	/**
-	 * plugin file name
+	 * plugin file name.
 	 *
 	 * @since 5.0
 	 */
 	private $plugin_file;
 
 	/**
-	 * Plugin base name
+	 * Plugin base name.
 	 *
 	 * @since 5.5
 	 */
 	private $plugin_basename;
 
 	/**
-	 * Author of the plugin
+	 * Author of the plugin.
 	 *
 	 * @since 5.0
 	 */
@@ -68,15 +68,15 @@ class BD_License_Handler {
 	private $notice_msg = '';
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 5.0
 	 *
-	 * @param string  $addon_name  Name of the addon
-	 * @param string  $addon_code  Code of the addon
-	 * @param string  $version     Version of the addon
-	 * @param string  $plugin_file Addon file name
-	 * @param string  $author      (optional) Author of the addon
+	 * @param string $addon_name  Name of the addon
+	 * @param string $addon_code  Code of the addon
+	 * @param string $version     Version of the addon
+	 * @param string $plugin_file Addon file name
+	 * @param string $author      (optional) Author of the addon
 	 */
 	public function __construct( $addon_name, $addon_code, $version, $plugin_file, $author = 'Sudar Muthu' ) {
 		$this->addon_name      = $addon_name;
@@ -90,9 +90,10 @@ class BD_License_Handler {
 	}
 
 	/**
-	 * setup hooks
+	 * setup hooks.
 	 *
 	 * @access private
+	 *
 	 * @since 5.0
 	 */
 	private function hooks() {
@@ -146,7 +147,8 @@ class BD_License_Handler {
 	 *
 	 * @since 5.0
 	 * @access private
-	 * @param string  $license_code License Code
+	 *
+	 * @param string $license_code License Code
 	 */
 	private function hook_updater( $license_code ) {
 		if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) {
@@ -159,7 +161,7 @@ class BD_License_Handler {
 				'item_name'  => $this->addon_name,
 				'addon_code' => $this->addon_code,
 				'author'     => $this->author,
-				'url'        => home_url()
+				'url'        => home_url(),
 			)
 		);
 	}
@@ -179,6 +181,7 @@ class BD_License_Handler {
 	 * Display license information about addon in plugin list table.
 	 *
 	 * @since 5.5
+	 *
 	 * @param string $plugin_file Path to the plugin file, relative to the plugins directory.
 	 * @param array  $plugin_data An array of plugin data.
 	 * @param string $status      Status of the plugin.
@@ -221,19 +224,19 @@ class BD_License_Handler {
 	}
 
 	/**
-	 * Decide whether to display the license form or not
+	 * Decide whether to display the license form or not.
 	 *
 	 * @since 5.0
 	 */
 	public function display_license_form() {
 		if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
-			$bd = BULK_DELETE();
+			$bd                                = BULK_DELETE();
 			$bd->display_activate_license_form = true;
 		}
 	}
 
 	/**
-	 * Add the license field to license form
+	 * Add the license field to license form.
 	 *
 	 * @since 5.0
 	 */
@@ -250,7 +253,7 @@ class BD_License_Handler {
 	}
 
 	/**
-	 * Print the license field
+	 * Print the license field.
 	 *
 	 * @since 5.0
 	 */
@@ -268,10 +271,12 @@ class BD_License_Handler {
 
 	/**
 	 * Parse the license key and activate it if needed.
-	 * If the key is invalid, then don't save it in the setting option
+	 * If the key is invalid, then don't save it in the setting option.
 	 *
 	 * @since 5.0
+	 *
 	 * @param array $input
+	 *
 	 * @return array
 	 */
 	public function parse_license_input( $input ) {
@@ -290,10 +295,11 @@ class BD_License_Handler {
 			}
 		} else {
 			if ( BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
-				$license_code = BD_License::get_license_code( $this->addon_code );
+				$license_code               = BD_License::get_license_code( $this->addon_code );
 				$input[ $this->addon_code ] = $license_code;
 			}
 		}
+
 		return $input;
 	}
 }

@@ -3,16 +3,18 @@
  * Base class for all BD Addons.
  *
  * @since   5.5
+ *
  * @author  Sudar
+ *
  * @package BulkDelete\Addons\Base
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Base class for BD Addons.
  *
  * @abstract
+ *
  * @since 5.5
  */
 abstract class BD_Addon {
@@ -56,16 +58,16 @@ abstract class BD_Addon {
 	 *
 	 * @since 5.5
 	 * @abstract
+	 *
 	 * @return void
 	 */
 	abstract protected function initialize();
 
 	/**
 	 * Use `factory()` method to create instance of this class.
-	 * Don't create instances directly
+	 * Don't create instances directly.
 	 *
 	 * @since 5.5
-	 *
 	 * @see factory()
 	 */
 	public function __construct() {
@@ -76,6 +78,7 @@ abstract class BD_Addon {
 	 * Setup the module.
 	 *
 	 * @access protected
+	 *
 	 * @since 5.5
 	 */
 	protected function setup() {
@@ -100,6 +103,7 @@ abstract class BD_Addon {
 	 * Setup translation.
 	 *
 	 * @access protected
+	 *
 	 * @since 5.5
 	 */
 	protected function setup_translation() {
@@ -117,7 +121,7 @@ abstract class BD_Addon {
 	 * @param string $plugin_file Addon file name relative to plugin directory.
 	 */
 	public function setup_license_handler( $plugin_file ) {
-		$this->addon_file = $plugin_file;
+		$this->addon_file      = $plugin_file;
 		$this->license_handler = new BD_License_Handler(
 			$this->addon_name,
 			$this->addon_code,
@@ -131,10 +135,10 @@ abstract class BD_Addon {
 	 * Get addon class name.
 	 *
 	 * @since 5.5
+	 *
 	 * @return string Addon class name
 	 */
 	protected function get_addon_class_name() {
 		return bd_get_addon_class_name( $this->addon_name );
 	}
 }
-?>

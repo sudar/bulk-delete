@@ -1,15 +1,14 @@
 <?php
 /**
- * Table to show cron list
+ * Table to show cron list.
  *
  * @author     Sudar
+ *
  * @package    BulkDelete\Cron
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Cron_List_Table extends WP_List_Table {
-
 	/**
 	 * Constructor, we override the parent to pass our own arguments
 	 * We usually focus on three parameters: singular and plural labels, as well as whether the class supports AJAX.
@@ -18,14 +17,14 @@ class Cron_List_Table extends WP_List_Table {
 		parent::__construct( array(
 				'singular' => 'cron_list', //Singular label
 				'plural'   => 'cron_lists', //plural label, also this well be one of the table css class
-				'ajax'     => false //We won't support Ajax for this table
+				'ajax'     => false, //We won't support Ajax for this table
 			) );
 	}
 
 	/**
-	 * Add extra markup in the toolbars before or after the list
+	 * Add extra markup in the toolbars before or after the list.
 	 *
-	 * @param string  $which Whether the markup should appear after (bottom) or before (top) the list
+	 * @param string $which Whether the markup should appear after (bottom) or before (top) the list
 	 */
 	public function extra_tablenav( $which ) {
 		if ( 'top' == $which ) {
@@ -61,12 +60,12 @@ class Cron_List_Table extends WP_List_Table {
 	 */
 	public function get_sortable_columns() {
 		return array(
-			'col_cron_type' => array( 'cron_type', true )
+			'col_cron_type' => array( 'cron_type', true ),
 		);
 	}
 
 	/**
-	 * Prepare the table with different parameters, pagination, columns and table elements
+	 * Prepare the table with different parameters, pagination, columns and table elements.
 	 */
 	public function prepare_items() {
 		$cron_items = BD_Util::get_cron_schedules();
@@ -76,7 +75,7 @@ class Cron_List_Table extends WP_List_Table {
 		$perpage = 50;
 
 		//How many pages do we have in total?
-		$totalpages = ceil( $totalitems/$perpage );
+		$totalpages = ceil( $totalitems / $perpage );
 
 		/* -- Register the pagination -- */
 		$this->set_pagination_args( array(
@@ -88,9 +87,9 @@ class Cron_List_Table extends WP_List_Table {
 		//The pagination links are automatically built according to those parameters
 
 		/* — Register the Columns — */
-		$columns = $this->get_columns();
-		$hidden = array();
-		$sortable = $this->get_sortable_columns();
+		$columns               = $this->get_columns();
+		$hidden                = array();
+		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		$this->items = $cron_items;
@@ -100,6 +99,7 @@ class Cron_List_Table extends WP_List_Table {
 	 * Display cron due date column.
 	 *
 	 * @param array $item
+	 *
 	 * @return string
 	 */
 	public function column_col_cron_due( $item ) {
@@ -151,11 +151,7 @@ class Cron_List_Table extends WP_List_Table {
 		print_r( $item['args'] );
 	}
 
-	/**
-	 *
-	 */
 	public function no_items() {
 		_e( 'You have not scheduled any bulk delete jobs.', 'bulk-delete' );
 	}
 }
-?>
