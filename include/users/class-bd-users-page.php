@@ -4,10 +4,11 @@
  * Shows the list of modules that allows you to delete users.
  *
  * @since   5.5
+ *
  * @author  Sudar
+ *
  * @package BulkDelete\Users
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -20,6 +21,7 @@ class BD_Users_Page extends BD_Page  {
 	 * Make this class a "hybrid Singleton".
 	 *
 	 * @static
+	 *
 	 * @since 5.5
 	 */
 	public static function factory() {
@@ -56,11 +58,12 @@ class BD_Users_Page extends BD_Page  {
 
 	/**
 	 * Adds setting links in plugin listing page.
-	 * Based on http://striderweb.com/nerdaphernalia/2008/06/wp-use-action-links/
+	 * Based on http://striderweb.com/nerdaphernalia/2008/06/wp-use-action-links/.
 	 *
-	 * @param array   $links List of current links
-	 * @param string  $file  Plugin filename
-	 * @return array  $links Modified list of links
+	 * @param array  $links List of current links
+	 * @param string $file  Plugin filename
+	 *
+	 * @return array $links Modified list of links
 	 */
 	public function add_plugin_action_links( $links, $file ) {
 		$this_plugin = plugin_basename( Bulk_Delete::$PLUGIN_FILE );
@@ -77,6 +80,8 @@ class BD_Users_Page extends BD_Page  {
 	 * Add Help tabs.
 	 *
 	 * @since 5.5
+	 *
+	 * @param mixed $help_tabs
 	 */
 	protected function add_help_tab( $help_tabs ) {
 		$overview_tab = array(
@@ -92,4 +97,3 @@ class BD_Users_Page extends BD_Page  {
 }
 
 BD_Users_Page::factory();
-?>

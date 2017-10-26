@@ -1,18 +1,18 @@
 <?php
 /**
- * Table to show the list of addon licenses
+ * Table to show the list of addon licenses.
  *
  * @since      5.0
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Addon
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class License_List_Table extends WP_List_Table {
-
 	/**
-	 * Constructor, setup labels
+	 * Constructor, setup labels.
 	 *
 	 * @since 5.0
 	 */
@@ -26,10 +26,11 @@ class License_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Add extra markup in the toolbars before or after the list
+	 * Add extra markup in the toolbars before or after the list.
 	 *
 	 * @since 5.0
-	 * @param string  $which Whether the markup should be after (bottom) or before (top) the list
+	 *
+	 * @param string $which Whether the markup should be after (bottom) or before (top) the list
 	 */
 	public function extra_tablenav( $which ) {
 		if ( 'top' == $which ) {
@@ -43,6 +44,7 @@ class License_List_Table extends WP_List_Table {
 	 * Define the list of columns that will be used in the table.
 	 *
 	 * @since  5.0
+	 *
 	 * @return array The list of columns in the table
 	 */
 	public function get_columns() {
@@ -50,24 +52,25 @@ class License_List_Table extends WP_List_Table {
 			'col_addon_name'       => __( 'Addon Name', 'bulk-delete' ),
 			'col_license'          => __( 'License Code', 'bulk-delete' ),
 			'col_license_validity' => __( 'Validity', 'bulk-delete' ),
-			'col_expires'          => __( 'Expires', 'bulk-delete' )
+			'col_expires'          => __( 'Expires', 'bulk-delete' ),
 		);
 	}
 
 	/**
-	 * Defines columns that can be sorted
+	 * Defines columns that can be sorted.
 	 *
 	 * @since  5.0
+	 *
 	 * @return array List of columns that can be sorted
 	 */
 	public function get_sortable_columns() {
 		return array(
-			'col_addon_name' => array( 'addon_name', false )
+			'col_addon_name' => array( 'addon_name', false ),
 		);
 	}
 
 	/**
-	 * Prepare the table
+	 * Prepare the table.
 	 *
 	 * @since 5.0
 	 */
@@ -82,10 +85,12 @@ class License_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Display the col_addon_name column
+	 * Display the col_addon_name column.
 	 *
 	 * @since 5.0
-	 * @param array   $item Single row of data
+	 *
+	 * @param array $item Single row of data
+	 *
 	 * @return string
 	 */
 	public function column_col_addon_name( $item ) {
@@ -118,10 +123,12 @@ class License_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Display the col_license column
+	 * Display the col_license column.
 	 *
 	 * @since 5.0
-	 * @param array   $item Single row of data
+	 *
+	 * @param array $item Single row of data
+	 *
 	 * @return string
 	 */
 	public function column_col_license( $item ) {
@@ -129,10 +136,12 @@ class License_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Display the col_license_validity column
+	 * Display the col_license_validity column.
 	 *
 	 * @since 5.0
-	 * @param array   $item Single row of data
+	 *
+	 * @param array $item Single row of data
+	 *
 	 * @return string
 	 */
 	public function column_col_license_validity( $item ) {
@@ -145,10 +154,12 @@ class License_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Display the col_expires column
+	 * Display the col_expires column.
 	 *
 	 * @since 5.0
-	 * @param array   $item Single row of data
+	 *
+	 * @param array $item Single row of data
+	 *
 	 * @return string
 	 */
 	public function column_col_expires( $item ) {
@@ -160,7 +171,7 @@ class License_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Define the message that will be shown when the table is empty
+	 * Define the message that will be shown when the table is empty.
 	 *
 	 * @since 5.0
 	 */
@@ -168,4 +179,3 @@ class License_List_Table extends WP_List_Table {
 		_e( "You don't have any valid addon license yet.", 'bulk-delete' );
 	}
 }
-?>

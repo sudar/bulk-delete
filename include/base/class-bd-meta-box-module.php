@@ -3,10 +3,11 @@
  * Base class for a Bulk Delete Meta Box Module.
  *
  * @since 5.5
+ *
  * @author Sudar
+ *
  * @package BulkDelete\Base
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -72,6 +73,7 @@ abstract class BD_Meta_Box_Module {
 	 *
 	 * @since 5.5
 	 * @abstract
+	 *
 	 * @return void
 	 */
 	abstract protected function initialize();
@@ -81,6 +83,7 @@ abstract class BD_Meta_Box_Module {
 	 *
 	 * @since 5.5
 	 * @abstract
+	 *
 	 * @return void
 	 */
 	abstract public function render();
@@ -90,25 +93,28 @@ abstract class BD_Meta_Box_Module {
 	 *
 	 * @since 5.5
 	 * @abstract
+	 *
 	 * @return void
 	 */
 	abstract public function process();
 
 	/**
-	 * Perform the deletion
+	 * Perform the deletion.
 	 *
 	 * @since 5.5
 	 * @abstract
-	 * @return int  Number of users deleted
+	 *
+	 * @param mixed $delete_options
+	 *
+	 * @return int Number of users deleted
 	 */
 	abstract public function delete( $delete_options );
 
 	/**
 	 * Use `factory()` method to create instance of this class.
-	 * Don't create instances directly
+	 * Don't create instances directly.
 	 *
 	 * @since 5.5
-	 *
 	 * @see factory()
 	 */
 	public function __construct() {
@@ -140,9 +146,12 @@ abstract class BD_Meta_Box_Module {
 	 * Setup the meta box.
 	 *
 	 * @since 5.5
+	 *
+	 * @param mixed $screen
+	 * @param mixed $page_slug
 	 */
 	public function setup_metabox( $screen, $page_slug ) {
-		$this->screen = $screen;
+		$this->screen    = $screen;
 		$this->page_slug = $page_slug;
 
 		add_meta_box( $this->meta_box_slug, $this->messages['box_label'], array( $this, 'render_box' ), $this->screen, 'advanced' );
@@ -156,6 +165,7 @@ abstract class BD_Meta_Box_Module {
 	public function render_box() {
 		if ( $this->is_hidden() ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . $this->page_slug );
+
 			return;
 		}
 
@@ -166,12 +176,13 @@ abstract class BD_Meta_Box_Module {
 	 * Is the current meta box hidden by user.
 	 *
 	 * @since 5.5
+	 *
 	 * @return bool True, if hidden. False, otherwise.
 	 */
 	protected function is_hidden() {
-		$current_user = wp_get_current_user();
+		$current_user    = wp_get_current_user();
 		$user_meta_field = $this->get_hidden_box_user_meta_field();
-		$hidden_boxes = get_user_meta( $current_user->ID, $user_meta_field, true );
+		$hidden_boxes    = get_user_meta( $current_user->ID, $user_meta_field, true );
 
 		return is_array( $hidden_boxes ) && in_array( $this->meta_box_slug, $hidden_boxes );
 	}
@@ -180,6 +191,7 @@ abstract class BD_Meta_Box_Module {
 	 * Get the user meta field that stores the status of the hidden meta boxes.
 	 *
 	 * @since 5.5
+	 *
 	 * @return string Name of the User Meta field.
 	 */
 	protected function get_hidden_box_user_meta_field() {
@@ -195,8 +207,10 @@ abstract class BD_Meta_Box_Module {
 	 * This function will be overridden by the child classes.
 	 *
 	 * @since 5.5
-	 * @param array  $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public function filter_js_array( $js_array) {
 		return $js_array;
@@ -261,6 +275,8 @@ abstract class BD_Meta_Box_Module {
 	 * Setups up cron and invokes the actual delete method.
 	 *
 	 * @since 5.5
+	 *
+	 * @param mixed $delete_options
 	 */
 	protected function process_delete( $delete_options ) {
 		if ( array_get_bool( $_POST, 'smbd_' . $this->field_slug . '_cron', false ) ) {
@@ -277,7 +293,7 @@ abstract class BD_Meta_Box_Module {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = $this->delete( $delete_options );
-			$msg = sprintf( _n( $this->messages['deleted_single'], $this->messages['deleted_plural'] , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( $this->messages['deleted_single'], $this->messages['deleted_plural'] , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -292,6 +308,7 @@ abstract class BD_Meta_Box_Module {
 	 * Getter for cron_hook.
 	 *
 	 * @since 5.5
+	 *
 	 * @return string Cron Hook name.
 	 */
 	public function get_cron_hook() {
@@ -302,10 +319,10 @@ abstract class BD_Meta_Box_Module {
 	 * Getter for field slug.
 	 *
 	 * @since 5.5
+	 *
 	 * @return string Field Slug.
 	 */
 	public function get_field_slug() {
 	    return $this->field_slug;
 	}
 }
-?>

@@ -3,10 +3,11 @@
  * Post Addons related functions.
  *
  * @since      5.5
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Addon
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -26,14 +27,14 @@ function bd_register_post_addons() {
 add_action( 'bd_add_meta_box_for_posts', 'bd_register_post_addons' );
 
 /**
- * Render delete posts by custom field box
+ * Render delete posts by custom field box.
  *
  * @since 5.5
  */
 function bd_render_delete_posts_by_custom_field_box() {
-
 	if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_CUSTOM_FIELD ) ) {
 		printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 		return;
 	}
 
@@ -54,14 +55,14 @@ function bd_render_delete_posts_by_custom_field_box() {
 }
 
 /**
- * Render posts by title box
+ * Render posts by title box.
  *
  * @since 5.5
  */
 function bd_render_delete_posts_by_title_box() {
-
 	if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_TITLE ) ) {
 		printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 		return;
 	}
 
@@ -82,14 +83,14 @@ function bd_render_delete_posts_by_title_box() {
 }
 
 /**
- * Render delete posts by duplicate title box
+ * Render delete posts by duplicate title box.
  *
  * @since 5.5
  */
 function bd_render_delete_posts_by_duplicate_title_box() {
-
 	if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_DUPLICATE_TITLE ) ) {
 		printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 		return;
 	}
 
@@ -110,14 +111,14 @@ function bd_render_delete_posts_by_duplicate_title_box() {
 }
 
 /**
- * Delete posts by user role
+ * Delete posts by user role.
  *
  * @since 5.5
  */
 function bd_render_delete_posts_by_user_role_box() {
-
 	if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_BY_ROLE ) ) {
 		printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 		return;
 	}
 	if ( ! class_exists( 'Bulk_Delete_Posts_By_User_Role' ) ) {
@@ -137,13 +138,14 @@ function bd_render_delete_posts_by_user_role_box() {
 }
 
 /**
- * Render delete posts from trash box
+ * Render delete posts from trash box.
  *
  * @since 5.5
  */
 function bd_render_delete_posts_from_trash() {
 	if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_FROM_TRASH ) ) {
 		printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 		return;
 	}
 
@@ -159,9 +161,8 @@ function bd_render_delete_posts_from_trash() {
 		<!-- Posts In Trash box end-->
 <?php
 	} else {
-
 		/**
-		 * Render delete posts from trash box
+		 * Render delete posts from trash box.
 		 *
 		 * @since 5.4
 		 */

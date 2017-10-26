@@ -1,18 +1,18 @@
 <?php
 /**
- * Addon license related functions
+ * Addon license related functions.
  *
  * @since      5.0
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\License
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class BD_License {
-
 	/**
-	 * Output addon page content
+	 * Output addon page content.
 	 *
 	 * @since 5.0
 	 * @static
@@ -52,7 +52,7 @@ class BD_License {
 	}
 
 	/**
-	 * Display License form
+	 * Display License form.
 	 *
 	 * @since 5.0
 	 * @static
@@ -68,16 +68,18 @@ class BD_License {
 	}
 
 	/**
-	 * Check if an addon has a valid license or not
+	 * Check if an addon has a valid license or not.
 	 *
 	 * @since  5.0
 	 * @static
-	 * @param string  $addon_name Addon Name
-	 * @param string  $addon_code Addon short Name
-	 * @return bool   True if addon has a valid license, False otherwise
+	 *
+	 * @param string $addon_name Addon Name
+	 * @param string $addon_code Addon short Name
+	 *
+	 * @return bool True if addon has a valid license, False otherwise
 	 */
 	public static function has_valid_license( $addon_name, $addon_code ) {
-		$key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
+		$key          = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
 		$license_data = get_option( $key, false );
 
 		if ( ! $license_data ) {
@@ -106,14 +108,15 @@ class BD_License {
 	}
 
 	/**
-	 * Get the list of all licenses information to be displayed in the license page
+	 * Get the list of all licenses information to be displayed in the license page.
 	 *
 	 * @since 5.0
 	 * @static
+	 *
 	 * @return array $license_data License information
 	 */
 	public static function get_licenses() {
-		$licenses = get_option( Bulk_Delete::SETTING_OPTION_NAME );
+		$licenses     = get_option( Bulk_Delete::SETTING_OPTION_NAME );
 		$license_data = array();
 
 		if ( is_array( $licenses ) ) {
@@ -126,15 +129,17 @@ class BD_License {
 	}
 
 	/**
-	 * Retrieve license information about an addon
+	 * Retrieve license information about an addon.
 	 *
 	 * @since  5.0
 	 * @static
-	 * @param string  $addon_code Addon short name
+	 *
+	 * @param string $addon_code Addon short name
+	 *
 	 * @return object $license_data License information
 	 */
 	public static function get_license( $addon_code ) {
-		$key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
+		$key          = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
 		$license_data = get_option( $key, false );
 
 		if ( $license_data && is_array( $license_data ) && key_exists( 'validity', $license_data ) ) {
@@ -152,11 +157,13 @@ class BD_License {
 	}
 
 	/**
-	 * Get license code of an addon
+	 * Get license code of an addon.
 	 *
 	 * @since 5.0
 	 * @static
-	 * @param string  $addon_code Addon code
+	 *
+	 * @param string $addon_code Addon code
+	 *
 	 * @return bool|string License code of the addon, False otherwise
 	 */
 	public static function get_license_code( $addon_code ) {
@@ -171,7 +178,7 @@ class BD_License {
 	}
 
 	/**
-	 * Deactivate license
+	 * Deactivate license.
 	 *
 	 * @since 5.0
 	 * @static
@@ -190,7 +197,6 @@ class BD_License {
 			self::delete_license_from_cache( $addon_code );
 			$msg['msg']  = sprintf( __( 'The license key for "%s" addon was successfully deactivated', 'bulk-delete' ), $addon_name );
 			$msg['type'] = 'updated';
-
 		} else {
 			self::validate_license( $addon_code, $addon_name );
 			$msg['msg'] = sprintf( __( 'There was some problem while trying to deactivate license key for "%s" addon. Kindly try again', 'bulk-delete' ), $addon_name );
@@ -205,7 +211,7 @@ class BD_License {
 	}
 
 	/**
-	 * Delete license
+	 * Delete license.
 	 *
 	 * @since 5.0
 	 * @static
@@ -227,11 +233,12 @@ class BD_License {
 	}
 
 	/**
-	 * Delete license information from cache
+	 * Delete license information from cache.
 	 *
 	 * @since 5.0
 	 * @static
-	 * @param string  $addon_code Addon code
+	 *
+	 * @param string $addon_code Addon code
 	 */
 	private static function delete_license_from_cache( $addon_code ) {
 		$key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
@@ -246,15 +253,17 @@ class BD_License {
 	}
 
 	/**
-     * Activate license
-     *
-     * @since  5.0
-     * @static
-     * @param  string $addon_name Addon name
-     * @param  string $addon_code Addon code
-     * @param  string $license    License code
-     * @return bool   $valid      True if valid, False otherwise
-     */
+	 * Activate license.
+	 *
+	 * @since  5.0
+	 * @static
+	 *
+	 * @param string $addon_name Addon name
+	 * @param string $addon_code Addon code
+	 * @param string $license    License code
+	 *
+	 * @return bool $valid      True if valid, False otherwise
+	 */
 	public static function activate_license( $addon_name, $addon_code, $license ) {
 		$license_data = BD_EDD_API_Wrapper::activate_license( $addon_name, $license );
 		$valid        = false;
@@ -265,17 +274,16 @@ class BD_License {
 
 		if ( $license_data && is_array( $license_data ) && key_exists( 'validity', $license_data ) ) {
 			if ( 'valid' == $license_data['validity'] ) {
-				$key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
+				$key                        = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
 				$license_data['addon-code'] = $addon_code;
 				update_option( $key, $license_data );
 
 				$msg['msg']  = sprintf( __( 'The license key for "%s" addon was successfully activated. The addon will get updates automatically till the license key is valid.', 'bulk-delete' ), $addon_name );
 				$msg['type'] = 'updated';
-				$valid = true;
+				$valid       = true;
 			} else {
 				if ( key_exists( 'error', $license_data ) ) {
 					switch ( $license_data['error'] ) {
-
 						case 'no_activations_left':
 							$msg['msg'] = sprintf( __( 'The license key for "%s" addon doesn\'t have any more activations left. Kindly buy a new license.', 'bulk-delete' ), $addon_name );
 							break;
@@ -306,16 +314,18 @@ class BD_License {
 		if ( ! $valid && isset( $key ) ) {
 			delete_option( $key );
 		}
+
 		return $valid;
 	}
 
 	/**
-	 * Validate the license for the given addon
+	 * Validate the license for the given addon.
 	 *
 	 * @since 5.0
 	 * @static
-	 * @param string  $addon_code Addon code
-	 * @param string  $addon_name Addon name
+	 *
+	 * @param string $addon_code Addon code
+	 * @param string $addon_name Addon name
 	 */
 	public static function validate_license( $addon_code, $addon_name ) {
 		$key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;

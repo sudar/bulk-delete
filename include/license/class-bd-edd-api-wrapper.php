@@ -1,31 +1,33 @@
 <?php
 /**
- * Wrapper for EDD API
+ * Wrapper for EDD API.
  *
  * @since      5.0
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\License
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class BD_EDD_API_Wrapper {
-
 	/**
-	 * Store url
+	 * Store url.
 	 *
 	 * @since 5.0
 	 */
 	const STORE_URL = 'http://bulkwp.com';
 
 	/**
-	 * Check license
+	 * Check license.
 	 *
 	 * @since  5.0
 	 * @static
-	 * @param string  $addon   Addon name
-	 * @param string  $license The license code
-	 * @return array|false     False if request fails, API response otherwise
+	 *
+	 * @param string $addon   Addon name
+	 * @param string $license The license code
+	 *
+	 * @return array|false False if request fails, API response otherwise
 	 */
 	public static function check_license( $addon, $license ) {
 		$api_params = array(
@@ -62,13 +64,15 @@ class BD_EDD_API_Wrapper {
 	}
 
 	/**
-	 * Activate license
+	 * Activate license.
 	 *
 	 * @since  5.0
 	 * @static
-	 * @param string  $addon   The addon that needs to be activated
-	 * @param string  $license The license code
-	 * @return array|false     False if request fails, License info otherwise
+	 *
+	 * @param string $addon   The addon that needs to be activated
+	 * @param string $license The license code
+	 *
+	 * @return array|false False if request fails, License info otherwise
 	 */
 	public static function activate_license( $addon, $license ) {
 		$api_params = array(
@@ -105,13 +109,15 @@ class BD_EDD_API_Wrapper {
 	}
 
 	/**
-	 * Deactivate License
+	 * Deactivate License.
 	 *
 	 * @since  5.0
 	 * @static
-	 * @param string  $addon   The addon that needs to be deactivated
-	 * @param string  $license The license code
-	 * @return bool            True if deactivated, False otherwise
+	 *
+	 * @param string $addon   The addon that needs to be deactivated
+	 * @param string $license The license code
+	 *
+	 * @return bool True if deactivated, False otherwise
 	 */
 	public static function deactivate_license( $addon, $license ) {
 		$api_params = array(
@@ -133,13 +139,15 @@ class BD_EDD_API_Wrapper {
 	}
 
 	/**
-	 * Call the EDD API
+	 * Call the EDD API.
 	 *
 	 * @since  5.0
 	 * @static
 	 * @access private
-	 * @param  array      $api_params   Parameters for API
-	 * @return bool|array $license_data False if request fails, API response otherwise
+	 *
+	 * @param array $api_params Parameters for API
+	 *
+	 * @return array|bool $license_data False if request fails, API response otherwise
 	 */
 	private static function call_edd_api( $api_params ) {
 		$response = wp_remote_get( add_query_arg( $api_params, self::STORE_URL ), array( 'timeout' => 15, 'sslverify' => false ) );
@@ -150,7 +158,7 @@ class BD_EDD_API_Wrapper {
 		}
 
 		$license_object = json_decode( wp_remote_retrieve_body( $response ) );
+
 		return $license_object;
 	}
 }
-?>

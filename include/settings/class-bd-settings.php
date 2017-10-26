@@ -1,18 +1,18 @@
 <?php
 /**
- * Encapsulates the settings API for Bulk Delete Plugin
+ * Encapsulates the settings API for Bulk Delete Plugin.
  *
  * @since      5.0
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Settings
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class BD_Settings {
-
 	/**
-	 * Register settings used by the plugin
+	 * Register settings used by the plugin.
 	 *
 	 * @since 5.0
 	 * @static
@@ -32,7 +32,7 @@ class BD_Settings {
 		);
 
 		/**
-		 * Runs just after registering license form fields
+		 * Runs just after registering license form fields.
 		 *
 		 * This action is primarily for adding more fields to the license form
 		 *
@@ -42,16 +42,18 @@ class BD_Settings {
 	}
 
 	/**
-	 * Callback for sanitizing settings
+	 * Callback for sanitizing settings.
 	 *
 	 * @since 5.0
 	 * @static
+	 *
 	 * @param array $input
+	 *
 	 * @return array
 	 */
 	public static function check_license( $input ) {
 		/**
-		 * Filter license form inputs
+		 * Filter license form inputs.
 		 *
 		 * @since 5.0
 		 */
@@ -61,4 +63,3 @@ class BD_Settings {
 
 // hooks
 add_action( 'admin_init', array( 'BD_Settings', 'create_settings' ), 100 );
-?>
