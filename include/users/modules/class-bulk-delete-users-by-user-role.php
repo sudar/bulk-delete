@@ -1,12 +1,13 @@
 <?php
 /**
- * Bulk Delete Users by User Role
+ * Bulk Delete Users by User Role.
  *
  * @since   5.5
+ *
  * @author  Sudar
+ *
  * @package BulkDelete\Users\Modules
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -19,6 +20,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_User_Meta_Box_Module {
 	 * Make this class a "hybrid Singleton".
 	 *
 	 * @static
+	 *
 	 * @since 5.5
 	 */
 	public static function factory() {
@@ -44,7 +46,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_User_Meta_Box_Module {
 		$this->delete_action = 'delete_users_by_role';
 		$this->cron_hook     = 'do-bulk-delete-users-by-role';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-users-by-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-u-ur';
-		$this->messages = array(
+		$this->messages      = array(
 			'box_label'      => __( 'By User Role', 'bulk-delete' ),
 			'scheduled'      => __( 'Users from the selected userrole are scheduled for deletion.', 'bulk-delete' ),
 			'deleted_single' => __( 'Deleted %d user from the selected roles', 'bulk-delete' ),
@@ -110,8 +112,10 @@ class Bulk_Delete_Users_By_User_Role extends BD_User_Meta_Box_Module {
 	 * Delete users by user role.
 	 *
 	 * @since 5.5
+	 *
 	 * @param array $delete_options Delete Options
-	 * @return int  Number of users deleted
+	 *
+	 * @return int Number of users deleted
 	 */
 	public function delete( $delete_options ) {
 		if ( ! function_exists( 'wp_delete_user' ) ) {
@@ -133,20 +137,22 @@ class Bulk_Delete_Users_By_User_Role extends BD_User_Meta_Box_Module {
 	}
 
 	/**
-	 * Filter JS Array and add validation hooks
+	 * Filter JS Array and add validation hooks.
 	 *
 	 * @since 5.5
-	 * @param array  $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][] = '_' . $this->field_slug;
 
 		$js_array['pre_action_msg'][ $this->delete_action ] = 'deleteUsersWarning';
-		$js_array['msg']['deleteUsersWarning'] = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );
+		$js_array['msg']['deleteUsersWarning']              = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );
 
 		$js_array['error_msg'][ $this->delete_action ] = 'selectOneUserRole';
-		$js_array['msg']['selectOneUserRole'] = __( 'Select at least one user role from which users should be deleted', 'bulk-delete' );
+		$js_array['msg']['selectOneUserRole']          = __( 'Select at least one user role from which users should be deleted', 'bulk-delete' );
 
 		return $js_array;
 	}

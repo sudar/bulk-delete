@@ -1,12 +1,13 @@
 <?php
 /**
- * Request Handler
+ * Request Handler.
  *
  * @since      5.5.4
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Controller
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -29,7 +30,7 @@ class BD_Controller {
 	 */
 	public function request_handler() {
 		if ( isset( $_POST['bd_action'] ) ) {
-			$bd_action = sanitize_text_field( $_POST['bd_action'] );
+			$bd_action   = sanitize_text_field( $_POST['bd_action'] );
 			$nonce_valid = false;
 
 			if ( 'delete_pages_' === substr( $bd_action, 0, strlen( 'delete_pages_' ) )
@@ -62,7 +63,7 @@ class BD_Controller {
 
 			/**
 			 * Before performing a bulk action.
-			 * This hook is for doing actions just before performing any bulk operation
+			 * This hook is for doing actions just before performing any bulk operation.
 			 *
 			 * @since 5.4
 			 */
@@ -78,7 +79,7 @@ class BD_Controller {
 		}
 
 		if ( isset( $_GET['bd_action'] ) ) {
-			$bd_action = sanitize_text_field( $_GET['bd_action'] );
+			$bd_action   = sanitize_text_field( $_GET['bd_action'] );
 			$nonce_valid = false;
 
 			/**
@@ -104,9 +105,11 @@ class BD_Controller {
 	 * Verify if GET request has a valid nonce.
 	 *
 	 * @since  5.5.4
-	 * @param  bool   $result Whether nonce is valid.
-	 * @param  string $action Action name
-	 * @return bool           True if nonce is valid, otherwise return $result.
+	 *
+	 * @param bool   $result Whether nonce is valid.
+	 * @param string $action Action name
+	 *
+	 * @return bool True if nonce is valid, otherwise return $result.
 	 */
 	public function verify_get_request_nonce( $result, $action ) {
 		if ( check_admin_referer( "bd-{$action}", "bd-{$action}-nonce" ) ) {

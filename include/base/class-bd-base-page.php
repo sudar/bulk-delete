@@ -3,16 +3,18 @@
  * Base class for all Pages.
  *
  * @since   5.5.4
+ *
  * @author  Sudar
+ *
  * @package BulkDelete\Base\Page
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Base class for Pages.
  *
  * @abstract
+ *
  * @since 5.5.4
  */
 abstract class BD_Base_Page {
@@ -62,6 +64,7 @@ abstract class BD_Base_Page {
 	 *
 	 * @since 5.5.4
 	 * @abstract
+	 *
 	 * @return void
 	 */
 	abstract protected function initialize();
@@ -71,16 +74,16 @@ abstract class BD_Base_Page {
 	 *
 	 * @since 5.5.4
 	 * @abstract
+	 *
 	 * @return void
 	 */
 	abstract protected function render_body();
 
 	/**
 	 * Use `factory()` method to create instance of this class.
-	 * Don't create instances directly
+	 * Don't create instances directly.
 	 *
 	 * @since 5.5.4
-	 *
 	 * @see factory()
 	 */
 	public function __construct() {
@@ -130,6 +133,7 @@ abstract class BD_Base_Page {
 	 * Check for nonce before executing the action.
 	 *
 	 * @since 5.5.4
+	 *
 	 * @param bool   $result The current result.
 	 * @param string $action Action name.
 	 */
@@ -147,8 +151,10 @@ abstract class BD_Base_Page {
 	 * Modify help tabs for the current page.
 	 *
 	 * @since 5.5.4
+	 *
 	 * @param array  $help_tabs Current list of help tabs.
-	 * @param string $screen Current screen name.
+	 * @param string $screen    Current screen name.
+	 *
 	 * @return array Modified list of help tabs.
 	 */
 	public function render_help_tab( $help_tabs, $screen ) {
@@ -164,7 +170,9 @@ abstract class BD_Base_Page {
 	 * Help tabs can be added by overriding this function in the child class.
 	 *
 	 * @since 5.5.4
+	 *
 	 * @param array $help_tabs Current list of help tabs.
+	 *
 	 * @return array List of help tabs.
 	 */
 	protected function add_help_tab( $help_tabs ) {

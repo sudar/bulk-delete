@@ -3,10 +3,11 @@
  * Utility and wrapper functions for WP_Query.
  *
  * @since      5.5
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Util
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -60,8 +61,10 @@ function bd_build_query_options( $delete_options, $options = array() ) {
  * Adds some performance enhancing defaults.
  *
  * @since  5.5
- * @param  array $options List of options
- * @return array          Result array
+ *
+ * @param array $options List of options
+ *
+ * @return array Result array
  */
 function bd_query( $options ) {
 	$defaults = array(
@@ -93,4 +96,3 @@ function bd_query( $options ) {
 
 	return $posts;
 }
-?>
