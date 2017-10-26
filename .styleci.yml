@@ -7,7 +7,6 @@ enabled:
   - alpha_ordered_imports
   - binary_operator_spaces
   - blank_line_after_namespace
-  - blank_line_before_break
   - blank_line_before_continue
   - blank_line_before_return
   - blank_line_before_throw
