@@ -51,7 +51,6 @@ enabled:
   - phpdoc_add_missing_param_annotation
   - phpdoc_align
   - phpdoc_indent
-  - phpdoc_no_package
   - phpdoc_no_useless_inheritdoc
   - phpdoc_order
   - phpdoc_property
