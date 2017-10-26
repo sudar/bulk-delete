@@ -13,6 +13,7 @@ enabled:
   - blank_line_before_throw
   - blank_line_before_try
   - cast_spaces
+  - class_definition
   - combine_consecutive_unsets
   - concat_with_spaces
   - elseif
