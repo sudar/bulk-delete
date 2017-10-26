@@ -3,10 +3,11 @@
  * Utility functions for displaying form.
  *
  * @since      5.5
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Ui
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -28,6 +29,7 @@ function bd_render_filtering_table_header() {
  * Render "restrict by created date" dropdown.
  *
  * @since 5.5
+ *
  * @param string $slug The slug to be used in field names.
  * @param string $item (optional) Item for which form is displayed. Default is 'posts'.
  */
@@ -53,6 +55,7 @@ function bd_render_restrict_settings( $slug, $item = 'posts' ) {
  * Render "force delete" setting fields.
  *
  * @since 5.5
+ *
  * @param string $slug The slug to be used in field names.
  */
 function bd_render_delete_settings( $slug ) {
@@ -70,6 +73,7 @@ function bd_render_delete_settings( $slug ) {
  * Render the "private post" setting fields.
  *
  * @since 5.5
+ *
  * @param string $slug The slug to be used in field names.
  */
 function bd_render_private_post_settings( $slug ) {
@@ -87,6 +91,7 @@ function bd_render_private_post_settings( $slug ) {
  * Render the "limit" setting fields.
  *
  * @since 5.5
+ *
  * @param string $slug The slug to be used in field names.
  * @param string $item (Optional) Item type. Possible values are 'posts', 'pages', 'users'
  */
@@ -109,7 +114,8 @@ function bd_render_limit_settings( $slug, $item = 'posts' ) {
  * Render cron setting fields.
  *
  * @since 5.5
- * @param string $slug The slug to be used in field names.
+ *
+ * @param string $slug      The slug to be used in field names.
  * @param string $addon_url Url for the pro addon.
  */
 function bd_render_cron_settings( $slug, $addon_url ) {
@@ -145,6 +151,7 @@ function bd_render_cron_settings( $slug, $addon_url ) {
  * Render the submit button.
  *
  * @since 5.5
+ *
  * @param string $action The action attribute of the submit button.
  */
 function bd_render_submit_button( $action ) {
@@ -159,6 +166,7 @@ function bd_render_submit_button( $action ) {
  * Render the post type dropdown.
  *
  * @since 5.5
+ *
  * @param string $slug The slug to be used in field names.
  */
 function bd_render_post_type_dropdown( $slug ) {
@@ -177,4 +185,3 @@ function bd_render_post_type_dropdown( $slug ) {
 	</tr>
 <?php
 }
-

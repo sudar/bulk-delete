@@ -1,25 +1,25 @@
 <?php
 /**
- * Utility class for Settings page
+ * Utility class for Settings page.
  *
  * @since      5.3
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Admin\Settings
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class BD_Settings_Page {
-
 	/**
-	 * Slug for settings page
+	 * Slug for settings page.
 	 *
 	 * @since 5.3
 	 */
 	const SETTINGS_PAGE_SLUG = 'bd-settings';
 
 	/**
-	 * Slugs for addon settings
+	 * Slugs for addon settings.
 	 *
 	 * @since 5.3
 	 */
@@ -27,9 +27,10 @@ class BD_Settings_Page {
 	const ADDON_SETTING_OPTION_NAME  = 'bd_addon_settings';
 
 	/**
-	 * Add settings menu if needed
+	 * Add settings menu if needed.
 	 *
 	 * @static
+	 *
 	 * @since  5.3
 	 */
 	public static function add_menu() {
@@ -59,11 +60,14 @@ class BD_Settings_Page {
 	}
 
 	/**
-	 * Sanitize Settings
+	 * Sanitize Settings.
 	 *
 	 * @static
+	 *
 	 * @since 5.3
+	 *
 	 * @param array $input (optional) Input array
+	 *
 	 * @return array Sanitized input
 	 */
 	public static function sanitize_settings( $input = array() ) {
@@ -71,21 +75,24 @@ class BD_Settings_Page {
 	}
 
 	/**
-	 * Return Addon settings
+	 * Return Addon settings.
 	 *
 	 * @since 5.3
 	 * @static
+	 *
 	 * @return array Addon settings
 	 */
 	public static function get_addon_settings() {
 		$options = get_option( self::ADDON_SETTING_OPTION_NAME, array() );
+
 		return apply_filters( 'bd_addon_settings', $options );
 	}
 
 	/**
-	 * Show the settings page
+	 * Show the settings page.
 	 *
 	 * @static
+	 *
 	 * @since 5.3
 	 */
 	public static function display_settings_page() {

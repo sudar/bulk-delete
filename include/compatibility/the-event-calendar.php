@@ -3,10 +3,11 @@
  * Code to enable compatibility with 'The Event Calendar' plugin.
  *
  * @since 5.5.1
+ *
  * @author Sudar
+ *
  * @package BulkDelete\Util\Compatibility
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**

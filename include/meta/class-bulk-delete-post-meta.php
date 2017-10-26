@@ -3,13 +3,12 @@
  * Utility class for deleting Post Meta.
  *
  * @since      5.4
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Meta
  */
-
-
 class Bulk_Delete_Post_Meta {
-
 	/**
 	 * Box slug.
 	 *
@@ -28,6 +27,7 @@ class Bulk_Delete_Post_Meta {
 	 * Register post-meta meta box for delete meta page.
 	 *
 	 * @static
+	 *
 	 * @since 5.4
 	 */
 	public static function add_delete_post_meta_box() {
@@ -46,11 +46,13 @@ class Bulk_Delete_Post_Meta {
 	 * Render delete post-meta meta box for delete meta page.
 	 *
 	 * @static
+	 *
 	 * @since 5.4
 	 */
 	public static function render_delete_post_meta_box() {
 		if ( Bulk_Delete_Meta::is_meta_box_hidden( self::BOX_POST_META ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete_meta::META_PAGE_SLUG );
+
 			return;
 		}
 ?>
@@ -110,7 +112,7 @@ class Bulk_Delete_Post_Meta {
 <?php
 		/**
 		 * Add more fields to the delete post meta field form.
-		 * This hook can be used to add more fields to the delete post meta field form
+		 * This hook can be used to add more fields to the delete post meta field form.
 		 *
 		 * @since 5.4
 		 */
@@ -187,15 +189,17 @@ class Bulk_Delete_Post_Meta {
 	 *
 	 * @since 5.4
 	 * @static
-	 * @param array   $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public static function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][] = '_pm';
+		$js_array['dt_iterators'][]                 = '_pm';
 		$js_array['validators']['delete_meta_post'] = 'noValidation';
 
 		$js_array['pre_action_msg']['delete_meta_post'] = 'deletePMWarning';
-		$js_array['msg']['deletePMWarning'] = __( 'Are you sure you want to delete all the post meta fields that match the selected filters?', 'bulk-delete' );
+		$js_array['msg']['deletePMWarning']             = __( 'Are you sure you want to delete all the post meta fields that match the selected filters?', 'bulk-delete' );
 
 		return $js_array;
 	}
@@ -204,6 +208,7 @@ class Bulk_Delete_Post_Meta {
 	 * Controller for deleting post meta fields.
 	 *
 	 * @static
+	 *
 	 * @since  5.4
 	 */
 	public static function do_delete_post_meta() {
@@ -221,7 +226,7 @@ class Bulk_Delete_Post_Meta {
 
 		/**
 		 * Delete post-meta delete options filter.
-		 * This filter is for processing filtering options for deleting post meta
+		 * This filter is for processing filtering options for deleting post meta.
 		 *
 		 * @since 5.4
 		 */
@@ -240,7 +245,7 @@ class Bulk_Delete_Post_Meta {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_post_meta( $delete_options );
-			$msg = sprintf( _n( 'Deleted post meta field from %d post', 'Deleted post meta field from %d posts' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted post meta field from %d post', 'Deleted post meta field from %d posts' , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -255,9 +260,12 @@ class Bulk_Delete_Post_Meta {
 	 * Delete Post Meta.
 	 *
 	 * @static
+	 *
 	 * @since  5.4
-	 * @param array   $delete_options Options for deleting
-	 * @return int                   Number of posts that were deleted
+	 *
+	 * @param array $delete_options Options for deleting
+	 *
+	 * @return int Number of posts that were deleted
 	 */
 	public static function delete_post_meta( $delete_options ) {
 		$count     = 0;

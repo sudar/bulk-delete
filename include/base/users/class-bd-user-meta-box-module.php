@@ -3,10 +3,11 @@
  * Base class for a Bulk Delete User Meta Box Module.
  *
  * @since 5.5.2
+ *
  * @author Sudar
+ *
  * @package BulkDelete\Base\Users
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -18,15 +19,16 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  * @abstract
  */
 abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
-
 	/**
 	 * Query and Delete users.
 	 *
 	 * @since  5.5.2
 	 * @access protected
-	 * @param  array     $options        Options to query users.
-	 * @param  array     $delete_options Delete options.
-	 * @return int                       Number of users who were deleted.
+	 *
+	 * @param array $options        Options to query users.
+	 * @param array $delete_options Delete options.
+	 *
+	 * @return int Number of users who were deleted.
 	 */
 	protected function delete_users( $options, $delete_options ) {
 		$count = 0;
@@ -59,9 +61,11 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 *
 	 * @since  5.5.2
 	 * @access protected
-	 * @param  array     $delete_options Delete Options.
-	 * @param  object    $user           User objet that needs to be deleted.
-	 * @return bool                      True if the user can be deleted, false otherwise.
+	 *
+	 * @param array  $delete_options Delete Options.
+	 * @param object $user           User objet that needs to be deleted.
+	 *
+	 * @return bool True if the user can be deleted, false otherwise.
 	 */
 	protected function can_delete_by_post_count( $delete_options, $user ) {
 		if ( $delete_options['no_posts'] &&
@@ -78,9 +82,11 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 *
 	 * @since  5.5.3
 	 * @access protected
-	 * @param  array     $delete_options Delete Options.
-	 * @param  object    $user           User object that needs to be deleted.
-	 * @return bool                      True if the user can be deleted, false otherwise.
+	 *
+	 * @param array  $delete_options Delete Options.
+	 * @param object $user           User object that needs to be deleted.
+	 *
+	 * @return bool True if the user can be deleted, false otherwise.
 	 */
 	protected function can_delete_by_registered_date( $delete_options, $user ) {
 		if ( $delete_options['registered_restrict'] ) {
@@ -102,9 +108,11 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 *
 	 * @since  5.5.2
 	 * @access protected
-	 * @param  array     $delete_options Delete Options.
-	 * @param  object    $user           User object that needs to be deleted.
-	 * @return bool                      True if the user can be deleted, false otherwise.
+	 *
+	 * @param array  $delete_options Delete Options.
+	 * @param object $user           User object that needs to be deleted.
+	 *
+	 * @return bool True if the user can be deleted, false otherwise.
 	 */
 	protected function can_delete_by_logged_date( $delete_options, $user ) {
 		if ( $delete_options['login_restrict'] ) {
@@ -134,7 +142,8 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 *
 	 * @since 5.5.3
 	 * @access protected
-	 * @param  array     $delete_options Delete Options.
+	 *
+	 * @param array $delete_options Delete Options.
 	 */
 	protected function process_user_delete( $delete_options ) {
 		$delete_options['login_restrict']      = array_get_bool( $_POST, "smbd_{$this->field_slug}_login_restrict", false );

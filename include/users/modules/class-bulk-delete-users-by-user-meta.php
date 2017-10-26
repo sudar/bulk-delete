@@ -3,10 +3,11 @@
  * Bulk Delete Users by User Meta.
  *
  * @since   5.5
+ *
  * @author  Sudar
+ *
  * @package BulkDelete\Users\Modules
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -19,6 +20,7 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 	 * Make this class a "hybrid Singleton".
 	 *
 	 * @static
+	 *
 	 * @since 5.5
 	 */
 	public static function factory() {
@@ -44,7 +46,7 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 		$this->delete_action = 'delete_users_by_meta';
 		$this->cron_hook     = 'do-bulk-delete-users-by-meta';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-users-by-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-u-ma';
-		$this->messages = array(
+		$this->messages      = array(
 			'box_label'      => __( 'By User Meta', 'bulk-delete' ),
 			'scheduled'      => __( 'Users from with the selected user meta are scheduled for deletion.', 'bulk-delete' ),
 			'deleted_single' => __( 'Deleted %d user with the selected user meta', 'bulk-delete' ),
@@ -121,8 +123,10 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 	 * Delete users by user meta.
 	 *
 	 * @since 5.5
+	 *
 	 * @param array $delete_options Delete Options
-	 * @return int  Number of users deleted
+	 *
+	 * @return int Number of users deleted
 	 */
 	public function delete( $delete_options ) {
 		if ( ! function_exists( 'wp_delete_user' ) ) {
@@ -150,18 +154,20 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 	 * Filter JS Array and add validation hooks.
 	 *
 	 * @since 5.5
-	 * @param array  $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][] = '_' . $this->field_slug;
+		$js_array['dt_iterators'][]                     = '_' . $this->field_slug;
 		$js_array['validators'][ $this->delete_action ] = 'noValidation';
 
 		$js_array['pre_action_msg'][ $this->delete_action ] = 'deleteUsersByMetaWarning';
-		$js_array['msg']['deleteUsersByMetaWarning'] = __( 'Are you sure you want to delete all the users from the selected user meta?', 'bulk-delete' );
+		$js_array['msg']['deleteUsersByMetaWarning']        = __( 'Are you sure you want to delete all the users from the selected user meta?', 'bulk-delete' );
 
         $js_array['error_msg'][ $this->delete_action ] = 'enterUserMetaValue';
-        $js_array['msg']['enterUserMetaValue'] = __( 'Please enter the value for the user meta field based on which you want to delete users', 'bulk-delete' );
+        $js_array['msg']['enterUserMetaValue']         = __( 'Please enter the value for the user meta field based on which you want to delete users', 'bulk-delete' );
 
 		return $js_array;
 	}
@@ -170,6 +176,7 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 	 * Get unique user meta keys.
 	 *
 	 * @since 5.5
+	 *
 	 * @return array List of unique meta keys.
 	 */
 	private function get_unique_meta_keys() {

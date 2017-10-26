@@ -3,16 +3,18 @@
  * Base class for all Metabox Pages.
  *
  * @since   5.5
+ *
  * @author  Sudar
+ *
  * @package BulkDelete\Base\Page
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Base class for Metabox Pages.
  *
  * @abstract
+ *
  * @since 5.5
  */
 abstract class BD_Page extends BD_Base_Page {
@@ -36,6 +38,7 @@ abstract class BD_Page extends BD_Base_Page {
 	 * Check for nonce before executing the action.
 	 *
 	 * @since 5.5
+	 *
 	 * @param bool   $result The current result.
 	 * @param string $action Action name.
 	 */
@@ -94,7 +97,7 @@ abstract class BD_Page extends BD_Base_Page {
 	public function add_meta_boxes() {
 		/**
 		 * Add meta box in delete users page.
-		 * This hook can be used for adding additional meta boxes in delete users page
+		 * This hook can be used for adding additional meta boxes in delete users page.
 		 *
 		 * @since 5.3
 		 */
@@ -141,4 +144,3 @@ abstract class BD_Page extends BD_Base_Page {
 		do_action( "bd_admin_footer_for_{$this->item_type}" );
 	}
 }
-?>
