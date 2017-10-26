@@ -71,7 +71,6 @@ enabled:
   - single_class_element_per_statement
   - single_import_per_statement
   - single_line_after_imports
-  - single_line_class_definition
   - single_quote
   - standardize_not_equals
   - strict_comparison
