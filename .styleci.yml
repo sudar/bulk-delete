@@ -14,7 +14,6 @@ enabled:
   - blank_line_before_try
   - braces
   - cast_spaces
-  - class_definition
   - combine_consecutive_unsets
   - concat_with_spaces
   - elseif
