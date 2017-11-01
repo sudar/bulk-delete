@@ -39,7 +39,7 @@ class Bulk_Delete_Meta {
 			Bulk_Delete::POSTS_PAGE_SLUG,
 			__( 'Bulk Delete Meta Fields', 'bulk-delete' ),
 			__( 'Bulk Delete Meta Fields', 'bulk-delete' ),
-			'delete_posts',
+			$bd::CAPABILITY,
 			self::META_PAGE_SLUG,
 			array( __CLASS__, 'display_meta_page' )
 		);

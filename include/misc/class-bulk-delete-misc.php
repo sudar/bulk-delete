@@ -34,7 +34,7 @@ class Bulk_Delete_Misc {
 			Bulk_Delete::POSTS_PAGE_SLUG,
 			__( 'Bulk Delete Miscellaneous Items', 'bulk-delete' ),
 			__( 'Bulk Delete Misc', 'bulk-delete' ),
-			'delete_posts',
+			$bd::CAPABILITY,
 			self::MISC_PAGE_SLUG,
 			array( __CLASS__, 'display_misc_page' )
 		);

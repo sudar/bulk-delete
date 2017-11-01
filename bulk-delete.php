@@ -108,6 +108,13 @@ final class Bulk_Delete {
 	// Transient keys
 	const LICENSE_CACHE_KEY_PREFIX  = 'bd-license_';
 
+	/**
+	 * Capability to manage Bulk WP.
+	 *
+	 * @since 5.6.0
+	 */
+	const CAPABILITY                = 'manage_bulk_wp';
+
 	// path variables
 	// Ideally these should be constants, but because of PHP's limitations, these are static variables
 	public static $PLUGIN_DIR;
@@ -308,10 +315,10 @@ final class Bulk_Delete {
 	 * Add navigation menu.
 	 */
 	public function add_menu() {
-		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
+		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), self::CAPABILITY, self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
 
-		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ) );
-		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( $this, 'display_pages_page' ) );
+		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), self::CAPABILITY, self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ) );
+		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), self::CAPABILITY, self::PAGES_PAGE_SLUG, array( $this, 'display_pages_page' ) );
 
 		/**
 		 * Runs just after adding all *delete* menu items to Bulk WP main menu.
@@ -640,4 +647,12 @@ function BULK_DELETE() {
 
 // Get BULK_DELETE Running
 BULK_DELETE();
+
+if ( ! class_exists( 'Admin_Capability_Giver' ) ) {
+	require_once BULK_DELETE()::$PLUGIN_DIR . '/include/util/class-admin-capability-giver.php';
+}
+$capability_giver = new Admin_Capability_Giver();
+$capability_giver->load();
+
+register_activation_hook( BULK_DELETE()::$PLUGIN_FILE, array( $capability_giver, 'add_cap_to_admin' ) );
 ?>
