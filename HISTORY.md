@@ -1,5 +1,10 @@
 ## Changelog ##
 
+### 2017-11-07 - v5.5.7  ###
+
+- Enhancements
+	- Improved the UI by removing all unnecessary sidebars.
+
 ### 2017-07-06 - v5.5.6 - (Dev time: 1 hour) ###
 
 - New Features
@@ -307,6 +312,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.5.7 ###
+Improved the UI by removing all unnecessary sidebars.
 
 ### 5.5.5 ###
 Fixed a bug that caused Jetpack messages to be not deleted properly
