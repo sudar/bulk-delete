@@ -5,7 +5,7 @@
  * Plugin URI: http://bulkwp.com
  * Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
  * Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
- * Version: 5.5.6
+ * Version: 5.5.7
  * License: GPL
  * Author: Sudar
  * Author URI: http://sudarmuthu.com/
@@ -14,7 +14,7 @@
  * === RELEASE NOTES ===
  * Check readme file for full release notes
  *
- * @version    5.5.6
+ * @version    5.5.7
  * @author     Sudar
  * @package    BulkDelete
  */
@@ -51,7 +51,7 @@ final class Bulk_Delete {
 	private $controller;
 
 	// version
-	const VERSION                   = '5.5.6';
+	const VERSION                   = '5.5.7';
 
 	// Numeric constants
 	const MENU_ORDER                = '26';
@@ -498,13 +498,11 @@ final class Bulk_Delete {
 		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 ?>
     <div id = "poststuff">
-        <div id="post-body" class="metabox-holder columns-2">
+        <div id="post-body" class="metabox-holder columns-1">
 
             <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Posts deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
-
-			<?php bd_render_sidebar_iframe(); ?>
 
             <div id="postbox-container-2" class="postbox-container">
                 <?php do_meta_boxes( '', 'advanced', null ); ?>
@@ -548,13 +546,11 @@ final class Bulk_Delete {
 		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 ?>
     <div id = "poststuff">
-        <div id="post-body" class="metabox-holder columns-2">
+        <div id="post-body" class="metabox-holder columns-1">
 
             <div class="notice notice-warning">
                 <p><strong><?php _e( 'WARNING: Pages deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
             </div>
-
-			<?php bd_render_sidebar_iframe(); ?>
 
             <div id="postbox-container-2" class="postbox-container">
                 <?php do_meta_boxes( '', 'advanced', null ); ?>
