@@ -640,4 +640,3 @@ function BULK_DELETE() {
 
 // Get BULK_DELETE Running
 BULK_DELETE();
-?>
