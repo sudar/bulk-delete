@@ -185,3 +185,49 @@ function bd_render_post_type_dropdown( $slug ) {
 	</tr>
 <?php
 }
+
+/**
+ * Render the post status filter.
+ *
+ * @since 5.6.0
+ *
+ * @param string $slug     The slug to be used in field names.
+ * @param string $selected Default selected status.
+ */
+function bd_render_post_status_filter( $slug, $selected = 'publish' ) {
+	$post_statuses = get_post_stati( array(), 'object' );
+
+	/**
+	 * List of post statuses that should be excluded from post status filter.
+	 *
+	 * @since 5.6.0
+	 * @param array $post_statuses List of post statuses.
+	 */
+	$exclude_post_statuses = apply_filters( 'bd_exclude_post_statuses', array( 'inherit', 'trash', 'auto-draft' ) );
+
+	foreach ( $exclude_post_statuses as $key ) {
+		unset( $post_statuses[ $key ] );
+	}
+
+	/**
+	 * List of post statuses that are displayed in the post status filter.
+	 *
+	 * @since 5.6.0
+	 * @param array $post_statuses List of post statuses.
+	 */
+	$post_statuses = apply_filters( 'bd_post_statuses', $post_statuses );
+
+	foreach ( $post_statuses as $key => $value ) {
+		?>
+		<tr>
+			<td>
+				<label>
+					<input name="smbd_<?php echo esc_attr( $slug ); ?>_post_status" type="checkbox"
+						   value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $selected ); ?>>
+					<?php echo __( 'All', 'bulk-delete' ), ' ', esc_html( $value->label ), ' ', __( 'Posts', 'bulk-delete' ); ?>
+				</label>
+			</td>
+		</tr>
+		<?php
+	}
+}
