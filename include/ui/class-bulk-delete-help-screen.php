@@ -1,25 +1,25 @@
 <?php
 /**
- * Bulk Delete Help Screen
+ * Bulk Delete Help Screen.
  *
  * Displays the help tab on top of Bulk Delete Admin pages
  *
  * @since      5.1
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Help
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Help_Screen {
-
 	/**
-	 * Add contextual help to admin screens
+	 * Add contextual help to admin screens.
 	 *
 	 * @since 5.1
 	 * @static
 	 *
-	 * @param string  $screen Screen name
+	 * @param string $screen Screen name
 	 */
 	public static function add_contextual_help( $screen ) {
 		$help_tabs = self::get_help_tabs( $screen );
@@ -39,17 +39,18 @@ class Bulk_Delete_Help_Screen {
 	}
 
 	/**
-	 * Get the list of help tabs for a given screen
+	 * Get the list of help tabs for a given screen.
 	 *
 	 * @since 5.1
 	 * @static
 	 * @access private
 	 *
-	 * @param string  $screen Screen name
-	 * @return array  $help_tabs List of tabs
+	 * @param string $screen Screen name
+	 *
+	 * @return array $help_tabs List of tabs
 	 */
 	private static function get_help_tabs( $screen ) {
-		$bd = BULK_DELETE();
+		$bd        = BULK_DELETE();
 		$help_tabs = array();
 
 		switch ( $screen ) {
@@ -88,7 +89,7 @@ class Bulk_Delete_Help_Screen {
 		$help_tabs['about_plugin_tab'] = $about_plugin_tab;
 
 		/**
-		 * Filters help tab content for admin screens
+		 * Filters help tab content for admin screens.
 		 *
 		 * @since 5.1
 		 */
@@ -96,7 +97,7 @@ class Bulk_Delete_Help_Screen {
 	}
 
 	/**
-	 * print the about plugin tab content
+	 * print the about plugin tab content.
 	 *
 	 * @since 5.1
 	 * @static
@@ -109,4 +110,3 @@ class Bulk_Delete_Help_Screen {
 
 // hooks
 add_action( 'bd_add_contextual_help', array( 'Bulk_Delete_Help_Screen', 'add_contextual_help' ) );
-?>

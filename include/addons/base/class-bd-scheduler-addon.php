@@ -3,20 +3,21 @@
  * Base class for all Scheduler Addons.
  *
  * @since   5.5
+ *
  * @author  Sudar
+ *
  * @package BulkDelete\Addons\Base
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Base class for Base Addons.
  *
  * @abstract
+ *
  * @since 5.5
  */
 abstract class BD_Scheduler_Addon extends BD_Addon {
-
 	/**
 	 * @var No base addon for this scheduler addon.
 	 */
@@ -49,10 +50,9 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 
 	/**
 	 * Use `factory()` method to create instance of this class.
-	 * Don't create instances directly
+	 * Don't create instances directly.
 	 *
 	 * @since 5.5
-	 *
 	 * @see factory()
 	 */
 	public function __construct() {
@@ -63,11 +63,14 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 	 * Check if the base addon is available.
 	 *
 	 * @access protected
+	 *
 	 * @since 5.5
 	 *
 	 * @todo check for version as well
 	 *
 	 * @param string Base Addon class name. Default null. If not specified then it is auto calculated based on addon name.
+	 * @param mixed|null $addon_class_name
+	 *
 	 * @return bool True if base addon is found, False other wise
 	 */
 	protected function check_base_addon( $addon_class_name = null ) {
@@ -80,9 +83,11 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 		if ( class_exists( $this->base_addon_class_name ) ) {
 			// Ugly workaround, since we need to support PHP 5.2
 			$this->base_addon_obj = call_user_func( array( $this->base_addon_class_name, 'factory' ) );
+
 			return true;
 		} else {
 			add_action( 'admin_notices', array( $this, 'addon_missing_notice' ) );
+
 			return false;
 		}
 	}
@@ -125,8 +130,10 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 	 * Filter JS Array and add pro hooks.
 	 *
 	 * @since 5.5
-	 * @param array  $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['pro_iterators'][] = $this->get_module()->get_field_slug();
@@ -138,6 +145,7 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 	 * Hook handler.
 	 *
 	 * @since 5.5
+	 *
 	 * @param array $delete_options
 	 */
 	public function do_delete( $delete_options ) {
@@ -150,7 +158,9 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 	 * Get the cron hook.
 	 *
 	 * @access protected
+	 *
 	 * @since 5.5
+	 *
 	 * @return string Cron hook.
 	 */
 	protected function get_cron_hook() {
@@ -166,7 +176,9 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 	 * Get base module.
 	 *
 	 * @access protected
+	 *
 	 * @since 5.5
+	 *
 	 * @return object Base module object
 	 */
 	protected function get_module() {
@@ -177,4 +189,3 @@ abstract class BD_Scheduler_Addon extends BD_Addon {
 		}
 	}
 }
-?>

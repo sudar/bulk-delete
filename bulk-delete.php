@@ -12,10 +12,11 @@
  * Text Domain: bulk-delete
  * Domain Path: languages/
  * === RELEASE NOTES ===
- * Check readme file for full release notes
+ * Check readme file for full release notes.
  *
  * @version    5.5.7
  * @author     Sudar
+ *
  * @package    BulkDelete
  */
 
@@ -30,20 +31,19 @@
  * GNU General Public License for more details.
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
- * Main Bulk_Delete class
+ * Main Bulk_Delete class.
  *
  * Singleton @since 5.0
  */
 final class Bulk_Delete {
-
 	/**
 	 * @var Bulk_Delete The one true Bulk_Delete
+	 *
 	 * @since 5.0
 	 */
 	private static $instance;
@@ -130,7 +130,7 @@ final class Bulk_Delete {
 	public $users_page;
 
 	/**
-	 * Main Bulk_Delete Instance
+	 * Main Bulk_Delete Instance.
 	 *
 	 * Insures that only one instance of Bulk_Delete exists in memory at any one
 	 * time. Also prevents needing to define globals all over the place.
@@ -138,11 +138,14 @@ final class Bulk_Delete {
 	 * @since 5.0
 	 * @static
 	 * @staticvar array $instance
+	 *
 	 * @see BULK_DELETE()
+	 *
 	 * @uses Bulk_Delete::setup_paths() Setup the plugin paths
 	 * @uses Bulk_Delete::includes() Include the required files
 	 * @uses Bulk_Delete::load_textdomain() Load text domain for translation
 	 * @uses Bulk_Delete::setup_actions() Setup the hooks and actions
+	 *
 	 * @return Bulk_Delete The one true instance of Bulk_Delete
 	 */
 	public static function instance() {
@@ -153,17 +156,19 @@ final class Bulk_Delete {
 			self::$instance->load_textdomain();
 			self::$instance->setup_actions();
 		}
+
 		return self::$instance;
 	}
 
 	/**
-	 * Throw error on object clone
+	 * Throw error on object clone.
 	 *
 	 * The whole idea of the singleton design pattern is that there is a single
 	 * object therefore, we don't want the object to be cloned.
 	 *
 	 * @since  5.0
 	 * @access protected
+	 *
 	 * @return void
 	 */
 	public function __clone() {
@@ -172,10 +177,11 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Disable unserializing of the class
+	 * Disable unserializing of the class.
 	 *
 	 * @since  5.0
 	 * @access protected
+	 *
 	 * @return void
 	 */
 	public function __wakeup() {
@@ -184,10 +190,12 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Setup plugin constants
+	 * Setup plugin constants.
 	 *
 	 * @access private
+	 *
 	 * @since  5.0
+	 *
 	 * @return void
 	 */
 	private function setup_paths() {
@@ -202,10 +210,12 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Include required files
+	 * Include required files.
 	 *
 	 * @access private
+	 *
 	 * @since  5.0
+	 *
 	 * @return void
 	 */
 	private function includes() {
@@ -268,7 +278,7 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Loads the plugin language files
+	 * Loads the plugin language files.
 	 *
 	 * @since  5.0
 	 */
@@ -279,10 +289,12 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Loads the plugin's actions and hooks
+	 * Loads the plugin's actions and hooks.
 	 *
 	 * @access private
+	 *
 	 * @since  5.0
+	 *
 	 * @return void
 	 */
 	private function setup_actions() {
@@ -292,7 +304,7 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Add navigation menu
+	 * Add navigation menu.
 	 */
 	public function add_menu() {
 		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
@@ -301,7 +313,7 @@ final class Bulk_Delete {
 		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( $this, 'display_pages_page' ) );
 
 		/**
-		 * Runs just after adding all *delete* menu items to Bulk WP main menu
+		 * Runs just after adding all *delete* menu items to Bulk WP main menu.
 		 *
 		 * This action is primarily for adding extra *delete* menu items to the Bulk WP main menu.
 		 *
@@ -310,7 +322,7 @@ final class Bulk_Delete {
 		do_action( 'bd_after_primary_menus' );
 
 		/**
-		 * Runs just before adding non-action menu items to Bulk WP main menu
+		 * Runs just before adding non-action menu items to Bulk WP main menu.
 		 *
 		 * This action is primarily for adding extra menu items before non-action menu items to the Bulk WP main menu.
 		 *
@@ -322,7 +334,7 @@ final class Bulk_Delete {
 		$this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Addon Licenses'       , 'bulk-delete' ), __( 'Addon Licenses', 'bulk-delete' ), 'activate_plugins', self::ADDON_PAGE_SLUG, array( 'BD_License', 'display_addon_page' ) );
 
 		/**
-		 * Runs just after adding all menu items to Bulk WP main menu
+		 * Runs just after adding all menu items to Bulk WP main menu.
 		 *
 		 * This action is primarily for adding extra menu items to the Bulk WP main menu.
 		 *
@@ -344,12 +356,11 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Add settings Panel for delete posts page
+	 * Add settings Panel for delete posts page.
 	 */
 	public function add_delete_posts_settings_panel() {
-
 		/**
-		 * Add contextual help for admin screens
+		 * Add contextual help for admin screens.
 		 *
 		 * @since 5.1
 		 */
@@ -363,7 +374,7 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Register meta boxes for delete posts page
+	 * Register meta boxes for delete posts page.
 	 */
 	public function add_delete_posts_meta_boxes() {
 		add_meta_box( self::BOX_POST_STATUS   , __( 'By Post Status'       , 'bulk-delete' ) , 'Bulk_Delete_Posts::render_delete_posts_by_status_box'    , $this->posts_page , 'advanced' );
@@ -376,7 +387,7 @@ final class Bulk_Delete {
 
 		/**
 		 * Add meta box in delete posts page
-		 * This hook can be used for adding additional meta boxes in delete posts page
+		 * This hook can be used for adding additional meta boxes in delete posts page.
 		 *
 		 * @since 5.3
 		 */
@@ -384,14 +395,13 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Setup settings panel for delete pages page
+	 * Setup settings panel for delete pages page.
 	 *
 	 * @since 5.0
 	 */
 	public function add_delete_pages_settings_panel() {
-
 		/**
-		 * Add contextual help for admin screens
+		 * Add contextual help for admin screens.
 		 *
 		 * @since 5.1
 		 */
@@ -405,7 +415,7 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Register meta boxes for delete pages page
+	 * Register meta boxes for delete pages page.
 	 *
 	 * @since 5.0
 	 */
@@ -414,7 +424,7 @@ final class Bulk_Delete {
 
 		/**
 		 * Add meta box in delete pages page
-		 * This hook can be used for adding additional meta boxes in delete pages page
+		 * This hook can be used for adding additional meta boxes in delete pages page.
 		 *
 		 * @since 5.3
 		 */
@@ -446,12 +456,12 @@ final class Bulk_Delete {
 		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/assets/js/bulk-delete' . $postfix . '.js', __FILE__ ), array( 'jquery-ui-timepicker' ), self::VERSION, true );
 		wp_enqueue_style( self::CSS_HANDLE, plugins_url( '/assets/css/bulk-delete' . $postfix . '.css', __FILE__ ), array( 'select2' ), self::VERSION );
 
-		$ui = $wp_scripts->query( 'jquery-ui-core' );
+		$ui  = $wp_scripts->query( 'jquery-ui-core' );
 		$url = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
 		wp_enqueue_style( 'jquery-ui-smoothness', $url, false, $ui->ver );
 
 		/**
-		 * Filter JavaScript array
+		 * Filter JavaScript array.
 		 *
 		 * This filter can be used to extend the array that is passed to JavaScript
 		 *
@@ -525,9 +535,10 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Display the delete pages page
+	 * Display the delete pages page.
 	 *
 	 * @Todo Move this function to Bulk_Delete_Pages class
+	 *
 	 * @since 5.0
 	 */
 	public function display_pages_page() {
@@ -573,10 +584,9 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Display the schedule page
+	 * Display the schedule page.
 	 */
 	public function display_cron_page() {
-
 		if ( ! class_exists( 'WP_List_Table' ) ) {
 			require_once ABSPATH . WPINC . '/class-wp-list-table.php';
 		}
@@ -610,7 +620,6 @@ final class Bulk_Delete {
 	}
 }
 
-
 /**
  * The main function responsible for returning the one true Bulk_Delete
  * Instance to functions everywhere.
@@ -621,6 +630,7 @@ final class Bulk_Delete {
  * Example: `<?php $bulk_delete = BULK_DELETE(); ?>`
  *
  * @since 5.0
+ *
  * @return Bulk_Delete The one true Bulk_Delete Instance
  */
 function BULK_DELETE() {
@@ -629,4 +639,3 @@ function BULK_DELETE() {
 
 // Get BULK_DELETE Running
 BULK_DELETE();
-?>

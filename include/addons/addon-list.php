@@ -3,14 +3,15 @@
  * Addon related util functions.
  *
  * @since      5.5
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Util\Addon
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
- * Display information about all available addons
+ * Display information about all available addons.
  *
  * @since 5.5
  */
@@ -143,4 +144,3 @@ function bd_display_available_addon_list() {
 
 	echo '</ul>';
 }
-?>

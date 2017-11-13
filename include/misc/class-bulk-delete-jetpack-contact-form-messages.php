@@ -1,15 +1,14 @@
 <?php
 /**
- * Utility class for deleting Jetpack Contact Form Messages
+ * Utility class for deleting Jetpack Contact Form Messages.
  *
  * @since      5.3
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Misc
  */
-
-
 class Bulk_Delete_Jetpack_Contact_Form_Message {
-
 	// box slugs
 	const BOX_JETPACK_MESSAGES = 'bd-jetpack-feedback';
 
@@ -17,9 +16,10 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	const CRON_HOOK            = 'do-bulk-delete-feedback';
 
 	/**
-	 * Register Jetpack Feedback meta box for delete misc page
+	 * Register Jetpack Feedback meta box for delete misc page.
 	 *
 	 * @static
+	 *
 	 * @since 5.3
 	 */
 	public static function add_delete_jetpack_messages_meta_box() {
@@ -35,14 +35,16 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	}
 
 	/**
-	 * Render Jetpack Feedback meta box for delete misc page
+	 * Render Jetpack Feedback meta box for delete misc page.
 	 *
 	 * @static
+	 *
 	 * @since 5.3
 	 */
 	public static function render_delete_jetpack_messages_box() {
 		if ( Bulk_Delete_Misc::is_misc_box_hidden( self::BOX_JETPACK_MESSAGES ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete_Misc::MISC_PAGE_SLUG );
+
 			return;
 		}
 
@@ -84,7 +86,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 <?php
 			/**
 			 * Add more fields to the delete jetpack messages form
-			 * This hook can be used to add more fields to the delete jetpack messages form
+			 * This hook can be used to add more fields to the delete jetpack messages form.
 			 *
 			 * @since 5.3
 			 */
@@ -166,26 +168,30 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	}
 
 	/**
-	 * Filter JS Array and add validation hooks
+	 * Filter JS Array and add validation hooks.
 	 *
 	 * @since 5.4
 	 * @static
-	 * @param array   $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public static function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][] = '_feedback';
+		$js_array['dt_iterators'][]                        = '_feedback';
 		$js_array['validators']['delete_jetpack_messages'] = 'noValidation';
 
 		$js_array['pre_action_msg']['delete_jetpack_messages'] = 'deleteJetpackWarning';
-		$js_array['msg']['deleteJetpackWarning'] = __( 'Are you sure you want to delete all the Jetpack contact form messages based on the selected filters?', 'bulk-delete' );
+		$js_array['msg']['deleteJetpackWarning']               = __( 'Are you sure you want to delete all the Jetpack contact form messages based on the selected filters?', 'bulk-delete' );
+
 		return $js_array;
 	}
 
 	/**
-	 * Controller for deleting Jetpack contact form messages
+	 * Controller for deleting Jetpack contact form messages.
 	 *
 	 * @static
+	 *
 	 * @since  5.3
 	 */
 	public static function do_delete_jetpack_messages() {
@@ -202,7 +208,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 
 		/**
 		 * Delete jetpack feedback delete options filter
-		 * This filter is for processing filtering options for deleting jetpack message
+		 * This filter is for processing filtering options for deleting jetpack message.
 		 *
 		 * @since 5.3
 		 */
@@ -221,7 +227,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_jetpack_messages( $delete_options );
-			$msg = sprintf( _n( 'Deleted %d Jetpack contact form message', 'Deleted %d Jetpack contact form messages' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted %d Jetpack contact form message', 'Deleted %d Jetpack contact form messages' , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -233,15 +239,18 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	}
 
 	/**
-	 * Delete Jetpack contact form messages
+	 * Delete Jetpack contact form messages.
 	 *
 	 * @static
+	 *
 	 * @since  5.3
-	 * @param array   $delete_options Options for deleting
-	 * @return int                   Number of posts that were deleted
+	 *
+	 * @param array $delete_options Options for deleting
+	 *
+	 * @return int Number of posts that were deleted
 	 */
 	public static function delete_jetpack_messages( $delete_options ) {
-		$count = 0;
+		$count      = 0;
 		$use_filter = $delete_options['use_filter'];
 
 		$options = array(
@@ -266,7 +275,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 		}
 
 		if ( 'true' == $delete_options['restrict'] ) {
-			$options['op'] = $delete_options['feedback_op'];
+			$options['op']   = $delete_options['feedback_op'];
 			$options['days'] = $delete_options['feedback_days'];
 
 			if ( ! class_exists( 'Bulk_Delete_By_Days' ) ) {
@@ -278,9 +287,8 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 		$post_ids = bd_query( $options );
 		foreach ( $post_ids as $post_id ) {
 			if ( 'true' == $use_filter ) {
-
 				/**
-				 * Process additional filters for deleting jetpack messages
+				 * Process additional filters for deleting jetpack messages.
 				 *
 				 * @since 5.3
 				 */
@@ -303,10 +311,12 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	}
 
 	/**
-	 * Check whether Jetpack Contact Form is active
+	 * Check whether Jetpack Contact Form is active.
 	 *
 	 * @static
+	 *
 	 * @since  5.3
+	 *
 	 * @return bool True if active, False otherwise
 	 */
 	public static function is_jetpack_contact_active() {

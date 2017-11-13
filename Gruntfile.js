@@ -89,6 +89,13 @@ module.exports = function( grunt ) {
 				options: {
 					debounceDelay: 500
 				}
+			},
+			build: {
+				files: ['**', '!dist/**'],
+				tasks: ['build'],
+				options: {
+					debounceDelay: 500
+				}
 			}
 		},
 
@@ -124,8 +131,11 @@ module.exports = function( grunt ) {
 						src: [
 							'**',
 							'!dist/**',
+							'!AUTHORS.md',
 							'!docs/**',
 							'!assets-wp-repo/**',
+							'!code-coverage/**',
+							'!codeception.yml',
 							'!node_modules/**',
 							'!assets/vendor/**',
 							'!assets/js/src/**',
@@ -133,9 +143,16 @@ module.exports = function( grunt ) {
 							'!Gruntfile.js',
 							'!bower.json',
 							'!package.json',
+							'!composer.json',
+							'!composer.lock',
 							'!phpcs.xml',
 							'!phpdoc.dist.xml',
-							'!tags'
+							'!phpunit.xml.dist',
+							'!bin/**',
+							'!tests/**',
+							'!.idea/**',
+							'!tags',
+							'!vendor/**'
 						],
 						dest: 'dist/'
 					}
