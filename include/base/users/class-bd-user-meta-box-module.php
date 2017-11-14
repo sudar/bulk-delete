@@ -206,13 +206,23 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @since 5.5
 	 */
 	protected function render_user_with_no_posts_settings() {
-?>
+	ob_start();
+	?>
 		<tr>
 			<td scope="row" colspan="2">
 				<input name="smbd_<?php echo $this->field_slug; ?>_no_posts" id="smbd_<?php echo $this->field_slug; ?>_no_posts" value="true" type="checkbox">
 				<?php _e( "Only if user doesn't have any post. Posts from 'post', 'page' & all custom post types would be considered.", 'bulk-delete' ); ?>
 			</td>
 		</tr>
-<?php
+	<?php
+		if ( function_exists( 'bd_render_post_type_dropdown' ) ) {
+			$dropdown_args = array(
+				'is_multi_value_select' => true,
+				'is_select_all_options' => true,
+				'style_attribute'       => 'width: 100px;',
+			);
+		    bd_render_post_type_dropdown( 'test', $dropdown_args );
+		}
+	echo ob_get_clean();
 	}
 }
