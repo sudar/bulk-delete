@@ -153,6 +153,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_User_Meta_Box_Module {
 	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][] = '_' . $this->field_slug;
+
 		$js_array['pre_action_msg'][ $this->delete_action ] = 'deleteUsersWarning';
 		$js_array['msg']['deleteUsersWarning']              = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );
 
