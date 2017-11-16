@@ -195,7 +195,7 @@ function bd_render_post_type_dropdown( $slug, $dropdown_args = array() ) {
 		<td scope="row" >
 			<?php _e( 'You may select/de-select post types listed below.', 'bulk-delete' ); ?>
 			<br/><br/>
-			<select class="select2" name="smbd_<?php echo $slug; ?>_post_type"
+			<select class="select2" name="smbd_<?php echo $slug; ?>_post_type<?php if ( $dropdown_args['is_multi_value_select'] ) : ?>[]<?php endif; ?>" id="smbd_<?php echo $slug; ?>_post_type"
 					<?php if ( $dropdown_args['is_multi_value_select'] ) : ?> multiple="multiple" <?php endif; ?>
 					<?php if ( $dropdown_args['style_attribute'] ) : ?> style="<?php echo $dropdown_args['style_attribute']; ?>" <?php endif; ?>>
 				<?php foreach ( $types as $type ) { ?>
