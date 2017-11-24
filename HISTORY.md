@@ -2,6 +2,9 @@
 
 ### v5.6.0 - (In Development) ###
 
+- New Features
+	- Added the ability to filter delete users based on post count.
+
 - Enhancements
 	- Now works in PHP version from 5.2 to 7.2
 
