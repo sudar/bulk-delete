@@ -208,7 +208,6 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @since 5.5
 	 */
 	protected function render_user_with_no_posts_settings() {
-	ob_start();
 	?>
 		<tr>
 			<td scope="row" colspan="2">
@@ -225,6 +224,5 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 			);
 		    bd_render_post_type_dropdown( $this->field_slug, $dropdown_args );
 		}
-	echo ob_get_clean();
 	}
 }
