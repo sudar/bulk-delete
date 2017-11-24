@@ -184,11 +184,11 @@ jQuery(document).ready(function () {
 		}
 	};
 
-    BulkWP.validateUserMeta = function() {
-        if (jQuery('#smbd_u_meta_value').val() !== '') {
-            return true;
-        } else {
-            return false;
-        }
-    };
+	BulkWP.validateUserMeta = function() {
+		if (jQuery('#smbd_u_meta_value').val() !== '') {
+			return true;
+		} else {
+			return false;
+		}
+	};
 });
