@@ -119,9 +119,9 @@ jQuery(document).ready(function () {
 			toggle_registered_restrict(value);
 		});
 
-        jQuery( '#smbd' + value + '_no_posts' ).change( function () {
-            toggle_post_type_dropdown( value );
-        });
+		jQuery( '#smbd' + value + '_no_posts' ).change( function () {
+			toggle_post_type_dropdown( value );
+		});
 	});
 
 	jQuery.each( BulkWP.pro_iterators, function ( index, value) {
