@@ -64,6 +64,18 @@ jQuery(document).ready(function () {
 		}
 	}
 
+    /**
+     * Toggle Post type dropdown.
+     */
+    function toggle_post_type_dropdown( el ) {
+        // TODO: Check why the element is not toggling even when display:none is added by JS.
+        if ( jQuery( "#smbd" + el + "_no_posts" ).is( ":checked" ) ) {
+            jQuery( "tr#smbd" + el + "-post-type-dropdown" ).show();
+        } else {
+            jQuery( "tr#smbd" + el + "-post-type-dropdown" ).hide();
+        }
+    }
+
 	// hide all terms
 	function hideAllTerms() {
 		jQuery('table.terms').hide();
@@ -105,6 +117,10 @@ jQuery(document).ready(function () {
 
 		jQuery('#smbd' + value + '_registered_restrict').change(function () {
 			toggle_registered_restrict(value);
+		});
+
+		jQuery( '#smbd' + value + '_no_posts' ).change( function () {
+			toggle_post_type_dropdown( value );
 		});
 	});
 
@@ -168,11 +184,11 @@ jQuery(document).ready(function () {
 		}
 	};
 
-    BulkWP.validateUserMeta = function() {
-        if (jQuery('#smbd_u_meta_value').val() !== '') {
-            return true;
-        } else {
-            return false;
-        }
-    };
+	BulkWP.validateUserMeta = function() {
+		if (jQuery('#smbd_u_meta_value').val() !== '') {
+			return true;
+		} else {
+			return false;
+		}
+	};
 });

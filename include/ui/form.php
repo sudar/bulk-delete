@@ -168,17 +168,41 @@ function bd_render_submit_button( $action ) {
  * @since 5.5
  *
  * @param string $slug The slug to be used in field names.
+ * @param array  $dropdown_args {
+ *     Optional. An array of arguments.
+ *
+ *     @type bool   $is_multi_value_select Setting `true` renders a multi-value select box. Default `false`.
+ *     @type bool   $is_select_all_options Setting `true` renders a multi-value select box
+ *                                         with all options selected. Default `false`.
+ *     @type string $style_attribute       Sets the value for the style attribute of the
+ *                                         select tag. Default ''.
+ * }
  */
-function bd_render_post_type_dropdown( $slug ) {
-	$types = get_post_types( array( '_builtin' => false ), 'names' );
+function bd_render_post_type_dropdown( $slug, $dropdown_args = array() ) {
+	$dropdown_args_defaults = array(
+		'is_multi_value_select' => false,
+		'is_select_all_options' => false,
+		'style_attribute'       => '',
+	);
+
+	$dropdown_args = wp_parse_args( $dropdown_args, $dropdown_args_defaults );
+
+	$types = get_post_types( array(
+		'_builtin' => false,
+	), 'names' );
 	array_unshift( $types, 'page' );
 	array_unshift( $types, 'post' );
 ?>
-	<tr>
+	<tr class="post-type-dropdown" id="smbd_<?php echo esc_attr( $slug ); ?>-post-type-dropdown">
 		<td scope="row" >
-			<select class="select2" name="smbd_<?php echo $slug; ?>_post_type">
+			<?php _e( 'You may select/de-select post types listed below.', 'bulk-delete' ); // WPCS: XSS ok. ?>
+			<br/><br/>
+			<select class="select2" name="smbd_<?php echo esc_attr( $slug ); ?>_post_type<?php if ( $dropdown_args['is_multi_value_select'] ) : ?>[]<?php endif; ?>" id="smbd_<?php echo esc_attr( $slug ); ?>_post_type"
+					<?php if ( $dropdown_args['is_multi_value_select'] ) : ?> multiple="multiple" <?php endif; ?>
+					<?php if ( $dropdown_args['style_attribute'] ) : ?> style="<?php echo esc_attr( $dropdown_args['style_attribute'] ); ?>" <?php endif; ?>>
 				<?php foreach ( $types as $type ) { ?>
-					<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_html( $type ); ?></option>
+					<option value="<?php echo esc_attr( $type ); ?>"
+					<?php if ( $dropdown_args['is_select_all_options'] ) : ?> selected="selected" <?php endif; ?>><?php echo esc_html( $type ); ?></option>
 				<?php } ?>
 			</select>
 		</td>
