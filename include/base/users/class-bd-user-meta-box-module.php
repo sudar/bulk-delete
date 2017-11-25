@@ -63,14 +63,12 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @access protected
 	 *
 	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User objet that needs to be deleted.
+	 * @param object $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
 	protected function can_delete_by_post_count( $delete_options, $user ) {
-		if ( $delete_options['no_posts'] &&
-			 array_key_exists( 'post_type', $delete_options ) &&
-			 count_user_posts( $user->ID, $delete_options['post_type'] ) > 0 ) {
+		if ( $delete_options['no_posts'] && count_user_posts( $user->ID, get_post_types( array( 'public' => true ) ) ) > 0 ) {
 			return false;
 		}
 
