@@ -187,17 +187,19 @@ function bd_render_post_type_dropdown( $slug, $dropdown_args = array() ) {
 
 	$dropdown_args = wp_parse_args( $dropdown_args, $dropdown_args_defaults );
 
-	$types = get_post_types( array( '_builtin' => false ), 'names' );
+	$types = get_post_types( array(
+		'_builtin' => false,
+	), 'names' );
 	array_unshift( $types, 'page' );
 	array_unshift( $types, 'post' );
 ?>
 	<tr class="post-type-dropdown">
 		<td scope="row" >
-			<?php _e( 'You may select/de-select post types listed below.', 'bulk-delete' ); ?>
+			<?php _e( 'You may select/de-select post types listed below.', 'bulk-delete' ); // WPCS: XSS ok. ?>
 			<br/><br/>
-			<select class="select2" name="smbd_<?php echo $slug; ?>_post_type<?php if ( $dropdown_args['is_multi_value_select'] ) : ?>[]<?php endif; ?>" id="smbd_<?php echo $slug; ?>_post_type"
+			<select class="select2" name="smbd_<?php echo esc_attr( $slug ); ?>_post_type<?php if ( $dropdown_args['is_multi_value_select'] ) : ?>[]<?php endif; ?>" id="smbd_<?php echo esc_attr( $slug ); ?>_post_type"
 					<?php if ( $dropdown_args['is_multi_value_select'] ) : ?> multiple="multiple" <?php endif; ?>
-					<?php if ( $dropdown_args['style_attribute'] ) : ?> style="<?php echo $dropdown_args['style_attribute']; ?>" <?php endif; ?>>
+					<?php if ( $dropdown_args['style_attribute'] ) : ?> style="<?php echo esc_attr( $dropdown_args['style_attribute'] ); ?>" <?php endif; ?>>
 				<?php foreach ( $types as $type ) { ?>
 					<option value="<?php echo esc_attr( $type ); ?>"
 					<?php if ( $dropdown_args['is_select_all_options'] ) : ?> selected="selected" <?php endif; ?>><?php echo esc_html( $type ); ?></option>
