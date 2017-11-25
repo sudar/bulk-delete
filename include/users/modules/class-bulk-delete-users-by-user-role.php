@@ -104,9 +104,7 @@ class Bulk_Delete_Users_By_User_Role extends BD_User_Meta_Box_Module {
 	public function process() {
 		$delete_options                   = array();
 
-		/*
-		 * Nonce verification is handled in `request_handler()`.
-		 */
+		// Nonce verification is handled in `request_handler()`.
 		$delete_options['selected_roles'] = array_get( $_POST, 'smbd_u_roles' ); // WPCS: XSS ok.
 
 		$this->process_user_delete( $delete_options );
