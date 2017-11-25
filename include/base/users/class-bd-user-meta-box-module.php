@@ -216,13 +216,11 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 			</td>
 		</tr>
 	<?php
-		if ( function_exists( 'bd_render_post_type_dropdown' ) ) {
-			$dropdown_args = array(
-				'is_multi_value_select' => true,
-				'is_select_all_options' => true,
-				'style_attribute'       => 'width: 100px;',
-			);
-		    bd_render_post_type_dropdown( $this->field_slug, $dropdown_args );
-		}
+		$dropdown_args = array(
+			'is_multi_value_select' => true,
+			'is_select_all_options' => true,
+			'style_attribute'       => 'width: 100px;',
+		);
+		bd_render_post_type_dropdown( $this->field_slug, $dropdown_args );
 	}
 }
