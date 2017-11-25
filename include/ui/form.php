@@ -193,7 +193,7 @@ function bd_render_post_type_dropdown( $slug, $dropdown_args = array() ) {
 	array_unshift( $types, 'page' );
 	array_unshift( $types, 'post' );
 ?>
-	<tr class="post-type-dropdown">
+	<tr class="post-type-dropdown" id="smbd_<?php echo esc_attr( $slug ); ?>-post-type-dropdown">
 		<td scope="row" >
 			<?php _e( 'You may select/de-select post types listed below.', 'bulk-delete' ); // WPCS: XSS ok. ?>
 			<br/><br/>

@@ -70,9 +70,9 @@ jQuery(document).ready(function () {
     function toggle_post_type_dropdown( el ) {
         // TODO: Check why the element is not toggling even when display:none is added by JS.
         if ( jQuery( "#smbd" + el + "_no_posts" ).is( ":checked" ) ) {
-            jQuery( "#smbd" + el + "_post_type" ).show();
+            jQuery( "tr#smbd" + el + "-post-type-dropdown" ).show();
         } else {
-            jQuery( "#smbd" + el + "_post_type" ).hide();
+            jQuery( "tr#smbd" + el + "-post-type-dropdown" ).hide();
         }
     }
 
