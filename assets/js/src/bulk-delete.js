@@ -176,8 +176,8 @@ jQuery(document).ready(function () {
 		}
 	};
 
-	BulkWP.enterWordCount = function() {
-		if ( jQuery('#smbd_content_operator' ).val() !== '') {
+	BulkWP.validateWordCount = function() {
+		if ( jQuery('#smbd_content' ).val() !== '') {
 			return true;
 		} else {
 			return false;
