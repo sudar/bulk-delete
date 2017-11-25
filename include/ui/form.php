@@ -167,9 +167,9 @@ function bd_render_submit_button( $action ) {
  *
  * @since 5.5
  *
- * @param string $slug The slug to be used in field names.
+ * @param string $slug          The slug to be used in field names.
  * @param array  $dropdown_args {
- *     Optional. An array of arguments.
+ *                              Optional. An array of arguments.
  *
  *     @type bool   $is_multi_value_select Setting `true` renders a multi-value select box. Default `false`.
  *     @type bool   $is_select_all_options Setting `true` renders a multi-value select box
@@ -195,7 +195,7 @@ function bd_render_post_type_dropdown( $slug, $dropdown_args = array() ) {
 ?>
 	<tr class="post-type-dropdown" id="smbd_<?php echo esc_attr( $slug ); ?>-post-type-dropdown">
 		<td scope="row" >
-			<?php _e( 'You may select/de-select post types listed below.', 'bulk-delete' ); // WPCS: XSS ok. ?>
+			<?php _e( 'You may select/de-select post types listed below.', 'bulk-delete' ); // WPCS: XSS ok.?>
 			<br/><br/>
 			<select class="select2" name="smbd_<?php echo esc_attr( $slug ); ?>_post_type<?php if ( $dropdown_args['is_multi_value_select'] ) : ?>[]<?php endif; ?>" id="smbd_<?php echo esc_attr( $slug ); ?>_post_type"
 					<?php if ( $dropdown_args['is_multi_value_select'] ) : ?> multiple="multiple" <?php endif; ?>
@@ -225,6 +225,7 @@ function bd_render_post_status_filter( $slug, $selected = 'publish' ) {
 	 * List of post statuses that should be excluded from post status filter.
 	 *
 	 * @since 5.6.0
+	 *
 	 * @param array $post_statuses List of post statuses.
 	 */
 	$exclude_post_statuses = apply_filters( 'bd_exclude_post_statuses', array( 'inherit', 'trash', 'auto-draft' ) );
@@ -237,6 +238,7 @@ function bd_render_post_status_filter( $slug, $selected = 'publish' ) {
 	 * List of post statuses that are displayed in the post status filter.
 	 *
 	 * @since 5.6.0
+	 *
 	 * @param array $post_statuses List of post statuses.
 	 */
 	$post_statuses = apply_filters( 'bd_post_statuses', $post_statuses );
