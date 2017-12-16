@@ -15,6 +15,7 @@
  * Check readme file for full release notes.
  *
  * @version    5.5.7
+ *
  * @author     Sudar
  *
  * @package    BulkDelete

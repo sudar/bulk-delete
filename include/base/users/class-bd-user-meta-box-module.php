@@ -151,6 +151,8 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 		$delete_options['registered_days']     = absint( array_get( $_POST, "smbd_{$this->field_slug}_registered_days", 0 ) );
 
 		$delete_options['no_posts']            = array_get_bool( $_POST, "smbd_{$this->field_slug}_no_posts", false );
+		$delete_options['post_type']           = array_get( $_POST, "smbd_{$this->field_slug}_post_type", array() );
+
 		$delete_options['limit_to']            = absint( array_get( $_POST, "smbd_{$this->field_slug}_limit_to", 0 ) );
 
 		$this->process_delete( $delete_options );
@@ -204,13 +206,19 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @since 5.5
 	 */
 	protected function render_user_with_no_posts_settings() {
-?>
+	?>
 		<tr>
 			<td scope="row" colspan="2">
 				<input name="smbd_<?php echo $this->field_slug; ?>_no_posts" id="smbd_<?php echo $this->field_slug; ?>_no_posts" value="true" type="checkbox">
 				<?php _e( "Only if user doesn't have any post. Posts from 'post', 'page' & all custom post types would be considered.", 'bulk-delete' ); ?>
 			</td>
 		</tr>
-<?php
+	<?php
+		$dropdown_args = array(
+			'is_multi_value_select' => true,
+			'is_select_all_options' => true,
+			'style_attribute'       => 'width: 100px;',
+		);
+		bd_render_post_type_dropdown( $this->field_slug, $dropdown_args );
 	}
 }
