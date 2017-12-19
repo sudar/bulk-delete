@@ -5,10 +5,10 @@
 	<file>./</file>
 
  	<!-- Non code directories -->
+	<exclude-pattern>code-coverage/*</exclude-pattern>
+	<exclude-pattern>dist/*</exclude-pattern>
 	<exclude-pattern>docs/*</exclude-pattern>
  	<exclude-pattern>node_modules/*</exclude-pattern>
- 	<exclude-pattern>test/*</exclude-pattern>
- 	<exclude-pattern>tests/*</exclude-pattern>
  	<exclude-pattern>vendor/*</exclude-pattern>
  	<exclude-pattern>Gruntfile.js</exclude-pattern>
 
@@ -22,20 +22,46 @@
  	<exclude-pattern>assets/js/vendor/*</exclude-pattern>
  	<exclude-pattern>assets/js/*.min.js</exclude-pattern>
 
+	<!-- PHP Compatibility -->
+	<config name="testVersion" value="5.2-"/>
+	<rule ref="PHPCompatibility">
+		<exclude-pattern>tests/*</exclude-pattern>
+	</rule>
+
 	<!--Code-->
 	<rule ref="WordPress-Extra">
 		<!-- Exclude suggestion to use esc_html__() instead of _e() -->
 		<exclude name="WordPress.XSS.EscapeOutput.UnsafePrintingFunction"/>
 	</rule>
 
-	<!-- PHP Compatibility -->
-	<config name="testVersion" value="5.2-"/>
-        <rule ref="PHPCompatibility">
-	</rule>
-
 	<!--Docs-->
 	<rule ref="WordPress-Docs">
 		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
 		<exclude name="Squiz.Commenting.FileComment.Missing"/>
+	</rule>
+
+	<!-- Properties -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="bulk-delete" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array" value="bd,BD,Bulk_Delete" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.Variables.GlobalVariables">
+		<properties>
+			<property name="custom_test_class_whitelist" type="array" value="BWP_TestCase,BD_TestCase" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName">
+		<properties>
+			<property name="strict_class_file_names" value="false" />
+		</properties>
 	</rule>
 </ruleset>
