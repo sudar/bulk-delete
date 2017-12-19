@@ -1,7 +1,7 @@
 # Bulk Delete #
 **Contributors:** sudar  
 **Tags:** mass, bulk, delete, post, comment, draft, revision, page, user, meta fields  
-**Requires at least:** 3.9  
+**Requires at least:** 4.0
 **Tested up to:** 4.9  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
 **Stable tag:** 5.5.7  
