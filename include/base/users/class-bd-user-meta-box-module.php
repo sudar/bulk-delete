@@ -209,8 +209,10 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	?>
 		<tr>
 			<td scope="row" colspan="2">
-				<input name="smbd_<?php echo $this->field_slug; ?>_no_posts" id="smbd_<?php echo $this->field_slug; ?>_no_posts" value="true" type="checkbox">
-				<?php _e( "Only if user doesn't have any post. Posts from 'post', 'page' & all custom post types would be considered.", 'bulk-delete' ); ?>
+				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" value="true" type="checkbox">
+
+				<?php _e( "Restrict to users who don't have any posts.", 'bulk-delete' ); ?>
+				<?php _e( 'Select the post types. By default all post types are considered.', 'bulk-delete' ); ?>
 			</td>
 		</tr>
 	<?php
