@@ -170,8 +170,8 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 		<tr>
 			<td scope="row" colspan="2">
 			<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" value="true" type="checkbox">
-				<?php _e( 'Restrict to users who have registered at least ', 'bulk-delete' );?>
-				<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days ago', 'bulk-delete' );?>.
+				<?php _e( 'Restrict to users who are registered in the site for at least ', 'bulk-delete' );?>
+				<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days.', 'bulk-delete' );?>
 			</td>
 		</tr>
 
