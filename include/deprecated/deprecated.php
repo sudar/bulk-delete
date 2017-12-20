@@ -116,6 +116,10 @@ add_filter( 'bd_javascript_array', 'bd_enable_cron_for_old_addons' );
 if ( ! function_exists( 'array_get' ) ) {
 	/**
 	 * Deprecated. Use `bd_array_get`.
+	 *
+	 * @param mixed      $array
+	 * @param mixed      $key
+	 * @param null|mixed $default
 	 */
 	function array_get( $array, $key, $default = null ) {
 		return bd_array_get( $array, $key, $default );
@@ -125,9 +129,12 @@ if ( ! function_exists( 'array_get' ) ) {
 if ( ! function_exists( 'array_get_bool' ) ) {
 	/**
 	 * Deprecated. Use `bd_array_get_bool`.
+	 *
+	 * @param mixed $array
+	 * @param mixed $key
+	 * @param mixed $default
 	 */
 	function array_get_bool( $array, $key, $default = false ) {
 		return bd_array_get_bool( $array, $key, $default );
 	}
 }
-
