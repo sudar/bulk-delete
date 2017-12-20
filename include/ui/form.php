@@ -170,9 +170,7 @@ function bd_render_submit_button( $action ) {
  * @param string $slug The slug to be used in field names.
  */
 function bd_render_post_type_dropdown( $slug ) {
-	$types = get_post_types( array( '_builtin' => false ), 'names' );
-	array_unshift( $types, 'page' );
-	array_unshift( $types, 'post' );
+	$types = bd_get_post_types();
 ?>
 	<tr>
 		<td scope="row" >
@@ -184,6 +182,22 @@ function bd_render_post_type_dropdown( $slug ) {
 		</td>
 	</tr>
 <?php
+}
+
+/**
+ * Get the list of post type names that will be used in filters.
+ *
+ * @since 5.6.0
+ *
+ * @return array List of post types.
+ */
+function bd_get_post_types() {
+	$post_types = get_post_types( array( '_builtin' => false ), 'names' );
+
+	array_unshift( $post_types, 'page' );
+	array_unshift( $post_types, 'post' );
+
+	return $post_types;
 }
 
 /**
