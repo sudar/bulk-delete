@@ -43,6 +43,52 @@ function bd_delete_options_compatibility( $options ) {
 add_filter( 'bd_delete_options', 'bd_delete_options_compatibility' );
 
 /**
+ * Handle backward compatibility for Delete Posts by status delete options.
+ *
+ * Backward compatibility code. Will be removed in Bulk Delete v6.0.
+ *
+ * @since 5.6.0
+ *
+ * @param array $delete_options Delete Options.
+ *
+ * @return array Processed delete options.
+ */
+function bd_convert_old_options_for_delete_post_by_status( $delete_options ) {
+	// Format changed in 5.5.0.
+	if ( array_key_exists( 'post_status_op', $delete_options ) ) {
+		$delete_options['date_op'] = $delete_options['post_status_op'];
+		$delete_options['days']    = $delete_options['post_status_days'];
+	}
+
+	// Format changed in 5.6.0.
+	if ( isset( $delete_options['sticky'] ) ) {
+		if ( 'sticky' === $delete_options['sticky'] ) {
+			$delete_options['delete-sticky-posts'] = true;
+		} else {
+			$delete_options['delete-sticky-posts'] = false;
+		}
+	}
+
+	if ( ! isset( $delete_options['post_status'] ) ) {
+		$delete_options['post_status'] = array();
+	}
+
+	$old_statuses = array( 'publish', 'draft', 'pending', 'future', 'private' );
+
+	foreach ( $old_statuses as $old_status ) {
+		if ( isset( $delete_options[ $old_status ] ) ) {
+			$delete_options['post_status'][] = $old_status;
+		}
+	}
+
+	if ( isset( $delete_options['drafts'] ) && 'drafts' === $delete_options['drafts'] ) {
+		$delete_options['post_status'][] = 'draft';
+	}
+
+	return $delete_options;
+}
+
+/**
  * Enable cron for old pro addons that required separate JavaScript.
  * This will be removed in v6.0.
  *
