@@ -64,4 +64,10 @@
 			<property name="strict_class_file_names" value="false" />
 		</properties>
 	</rule>
+
+	<rule ref="WordPress.XSS.EscapeOutput">
+		<properties>
+			<property name="customAutoEscapedFunctions" type="array" value="__" />
+		</properties>
+	</rule>
 </ruleset>
