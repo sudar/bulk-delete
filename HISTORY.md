@@ -3,6 +3,7 @@
 ### v5.6.0 - (In Development) ###
 
 - New Features
+	- Added the ability to delete posts based on custom post status.
 	- Added the ability to filter delete users based on post count.
 
 - Enhancements
