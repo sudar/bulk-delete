@@ -195,10 +195,12 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 			</td>
 		</tr>
 
-		<tr>
-			<td scope="row" colspan="2">
-				<?php _e( 'Enter "0 days" to delete users who have never logged in after the "Simple Login Log" plugin has been installed.', 'bulk-delete' ); ?>
-		</tr>
+		<?php if ( bd_is_simple_login_log_present() ) : ?>
+			<tr>
+				<td scope="row" colspan="2">
+					<?php _e( 'Enter "0 days" to delete users who have never logged in after the "Simple Login Log" plugin has been installed.', 'bulk-delete' ); ?>
+			</tr>
+		<?php endif; ?>
 <?php
 	}
 
