@@ -201,6 +201,22 @@ function bd_get_post_types() {
 }
 
 /**
+ * Get the list of post type objects that will be used in filters.
+ *
+ * @since 5.6.0
+ *
+ * @return \WP_Post_Type[] List of post type objects.
+ */
+function bd_get_post_type_objects() {
+	$types = get_post_types( array( '_builtin' => false ), 'objects' );
+
+	$types['post'] = get_post_type_object( 'post' );
+	$types['page'] = get_post_type_object( 'page' );
+
+	return $types;
+}
+
+/**
  * Render the post status filter.
  *
  * @since 5.6.0

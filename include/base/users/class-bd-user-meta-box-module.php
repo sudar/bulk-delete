@@ -68,11 +68,10 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
 	protected function can_delete_by_post_count( $delete_options, $user ) {
-		if ( $delete_options['no_posts'] && count_user_posts( $user->ID, get_post_types( array( 'public' => true ) ) ) > 0 ) {
-			return false;
-		}
-
-		return true;
+		return ! (
+			$delete_options['no_posts'] &&
+			count_user_posts( $user->ID, $delete_options['no_posts_post_types'] ) > 0
+		);
 	}
 
 	/**
@@ -136,7 +135,10 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 
 	/**
 	 * Process user delete form.
+	 *
 	 * Helper function to handle common delete user fields.
+	 * Nonce verification is done in the hook that calls this function.
+	 * phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
 	 *
 	 * @since 5.5.3
 	 * @access protected
@@ -151,12 +153,12 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 		$delete_options['registered_days']     = absint( array_get( $_POST, "smbd_{$this->field_slug}_registered_days", 0 ) );
 
 		$delete_options['no_posts']            = array_get_bool( $_POST, "smbd_{$this->field_slug}_no_posts", false );
-		$delete_options['post_type']           = array_get( $_POST, "smbd_{$this->field_slug}_post_type", array() );
+		$delete_options['no_posts_post_types'] = bd_array_get( $_POST, "smbd_{$this->field_slug}_no_post_post_types", array() );
 
 		$delete_options['limit_to']            = absint( array_get( $_POST, "smbd_{$this->field_slug}_limit_to", 0 ) );
 
 		$this->process_delete( $delete_options );
-	}
+	} // phpcs:disable
 
 	/**
 	 * Render User Login restrict settings.
@@ -209,12 +211,56 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	?>
 		<tr>
 			<td scope="row" colspan="2">
-				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" value="true" type="checkbox">
+				<input type="checkbox" value="true"
+				       name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"
+				       id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts">
 
 				<?php _e( "Restrict to users who don't have any posts.", 'bulk-delete' ); ?>
+			</td>
+		</tr>
+
+		<tr>
+			<td scope="row" colspan="2">
 				<?php _e( 'Select the post types. By default all post types are considered.', 'bulk-delete' ); ?>
 			</td>
 		</tr>
+
+		<tr>
+			<td scope="row" colspan="2">
+				<?php $this->render_post_type_checkboxes( "smbd_{$this->field_slug}_no_post_post_types" ); ?>
+			</td>
+		</tr>
+
 	<?php
+	}
+
+	/**
+	 * Render Post Types as checkboxes.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param $name Name of post type checkboxes.
+	 */
+	protected function render_post_type_checkboxes( $name ) {
+		$post_types = bd_get_post_type_objects();
+		?>
+
+		<?php foreach( $post_types as $post_type ) : ?>
+
+		<tr>
+			<td>
+				<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[]" value="<?php echo esc_attr( $post_type->name ); ?>"
+					id="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>" checked>
+			</td>
+
+			<td>
+				<label for="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>">
+					<?php echo esc_html( $post_type->label ); ?>
+				</label>
+			</td>
+		</tr>
+
+		<?php endforeach; ?>
+		<?php
 	}
 }
