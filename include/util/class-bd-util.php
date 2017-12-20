@@ -238,7 +238,7 @@ function bd_array_get( $array, $key, $default = null ) {
  * @param string $key     Key, whose value to be retrieved.
  * @param bool   $default (Optional) Default value to be returned, if the key is not found.
  *
- * @return mixed Boolean converted Value if key is present, else the default value.
+ * @return bool Boolean converted Value if key is present, else the default value.
  */
 function bd_array_get_bool( $array, $key, $default = false ) {
 	return bd_to_bool( bd_array_get( $array, $key, $default ) );
