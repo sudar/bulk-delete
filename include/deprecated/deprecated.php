@@ -64,3 +64,24 @@ function bd_enable_cron_for_old_addons( $js_array ) {
 	return $js_array;
 }
 add_filter( 'bd_javascript_array', 'bd_enable_cron_for_old_addons' );
+
+// Deprecated functions.
+
+if ( ! function_exists( 'array_get' ) ) {
+	/**
+	 * Deprecated. Use `bd_array_get`.
+	 */
+	function array_get( $array, $key, $default = null ) {
+		return bd_array_get( $array, $key, $default );
+	}
+}
+
+if ( ! function_exists( 'array_get_bool' ) ) {
+	/**
+	 * Deprecated. Use `bd_array_get_bool`.
+	 */
+	function array_get_bool( $array, $key, $default = false ) {
+		return bd_array_get_bool( $array, $key, $default );
+	}
+}
+

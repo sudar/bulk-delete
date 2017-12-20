@@ -212,35 +212,36 @@ class BD_Util {
 	}
 }
 
-if ( ! function_exists( 'array_get' ) ) {
-	/**
-	 * Get a value from an array based on key.
-	 * If key is present returns the value, else returns the default value.
-	 *
-	 * @param array  $array   Array from which value has to be retrieved
-	 * @param string $key     Key, whose value to be retrieved
-	 * @param string $default Optional. Default value to be returned, if the key is not found
-	 *
-	 * @return mixed Value if key is present, else the default value
-	 */
-	function array_get( $array, $key, $default = null ) {
-		return isset( $array[ $key ] ) ? $array[ $key ] : $default;
-	}
+/**
+ * Get a value from an array based on key.
+ *
+ * If key is present returns the value, else returns the default value.
+ *
+ * @since 5.6.0 added `bd` prefix.
+ *
+ * @param array  $array   Array from which value has to be retrieved.
+ * @param string $key     Key, whose value to be retrieved.
+ * @param string $default Optional. Default value to be returned, if the key is not found.
+ *
+ * @return mixed Value if key is present, else the default value.
+ */
+function bd_array_get( $array, $key, $default = null ) {
+	return isset( $array[ $key ] ) ? $array[ $key ] : $default;
 }
 
-if ( ! function_exists( 'array_get_bool' ) ) {
-	/**
-	 * Get a value from an array based on key and convert it into bool.
-	 *
-	 * @param array  $array   Array from which value has to be retrieved
-	 * @param string $key     Key, whose value to be retrieved
-	 * @param bool   $default (Optional) Default value to be returned, if the key is not found
-	 *
-	 * @return mixed Boolean converted Value if key is present, else the default value
-	 */
-	function array_get_bool( $array, $key, $default = false ) {
-		return filter_var( array_get( $array, $key, $default ), FILTER_VALIDATE_BOOLEAN );
-	}
+/**
+ * Get a value from an array based on key and convert it into bool.
+ *
+ * @since 5.6.0 added `bd` prefix.
+ *
+ * @param array  $array   Array from which value has to be retrieved.
+ * @param string $key     Key, whose value to be retrieved.
+ * @param bool   $default (Optional) Default value to be returned, if the key is not found.
+ *
+ * @return mixed Boolean converted Value if key is present, else the default value.
+ */
+function bd_array_get_bool( $array, $key, $default = false ) {
+	return bd_to_bool( bd_array_get( $array, $key, $default ) );
 }
 
 /**
