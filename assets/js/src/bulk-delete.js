@@ -13,6 +13,18 @@ jQuery(document).ready(function () {
 	 */
 	jQuery( '.select2' ).select2();
 
+	jQuery( '.user_restrict_to_no_posts_filter' ).change( function() {
+		var $this = jQuery(this),
+			filterEnabled = $this.is( ':checked' ),
+		    $filterItems = $this.parents( 'table' ).children().find( '.user_restrict_to_no_posts_filter_items' );
+
+		if ( filterEnabled ) {
+			$filterItems.removeClass( 'visually-hidden' );
+		} else {
+			$filterItems.addClass( 'visually-hidden' );
+		}
+	} );
+
 	/**
 	 * Enable Postbox handling
 	 */

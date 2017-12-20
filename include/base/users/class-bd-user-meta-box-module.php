@@ -213,21 +213,23 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 			<td scope="row" colspan="2">
 				<input type="checkbox" value="true"
 				       name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"
-				       id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts">
+				       id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" class="user_restrict_to_no_posts_filter">
 
 				<?php _e( "Restrict to users who don't have any posts.", 'bulk-delete' ); ?>
 			</td>
 		</tr>
 
-		<tr>
+		<tr class="user_restrict_to_no_posts_filter_items visually-hidden">
 			<td scope="row" colspan="2">
-				<?php _e( 'Select the post types. By default all post types are considered.', 'bulk-delete' ); ?>
-			</td>
-		</tr>
+				<table class="filter-items">
+					<tr>
+						<td scope="row">
+							<?php _e( 'Select the post types. By default all post types are considered.', 'bulk-delete' ); ?>
+						</td>
+					</tr>
 
-		<tr>
-			<td scope="row" colspan="2">
-				<?php $this->render_post_type_checkboxes( "smbd_{$this->field_slug}_no_post_post_types" ); ?>
+					<?php $this->render_post_type_checkboxes( "smbd_{$this->field_slug}_no_post_post_types" ); ?>
+				</table>
 			</td>
 		</tr>
 
@@ -248,12 +250,10 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 		<?php foreach( $post_types as $post_type ) : ?>
 
 		<tr>
-			<td>
+			<td scope="row">
 				<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[]" value="<?php echo esc_attr( $post_type->name ); ?>"
 					id="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>" checked>
-			</td>
 
-			<td>
 				<label for="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>">
 					<?php echo esc_html( $post_type->label ); ?>
 				</label>
