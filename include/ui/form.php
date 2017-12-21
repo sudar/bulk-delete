@@ -232,8 +232,9 @@ function bd_render_post_status_filter( $slug, $selected = 'publish' ) {
 		<tr>
 			<td>
 				<label>
-					<input name="smbd_<?php echo esc_attr( $slug ); ?>_post_status" type="checkbox"
-						   value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $selected ); ?>>
+					<input name="smbd_<?php echo esc_attr( $slug ); ?>_post_status[]" type="checkbox"
+							value="<?php echo esc_attr( $key ); ?>" <?php checked( $key, $selected ); ?>>
+
 					<?php echo __( 'All', 'bulk-delete' ), ' ', esc_html( $value->label ), ' ', __( 'Posts', 'bulk-delete' ); ?>
 				</label>
 			</td>
