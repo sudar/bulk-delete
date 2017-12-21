@@ -5,6 +5,7 @@
 - New Features
 	- Added the ability to delete posts based on custom post status.
 	- Added the ability to filter delete users based on post count.
+	- Added the ability to filter the deletion of Jetpack contact messages using various filters.
 
 - Enhancements
 	- Now works in PHP version from 5.2 to 7.2
