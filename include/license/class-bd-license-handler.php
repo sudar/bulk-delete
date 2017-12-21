@@ -132,14 +132,12 @@ class BD_License_Handler {
 		if ( false == $license_code ) {
 			$this->notice_msg = sprintf( __( '"%1$s" addon is installed but not activated. To activate the addon, please <a href="%2$s">enter your license key</a>. If you don\'t have a license key, then you can <a href="%3$s" target="_blank">purchase one</a>.', 'bulk-delete' ), $this->addon_name, esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ), esc_url( $addon_url ) );
 		} else {
-			if ( BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
-				if ( false != $license_code ) {
-					$this->hook_updater( $license_code );
-				}
-			} else {
+			if ( ! BD_License::has_valid_license( $this->addon_name, $this->addon_code ) ) {
 				$this->notice_msg = sprintf( __( 'The license for "%1$s" addon is either invalid or has expired. Please <a href="%2$s" target="_blank">renew the license</a> or <a href="%3$s">enter a new license key</a> to receive updates and support.', 'bulk-delete' ), $this->addon_name, esc_url( $addon_url ), esc_url( get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::ADDON_PAGE_SLUG ) );
 			}
 		}
+
+		$this->hook_updater( $license_code );
 	}
 
 	/**
