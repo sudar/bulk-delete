@@ -330,7 +330,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	}
 
 	/**
-	 * Append filtering options to the delete feedback page
+	 * Append filtering options to the delete feedback page.
 	 *
 	 * @since 0.1
 	 * @static
@@ -390,13 +390,15 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	}
 
 	/**
-	 * Process additional delete options
+	 * Process additional delete options.
 	 *
 	 * @since  0.1
 	 * @static
-	 * @param  array $delete_options Delete options array
-	 * @param  array $post           The Post array
-	 * @return array                 Processed delete options array
+	 *
+	 * @param array $delete_options Delete options array
+	 * @param array $post           The Post array
+	 *
+	 * @return array Processed delete options array
 	 */
 	public static function process_filtering_options( $delete_options, $post ) {
 		$filters = array();
@@ -406,24 +408,28 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 				if( 'true' == array_get( $post, "smbd_feedback_author_{$filter_name}_filter", 'false' ) ) {
 					$filters[$filter_name] = array(
 						'op'    => array_get( $post, "smbd_feedback_author_{$filter_name}_op", 'is' ),
-						'value' => array_get( $post, "smbd_feedback_author_{$filter_name}_value", '' )
+						'value' => array_get( $post, "smbd_feedback_author_{$filter_name}_value", '' ),
 					);
 				}
 			}
 		}
 
 		$delete_options['filters'] = $filters;
+
 		return $delete_options;
 	}
 
 	/**
-	 * Whether the current message should be deleted based on user selection
+	 * Whether the current message should be deleted based on user selection.
 	 *
 	 * @static
+	 *
 	 * @since  0.1
-	 * @param  array $delete_options List of options chosen by the user
-	 * @param  int   $post_id        Post id
-	 * @return bool                  True if the message should be deleted, False otherwise
+	 *
+	 * @param array $delete_options List of options chosen by the user
+	 * @param int   $post_id        Post id
+	 *
+	 * @return bool True if the message should be deleted, False otherwise
 	 */
 	public static function can_delete( $delete_options, $post_id ) {
 		$can_delete = false;
@@ -449,15 +455,17 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 				}
 			}
 		}
+
 		return $can_delete;
 	}
 
 	/**
-	 * Hook handler
+	 * Hook handler.
 	 *
 	 * @since 0.1
 	 * @static
-	 * @param  array $delete_options Delete options array
+	 *
+	 * @param array $delete_options Delete options array
 	 */
 	public static function do_delete_jetpack_messages_cron( $delete_options ) {
 		do_action( 'bd_before_scheduler', self::CRON_NAME );
