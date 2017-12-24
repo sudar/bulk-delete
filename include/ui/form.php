@@ -277,3 +277,21 @@ function bd_get_post_statuses() {
 	 */
 	return apply_filters( 'bd_post_statuses', $post_statuses );
 }
+
+/**
+ * Generate help tooltip and append it to existing markup.
+ *
+ * @param string $markup  Existing markup.
+ * @param string $content Tooltip content.
+ *
+ * @return string Markup with tooltip markup appended to it.
+ */
+function bd_generate_help_tooltip( $markup, $content ) {
+	if ( empty( $content ) ) {
+		return $markup;
+	}
+
+	$tooltip = '<span alt="f223" class="bd-help dashicons dashicons-editor-help" title="' . $content . '"></span>';
+
+	return $markup . $tooltip;
+}
