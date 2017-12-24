@@ -16,6 +16,8 @@ jQuery(document).ready(function () {
 	// Start Jetpack.
 	BulkWP.jetpack();
 
+	BulkWP.enableHelpTooltips( jQuery( '.bd-help' ) );
+
 	jQuery( '.user_restrict_to_no_posts_filter' ).change( function() {
 		var $this = jQuery(this),
 			filterEnabled = $this.is( ':checked' ),
@@ -235,5 +237,24 @@ BulkWP.jetpack = function() {
 				jQuery('#smbd_feedback_author_' + value + '_value').attr('disabled', 'true');
 			}
 		});
+	});
+};
+
+BulkWP.enableHelpTooltips = function ( $selector ) {
+	$selector.tooltip({
+		content: function() {
+			return jQuery(this).prop('title');
+		},
+		position: {
+			my: 'center top',
+			at: 'center bottom+10',
+			collision: 'flipfit'
+		},
+		hide: {
+			duration: 200
+		},
+		show: {
+			duration: 200
+		}
 	});
 };

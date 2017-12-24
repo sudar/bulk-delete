@@ -302,6 +302,8 @@ final class Bulk_Delete {
 		$this->controller = new BD_Controller();
 
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
+
+		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
 	}
 
 	/**
@@ -454,7 +456,7 @@ final class Bulk_Delete {
 		wp_enqueue_style( 'select2', plugins_url( '/assets/css/select2.min.css', __FILE__ ), array(), '4.0.0' );
 
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/assets/js/bulk-delete' . $postfix . '.js', __FILE__ ), array( 'jquery-ui-timepicker' ), self::VERSION, true );
+		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/assets/js/bulk-delete' . $postfix . '.js', __FILE__ ), array( 'jquery-ui-timepicker', 'jquery-ui-tooltip' ), self::VERSION, true );
 		wp_enqueue_style( self::CSS_HANDLE, plugins_url( '/assets/css/bulk-delete' . $postfix . '.css', __FILE__ ), array( 'select2' ), self::VERSION );
 
 		$ui  = $wp_scripts->query( 'jquery-ui-core' );
