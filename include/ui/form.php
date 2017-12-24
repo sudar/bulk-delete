@@ -281,7 +281,7 @@ function bd_get_post_statuses() {
 /**
  * Generate help tooltip and append it to existing markup.
  *
- * @param string $markup Existing markup.
+ * @param string $markup  Existing markup.
  * @param string $content Tooltip content.
  *
  * @return string Markup with tooltip markup appended to it.
