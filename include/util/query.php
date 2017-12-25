@@ -82,8 +82,11 @@ function bd_query( $options ) {
 	 * This action runs before the query happens.
 	 *
 	 * @since 5.5
+	 * @since 5.6 added $wp_query param.
+	 *
+	 * @param \WP_Query $wp_query Query object.
 	 */
-	do_action( 'bd_before_query' );
+	do_action( 'bd_before_query', $wp_query );
 
 	$posts = $wp_query->query( $options );
 
@@ -91,8 +94,11 @@ function bd_query( $options ) {
 	 * This action runs after the query happens.
 	 *
 	 * @since 5.5
+	 * @since 5.6 added $wp_query param.
+	 *
+	 * @param \WP_Query $wp_query Query object.
 	 */
-	do_action( 'bd_after_query' );
+	do_action( 'bd_after_query', $wp_query );
 
 	return $posts;
 }
