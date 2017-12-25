@@ -304,6 +304,34 @@ final class Bulk_Delete {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 
 		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
+
+		if ( defined( 'BD_DEBUG' ) && BD_DEBUG ) {
+			add_action( 'bd_after_query', array( $this, 'log_sql_query' ) );
+		}
+	}
+
+	/**
+	 * Log SQL query used by Bulk Delete.
+	 *
+	 * Query is logged only when `BD_DEBUG` is set.
+	 *
+	 * @since 5.6
+	 *
+	 * @param \WP_Query $wp_query WP Query object.
+	 */
+	public function log_sql_query( $wp_query ) {
+		$query = $wp_query->request;
+
+		/**
+		 * Bulk Delete query is getting logged.
+		 *
+		 * @since 5.6
+		 *
+		 * @param string $query Bulk Delete SQL Query.
+		 */
+		do_action( 'bd_log_sql_query', $query );
+
+		error_log( 'Bulk Delete Query: ' . $query );
 	}
 
 	/**
