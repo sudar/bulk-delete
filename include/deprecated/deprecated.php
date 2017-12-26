@@ -119,7 +119,7 @@ if ( ! function_exists( 'array_get' ) ) {
 	 *
 	 * @param mixed      $array
 	 * @param mixed      $key
-	 * @param null|mixed $default
+	 * @param mixed|null $default
 	 */
 	function array_get( $array, $key, $default = null ) {
 		return bd_array_get( $array, $key, $default );
