@@ -1,26 +1,28 @@
 <?php
 /**
- * Utility class for deleting pages
+ * Utility class for deleting pages.
  *
  * @since   5.0
+ *
  * @author  Sudar
+ *
  * @package BulkDelete
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Pages {
-
 	/**
-	 * Render delete pages by page status box
+	 * Render delete pages by page status box.
 	 *
 	 * @access public
 	 * @static
+	 *
 	 * @since  5.0
 	 */
 	public static function render_delete_pages_by_status_box() {
 		if ( BD_Util::is_pages_box_hidden( Bulk_Delete::BOX_PAGE_STATUS ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::PAGES_PAGE_SLUG );
+
 			return;
 		}
 
@@ -87,7 +89,7 @@ class Bulk_Delete_Pages {
 	}
 
 	/**
-	 * Request handler for deleting pages by status
+	 * Request handler for deleting pages by status.
 	 *
 	 * @since 5.0
 	 */
@@ -119,7 +121,7 @@ class Bulk_Delete_Pages {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_pages_by_status( $delete_options );
-			$msg = sprintf( _n( 'Deleted %d page', 'Deleted %d pages' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted %d page', 'Deleted %d pages' , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -131,11 +133,13 @@ class Bulk_Delete_Pages {
 	}
 
 	/**
-	 * Bulk Delete pages
+	 * Bulk Delete pages.
 	 *
 	 * @since 5.0
+	 *
 	 * @param array $delete_options
-	 * @return integer
+	 *
+	 * @return int
 	 */
 	public static function delete_pages_by_status( $delete_options ) {
 		global $wp_query;
@@ -180,7 +184,7 @@ class Bulk_Delete_Pages {
 		);
 
 		$options = bd_build_query_options( $delete_options, $options );
-		$pages = $wp_query->query( $options );
+		$pages   = $wp_query->query( $options );
 		foreach ( $pages as $page ) {
 			wp_delete_post( $page->ID, $delete_options['force_delete'] );
 		}
@@ -189,15 +193,18 @@ class Bulk_Delete_Pages {
 	}
 
 	/**
-	 * Filter JS Array and add validation hooks
+	 * Filter JS Array and add validation hooks.
 	 *
 	 * @since 5.4
 	 * @static
-	 * @param array   $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public static function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][] = '_pages';
+
 		return $js_array;
 	}
 }

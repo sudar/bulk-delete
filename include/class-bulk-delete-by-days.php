@@ -13,4 +13,3 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // include the correct file
 require_once Bulk_Delete::$PLUGIN_DIR . '/include/util/class-bulk-delete-by-days.php';
-?>

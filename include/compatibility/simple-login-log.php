@@ -3,18 +3,20 @@
  * Code to enable compatibility with other plugins.
  *
  * @since 5.5
+ *
  * @author Sudar
+ *
  * @package BulkDelete\Util\Compatibility
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
  * Find out if Simple Login Log is installed or not.
- * http://wordpress.org/plugins/simple-login-log/
+ * http://wordpress.org/plugins/simple-login-log/.
  *
  * @since 5.5
- * @return bool    True if plugin is installed, False otherwise
+ *
+ * @return bool True if plugin is installed, False otherwise
  */
 function bd_is_simple_login_log_present() {
 	global $wpdb;
@@ -27,7 +29,9 @@ function bd_is_simple_login_log_present() {
  * Find the last login date/time of a user.
  *
  * @since 5.5
+ *
  * @param int $user_id
+ *
  * @return string
  */
 function bd_get_last_login( $user_id ) {
@@ -37,4 +41,3 @@ function bd_get_last_login( $user_id ) {
 
 	return $wpdb->get_var( $wpdb->prepare( "SELECT time FROM {$wpdb->prefix}{$simple_login_log_table} WHERE uid = %d ORDER BY time DESC LIMIT 1", $user_id ) );
 }
-?>

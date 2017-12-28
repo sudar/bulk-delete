@@ -3,10 +3,11 @@
  * Utility and wrapper functions for WP_Query.
  *
  * @since      5.5
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Util
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -60,8 +61,10 @@ function bd_build_query_options( $delete_options, $options = array() ) {
  * Adds some performance enhancing defaults.
  *
  * @since  5.5
- * @param  array $options List of options
- * @return array          Result array
+ *
+ * @param array $options List of options
+ *
+ * @return array Result array
  */
 function bd_query( $options ) {
 	$defaults = array(
@@ -79,8 +82,11 @@ function bd_query( $options ) {
 	 * This action runs before the query happens.
 	 *
 	 * @since 5.5
+	 * @since 5.6 added $wp_query param.
+	 *
+	 * @param \WP_Query $wp_query Query object.
 	 */
-	do_action( 'bd_before_query' );
+	do_action( 'bd_before_query', $wp_query );
 
 	$posts = $wp_query->query( $options );
 
@@ -88,9 +94,11 @@ function bd_query( $options ) {
 	 * This action runs after the query happens.
 	 *
 	 * @since 5.5
+	 * @since 5.6 added $wp_query param.
+	 *
+	 * @param \WP_Query $wp_query Query object.
 	 */
-	do_action( 'bd_after_query' );
+	do_action( 'bd_after_query', $wp_query );
 
 	return $posts;
 }
-?>

@@ -3,10 +3,11 @@
  * Addons related util functions.
  *
  * @since      5.5
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Addon
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -15,6 +16,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  * @since 5.5
  *
  * @param string $addon_name Name of the addon.
+ *
  * @return string Computed class name for the addon.
  */
 function bd_get_addon_class_name( $addon_name ) {
@@ -32,7 +34,7 @@ function bd_get_addon_class_name( $addon_name ) {
 	 * @since 5.5
 	 *
 	 * @param string $addon_class_name Addon class name
-	 * @param string $addon_name Addon name
+	 * @param string $addon_name       Addon name
 	 */
 	return apply_filters( 'bd_addon_class_name', $addon_class_name, $addon_name );
 }
@@ -42,12 +44,13 @@ function bd_get_addon_class_name( $addon_name ) {
  *
  * @since 5.5
  *
- * @param  string $addon_name    Name of the addon.
- * @param  array  $campaign_args Campaign_args. Default empty array
- * @return string                Computed url for the addon.
+ * @param string $addon_name    Name of the addon.
+ * @param array  $campaign_args Campaign_args. Default empty array
+ *
+ * @return string Computed url for the addon.
  */
 function bd_get_addon_url( $addon_name, $campaign_args = array() ) {
-	$base = 'http://bulkwp.com/addons/';
+	$base       = 'http://bulkwp.com/addons/';
 	$addon_slug = str_replace( ' ', '-', strtolower( $addon_name ) );
 
 	if ( false !== strpos( $addon_name, 'scheduler' ) ) {
@@ -62,10 +65,9 @@ function bd_get_addon_url( $addon_name, $campaign_args = array() ) {
 	 *
 	 * @since 5.5
 	 *
-	 * @param string $addon_name Addon name
-	 * @param string $addon_url Addon url
+	 * @param string $addon_name    Addon name
+	 * @param string $addon_url     Addon url
 	 * @param array  $campaign_args Campaign_args. Default empty array
 	 */
 	return apply_filters( 'bd_addon_url', $addon_url, $addon_name, $campaign_args );
 }
-?>

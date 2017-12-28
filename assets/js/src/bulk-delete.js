@@ -13,6 +13,23 @@ jQuery(document).ready(function () {
 	 */
 	jQuery( '.select2' ).select2();
 
+	// Start Jetpack.
+	BulkWP.jetpack();
+
+	BulkWP.enableHelpTooltips( jQuery( '.bd-help' ) );
+
+	jQuery( '.user_restrict_to_no_posts_filter' ).change( function() {
+		var $this = jQuery(this),
+			filterEnabled = $this.is( ':checked' ),
+		    $filterItems = $this.parents( 'table' ).children().find( '.user_restrict_to_no_posts_filter_items' );
+
+		if ( filterEnabled ) {
+			$filterItems.removeClass( 'visually-hidden' );
+		} else {
+			$filterItems.addClass( 'visually-hidden' );
+		}
+	} );
+
 	/**
 	 * Enable Postbox handling
 	 */
@@ -64,6 +81,18 @@ jQuery(document).ready(function () {
 		}
 	}
 
+    /**
+     * Toggle Post type dropdown.
+     */
+    function toggle_post_type_dropdown( el ) {
+        // TODO: Check why the element is not toggling even when display:none is added by JS.
+        if ( jQuery( "#smbd" + el + "_no_posts" ).is( ":checked" ) ) {
+            jQuery( "tr#smbd" + el + "-post-type-dropdown" ).show();
+        } else {
+            jQuery( "tr#smbd" + el + "-post-type-dropdown" ).hide();
+        }
+    }
+
 	// hide all terms
 	function hideAllTerms() {
 		jQuery('table.terms').hide();
@@ -105,6 +134,10 @@ jQuery(document).ready(function () {
 
 		jQuery('#smbd' + value + '_registered_restrict').change(function () {
 			toggle_registered_restrict(value);
+		});
+
+		jQuery( '#smbd' + value + '_no_posts' ).change( function () {
+			toggle_post_type_dropdown( value );
 		});
 	});
 
@@ -168,11 +201,60 @@ jQuery(document).ready(function () {
 		}
 	};
 
-    BulkWP.validateUserMeta = function() {
-        if (jQuery('#smbd_u_meta_value').val() !== '') {
-            return true;
-        } else {
-            return false;
-        }
-    };
+	BulkWP.validateUserMeta = function() {
+		if (jQuery('#smbd_u_meta_value').val() !== '') {
+			return true;
+		} else {
+			return false;
+		}
+	};
 });
+
+BulkWP.jetpack = function() {
+	jQuery('.bd-feedback-pro').hide();
+
+	jQuery('#smbd_feedback_cron_freq, #smbd_feedback_cron_start, #smbd_feedback_cron').removeAttr('disabled');
+	jQuery('#smbd_feedback_use_filter').removeAttr('disabled');
+
+	// enable filters
+	jQuery('input[name="smbd_feedback_use_filter"]').change(function() {
+		if('true' === jQuery(this).val()) {
+			// using filters
+			jQuery('#jetpack-filters').show();
+		} else {
+			jQuery('#jetpack-filters').hide();
+		}
+	});
+
+	// enable individual filters
+	jQuery.each(['name', 'email', 'ip'], function (index, value) {
+		jQuery('#smbd_feedback_author_' + value + '_filter').change(function() {
+			if(jQuery(this).is(':checked')) {
+				jQuery('#smbd_feedback_author_' + value + '_op').removeAttr('disabled');
+				jQuery('#smbd_feedback_author_' + value + '_value').removeAttr('disabled');
+			} else {
+				jQuery('#smbd_feedback_author_' + value + '_op').attr('disabled', 'true');
+				jQuery('#smbd_feedback_author_' + value + '_value').attr('disabled', 'true');
+			}
+		});
+	});
+};
+
+BulkWP.enableHelpTooltips = function ( $selector ) {
+	$selector.tooltip({
+		content: function() {
+			return jQuery(this).prop('title');
+		},
+		position: {
+			my: 'center top',
+			at: 'center bottom+10',
+			collision: 'flipfit'
+		},
+		hide: {
+			duration: 200
+		},
+		show: {
+			duration: 200
+		}
+	});
+};

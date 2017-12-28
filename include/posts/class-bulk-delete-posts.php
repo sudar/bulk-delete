@@ -1,132 +1,119 @@
 <?php
 /**
- * Utility class for deleting posts
+ * Utility class for deleting posts.
  *
  * @author     Sudar
+ *
  * @package    BulkDelete
  */
-
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 class Bulk_Delete_Posts {
 	/**
-	 * Render post status box
+	 * Render post status box.
 	 */
 	public static function render_delete_posts_by_status_box() {
-
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_STATUS ) ) {
+			/* translators: 1 Number of posts that are deleted. */
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 			return;
 		}
 
-		$posts_count = wp_count_posts();
-		$publish     = $posts_count->publish;
-		$drafts      = $posts_count->draft;
-		$future      = $posts_count->future;
-		$pending     = $posts_count->pending;
-		$private     = $posts_count->private;
-
-		$sticky      = count( get_option( 'sticky_posts' ) );
+		$post_statuses = bd_get_post_statuses();
+		$post_count    = wp_count_posts();
 ?>
-        <h4><?php _e( 'Select the post status from which you want to delete posts', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the post statuses from which you want to delete posts', 'bulk-delete' ); ?></h4>
 
-        <fieldset class="options">
-        <table class="optiontable">
-            <tr>
-                <td>
-                    <input name="smbd_publish" id="smbd_publish" value="publish" type="checkbox">
-                    <label for="smbd_publish"><?php _e( 'All Published Posts', 'bulk-delete' ); ?> (<?php echo $publish . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
-                </td>
-            </tr>
+		<fieldset class="options">
+		<table class="optiontable">
 
-            <tr>
-                <td scope="row">
-                    <input name="smbd_drafts" id="smbd_drafts" value="drafts" type="checkbox">
-                    <label for="smbd_drafts"><?php _e( 'All Draft Posts', 'bulk-delete' ); ?> (<?php echo $drafts . ' '; _e( 'Drafts', 'bulk-delete' ); ?>)</label>
-                </td>
-            </tr>
+			<?php foreach ( $post_statuses as $post_status ) : ?>
+				<tr>
+					<td>
+						<input name="smbd_post_status[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
+							value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
 
-            <tr>
-                <td>
-                    <input name="smbd_pending" id="smbd_pending" value="pending" type="checkbox">
-                    <label for="smbd_pending"><?php _e( 'All Pending Posts', 'bulk-delete' ); ?> (<?php echo $pending . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
-                </td>
-            </tr>
+						<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
+							<?php echo esc_html( $post_status->label ), ' '; ?>
+							<?php if ( property_exists( $post_count, $post_status->name ) ) : ?>
+								(<?php echo absint( $post_count->{ $post_status->name } ) . ' ', __( 'Posts', 'bulk-delete' ); ?>)
+							<?php endif; ?>
+						</label>
+					</td>
+				</tr>
+			<?php endforeach; ?>
 
-            <tr>
-                <td>
-                    <input name="smbd_future" id="smbd_future" value="future" type="checkbox">
-                    <label for="smbd_future"><?php _e( 'All Scheduled Posts', 'bulk-delete' ); ?> (<?php echo $future . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
-                </td>
-            </tr>
+			<?php $sticky_post_count = count( get_option( 'sticky_posts' ) ); ?>
 
-            <tr>
-                <td>
-                    <input name="smbd_private" id="smbd_private" value="private" type="checkbox">
-                    <label for="smbd_private"><?php _e( 'All Private Posts', 'bulk-delete' ); ?> (<?php echo $private . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input name="smbd_sticky" id="smbd_sticky" value="sticky" type="checkbox">
+			<tr>
+				<td>
+					<input name="smbd_sticky" id="smbd_sticky" value="on" type="checkbox">
 					<label for="smbd_sticky">
-						<?php _e( 'All Sticky Posts', 'bulk-delete' ); ?> (<?php echo $sticky . ' '; _e( 'Posts', 'bulk-delete' ); ?>)
+						<?php echo __( 'All Sticky Posts', 'bulk-delete' ), ' '; ?>
+						(<?php echo absint( $sticky_post_count ), ' ', __( 'Posts', 'bulk-delete' ); ?>)
 						<?php echo '<strong>', __( 'Note', 'bulk-delete' ), '</strong>: ', __( 'The date filter will not work for sticky posts', 'bulk-delete' ); ?>
 					</label>
-                </td>
-            </tr>
+				</td>
+			</tr>
+
 		</table>
 
-        <table class="optiontable">
+		<table class="optiontable">
 			<?php bd_render_filtering_table_header(); ?>
 			<?php bd_render_restrict_settings( 'post_status' ); ?>
 			<?php bd_render_delete_settings( 'post_status' ); ?>
 			<?php bd_render_limit_settings( 'post_status' ); ?>
 			<?php bd_render_cron_settings( 'post_status', 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sps' ); ?>
-        </table>
+		</table>
 
-        </fieldset>
+		</fieldset>
 <?php
 		bd_render_submit_button( 'delete_posts_by_status' );
 	}
 
 	/**
-	 * Delete posts by post status
+	 * Delete posts by post status.
 	 *
 	 * @since 5.0
 	 * @static
+	 *
+	 * Nonce verification is done in the hook that calls this function.
+	 * phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
 	 */
 	public static function do_delete_posts_by_status() {
-		$delete_options                 = array();
-		$delete_options['restrict']     = array_get_bool( $_POST, 'smbd_post_status_restrict', false );
-		$delete_options['limit_to']     = absint( array_get( $_POST, 'smbd_post_status_limit_to', 0 ) );
-		$delete_options['force_delete'] = array_get_bool( $_POST, 'smbd_post_status_force_delete', false );
+		$delete_options = array();
 
-		$delete_options['date_op']      = array_get( $_POST, 'smbd_post_status_op' );
-		$delete_options['days']         = absint( array_get( $_POST, 'smbd_post_status_days' ) );
+		$delete_options['restrict']     = bd_array_get_bool( $_POST, 'smbd_post_status_restrict', false );
+		$delete_options['limit_to']     = absint( bd_array_get( $_POST, 'smbd_post_status_limit_to', 0 ) );
+		$delete_options['force_delete'] = bd_array_get_bool( $_POST, 'smbd_post_status_force_delete', false );
 
-		$delete_options['publish']      = array_get( $_POST, 'smbd_publish' );
-		$delete_options['drafts']       = array_get( $_POST, 'smbd_drafts' );
-		$delete_options['pending']      = array_get( $_POST, 'smbd_pending' );
-		$delete_options['future']       = array_get( $_POST, 'smbd_future' );
-		$delete_options['private']      = array_get( $_POST, 'smbd_private' );
-		$delete_options['sticky']       = array_get( $_POST, 'smbd_sticky' );
+		$delete_options['date_op'] = bd_array_get( $_POST, 'smbd_post_status_op' );
+		$delete_options['days']    = absint( bd_array_get( $_POST, 'smbd_post_status_days' ) );
 
-		if ( array_get( $_POST, 'smbd_post_status_cron', 'false' ) == 'true' ) {
-			$freq = $_POST['smbd_post_status_cron_freq'];
+		$delete_options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $_POST, 'smbd_post_status', array() ) );
+
+		$delete_options['delete-sticky-posts'] = bd_array_get_bool( $_POST, 'smbd_sticky', false );
+
+		if ( bd_array_get_bool( $_POST, 'smbd_post_status_cron', false ) ) {
+			$freq = sanitize_text_field( $_POST['smbd_post_status_cron_freq'] );
 			$time = strtotime( $_POST['smbd_post_status_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
-			if ( $freq == -1 ) {
+			if ( -1 === $freq ) {
 				wp_schedule_single_event( $time, Bulk_Delete::CRON_HOOK_POST_STATUS, array( $delete_options ) );
 			} else {
 				wp_schedule_event( $time, $freq, Bulk_Delete::CRON_HOOK_POST_STATUS, array( $delete_options ) );
 			}
-			$msg = __( 'Posts with the selected status are scheduled for deletion.', 'bulk-delete' ) . ' ' .
-				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
+
+			$msg = __( 'Posts with the selected status are scheduled for deletion.', 'bulk-delete' ) . ' ';
+
+			/* translators: 1 Url to view cron jobs */
+			$msg .= sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>', 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_posts_by_status( $delete_options );
-			$msg = sprintf( _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status' , $deleted_count, 'bulk-delete' ), $deleted_count );
+
+			/* translators: 1 Number of posts deleted */
+			$msg = sprintf( _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -135,7 +122,7 @@ class Bulk_Delete_Posts {
 			$msg,
 			'updated'
 		);
-	}
+	} // phpcs:enable
 
 	/**
 	 * Delete posts by post status - drafts, pending posts, scheduled posts etc.
@@ -143,82 +130,67 @@ class Bulk_Delete_Posts {
 	 * @since  5.0
 	 * @static
 	 *
-	 * @param array $delete_options Options for deleting posts
-	 * @return int  $posts_deleted  Number of posts that were deleted
+	 * @param array $delete_options Options for deleting posts.
+	 *
+	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_status( $delete_options ) {
-		global $wpdb;
-
-		// Backward compatibility code. Will be removed in Bulk Delete v6.0
-		if ( array_key_exists( 'post_status_op', $delete_options ) ) {
-			$delete_options['date_op'] = $delete_options['post_status_op'];
-			$delete_options['days']    = $delete_options['post_status_days'];
-		}
-
+		$delete_options = bd_convert_old_options_for_delete_post_by_status( $delete_options );
 		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$posts_deleted = 0;
 
-		// Delete sticky posts
-		if ( 'sticky' == $delete_options['sticky'] ) {
-			$sticky_post_ids = get_option( 'sticky_posts' );
-
-			foreach ( $sticky_post_ids as $sticky_post_id ) {
-				wp_delete_post( $sticky_post_id, $delete_options['force_delete'] );
-			}
-
-			$posts_deleted += count( $sticky_post_ids );
+		if ( $delete_options['delete-sticky-posts'] ) {
+			$posts_deleted += self::delete_sticky_posts( $delete_options['force_delete'] );
 		}
 
-		$options = array();
-		$post_status = array();
-
-		// Published posts
-		if ( 'publish' == $delete_options['publish'] ) {
-			$post_status[] = 'publish';
+		if ( empty( $delete_options['post_status'] ) ) {
+			return $posts_deleted;
 		}
 
-		// Drafts
-		if ( 'drafts' == $delete_options['drafts'] ) {
-			$post_status[] = 'draft';
+		$options = array(
+			'post_status'  => $delete_options['post_status'],
+			'post__not_in' => get_option( 'sticky_posts' ),
+		);
 
-			// ignore sticky posts.
-			// For some reason, sticky posts also gets deleted when deleting drafts through a schedule
-			$options['post__not_in'] = get_option( 'sticky_posts' );
-		}
-
-		// Pending Posts
-		if ( 'pending' == $delete_options['pending'] ) {
-			$post_status[] = 'pending';
-		}
-
-		// Future Posts
-		if ( 'future' == $delete_options['future'] ) {
-			$post_status[] = 'future';
-		}
-
-		// Private Posts
-		if ( 'private' == $delete_options['private'] ) {
-			$post_status[] = 'private';
-		}
-
-		$options['post_status'] = $post_status;
 		$options = bd_build_query_options( $delete_options, $options );
+
 		$post_ids = bd_query( $options );
 		foreach ( $post_ids as $post_id ) {
 			wp_delete_post( $post_id, $delete_options['force_delete'] );
 		}
 
 		$posts_deleted += count( $post_ids );
+
 		return $posts_deleted;
 	}
 
 	/**
-	 * Render Delete posts by category box
+	 * Delete all sticky posts.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param bool $force_delete Whether to force delete the posts.
+	 *
+	 * @return int Number of posts deleted.
+	 */
+	public static function delete_sticky_posts( $force_delete ) {
+		$sticky_post_ids = get_option( 'sticky_posts' );
+
+		foreach ( $sticky_post_ids as $sticky_post_id ) {
+			wp_delete_post( $sticky_post_id, $force_delete );
+		}
+
+		return count( $sticky_post_ids );
+	}
+
+	/**
+	 * Render Delete posts by category box.
 	 */
 	public static function render_delete_posts_by_category_box() {
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_CATEGORY ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 			return;
 		}
 ?>
@@ -265,7 +237,7 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Process delete posts by category
+	 * Process delete posts by category.
 	 *
 	 * @since 5.0
 	 * @static
@@ -297,7 +269,7 @@ class Bulk_Delete_Posts {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_posts_by_category( $delete_options );
-			$msg = sprintf( _n( 'Deleted %d post from the selected categories', 'Deleted %d posts from the selected categories' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted %d post from the selected categories', 'Deleted %d posts from the selected categories' , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -309,12 +281,14 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Delete posts by category
+	 * Delete posts by category.
 	 *
 	 * @since 5.0
 	 * @static
-	 * @param array  $delete_options Options for deleting posts
-	 * @return int   $posts_deleted  Number of posts that were deleted
+	 *
+	 * @param array $delete_options Options for deleting posts
+	 *
+	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_category( $delete_options ) {
 		// Backward compatibility code. Will be removed in Bulk Delete v6.0
@@ -327,7 +301,7 @@ class Bulk_Delete_Posts {
 
 		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
-		$options = array();
+		$options       = array();
 		$selected_cats = $delete_options['selected_cats'];
 		if ( in_array( 'all', $selected_cats ) ) {
 			$options['category__not__in'] = array(0);
@@ -335,7 +309,7 @@ class Bulk_Delete_Posts {
 			$options['category__in'] = $selected_cats;
 		}
 
-		$options = bd_build_query_options( $delete_options, $options );
+		$options  = bd_build_query_options( $delete_options, $options );
 		$post_ids = bd_query( $options );
 
 		foreach ( $post_ids as $post_id ) {
@@ -351,11 +325,12 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Render delete posts by tag box
+	 * Render delete posts by tag box.
 	 */
 	public static function render_delete_posts_by_tag_box() {
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_TAG ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 			return;
 		}
 
@@ -398,9 +373,10 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Process Delete Posts by tag request
+	 * Process Delete Posts by tag request.
 	 *
 	 * @static
+	 *
 	 * @since 5.0
 	 */
 	public static function do_delete_posts_by_tag() {
@@ -427,7 +403,7 @@ class Bulk_Delete_Posts {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_posts_by_tag( $delete_options );
-			$msg = sprintf( _n( 'Deleted %d post from the selected tags', 'Deleted %d posts from the selected tags' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted %d post from the selected tags', 'Deleted %d posts from the selected tags' , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -439,12 +415,14 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Delete posts by tag
+	 * Delete posts by tag.
 	 *
 	 * @since 5.0
 	 * @static
-	 * @param  array $delete_options Options for deleting posts
-	 * @return int   $posts_deleted  Number of posts that were deleted
+	 *
+	 * @param array $delete_options Options for deleting posts
+	 *
+	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_tag( $delete_options ) {
 		// Backward compatibility code. Will be removed in Bulk Delete v6.0
@@ -455,7 +433,7 @@ class Bulk_Delete_Posts {
 
 		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
-		$options = array();
+		$options       = array();
 		$selected_tags = $delete_options['selected_tags'];
 		if ( in_array( 'all', $selected_tags ) ) {
 			$options['tag__not__in'] = array(0);
@@ -463,7 +441,7 @@ class Bulk_Delete_Posts {
 			$options['tag__in'] = $selected_tags;
 		}
 
-		$options = bd_build_query_options( $delete_options, $options );
+		$options  = bd_build_query_options( $delete_options, $options );
 		$post_ids = bd_query( $options );
 		foreach ( $post_ids as $post_id ) {
 			wp_delete_post( $post_id, $delete_options['force_delete'] );
@@ -478,12 +456,13 @@ class Bulk_Delete_Posts {
 	public static function render_delete_posts_by_taxonomy_box() {
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_TAX ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 			return;
 		}
 
 		$taxs =  get_taxonomies( array(
 				'public'   => true,
-				'_builtin' => false
+				'_builtin' => false,
 			), 'objects'
 		);
 
@@ -573,6 +552,7 @@ class Bulk_Delete_Posts {
 	 * Process Delete posts by Taxonomy Request.
 	 *
 	 * @static
+	 *
 	 * @since 5.0
 	 */
 	public static function do_delete_posts_by_taxonomy() {
@@ -601,7 +581,7 @@ class Bulk_Delete_Posts {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_posts_by_taxonomy( $delete_options );
-			$msg = sprintf( _n( 'Deleted %d post from the selected custom taxonomies', 'Deleted %d posts from the selected custom taxonomies' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted %d post from the selected custom taxonomies', 'Deleted %d posts from the selected custom taxonomies' , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -617,8 +597,10 @@ class Bulk_Delete_Posts {
 	 *
 	 * @since 5.0
 	 * @static
+	 *
 	 * @param array $delete_options Options for deleting posts
-	 * @return int  $posts_deleted  Number of posts that were deleted
+	 *
+	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_taxonomy( $delete_options ) {
 		// For compatibility reasons set default post type to 'post'
@@ -643,10 +625,10 @@ class Bulk_Delete_Posts {
 					'terms'    => $selected_tax_terms,
 					'field'    => 'slug',
 				),
-			)
+			),
 		);
 
-		$options = bd_build_query_options( $delete_options, $options );
+		$options  = bd_build_query_options( $delete_options, $options );
 		$post_ids = bd_query( $options );
 		foreach ( $post_ids as $post_id ) {
 			// $force delete parameter to custom post types doesn't work
@@ -668,6 +650,7 @@ class Bulk_Delete_Posts {
 	public static function render_delete_posts_by_post_type_box() {
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_TYPE ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 			return;
 		}
 
@@ -739,6 +722,7 @@ class Bulk_Delete_Posts {
 	 * Process request to delete posts by post type.
 	 *
 	 * @static
+	 *
 	 * @since 5.0
 	 */
 	public static function do_delete_posts_by_post_type() {
@@ -766,7 +750,7 @@ class Bulk_Delete_Posts {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_posts_by_post_type( $delete_options );
-			$msg = sprintf( _n( 'Deleted %d post from the selected custom post type', 'Deleted %d posts from the selected custom post type' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted %d post from the selected custom post type', 'Deleted %d posts from the selected custom post type' , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -781,9 +765,12 @@ class Bulk_Delete_Posts {
 	 * Delete posts by custom post type.
 	 *
 	 * @static
+	 *
 	 * @since  5.0
-	 * @param  array $delete_options Options for deleting posts
-	 * @return int   $posts_deleted  Number of posts that were deleted
+	 *
+	 * @param array $delete_options Options for deleting posts
+	 *
+	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_post_type( $delete_options ) {
 		// Backward compatibility code. Will be removed in Bulk Delete v6.0
@@ -794,11 +781,10 @@ class Bulk_Delete_Posts {
 
 		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
-		$count = 0;
+		$count          = 0;
 		$selected_types = $delete_options['selected_types'];
 
 		foreach ( $selected_types as $selected_type ) {
-
 			$type_status = BD_Util::split_post_type_status( $selected_type );
 
 			$type        = $type_status['type'];
@@ -809,7 +795,7 @@ class Bulk_Delete_Posts {
 				'post_type'   => $type,
 			);
 
-			$options = bd_build_query_options( $delete_options, $options );
+			$options  = bd_build_query_options( $delete_options, $options );
 			$post_ids = bd_query( $options );
 			foreach ( $post_ids as $post_id ) {
 				// $force delete parameter to custom post types doesn't work
@@ -834,6 +820,7 @@ class Bulk_Delete_Posts {
 	public static function render_delete_posts_by_url_box() {
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_URL ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 			return;
 		}
 ?>
@@ -860,9 +847,10 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Delete posts by url
+	 * Delete posts by url.
 	 *
 	 * @static
+	 *
 	 * @since 5.0
 	 */
 	public static function do_delete_posts_by_url() {
@@ -879,7 +867,7 @@ class Bulk_Delete_Posts {
 		}
 
 		$deleted_count = count( $urls );
-		$msg = sprintf( _n( 'Deleted %d post with the specified urls', 'Deleted %d posts with the specified urls' , $deleted_count, 'bulk-delete' ), $deleted_count );
+		$msg           = sprintf( _n( 'Deleted %d post with the specified urls', 'Deleted %d posts with the specified urls' , $deleted_count, 'bulk-delete' ), $deleted_count );
 
 		add_settings_error(
 			Bulk_Delete::POSTS_PAGE_SLUG,
@@ -890,7 +878,7 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Render delete by post revisions box
+	 * Render delete by post revisions box.
 	 *
 	 * @static
 	 */
@@ -899,6 +887,7 @@ class Bulk_Delete_Posts {
 
 		if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_REVISION ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
+
 			return;
 		}
 
@@ -923,9 +912,10 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Process delete revisions request
+	 * Process delete revisions request.
 	 *
 	 * @static
+	 *
 	 * @since 5.0
 	 */
 	public static function do_delete_posts_by_revision() {
@@ -944,12 +934,14 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Delete all post revisions
+	 * Delete all post revisions.
 	 *
 	 * @since 5.0
 	 * @static
+	 *
 	 * @param array $delete_options
-	 * @return int  The number of posts that were deleted
+	 *
+	 * @return int The number of posts that were deleted
 	 */
 	public static function delete_posts_by_revision( $delete_options ) {
 		global $wpdb;
@@ -969,28 +961,30 @@ class Bulk_Delete_Posts {
 	}
 
 	/**
-	 * Filter JS Array and add validation hooks
+	 * Filter JS Array and add validation hooks.
 	 *
 	 * @since 5.4
 	 * @static
-	 * @param array  $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public static function filter_js_array( $js_array ) {
 		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
-		$js_array['msg']['selectPostOption'] = __( 'Please select posts from at least one option', 'bulk-delete' );
+		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
 
 		$js_array['validators']['delete_posts_by_category'] = 'validateSelect2';
-		$js_array['error_msg']['delete_posts_by_category'] = 'selectCategory';
-		$js_array['msg']['selectCategory'] = __( 'Please select at least one category', 'bulk-delete' );
+		$js_array['error_msg']['delete_posts_by_category']  = 'selectCategory';
+		$js_array['msg']['selectCategory']                  = __( 'Please select at least one category', 'bulk-delete' );
 
-		$js_array['validators']['delete_posts_by_tag'] = 'validateSelect2';
+		$js_array['validators']['delete_posts_by_tag']     = 'validateSelect2';
 		$js_array['error_msg']['delete_posts_by_category'] = 'selectTag';
-		$js_array['msg']['selectTag'] = __( 'Please select at least one tag', 'bulk-delete' );
+		$js_array['msg']['selectTag']                      = __( 'Please select at least one tag', 'bulk-delete' );
 
 		$js_array['validators']['delete_posts_by_url'] = 'validateUrl';
-		$js_array['error_msg']['delete_posts_by_url'] = 'enterUrl';
-		$js_array['msg']['enterUrl'] = __( 'Please enter at least one post url', 'bulk-delete' );
+		$js_array['error_msg']['delete_posts_by_url']  = 'enterUrl';
+		$js_array['msg']['enterUrl']                   = __( 'Please enter at least one post url', 'bulk-delete' );
 
 		$js_array['dt_iterators'][] = '_cats';
 		$js_array['dt_iterators'][] = '_tags';
@@ -1004,13 +998,13 @@ class Bulk_Delete_Posts {
 	/**
 	 * Process delete cron job request.
 	 * This should ideally go in a separate class. But I was
-	 * lazy to create a separate class for a single function
+	 * lazy to create a separate class for a single function.
 	 *
 	 * @since 5.0
 	 * @static
 	 */
 	public static function do_delete_cron() {
-		$cron_id = absint( $_GET['cron_id'] );
+		$cron_id    = absint( $_GET['cron_id'] );
 		$cron_items = BD_Util::get_cron_schedules();
 		wp_unschedule_event( $cron_items[$cron_id]['timestamp'], $cron_items[$cron_id]['type'], $cron_items[$cron_id]['args'] );
 

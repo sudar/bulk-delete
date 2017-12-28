@@ -3,14 +3,14 @@
  * Utility class for deleting Meta Fields.
  *
  * @since      5.4
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Meta
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Meta {
-
 	/**
 	 * Slug for *meta* page.
 	 *
@@ -29,6 +29,7 @@ class Bulk_Delete_Meta {
 	 * Add *meta* menu.
 	 *
 	 * @static
+	 *
 	 * @since 5.4
 	 */
 	public static function add_menu() {
@@ -55,6 +56,7 @@ class Bulk_Delete_Meta {
 	 * Add settings Panel for delete meta page.
 	 *
 	 * @static
+	 *
 	 * @since  5.4
 	 */
 	public static function add_delete_meta_settings_panel() {
@@ -78,13 +80,13 @@ class Bulk_Delete_Meta {
 	 * Register meta boxes for delete meta page.
 	 *
 	 * @static
+	 *
 	 * @since 5.4
 	 */
 	public static function add_delete_meta_meta_boxes() {
-
 		/**
 		 * Add meta box in meta page.
-		 * This hook can be used for adding additional meta boxes in *meta* page
+		 * This hook can be used for adding additional meta boxes in *meta* page.
 		 *
 		 * @since 5.4
 		 */
@@ -95,6 +97,7 @@ class Bulk_Delete_Meta {
 	 * Show the delete meta page.
 	 *
 	 * @static
+	 *
 	 * @since 5.4
 	 */
 	public static function display_meta_page() {
@@ -141,12 +144,16 @@ class Bulk_Delete_Meta {
 	 *
 	 * @static
 	 * @access private
+	 *
 	 * @since  5.4
-	 * @param string  $box The name of the box to check
-	 * @return bool        True if the box is hidden, False otherwise
+	 *
+	 * @param string $box The name of the box to check
+	 *
+	 * @return bool True if the box is hidden, False otherwise
 	 */
 	public static function is_meta_box_hidden( $box ) {
 		$hidden_boxes = self::get_meta_hidden_boxes();
+
 		return is_array( $hidden_boxes ) && in_array( $box, $hidden_boxes );
 	}
 
@@ -155,11 +162,14 @@ class Bulk_Delete_Meta {
 	 *
 	 * @static
 	 * @access private
+	 *
 	 * @since  5.4
+	 *
 	 * @return array The array of hidden meta boxes
 	 */
 	private static function get_meta_hidden_boxes() {
 		$current_user = wp_get_current_user();
+
 		return get_user_meta( $current_user->ID, self::VISIBLE_META_BOXES, true );
 	}
 }

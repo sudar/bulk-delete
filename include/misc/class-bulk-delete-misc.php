@@ -1,18 +1,18 @@
 <?php
 /**
- * Utility class for deleting Misc stuff
+ * Utility class for deleting Misc stuff.
  *
  * @since      5.3
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Misc
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Misc {
-
 	/**
-	 * Slug for *misc* page
+	 * Slug for *misc* page.
 	 *
 	 * @since 5.3
 	 */
@@ -21,9 +21,10 @@ class Bulk_Delete_Misc {
 	const VISIBLE_MISC_BOXES   = 'metaboxhidden_bulk-delete_page_bulk-delete-misc';
 
 	/**
-	 * Add *misc* menu
+	 * Add *misc* menu.
 	 *
 	 * @static
+	 *
 	 * @since 5.3
 	 */
 	public static function add_menu() {
@@ -47,16 +48,17 @@ class Bulk_Delete_Misc {
 	}
 
 	/**
-	 * Add settings Panel for delete misc page
+	 * Add settings Panel for delete misc page.
 	 *
 	 * @static
+	 *
 	 * @since  5.3
 	 */
 	public static function add_delete_misc_settings_panel() {
 		$bd = BULK_DELETE();
 
 		/**
-		 * Add contextual help for admin screens
+		 * Add contextual help for admin screens.
 		 *
 		 * @since 5.3
 		 */
@@ -70,16 +72,16 @@ class Bulk_Delete_Misc {
 	}
 
 	/**
-	 * Register meta boxes for delete misc page
+	 * Register meta boxes for delete misc page.
 	 *
 	 * @static
+	 *
 	 * @since 5.3
 	 */
 	public static function add_delete_misc_meta_boxes() {
-
 		/**
 		 * Add meta box in misc page
-		 * This hook can be used for adding additional meta boxes in *misc* page
+		 * This hook can be used for adding additional meta boxes in *misc* page.
 		 *
 		 * @since 5.3
 		 */
@@ -87,9 +89,10 @@ class Bulk_Delete_Misc {
 	}
 
 	/**
-	 * Show the delete misc page
+	 * Show the delete misc page.
 	 *
 	 * @static
+	 *
 	 * @since 5.3
 	 */
 	public static function display_misc_page() {
@@ -135,29 +138,36 @@ class Bulk_Delete_Misc {
 	}
 
 	/**
-	 * Check whether the meta box in misc page is hidden or not
+	 * Check whether the meta box in misc page is hidden or not.
 	 *
 	 * @static
 	 * @access private
+	 *
 	 * @since  5.3
-	 * @param string  $box The name of the box to check
-	 * @return bool        True if the box is hidden, False otherwise
+	 *
+	 * @param string $box The name of the box to check
+	 *
+	 * @return bool True if the box is hidden, False otherwise
 	 */
 	public static function is_misc_box_hidden( $box ) {
 		$hidden_boxes = self::get_misc_hidden_boxes();
+
 		return is_array( $hidden_boxes ) && in_array( $box, $hidden_boxes );
 	}
 
 	/**
-	 * Get the list of hidden boxes in misc page
+	 * Get the list of hidden boxes in misc page.
 	 *
 	 * @static
 	 * @access private
+	 *
 	 * @since  5.3
+	 *
 	 * @return array The array of hidden meta boxes
 	 */
 	private static function get_misc_hidden_boxes() {
 		$current_user = wp_get_current_user();
+
 		return get_user_meta( $current_user->ID, self::VISIBLE_MISC_BOXES, true );
 	}
 }

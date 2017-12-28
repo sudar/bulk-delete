@@ -6,10 +6,11 @@
  *
  * @since       5.5.4
  * @note        Based on the code from Easy Digital Downloads plugin
+ *
  * @author		Sudar
+ *
  * @package     BulkDelete\Admin
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -18,11 +19,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  * @since 5.5.4
  */
 class BD_System_Info_page extends BD_Base_Page {
-
 	/**
 	 * Make this class a "hybrid Singleton".
 	 *
 	 * @static
+	 *
 	 * @since 5.5.4
 	 */
 	public static function factory() {
@@ -41,9 +42,9 @@ class BD_System_Info_page extends BD_Base_Page {
 	 * @since 5.5.4
 	 */
 	protected function initialize() {
-		$this->page_slug = 'bulk-delete-info';
+		$this->page_slug   = 'bulk-delete-info';
 		$this->menu_action = 'bd_after_all_menus';
-		$this->actions = array( 'download_sysinfo' );
+		$this->actions     = array( 'download_sysinfo' );
 
 		$this->label = array(
 			'page_title' => __( 'Bulk Delete - System Info', 'bulk-delete' ),
@@ -91,6 +92,7 @@ class BD_System_Info_page extends BD_Base_Page {
 	 * Shows the system info panel which contains version data and debug info.
 	 *
 	 * @since 5.5.4
+	 *
 	 * @global $wpdb Global object $wpdb Used to query the database using the WordPress Database API
 	 */
 	protected function render_body() {
@@ -210,6 +212,7 @@ NETWORK ACTIVE PLUGINS:
 	 * Generates the System Info Download File.
 	 *
 	 * @since 5.0
+	 *
 	 * @return void
 	 */
 	public function generate_sysinfo_download() {

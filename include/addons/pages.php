@@ -3,10 +3,11 @@
  * Page Addons related functions.
  *
  * @since      5.5
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Addon
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -29,6 +30,7 @@ add_action( 'bd_add_meta_box_for_pages', 'bd_register_page_addons' );
 function bd_render_delete_pages_from_trash() {
 	if ( BD_Util::is_pages_box_hidden( Bulk_Delete::BOX_PAGE_FROM_TRASH ) ) {
 		printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::PAGES_PAGE_SLUG );
+
 		return;
 	}
 
@@ -44,9 +46,8 @@ function bd_render_delete_pages_from_trash() {
 		<!-- pages In Trash box end-->
 <?php
 	} else {
-
 		/**
-		 * Render delete pages from trash box
+		 * Render delete pages from trash box.
 		 *
 		 * @since 5.4
 		 */

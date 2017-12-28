@@ -3,13 +3,12 @@
  * Utility class for deleting Comment Meta.
  *
  * @since      5.4
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Meta
  */
-
-
 class Bulk_Delete_Comment_Meta {
-
 	/**
 	 * Box slug.
 	 *
@@ -28,6 +27,7 @@ class Bulk_Delete_Comment_Meta {
 	 * Register comment-meta meta box for delete meta page.
 	 *
 	 * @static
+	 *
 	 * @since 5.4
 	 */
 	public static function add_delete_comment_meta_box() {
@@ -46,11 +46,13 @@ class Bulk_Delete_Comment_Meta {
 	 * Render delete comment-meta meta box for delete meta page.
 	 *
 	 * @static
+	 *
 	 * @since 5.4
 	 */
 	public static function render_delete_comment_meta_box() {
 		if ( Bulk_Delete_Meta::is_meta_box_hidden( self::BOX_COMMENT_META ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete_meta::META_PAGE_SLUG );
+
 			return;
 		}
 ?>
@@ -110,7 +112,7 @@ class Bulk_Delete_Comment_Meta {
 <?php
 		/**
 		 * Add more fields to the delete comment meta field form.
-		 * This hook can be used to add more fields to the delete comment meta field form
+		 * This hook can be used to add more fields to the delete comment meta field form.
 		 *
 		 * @since 5.4
 		 */
@@ -187,15 +189,17 @@ class Bulk_Delete_Comment_Meta {
 	 *
 	 * @since 5.4
 	 * @static
-	 * @param array   $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public static function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][] = '_cm';
+		$js_array['dt_iterators'][]                    = '_cm';
 		$js_array['validators']['delete_meta_comment'] = 'noValidation';
 
 		$js_array['pre_action_msg']['delete_meta_comment'] = 'deleteCMWarning';
-		$js_array['msg']['deleteCMWarning'] = __( 'Are you sure you want to delete all the comment meta fields that match the selected filters?', 'bulk-delete' );
+		$js_array['msg']['deleteCMWarning']                = __( 'Are you sure you want to delete all the comment meta fields that match the selected filters?', 'bulk-delete' );
 
 		return $js_array;
 	}
@@ -204,6 +208,7 @@ class Bulk_Delete_Comment_Meta {
 	 * Controller for deleting comment meta fields.
 	 *
 	 * @static
+	 *
 	 * @since  5.4
 	 */
 	public static function do_delete_comment_meta() {
@@ -221,7 +226,7 @@ class Bulk_Delete_Comment_Meta {
 
 		/**
 		 * Delete comment-meta delete options filter.
-		 * This filter is for processing filtering options for deleting comment meta
+		 * This filter is for processing filtering options for deleting comment meta.
 		 *
 		 * @since 5.4
 		 */
@@ -240,7 +245,7 @@ class Bulk_Delete_Comment_Meta {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_comment_meta( $delete_options );
-			$msg = sprintf( _n( 'Deleted comment meta field from %d comment', 'Deleted comment meta field from %d comments' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted comment meta field from %d comment', 'Deleted comment meta field from %d comments' , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -255,9 +260,12 @@ class Bulk_Delete_Comment_Meta {
 	 * Delete Comment Meta.
 	 *
 	 * @static
+	 *
 	 * @since  5.4
-	 * @param array   $delete_options Options for deleting
-	 * @return int                   Number of comments that were deleted
+	 *
+	 * @param array $delete_options Options for deleting
+	 *
+	 * @return int Number of comments that were deleted
 	 */
 	public static function delete_comment_meta( $delete_options ) {
 		$count     = 0;
@@ -299,6 +307,7 @@ class Bulk_Delete_Comment_Meta {
 				$count++;
 			}
 		}
+
 		return $count;
 	}
 }

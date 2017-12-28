@@ -3,13 +3,12 @@
  * Utility class for deleting User Meta.
  *
  * @since      5.4
+ *
  * @author     Sudar
+ *
  * @package    BulkDelete\Meta
  */
-
-
 class Bulk_Delete_User_Meta {
-
 	/**
 	 * Box slug.
 	 *
@@ -28,6 +27,7 @@ class Bulk_Delete_User_Meta {
 	 * Register user-meta meta box for delete meta page.
 	 *
 	 * @static
+	 *
 	 * @since 5.4
 	 */
 	public static function add_delete_user_meta_box() {
@@ -46,11 +46,13 @@ class Bulk_Delete_User_Meta {
 	 * Render delete user-meta meta box for delete meta page.
 	 *
 	 * @static
+	 *
 	 * @since 5.4
 	 */
 	public static function render_delete_user_meta_box() {
 		if ( Bulk_Delete_Meta::is_meta_box_hidden( self::BOX_USER_META ) ) {
 			printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete_meta::META_PAGE_SLUG );
+
 			return;
 		}
 ?>
@@ -102,7 +104,7 @@ class Bulk_Delete_User_Meta {
 <?php
 		/**
 		 * Add more fields to the delete user meta field form.
-		 * This hook can be used to add more fields to the delete user meta field form
+		 * This hook can be used to add more fields to the delete user meta field form.
 		 *
 		 * @since 5.4
 		 */
@@ -167,15 +169,17 @@ class Bulk_Delete_User_Meta {
 	 *
 	 * @since 5.4
 	 * @static
-	 * @param array   $js_array JavaScript Array
-	 * @return array           Modified JavaScript Array
+	 *
+	 * @param array $js_array JavaScript Array
+	 *
+	 * @return array Modified JavaScript Array
 	 */
 	public static function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][] = '_um';
+		$js_array['dt_iterators'][]                 = '_um';
 		$js_array['validators']['delete_meta_user'] = 'noValidation';
 
 		$js_array['pre_action_msg']['delete_meta_user'] = 'deleteUMWarning';
-		$js_array['msg']['deleteUMWarning'] = __( 'Are you sure you want to delete all the user meta fields that match the selected filters?', 'bulk-delete' );
+		$js_array['msg']['deleteUMWarning']             = __( 'Are you sure you want to delete all the user meta fields that match the selected filters?', 'bulk-delete' );
 
 		return $js_array;
 	}
@@ -184,6 +188,7 @@ class Bulk_Delete_User_Meta {
 	 * Controller for deleting user meta fields.
 	 *
 	 * @static
+	 *
 	 * @since  5.4
 	 */
 	public static function do_delete_user_meta() {
@@ -197,7 +202,7 @@ class Bulk_Delete_User_Meta {
 
 		/**
 		 * Delete user-meta delete options filter.
-		 * This filter is for processing filtering options for deleting user meta
+		 * This filter is for processing filtering options for deleting user meta.
 		 *
 		 * @since 5.4
 		 */
@@ -216,7 +221,7 @@ class Bulk_Delete_User_Meta {
 				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_user_meta( $delete_options );
-			$msg = sprintf( _n( 'Deleted user meta field from %d user', 'Deleted user meta field from %d users' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted user meta field from %d user', 'Deleted user meta field from %d users' , $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -231,9 +236,12 @@ class Bulk_Delete_User_Meta {
 	 * Delete User Meta.
 	 *
 	 * @static
+	 *
 	 * @since  5.4
-	 * @param array   $delete_options Options for deleting
-	 * @return int                   Number of users that were deleted
+	 *
+	 * @param array $delete_options Options for deleting
+	 *
+	 * @return int Number of users that were deleted
 	 */
 	public static function delete_user_meta( $delete_options ) {
 		$count     = 0;
@@ -263,6 +271,7 @@ class Bulk_Delete_User_Meta {
 				$count++;
 			}
 		}
+
 		return $count;
 	}
 }
