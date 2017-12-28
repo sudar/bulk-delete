@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### v5.6.0 - (In Development) ###
+### 2017-12-28 - v5.6.0 ###
 
 - New Features
 	- Added the ability to delete posts based on custom post status.
@@ -322,6 +322,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.6.0 ###
+Added the ability to delete posts based on custom post status
 
 ### 5.5.7 ###
 Improved the UI by removing all unnecessary sidebars.
