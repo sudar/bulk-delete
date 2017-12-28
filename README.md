@@ -1,10 +1,10 @@
 # Bulk Delete #
 **Contributors:** sudar  
-**Tags:** mass, bulk, delete, post, comment, draft, revision, page, user, meta fields  
+**Tags:** mass, bulk, delete, post, draft, revision, page, user, meta fields  
 **Requires at least:** 4.0
 **Tested up to:** 4.9  
 **Donate Link:** http://sudarmuthu.com/if-you-wanna-thank-me  
-**Stable tag:** 5.5.7  
+**Stable tag:** 5.6.0  
 [![Build Status](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![StyleCI](https://styleci.io/repos/7251206/shield?branch=master)](https://styleci.io/repos/7251206) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://wordpress.org/about/license/)
 
 Bulk delete posts, pages, users, attachments and meta fields based on different conditions and filters.
