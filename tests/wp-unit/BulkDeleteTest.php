@@ -1,11 +1,11 @@
 <?php
 
-use BulkWP\Tests\WPCore\WPCoreTestCase;
+use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
  * Sample test case.
  */
-class BulkDeleteTest extends WPCoreTestCase {
+class BulkDeleteTest extends WPCoreUnitTestCase {
 
 	/**
 	 * A single example test.

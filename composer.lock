@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0fc31c19ab1f3508ea4db5e067bd183c",
+    "hash": "c0f168f82c442446e155219f8e7a9db9",
     "content-hash": "000ad5da1b1d8c81153b11b563d53bbc",
     "packages": [],
     "packages-dev": [
@@ -1891,18 +1891,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sudar/wp-plugin-test-tools.git",
-                "reference": "69fdee7076733d17b9eab918dfa7e3c6b81591be"
+                "reference": "3008e4d9e2449f7712606a0eaee58ca93e859570"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sudar/wp-plugin-test-tools/zipball/69fdee7076733d17b9eab918dfa7e3c6b81591be",
-                "reference": "69fdee7076733d17b9eab918dfa7e3c6b81591be",
+                "url": "https://api.github.com/repos/sudar/wp-plugin-test-tools/zipball/3008e4d9e2449f7712606a0eaee58ca93e859570",
+                "reference": "3008e4d9e2449f7712606a0eaee58ca93e859570",
                 "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "BulkWP\\Tests\\": "src/"
+                    "BulkWP\\": "src/"
                 }
             },
             "license": [
@@ -1919,7 +1919,7 @@
                 "issues": "https://github.com/sudar/wp-plugin-test-tools/issues",
                 "source": "https://github.com/sudar/wp-plugin-test-tools/tree/master"
             },
-            "time": "2017-12-29 17:34:36"
+            "time": "2018-01-04 06:27:04"
         },
         {
             "name": "symfony/console",

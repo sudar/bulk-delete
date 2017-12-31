@@ -58,7 +58,7 @@
 
 	<rule ref="WordPress.Variables.GlobalVariables">
 		<properties>
-			<property name="custom_test_class_whitelist" type="array" value="BWP_TestCase,BD_TestCase" />
+			<property name="custom_test_class_whitelist" type="array" value="WPCoreUnitTestCase" />
 		</properties>
 	</rule>
 
