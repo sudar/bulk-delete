@@ -63,6 +63,7 @@
 	</rule>
 
 	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>tests/*</exclude-pattern>
 		<properties>
 			<property name="strict_class_file_names" value="false" />
 		</properties>
