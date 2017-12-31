@@ -10,7 +10,7 @@
 	<files>
 		<directory>.</directory>
 		<ignore>include/libraries/*</ignore>
-		<ignore>test/*</ignore>
+		<ignore>tests/*</ignore>
 		<ignore>dist/*</ignore>
 		<ignore>node_modules/*</ignore>
 		<ignore>vendor/*</ignore>

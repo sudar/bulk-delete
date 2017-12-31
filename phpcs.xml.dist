@@ -2,6 +2,9 @@
 <ruleset name="Bulk Delete">
 	<description>Bulk Delete coding standard</description>
 
+	<!-- Show progress and sniff codes in all reports -->
+	<arg value="ps"/>
+
 	<file>./</file>
 
  	<!-- Non code directories -->
