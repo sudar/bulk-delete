@@ -75,12 +75,12 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 ?>
 		</select>
 		<select name="smbd_u_meta_compare">
-			<option value="=">=</option>
-			<option value="!=">!=</option>
-			<option value=">">></option>
-			<option value=">=">>=</option>
-			<option value="<"><</option>
-			<option value="<="><=</option>
+			<option value="=">Equals to</option>
+			<option value="!=">Not Equals to</option>
+			<option value=">">Greater than</option>
+			<option value=">=">Greater than or equals to</option>
+			<option value="<">Less than</option>
+			<option value="<=">Less than or equals to</option>
 		</select>
 		<input type="text" name="smbd_u_meta_value" id="smbd_u_meta_value" placeholder="<?php _e( 'Meta Value', 'bulk-delete' );?>">
 
