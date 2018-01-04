@@ -2,6 +2,9 @@
 <ruleset name="Bulk Delete">
 	<description>Bulk Delete coding standard</description>
 
+	<!-- Show progress and sniff codes in all reports -->
+	<arg value="ps"/>
+
 	<file>./</file>
 
  	<!-- Non code directories -->
@@ -55,11 +58,12 @@
 
 	<rule ref="WordPress.Variables.GlobalVariables">
 		<properties>
-			<property name="custom_test_class_whitelist" type="array" value="BWP_TestCase,BD_TestCase" />
+			<property name="custom_test_class_whitelist" type="array" value="WPCoreUnitTestCase" />
 		</properties>
 	</rule>
 
 	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>tests/*</exclude-pattern>
 		<properties>
 			<property name="strict_class_file_names" value="false" />
 		</properties>
