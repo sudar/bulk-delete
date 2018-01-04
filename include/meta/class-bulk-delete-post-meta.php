@@ -322,14 +322,14 @@ class Bulk_Delete_Post_Meta {
 		foreach ( $post_ids as $post_id ) {
 
 			if ( isset( $delete_options['meta_keys'] ) && is_array( $delete_options['meta_keys'] ) ) {
-				$is_post_id_counted_flag = false;
+				$is_post_id_counted = false;
 				foreach ( $delete_options['meta_keys'] as $meta_key ) {
 					if ( delete_post_meta( $post_id, $meta_key ) ) {
-						if ( $is_post_id_counted_flag ) {
+						if ( $is_post_id_counted ) {
 							continue;
 						}
 						$count++;
-						$is_post_id_counted_flag = true;
+						$is_post_id_counted = true;
 					}
 				}
 			} else {
