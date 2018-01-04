@@ -103,7 +103,7 @@ msgstr "entradas."
 #: bulk-delete.php:442
 #: bulk-delete.php:531
 #: bulk-delete.php:626
-msgid "Use this option if there are more than 1000 posts and the script timesout."
+msgid "Use this option if there are more than 1000 posts and the script times out."
 msgstr "Utiliza esta opción si hay más de 1000 entradas y el script indica una desconexión por tiempo."
 
 #: bulk-delete.php:363

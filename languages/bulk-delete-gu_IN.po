@@ -103,8 +103,8 @@ msgstr "પોસ્ટ્સ."
 #: bulk-delete.php:442
 #: bulk-delete.php:531
 #: bulk-delete.php:626
-msgid "Use this option if there are more than 1000 posts and the script timesout."
-msgstr "1000 કરતાં વધુ પોસ્ટ્સ અને સ્ક્રિપ્ટ timesout હોય તો આ વિકલ્પ વાપરો."
+msgid "Use this option if there are more than 1000 posts and the script times out."
+msgstr "1000 કરતાં વધુ પોસ્ટ્સ અને સ્ક્રિપ્ટ times out હોય તો આ વિકલ્પ વાપરો."
 
 #: bulk-delete.php:363
 #: bulk-delete.php:449

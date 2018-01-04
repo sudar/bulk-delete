@@ -96,7 +96,7 @@ msgstr "berichten."
 #: bulk-delete.php:274
 #: bulk-delete.php:353
 #: bulk-delete.php:435
-msgid "Use this option if there are more than 1000 posts and the script timesout."
+msgid "Use this option if there are more than 1000 posts and the script times out."
 msgstr "Gebruik deze optie als er meer dan 1000 berichten zijn en het script onderbroken wordt."
 
 #: bulk-delete.php:281

@@ -103,7 +103,7 @@ msgstr "публикации."
 #: bulk-delete.php:442
 #: bulk-delete.php:531
 #: bulk-delete.php:626
-msgid "Use this option if there are more than 1000 posts and the script timesout."
+msgid "Use this option if there are more than 1000 posts and the script times out."
 msgstr "Използвайте тази опция, ако ще триете повече от 1000 публикации и скрипта не успява да завърши. "
 
 #: bulk-delete.php:363

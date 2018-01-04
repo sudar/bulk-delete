@@ -107,7 +107,7 @@ msgstr "įrašus."
 #: bulk-delete.php:442
 #: bulk-delete.php:531
 #: bulk-delete.php:626
-msgid "Use this option if there are more than 1000 posts and the script timesout."
+msgid "Use this option if there are more than 1000 posts and the script times out."
 msgstr "Naudokite šią parinktį, jeigu norite ištrinti daugiau nei 1000 įrašų ir skriptas nustoja veikęs."
 
 #: bulk-delete.php:363

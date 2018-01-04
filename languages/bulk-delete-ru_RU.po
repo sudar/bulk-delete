@@ -108,7 +108,7 @@ msgstr "записей."
 #: bulk-delete.php:478
 #: bulk-delete.php:567
 #: bulk-delete.php:662
-msgid "Use this option if there are more than 1000 posts and the script timesout."
+msgid "Use this option if there are more than 1000 posts and the script times out."
 msgstr "Используйте опцию выше при удалении большого количества записей или «белой страницы» после выполнения скрипта."
 
 #: bulk-delete.php:399
