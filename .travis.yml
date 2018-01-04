@@ -1,0 +1,86 @@
+# Ditch sudo and use containers.
+# @link http://docs.travis-ci.com/user/migrating-from-legacy/#Why-migrate-to-container-based-infrastructure%3F
+# @link http://docs.travis-ci.com/user/workers/container-based-infrastructure/#Routing-your-build-to-container-based-infrastructure
+sudo: false
+language: php
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+  slack:
+    secure: a6c/MoNQzAJV92EDvpZgrH9f3uwJ7ap7CbPQyx7E02viQWnbtuU25KdGXywV0ABKD/NhUCN/J9Hv8EXZThErgoIEtkIuedbD0+/iy2LrUipyuVjwVF8EuyarxdHQXDpMMUhQ6V5vcFZ4eK6qPQ9DzzdNmS267MGQv4N0/JUDFZ0=
+
+cache:
+  directories:
+  - vendor
+  - "$HOME/.composer/cache"
+
+matrix:
+  include:
+    # Run truck in nightly and PHP 7.2
+    - php: nightly
+      env: WP_VERSION=trunk
+    - php: 7.2
+      env: WP_VERSION=trunk
+    - php: 7.1
+      env: WP_VERSION=latest
+    - php: 7.0
+      env: WP_VERSION=latest
+    - php: 5.6
+      env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 5.6 also run Multisite
+    - php: 5.5
+      env: WP_VERSION=latest
+    - php: 5.4
+      env: WP_VERSION=latest
+    - php: 5.3
+      env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 5.3 also run Multisite
+      dist: precise
+  allow_failures:
+    - php: nightly
+  fast_finish: true
+
+install:
+  - |
+    if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+      # Run composer install only for PHP 7.1
+      # composer is used for running phpcs and testing wp_mocks.
+      composer install
+    fi
+
+before_script:
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - |
+    if [[ $TRAVIS_PHP_VERSION != 7.1 ]]; then
+      # Disable x-debug to increase performance. x-debug is enabled only for PHP 7.1 to run code-coverage reports.
+      if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
+        phpenv config-rm xdebug.ini
+      else
+        echo "xdebug.ini does not exist"
+      fi
+    fi
+  - |
+    if [[ ! -z "$WP_VERSION" ]] ; then
+      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+      composer global require "phpunit/phpunit=4.8.*|5.7.*"
+    fi
+script:
+  - |
+    if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+      # Run code coverage for PHP 7.1 alone
+      npm run test:cover-coverage
+      npm run phpcs
+    else
+      phpunit
+
+      if [[ ! -z "$WP_MULTISITE" ]] ; then
+        WP_MULTISITE=1 phpunit
+      fi
+    fi
+
+after_script:
+  - |
+    if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover code-coverage/bulk-delete.clover
+    fi
