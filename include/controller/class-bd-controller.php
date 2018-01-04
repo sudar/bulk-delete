@@ -127,6 +127,7 @@ class BD_Controller {
 	 * @since 5.5.4
 	 */
 	public function increase_timeout() {
+		// phpcs:ignore PHPCompatibility.PHP.DeprecatedIniDirectives.safe_modeDeprecatedRemoved
 		if ( ! ini_get( 'safe_mode' ) ) {
 			@set_time_limit( 0 );
 		}
