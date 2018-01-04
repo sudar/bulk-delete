@@ -320,7 +320,6 @@ class Bulk_Delete_Post_Meta {
 
 		$post_ids = bd_query( $options );
 		foreach ( $post_ids as $post_id ) {
-
 			if ( isset( $delete_options['meta_keys'] ) && is_array( $delete_options['meta_keys'] ) ) {
 				$is_post_id_counted = false;
 				foreach ( $delete_options['meta_keys'] as $meta_key ) {
