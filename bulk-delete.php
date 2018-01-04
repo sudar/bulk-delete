@@ -49,6 +49,15 @@ final class Bulk_Delete {
 	 */
 	private static $instance;
 
+	/**
+	 * Is the plugin is loaded?
+	 *
+	 * @since 5.7.0
+	 *
+	 * @var bool
+	 */
+	private $loaded = false;
+
 	private $controller;
 
 	// version
@@ -149,16 +158,39 @@ final class Bulk_Delete {
 	 *
 	 * @return Bulk_Delete The one true instance of Bulk_Delete
 	 */
-	public static function instance() {
+	public static function get_instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Bulk_Delete ) ) {
-			self::$instance = new Bulk_Delete;
+			self::$instance = new Bulk_Delete();
+
 			self::$instance->setup_paths();
 			self::$instance->includes();
-			self::$instance->load_textdomain();
-			self::$instance->setup_actions();
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Load the plugin if it is not loaded.
+	 *
+	 * This function will be invoked in the `plugins_loaded` hook.
+	 */
+	public function load() {
+		if ( $this->loaded ) {
+			return;
+		}
+
+		add_action( 'init', array( $this, 'on_init' ) );
+
+		$this->setup_actions();
+
+		$this->loaded = true;
+
+		/**
+		 * Bulk Delete plugin loaded.
+		 *
+		 * @since 5.7.0
+		 */
+		do_action( 'bd_loaded' );
 	}
 
 	/**
@@ -279,11 +311,20 @@ final class Bulk_Delete {
 	}
 
 	/**
+	 * Triggered when the `init` hook is fired.
+	 *
+	 * @since 5.7.0
+	 */
+	public function on_init() {
+		$this->load_textdomain();
+	}
+
+	/**
 	 * Loads the plugin language files.
 	 *
 	 * @since  5.0
 	 */
-	public function load_textdomain() {
+	private function load_textdomain() {
 		// Load localization domain
 		$this->translations = dirname( plugin_basename( self::$PLUGIN_FILE ) ) . '/languages/';
 		load_plugin_textdomain( 'bulk-delete', false, $this->translations );
@@ -665,8 +706,18 @@ final class Bulk_Delete {
  * @return Bulk_Delete The one true Bulk_Delete Instance
  */
 function BULK_DELETE() {
-	return Bulk_Delete::instance();
+	return Bulk_Delete::get_instance();
 }
 
-// Get BULK_DELETE Running
-BULK_DELETE();
+/**
+ * Load Bulk Delete plugin.
+ *
+ * @since 5.7.0
+ */
+function load_bulk_delete() {
+	$bulk_delete = BULK_DELETE();
+
+	add_action( 'plugins_loaded', array( $bulk_delete, 'load' ), 101 );
+}
+
+load_bulk_delete();
