@@ -161,12 +161,12 @@ DISABLE_WP_CRON:          <?php echo defined( 'DISABLE_WP_CRON' ) ? DISABLE_WP_C
 WP_CRON_LOCK_TIMEOUT:     <?php echo defined( 'WP_CRON_LOCK_TIMEOUT' ) ? WP_CRON_LOCK_TIMEOUT : 'Not set', "\n" ?>
 EMPTY_TRASH_DAYS:         <?php echo defined( 'EMPTY_TRASH_DAYS' ) ? EMPTY_TRASH_DAYS : 'Not set', "\n" ?>
 
-PHP Safe Mode:            <?php echo ini_get( 'safe_mode' ) ? 'Yes' : 'No', "\n"; // phpcs:ignore PHPCompatibility.PHP.DeprecatedIniDirectives.safe_modeDeprecatedRemoved ?>
+PHP Safe Mode:            <?php echo ini_get( 'safe_mode' ) ? 'Yes' : 'No', "\n"; // phpcs:ignore PHPCompatibility.PHP.DeprecatedIniDirectives.safe_modeDeprecatedRemoved?>
 PHP Upload Max Size:      <?php echo ini_get( 'upload_max_filesize' ) . "\n"; ?>
 PHP Post Max Size:        <?php echo ini_get( 'post_max_size' ) . "\n"; ?>
 PHP Upload Max Filesize:  <?php echo ini_get( 'upload_max_filesize' ) . "\n"; ?>
 PHP Time Limit:           <?php echo ini_get( 'max_execution_time' ) . "\n"; ?>
-PHP Max Input Vars:       <?php echo ini_get( 'max_input_vars' ) . "\n"; // phpcs:ignore PHPCompatibility.PHP.NewIniDirectives.max_input_varsFound ?>
+PHP Max Input Vars:       <?php echo ini_get( 'max_input_vars' ) . "\n"; // phpcs:ignore PHPCompatibility.PHP.NewIniDirectives.max_input_varsFound?>
 PHP Arg Separator:        <?php echo ini_get( 'arg_separator.output' ) . "\n"; ?>
 PHP Allow URL File Open:  <?php echo ini_get( 'allow_url_fopen' ) ? 'Yes' : 'No', "\n"; ?>
 
