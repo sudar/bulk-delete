@@ -131,7 +131,7 @@ msgstr "Beiträge."
 #: include/class-bulk-delete-posts.php:687
 #: include/class-bulk-delete-posts.php:812
 #@ bulk-delete
-msgid "Use this option if there are more than 1000 posts and the script times out."
+msgid "Use this option if there are more than 1000 posts and the script timesout."
 msgstr "Verwenden Sie diese Option bei mehr als 1000 Beiträgen oder wenn das Script zu einem Timeout-Fehler führt."
 
 #: include/class-bulk-delete-posts.php:138

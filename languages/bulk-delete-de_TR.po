@@ -106,7 +106,7 @@ msgstr "yazýlar."
 #: bulk-delete.php:442
 #: bulk-delete.php:531
 #: bulk-delete.php:626
-msgid "Use this option if there are more than 1000 posts and the script times out."
+msgid "Use this option if there are more than 1000 posts and the script timesout."
 msgstr "Bu seçeneði 1000 taneden fazla yazý varsa kullanýn."
 
 #: bulk-delete.php:363

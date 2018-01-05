@@ -101,7 +101,7 @@ msgstr "articoli."
 #: bulk-delete.php:442
 #: bulk-delete.php:531
 #: bulk-delete.php:626
-msgid "Use this option if there are more than 1000 posts and the script times out."
+msgid "Use this option if there are more than 1000 posts and the script timesout."
 msgstr "Usate questa opzione se ci sono più di 1000 articoli e lo script va in timeout."
 
 #: bulk-delete.php:363

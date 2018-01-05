@@ -111,7 +111,7 @@ msgstr "postovi."
 #: bulk-delete.php:408 bulk-delete.php:504 bulk-delete.php:604
 #: bulk-delete.php:708
 msgid ""
-"Use this option if there are more than 1000 posts and the script times out."
+"Use this option if there are more than 1000 posts and the script timesout."
 msgstr ""
 "Koristite ovu opciju ukoliko ima vise od 1000 postova i skripti istece vreme"
 

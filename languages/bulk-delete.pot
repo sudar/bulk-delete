@@ -852,7 +852,7 @@ msgstr ""
 #: tmp_addon/bulk-delete-posts-by-title.php:191
 #: tmp_addon/bulk-delete-posts-by-word-count.php:221
 msgid ""
-"Use this option if there are more than 1000 posts and the script times out."
+"Use this option if there are more than 1000 posts and the script timesout."
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-comment-meta.php:151
@@ -1138,7 +1138,7 @@ msgstr ""
 #: dist/include/meta/class-bulk-delete-user-meta.php:125
 #: include/meta/class-bulk-delete-user-meta.php:125
 msgid ""
-"Use this option if there are more than 1000 users and the script times out."
+"Use this option if there are more than 1000 users and the script timesout."
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-user-meta.php:182
@@ -1803,7 +1803,7 @@ msgid "Private Posts"
 msgstr ""
 
 #: dist/include/ui/form.php:107 include/ui/form.php:107
-msgid "Use this option if there are more than 1000 %s and the script times out."
+msgid "Use this option if there are more than 1000 %s and the script timesout."
 msgstr ""
 
 #: dist/include/ui/form.php:144 include/ui/form.php:144
@@ -2505,7 +2505,7 @@ msgstr ""
 #: tmp_addon/bulk-delete-posts-by-user-role.php:157
 #: tmp_addon/bulk-delete-posts-by-user.php:198
 msgid ""
-"Use this option if there are more than 1000 posts or the script times out."
+"Use this option if there are more than 1000 posts or the script timesout."
 msgstr ""
 
 #: tmp_addon/bulk-delete-posts-by-user-role.php:224
