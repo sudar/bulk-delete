@@ -157,7 +157,7 @@ class Bulk_Delete_Post_Meta {
                     <input name="smbd_pm_limit" id="smbd_pm_limit" value = "true" type = "checkbox">
                     <?php _e( 'Only delete post meta field from first ', 'bulk-delete' );?>
                     <input type ="textbox" name="smbd_pm_limit_to" id="smbd_pm_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'posts.', 'bulk-delete' );?>
-                    <?php _e( 'Use this option if there are more than 1000 posts and the script timesout.', 'bulk-delete' ) ?>
+                    <?php _e( 'Use this option if there are more than 1000 posts and the script times out.', 'bulk-delete' ) ?>
                 </td>
             </tr>
 

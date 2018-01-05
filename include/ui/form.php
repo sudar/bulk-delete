@@ -104,7 +104,7 @@ function bd_render_limit_settings( $slug, $item = 'posts' ) {
 		<td>
 			<?php _e( 'Only delete first ', 'bulk-delete' );?>
 			<input type="number" name="smbd_<?php echo $slug; ?>_limit_to" id="smbd_<?php echo $slug; ?>_limit_to" class="screen-per-page" disabled value="0" min="0"> <?php echo $item;?>.
-			<?php printf( __( 'Use this option if there are more than 1000 %s and the script timesout.', 'bulk-delete' ), $item ); ?>
+			<?php printf( __( 'Use this option if there are more than 1000 %s and the script times out.', 'bulk-delete' ), $item ); ?>
 		</td>
 	</tr>
 <?php
