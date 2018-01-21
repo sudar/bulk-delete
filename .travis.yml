@@ -69,6 +69,9 @@ before_script:
 script:
   - |
     if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+      # Validate composer.json file
+      composer validate --no-check-all --strict
+
       # Run code coverage for PHP 7.1 alone
       npm run test:cover-coverage
       npm run phpcs
