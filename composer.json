@@ -3,6 +3,9 @@
     "description": "Bulk Delete WordPress plugin",
     "license": "GPL-2.0+",
     "type": "wordpress-plugin",
+    "config": {
+        "sort-packages": true
+    },
     "repositories":[
         {
           "type": "vcs",
