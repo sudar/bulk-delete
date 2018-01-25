@@ -101,37 +101,35 @@ class Bulk_Delete_Meta {
 	 * @since 5.4
 	 */
 	public static function display_meta_page() {
-		?>
-        <div class="wrap">
-            <h2><?php _e( 'Bulk Delete Meta Fields', 'bulk-delete' ); ?></h2>
-			<?php settings_errors(); ?>
+?>
+<div class="wrap">
+    <h2><?php _e( 'Bulk Delete Meta Fields', 'bulk-delete' );?></h2>
+    <?php settings_errors(); ?>
 
-            <form method="post">
-				<?php
-				wp_nonce_field( 'sm-bulk-delete-meta', 'sm-bulk-delete-meta-nonce' );
+    <form method = "post">
+<?php
+		wp_nonce_field( 'sm-bulk-delete-meta', 'sm-bulk-delete-meta-nonce' );
 
-				/* Used to save closed meta boxes and their order */
-				wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
-				wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-				?>
-                <div id="poststuff">
-                    <div id="post-body" class="metabox-holder columns-1">
+		/* Used to save closed meta boxes and their order */
+		wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+?>
+    <div id = "poststuff">
+        <div id="post-body" class="metabox-holder columns-1">
 
-                        <div class="notice notice-warning">
-                            <p>
-                                <strong><?php _e( 'WARNING: Items deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong>
-                            </p>
-                        </div>
+            <div class="notice notice-warning">
+                <p><strong><?php _e( 'WARNING: Items deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
+            </div>
 
-                        <div id="postbox-container-2" class="postbox-container">
-							<?php do_meta_boxes( '', 'advanced', null ); ?>
-                        </div> <!-- #postbox-container-2 -->
+            <div id="postbox-container-2" class="postbox-container">
+                <?php do_meta_boxes( '', 'advanced', null ); ?>
+            </div> <!-- #postbox-container-2 -->
 
-                    </div> <!-- #post-body -->
-                </div><!-- #poststuff -->
-            </form>
-        </div><!-- .wrap -->
-		<?php
+        </div> <!-- #post-body -->
+    </div><!-- #poststuff -->
+    </form>
+</div><!-- .wrap -->
+<?php
 		/**
 		 * Runs just before displaying the footer text in the "Bulk Delete Meta" admin page.
 		 * This action is primarily for adding extra content in the footer of "Bulk Delete Meta" admin page.
