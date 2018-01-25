@@ -113,16 +113,16 @@ add_filter( 'bd_javascript_array', 'bd_enable_cron_for_old_addons' );
 
 // Deprecated functions.
 
-if ( ! function_exists( 'bd_array_get' ) ) {
+if ( ! function_exists( ' bd_array_get' ) ) {
 	/**
-	 * Deprecated. Use `bd_array_get`.
+	 * Deprecated. Use ` bd_array_get`.
 	 *
 	 * @param mixed      $array
 	 * @param mixed      $key
 	 * @param mixed|null $default
 	 */
-	function bd_array_get( $array, $key, $default = null ) {
-		return bd_array_get( $array, $key, $default );
+	function  bd_array_get( $array, $key, $default = null ) {
+		return  bd_array_get( $array, $key, $default );
 	}
 }
 
@@ -134,7 +134,7 @@ if ( ! function_exists( 'bd_array_get_bool' ) ) {
 	 * @param mixed $key
 	 * @param mixed $default
 	 */
-	functionbd_array_get_bool( $array, $key, $default = false ) {
-		returnbd_array_get_bool( $array, $key, $default );
+	function bd_array_get_bool( $array, $key, $default = false ) {
+		return bd_array_get_bool( $array, $key, $default );
 	}
 }
