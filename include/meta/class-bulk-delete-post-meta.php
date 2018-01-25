@@ -232,7 +232,7 @@ class Bulk_Delete_Post_Meta {
 
 		$delete_options['use_value'] = bd_array_get_bool( $_POST, 'smbd_pm_use_value', false );
 		$delete_options['meta_key']  = esc_sql( bd_array_get( $_POST, 'smbd_pm_key', '' ) );
-    
+
 		$delete_options['limit_to']  = absint( bd_array_get( $_POST, 'smbd_pm_limit_to', 0 ) );
 
 		$delete_options['restrict']  = bd_array_get_bool( $_POST, 'smbd_pm_restrict', false );
