@@ -87,14 +87,24 @@ class Bulk_Delete_Post_Meta {
         <table class="optiontable">
             <tr>
                 <td>
-                    <input name="smbd_pm_use_value" value="false" type="radio" checked>
+                    <input name="smbd_pm_use_value" value="use_key" type="radio" checked>
                     <label for="smbd_pm_use_value"><?php echo __( 'Delete based on post meta key name only', 'bulk-delete' ); ?></label>
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    <input name="smbd_pm_use_value" id="smbd_pm_use_value" value="true" type="radio" disabled>
+                    <input name="smbd_pm_use_value" id="smdb_pm_use_key_compare" value="use_key_compare" type="radio" disabled>
+                    <label for="smbd_pm_use_value"><?php echo __( 'Delete based on post meta key name prefix or postfix', 'bulk-delete' ); ?></label>
+                    <span class="bd-pm-pro" style="color:red; vertical-align: middle;">
+                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input name="smbd_pm_use_value" id="smbd_pm_use_value" value="use_value" type="radio" disabled>
                     <label for="smbd_pm_use_value"><?php echo __( 'Delete based on post meta key name and value', 'bulk-delete' ); ?></label>
                     <span class="bd-pm-pro" style="color:red; vertical-align: middle;">
                         <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
@@ -105,6 +115,11 @@ class Bulk_Delete_Post_Meta {
             <tr>
                 <td>
                     <label for="smbd_pm_key"><?php _e( 'Post Meta Key ', 'bulk-delete' ); ?></label>
+                    <select name="smbd_pm_key_prefix_postfix" id="smbd_pm_key_prefix_postfix" style="display: none;">
+                        <option value="starts_with">starts with</option>
+                        <option value="contains">contains</option>
+                        <option value="ends_with">ends with</option>
+                    </select>
                     <input name="smbd_pm_key" id="smbd_pm_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
                 </td>
             </tr>
@@ -142,7 +157,7 @@ class Bulk_Delete_Post_Meta {
                     <input name="smbd_pm_limit" id="smbd_pm_limit" value = "true" type = "checkbox">
                     <?php _e( 'Only delete post meta field from first ', 'bulk-delete' );?>
                     <input type ="textbox" name="smbd_pm_limit_to" id="smbd_pm_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'posts.', 'bulk-delete' );?>
-                    <?php _e( 'Use this option if there are more than 1000 posts and the script timesout.', 'bulk-delete' ) ?>
+                    <?php _e( 'Use this option if there are more than 1000 posts and the script times out.', 'bulk-delete' ) ?>
                 </td>
             </tr>
 
@@ -217,7 +232,7 @@ class Bulk_Delete_Post_Meta {
 
 		$delete_options['use_value'] = bd_array_get_bool( $_POST, 'smbd_pm_use_value', false );
 		$delete_options['meta_key']  = esc_sql( bd_array_get( $_POST, 'smbd_pm_key', '' ) );
-
+    
 		$delete_options['limit_to']  = absint( bd_array_get( $_POST, 'smbd_pm_limit_to', 0 ) );
 
 		$delete_options['restrict']  = bd_array_get_bool( $_POST, 'smbd_pm_restrict', false );
@@ -297,16 +312,29 @@ class Bulk_Delete_Post_Meta {
 			);
 		}
 
-		if ( $use_value ) {
-			$options['meta_query'] = apply_filters( 'bd_delete_post_meta_query', array(), $delete_options );
-		} else {
+		if ( 'use_key' === $use_value ) {
 			$options['meta_key'] = $meta_key;
+		} else {
+			$options['meta_query'] = apply_filters( 'bd_delete_post_meta_query', array(), $delete_options );
 		}
 
 		$post_ids = bd_query( $options );
 		foreach ( $post_ids as $post_id ) {
-			if ( delete_post_meta( $post_id, $meta_key ) ) {
-				$count++;
+			if ( isset( $delete_options['meta_keys'] ) && is_array( $delete_options['meta_keys'] ) ) {
+				$is_post_id_counted = false;
+				foreach ( $delete_options['meta_keys'] as $meta_key ) {
+					if ( delete_post_meta( $post_id, $meta_key ) ) {
+						if ( $is_post_id_counted ) {
+							continue;
+						}
+						$count++;
+						$is_post_id_counted = true;
+					}
+				}
+			} else {
+				if ( delete_post_meta( $post_id, $meta_key ) ) {
+					$count++;
+				}
 			}
 		}
 

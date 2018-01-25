@@ -142,7 +142,7 @@ class Bulk_Delete_Comment_Meta {
                     <input name="smbd_cm_limit" id="smbd_cm_limit" value = "true" type = "checkbox">
                     <?php _e( 'Only delete comment meta field from first ', 'bulk-delete' );?>
                     <input type="number" name="smbd_cm_limit_to" id="smbd_cm_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'comments.', 'bulk-delete' );?>
-                    <?php _e( 'Use this option if there are more than 1000 posts and the script timesout.', 'bulk-delete' ) ?>
+                    <?php _e( 'Use this option if there are more than 1000 posts and the script times out.', 'bulk-delete' ) ?>
                 </td>
             </tr>
 

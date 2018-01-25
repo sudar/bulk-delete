@@ -122,7 +122,7 @@ class Bulk_Delete_User_Meta {
                     <input name="smbd_um_limit" id="smbd_um_limit" value = "true" type = "checkbox">
                     <?php _e( 'Only delete user meta field from first ', 'bulk-delete' );?>
                     <input type ="textbox" name="smbd_um_limit_to" id="smbd_um_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'users.', 'bulk-delete' );?>
-                    <?php _e( 'Use this option if there are more than 1000 users and the script timesout.', 'bulk-delete' ) ?>
+                    <?php _e( 'Use this option if there are more than 1000 users and the script times out.', 'bulk-delete' ) ?>
                 </td>
             </tr>
 
