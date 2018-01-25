@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Utility class for deleting Jetpack Contact Form Messages.
  *
@@ -12,9 +13,9 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	// box slugs
 	const BOX_JETPACK_MESSAGES = 'bd-jetpack-feedback';
 
-	const FEEDBACK_POST_TYPE   = 'feedback';
-	const CRON_HOOK            = 'do-bulk-delete-feedback';
-	const CRON_NAME            = 'Bulk Delete Jetpack Contact Form Messages';
+	const FEEDBACK_POST_TYPE = 'feedback';
+	const CRON_HOOK = 'do-bulk-delete-feedback';
+	const CRON_NAME = 'Bulk Delete Jetpack Contact Form Messages';
 
 	/**
 	 * Register Jetpack Feedback meta box for delete misc page.
@@ -50,7 +51,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 		}
 
 		if ( ! self::is_jetpack_contact_active() ) {
-?>
+			?>
             <!-- Delete Jetpack Feedback box start-->
             <p>
                 <span style="color:red">
@@ -58,113 +59,130 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
                 </span>
             </p>
             <!-- Delete Jetpack Feedback box end-->
-<?php
+			<?php
 		} else {
 			$feedback_count = wp_count_posts( self::FEEDBACK_POST_TYPE );
-?>
+			?>
             <!-- Delete Jetpack Feedback box start-->
             <fieldset class="options">
-            <table class="optiontable">
-                <tr>
-                    <td scope="row" >
-                        <input name="smbd_feedback_use_filter" value = "false" type = "radio" checked>
-                    </td>
-                    <td>
-                    <label for="smbd_feedback"><?php echo __( 'Delete all Contact Form Messages', 'bulk-delete' ), ' ( ', $feedback_count->publish, ' ', __( 'in total', 'bulk-delete' ), ' )'; ?></label>
-                    </td>
-                </tr>
+                <table class="optiontable">
+                    <tr>
+                        <td scope="row">
+                            <input name="smbd_feedback_use_filter" value="false" type="radio" checked>
+                        </td>
+                        <td>
+                            <label for="smbd_feedback"><?php echo __( 'Delete all Contact Form Messages', 'bulk-delete' ), ' ( ', $feedback_count->publish, ' ', __( 'in total', 'bulk-delete' ), ' )'; ?></label>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td scope="row" >
-                        <input name="smbd_feedback_use_filter" id="smbd_feedback_use_filter" value = "true" type = "radio" disabled>
-                    </td>
-                    <td>
-                        <label for="smbd_feedback"><?php _e( 'Delete Messages based on filters', 'bulk-delete' ); ?></label>
-                        <span class = "bd-feedback-pro" style = "color:red; vertical-align: middle;"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-jcm" target="_blank">Buy now</a></span>
-                    </td>
-                </tr>
-            </table>
-<?php
-			/**
-			 * Add more fields to the delete jetpack messages form
-			 * This hook can be used to add more fields to the delete jetpack messages form.
-			 *
-			 * @since 5.3
-			 */
-			do_action( 'bd_delete_jetpack_messages_form' );
-?>
-            <table class="optiontable">
-                <tr>
-                    <td colspan="2">
-                        <h4><?php _e( 'Choose your date options', 'bulk-delete' ); ?></h4>
-                    </td>
-                </tr>
+                    <tr>
+                        <td scope="row">
+                            <input name="smbd_feedback_use_filter" id="smbd_feedback_use_filter" value="true"
+                                   type="radio" disabled>
+                        </td>
+                        <td>
+                            <label for="smbd_feedback"><?php _e( 'Delete Messages based on filters', 'bulk-delete' ); ?></label>
+                            <span class="bd-feedback-pro"
+                                  style="color:red; vertical-align: middle;"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?>
+                                <a href="http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-jcm"
+                                   target="_blank">Buy now</a></span>
+                        </td>
+                    </tr>
+                </table>
+				<?php
+				/**
+				 * Add more fields to the delete jetpack messages form
+				 * This hook can be used to add more fields to the delete jetpack messages form.
+				 *
+				 * @since 5.3
+				 */
+				do_action( 'bd_delete_jetpack_messages_form' );
+				?>
+                <table class="optiontable">
+                    <tr>
+                        <td colspan="2">
+                            <h4><?php _e( 'Choose your date options', 'bulk-delete' ); ?></h4>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td scope="row">
-                        <input name="smbd_feedback_restrict" id ="smbd_feedback_restrict" value = "true" type = "checkbox">
-                    </td>
-                    <td>
-                        <?php _e( 'Only restrict to posts which are ', 'bulk-delete' );?>
-                        <select name="smbd_feedback_op" id="smbd_feedback_op" disabled>
-                            <option value ="<"><?php _e( 'older than', 'bulk-delete' );?></option>
-                            <option value =">"><?php _e( 'posted within last', 'bulk-delete' );?></option>
-                        </select>
-                        <input type ="textbox" name="smbd_feedback_days" id ="smbd_feedback_days" value ="0"  maxlength="4" size="4" disabled><?php _e( 'days', 'bulk-delete' );?>
-                    </td>
-                </tr>
+                    <tr>
+                        <td scope="row">
+                            <input name="smbd_feedback_restrict" id="smbd_feedback_restrict" value="true"
+                                   type="checkbox">
+                        </td>
+                        <td>
+							<?php _e( 'Only restrict to posts which are ', 'bulk-delete' ); ?>
+                            <select name="smbd_feedback_op" id="smbd_feedback_op" disabled>
+                                <option value="<"><?php _e( 'older than', 'bulk-delete' ); ?></option>
+                                <option value=">"><?php _e( 'posted within last', 'bulk-delete' ); ?></option>
+                            </select>
+                            <input type="textbox" name="smbd_feedback_days" id="smbd_feedback_days" value="0"
+                                   maxlength="4" size="4" disabled><?php _e( 'days', 'bulk-delete' ); ?>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td scope="row">
-                        <input name="smbd_feedback_limit" id="smbd_feedback_limit" value = "true" type = "checkbox">
-                    </td>
-                    <td>
-                        <?php _e( 'Only delete first ', 'bulk-delete' );?>
-                        <input type ="textbox" name="smbd_feedback_limit_to" id="smbd_feedback_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'posts.', 'bulk-delete' );?>
-                        <?php _e( 'Use this option if there are more than 1000 posts and the script timesout.', 'bulk-delete' ) ?>
-                    </td>
-                </tr>
+                    <tr>
+                        <td scope="row">
+                            <input name="smbd_feedback_limit" id="smbd_feedback_limit" value="true" type="checkbox">
+                        </td>
+                        <td>
+							<?php _e( 'Only delete first ', 'bulk-delete' ); ?>
+                            <input type="textbox" name="smbd_feedback_limit_to" id="smbd_feedback_limit_to" disabled
+                                   value="0" maxlength="4" size="4"><?php _e( 'posts.', 'bulk-delete' ); ?>
+							<?php _e( 'Use this option if there are more than 1000 posts and the script timesout.', 'bulk-delete' ) ?>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td colspan="2">
-                        <h4><?php _e( 'Choose your deletion options', 'bulk-delete' ); ?></h4>
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h4><?php _e( 'Choose your deletion options', 'bulk-delete' ); ?></h4>
+                        </td>
+                    </tr>
 
-                <tr>
-                    <td scope="row" colspan="2">
-                        <input name="smbd_feedback_force_delete" value = "false" type = "radio" checked="checked"> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
-                        <input name="smbd_feedback_force_delete" value = "true" type = "radio"> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
-                    </td>
-                </tr>
+                    <tr>
+                        <td scope="row" colspan="2">
+                            <input name="smbd_feedback_force_delete" value="false" type="radio"
+                                   checked="checked"> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
+                            <input name="smbd_feedback_force_delete" value="true"
+                                   type="radio"> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
+                        </td>
+                    </tr>
 
-            <tr>
-                <td scope="row" colspan="2">
-                    <input name="smbd_feedback_cron" value = "false" type = "radio" checked="checked" > <?php _e( 'Delete now', 'bulk-delete' ); ?>
-                    <input name="smbd_feedback_cron" value = "true" type = "radio" id = "smbd_feedback_cron" disabled > <?php _e( 'Schedule', 'bulk-delete' ); ?>
-                    <input name="smbd_feedback_cron_start" id = "smbd_feedback_cron_start" value = "now" type = "text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
-                    <select name = "smbd_feedback_cron_freq" id = "smbd_feedback_cron_freq" disabled>
-                        <option value = "-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
-<?php
-			$schedules = wp_get_schedules();
-			foreach ( $schedules as $key => $value ) {
-?>
-                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
-<?php
-			}
-?>
-                    </select>
-                    <span class = "bd-feedback-pro" style = "color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-jcm" target="_blank">Buy now</a></span>
-                </td>
-            </tr>
+                    <tr>
+                        <td scope="row" colspan="2">
+                            <input name="smbd_feedback_cron" value="false" type="radio"
+                                   checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
+                            <input name="smbd_feedback_cron" value="true" type="radio" id="smbd_feedback_cron"
+                                   disabled> <?php _e( 'Schedule', 'bulk-delete' ); ?>
+                            <input name="smbd_feedback_cron_start" id="smbd_feedback_cron_start" value="now" type="text"
+                                   disabled><?php _e( 'repeat ', 'bulk-delete' ); ?>
+                            <select name="smbd_feedback_cron_freq" id="smbd_feedback_cron_freq" disabled>
+                                <option value="-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
+								<?php
+								$schedules = wp_get_schedules();
+								foreach ( $schedules as $key => $value ) {
+									?>
+                                    <option value="<?php echo $key; ?>"><?php echo $value['display']; ?></option>
+									<?php
+								}
+								?>
+                            </select>
+                            <span class="bd-feedback-pro"
+                                  style="color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a
+                                        href="http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-jcm"
+                                        target="_blank">Buy now</a></span>
+                        </td>
+                    </tr>
 
-            </table>
+                </table>
             </fieldset>
             <p class="submit">
-                <button type='submit' name='bd_action' value='delete_jetpack_messages' class='button-primary'><?php _e( 'Bulk Delete ', 'bulk-delete' ) ?>&raquo;</button>
+                <button type='submit' name='bd_action' value='delete_jetpack_messages' class='button-primary'>
+					<?php _e( 'Bulk Delete ', 'bulk-delete' ) ?>&raquo;
+                </button>
             </p>
             <!-- Delete Jetpack Feedback box end-->
-<?php
+			<?php
 		}
 	}
 
@@ -196,16 +214,16 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	 * @since  5.3
 	 */
 	public static function do_delete_jetpack_messages() {
-		$delete_options                  = array();
+		$delete_options = array();
 
-		$delete_options['use_filter']    =  bd_array_get( $_POST, 'smbd_feedback_use_filter', 'false' );
+		$delete_options['use_filter'] = bd_array_get( $_POST, 'smbd_feedback_use_filter', 'false' );
 
-		$delete_options['restrict']      =  bd_array_get( $_POST, 'smbd_feedback_restrict', false );
-		$delete_options['limit_to']      = absint(  bd_array_get( $_POST, 'smbd_feedback_limit_to', 0 ) );
-		$delete_options['force_delete']  =  bd_array_get( $_POST, 'smbd_feedback_force_delete', 'false' );
+		$delete_options['restrict']     = bd_array_get( $_POST, 'smbd_feedback_restrict', false );
+		$delete_options['limit_to']     = absint( bd_array_get( $_POST, 'smbd_feedback_limit_to', 0 ) );
+		$delete_options['force_delete'] = bd_array_get( $_POST, 'smbd_feedback_force_delete', 'false' );
 
-		$delete_options['feedback_op']   =  bd_array_get( $_POST, 'smbd_feedback_op' );
-		$delete_options['feedback_days'] =  bd_array_get( $_POST, 'smbd_feedback_days' );
+		$delete_options['feedback_op']   = bd_array_get( $_POST, 'smbd_feedback_op' );
+		$delete_options['feedback_days'] = bd_array_get( $_POST, 'smbd_feedback_days' );
 
 		/**
 		 * Delete jetpack feedback delete options filter
@@ -215,20 +233,20 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 		 */
 		$delete_options = apply_filters( 'bd_delete_jetpack_messages_delete_options', $delete_options, $_POST );
 
-		if ( 'true' ==  bd_array_get( $_POST, 'smbd_feedback_cron', 'false' ) ) {
+		if ( 'true' == bd_array_get( $_POST, 'smbd_feedback_cron', 'false' ) ) {
 			$freq = $_POST['smbd_feedback_cron_freq'];
 			$time = strtotime( $_POST['smbd_feedback_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
-			if ( $freq == -1 ) {
+			if ( $freq == - 1 ) {
 				wp_schedule_single_event( $time, self::CRON_HOOK, array( $delete_options ) );
 			} else {
 				wp_schedule_event( $time, $freq, self::CRON_HOOK, array( $delete_options ) );
 			}
 			$msg = __( 'Jetpack contact form messages with the selected criteria are scheduled for deletion.', 'bulk-delete' ) . ' ' .
-				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
+			       sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>', 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
 		} else {
 			$deleted_count = self::delete_jetpack_messages( $delete_options );
-			$msg           = sprintf( _n( 'Deleted %d Jetpack contact form message', 'Deleted %d Jetpack contact form messages' , $deleted_count, 'bulk-delete' ), $deleted_count );
+			$msg           = sprintf( _n( 'Deleted %d Jetpack contact form message', 'Deleted %d Jetpack contact form messages', $deleted_count, 'bulk-delete' ), $deleted_count );
 		}
 
 		add_settings_error(
@@ -305,7 +323,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 			} else {
 				wp_trash_post( $post_id );
 			}
-			$count++;
+			$count ++;
 		}
 
 		return $count;
@@ -337,55 +355,61 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	 */
 	public static function add_filtering_options() {
 		?>
-		<table class="optiontable" id="jetpack-filters" style="display:none;">
-			<tr>
-				<td colspan="2">
-					<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
-				</td>
-			</tr>
+        <table class="optiontable" id="jetpack-filters" style="display:none;">
+            <tr>
+                <td colspan="2">
+                    <h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
+                </td>
+            </tr>
 
-			<tr>
-				<td scope="row">
-					<input name="smbd_feedback_author_name_filter" id ="smbd_feedback_author_name_filter" value = "true" type = "checkbox">
-				</td>
-				<td>
-					<?php _e( 'Only if author name ', 'bulk-delete' );?>
-					<select name="smbd_feedback_author_name_op" id="smbd_feedback_author_name_op" disabled>
-						<option value ="is"><?php _e( 'is', 'bulk-delete' );?></option>
-						<option value ="is-not"><?php _e( 'is not', 'bulk-delete' );?></option>
-					</select>
-					<input type ="textbox" name="smbd_feedback_author_name_value" id ="smbd_feedback_author_name_value" disabled placeholder="<?php _e( 'Author Name', 'bulk-delete' ); ?>">
-				</td>
-			</tr>
+            <tr>
+                <td scope="row">
+                    <input name="smbd_feedback_author_name_filter" id="smbd_feedback_author_name_filter" value="true"
+                           type="checkbox">
+                </td>
+                <td>
+					<?php _e( 'Only if author name ', 'bulk-delete' ); ?>
+                    <select name="smbd_feedback_author_name_op" id="smbd_feedback_author_name_op" disabled>
+                        <option value="is"><?php _e( 'is', 'bulk-delete' ); ?></option>
+                        <option value="is-not"><?php _e( 'is not', 'bulk-delete' ); ?></option>
+                    </select>
+                    <input type="textbox" name="smbd_feedback_author_name_value" id="smbd_feedback_author_name_value"
+                           disabled placeholder="<?php _e( 'Author Name', 'bulk-delete' ); ?>">
+                </td>
+            </tr>
 
-			<tr>
-				<td scope="row">
-					<input name="smbd_feedback_author_email_filter" id ="smbd_feedback_author_email_filter" value = "true" type = "checkbox">
-				</td>
-				<td>
-					<?php _e( 'Only if author email ', 'bulk-delete' );?>
-					<select name="smbd_feedback_author_email_op" id="smbd_feedback_author_email_op" disabled>
-						<option value ="is"><?php _e( 'is', 'bulk-delete' );?></option>
-						<option value ="is-not"><?php _e( 'is not', 'bulk-delete' );?></option>
-					</select>
-					<input type ="textbox" name="smbd_feedback_author_email_value" id ="smbd_feedback_author_email_value" disabled placeholder="<?php _e( 'Author Email', 'bulk-delete' ); ?>">
-				</td>
-			</tr>
+            <tr>
+                <td scope="row">
+                    <input name="smbd_feedback_author_email_filter" id="smbd_feedback_author_email_filter" value="true"
+                           type="checkbox">
+                </td>
+                <td>
+					<?php _e( 'Only if author email ', 'bulk-delete' ); ?>
+                    <select name="smbd_feedback_author_email_op" id="smbd_feedback_author_email_op" disabled>
+                        <option value="is"><?php _e( 'is', 'bulk-delete' ); ?></option>
+                        <option value="is-not"><?php _e( 'is not', 'bulk-delete' ); ?></option>
+                    </select>
+                    <input type="textbox" name="smbd_feedback_author_email_value" id="smbd_feedback_author_email_value"
+                           disabled placeholder="<?php _e( 'Author Email', 'bulk-delete' ); ?>">
+                </td>
+            </tr>
 
-			<tr>
-				<td scope="row">
-					<input name="smbd_feedback_author_ip_filter" id ="smbd_feedback_author_ip_filter" value = "true" type = "checkbox">
-				</td>
-				<td>
-					<?php _e( 'Only if author ip ', 'bulk-delete' );?>
-					<select name="smbd_feedback_author_ip_op" id="smbd_feedback_author_ip_op" disabled>
-						<option value ="is"><?php _e( 'is', 'bulk-delete' );?></option>
-						<option value ="is-not"><?php _e( 'is not', 'bulk-delete' );?></option>
-					</select>
-					<input type ="textbox" name="smbd_feedback_author_ip_value" id ="smbd_feedback_author_ip_value" disabled placeholder="<?php _e( 'Author ip', 'bulk-delete' ); ?>">
-				</td>
-			</tr>
-		</table>
+            <tr>
+                <td scope="row">
+                    <input name="smbd_feedback_author_ip_filter" id="smbd_feedback_author_ip_filter" value="true"
+                           type="checkbox">
+                </td>
+                <td>
+					<?php _e( 'Only if author ip ', 'bulk-delete' ); ?>
+                    <select name="smbd_feedback_author_ip_op" id="smbd_feedback_author_ip_op" disabled>
+                        <option value="is"><?php _e( 'is', 'bulk-delete' ); ?></option>
+                        <option value="is-not"><?php _e( 'is not', 'bulk-delete' ); ?></option>
+                    </select>
+                    <input type="textbox" name="smbd_feedback_author_ip_value" id="smbd_feedback_author_ip_value"
+                           disabled placeholder="<?php _e( 'Author ip', 'bulk-delete' ); ?>">
+                </td>
+            </tr>
+        </table>
 		<?php
 	}
 
@@ -396,19 +420,19 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	 * @static
 	 *
 	 * @param array $delete_options Delete options array
-	 * @param array $post           The Post array
+	 * @param array $post The Post array
 	 *
 	 * @return array Processed delete options array
 	 */
 	public static function process_filtering_options( $delete_options, $post ) {
 		$filters = array();
 
-		if ( 'true' ==  bd_array_get( $post, 'smbd_feedback_use_filter', 'false' ) ) {
+		if ( 'true' == bd_array_get( $post, 'smbd_feedback_use_filter', 'false' ) ) {
 			foreach ( array( 'name', 'email', 'ip' ) as $filter_name ) {
-				if( 'true' ==  bd_array_get( $post, "smbd_feedback_author_{$filter_name}_filter", 'false' ) ) {
-					$filters[$filter_name] = array(
-						'op'    =>  bd_array_get( $post, "smbd_feedback_author_{$filter_name}_op", 'is' ),
-						'value' =>  bd_array_get( $post, "smbd_feedback_author_{$filter_name}_value", '' ),
+				if ( 'true' == bd_array_get( $post, "smbd_feedback_author_{$filter_name}_filter", 'false' ) ) {
+					$filters[ $filter_name ] = array(
+						'op'    => bd_array_get( $post, "smbd_feedback_author_{$filter_name}_op", 'is' ),
+						'value' => bd_array_get( $post, "smbd_feedback_author_{$filter_name}_value", '' ),
 					);
 				}
 			}
@@ -427,7 +451,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	 * @since  0.1
 	 *
 	 * @param array $delete_options List of options chosen by the user
-	 * @param int   $post_id        Post id
+	 * @param int $post_id Post id
 	 *
 	 * @return bool True if the message should be deleted, False otherwise
 	 */
@@ -475,15 +499,33 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 }
 
 // hooks
-add_action( 'bd_add_meta_box_for_misc'  , array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'add_delete_jetpack_messages_meta_box' ) );
-add_action( 'bd_delete_jetpack_messages', array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'do_delete_jetpack_messages' ) );
+add_action( 'bd_add_meta_box_for_misc', array(
+	'Bulk_Delete_Jetpack_Contact_Form_Message',
+	'add_delete_jetpack_messages_meta_box'
+) );
+add_action( 'bd_delete_jetpack_messages', array(
+	'Bulk_Delete_Jetpack_Contact_Form_Message',
+	'do_delete_jetpack_messages'
+) );
 
 add_filter( 'bd_javascript_array', array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'filter_js_array' ) );
-add_action( 'bd_delete_jetpack_messages_form', array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'add_filtering_options' ) );
+add_action( 'bd_delete_jetpack_messages_form', array(
+	'Bulk_Delete_Jetpack_Contact_Form_Message',
+	'add_filtering_options'
+) );
 
-add_filter( 'bd_delete_jetpack_messages_delete_options', array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'process_filtering_options' ), 10, 2 );
-add_filter( 'bd_delete_jetpack_messages_can_delete', array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'can_delete' ), 10, 2 );
+add_filter( 'bd_delete_jetpack_messages_delete_options', array(
+	'Bulk_Delete_Jetpack_Contact_Form_Message',
+	'process_filtering_options'
+), 10, 2 );
+add_filter( 'bd_delete_jetpack_messages_can_delete', array(
+	'Bulk_Delete_Jetpack_Contact_Form_Message',
+	'can_delete'
+), 10, 2 );
 
 // cron hooks
-add_action( Bulk_Delete_Jetpack_Contact_Form_Message::CRON_HOOK, array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'do_delete_jetpack_messages_cron' ), 10, 1 );
+add_action( Bulk_Delete_Jetpack_Contact_Form_Message::CRON_HOOK, array(
+	'Bulk_Delete_Jetpack_Contact_Form_Message',
+	'do_delete_jetpack_messages_cron'
+), 10, 1 );
 ?>
