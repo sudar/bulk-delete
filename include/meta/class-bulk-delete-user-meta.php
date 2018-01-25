@@ -193,12 +193,12 @@ class Bulk_Delete_User_Meta {
 	 */
 	public static function do_delete_user_meta() {
 		$delete_options              = array();
-		$delete_options['user_role'] = array_get( $_POST, 'smbd_um_role', 'administrator' );
+		$delete_options['user_role'] =  bd_array_get( $_POST, 'smbd_um_role', 'administrator' );
 
-		$delete_options['use_value'] = array_get_bool( $_POST, 'smbd_um_use_value', false );
-		$delete_options['meta_key']  = esc_sql( array_get( $_POST, 'smbd_um_key', '' ) );
+		$delete_options['use_value'] = bd_array_get_bool( $_POST, 'smbd_um_use_value', false );
+		$delete_options['meta_key']  = esc_sql(  bd_array_get( $_POST, 'smbd_um_key', '' ) );
 
-		$delete_options['limit_to']  = absint( array_get( $_POST, 'smbd_um_limit_to', 0 ) );
+		$delete_options['limit_to']  = absint(  bd_array_get( $_POST, 'smbd_um_limit_to', 0 ) );
 
 		/**
 		 * Delete user-meta delete options filter.
@@ -208,7 +208,7 @@ class Bulk_Delete_User_Meta {
 		 */
 		$delete_options = apply_filters( 'bd_delete_user_meta_options', $delete_options, $_POST );
 
-		if ( 'true' == array_get( $_POST, 'smbd_um_cron', 'false' ) ) {
+		if ( 'true' ==  bd_array_get( $_POST, 'smbd_um_cron', 'false' ) ) {
 			$freq = $_POST['smbd_um_cron_freq'];
 			$time = strtotime( $_POST['smbd_um_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
