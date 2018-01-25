@@ -198,14 +198,14 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	public static function do_delete_jetpack_messages() {
 		$delete_options                  = array();
 
-		$delete_options['use_filter']    =  bd_array_get( $_POST, 'smbd_feedback_use_filter', 'false' );
+		$delete_options['use_filter']    = bd_array_get( $_POST, 'smbd_feedback_use_filter', 'false' );
 
-		$delete_options['restrict']      =  bd_array_get( $_POST, 'smbd_feedback_restrict', false );
-		$delete_options['limit_to']      = absint(  bd_array_get( $_POST, 'smbd_feedback_limit_to', 0 ) );
-		$delete_options['force_delete']  =  bd_array_get( $_POST, 'smbd_feedback_force_delete', 'false' );
+		$delete_options['restrict']      = bd_array_get( $_POST, 'smbd_feedback_restrict', false );
+		$delete_options['limit_to']      = absint( bd_array_get( $_POST, 'smbd_feedback_limit_to', 0 ) );
+		$delete_options['force_delete']  = bd_array_get( $_POST, 'smbd_feedback_force_delete', 'false' );
 
-		$delete_options['feedback_op']   =  bd_array_get( $_POST, 'smbd_feedback_op' );
-		$delete_options['feedback_days'] =  bd_array_get( $_POST, 'smbd_feedback_days' );
+		$delete_options['feedback_op']   = bd_array_get( $_POST, 'smbd_feedback_op' );
+		$delete_options['feedback_days'] = bd_array_get( $_POST, 'smbd_feedback_days' );
 
 		/**
 		 * Delete jetpack feedback delete options filter
@@ -215,7 +215,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 		 */
 		$delete_options = apply_filters( 'bd_delete_jetpack_messages_delete_options', $delete_options, $_POST );
 
-		if ( 'true' ==  bd_array_get( $_POST, 'smbd_feedback_cron', 'false' ) ) {
+		if ( 'true' == bd_array_get( $_POST, 'smbd_feedback_cron', 'false' ) ) {
 			$freq = $_POST['smbd_feedback_cron_freq'];
 			$time = strtotime( $_POST['smbd_feedback_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
@@ -403,12 +403,12 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	public static function process_filtering_options( $delete_options, $post ) {
 		$filters = array();
 
-		if ( 'true' ==  bd_array_get( $post, 'smbd_feedback_use_filter', 'false' ) ) {
+		if ( 'true' == bd_array_get( $post, 'smbd_feedback_use_filter', 'false' ) ) {
 			foreach ( array( 'name', 'email', 'ip' ) as $filter_name ) {
-				if( 'true' ==  bd_array_get( $post, "smbd_feedback_author_{$filter_name}_filter", 'false' ) ) {
+				if( 'true' == bd_array_get( $post, "smbd_feedback_author_{$filter_name}_filter", 'false' ) ) {
 					$filters[$filter_name] = array(
-						'op'    =>  bd_array_get( $post, "smbd_feedback_author_{$filter_name}_op", 'is' ),
-						'value' =>  bd_array_get( $post, "smbd_feedback_author_{$filter_name}_value", '' ),
+						'op'    => bd_array_get( $post, "smbd_feedback_author_{$filter_name}_op", 'is' ),
+						'value' => bd_array_get( $post, "smbd_feedback_author_{$filter_name}_value", '' ),
 					);
 				}
 			}
