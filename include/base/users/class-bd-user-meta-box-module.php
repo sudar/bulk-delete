@@ -146,16 +146,16 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @param array $delete_options Delete Options.
 	 */
 	protected function process_user_delete( $delete_options ) {
-		$delete_options['login_restrict']      = bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_login_restrict", false );
-		$delete_options['login_days']          = absint(  bd_array_get( $_POST, "smbd_{$this->field_slug}_login_days", 0 ) );
+		$delete_options['login_restrict']      =bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_login_restrict", false );
+		$delete_options['login_days']          = absint( bd_array_get( $_POST, "smbd_{$this->field_slug}_login_days", 0 ) );
 
-		$delete_options['registered_restrict'] = bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_registered_restrict", false );
-		$delete_options['registered_days']     = absint(  bd_array_get( $_POST, "smbd_{$this->field_slug}_registered_days", 0 ) );
+		$delete_options['registered_restrict'] =bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_registered_restrict", false );
+		$delete_options['registered_days']     = absint( bd_array_get( $_POST, "smbd_{$this->field_slug}_registered_days", 0 ) );
 
-		$delete_options['no_posts']            = bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_no_posts", false );
-		$delete_options['no_posts_post_types'] =  bd_array_get( $_POST, "smbd_{$this->field_slug}_no_post_post_types", array() );
+		$delete_options['no_posts']            =bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_no_posts", false );
+		$delete_options['no_posts_post_types'] = bd_array_get( $_POST, "smbd_{$this->field_slug}_no_post_post_types", array() );
 
-		$delete_options['limit_to']            = absint(  bd_array_get( $_POST, "smbd_{$this->field_slug}_limit_to", 0 ) );
+		$delete_options['limit_to']            = absint( bd_array_get( $_POST, "smbd_{$this->field_slug}_limit_to", 0 ) );
 
 		$this->process_delete( $delete_options );
 	} // phpcs:disable

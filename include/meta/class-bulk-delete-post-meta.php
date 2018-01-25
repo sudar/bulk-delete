@@ -213,16 +213,16 @@ class Bulk_Delete_Post_Meta {
 	 */
 	public static function do_delete_post_meta() {
 		$delete_options              = array();
-		$delete_options['post_type'] = esc_sql(  bd_array_get( $_POST, 'smbd_pm_post_type', 'post' ) );
+		$delete_options['post_type'] = esc_sql( bd_array_get( $_POST, 'smbd_pm_post_type', 'post' ) );
 
-		$delete_options['use_value'] = bd_array_get_bool( $_POST, 'smbd_pm_use_value', false );
-		$delete_options['meta_key']  = esc_sql(  bd_array_get( $_POST, 'smbd_pm_key', '' ) );
+		$delete_options['use_value'] =bd_array_get_bool( $_POST, 'smbd_pm_use_value', false );
+		$delete_options['meta_key']  = esc_sql( bd_array_get( $_POST, 'smbd_pm_key', '' ) );
 
-		$delete_options['limit_to']  = absint(  bd_array_get( $_POST, 'smbd_pm_limit_to', 0 ) );
+		$delete_options['limit_to']  = absint( bd_array_get( $_POST, 'smbd_pm_limit_to', 0 ) );
 
-		$delete_options['restrict']  = bd_array_get_bool( $_POST, 'smbd_pm_restrict', false );
-		$delete_options['op']        = esc_sql(  bd_array_get( $_POST, 'smbd_pm_op', 'before' ) );
-		$delete_options['days']      = absint(  bd_array_get( $_POST, 'smbd_pm_days', 0 ) );
+		$delete_options['restrict']  =bd_array_get_bool( $_POST, 'smbd_pm_restrict', false );
+		$delete_options['op']        = esc_sql( bd_array_get( $_POST, 'smbd_pm_op', 'before' ) );
+		$delete_options['days']      = absint( bd_array_get( $_POST, 'smbd_pm_days', 0 ) );
 
 		/**
 		 * Delete post-meta delete options filter.
@@ -232,7 +232,7 @@ class Bulk_Delete_Post_Meta {
 		 */
 		$delete_options = apply_filters( 'bd_delete_post_meta_options', $delete_options, $_POST );
 
-		if ( 'true' ==  bd_array_get( $_POST, 'smbd_pm_cron', 'false' ) ) {
+		if ( 'true' == bd_array_get( $_POST, 'smbd_pm_cron', 'false' ) ) {
 			$freq = $_POST['smbd_pm_cron_freq'];
 			$time = strtotime( $_POST['smbd_pm_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 

@@ -84,18 +84,18 @@ class Bulk_Delete_Posts {
 	public static function do_delete_posts_by_status() {
 		$delete_options = array();
 
-		$delete_options['restrict']     = bd_array_get_bool( $_POST, 'smbd_post_status_restrict', false );
-		$delete_options['limit_to']     = absint(  bd_array_get( $_POST, 'smbd_post_status_limit_to', 0 ) );
-		$delete_options['force_delete'] = bd_array_get_bool( $_POST, 'smbd_post_status_force_delete', false );
+		$delete_options['restrict']     =bd_array_get_bool( $_POST, 'smbd_post_status_restrict', false );
+		$delete_options['limit_to']     = absint( bd_array_get( $_POST, 'smbd_post_status_limit_to', 0 ) );
+		$delete_options['force_delete'] =bd_array_get_bool( $_POST, 'smbd_post_status_force_delete', false );
 
-		$delete_options['date_op'] =  bd_array_get( $_POST, 'smbd_post_status_op' );
-		$delete_options['days']    = absint(  bd_array_get( $_POST, 'smbd_post_status_days' ) );
+		$delete_options['date_op'] = bd_array_get( $_POST, 'smbd_post_status_op' );
+		$delete_options['days']    = absint( bd_array_get( $_POST, 'smbd_post_status_days' ) );
 
-		$delete_options['post_status'] = array_map( 'sanitize_text_field',  bd_array_get( $_POST, 'smbd_post_status', array() ) );
+		$delete_options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $_POST, 'smbd_post_status', array() ) );
 
-		$delete_options['delete-sticky-posts'] = bd_array_get_bool( $_POST, 'smbd_sticky', false );
+		$delete_options['delete-sticky-posts'] =bd_array_get_bool( $_POST, 'smbd_sticky', false );
 
-		if ( bd_array_get_bool( $_POST, 'smbd_post_status_cron', false ) ) {
+		if (bd_array_get_bool( $_POST, 'smbd_post_status_cron', false ) ) {
 			$freq = sanitize_text_field( $_POST['smbd_post_status_cron_freq'] );
 			$time = strtotime( $_POST['smbd_post_status_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
@@ -245,17 +245,17 @@ class Bulk_Delete_Posts {
 	public static function do_delete_posts_by_category() {
 		$delete_options = array();
 
-		$delete_options['post_type']     =  bd_array_get( $_POST, 'smbd_cats_post_type', 'post' );
-		$delete_options['selected_cats'] =  bd_array_get( $_POST, 'smbd_cats' );
-		$delete_options['restrict']      = bd_array_get_bool( $_POST, 'smbd_cats_restrict', false );
-		$delete_options['private']       = bd_array_get_bool( $_POST, 'smbd_cats_private', false );
-		$delete_options['limit_to']      = absint(  bd_array_get( $_POST, 'smbd_cats_limit_to', 0 ) );
-		$delete_options['force_delete']  = bd_array_get_bool( $_POST, 'smbd_cats_force_delete', false );
+		$delete_options['post_type']     = bd_array_get( $_POST, 'smbd_cats_post_type', 'post' );
+		$delete_options['selected_cats'] = bd_array_get( $_POST, 'smbd_cats' );
+		$delete_options['restrict']      =bd_array_get_bool( $_POST, 'smbd_cats_restrict', false );
+		$delete_options['private']       =bd_array_get_bool( $_POST, 'smbd_cats_private', false );
+		$delete_options['limit_to']      = absint( bd_array_get( $_POST, 'smbd_cats_limit_to', 0 ) );
+		$delete_options['force_delete']  =bd_array_get_bool( $_POST, 'smbd_cats_force_delete', false );
 
-		$delete_options['date_op']       =  bd_array_get( $_POST, 'smbd_cats_op' );
-		$delete_options['days']          = absint(  bd_array_get( $_POST, 'smbd_cats_days' ) );
+		$delete_options['date_op']       = bd_array_get( $_POST, 'smbd_cats_op' );
+		$delete_options['days']          = absint( bd_array_get( $_POST, 'smbd_cats_days' ) );
 
-		if ( bd_array_get_bool( $_POST, 'smbd_cats_cron', false ) ) {
+		if (bd_array_get_bool( $_POST, 'smbd_cats_cron', false ) ) {
 			$freq = $_POST['smbd_cats_cron_freq'];
 			$time = strtotime( $_POST['smbd_cats_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
@@ -292,7 +292,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function delete_posts_by_category( $delete_options ) {
 		// Backward compatibility code. Will be removed in Bulk Delete v6.0
-		$delete_options['post_type'] =  bd_array_get( $delete_options, 'post_type', 'post' );
+		$delete_options['post_type'] = bd_array_get( $delete_options, 'post_type', 'post' );
 
 		if ( array_key_exists( 'cats_op', $delete_options ) ) {
 			$delete_options['date_op'] = $delete_options['cats_op'];
@@ -381,16 +381,16 @@ class Bulk_Delete_Posts {
 	 */
 	public static function do_delete_posts_by_tag() {
 		$delete_options                  = array();
-		$delete_options['selected_tags'] =  bd_array_get( $_POST, 'smbd_tags' );
-		$delete_options['restrict']      = bd_array_get_bool( $_POST, 'smbd_tags_restrict', false );
-		$delete_options['private']       =  bd_array_get( $_POST, 'smbd_tags_private' );
-		$delete_options['limit_to']      = absint(  bd_array_get( $_POST, 'smbd_tags_limit_to', 0 ) );
-		$delete_options['force_delete']  = bd_array_get_bool( $_POST, 'smbd_tags_force_delete', false );
+		$delete_options['selected_tags'] = bd_array_get( $_POST, 'smbd_tags' );
+		$delete_options['restrict']      =bd_array_get_bool( $_POST, 'smbd_tags_restrict', false );
+		$delete_options['private']       = bd_array_get( $_POST, 'smbd_tags_private' );
+		$delete_options['limit_to']      = absint( bd_array_get( $_POST, 'smbd_tags_limit_to', 0 ) );
+		$delete_options['force_delete']  =bd_array_get_bool( $_POST, 'smbd_tags_force_delete', false );
 
-		$delete_options['date_op']       =  bd_array_get( $_POST, 'smbd_tags_op' );
-		$delete_options['days']          = absint(  bd_array_get( $_POST, 'smbd_tags_days' ) );
+		$delete_options['date_op']       = bd_array_get( $_POST, 'smbd_tags_op' );
+		$delete_options['days']          = absint( bd_array_get( $_POST, 'smbd_tags_days' ) );
 
-		if (  bd_array_get( $_POST, 'smbd_tags_cron', 'false' ) == 'true' ) {
+		if ( bd_array_get( $_POST, 'smbd_tags_cron', 'false' ) == 'true' ) {
 			$freq = $_POST['smbd_tags_cron_freq'];
 			$time = strtotime( $_POST['smbd_tags_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
@@ -557,18 +557,18 @@ class Bulk_Delete_Posts {
 	 */
 	public static function do_delete_posts_by_taxonomy() {
 		$delete_options                       = array();
-		$delete_options['post_type']          =  bd_array_get( $_POST, 'smbd_tax_post_type', 'post' );
-		$delete_options['selected_taxs']      =  bd_array_get( $_POST, 'smbd_taxs' );
-		$delete_options['selected_tax_terms'] =  bd_array_get( $_POST, 'smbd_tax_terms' );
-		$delete_options['restrict']           = bd_array_get_bool( $_POST, 'smbd_taxs_restrict', false );
-		$delete_options['private']            = bd_array_get_bool( $_POST, 'smbd_taxs_private' );
-		$delete_options['limit_to']           = absint(  bd_array_get( $_POST, 'smbd_taxs_limit_to', 0 ) );
-		$delete_options['force_delete']       = bd_array_get_bool( $_POST, 'smbd_taxs_force_delete', false );
+		$delete_options['post_type']          = bd_array_get( $_POST, 'smbd_tax_post_type', 'post' );
+		$delete_options['selected_taxs']      = bd_array_get( $_POST, 'smbd_taxs' );
+		$delete_options['selected_tax_terms'] = bd_array_get( $_POST, 'smbd_tax_terms' );
+		$delete_options['restrict']           =bd_array_get_bool( $_POST, 'smbd_taxs_restrict', false );
+		$delete_options['private']            =bd_array_get_bool( $_POST, 'smbd_taxs_private' );
+		$delete_options['limit_to']           = absint( bd_array_get( $_POST, 'smbd_taxs_limit_to', 0 ) );
+		$delete_options['force_delete']       =bd_array_get_bool( $_POST, 'smbd_taxs_force_delete', false );
 
-		$delete_options['date_op']            =  bd_array_get( $_POST, 'smbd_taxs_op' );
-		$delete_options['days']               = absint(  bd_array_get( $_POST, 'smbd_taxs_days' ) );
+		$delete_options['date_op']            = bd_array_get( $_POST, 'smbd_taxs_op' );
+		$delete_options['days']               = absint( bd_array_get( $_POST, 'smbd_taxs_days' ) );
 
-		if (  bd_array_get( $_POST, 'smbd_taxs_cron', 'false' ) == 'true' ) {
+		if ( bd_array_get( $_POST, 'smbd_taxs_cron', 'false' ) == 'true' ) {
 			$freq = $_POST['smbd_taxs_cron_freq'];
 			$time = strtotime( $_POST['smbd_taxs_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
@@ -604,7 +604,7 @@ class Bulk_Delete_Posts {
 	 */
 	public static function delete_posts_by_taxonomy( $delete_options ) {
 		// For compatibility reasons set default post type to 'post'
-		$post_type =  bd_array_get( $delete_options, 'post_type', 'post' );
+		$post_type = bd_array_get( $delete_options, 'post_type', 'post' );
 
 		if ( array_key_exists( 'taxs_op', $delete_options ) ) {
 			$delete_options['date_op'] = $delete_options['taxs_op'];
@@ -728,15 +728,15 @@ class Bulk_Delete_Posts {
 	public static function do_delete_posts_by_post_type() {
 		$delete_options                   = array();
 
-		$delete_options['selected_types'] =  bd_array_get( $_POST, 'smbd_types' );
-		$delete_options['restrict']       = bd_array_get_bool( $_POST, 'smbd_types_restrict', false );
-		$delete_options['limit_to']       = absint(  bd_array_get( $_POST, 'smbd_types_limit_to', 0 ) );
-		$delete_options['force_delete']   = bd_array_get_bool( $_POST, 'smbd_types_force_delete', false );
+		$delete_options['selected_types'] = bd_array_get( $_POST, 'smbd_types' );
+		$delete_options['restrict']       =bd_array_get_bool( $_POST, 'smbd_types_restrict', false );
+		$delete_options['limit_to']       = absint( bd_array_get( $_POST, 'smbd_types_limit_to', 0 ) );
+		$delete_options['force_delete']   =bd_array_get_bool( $_POST, 'smbd_types_force_delete', false );
 
-		$delete_options['date_op']        =  bd_array_get( $_POST, 'smbd_types_op' );
-		$delete_options['days']           = absint(  bd_array_get( $_POST, 'smbd_types_days' ) );
+		$delete_options['date_op']        = bd_array_get( $_POST, 'smbd_types_op' );
+		$delete_options['days']           = absint( bd_array_get( $_POST, 'smbd_types_days' ) );
 
-		if (  bd_array_get( $_POST, 'smbd_types_cron', 'false' ) == 'true' ) {
+		if ( bd_array_get( $_POST, 'smbd_types_cron', 'false' ) == 'true' ) {
 			$freq = $_POST['smbd_types_cron_freq'];
 			$time = strtotime( $_POST['smbd_types_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
@@ -854,9 +854,9 @@ class Bulk_Delete_Posts {
 	 * @since 5.0
 	 */
 	public static function do_delete_posts_by_url() {
-		$force_delete = bd_array_get_bool( $_POST, 'smbd_specific_force_delete', false );
+		$force_delete =bd_array_get_bool( $_POST, 'smbd_specific_force_delete', false );
 
-		$urls = preg_split( '/\r\n|\r|\n/',  bd_array_get( $_POST, 'smdb_specific_pages_urls' ) );
+		$urls = preg_split( '/\r\n|\r|\n/', bd_array_get( $_POST, 'smdb_specific_pages_urls' ) );
 		foreach ( $urls as $url ) {
 			$checkedurl = $url;
 			if ( substr( $checkedurl , 0, 1 ) == '/' ) {
@@ -919,7 +919,7 @@ class Bulk_Delete_Posts {
 	 * @since 5.0
 	 */
 	public static function do_delete_posts_by_revision() {
-		$delete_options = array( 'revisions' =>  bd_array_get( $_POST, 'smbd_revisions' ) );
+		$delete_options = array( 'revisions' => bd_array_get( $_POST, 'smbd_revisions' ) );
 
 		$deleted_count = self::delete_posts_by_revision( $delete_options );
 
