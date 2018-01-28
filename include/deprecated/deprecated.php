@@ -113,7 +113,7 @@ add_filter( 'bd_javascript_array', 'bd_enable_cron_for_old_addons' );
 
 // Deprecated functions.
 
-if ( ! function_exists( ' bd_array_get' ) ) {
+if ( ! function_exists( 'bd_array_get' ) ) {
 	/**
 	 * Deprecated. Use ` bd_array_get`.
 	 *
