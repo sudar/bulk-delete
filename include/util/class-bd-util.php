@@ -225,10 +225,8 @@ class BD_Util {
  *
  * @return mixed Value if key is present, else the default value.
  */
-if ( ! function_exists( ' bd_array_get' ) ) {
-	function bd_array_get( $array, $key, $default = null ) {
-		return isset( $array[ $key ] ) ? $array[ $key ] : $default;
-	}
+function  bd_array_get( $array, $key, $default = null ) {
+	return isset( $array[ $key ] ) ? $array[ $key ] : $default;
 }
 
 /**
