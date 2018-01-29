@@ -2,13 +2,13 @@
 /**
  * Plugin Name: Bulk Delete
  * Plugin Script: bulk-delete.php
- * Plugin URI: http://bulkwp.com
+ * Plugin URI: https://bulkwp.com
  * Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
  * Donate Link: http://sudarmuthu.com/if-you-wanna-thank-me
  * Version: 5.6.1
  * License: GPL
  * Author: Sudar
- * Author URI: http://sudarmuthu.com/
+ * Author URI: https://sudarmuthu.com/
  * Text Domain: bulk-delete
  * Domain Path: languages/
  * === RELEASE NOTES ===
