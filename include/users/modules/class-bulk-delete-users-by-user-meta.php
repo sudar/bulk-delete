@@ -75,12 +75,16 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 ?>
 		</select>
 		<select name="smbd_u_meta_compare">
-			<option value="=">=</option>
-			<option value="!=">!=</option>
-			<option value=">">></option>
-			<option value=">=">>=</option>
-			<option value="<"><</option>
-			<option value="<="><=</option>
+			<option value="=">Equals to</option>
+			<option value="!=">Not Equals to</option>
+			<option value=">">Greater than</option>
+			<option value=">=">Greater than or equals to</option>
+			<option value="<">Less than</option>
+			<option value="<=">Less than or equals to</option>
+			<option value="LIKE">Contains</option>
+			<option value="NOT LIKE">Not Contains</option>
+			<option value="STARTS WITH">Starts with</option>
+			<option value="ENDS WITH">Ends with</option>
 		</select>
 		<input type="text" name="smbd_u_meta_value" id="smbd_u_meta_value" placeholder="<?php _e( 'Meta Value', 'bulk-delete' );?>">
 
@@ -111,10 +115,21 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 	 * @since 5.5
 	 */
 	public function process() {
-		$delete_options                   = array();
-		$delete_options['meta_key']       = array_get( $_POST, 'smbd_u_meta_key' );
-		$delete_options['meta_compare']   = array_get( $_POST, 'smbd_u_meta_compare', '=' );
-		$delete_options['meta_value']     = array_get( $_POST, 'smbd_u_meta_value' );
+		$delete_options                 = array();
+		$delete_options['meta_key']     = array_get( $_POST, 'smbd_u_meta_key' );
+		$delete_options['meta_compare'] = array_get( $_POST, 'smbd_u_meta_compare', '=' );
+		$delete_options['meta_value']   = array_get( $_POST, 'smbd_u_meta_value' );
+
+		switch ( strtolower( trim( $delete_options['meta_compare'] ) ) ) {
+			case 'starts with':
+				$delete_options['meta_compare'] = 'REGEXP';
+				$delete_options['meta_value']   = '^' . $delete_options['meta_value'];
+				break;
+			case 'ends with':
+				$delete_options['meta_compare'] = 'REGEXP';
+				$delete_options['meta_value']   = $delete_options['meta_value'] . '$';
+				break;
+		}
 
 		$this->process_user_delete( $delete_options );
 	}
