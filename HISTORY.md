@@ -2,6 +2,14 @@
 
 ### v5.7.0 - (In Development) ###
 
+### 2018-01-29 - v5.6.1 ###
+
+- New Features
+	- Added the ability to delete users based on partial user meta values.
+
+- Enhancements
+	- Fixed a typo in filter text.
+
 ### 2017-12-28 - v5.6.0 ###
 
 - New Features
@@ -324,6 +332,9 @@
 *   First version
 
 ## Upgrade Notice ##
+
+### 5.6.1 ###
+Added the ability to delete users based on partial user meta values.
 
 ### 5.6.0 ###
 Added the ability to delete posts based on custom post status

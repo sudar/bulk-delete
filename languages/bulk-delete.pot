@@ -1,91 +1,91 @@
-# Copyright (C) 2017 Bulk Delete
+# Copyright (C) 2018 Bulk Delete
 # This file is distributed under the same license as the Bulk Delete package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Bulk Delete 5.6.0\n"
+"Project-Id-Version: Bulk Delete 5.6.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bulk-delete\n"
-"POT-Creation-Date: 2017-12-28 12:34:38+00:00\n"
+"POT-Creation-Date: 2018-01-29 09:53:59+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: bulk-delete.php:177 bulk-delete.php:190 dist/bulk-delete.php:177
+#: bulk-delete.php:173 bulk-delete.php:186 dist/bulk-delete.php:177
 #: dist/bulk-delete.php:190
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: bulk-delete.php:341 dist/bulk-delete.php:311
+#: bulk-delete.php:337 dist/bulk-delete.php:341
 msgid "Bulk WP"
 msgstr ""
 
-#: bulk-delete.php:343 bulk-delete.php:529 dist/bulk-delete.php:313
-#: dist/bulk-delete.php:499 dist/include/ui/admin-ui.php:55
+#: bulk-delete.php:339 bulk-delete.php:525 dist/bulk-delete.php:343
+#: dist/bulk-delete.php:529 dist/include/ui/admin-ui.php:55
 #: include/ui/admin-ui.php:55
 msgid "Bulk Delete Posts"
 msgstr ""
 
-#: bulk-delete.php:344 bulk-delete.php:578 dist/bulk-delete.php:314
-#: dist/bulk-delete.php:548
+#: bulk-delete.php:340 bulk-delete.php:574 dist/bulk-delete.php:344
+#: dist/bulk-delete.php:578
 msgid "Bulk Delete Pages"
 msgstr ""
 
-#: bulk-delete.php:364 bulk-delete.php:634 dist/bulk-delete.php:334
-#: dist/bulk-delete.php:604
+#: bulk-delete.php:360 bulk-delete.php:630 dist/bulk-delete.php:364
+#: dist/bulk-delete.php:634
 msgid "Bulk Delete Schedules"
 msgstr ""
 
-#: bulk-delete.php:364 dist/bulk-delete.php:334
+#: bulk-delete.php:360 dist/bulk-delete.php:364
 msgid "Scheduled Jobs"
 msgstr ""
 
-#: bulk-delete.php:365 dist/bulk-delete.php:335
+#: bulk-delete.php:361 dist/bulk-delete.php:365
 #: dist/include/license/class-bd-license.php:33
 #: include/license/class-bd-license.php:33
 msgid "Addon Licenses"
 msgstr ""
 
-#: bulk-delete.php:411 dist/bulk-delete.php:381
+#: bulk-delete.php:407 dist/bulk-delete.php:411
 msgid "By Post Status"
 msgstr ""
 
-#: bulk-delete.php:412 dist/bulk-delete.php:382
+#: bulk-delete.php:408 dist/bulk-delete.php:412
 msgid "By Category"
 msgstr ""
 
-#: bulk-delete.php:413 dist/bulk-delete.php:383
+#: bulk-delete.php:409 dist/bulk-delete.php:413
 msgid "By Tag"
 msgstr ""
 
-#: bulk-delete.php:414 dist/bulk-delete.php:384
+#: bulk-delete.php:410 dist/bulk-delete.php:414
 msgid "By Custom Taxonomy"
 msgstr ""
 
-#: bulk-delete.php:415 dist/bulk-delete.php:385
+#: bulk-delete.php:411 dist/bulk-delete.php:415
 msgid "By Custom Post Type"
 msgstr ""
 
-#: bulk-delete.php:416 dist/bulk-delete.php:386
+#: bulk-delete.php:412 dist/bulk-delete.php:416
 msgid "By URL"
 msgstr ""
 
-#: bulk-delete.php:417 dist/bulk-delete.php:387
+#: bulk-delete.php:413 dist/bulk-delete.php:417
 msgid "By Post Revision"
 msgstr ""
 
-#: bulk-delete.php:454 dist/bulk-delete.php:424
+#: bulk-delete.php:450 dist/bulk-delete.php:454
 msgid "By Page Status"
 msgstr ""
 
-#: bulk-delete.php:545 dist/bulk-delete.php:515
+#: bulk-delete.php:541 dist/bulk-delete.php:545
 #: dist/include/misc/class-bulk-delete-misc.php:117
 #: include/misc/class-bulk-delete-misc.php:117
 msgid "WARNING: Posts deleted once cannot be retrieved back. Use with caution."
 msgstr ""
 
-#: bulk-delete.php:594 dist/bulk-delete.php:564
+#: bulk-delete.php:590 dist/bulk-delete.php:594
 msgid "WARNING: Pages deleted once cannot be retrieved back. Use with caution."
 msgstr ""
 
@@ -415,7 +415,7 @@ msgstr ""
 #: dist/include/posts/class-bulk-delete-posts.php:750
 #: include/base/class-bd-meta-box-module.php:293
 #: include/meta/class-bulk-delete-comment-meta.php:245
-#: include/meta/class-bulk-delete-post-meta.php:245
+#: include/meta/class-bulk-delete-post-meta.php:260
 #: include/meta/class-bulk-delete-user-meta.php:221
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:228
 #: include/pages/class-bulk-delete-pages.php:121
@@ -426,9 +426,9 @@ msgstr ""
 #: include/posts/class-bulk-delete-posts.php:750
 #: tmp_addon/bulk-delete-posts-by-attachment.php:288
 #: tmp_addon/bulk-delete-posts-by-content.php:292
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:339
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:338
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:257
-#: tmp_addon/bulk-delete-posts-by-title.php:274
+#: tmp_addon/bulk-delete-posts-by-title.php:275
 #: tmp_addon/bulk-delete-posts-by-user-role.php:225
 #: tmp_addon/bulk-delete-posts-by-user.php:265
 #: tmp_addon/bulk-delete-posts-by-word-count.php:300
@@ -457,13 +457,13 @@ msgstr ""
 #: dist/include/ui/form.php:48
 #: include/base/users/class-bd-user-meta-box-module.php:189
 #: include/meta/class-bulk-delete-comment-meta.php:136
-#: include/meta/class-bulk-delete-post-meta.php:136
+#: include/meta/class-bulk-delete-post-meta.php:151
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:113
 #: include/ui/form.php:48 tmp_addon/bulk-delete-from-trash.php:348
 #: tmp_addon/bulk-delete-posts-by-attachment.php:177
 #: tmp_addon/bulk-delete-posts-by-content.php:197
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:222
-#: tmp_addon/bulk-delete-posts-by-title.php:172
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:221
+#: tmp_addon/bulk-delete-posts-by-title.php:173
 #: tmp_addon/bulk-delete-posts-by-user-role.php:140
 #: tmp_addon/bulk-delete-posts-by-user.php:181
 #: tmp_addon/bulk-delete-posts-by-word-count.php:193
@@ -523,14 +523,14 @@ msgstr ""
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:144
 #: dist/include/ui/form.php:127 include/cron/class-cron-list-table.php:50
 #: include/meta/class-bulk-delete-comment-meta.php:152
-#: include/meta/class-bulk-delete-post-meta.php:152
+#: include/meta/class-bulk-delete-post-meta.php:167
 #: include/meta/class-bulk-delete-user-meta.php:132
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:144
 #: include/ui/form.php:127 tmp_addon/bulk-delete-posts-by-attachment.php:209
 #: tmp_addon/bulk-delete-posts-by-content.php:227
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:255
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:254
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:186
-#: tmp_addon/bulk-delete-posts-by-title.php:200
+#: tmp_addon/bulk-delete-posts-by-title.php:201
 #: tmp_addon/bulk-delete-posts-by-user-role.php:164
 #: tmp_addon/bulk-delete-posts-by-user.php:205
 #: tmp_addon/bulk-delete-posts-by-word-count.php:230
@@ -761,16 +761,17 @@ msgstr ""
 #: include/meta/class-bulk-delete-comment-meta.php:100
 #: include/meta/class-bulk-delete-comment-meta.php:166
 #: include/meta/class-bulk-delete-post-meta.php:100
-#: include/meta/class-bulk-delete-post-meta.php:166
+#: include/meta/class-bulk-delete-post-meta.php:110
+#: include/meta/class-bulk-delete-post-meta.php:181
 #: include/meta/class-bulk-delete-user-meta.php:92
 #: include/meta/class-bulk-delete-user-meta.php:146
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:83
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:157
 #: include/ui/form.php:138 tmp_addon/bulk-delete-posts-by-attachment.php:222
 #: tmp_addon/bulk-delete-posts-by-content.php:240
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:269
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:268
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:199
-#: tmp_addon/bulk-delete-posts-by-title.php:215
+#: tmp_addon/bulk-delete-posts-by-title.php:216
 #: tmp_addon/bulk-delete-posts-by-user-role.php:177
 #: tmp_addon/bulk-delete-posts-by-user.php:218
 #: tmp_addon/bulk-delete-posts-by-word-count.php:245
@@ -786,7 +787,7 @@ msgstr ""
 #: dist/include/meta/class-bulk-delete-post-meta.php:108
 #: dist/include/meta/class-bulk-delete-user-meta.php:100
 #: include/meta/class-bulk-delete-comment-meta.php:108
-#: include/meta/class-bulk-delete-post-meta.php:108
+#: include/meta/class-bulk-delete-post-meta.php:123
 #: include/meta/class-bulk-delete-user-meta.php:100
 msgid "Meta Key"
 msgstr ""
@@ -796,7 +797,7 @@ msgstr ""
 #: dist/include/meta/class-bulk-delete-user-meta.php:116
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:130
 #: include/meta/class-bulk-delete-comment-meta.php:124
-#: include/meta/class-bulk-delete-post-meta.php:124
+#: include/meta/class-bulk-delete-post-meta.php:139
 #: include/meta/class-bulk-delete-user-meta.php:116
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:130
 msgid "Choose your deletion options"
@@ -812,12 +813,12 @@ msgstr ""
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:110
 #: dist/include/ui/form.php:45
 #: include/meta/class-bulk-delete-comment-meta.php:133
-#: include/meta/class-bulk-delete-post-meta.php:133
+#: include/meta/class-bulk-delete-post-meta.php:148
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:110
 #: include/ui/form.php:45 tmp_addon/bulk-delete-posts-by-attachment.php:174
 #: tmp_addon/bulk-delete-posts-by-content.php:194
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:218
-#: tmp_addon/bulk-delete-posts-by-title.php:168
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:217
+#: tmp_addon/bulk-delete-posts-by-title.php:169
 #: tmp_addon/bulk-delete-posts-by-user-role.php:137
 #: tmp_addon/bulk-delete-posts-by-user.php:178
 #: tmp_addon/bulk-delete-posts-by-word-count.php:189
@@ -842,14 +843,11 @@ msgstr ""
 #: dist/include/meta/class-bulk-delete-comment-meta.php:145
 #: dist/include/meta/class-bulk-delete-post-meta.php:145
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:124
-#: include/meta/class-bulk-delete-comment-meta.php:145
-#: include/meta/class-bulk-delete-post-meta.php:145
-#: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:124
 #: tmp_addon/bulk-delete-posts-by-attachment.php:202
 #: tmp_addon/bulk-delete-posts-by-content.php:220
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:248
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:247
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:179
-#: tmp_addon/bulk-delete-posts-by-title.php:191
+#: tmp_addon/bulk-delete-posts-by-title.php:192
 #: tmp_addon/bulk-delete-posts-by-word-count.php:221
 msgid ""
 "Use this option if there are more than 1000 posts and the script timesout."
@@ -861,14 +859,14 @@ msgstr ""
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:143
 #: dist/include/ui/form.php:126
 #: include/meta/class-bulk-delete-comment-meta.php:151
-#: include/meta/class-bulk-delete-post-meta.php:151
+#: include/meta/class-bulk-delete-post-meta.php:166
 #: include/meta/class-bulk-delete-user-meta.php:131
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:143
 #: include/ui/form.php:126 tmp_addon/bulk-delete-posts-by-attachment.php:208
 #: tmp_addon/bulk-delete-posts-by-content.php:226
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:254
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:253
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:185
-#: tmp_addon/bulk-delete-posts-by-title.php:198
+#: tmp_addon/bulk-delete-posts-by-title.php:199
 #: tmp_addon/bulk-delete-posts-by-user-role.php:163
 #: tmp_addon/bulk-delete-posts-by-user.php:204
 #: tmp_addon/bulk-delete-posts-by-word-count.php:228
@@ -881,14 +879,14 @@ msgstr ""
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:145
 #: dist/include/ui/form.php:128
 #: include/meta/class-bulk-delete-comment-meta.php:153
-#: include/meta/class-bulk-delete-post-meta.php:153
+#: include/meta/class-bulk-delete-post-meta.php:168
 #: include/meta/class-bulk-delete-user-meta.php:133
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:145
 #: include/ui/form.php:128 tmp_addon/bulk-delete-posts-by-attachment.php:210
 #: tmp_addon/bulk-delete-posts-by-content.php:228
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:256
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:255
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:187
-#: tmp_addon/bulk-delete-posts-by-title.php:202
+#: tmp_addon/bulk-delete-posts-by-title.php:203
 #: tmp_addon/bulk-delete-posts-by-user-role.php:165
 #: tmp_addon/bulk-delete-posts-by-user.php:206
 #: tmp_addon/bulk-delete-posts-by-word-count.php:232
@@ -901,14 +899,14 @@ msgstr ""
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:147
 #: dist/include/ui/form.php:130
 #: include/meta/class-bulk-delete-comment-meta.php:155
-#: include/meta/class-bulk-delete-post-meta.php:155
+#: include/meta/class-bulk-delete-post-meta.php:170
 #: include/meta/class-bulk-delete-user-meta.php:135
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:147
 #: include/ui/form.php:130 tmp_addon/bulk-delete-posts-by-attachment.php:212
 #: tmp_addon/bulk-delete-posts-by-content.php:230
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:259
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:258
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:189
-#: tmp_addon/bulk-delete-posts-by-title.php:204
+#: tmp_addon/bulk-delete-posts-by-title.php:205
 #: tmp_addon/bulk-delete-posts-by-user-role.php:167
 #: tmp_addon/bulk-delete-posts-by-user.php:208
 #: tmp_addon/bulk-delete-posts-by-word-count.php:234
@@ -919,13 +917,13 @@ msgstr ""
 #: dist/include/meta/class-bulk-delete-post-meta.php:173
 #: dist/include/meta/class-bulk-delete-user-meta.php:153
 #: include/meta/class-bulk-delete-comment-meta.php:173
-#: include/meta/class-bulk-delete-post-meta.php:173
+#: include/meta/class-bulk-delete-post-meta.php:188
 #: include/meta/class-bulk-delete-user-meta.php:153
 #: tmp_addon/bulk-delete-posts-by-attachment.php:228
 #: tmp_addon/bulk-delete-posts-by-content.php:246
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:277
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:276
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:205
-#: tmp_addon/bulk-delete-posts-by-title.php:222
+#: tmp_addon/bulk-delete-posts-by-title.php:223
 #: tmp_addon/bulk-delete-posts-by-user-role.php:183
 #: tmp_addon/bulk-delete-posts-by-user.php:224
 #: tmp_addon/bulk-delete-posts-by-word-count.php:252
@@ -938,16 +936,16 @@ msgstr ""
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:164
 #: dist/include/ui/form.php:160
 #: include/meta/class-bulk-delete-comment-meta.php:181
-#: include/meta/class-bulk-delete-post-meta.php:181
+#: include/meta/class-bulk-delete-post-meta.php:196
 #: include/meta/class-bulk-delete-user-meta.php:161
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:164
 #: include/ui/form.php:160 tmp_addon/bulk-delete-from-trash.php:162
 #: tmp_addon/bulk-delete-from-trash.php:270
 #: tmp_addon/bulk-delete-posts-by-attachment.php:235
 #: tmp_addon/bulk-delete-posts-by-content.php:254
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:286
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:285
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:213
-#: tmp_addon/bulk-delete-posts-by-title.php:231
+#: tmp_addon/bulk-delete-posts-by-title.php:232
 #: tmp_addon/bulk-delete-posts-by-user-role.php:191
 #: tmp_addon/bulk-delete-posts-by-user.php:232
 #: tmp_addon/bulk-delete-posts-by-word-count.php:261
@@ -1010,23 +1008,23 @@ msgid "Delete based on post meta key name only"
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-post-meta.php:98
-#: include/meta/class-bulk-delete-post-meta.php:98
+#: include/meta/class-bulk-delete-post-meta.php:108
 msgid "Delete based on post meta key name and value"
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-post-meta.php:107
-#: include/meta/class-bulk-delete-post-meta.php:107
+#: include/meta/class-bulk-delete-post-meta.php:117
 msgid "Post Meta Key "
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-post-meta.php:131
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:108
-#: include/meta/class-bulk-delete-post-meta.php:131
+#: include/meta/class-bulk-delete-post-meta.php:146
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:108
 #: tmp_addon/bulk-delete-posts-by-attachment.php:172
 #: tmp_addon/bulk-delete-posts-by-content.php:192
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:216
-#: tmp_addon/bulk-delete-posts-by-title.php:166
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:215
+#: tmp_addon/bulk-delete-posts-by-title.php:167
 #: tmp_addon/bulk-delete-posts-by-user-role.php:135
 #: tmp_addon/bulk-delete-posts-by-user.php:176
 #: tmp_addon/bulk-delete-posts-by-word-count.php:187
@@ -1035,12 +1033,12 @@ msgstr ""
 
 #: dist/include/meta/class-bulk-delete-post-meta.php:134
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:111
-#: dist/include/ui/form.php:46 include/meta/class-bulk-delete-post-meta.php:134
+#: dist/include/ui/form.php:46 include/meta/class-bulk-delete-post-meta.php:149
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:111
 #: include/ui/form.php:46 tmp_addon/bulk-delete-posts-by-attachment.php:175
 #: tmp_addon/bulk-delete-posts-by-content.php:195
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:219
-#: tmp_addon/bulk-delete-posts-by-title.php:169
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:218
+#: tmp_addon/bulk-delete-posts-by-title.php:170
 #: tmp_addon/bulk-delete-posts-by-user-role.php:138
 #: tmp_addon/bulk-delete-posts-by-user.php:179
 #: tmp_addon/bulk-delete-posts-by-word-count.php:190
@@ -1048,18 +1046,18 @@ msgid "posted within last"
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-post-meta.php:143
-#: include/meta/class-bulk-delete-post-meta.php:143
+#: include/meta/class-bulk-delete-post-meta.php:158
 msgid "Only delete post meta field from first "
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-post-meta.php:144
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:123
-#: include/meta/class-bulk-delete-post-meta.php:144
+#: include/meta/class-bulk-delete-post-meta.php:159
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:123
 #: tmp_addon/bulk-delete-posts-by-attachment.php:201
 #: tmp_addon/bulk-delete-posts-by-content.php:219
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:247
-#: tmp_addon/bulk-delete-posts-by-title.php:190
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:246
+#: tmp_addon/bulk-delete-posts-by-title.php:191
 #: tmp_addon/bulk-delete-posts-by-user-role.php:156
 #: tmp_addon/bulk-delete-posts-by-user.php:197
 #: tmp_addon/bulk-delete-posts-by-word-count.php:220
@@ -1067,21 +1065,21 @@ msgid "posts."
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-post-meta.php:202
-#: include/meta/class-bulk-delete-post-meta.php:202
+#: include/meta/class-bulk-delete-post-meta.php:217
 msgid ""
 "Are you sure you want to delete all the post meta fields that match the "
 "selected filters?"
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-post-meta.php:244
-#: include/meta/class-bulk-delete-post-meta.php:244
+#: include/meta/class-bulk-delete-post-meta.php:259
 msgid ""
 "Post meta fields from the posts with the selected criteria are scheduled for "
 "deletion."
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-post-meta.php:248
-#: include/meta/class-bulk-delete-post-meta.php:248
+#: include/meta/class-bulk-delete-post-meta.php:263
 msgid "Deleted post meta field from %d post"
 msgid_plural "Deleted post meta field from %d posts"
 msgstr[0] ""
@@ -1136,7 +1134,6 @@ msgid "users."
 msgstr ""
 
 #: dist/include/meta/class-bulk-delete-user-meta.php:125
-#: include/meta/class-bulk-delete-user-meta.php:125
 msgid ""
 "Use this option if there are more than 1000 users and the script timesout."
 msgstr ""
@@ -1197,9 +1194,9 @@ msgstr ""
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:122
 #: include/ui/form.php:105 tmp_addon/bulk-delete-posts-by-attachment.php:200
 #: tmp_addon/bulk-delete-posts-by-content.php:218
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:245
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:244
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:177
-#: tmp_addon/bulk-delete-posts-by-title.php:188
+#: tmp_addon/bulk-delete-posts-by-title.php:189
 #: tmp_addon/bulk-delete-posts-by-user-role.php:154
 #: tmp_addon/bulk-delete-posts-by-user.php:195
 #: tmp_addon/bulk-delete-posts-by-word-count.php:218
@@ -1211,9 +1208,9 @@ msgstr ""
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:136
 #: include/ui/form.php:65 tmp_addon/bulk-delete-posts-by-attachment.php:183
 #: tmp_addon/bulk-delete-posts-by-content.php:203
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:228
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:227
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:169
-#: tmp_addon/bulk-delete-posts-by-title.php:179
+#: tmp_addon/bulk-delete-posts-by-title.php:180
 #: tmp_addon/bulk-delete-posts-by-user-role.php:146
 #: tmp_addon/bulk-delete-posts-by-user.php:187
 #: tmp_addon/bulk-delete-posts-by-word-count.php:200
@@ -1225,9 +1222,9 @@ msgstr ""
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:137
 #: include/ui/form.php:66 tmp_addon/bulk-delete-posts-by-attachment.php:184
 #: tmp_addon/bulk-delete-posts-by-content.php:204
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:229
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:228
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:170
-#: tmp_addon/bulk-delete-posts-by-title.php:181
+#: tmp_addon/bulk-delete-posts-by-title.php:182
 #: tmp_addon/bulk-delete-posts-by-user-role.php:147
 #: tmp_addon/bulk-delete-posts-by-user.php:188
 #: tmp_addon/bulk-delete-posts-by-word-count.php:202
@@ -1262,9 +1259,9 @@ msgstr[1] ""
 #: tmp_addon/bulk-delete-jetpack-contact-form-messages.php:123
 #: tmp_addon/bulk-delete-posts-by-attachment.php:163
 #: tmp_addon/bulk-delete-posts-by-content.php:186
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:207
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:206
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:163
-#: tmp_addon/bulk-delete-posts-by-title.php:159
+#: tmp_addon/bulk-delete-posts-by-title.php:160
 #: tmp_addon/bulk-delete-posts-by-user-role.php:130
 #: tmp_addon/bulk-delete-posts-by-user.php:171
 #: tmp_addon/bulk-delete-posts-by-word-count.php:181
@@ -1408,7 +1405,7 @@ msgstr ""
 #: dist/include/posts/class-bulk-delete-posts.php:218
 #: dist/include/posts/class-bulk-delete-posts.php:350
 #: dist/include/posts/class-bulk-delete-posts.php:522
-#: dist/include/ui/form.php:237 include/posts/class-bulk-delete-posts.php:40
+#: dist/include/ui/form.php:238 include/posts/class-bulk-delete-posts.php:40
 #: include/posts/class-bulk-delete-posts.php:54
 #: include/posts/class-bulk-delete-posts.php:218
 #: include/posts/class-bulk-delete-posts.php:350
@@ -1789,7 +1786,7 @@ msgstr ""
 #: dist/include/ui/form.php:83 include/ui/form.php:83
 #: tmp_addon/bulk-delete-posts-by-attachment.php:190
 #: tmp_addon/bulk-delete-posts-by-content.php:210
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:235
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:234
 #: tmp_addon/bulk-delete-posts-by-word-count.php:209
 msgid "Public posts"
 msgstr ""
@@ -1797,12 +1794,12 @@ msgstr ""
 #: dist/include/ui/form.php:84 include/ui/form.php:84
 #: tmp_addon/bulk-delete-posts-by-attachment.php:191
 #: tmp_addon/bulk-delete-posts-by-content.php:211
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:236
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:235
 #: tmp_addon/bulk-delete-posts-by-word-count.php:211
 msgid "Private Posts"
 msgstr ""
 
-#: dist/include/ui/form.php:107 include/ui/form.php:107
+#: dist/include/ui/form.php:107
 msgid "Use this option if there are more than 1000 %s and the script timesout."
 msgstr ""
 
@@ -1812,7 +1809,7 @@ msgid ""
 "strong> to use current time"
 msgstr ""
 
-#: dist/include/ui/form.php:237 dist/include/util/class-bd-util.php:281
+#: dist/include/ui/form.php:238 dist/include/util/class-bd-util.php:281
 #: include/ui/form.php:238 include/util/class-bd-util.php:281
 msgid "All"
 msgstr ""
@@ -1865,7 +1862,7 @@ msgid "Select the user meta from which you want to delete users"
 msgstr ""
 
 #: dist/include/users/modules/class-bulk-delete-users-by-user-meta.php:85
-#: include/users/modules/class-bulk-delete-users-by-user-meta.php:85
+#: include/users/modules/class-bulk-delete-users-by-user-meta.php:89
 #: tmp_addon/bulk-delete-comment-meta.php:145
 #: tmp_addon/bulk-delete-post-meta.php:145
 #: tmp_addon/bulk-delete-user-meta.php:145
@@ -1873,18 +1870,18 @@ msgid "Meta Value"
 msgstr ""
 
 #: dist/include/users/modules/class-bulk-delete-users-by-user-meta.php:90
-#: include/users/modules/class-bulk-delete-users-by-user-meta.php:90
+#: include/users/modules/class-bulk-delete-users-by-user-meta.php:94
 msgid "If you want to check for null values, then leave the value column blank"
 msgstr ""
 
 #: dist/include/users/modules/class-bulk-delete-users-by-user-meta.php:167
-#: include/users/modules/class-bulk-delete-users-by-user-meta.php:167
+#: include/users/modules/class-bulk-delete-users-by-user-meta.php:182
 msgid ""
 "Are you sure you want to delete all the users from the selected user meta?"
 msgstr ""
 
 #: dist/include/users/modules/class-bulk-delete-users-by-user-meta.php:170
-#: include/users/modules/class-bulk-delete-users-by-user-meta.php:170
+#: include/users/modules/class-bulk-delete-users-by-user-meta.php:185
 msgid ""
 "Please enter the value for the user meta field based on which you want to "
 "delete users"
@@ -1930,6 +1927,27 @@ msgstr ""
 msgid "All mime types"
 msgstr ""
 
+#: include/meta/class-bulk-delete-comment-meta.php:145
+#: include/meta/class-bulk-delete-post-meta.php:160
+#: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:124
+msgid ""
+"Use this option if there are more than 1000 posts and the script times out."
+msgstr ""
+
+#: include/meta/class-bulk-delete-post-meta.php:98
+msgid "Delete based on post meta key name prefix or postfix"
+msgstr ""
+
+#: include/meta/class-bulk-delete-user-meta.php:125
+msgid ""
+"Use this option if there are more than 1000 users and the script times out."
+msgstr ""
+
+#: include/ui/form.php:107
+msgid ""
+"Use this option if there are more than 1000 %s and the script times out."
+msgstr ""
+
 #: tmp_addon/bulk-delete-comment-meta.php:123
 msgid "Comment Meta Value "
 msgstr ""
@@ -1937,7 +1955,7 @@ msgstr ""
 #: tmp_addon/bulk-delete-comment-meta.php:125
 #: tmp_addon/bulk-delete-post-meta.php:125
 #: tmp_addon/bulk-delete-posts-by-content.php:165
-#: tmp_addon/bulk-delete-posts-by-title.php:132
+#: tmp_addon/bulk-delete-posts-by-title.php:133
 #: tmp_addon/bulk-delete-posts-by-word-count.php:171
 #: tmp_addon/bulk-delete-user-meta.php:125
 msgid "equal to"
@@ -1946,7 +1964,7 @@ msgstr ""
 #: tmp_addon/bulk-delete-comment-meta.php:126
 #: tmp_addon/bulk-delete-post-meta.php:126
 #: tmp_addon/bulk-delete-posts-by-content.php:166
-#: tmp_addon/bulk-delete-posts-by-title.php:133
+#: tmp_addon/bulk-delete-posts-by-title.php:134
 #: tmp_addon/bulk-delete-user-meta.php:126
 msgid "not equal to"
 msgstr ""
@@ -2049,9 +2067,9 @@ msgstr ""
 #: tmp_addon/bulk-delete-post-meta.php:213
 #: tmp_addon/bulk-delete-posts-by-attachment.php:377
 #: tmp_addon/bulk-delete-posts-by-content.php:388
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:569
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:568
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:367
-#: tmp_addon/bulk-delete-posts-by-title.php:428
+#: tmp_addon/bulk-delete-posts-by-title.php:429
 #: tmp_addon/bulk-delete-posts-by-user-role.php:325
 #: tmp_addon/bulk-delete-posts-by-user.php:335
 #: tmp_addon/bulk-delete-posts-by-word-count.php:513
@@ -2163,7 +2181,7 @@ msgid "By Attachment"
 msgstr ""
 
 #: tmp_addon/bulk-delete-posts-by-attachment.php:129
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:129
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:128
 msgid "Select the post type whose posts you want to delete"
 msgstr ""
 
@@ -2223,22 +2241,22 @@ msgid "Specify your content"
 msgstr ""
 
 #: tmp_addon/bulk-delete-posts-by-content.php:167
-#: tmp_addon/bulk-delete-posts-by-title.php:134
+#: tmp_addon/bulk-delete-posts-by-title.php:135
 msgid "contains"
 msgstr ""
 
 #: tmp_addon/bulk-delete-posts-by-content.php:168
-#: tmp_addon/bulk-delete-posts-by-title.php:135
+#: tmp_addon/bulk-delete-posts-by-title.php:136
 msgid "doesn't contains"
 msgstr ""
 
 #: tmp_addon/bulk-delete-posts-by-content.php:169
-#: tmp_addon/bulk-delete-posts-by-title.php:136
+#: tmp_addon/bulk-delete-posts-by-title.php:137
 msgid "starts with"
 msgstr ""
 
 #: tmp_addon/bulk-delete-posts-by-content.php:170
-#: tmp_addon/bulk-delete-posts-by-title.php:137
+#: tmp_addon/bulk-delete-posts-by-title.php:138
 msgid "ends with"
 msgstr ""
 
@@ -2281,136 +2299,136 @@ msgstr ""
 msgid "Please enter the content based on which you want to delete posts"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:134
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:133
 msgid "Choose your custom field settings"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:138
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:137
 msgid "Key "
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:143
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:142
 msgid "equal to (string)"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:144
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:143
 msgid "not equal to (string)"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:145
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:144
 msgid "equal to (date)"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:146
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:145
 msgid "not equal to (date)"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:147
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:146
 msgid "less than (date)"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:148
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:147
 msgid "greater than (date)"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:149
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:148
 msgid "less than (number)"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:150
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:149
 msgid "greater than (number)"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:154
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:153
 msgid "Value "
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:158
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:157
 msgid "If you want to check for null values, then leave the value field blank."
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:162
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:161
 msgid "Enter the date"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:163
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:162
 msgid "Or"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:165
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:164
 msgid "Select Relative date"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:166
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:165
 msgid "Yesterday"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:167
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:166
 msgid "Today"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:168
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:167
 msgid "Tomorrow"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:169
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:168
 msgid "Custom"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:172
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:171
 msgid "You can select a date or enter a date which is relative to today."
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:177
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:176
 msgid "Day"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:178
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:177
 msgid "Week"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:179
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:178
 msgid "Month"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:180
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:179
 msgid "Year"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:188
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:187
 msgid "Meta value date format"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:191
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:190
 msgid "If you leave date format blank, then '%Y-%m-%d', will be assumed."
 msgstr ""
 
 #. translators: 1 Mysql Format specifier url.
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:197
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:196
 msgid ""
 "If you are storing the date in a format other than <em>YYYY-MM-DD</em> then "
 "enter the date format using <a href=\"%s\" target=\"_blank\" rel=\"noopener "
 "noreferrer\">Mysql format specifiers</a>."
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:338
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:337
 msgid ""
 "Posts matching the selected custom field setting are scheduled for deletion."
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:343
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:342
 msgid "Deleted %d post using the selected custom field condition"
 msgid_plural "Deleted %d posts using the selected custom field condition"
 msgstr[0] ""
 msgstr[1] ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:476
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:475
 msgid ""
 "Are you sure you want to delete all the posts that match the entered custom "
 "field condition?"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-custom-field.php:479
+#: tmp_addon/bulk-delete-posts-by-custom-field.php:478
 msgid "Please enter the custom field based on which you want to delete posts"
 msgstr ""
 
@@ -2453,7 +2471,7 @@ msgid ""
 msgstr ""
 
 #: tmp_addon/bulk-delete-posts-by-duplicate-title.php:261
-#: tmp_addon/bulk-delete-posts-by-title.php:277
+#: tmp_addon/bulk-delete-posts-by-title.php:278
 msgid "Deleted %d post using the selected title condition"
 msgid_plural "Deleted %d posts using the selected title condition"
 msgstr[0] ""
@@ -2464,32 +2482,32 @@ msgid ""
 "Are you sure you want to delete all the posts that have duplicate title?"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-title.php:120
+#: tmp_addon/bulk-delete-posts-by-title.php:121
 msgid "Select the post type"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-title.php:128
+#: tmp_addon/bulk-delete-posts-by-title.php:129
 msgid "Choose your title settings"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-title.php:130
+#: tmp_addon/bulk-delete-posts-by-title.php:131
 msgid "Title"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-title.php:150
+#: tmp_addon/bulk-delete-posts-by-title.php:151
 msgid "Select the post status"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-title.php:273
+#: tmp_addon/bulk-delete-posts-by-title.php:274
 msgid "Posts matching the selected title setting are scheduled for deletion."
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-title.php:406
+#: tmp_addon/bulk-delete-posts-by-title.php:407
 msgid ""
 "Are you sure you want to delete all the posts that match the entered title?"
 msgstr ""
 
-#: tmp_addon/bulk-delete-posts-by-title.php:409
+#: tmp_addon/bulk-delete-posts-by-title.php:410
 msgid "Please enter the title based on which you want to delete posts"
 msgstr ""
 
@@ -2761,12 +2779,21 @@ msgid ""
 "condition?"
 msgstr ""
 
+#: vendor/10up/wp_mock/tests/FunctionMocksTest.php:65
+msgid "Test"
+msgstr ""
+
+#: vendor/10up/wp_mock/tests/FunctionMocksTest.php:75
+#: vendor/10up/wp_mock/tests/FunctionMocksTest.php:77
+msgid "Input"
+msgstr ""
+
 #. Plugin Name of the plugin/theme
 msgid "Bulk Delete"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://bulkwp.com"
+msgid "https://bulkwp.com"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -2781,5 +2808,5 @@ msgid "Sudar"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://sudarmuthu.com/"
+msgid "https://sudarmuthu.com/"
 msgstr ""
