@@ -40,6 +40,7 @@ function bd_delete_options_compatibility( $options ) {
 
 	return $options;
 }
+
 add_filter( 'bd_delete_options', 'bd_delete_options_compatibility' );
 
 /**
@@ -109,6 +110,7 @@ function bd_enable_cron_for_old_addons( $js_array ) {
 
 	return $js_array;
 }
+
 add_filter( 'bd_javascript_array', 'bd_enable_cron_for_old_addons' );
 
 // Deprecated functions.
@@ -117,8 +119,8 @@ if ( ! function_exists( 'array_get' ) ) {
 	/**
 	 * Deprecated. Use `bd_array_get`.
 	 *
-	 * @param mixed      $array
-	 * @param mixed      $key
+	 * @param mixed $array
+	 * @param mixed $key
 	 * @param mixed|null $default
 	 */
 	function array_get( $array, $key, $default = null ) {
