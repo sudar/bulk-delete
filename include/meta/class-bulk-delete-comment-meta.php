@@ -215,12 +215,12 @@ class Bulk_Delete_Comment_Meta {
 		$delete_options              = array();
 		$delete_options['post_type'] = esc_sql( bd_array_get( $_POST, 'smbd_cm_post_type', 'post' ) );
 
-		$delete_options['use_value'] = array_get_bool( $_POST, 'smbd_cm_use_value', false );
+		$delete_options['use_value'] = bd_array_get_bool( $_POST, 'smbd_cm_use_value', false );
 		$delete_options['meta_key']  = esc_sql( bd_array_get( $_POST, 'smbd_cm_key', '' ) );
 
 		$delete_options['limit_to']  = absint( bd_array_get( $_POST, 'smbd_cm_limit_to', 0 ) );
 
-		$delete_options['restrict']  = array_get_bool( $_POST, 'smbd_cm_restrict', false );
+		$delete_options['restrict']  = bd_array_get_bool( $_POST, 'smbd_cm_restrict', false );
 		$delete_options['op']        = esc_sql( bd_array_get( $_POST, 'smbd_cm_op', 'before' ) );
 		$delete_options['days']      = absint( bd_array_get( $_POST, 'smbd_cm_days', 0 ) );
 

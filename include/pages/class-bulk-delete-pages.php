@@ -95,9 +95,9 @@ class Bulk_Delete_Pages {
 	 */
 	public static function do_delete_pages_by_status() {
 		$delete_options                 = array();
-		$delete_options['restrict']     = array_get_bool( $_POST, 'smbd_pages_restrict', false );
+		$delete_options['restrict']     = bd_array_get_bool( $_POST, 'smbd_pages_restrict', false );
 		$delete_options['limit_to']     = absint( bd_array_get( $_POST, 'smbd_pages_limit_to', 0 ) );
-		$delete_options['force_delete'] = array_get_bool( $_POST, 'smbd_pages_force_delete', false );
+		$delete_options['force_delete'] = bd_array_get_bool( $_POST, 'smbd_pages_force_delete', false );
 
 		$delete_options['date_op']      = bd_array_get( $_POST, 'smbd_pages_op' );
 		$delete_options['days']         = absint( bd_array_get( $_POST, 'smbd_pages_days' ) );

@@ -235,7 +235,7 @@ class Bulk_Delete_Post_Meta {
 
 		$delete_options['limit_to']  = absint( bd_array_get( $_POST, 'smbd_pm_limit_to', 0 ) );
 
-		$delete_options['restrict']  = array_get_bool( $_POST, 'smbd_pm_restrict', false );
+		$delete_options['restrict']  = bd_array_get_bool( $_POST, 'smbd_pm_restrict', false );
 		$delete_options['op']        = esc_sql( bd_array_get( $_POST, 'smbd_pm_op', 'before' ) );
 		$delete_options['days']      = absint( bd_array_get( $_POST, 'smbd_pm_days', 0 ) );
 
