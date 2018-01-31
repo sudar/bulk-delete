@@ -116,9 +116,9 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 	 */
 	public function process() {
 		$delete_options                 = array();
-		$delete_options['meta_key']     = array_get( $_POST, 'smbd_u_meta_key' );
-		$delete_options['meta_compare'] = array_get( $_POST, 'smbd_u_meta_compare', '=' );
-		$delete_options['meta_value']   = array_get( $_POST, 'smbd_u_meta_value' );
+		$delete_options['meta_key']     = bd_array_get( $_POST, 'smbd_u_meta_key' );
+		$delete_options['meta_compare'] = bd_array_get( $_POST, 'smbd_u_meta_compare', '=' );
+		$delete_options['meta_value']   = bd_array_get( $_POST, 'smbd_u_meta_value' );
 
 		switch ( strtolower( trim( $delete_options['meta_compare'] ) ) ) {
 			case 'starts with':

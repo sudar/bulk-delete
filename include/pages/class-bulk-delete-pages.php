@@ -96,19 +96,19 @@ class Bulk_Delete_Pages {
 	public static function do_delete_pages_by_status() {
 		$delete_options                 = array();
 		$delete_options['restrict']     = array_get_bool( $_POST, 'smbd_pages_restrict', false );
-		$delete_options['limit_to']     = absint( array_get( $_POST, 'smbd_pages_limit_to', 0 ) );
+		$delete_options['limit_to']     = absint( bd_array_get( $_POST, 'smbd_pages_limit_to', 0 ) );
 		$delete_options['force_delete'] = array_get_bool( $_POST, 'smbd_pages_force_delete', false );
 
-		$delete_options['date_op']      = array_get( $_POST, 'smbd_pages_op' );
-		$delete_options['days']         = absint( array_get( $_POST, 'smbd_pages_days' ) );
+		$delete_options['date_op']      = bd_array_get( $_POST, 'smbd_pages_op' );
+		$delete_options['days']         = absint( bd_array_get( $_POST, 'smbd_pages_days' ) );
 
-		$delete_options['publish']      = array_get( $_POST, 'smbd_published_pages' );
-		$delete_options['drafts']       = array_get( $_POST, 'smbd_draft_pages' );
-		$delete_options['pending']      = array_get( $_POST, 'smbd_pending_pages' );
-		$delete_options['future']       = array_get( $_POST, 'smbd_future_pages' );
-		$delete_options['private']      = array_get( $_POST, 'smbd_private_pages' );
+		$delete_options['publish']      = bd_array_get( $_POST, 'smbd_published_pages' );
+		$delete_options['drafts']       = bd_array_get( $_POST, 'smbd_draft_pages' );
+		$delete_options['pending']      = bd_array_get( $_POST, 'smbd_pending_pages' );
+		$delete_options['future']       = bd_array_get( $_POST, 'smbd_future_pages' );
+		$delete_options['private']      = bd_array_get( $_POST, 'smbd_private_pages' );
 
-		if ( 'true' == array_get( $_POST, 'smbd_pages_cron', 'false' ) ) {
+		if ( 'true' == bd_array_get( $_POST, 'smbd_pages_cron', 'false' ) ) {
 			$freq = $_POST['smbd_pages_cron_freq'];
 			$time = strtotime( $_POST['smbd_pages_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
 
