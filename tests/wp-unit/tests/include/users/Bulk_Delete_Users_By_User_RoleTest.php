@@ -72,7 +72,7 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 		);
 		$this->delete_by_user_role->delete( $delete_options );
 
-		// Assert that user role has no user.
+		// Assert that user role has one user.
 		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
 
 		$this->assertEquals( 1, count( $users_in_role ) );
