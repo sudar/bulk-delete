@@ -5,7 +5,7 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 /**
  * Sample test case.
  */
-class BulkDeleteTest extends WPCoreUnitTestCase {
+class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 
 	/**
 	 * A single example test.
