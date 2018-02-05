@@ -32,7 +32,11 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'selected_roles' => 'subscriber',
+			'selected_roles'      => array( 'subscriber' ),
+			'limit_to'            => 0,
+			'registered_restrict' => 0,
+			'login_restrict'      => 0,
+			'no_posts'            => false,
 		);
 		$this->delete_by_user_role->delete( $delete_options );
 
