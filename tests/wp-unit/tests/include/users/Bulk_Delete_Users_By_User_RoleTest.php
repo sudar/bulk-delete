@@ -109,4 +109,46 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 0, count( $users_in_role ) );
 	}
+
+	/**
+	 * Test case of delete users by role with filter set post type.
+	 */
+	public function test_delete_users_by_role_with_filter_set_post_type() {
+		//Create two user and assign to subscriber role
+		$user1 = $this->factory->user->create( array( 'user_login' => 'user_test1', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber' ) );
+		$user2 = $this->factory->user->create( array( 'user_login' => 'user_test2', 'user_pass' => 'ZXC987abc2', 'role' => 'subscriber' ) );
+
+		//Create post and assign author
+		$post = $this->factory->post->create( array( 'post_title' => 'post1', 'post_author' => $user1 ) );
+		$page = $this->factory->post->create( array( 'post_title' => 'page1', 'post_type' => 'page', 'post_author' => $user2 ) );
+
+		// Assert that user role has two users, $user1 has one post and $user2 has one post.
+		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
+		$author_in_post = get_posts( array( 'post_author' => $user1 ) );
+		$author_in_page = get_posts( array( 'post_author' => $user2, 'post_type' => 'page' ) );
+
+		$this->assertEquals( 2, count( $users_in_role ) );
+		$this->assertEquals( 1, count( $author_in_post ) );
+		$this->assertEquals( 1, count( $author_in_page ) );
+
+		// call our method.
+		$delete_options = array(
+			'selected_roles'      => array( 'subscriber' ),
+			'limit_to'            => false,
+			'registered_restrict' => false,
+			'login_restrict'      => false,
+			'no_posts'            => true,
+			'no_posts_post_types' => 'post'
+		);
+		$this->delete_by_user_role->delete( $delete_options );
+
+		// Assert that user role has one user, $user1 has one post and $user2 has no post.
+		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
+		$author_in_post = get_posts( array( 'post_author' => $user1 ) );
+		$author_in_page = get_posts( array( 'post_author' => $user2, 'post_type' => 'page' ) );
+
+		$this->assertEquals( 1, count( $users_in_role ) );
+		$this->assertEquals( 1, count( $author_in_post ) );
+		$this->assertEquals( 0, count( $author_in_page ) );
+	}
 }
