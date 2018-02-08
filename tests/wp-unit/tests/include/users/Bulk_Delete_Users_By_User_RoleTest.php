@@ -122,14 +122,22 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 		$post = $this->factory->post->create( array( 'post_title' => 'post1', 'post_author' => $user1 ) );
 		$page = $this->factory->post->create( array( 'post_title' => 'page1', 'post_type' => 'page', 'post_author' => $user2 ) );
 
-		// Assert that user role has two users, $user1 has one post and $user2 has one post.
+		// Assert that user role has two users $user1 and $user2.
 		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
-		$author_in_post = get_posts( array( 'post_author' => $user1 ) );
-		$author_in_page = get_posts( array( 'post_author' => $user2, 'post_type' => 'page' ) );
+		$user_id_1 = get_user_by( 'id', $user1 );
+		$user_id_2 = get_user_by( 'id', $user2 );
+
+		if( empty( $user_id_1 ) ){
+			$user_id_1 = array();
+		}
+
+		if( empty( $user_id_2 ) ){
+			$user_id_2 = array();
+		}
 
 		$this->assertEquals( 2, count( $users_in_role ) );
-		$this->assertEquals( 1, count( $author_in_post ) );
-		$this->assertEquals( 1, count( $author_in_page ) );
+		$this->assertEquals( 1, count( $user_id_1 ) );
+		$this->assertEquals( 1, count( $user_id_2 ) );
 
 		// call our method.
 		$delete_options = array(
@@ -142,13 +150,21 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 		);
 		$this->delete_by_user_role->delete( $delete_options );
 
-		// Assert that user role has one user, $user1 has one post and $user2 has no post.
+		// Assert that user role has one $user1 and $user2 is deleted.
 		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
-		$author_in_post = get_posts( array( 'post_author' => $user1 ) );
-		$author_in_page = get_posts( array( 'post_author' => $user2, 'post_type' => 'page' ) );
+		$user_id_1 = get_user_by( 'id', $user1 );
+		$user_id_2 = get_user_by( 'id', $user2 );
+
+		if( empty( $user_id_1 ) ){
+			$user_id_1 = array();
+		}
+
+		if( empty( $user_id_2 ) ){
+			$user_id_2 = array();
+		}
 
 		$this->assertEquals( 1, count( $users_in_role ) );
-		$this->assertEquals( 1, count( $author_in_post ) );
-		$this->assertEquals( 0, count( $author_in_page ) );
+		$this->assertEquals( 1, count( $user_id_1 ) );
+		$this->assertEquals( 0, count( $user_id_2 ) );
 	}
 }
