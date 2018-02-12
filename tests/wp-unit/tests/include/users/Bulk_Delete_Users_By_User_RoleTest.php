@@ -124,23 +124,8 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 
 		// Assert that user role has two users $user1 and $user2.
 		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
-		$users = $user_id_1 = $user_id_2 = array();
-		foreach ( $users_in_role as $users_id ) {
-			$users[] = $users_id->ID;
-		}
-
-		if ( in_array($user1, $users) ) {
-			$user_id_1 = $user1;
-		}
-
-		if ( in_array($user2, $users) ) {
-			$user_id_2 = $user2;
-		}
-
-		$this->assertEquals( 2, count( $users_in_role ) );
-		$this->assertEquals( 1, count( $user_id_1 ) );
-		$this->assertEquals( 1, count( $user_id_2 ) );
-
+		$user_id_only = wp_list_pluck( $users_in_role, 'ID' );
+		$this->assertEquals( array( $user1, $user2 ), $user_id_only );
 		// call our method.
 		$delete_options = array(
 			'selected_roles'      => array( 'subscriber' ),
@@ -154,21 +139,7 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 
 		// Assert that user role has one $user1 and $user2 is deleted.
 		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
-		$users = $user_id_1 = $user_id_2 = array();
-		foreach ( $users_in_role as $users_id ) {
-			$users[] = $users_id->ID;
-		}
-
-		if ( in_array($user1, $users) ) {
-			$user_id_1 = $user1;
-		}
-
-		if ( in_array($user2, $users) ) {
-			$user_id_2 = $user2;
-		}
-
-		$this->assertEquals( 1, count( $users_in_role ) );
-		$this->assertEquals( 1, count( $user_id_1 ) );
-		$this->assertEquals( 0, count( $user_id_2 ) );
+		$user_id_only = wp_list_pluck( $users_in_role, 'ID' );
+		$this->assertEquals( array( $user1 ), $user_id_only );
 	}
 }
