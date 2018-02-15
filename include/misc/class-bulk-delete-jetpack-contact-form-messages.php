@@ -434,7 +434,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 	public static function can_delete( $delete_options, $post_id ) {
 		$can_delete = false;
 
-		if ( Bulk_Delete_Jetpack_Contact_Form_Message::is_jetpack_contact_active() ) {
+		if ( self::is_jetpack_contact_active() ) {
 			$content_fields = Grunion_Contact_Form_Plugin::parse_fields_from_content( $post_id );
 
 			$author_name  = $content_fields['_feedback_author'];
