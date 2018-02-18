@@ -212,12 +212,18 @@ class Bulk_Delete_Posts {
         <table class="form-table">
             <tr>
                 <td scope="row">
-				<select class="select2" name="smbd_cats[]" multiple data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>">
-					<option value="all"><?php _e( 'All Categories', 'bulk-delete' ); ?></option>
-		<?php foreach ( $categories as $category ) { ?>
-			<option value="<?php echo $category->cat_ID; ?>"><?php echo $category->cat_name, ' (', $category->count, ' ', __( 'Posts', 'bulk-delete' ), ')'; ?></option>
-		<?php } ?>
+                <?php if( count($categories) > 50 ){?>
+					<select class="select2Ajax" name="smbd_cats[]" data-term="category" multiple data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>" style="width:300px">
+						<option value="all"><?php _e( 'All Categories', 'bulk-delete' ); ?></option>
 					</select>
+				<?php }else{?>
+					<select class="select2" name="smbd_cats[]" multiple data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>">
+						<option value="all"><?php _e( 'All Categories', 'bulk-delete' ); ?></option>
+					<?php foreach ( $categories as $category ) { ?>
+						<option value="<?php echo $category->cat_ID; ?>"><?php echo $category->cat_name, ' (', $category->count, ' ', __( 'Posts', 'bulk-delete' ), ')'; ?></option>
+					<?php } ?>
+					</select>
+				<?php }?>
                 </td>
             </tr>
         </table>
@@ -344,12 +350,18 @@ class Bulk_Delete_Posts {
             <table class="form-table">
                 <tr>
 				<td scope="row" colspan="2">
-					<select class="select2" name="smbd_tags[]" multiple data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>">
+					<?php if( count($tags) > 50 ){?>
+					<select class="select2Ajax" name="smbd_tags[]" data-term="post_tag" multiple data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>" style="width:300px">
 					<option value="all"><?php _e( 'All Tags', 'bulk-delete' ); ?></option>
-				<?php foreach ( $tags as $tag ) { ?>
-					<option value="<?php echo absint( $tag->term_id ); ?>"><?php echo $tag->name, ' (', $tag->count, ' ', __( 'Posts', 'bulk-delete' ), ')'; ?></option>
-				<?php } ?>
 					</select>
+					<?php } else{ ?>
+					<select class="select2" name="smbd_tags[]" multiple data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>">
+						<option value="all"><?php _e( 'All Tags', 'bulk-delete' ); ?></option>
+					<?php foreach ( $tags as $tag ) { ?>
+						<option value="<?php echo absint( $tag->term_id ); ?>"><?php echo $tag->name, ' (', $tag->count, ' ', __( 'Posts', 'bulk-delete' ), ')'; ?></option>
+					<?php } ?>
+					</select>
+					<?php } ?>
 				</td>
                 </tr>
 			</table>
