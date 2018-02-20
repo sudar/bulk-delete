@@ -461,7 +461,7 @@ final class Bulk_Delete {
 		$taxonomy = sanitize_text_field( $_GET['taxonomy'] );
 
 		$terms = get_terms( array(
-			'taxonomy'   => $taxonomy,,
+			'taxonomy'   => $taxonomy,
 			'hide_empty' => false,
 			'search'     => $_GET['q'],
 		) );

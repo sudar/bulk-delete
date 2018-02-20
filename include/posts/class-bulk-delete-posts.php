@@ -207,7 +207,7 @@ class Bulk_Delete_Posts {
 		$max_select2_value_categories = apply_filters( 'max_select2_value_categories', Bulk_Delete::MAX_SELECT2_LIMIT );
 
 		$categories = get_categories( array(
-				'hide_empty' => false,
+				'hide_empty'    => false,
 				'number'        => $max_select2_value_categories,
 			)
 		);
@@ -347,7 +347,7 @@ class Bulk_Delete_Posts {
 
 		$tags = get_tags(
 			array(
-				'hide_empty' => false,
+				'hide_empty'    => false,
 				'number'        => $max_select2_value_tags,
 			)
 		);
