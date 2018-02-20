@@ -6,12 +6,46 @@
  * @author: Sudar <http://sudarmuthu.com>
  */
 
-/*global BulkWP, postboxes, pagenow*/
+/*global BulkWP, postboxes, pagenow, ajaxurl*/
 jQuery(document).ready(function () {
 	/**
 	 * Enable select2
 	 */
-	jQuery( '.select2' ).select2();
+	jQuery( '.select2' ).select2({
+		width: '300px'
+	});
+
+	jQuery( '.select2Ajax' ).select2({
+		ajax: {
+    			url: ajaxurl, 
+    			dataType: 'json',
+    			delay: 250, 
+    			data: function (params) {
+    				var taxonomy = jQuery(this).attr('data-taxonomy');
+      				return {
+        				q: params.term, 
+        				taxonomy: taxonomy,
+        				action: 'load_taxonomy_term' 
+      				};
+    			},
+    			processResults: function( data ) {
+				var options = [];
+				if ( data ) {
+ 
+					jQuery.each( data, function( index, dataPair ) { 
+						options.push( { id: dataPair[0], text: dataPair[1] } );
+					});
+ 
+				}
+				return {
+					results: options
+				};
+			},
+			cache: true
+		},
+		minimumInputLength: 3, // the minimum of symbols to input before perform a search
+		width: '300px'
+	});
 
 	// Start Jetpack.
 	BulkWP.jetpack();
