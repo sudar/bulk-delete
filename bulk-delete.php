@@ -343,7 +343,7 @@ final class Bulk_Delete {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 
 		/**
-		 * This is Ajax hook, It's runs when user search categories or tags on bulk-delete-posts page
+		 * This is Ajax hook, It's runs when user search categories or tags on bulk-delete-posts page.
 		 *
 		 * @since 5.7.0
 		 */
@@ -461,14 +461,14 @@ final class Bulk_Delete {
 		$taxonomy = sanitize_text_field( $_GET['taxonomy'] );
 
 		$terms = get_terms( array(
-			'taxonomy' => $taxonomy,
+			'taxonomy'   => $taxonomy,,
 			'hide_empty' => false,
-			'search' => $_GET['q']
+			'search'     => $_GET['q'],
 		) );
 
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
 			foreach ( $terms as $term ) {
-				$response[] = array( absint($term->term_id), $term->name.' ('. $term->count.  __( ' Posts', 'bulk-delete' ) . ')' ); 
+				$response[] = array( absint($term->term_id), $term->name . ' (' . $term->count . __( ' Posts', 'bulk-delete' ) . ')' );
 			}
 		}
 
