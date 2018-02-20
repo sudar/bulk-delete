@@ -113,6 +113,8 @@ final class Bulk_Delete {
 	// Transient keys
 	const LICENSE_CACHE_KEY_PREFIX  = 'bd-license_';
 
+	const MAX_SELECT2_LIMIT  = 50;
+
 	// path variables
 	// Ideally these should be constants, but because of PHP's limitations, these are static variables
 	public static $PLUGIN_DIR;
@@ -454,19 +456,23 @@ final class Bulk_Delete {
 	 * @since 5.7.0
 	 */
 	public function load_taxonomy_term(){
-		$return = array();
+		$response = array();
+
+		$taxonomy = sanitize_text_field( $_GET['taxonomy'] );
 
 		$terms = get_terms( array(
-			'taxonomy' => $_GET['term'],
+			'taxonomy' => $taxonomy,
 			'hide_empty' => false,
 			'search' => $_GET['q']
 		) );
 
-		foreach ( $terms as $term ) {
-			$return[] = array( absint($term->term_id), $term->name.' ('. $term->count.  __( ' Posts', 'bulk-delete' ) . ')' ); 
+		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+			foreach ( $terms as $term ) {
+				$response[] = array( absint($term->term_id), $term->name.' ('. $term->count.  __( ' Posts', 'bulk-delete' ) . ')' ); 
+			}
 		}
 
-		echo json_encode( $return );
+		echo json_encode( $response );
 		die;
 	}
 
