@@ -463,7 +463,7 @@ final class Bulk_Delete {
 		$terms = get_terms( array(
 			'taxonomy'   => $taxonomy,
 			'hide_empty' => false,
-			'search'     => $_GET['q'],
+			'search'     => sanitize_text_field($_GET['q']),
 		) );
 
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){

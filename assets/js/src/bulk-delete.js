@@ -43,7 +43,7 @@ jQuery(document).ready(function () {
 			},
 			cache: true
 		},
-		minimumInputLength: 3, // the minimum of symbols to input before perform a search
+		minimumInputLength: 2, // the minimum of symbols to input before perform a search
 		width: '300px'
 	});
 
