@@ -113,6 +113,8 @@ final class Bulk_Delete {
 	// Transient keys
 	const LICENSE_CACHE_KEY_PREFIX  = 'bd-license_';
 
+	const MAX_SELECT2_LIMIT  = 50;
+
 	// path variables
 	// Ideally these should be constants, but because of PHP's limitations, these are static variables
 	public static $PLUGIN_DIR;
@@ -340,6 +342,13 @@ final class Bulk_Delete {
 
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 
+		/**
+		 * This is Ajax hook, It's runs when user search categories or tags on bulk-delete-posts page.
+		 *
+		 * @since 5.7.0
+		 */
+		add_action( 'wp_ajax_load_taxonomy_term', array( $this, 'load_taxonomy_term' ) );
+
 		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
 
 		if ( defined( 'BD_DEBUG' ) && BD_DEBUG ) {
@@ -439,6 +448,32 @@ final class Bulk_Delete {
 
 		/* Enqueue WordPress' script for handling the meta boxes */
 		wp_enqueue_script( 'postbox' );
+	}
+
+	/**
+	 * Ajax call back function for getting taxonomies to load select2 options.
+	 *
+	 * @since 5.7.0
+	 */
+	public function load_taxonomy_term(){
+		$response = array();
+
+		$taxonomy = sanitize_text_field( $_GET['taxonomy'] );
+
+		$terms = get_terms( array(
+			'taxonomy'   => $taxonomy,
+			'hide_empty' => false,
+			'search'     => sanitize_text_field($_GET['q']),
+		) );
+
+		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+			foreach ( $terms as $term ) {
+				$response[] = array( absint($term->term_id), $term->name . ' (' . $term->count . __( ' Posts', 'bulk-delete' ) . ')' );
+			}
+		}
+
+		echo json_encode( $response );
+		die;
 	}
 
 	/**
