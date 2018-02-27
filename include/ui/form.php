@@ -175,8 +175,8 @@ function bd_render_post_type_dropdown( $slug ) {
 	<tr>
 		<td scope="row" >
 			<select class="select2" name="smbd_<?php echo $slug; ?>_post_type">
-				<?php foreach ( $types as $type ) { ?>
-					<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_html( $type ); ?></option>
+				<?php foreach ( $types as $type ) { $postObj = get_post_type_object( $type ); ?>
+					<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_html( $postObj->labels->singular_name . ' (' . $type . ')' ); ?></option>
 				<?php } ?>
 			</select>
 		</td>
