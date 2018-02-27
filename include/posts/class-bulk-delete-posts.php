@@ -204,18 +204,25 @@ class Bulk_Delete_Posts {
         <h4><?php _e( 'Select the categories from which you wan to delete posts', 'bulk-delete' ); ?></h4>
         <p><?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?>.</p>
 <?php
-		$max_select2_value_categories = apply_filters( 'max_select2_value_categories', Bulk_Delete::MAX_SELECT2_LIMIT );
+		/**
+		 * Filter to modify select2 ajax call category limit.
+		 *
+		 * @since 5.7.0
+		 *
+		 * @param int $select2_limit
+		 */
+		$bd_select2_ajax_limit_categories = apply_filters( 'bd_select2_ajax_limit_categories', Bulk_Delete::MAX_SELECT2_LIMIT );
 
 		$categories = get_categories( array(
 				'hide_empty'    => false,
-				'number'        => $max_select2_value_categories,
+				'number'        => $bd_select2_ajax_limit_categories,
 			)
 		);
 ?>
         <table class="form-table">
             <tr>
                 <td scope="row">
-                <?php if( count($categories) >= $max_select2_value_categories ){?>
+                <?php if( count($categories) >= $bd_select2_ajax_limit_categories ){?>
 					<select class="select2Ajax" name="smbd_cats[]" data-taxonomy="category" multiple data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>">
 						<option value="all" selected="selected"><?php _e( 'All Categories', 'bulk-delete' ); ?></option>
 					</select>
@@ -343,12 +350,19 @@ class Bulk_Delete_Posts {
 			return;
 		}
 
-		$max_select2_value_tags = apply_filters( 'max_select2_value_tags', Bulk_Delete::MAX_SELECT2_LIMIT );
+		/**
+		 * Filter to modify select2 ajax call tag limit.
+		 *
+		 * @since 5.7.0
+		 *
+		 * @param int $select2_limit
+		 */
+		$bd_select2_ajax_limit_tags = apply_filters( 'bd_select2_ajax_limit_tags', Bulk_Delete::MAX_SELECT2_LIMIT );
 
 		$tags = get_tags(
 			array(
 				'hide_empty'    => false,
-				'number'        => $max_select2_value_tags,
+				'number'        => $bd_select2_ajax_limit_tags,
 			)
 		);
 		if ( count( $tags ) > 0 ) {
@@ -360,7 +374,7 @@ class Bulk_Delete_Posts {
             <table class="form-table">
                 <tr>
 				<td scope="row" colspan="2">
-					<?php if( count($tags) >= $max_select2_value_tags ){?>
+					<?php if( count($tags) >= $bd_select2_ajax_limit_tags ){?>
 					<select class="select2Ajax" name="smbd_tags[]" data-taxonomy="post_tag" multiple data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>">
 					<option value="all" selected="selected"><?php _e( 'All Tags', 'bulk-delete' ); ?></option>
 					</select>
