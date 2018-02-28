@@ -347,7 +347,7 @@ final class Bulk_Delete {
 		 *
 		 * @since 5.7.0
 		 */
-		add_action( 'wp_ajax_load_taxonomy_term', array( $this, 'load_taxonomy_term' ) );
+		add_action( 'wp_ajax_bd_load_taxonomy_term', array( $this, 'load_taxonomy_term' ) );
 
 		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
 

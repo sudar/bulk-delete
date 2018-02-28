@@ -25,7 +25,7 @@ jQuery(document).ready(function () {
       				return {
         				q: params.term, 
         				taxonomy: taxonomy,
-        				action: 'load_taxonomy_term' 
+        				action: 'bd_load_taxonomy_term' 
       				};
     			},
     			processResults: function( data ) {
