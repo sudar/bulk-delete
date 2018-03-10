@@ -110,4 +110,39 @@ class Bulk_Delete_Users_By_User_MetaTest extends WPCoreUnitTestCase {
 		$users_in_meta = get_users( array( 'meta_key' => 'first_name', 'meta_value' => 'bulk_delete', 'meta_compare' => '=' ) );
 		$this->assertEquals( 0, count( $users_in_meta ) );
 	}
+
+	/**
+	 * Test case of delete users by meta with filter set post type.
+	 */
+	public function test_delete_users_by_meta_with_filter_set_post_type() {
+		//Create two user and set meta
+		$user1 = $this->factory->user->create( array( 'user_login' => 'user_test1', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber', 'first_name' => 'bulk_delete' ) );
+		$user2 = $this->factory->user->create( array( 'user_login' => 'user_test2', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber', 'first_name' => 'bulk_delete' ) );
+
+		//Create post and assign author
+		$post = $this->factory->post->create( array( 'post_title' => 'post1', 'post_author' => $user1 ) );
+		$page = $this->factory->post->create( array( 'post_title' => 'page1', 'post_type' => 'page', 'post_author' => $user2 ) );
+
+		// Assert that user meta has two users $user1 and $user2.
+		$users_in_meta = get_users( array( 'meta_key' => 'first_name', 'meta_value' => 'bulk_delete', 'meta_compare' => '=' ) );
+		$user_id_only = wp_list_pluck( $users_in_meta, 'ID' );
+		$this->assertEquals( array( $user1, $user2 ), $user_id_only );
+		// call our method.
+		$delete_options = array(
+			'meta_key'            => 'first_name',
+			'meta_value'          => 'bulk_delete',
+			'meta_compare'        => '=',
+			'limit_to'            => false,
+			'registered_restrict' => false,
+			'login_restrict'      => false,
+			'no_posts'            => true,
+			'no_posts_post_types' => 'post'
+		);
+		$this->delete_by_user_meta->delete( $delete_options );
+
+		// Assert that user meta has one $user1 and $user2 is deleted.
+		$users_in_meta = get_users( array( 'meta_key' => 'first_name', 'meta_value' => 'bulk_delete', 'meta_compare' => '=' ) );
+		$user_id_only = wp_list_pluck( $users_in_meta, 'ID' );
+		$this->assertEquals( array( $user1 ), $user_id_only );
+	}
 }
