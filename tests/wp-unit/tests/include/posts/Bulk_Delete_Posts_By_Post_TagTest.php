@@ -27,10 +27,10 @@ class Bulk_Delete_Posts_By_Post_TagTest extends WPCoreUnitTestCase {
 		$tag2 = $this->factory->tag->create( array( 'name' => 'tag2' ) );
 
 		// Assign the tags tag1 and tag2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1' ) );
+		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish' ) );
 		wp_set_post_tags( $post1, 'tag1' );
 
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2' ) );
+		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish' ) );
 		wp_set_post_tags( $post2, 'tag2' );
 
 		// Assert that each tag has one post.
