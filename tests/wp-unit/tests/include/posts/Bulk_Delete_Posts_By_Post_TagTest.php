@@ -33,6 +33,13 @@ class Bulk_Delete_Posts_By_Post_TagTest extends WPCoreUnitTestCase {
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish' ) );
 		wp_set_post_tags( $post2, 'tag2' );
 
+		// Assert that each post status is publish.
+		$post1_status = get_post_status( $post1 );
+		$post2_status = get_post_status( $post2 );
+
+		$this->assertEquals( 'publish', $post1_status );
+		$this->assertEquals( 'publish', $post2_status );
+
 		// Assert that each tag has one post.
 		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
 		$posts_in_tag2 = $this->get_posts_by_tag( $tag2 );
@@ -51,6 +58,13 @@ class Bulk_Delete_Posts_By_Post_TagTest extends WPCoreUnitTestCase {
 			'days'           => false,
 		);
 		$this->delete_by_post_tag->delete_posts_by_tag( $delete_options );
+
+		// Assert that each post status moved to trash.
+		$post1_status = get_post_status( $post1 );
+		$post2_status = get_post_status( $post2 );
+
+		$this->assertEquals( 'trash', $post1_status );
+		$this->assertEquals( 'trash', $post2_status );
 
 		// Assert that each tag has no post.
 		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
