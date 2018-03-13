@@ -73,4 +73,58 @@ class Bulk_Delete_Posts_By_Post_TagTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, count( $posts_in_tag1 ) );
 		$this->assertEquals( 0, count( $posts_in_tag2 ) );
 	}
+
+	/**
+	 * Test case of delete posts by tag filters are private posts and delete permanently.
+	 */
+	public function test_delete_posts_by_tag_with_all_option_and_delete_permanently_private_posts_filters() {
+		// Create two tags.
+		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
+		$tag2 = $this->factory->tag->create( array( 'name' => 'tag2' ) );
+
+		// Assign the tags tag1 and tag2 to post1 and post2
+		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish' ) );
+		wp_set_post_tags( $post1, 'tag1' );
+
+		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'private' ) );
+		wp_set_post_tags( $post2, 'tag2' );
+
+		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
+		$args = array(
+			'posts_per_page'   => -1,
+			'post_status'      => 'private',
+			'tag'              => 'tag2',
+		);
+		$post2_array = get_posts( $args );
+		$posts_in_tag2 = wp_list_pluck( $post2_array, 'ID' );
+
+		// Assert that each tag1 has one post and tag2 has one post.
+		$this->assertEquals( 1, count( $posts_in_tag1 ) );
+		$this->assertEquals( array( $post2 ), $posts_in_tag2 );
+
+		// call our method.
+		$delete_options = array(
+			'selected_tags'  => array( 'all' ),
+			'restrict'       => false,
+			'private'        => true,
+			'limit_to'       => false,
+			'force_delete'   => true,
+			'date_op'        => false,
+			'days'           => false,
+		);
+		$this->delete_by_post_tag->delete_posts_by_tag( $delete_options );
+
+		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
+		$args = array(
+			'posts_per_page'   => -1,
+			'post_status'      => 'private',
+			'tag'              => 'tag2',
+		);
+		$post2_array = get_posts( $args );
+		$posts_in_tag2 = wp_list_pluck( $post2_array, 'ID' );
+
+		// Assert that each tag1 has one post and tag2 has 0 post.
+		$this->assertEquals( 1, count( $posts_in_tag1 ) );
+		$this->assertEquals( array( ), $posts_in_tag2 );
+	}
 }
