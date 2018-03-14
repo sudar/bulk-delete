@@ -190,4 +190,67 @@ class Bulk_Delete_Posts_By_Post_TagTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 'trash', $post1_status );
 		$this->assertEquals( 'private', $post2_status );
 	}
+
+	/**
+	 * Test case of delete posts by a tag filters are private posts and delete permanently..
+	 */
+	public function test_delete_posts_by_tag_with_delete_permanently_private_posts_filters() {
+		//Create a tag
+		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
+
+		// Assign the tag1 to post1 and post2
+		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish' ) );
+		wp_set_post_tags( $post1, 'tag1' );
+
+		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'private' ) );
+		wp_set_post_tags( $post2, 'tag1' );
+
+		$args = array(
+			'posts_per_page'   => -1,
+			'post_status'      => array( 'private', 'publish' ),
+			'tag'              => 'tag1',
+		);
+		$posts_array = get_posts( $args );
+		$posts_in_tag1 = wp_list_pluck( $posts_array, 'ID' );
+
+		// Assert that tag1 has two posts.
+		$this->assertEquals( array( $post1, $post2 ), $posts_in_tag1 );
+
+		// Assert that post1 status is publish and post 2 is private.
+		$post1_status = get_post_status( $post1 );
+		$post2_status = get_post_status( $post2 );
+
+		$this->assertEquals( 'publish', $post1_status );
+		$this->assertEquals( 'private', $post2_status );
+
+		// call our method.
+		$delete_options = array(
+			'selected_tags'  => array( $tag1 ),
+			'restrict'       => false,
+			'private'        => true,
+			'limit_to'       => false,
+			'force_delete'   => true,
+			'date_op'        => false,
+			'days'           => false,
+		);
+		$this->delete_by_post_tag->delete_posts_by_tag( $delete_options );
+
+		$args = array(
+			'posts_per_page'   => -1,
+			'post_status'      => array( 'private', 'publish' ),
+			'tag'              => 'tag1',
+		);
+		$posts_array = get_posts( $args );
+		$posts_in_tag1 = wp_list_pluck( $posts_array, 'ID' );
+
+		// Assert that tag1 has one posts.
+		$this->assertEquals( array( $post1 ), $posts_in_tag1 );
+
+		// Assert that post1 status is trash and post2 is deleted.
+		$post1_status = get_post_status( $post1 );
+		$post2_status = get_post_status( $post2 );
+
+		$this->assertEquals( 'publish', $post1_status );
+		$this->assertEquals( '', $post2_status );
+	}
 }
