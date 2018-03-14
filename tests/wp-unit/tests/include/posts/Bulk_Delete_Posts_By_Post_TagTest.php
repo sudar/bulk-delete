@@ -75,7 +75,7 @@ class Bulk_Delete_Posts_By_Post_TagTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test case of delete posts by tag filters are private posts and delete permanently.
+	 * Test case of delete posts by tag all option filters are private posts and delete permanently.
 	 */
 	public function test_delete_posts_by_tag_with_all_option_and_delete_permanently_private_posts_filters() {
 		// Create two tags.
@@ -129,9 +129,9 @@ class Bulk_Delete_Posts_By_Post_TagTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test case of delete posts by tag default filters.
+	 * Test case of delete posts by a tag with default filters.
 	 */
-	public function test_delete_posts_by_tag_and_delete_permanently_private_posts_filters() {
+	public function test_delete_posts_by_tag_with_default_filters() {
 		//Create a tag
 		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
 
