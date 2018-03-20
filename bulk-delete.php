@@ -491,7 +491,6 @@ final class Bulk_Delete {
 		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
 
 		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ) );
-//		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( $this, 'display_pages_page' ) );
 
 		/**
 		 * Runs just after adding all *delete* menu items to Bulk WP main menu.
@@ -528,15 +527,10 @@ final class Bulk_Delete {
 
 		// enqueue JavaScript
 		add_action( 'admin_print_scripts-' . $this->posts_page, array( $pages_page, 'enqueue_assets' ) );
-//		add_action( 'admin_print_scripts-' . $this->pages_page, array( $this, 'add_script' ) );
 
 		// delete posts page
 		add_action( "load-{$this->posts_page}", array( $this, 'add_delete_posts_settings_panel' ) );
 		add_action( "add_meta_boxes_{$this->posts_page}", array( $this, 'add_delete_posts_meta_boxes' ) );
-
-		// delete pages page
-//		add_action( "load-{$this->pages_page}", array( $this, 'add_delete_pages_settings_panel' ) );
-//		add_action( "add_meta_boxes_{$this->pages_page}", array( $this, 'add_delete_pages_meta_boxes' ) );
 	}
 
 	/**
@@ -605,96 +599,14 @@ final class Bulk_Delete {
 	}
 
 	/**
-	 * Setup settings panel for delete pages page.
-	 *
-	 * @since 5.0
-	 */
-	public function add_delete_pages_settings_panel() {
-		/**
-		 * Add contextual help for admin screens.
-		 *
-		 * @since 5.1
-		 */
-		do_action( 'bd_add_contextual_help', $this->pages_page );
-
-		/* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
-		do_action( 'add_meta_boxes_' . $this->pages_page, null );
-
-		/* Enqueue WordPress' script for handling the meta boxes */
-		wp_enqueue_script( 'postbox' );
-	}
-
-	/**
-	 * Register meta boxes for delete pages page.
-	 *
-	 * @since 5.0
-	 */
-	public function add_delete_pages_meta_boxes() {
-		add_meta_box( self::BOX_PAGE_STATUS, __( 'By Page Status', 'bulk-delete' ), 'Bulk_Delete_Pages::render_delete_pages_by_status_box', $this->pages_page, 'advanced' );
-
-		/**
-		 * Add meta box in delete pages page
-		 * This hook can be used for adding additional meta boxes in delete pages page.
-		 *
-		 * @since 5.3
-		 */
-		do_action( 'bd_add_meta_box_for_pages' );
-	}
-
-	/**
 	 * Enqueue Scripts and Styles.
 	 */
 	public function add_script() {
-		global $wp_scripts;
+		// TODO: Remove this function.
 
-		/**
-		 * Runs just before enqueuing scripts and styles in all Bulk WP admin pages.
-		 *
-		 * This action is primarily for registering or deregistering additional scripts or styles.
-		 *
-		 * @since 5.5.1
-		 */
-		do_action( 'bd_before_admin_enqueue_scripts' );
-
-		wp_enqueue_script( 'jquery-ui-timepicker', plugins_url( '/assets/js/jquery-ui-timepicker-addon.min.js', __FILE__ ), array( 'jquery-ui-slider', 'jquery-ui-datepicker' ), '1.5.4', true );
-		wp_enqueue_style( 'jquery-ui-timepicker', plugins_url( '/assets/css/jquery-ui-timepicker-addon.min.css', __FILE__ ), array(), '1.5.4' );
-
-		wp_enqueue_script( 'select2', plugins_url( '/assets/js/select2.min.js', __FILE__ ), array( 'jquery' ), '4.0.0', true );
-		wp_enqueue_style( 'select2', plugins_url( '/assets/css/select2.min.css', __FILE__ ), array(), '4.0.0' );
-
-		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		wp_enqueue_script( self::JS_HANDLE, plugins_url( '/assets/js/bulk-delete' . $postfix . '.js', __FILE__ ), array( 'jquery-ui-timepicker', 'jquery-ui-tooltip' ), self::VERSION, true );
-		wp_enqueue_style( self::CSS_HANDLE, plugins_url( '/assets/css/bulk-delete' . $postfix . '.css', __FILE__ ), array( 'select2' ), self::VERSION );
-
-		$ui  = $wp_scripts->query( 'jquery-ui-core' );
-		$url = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
-		wp_enqueue_style( 'jquery-ui-smoothness', $url, false, $ui->ver );
-
-		/**
-		 * Filter JavaScript array.
-		 *
-		 * This filter can be used to extend the array that is passed to JavaScript
-		 *
-		 * @since 5.4
-		 */
-		$translation_array = apply_filters( 'bd_javascript_array', array(
-				'msg'            => array(),
-				'validators'     => array(),
-				'dt_iterators'   => array(),
-				'pre_action_msg' => array(),
-				'error_msg'      => array(),
-				'pro_iterators'  => array(),
-			) );
-		wp_localize_script( self::JS_HANDLE, self::JS_VARIABLE, $translation_array );
-
-		/**
-		 * Runs just after enqueuing scripts and styles in all Bulk WP admin pages.
-		 *
-		 * This action is primarily for registering additional scripts or styles.
-		 *
-		 * @since 5.5.1
-		 */
-		do_action( 'bd_after_admin_enqueue_scripts' );
+		$admin_pages = $this->get_admin_pages();
+		$pages_page = $admin_pages['bulk-delete-pages'];
+		$pages_page->enqueue_assets();
 	}
 
 	/**
@@ -742,55 +654,6 @@ final class Bulk_Delete {
 		 * @since 5.0
 		 */
 		do_action( 'bd_admin_footer_posts_page' );
-	}
-
-	/**
-	 * Display the delete pages page.
-	 *
-	 * @Todo Move this function to Bulk_Delete_Pages class
-	 *
-	 * @since 5.0
-	 */
-	public function display_pages_page() {
-?>
-<div class="wrap">
-    <h2><?php _e( 'Bulk Delete Pages', 'bulk-delete' );?></h2>
-    <?php settings_errors(); ?>
-
-    <form method = "post">
-<?php
-		// nonce for bulk delete
-		wp_nonce_field( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' );
-
-		/* Used to save closed meta boxes and their order */
-		wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
-		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-?>
-    <div id = "poststuff">
-        <div id="post-body" class="metabox-holder columns-1">
-
-            <div class="notice notice-warning">
-                <p><strong><?php _e( 'WARNING: Pages deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ); ?></strong></p>
-            </div>
-
-            <div id="postbox-container-2" class="postbox-container">
-                <?php do_meta_boxes( '', 'advanced', null ); ?>
-            </div> <!-- #postbox-container-2 -->
-
-        </div> <!-- #post-body -->
-    </div><!-- #poststuff -->
-    </form>
-</div><!-- .wrap -->
-
-<?php
-		/**
-		 * Runs just before displaying the footer text in the "Bulk Delete Pages" admin page.
-		 *
-		 * This action is primarily for adding extra content in the footer of "Bulk Delete Pages" admin page.
-		 *
-		 * @since 5.0
-		 */
-		do_action( 'bd_admin_footer_pages_page' );
 	}
 
 	/**
