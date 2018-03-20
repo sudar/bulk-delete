@@ -15,6 +15,7 @@
  * Check readme file for full release notes.
  */
 use BulkWP\BulkDelete\Core\Base\BasePage;
+use BulkWP\BulkDelete\Core\Controller;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
@@ -75,9 +76,9 @@ final class Bulk_Delete {
 	private $loaded = false;
 
 	/**
-	 * Controller that handles all requests.
+	 * Controller that handles all requests and nonce checks.
 	 *
-	 * @var \BD_Controller
+	 * @var \BulkWP\BulkDelete\Core\Controller
 	 */
 	private $controller;
 
@@ -297,7 +298,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-base-page.php';
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-page.php';
 
-		require_once self::$PLUGIN_DIR . '/include/controller/class-bd-controller.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Controller.php';
 
 		require_once self::$PLUGIN_DIR . '/include/ui/form.php';
 
@@ -374,7 +375,7 @@ final class Bulk_Delete {
 	 * @since 6.0.0
 	 */
 	private function load_dependencies() {
-		$this->controller = new BD_Controller();
+		$this->controller = new Controller();
 	}
 
 	/**

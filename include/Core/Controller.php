@@ -1,21 +1,21 @@
 <?php
-/**
- * Request Handler.
- *
- * @since      5.5.4
- *
- * @author     Sudar
- *
- * @package    BulkDelete\Controller
- */
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly
+
+namespace BulkWP\BulkDelete\Core;
+
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Bulk Delete Controller.
  *
+ * Handle all requests and automatically perform nonce checks.
+ *
  * @since 5.5.4
+ * @since 6.0.0 Added namespace.
  */
-class BD_Controller {
+class Controller {
+	/**
+	 * Controller constructor.
+	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'request_handler' ) );
 		add_action( 'bd_pre_bulk_action', array( $this, 'increase_timeout' ), 9 );
@@ -102,7 +102,7 @@ class BD_Controller {
 	 * @since  5.5.4
 	 *
 	 * @param bool   $result Whether nonce is valid.
-	 * @param string $action Action name
+	 * @param string $action Action name.
 	 *
 	 * @return bool True if nonce is valid, otherwise return $result.
 	 */
@@ -124,6 +124,7 @@ class BD_Controller {
 	public function increase_timeout() {
 		// phpcs:ignore PHPCompatibility.PHP.DeprecatedIniDirectives.safe_modeDeprecatedRemoved
 		if ( ! ini_get( 'safe_mode' ) ) {
+			// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
 			@set_time_limit( 0 );
 		}
 	}
