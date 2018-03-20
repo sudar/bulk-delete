@@ -15,6 +15,10 @@
  * Check readme file for full release notes.
  */
 
+use BulkWP\BulkDelete\Core\Base\BasePage;
+use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
+use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
+
 /**
  * Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
  * This program is free software; you can redistribute it and/or modify
@@ -39,11 +43,27 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  */
 final class Bulk_Delete {
 	/**
-	 * @var Bulk_Delete The one true Bulk_Delete
+	 * The one true Bulk_Delete instance.
+	 *
+	 * @var Bulk_Delete
 	 *
 	 * @since 5.0
 	 */
 	private static $instance;
+
+	/**
+	 * Path to the main plugin file.
+	 *
+	 * @var string
+	 */
+	private $plugin_file;
+
+	/**
+	 * Path where translations are stored.
+	 *
+	 * @var string
+	 */
+	private $translations_path;
 
 	/**
 	 * Is the plugin is loaded?
@@ -54,7 +74,21 @@ final class Bulk_Delete {
 	 */
 	private $loaded = false;
 
+	/**
+	 * Controller that handles all requests.
+	 *
+	 * @var \BD_Controller
+	 */
 	private $controller;
+
+	/**
+	 * List of Admin pages.
+	 *
+	 * @var BasePage[]
+	 *
+	 * @since 5.7.0
+	 */
+	private $admin_pages = array();
 
 	// version
 	const VERSION                   = '5.6.1';
@@ -179,6 +213,7 @@ final class Bulk_Delete {
 
 		add_action( 'init', array( $this, 'on_init' ) );
 
+		$this->load_dependencies();
 		$this->setup_actions();
 
 		$this->loaded = true;
@@ -243,6 +278,8 @@ final class Bulk_Delete {
 	/**
 	 * Include required files.
 	 *
+	 * // TODO: Replace includes with autoloader.
+	 *
 	 * @access private
 	 *
 	 * @since  5.0
@@ -250,6 +287,14 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function includes() {
+		require_once self::$PLUGIN_DIR . '/include/Core/Base/BasePage.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Base/MetaboxPage.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Pages/DeletePagesPage.php';
+
+		require_once self::$PLUGIN_DIR . '/include/Core/Base/BaseMetabox.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Pages/PagesMetabox.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Pages/Metabox/DeletePagesByStatusMetabox.php';
+
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/users/class-bd-user-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-base-page.php';
@@ -260,7 +305,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/ui/form.php';
 
 		require_once self::$PLUGIN_DIR . '/include/posts/class-bulk-delete-posts.php';
-		require_once self::$PLUGIN_DIR . '/include/pages/class-bulk-delete-pages.php';
+//		require_once self::$PLUGIN_DIR . '/include/pages/class-bulk-delete-pages.php';
 
 		require_once self::$PLUGIN_DIR . '/include/users/class-bd-users-page.php';
 		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-role.php';
@@ -323,9 +368,16 @@ final class Bulk_Delete {
 	 * @since  5.0
 	 */
 	private function load_textdomain() {
-		// Load localization domain
-		$this->translations = dirname( plugin_basename( self::$PLUGIN_FILE ) ) . '/languages/';
-		load_plugin_textdomain( 'bulk-delete', false, $this->translations );
+		load_plugin_textdomain( 'bulk-delete', false, $this->get_translations_path() );
+	}
+
+	/**
+	 * Load all dependencies.
+	 *
+	 * @since 5.7.0
+	 */
+	private function load_dependencies() {
+		$this->controller = new BD_Controller();
 	}
 
 	/**
@@ -338,9 +390,7 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function setup_actions() {
-		$this->controller = new BD_Controller();
-
-		add_action( 'admin_menu', array( $this, 'add_menu' ) );
+		add_action( 'admin_menu', array( $this, 'on_admin_menu' ) );
 
 		/**
 		 * This is Ajax hook, It's runs when user search categories or tags on bulk-delete-posts page.
@@ -381,13 +431,67 @@ final class Bulk_Delete {
 	}
 
 	/**
+	 * Triggered when the `admin_menu` hook is fired.
+	 *
+	 * Register all admin pages.
+	 *
+	 * @since 5.7.0
+	 */
+	public function on_admin_menu() {
+		$this->load_legacy_menu();
+
+		foreach ( $this->get_admin_pages() as $page ) {
+			$page->register();
+		}
+	}
+
+	/**
+	 * Get the list of registered admin pages.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @return BasePage[] List of Admin pages.
+	 */
+	private function get_admin_pages() {
+		if ( empty( $this->admin_pages ) ) {
+			$pages_page = $this->get_delete_pages_admin_page();
+
+			$this->admin_pages[ $pages_page->get_page_slug() ] = $pages_page;
+		}
+
+		/**
+		 * List of admin pages.
+		 *
+		 * @since 5.7.0
+		 *
+		 * @param BasePage[] List of Admin pages.
+		 */
+		return apply_filters( 'bd_admin_pages', $this->admin_pages );
+	}
+
+	/**
+	 * Get Bulk Delete Pages admin page.
+	 *
+	 * @since 5.7.0
+	 *
+	 * @return DeletePagesPage Bulk Move Post admin page.
+	 */
+	private function get_delete_pages_admin_page() {
+		$pages_page = new DeletePagesPage( $this->get_plugin_file() );
+
+		$pages_page->add_metabox( new DeletePagesByStatusMetabox() );
+
+		return $pages_page;
+	}
+
+	/**
 	 * Add navigation menu.
 	 */
-	public function add_menu() {
+	public function load_legacy_menu() {
 		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
 
 		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ) );
-		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( $this, 'display_pages_page' ) );
+//		$this->pages_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Pages', 'bulk-delete' ), __( 'Bulk Delete Pages', 'bulk-delete' ), 'delete_pages', self::PAGES_PAGE_SLUG, array( $this, 'display_pages_page' ) );
 
 		/**
 		 * Runs just after adding all *delete* menu items to Bulk WP main menu.
@@ -419,17 +523,20 @@ final class Bulk_Delete {
 		 */
 		do_action( 'bd_after_all_menus' );
 
+		$admin_pages = $this->get_admin_pages();
+		$pages_page = $admin_pages['bulk-delete-pages'];
+
 		// enqueue JavaScript
-		add_action( 'admin_print_scripts-' . $this->posts_page, array( $this, 'add_script' ) );
-		add_action( 'admin_print_scripts-' . $this->pages_page, array( $this, 'add_script' ) );
+		add_action( 'admin_print_scripts-' . $this->posts_page, array( $pages_page, 'enqueue_assets' ) );
+//		add_action( 'admin_print_scripts-' . $this->pages_page, array( $this, 'add_script' ) );
 
 		// delete posts page
 		add_action( "load-{$this->posts_page}", array( $this, 'add_delete_posts_settings_panel' ) );
 		add_action( "add_meta_boxes_{$this->posts_page}", array( $this, 'add_delete_posts_meta_boxes' ) );
 
 		// delete pages page
-		add_action( "load-{$this->pages_page}", array( $this, 'add_delete_pages_settings_panel' ) );
-		add_action( "add_meta_boxes_{$this->pages_page}", array( $this, 'add_delete_pages_meta_boxes' ) );
+//		add_action( "load-{$this->pages_page}", array( $this, 'add_delete_pages_settings_panel' ) );
+//		add_action( "add_meta_boxes_{$this->pages_page}", array( $this, 'add_delete_pages_meta_boxes' ) );
 	}
 
 	/**
@@ -721,6 +828,34 @@ final class Bulk_Delete {
 		 */
 		do_action( 'bd_admin_footer_cron_page' );
 	}
+
+	/**
+	 * Get path to main plugin file.
+	 *
+	 * @return string Plugin file.
+	 */
+	public function get_plugin_file() {
+		return $this->plugin_file;
+	}
+
+	/**
+	 * Set path to main plugin file.
+	 *
+	 * @param string $plugin_file Path to main plugin file.
+	 */
+	public function set_plugin_file( $plugin_file ) {
+		$this->plugin_file       = $plugin_file;
+		$this->translations_path = dirname( plugin_basename( $this->get_plugin_file() ) ) . '/languages/';
+	}
+
+	/**
+	 * Get path to translations.
+	 *
+	 * @return string Translations path.
+	 */
+	public function get_translations_path() {
+		return $this->translations_path;
+	}
 }
 
 /**
@@ -747,6 +882,7 @@ function BULK_DELETE() {
  */
 function load_bulk_delete() {
 	$bulk_delete = BULK_DELETE();
+	$bulk_delete->set_plugin_file( __FILE__ );
 
 	add_action( 'plugins_loaded', array( $bulk_delete, 'load' ), 101 );
 }
