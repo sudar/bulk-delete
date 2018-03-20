@@ -17,6 +17,7 @@
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
+use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
 
 /**
  * Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -92,9 +93,6 @@ final class Bulk_Delete {
 	// version
 	const VERSION                   = '5.6.1';
 
-	// Numeric constants
-	const MENU_ORDER                = '26';
-
 	// page slugs
 	const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
 	const PAGES_PAGE_SLUG           = 'bulk-delete-pages';
@@ -103,8 +101,6 @@ final class Bulk_Delete {
 
 	// JS constants
 	const JS_HANDLE                 = 'bulk-delete';
-	const JS_VARIABLE               = 'BulkWP';
-
 	const CSS_HANDLE                = 'bulk-delete';
 
 	// Cron hooks
@@ -288,7 +284,9 @@ final class Bulk_Delete {
 	private function includes() {
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/BasePage.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/MetaboxPage.php';
+
 		require_once self::$PLUGIN_DIR . '/include/Core/Pages/DeletePagesPage.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Posts/DeletePostsPage.php';
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/BaseMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Pages/PagesMetabox.php';
@@ -437,11 +435,11 @@ final class Bulk_Delete {
 	 * @since 6.0.0
 	 */
 	public function on_admin_menu() {
-		$this->load_legacy_menu();
-
 		foreach ( $this->get_admin_pages() as $page ) {
 			$page->register();
 		}
+
+		$this->load_legacy_menu();
 	}
 
 	/**
@@ -453,8 +451,10 @@ final class Bulk_Delete {
 	 */
 	private function get_admin_pages() {
 		if ( empty( $this->admin_pages ) ) {
+			$posts_page = $this->get_delete_posts_admin_page();
 			$pages_page = $this->get_delete_pages_admin_page();
 
+			$this->admin_pages[ $posts_page->get_page_slug() ] = $posts_page;
 			$this->admin_pages[ $pages_page->get_page_slug() ] = $pages_page;
 		}
 
@@ -466,6 +466,19 @@ final class Bulk_Delete {
 		 * @param BasePage[] List of Admin pages.
 		 */
 		return apply_filters( 'bd_admin_pages', $this->admin_pages );
+	}
+
+	/**
+	 * Get Bulk Delete Posts admin page.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Posts\DeletePostsPage
+	 */
+	private function get_delete_posts_admin_page() {
+		$posts_page = new DeletePostsPage( $this->get_plugin_file() );
+
+//		$posts_page->add_metabox( new DeletePagesByStatusMetabox() );
+
+		return $posts_page;
 	}
 
 	/**
@@ -487,9 +500,7 @@ final class Bulk_Delete {
 	 * Add navigation menu.
 	 */
 	public function load_legacy_menu() {
-		add_menu_page( __( 'Bulk WP', 'bulk-delete' ), __( 'Bulk WP', 'bulk-delete' ), 'manage_options', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ), 'dashicons-trash', self::MENU_ORDER );
-
-		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts', 'bulk-delete' ), __( 'Bulk Delete Posts', 'bulk-delete' ), 'delete_posts', self::POSTS_PAGE_SLUG, array( $this, 'display_posts_page' ) );
+		$this->posts_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Posts - Old', 'bulk-delete' ), __( 'Bulk Delete Posts - Old', 'bulk-delete' ), 'delete_posts', 'bulk-delete-posts-old', array( $this, 'display_posts_page' ) );
 
 		/**
 		 * Runs just after adding all *delete* menu items to Bulk WP main menu.
