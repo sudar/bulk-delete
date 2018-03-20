@@ -33,11 +33,6 @@ class BD_Controller {
 			$bd_action   = sanitize_text_field( $_POST['bd_action'] );
 			$nonce_valid = false;
 
-			if ( 'delete_pages_' === substr( $bd_action, 0, strlen( 'delete_pages_' ) )
-				&& check_admin_referer( 'sm-bulk-delete-pages', 'sm-bulk-delete-pages-nonce' ) ) {
-				$nonce_valid = true;
-			}
-
 			if ( 'delete_posts_' === substr( $bd_action, 0, strlen( 'delete_posts_' ) )
 				&& check_admin_referer( 'sm-bulk-delete-posts', 'sm-bulk-delete-posts-nonce' ) ) {
 				$nonce_valid = true;
