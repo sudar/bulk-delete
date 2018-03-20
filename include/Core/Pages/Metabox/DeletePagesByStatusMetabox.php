@@ -11,7 +11,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePagesByStatusMetabox extends PagesMetabox {
-
 	protected function initialize() {
 		$this->item_type     = 'pages';
 //		$this->field_slug    = 'u_meta';
