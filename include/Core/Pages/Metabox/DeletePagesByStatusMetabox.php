@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Delete Pages by Status Metabox.
  *
- * @since 5.7.0
+ * @since 6.0.0
  */
 class DeletePagesByStatusMetabox extends PagesMetabox {
 

@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  *
  * All concrete implementation of a Bulk Delete Admin page will extend this class.
  *
- * @since 5.7.0
+ * @since 6.0.0
  */
 abstract class BasePage {
 

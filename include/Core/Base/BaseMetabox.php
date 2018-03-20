@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  *
  * All Bulk Delete Meta box Modules should extend this class.
  *
- * @since 5.7.0
+ * @since 6.0.0
  */
 abstract class BaseMetabox {
 

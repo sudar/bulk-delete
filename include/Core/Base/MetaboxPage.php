@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Base class for all Bulk Delete pages that will have metaboxes.
  *
- * @since 5.7.0
+ * @since 6.0.0
  */
 abstract class MetaboxPage extends BasePage {
 

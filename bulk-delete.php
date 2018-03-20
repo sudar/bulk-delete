@@ -68,7 +68,7 @@ final class Bulk_Delete {
 	/**
 	 * Is the plugin is loaded?
 	 *
-	 * @since 5.7.0
+	 * @since 6.0.0
 	 *
 	 * @var bool
 	 */
@@ -86,7 +86,7 @@ final class Bulk_Delete {
 	 *
 	 * @var BasePage[]
 	 *
-	 * @since 5.7.0
+	 * @since 6.0.0
 	 */
 	private $admin_pages = array();
 
@@ -221,7 +221,7 @@ final class Bulk_Delete {
 		/**
 		 * Bulk Delete plugin loaded.
 		 *
-		 * @since 5.7.0
+		 * @since 6.0.0
 		 */
 		do_action( 'bd_loaded' );
 	}
@@ -356,7 +356,7 @@ final class Bulk_Delete {
 	/**
 	 * Triggered when the `init` hook is fired.
 	 *
-	 * @since 5.7.0
+	 * @since 6.0.0
 	 */
 	public function on_init() {
 		$this->load_textdomain();
@@ -374,7 +374,7 @@ final class Bulk_Delete {
 	/**
 	 * Load all dependencies.
 	 *
-	 * @since 5.7.0
+	 * @since 6.0.0
 	 */
 	private function load_dependencies() {
 		$this->controller = new BD_Controller();
@@ -395,7 +395,7 @@ final class Bulk_Delete {
 		/**
 		 * This is Ajax hook, It's runs when user search categories or tags on bulk-delete-posts page.
 		 *
-		 * @since 5.7.0
+		 * @since 6.0.0
 		 */
 		add_action( 'wp_ajax_bd_load_taxonomy_term', array( $this, 'load_taxonomy_term' ) );
 
@@ -435,7 +435,7 @@ final class Bulk_Delete {
 	 *
 	 * Register all admin pages.
 	 *
-	 * @since 5.7.0
+	 * @since 6.0.0
 	 */
 	public function on_admin_menu() {
 		$this->load_legacy_menu();
@@ -448,7 +448,7 @@ final class Bulk_Delete {
 	/**
 	 * Get the list of registered admin pages.
 	 *
-	 * @since 5.7.0
+	 * @since 6.0.0
 	 *
 	 * @return BasePage[] List of Admin pages.
 	 */
@@ -462,7 +462,7 @@ final class Bulk_Delete {
 		/**
 		 * List of admin pages.
 		 *
-		 * @since 5.7.0
+		 * @since 6.0.0
 		 *
 		 * @param BasePage[] List of Admin pages.
 		 */
@@ -472,7 +472,7 @@ final class Bulk_Delete {
 	/**
 	 * Get Bulk Delete Pages admin page.
 	 *
-	 * @since 5.7.0
+	 * @since 6.0.0
 	 *
 	 * @return DeletePagesPage Bulk Move Post admin page.
 	 */
@@ -560,7 +560,7 @@ final class Bulk_Delete {
 	/**
 	 * Ajax call back function for getting taxonomies to load select2 options.
 	 *
-	 * @since 5.7.0
+	 * @since 6.0.0
 	 */
 	public function load_taxonomy_term(){
 		$response = array();
@@ -878,7 +878,7 @@ function BULK_DELETE() {
 /**
  * Load Bulk Delete plugin.
  *
- * @since 5.7.0
+ * @since 6.0.0
  */
 function load_bulk_delete() {
 	$bulk_delete = BULK_DELETE();

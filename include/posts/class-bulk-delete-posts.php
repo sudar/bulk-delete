@@ -207,7 +207,7 @@ class Bulk_Delete_Posts {
 		/**
 		 * Filter to modify select2 ajax call category limit.
 		 *
-		 * @since 5.7.0
+		 * @since 6.0.0
 		 *
 		 * @param int $select2_limit
 		 */
@@ -353,7 +353,7 @@ class Bulk_Delete_Posts {
 		/**
 		 * Filter to modify select2 ajax call tag limit.
 		 *
-		 * @since 5.7.0
+		 * @since 6.0.0
 		 *
 		 * @param int $select2_limit
 		 */

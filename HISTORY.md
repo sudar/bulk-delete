@@ -1,6 +1,6 @@
 ## Changelog ##
 
-### v5.7.0 - (In Development) ###
+### v6.0.0 - (In Development) ###
 
 ### 2018-01-29 - v5.6.1 ###
 

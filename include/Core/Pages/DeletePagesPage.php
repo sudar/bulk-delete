@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  *
  * Shows the list of modules that allows you to delete pages.
  *
- * @since 5.7.0
+ * @since 6.0.0
  */
 class DeletePagesPage extends MetaboxPage {
 
