@@ -11,7 +11,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class BaseMetabox {
-
 	/**
 	 * Item Type. Possible values 'posts', 'pages', 'users' etc.
 	 *

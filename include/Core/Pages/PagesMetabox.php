@@ -11,5 +11,4 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class PagesMetabox extends BaseMetabox {
-
 }
