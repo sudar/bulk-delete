@@ -26,15 +26,19 @@
  	<exclude-pattern>assets/js/*.min.js</exclude-pattern>
 
 	<!-- PHP Compatibility -->
-	<config name="testVersion" value="5.2-"/>
+	<config name="testVersion" value="5.3-"/>
 	<rule ref="PHPCompatibility">
-		<exclude-pattern>tests/*</exclude-pattern>
 	</rule>
 
 	<!--Code-->
 	<rule ref="WordPress-Extra">
 		<!-- Exclude suggestion to use esc_html__() instead of _e() -->
 		<exclude name="WordPress.XSS.EscapeOutput.UnsafePrintingFunction"/>
+
+		<!-- Allow File names with psr-2 structure -->
+		<exclude name="Generic.Files.LowercasedFilename.NotFound"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
 	</rule>
 
 	<!--Docs-->
