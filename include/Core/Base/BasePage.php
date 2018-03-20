@@ -78,6 +78,13 @@ abstract class BasePage {
 	protected $actions = array();
 
 	/**
+	 * Should the link to this page be displayed in the plugin list. Default false.
+	 *
+	 * @var bool
+	 */
+	protected $show_link_in_plugin_list = false;
+
+	/**
 	 * Initialize and setup variables and attributes of the page.
 	 *
 	 * @return void
@@ -140,8 +147,9 @@ abstract class BasePage {
 
 		add_action( "bd_admin_footer_for_{$this->page_slug}", array( $this, 'modify_admin_footer' ) );
 
-		// TODO: Implement action links.
-//		add_filter( 'bm_plugin_action_links', array( $this, 'append_to_plugin_action_links' ) );
+		if ( $this->show_link_in_plugin_list ) {
+			add_filter( 'bd_plugin_action_links', array( $this, 'append_to_plugin_action_links' ) );
+		}
 	}
 
 	/**
@@ -275,6 +283,19 @@ abstract class BasePage {
 	 */
 	public function modify_admin_footer() {
 		add_filter( 'admin_footer_text', 'bd_add_rating_link' );
+	}
+
+	/**
+	 * Append link to the current page in plugin list.
+	 *
+	 * @param array $links Array of links.
+	 *
+	 * @return array Modified list of links.
+	 */
+	public function append_to_plugin_action_links( $links ) {
+		$links[ $this->get_page_slug() ] = '<a href="admin.php?page=' . $this->get_page_slug() . '">' . $this->label['page_title'] . '</a>';
+
+		return $links;
 	}
 
 	/**

@@ -37,7 +37,7 @@ class DeletePostsPage extends MetaboxPage {
 			'warning_message' => __( 'WARNING: Posts deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ),
 		);
 
-		add_filter( 'plugin_action_links', array( $this, 'add_plugin_action_links' ), 10, 2 );
+		$this->show_link_in_plugin_list = true;
 	}
 
 	public function register() {
@@ -71,39 +71,20 @@ class DeletePostsPage extends MetaboxPage {
 	}
 
 	/**
-	 * Adds setting links in plugin listing page.
-	 * Based on http://striderweb.com/nerdaphernalia/2008/06/wp-use-action-links/.
-	 *
-	 * @param array  $links List of current links
-	 * @param string $file  Plugin filename
-	 *
-	 * @return array $links Modified list of links
-	 */
-	public function add_plugin_action_links( $links, $file ) {
-		$this_plugin = plugin_basename( Bulk_Delete::$PLUGIN_FILE );
-
-		if ( $file == $this_plugin ) {
-			$delete_users_link = '<a href="admin.php?page=' . $this->page_slug . '">' . __( 'Bulk Delete Users', 'bulk-delete' ) . '</a>';
-			array_unshift( $links, $delete_users_link ); // before other links
-		}
-
-		return $links;
-	}
-
-	/**
 	 * Add Help tabs.
 	 *
-	 * @since 5.5
+	 * @param array $help_tabs Help tabs.
 	 *
-	 * @param mixed $help_tabs
+	 * @return array Modified list of tabs.
 	 */
 	protected function add_help_tab( $help_tabs ) {
 		$overview_tab = array(
 			'title'    => __( 'Overview', 'bulk-delete' ),
 			'id'       => 'overview_tab',
-			'content'  => '<p>' . __( 'This screen contains different modules that allows you to delete users or schedule them for deletion.', 'bulk-delete' ) . '</p>',
+			'content'  => '<p>' . __( 'This screen contains different modules that allows you to delete posts or schedule them for deletion.', 'bulk-delete' ) . '</p>',
 			'callback' => false,
 		);
+
 		$help_tabs['overview_tab'] = $overview_tab;
 
 		return $help_tabs;

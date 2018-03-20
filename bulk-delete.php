@@ -398,9 +398,48 @@ final class Bulk_Delete {
 
 		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
 
+		add_filter( 'plugin_action_links', array( $this, 'filter_plugin_action_links' ), 10, 2 );
+
 		if ( defined( 'BD_DEBUG' ) && BD_DEBUG ) {
 			add_action( 'bd_after_query', array( $this, 'log_sql_query' ) );
 		}
+	}
+
+	/**
+	 * Adds the settings link in the Plugin page.
+	 *
+	 * Based on http://striderweb.com/nerdaphernalia/2008/06/wp-use-action-links/.
+	 *
+	 * @staticvar string $this_plugin
+	 *
+	 * @param array  $action_links Action Links.
+	 * @param string $file         Plugin file name.
+	 *
+	 * @return array Modified links.
+	 */
+	public function filter_plugin_action_links( $action_links, $file ) {
+		static $this_plugin;
+
+		if ( ! $this_plugin ) {
+			$this_plugin = plugin_basename( $this->get_plugin_file() );
+		}
+
+		if ( $file == $this_plugin ) {
+			/**
+			 * Filter plugin action links added by Bulk Move.
+			 *
+			 * @since 6.0.0
+			 *
+			 * @param array Plugin Links.
+			 */
+			$bm_action_links = apply_filters( 'bd_plugin_action_links', array() );
+
+			if ( ! empty( $bm_action_links ) ) {
+				$action_links = array_merge( $bm_action_links, $action_links );
+			}
+		}
+
+		return $action_links;
 	}
 
 	/**
