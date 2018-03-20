@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsPage extends MetaboxPage {
-
 	/**
 	 * Position in which the Bulk WP menu should appear.
 	 */
