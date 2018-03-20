@@ -14,7 +14,6 @@
  * === RELEASE NOTES ===
  * Check readme file for full release notes.
  */
-
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
@@ -523,7 +522,7 @@ final class Bulk_Delete {
 		do_action( 'bd_after_all_menus' );
 
 		$admin_pages = $this->get_admin_pages();
-		$pages_page = $admin_pages['bulk-delete-pages'];
+		$pages_page  = $admin_pages['bulk-delete-pages'];
 
 		// enqueue JavaScript
 		add_action( 'admin_print_scripts-' . $this->posts_page, array( $pages_page, 'enqueue_assets' ) );
@@ -605,7 +604,7 @@ final class Bulk_Delete {
 		// TODO: Remove this function.
 
 		$admin_pages = $this->get_admin_pages();
-		$pages_page = $admin_pages['bulk-delete-pages'];
+		$pages_page  = $admin_pages['bulk-delete-pages'];
 		$pages_page->enqueue_assets();
 	}
 

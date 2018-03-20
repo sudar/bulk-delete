@@ -10,7 +10,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class MetaboxPage extends BasePage {
-
 	/**
 	 * Item Type. Possible values 'posts', 'pages', 'users' etc.
 	 *
@@ -73,7 +72,7 @@ abstract class MetaboxPage extends BasePage {
 
 		wp_enqueue_script( 'jquery-ui-timepicker', $this->get_plugin_dir_url() . 'assets/js/jquery-ui-timepicker-addon.min.js', array(
 			'jquery-ui-slider',
-			'jquery-ui-datepicker'
+			'jquery-ui-datepicker',
 		), '1.5.4', true );
 		wp_enqueue_style( 'jquery-ui-timepicker', $this->get_plugin_dir_url() . 'assets/css/jquery-ui-timepicker-addon.min.css', array(), '1.5.4' );
 
@@ -84,7 +83,7 @@ abstract class MetaboxPage extends BasePage {
 		wp_enqueue_script( 'bulk-delete', $this->get_plugin_dir_url() . 'assets/js/bulk-delete' . $postfix . '.js', array(
 			'jquery-ui-timepicker',
 			'jquery-ui-tooltip',
-			'postbox'
+			'postbox',
 		), \Bulk_Delete::VERSION, true );
 		wp_enqueue_style( 'bulk-delete', $this->get_plugin_dir_url() . 'assets/css/bulk-delete' . $postfix . '.css', array( 'select2' ), \Bulk_Delete::VERSION );
 
