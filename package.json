@@ -42,7 +42,7 @@
     "test:merge-coverage": "vendor/bin/phpcov merge code-coverage/",
     "test:html-coverage": "npm run test:coverage && npm run test:merge-coverage -- --html code-coverage/html/",
     "test:cover-coverage": "npm run test:coverage && npm run test:merge-coverage -- --clover=code-coverage/bulk-delete.clover",
-    "phpcs": "vendor/bin/phpcs -p *.php include/ --standard=PHPCompatibility --runtime-set testVersion 5.2-"
+    "phpcs": "vendor/bin/phpcs -p *.php include/ --standard=PHPCompatibility --runtime-set testVersion 5.3-"
   },
   "private": true
 }
