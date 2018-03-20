@@ -43,6 +43,27 @@ function bd_delete_options_compatibility( $options ) {
 add_filter( 'bd_delete_options', 'bd_delete_options_compatibility' );
 
 /**
+ * Handle backward compatibility for Delete Pages by status delete options.
+ *
+ * Backward compatibility code. Will be removed in Bulk Delete v6.0
+ *
+ * @since 6.0.0
+ *
+ * @param array $options Delete Options.
+ *
+ * @return array Processed delete options.
+ */
+function bd_convert_old_options_for_delete_pages( $options ) {
+	if ( array_key_exists( 'page_op', $options ) ) {
+		$options['date_op'] = $options['page_op'];
+		$options['days']    = $options['page_days'];
+	}
+
+	return $options;
+}
+add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_pages' );
+
+/**
  * Handle backward compatibility for Delete Posts by status delete options.
  *
  * Backward compatibility code. Will be removed in Bulk Delete v6.0.

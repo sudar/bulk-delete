@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 class DeletePagesByStatusMetabox extends PagesMetabox {
 	protected function initialize() {
 		$this->item_type     = 'pages';
-//		$this->field_slug    = 'u_meta';
+		$this->field_slug    = 'pages';
 		$this->meta_box_slug = 'bd_pages_by_status';
 		$this->action        = 'delete_pages_by_status';
 		$this->cron_hook     = 'do-bulk-delete-pages-by-status';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-u-ma';
+		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sp';
 		$this->messages      = array(
-			'box_label'      => __( 'By Page Status', 'bulk-delete' ),
-			'scheduled'      => __( 'The selected pages are scheduled for deletion', 'bulk-delete' ),
+			'box_label' => __( 'By Page Status', 'bulk-delete' ),
+			'scheduled' => __( 'The selected pages are scheduled for deletion', 'bulk-delete' ),
 		);
 	}
 
@@ -75,11 +75,11 @@ class DeletePagesByStatusMetabox extends PagesMetabox {
 
 			<table class="optiontable">
 				<?php
-				bd_render_filtering_table_header();
-				bd_render_restrict_settings( 'pages', 'pages' );
-				bd_render_delete_settings( 'pages' );
-				bd_render_limit_settings( 'pages' );
-				bd_render_cron_settings( 'pages','http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sp' );
+				$this->render_filtering_table_header();
+				$this->render_restrict_settings();
+				$this->render_delete_settings();
+				$this->render_limit_settings();
+				$this->render_cron_settings();
 				?>
 			</table>
 		</fieldset>
@@ -87,33 +87,24 @@ class DeletePagesByStatusMetabox extends PagesMetabox {
 		$this->render_submit_button();
 	}
 
-	protected function convert_user_input_to_options( $request ) {
-		$delete_options = array();
+	protected function convert_user_input_to_options( $request, $options ) {
+		$options['publish'] = bd_array_get( $request, 'smbd_published_pages' );
+		$options['drafts']  = bd_array_get( $request, 'smbd_draft_pages' );
+		$options['pending'] = bd_array_get( $request, 'smbd_pending_pages' );
+		$options['future']  = bd_array_get( $request, 'smbd_future_pages' );
+		$options['private'] = bd_array_get( $request, 'smbd_private_pages' );
 
-		$delete_options['restrict']     = bd_array_get_bool( $request, 'smbd_pages_restrict', false );
-		$delete_options['limit_to']     = absint( bd_array_get( $request, 'smbd_pages_limit_to', 0 ) );
-		$delete_options['force_delete'] = bd_array_get_bool( $request, 'smbd_pages_force_delete', false );
-
-		$delete_options['date_op'] = bd_array_get( $request, 'smbd_pages_op' );
-		$delete_options['days']    = absint( bd_array_get( $request, 'smbd_pages_days' ) );
-
-		$delete_options['publish'] = bd_array_get( $request, 'smbd_published_pages' );
-		$delete_options['drafts']  = bd_array_get( $request, 'smbd_draft_pages' );
-		$delete_options['pending'] = bd_array_get( $request, 'smbd_pending_pages' );
-		$delete_options['future']  = bd_array_get( $request, 'smbd_future_pages' );
-		$delete_options['private'] = bd_array_get( $request, 'smbd_private_pages' );
-
-		return $delete_options;
+		return $options;
 	}
 
 	public function delete( $delete_options ) {
 		global $wp_query;
 
-		// Backward compatibility code. Will be removed in Bulk Delete v6.0
-		if ( array_key_exists( 'page_op', $delete_options ) ) {
-			$delete_options['date_op'] = $delete_options['page_op'];
-			$delete_options['days']    = $delete_options['page_days'];
-		}
+		/**
+		 * Filter Delete options.
+		 *
+		 * @param array $delete_options Delete options.
+		 */
 		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$post_status = array();
