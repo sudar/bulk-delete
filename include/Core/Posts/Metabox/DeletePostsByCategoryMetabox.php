@@ -90,7 +90,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 	}
 
 	public function delete( $delete_options ) {
-		$posts_deleted = 0;
+		$posts_deleted               = 0;
 		$delete_options['post_type'] = bd_array_get( $delete_options, 'post_type', 'post' );
 
 		if ( array_key_exists( 'cats_op', $delete_options ) ) {
