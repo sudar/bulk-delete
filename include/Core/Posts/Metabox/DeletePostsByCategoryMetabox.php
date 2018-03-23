@@ -36,7 +36,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
             <h4><?php _e( 'Select the categories from which you wan to delete posts', 'bulk-delete' ); ?></h4>
             <p><?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?>.</p>
 			<?php
-			$bd_select2_ajax_limit_categories = apply_filters( 'bd_select2_ajax_limit_categories', Bulk_Delete::MAX_SELECT2_LIMIT );
+			$bd_select2_ajax_limit_categories = apply_filters( 'bd_select2_ajax_limit_categories', 50 );
 
 			$categories = get_categories( array(
 					'hide_empty'    => false,
@@ -68,7 +68,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 				$this->render_filtering_table_header();
 				$this->render_restrict_settings();
 				$this->render_delete_settings();
-				$this->render_private_post_settings();
+				//$this->render_private_post_settings();
 				$this->render_limit_settings();
 				$this->render_cron_settings();
 				?>
