@@ -13,19 +13,19 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 class DeletePostsByStatusMetabox extends PostsMetabox {
 	protected function initialize() {
 		$this->item_type     = 'posts';
-		$this->field_slug    = 'posts';
+		$this->field_slug    = 'post_status';
 		$this->meta_box_slug = 'bd_posts_by_status';
 		$this->action        = 'delete_posts_by_status';
-		$this->cron_hook     = 'do-bulk-delete-posts-by-status';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sp';
+		$this->cron_hook     = 'do-bulk-delete-post-by-status';
+		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sps';
 		$this->messages      = array(
-			'box_label' => __( 'By Page Status', 'bulk-delete' ),
+			'box_label' => __( 'By Post Status', 'bulk-delete' ),
 			'scheduled' => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
 		);
 	}
 
 	public function render() {
-		$post_statuses = $this->get_post_statuses();
+		$post_statuses = bd_get_post_statuses();
 		$post_count    = wp_count_posts();
 		?>
 		<h4><?php _e( 'Select the post statuses from which you want to delete posts', 'bulk-delete' ); ?></h4>
@@ -80,68 +80,46 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['publish'] = bd_array_get( $request, 'smbd_published_pages' );
-		$options['drafts']  = bd_array_get( $request, 'smbd_draft_pages' );
-		$options['pending'] = bd_array_get( $request, 'smbd_pending_pages' );
-		$options['future']  = bd_array_get( $request, 'smbd_future_pages' );
-		$options['private'] = bd_array_get( $request, 'smbd_private_pages' );
+		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_post_status', array() ) );
+
+		$options['delete-sticky-posts'] = bd_array_get_bool( $request, 'smbd_sticky', false );
 
 		return $options;
 	}
 
 	public function delete( $delete_options ) {
-		global $wp_query;
-
-		/**
-		 * Filter Delete options.
-		 *
-		 * @param array $delete_options Delete options.
-		 */
+		$delete_options = bd_convert_old_options_for_delete_post_by_status( $delete_options );
 		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
-		$post_status = array();
+		$posts_deleted = 0;
 
-		// published pages
-		if ( 'published_pages' == $delete_options['publish'] ) {
-			$post_status[] = 'publish';
+		if ( $delete_options['delete-sticky-posts'] ) {
+			$posts_deleted += self::delete_sticky_posts( $delete_options['force_delete'] );
 		}
 
-		// Drafts
-		if ( 'draft_pages' == $delete_options['drafts'] ) {
-			$post_status[] = 'draft';
-		}
-
-		// Pending pages
-		if ( 'pending_pages' == $delete_options['pending'] ) {
-			$post_status[] = 'pending';
-		}
-
-		// Future pages
-		if ( 'future_pages' == $delete_options['future'] ) {
-			$post_status[] = 'future';
-		}
-
-		// Private pages
-		if ( 'private_pages' == $delete_options['private'] ) {
-			$post_status[] = 'private';
+		if ( empty( $delete_options['post_status'] ) ) {
+			return $posts_deleted;
 		}
 
 		$options = array(
-			'post_type'   => 'page',
-			'post_status' => $post_status,
+			'post_status'  => $delete_options['post_status'],
+			'post__not_in' => get_option( 'sticky_posts' ),
 		);
 
 		$options = bd_build_query_options( $delete_options, $options );
-		$pages   = $wp_query->query( $options );
-		foreach ( $pages as $page ) {
-			wp_delete_post( $page->ID, $delete_options['force_delete'] );
+
+		$post_ids = bd_query( $options );
+		foreach ( $post_ids as $post_id ) {
+			wp_delete_post( $post_id, $delete_options['force_delete'] );
 		}
 
-		return count( $pages );
+		$posts_deleted += count( $post_ids );
+
+		return $posts_deleted;
 	}
 
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d page with the selected page status', 'Deleted %d pages with the selected page status', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
 	}
 }
