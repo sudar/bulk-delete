@@ -11,6 +11,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsByCategoryMetabox extends PostsMetabox {
+	private $cat_limit = 50;
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'cats';
@@ -36,7 +37,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
             <h4><?php _e( 'Select the categories from which you wan to delete posts', 'bulk-delete' ); ?></h4>
             <p><?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?>.</p>
 			<?php
-			$bd_select2_ajax_limit_categories = apply_filters( 'bd_select2_ajax_limit_categories', 50 );
+			$bd_select2_ajax_limit_categories = apply_filters( 'bd_select2_ajax_limit_categories', $this->cat_limit );
 
 			$categories = get_categories( array(
 					'hide_empty'    => false,
@@ -69,6 +70,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 				$this->render_restrict_settings();
 				$this->render_delete_settings();
 				//$this->render_private_post_settings();
+				bd_render_private_post_settings( $this->field_slug );
 				$this->render_limit_settings();
 				$this->render_cron_settings();
 				?>
@@ -88,25 +90,34 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 	}
 
 	public function delete( $delete_options ) {
-		if ( array_key_exists( 'tags_op', $delete_options ) ) {
-			$delete_options['date_op'] = $delete_options['tags_op'];
-			$delete_options['days']    = $delete_options['tags_days'];
+		$posts_deleted = 0;
+		$delete_options['post_type'] = bd_array_get( $delete_options, 'post_type', 'post' );
+
+		if ( array_key_exists( 'cats_op', $delete_options ) ) {
+			$delete_options['date_op'] = $delete_options['cats_op'];
+			$delete_options['days']    = $delete_options['cats_days'];
 		}
 
 		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$options       = array();
-		$selected_tags = $delete_options['selected_tags'];
-		if ( in_array( 'all', $selected_tags ) ) {
-			$options['tag__not__in'] = array(0);
+		$selected_cats = $delete_options['selected_cats'];
+		if ( in_array( 'all', $selected_cats ) ) {
+			$options['category__not__in'] = array(0);
 		} else {
-			$options['tag__in'] = $selected_tags;
+			$options['category__in'] = $selected_cats;
 		}
 
 		$options  = bd_build_query_options( $delete_options, $options );
 		$post_ids = bd_query( $options );
+
 		foreach ( $post_ids as $post_id ) {
-			wp_delete_post( $post_id, $delete_options['force_delete'] );
+			// $force delete parameter to custom post types doesn't work
+			if ( $delete_options['force_delete'] ) {
+				wp_delete_post( $post_id, true );
+			} else {
+				wp_trash_post( $post_id );
+			}
 		}
 
 		$posts_deleted += count( $post_ids );
