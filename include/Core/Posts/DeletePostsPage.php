@@ -40,8 +40,6 @@ class DeletePostsPage extends MetaboxPage {
 	}
 
 	public function register() {
-		parent::register();
-
 		add_menu_page(
 			__( 'Bulk WP', 'bulk-delete' ),
 			__( 'Bulk WP', 'bulk-delete' ),
@@ -51,6 +49,8 @@ class DeletePostsPage extends MetaboxPage {
 			'dashicons-trash',
 			$this->get_bulkwp_menu_position()
 		);
+
+		parent::register();
 	}
 
 	/**
