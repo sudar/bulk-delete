@@ -1056,14 +1056,14 @@ class Bulk_Delete_Posts {
 }
 
 // hooks
-add_action( 'bd_delete_posts_by_status'    , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_status' ) );
-add_action( 'bd_delete_posts_by_category'  , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_category' ) );
-add_action( 'bd_delete_posts_by_tag'       , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_tag' ) );
-add_action( 'bd_delete_posts_by_taxonomy'  , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_taxonomy' ) );
-add_action( 'bd_delete_posts_by_post_type' , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_post_type' ) );
-add_action( 'bd_delete_posts_by_url'       , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_url' ) );
-add_action( 'bd_delete_posts_by_revision'  , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_revision' ) );
-
-add_action( 'bd_delete_cron'               , array( 'Bulk_Delete_Posts', 'do_delete_cron' ) );
-add_filter( 'bd_javascript_array'          , array( 'Bulk_Delete_Posts', 'filter_js_array' ) );
+//add_action( 'bd_delete_posts_by_status'    , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_status' ) );
+//add_action( 'bd_delete_posts_by_category'  , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_category' ) );
+//add_action( 'bd_delete_posts_by_tag'       , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_tag' ) );
+//add_action( 'bd_delete_posts_by_taxonomy'  , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_taxonomy' ) );
+//add_action( 'bd_delete_posts_by_post_type' , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_post_type' ) );
+//add_action( 'bd_delete_posts_by_url'       , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_url' ) );
+//add_action( 'bd_delete_posts_by_revision'  , array( 'Bulk_Delete_Posts', 'do_delete_posts_by_revision' ) );
+//
+//add_action( 'bd_delete_cron'               , array( 'Bulk_Delete_Posts', 'do_delete_cron' ) );
+//add_filter( 'bd_javascript_array'          , array( 'Bulk_Delete_Posts', 'filter_js_array' ) );
 ?>
