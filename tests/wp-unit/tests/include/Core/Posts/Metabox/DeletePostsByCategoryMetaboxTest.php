@@ -77,4 +77,56 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, count( $posts_in_cat1 ) );
 		$this->assertEquals( 0, count( $posts_in_cat2 ) );
 	}
+
+	public function test_for_deleting_posts_from_one_categories_default_post_type(){
+		// Create two categories.
+		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
+		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
+
+		// Assign the cat1 and cat2 to post1 and post2
+		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish', 'post_category' => array( $cat1 ) ) );
+
+		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
+
+		// Assert that each post status is publish.
+		$post1_status = get_post_status( $post1 );
+		$post2_status = get_post_status( $post2 );
+
+		$this->assertEquals( 'publish', $post1_status );
+		$this->assertEquals( 'publish', $post2_status );
+
+		// Assert that each category has one post.
+		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
+		$posts_in_cat2 = $this->get_posts_by_category( $cat2 );
+
+		$this->assertEquals( 1, count( $posts_in_cat1 ) );
+		$this->assertEquals( 1, count( $posts_in_cat2 ) );
+
+		// call our method.
+		$delete_options = array(
+			'post_type'      => array( 'post' ),
+			'selected_cats'  => array( $cat1 ),
+			'restrict'       => false,
+			'private'        => false,
+			'limit_to'       => false,
+			'force_delete'   => false,
+			'date_op'        => false,
+			'days'           => false,
+		);
+		$this->metabox->delete( $delete_options );
+
+		// Assert that post1 status moved to trash post2 status is publish.
+		$post1_status = get_post_status( $post1 );
+		$post2_status = get_post_status( $post2 );
+
+		$this->assertEquals( 'trash', $post1_status );
+		$this->assertEquals( 'publish', $post2_status );
+
+		// Assert that cat1 has no post cat2 has 1 post.
+		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
+		$posts_in_cat2 = $this->get_posts_by_category( $cat2 );
+
+		$this->assertEquals( 0, count( $posts_in_cat1 ) );
+		$this->assertEquals( 1, count( $posts_in_cat2 ) );
+	}
 }
