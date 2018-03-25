@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeletePostsByCategoryMetabox extends PostsMetabox {
 	/**
-	 * @var int $cat_limit Limit for the categories.
+	 * @var int Limit for the categories.
 	 */
 	private $cat_limit = 50;
 	protected function initialize() {
@@ -42,6 +42,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 
             <h4><?php _e( 'Select the categories from which you wan to delete posts', 'bulk-delete' ); ?></h4>
             <p><?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?>.</p>
+
 			<?php			
 			/**
 			 * Filter to modify select2 ajax call category limit.
@@ -97,6 +98,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 	 * @param array $options Options for deleting posts
 	 *
 	 * @return array $options  Inputs from user for posts that were need to delete
+	 * @param mixed $request
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_type']     = bd_array_get( $_POST, 'smbd_cats_post_type', 'post' );
@@ -150,9 +152,11 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 	}
 
 	/**
-	 * Response message for deleting posts
+	 * Response message for deleting posts.
 	 *
-	 * @param string Response message
+	 * @param int $items_deleted
+	 *
+	 * @return string Response message
 	 */
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
