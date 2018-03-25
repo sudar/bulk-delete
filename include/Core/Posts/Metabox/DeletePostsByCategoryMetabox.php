@@ -96,8 +96,8 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 	 * Process delete posts user inputs by category.
 	 *
 	 * @param array $options Options for deleting posts
-     *
-     * @param mixed $request
+	 *
+	 * @param mixed $request
 	 *
 	 * @return array $options  Inputs from user for posts that were need to delete
 	 */
