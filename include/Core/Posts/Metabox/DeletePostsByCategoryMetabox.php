@@ -11,6 +11,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsByCategoryMetabox extends PostsMetabox {
+	/**
+	 * @var int $cat_limit Limit for the categories.
+	 */
 	private $cat_limit = 50;
 	protected function initialize() {
 		$this->item_type     = 'posts';
@@ -25,6 +28,9 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 		);
 	}
 
+	/**
+	 * Render Delete posts by category box.
+	 */
 	public function render() {
         ?>
         <!-- Category Start-->
@@ -36,7 +42,12 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 
             <h4><?php _e( 'Select the categories from which you wan to delete posts', 'bulk-delete' ); ?></h4>
             <p><?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?>.</p>
-			<?php
+			<?php			
+			/**
+			 * Filter to modify select2 ajax call category limit.
+			 *
+			 * @param int $cat_limit
+			 */
 			$bd_select2_ajax_limit_categories = apply_filters( 'bd_select2_ajax_limit_categories', $this->cat_limit );
 
 			$categories = get_categories( array(
@@ -80,6 +91,13 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 		$this->render_submit_button( 'delete_posts_by_category' );
 	}
 
+	/**
+	 * Process delete posts user inputs by category.
+	 *
+	 * @param array $options Options for deleting posts
+	 *
+	 * @return array $options  Inputs from user for posts that were need to delete
+	 */
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_type']     = bd_array_get( $_POST, 'smbd_cats_post_type', 'post' );
 		$options['selected_cats'] = bd_array_get( $_POST, 'smbd_cats' );
@@ -88,6 +106,13 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 		return $options;
 	}
 
+	/**
+	 * Delete posts by category.
+	 *
+	 * @param array $delete_options Options for deleting posts
+	 *
+	 * @return int $posts_deleted  Number of posts that were deleted
+	 */
 	public function delete( $delete_options ) {
 		$posts_deleted               = 0;
 		$delete_options['post_type'] = bd_array_get( $delete_options, 'post_type', 'post' );
@@ -124,6 +149,11 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 		return $posts_deleted;
 	}
 
+	/**
+	 * Response message for deleting posts
+	 *
+	 * @param string Response message
+	 */
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
 		return _n( 'Deleted %d post with the selected post category', 'Deleted %d posts with the selected post category', $items_deleted, 'bulk-delete' );
