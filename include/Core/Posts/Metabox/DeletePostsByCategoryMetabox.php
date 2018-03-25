@@ -43,7 +43,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
             <h4><?php _e( 'Select the categories from which you wan to delete posts', 'bulk-delete' ); ?></h4>
             <p><?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?>.</p>
 
-			<?php			
+			<?php
 			/**
 			 * Filter to modify select2 ajax call category limit.
 			 *
@@ -96,9 +96,10 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 	 * Process delete posts user inputs by category.
 	 *
 	 * @param array $options Options for deleting posts
+     *
+     * @param mixed $request
 	 *
 	 * @return array $options  Inputs from user for posts that were need to delete
-	 * @param mixed $request
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_type']     = bd_array_get( $_POST, 'smbd_cats_post_type', 'post' );
