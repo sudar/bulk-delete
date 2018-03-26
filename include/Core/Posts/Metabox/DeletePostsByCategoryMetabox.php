@@ -89,7 +89,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 
 		</fieldset>
 <?php
-		$this->render_submit_button( 'delete_posts_by_category' );
+		$this->render_submit_button();
 	}
 
 	/**
