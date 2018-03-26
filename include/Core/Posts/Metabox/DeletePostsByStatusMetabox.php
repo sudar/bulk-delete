@@ -93,7 +93,7 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 
 		$posts_deleted = 0;
 
-		if ( $delete_options['delete-sticky-posts'] ) {
+		if ( isset( $delete_options['delete-sticky-posts'] ) ) {
 			$posts_deleted += self::delete_sticky_posts( $delete_options['force_delete'] );
 		}
 

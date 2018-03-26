@@ -28,11 +28,11 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 
 	public function test_that_published_posts_can_be_trashed() {
 		$this->factory->post->create_many( 10, array(
-			'post_type' => 'page',
+			'post_type' => 'post',
 		) );
 
-		$published_page = $this->get_posts_by_status();
-		$this->assertEquals( 10, count( $published_page ) );
+		$published_post = $this->get_posts_by_status();
+		$this->assertEquals( 10, count( $published_post ) );
 
 		$delete_options = array(
 			'publish'      => 'published_posts',
@@ -48,20 +48,20 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_page = $this->get_posts_by_status();
-		$this->assertEquals( 0, count( $published_page ) );
+		$published_post = $this->get_posts_by_status();
+		$this->assertEquals( 0, count( $published_post ) );
 
-		$trash_page = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 10, count( $trash_page ) );
+		$trash_post = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_post ) );
 	}
 
 	public function test_that_published_posts_can_be_deleted() {
 		$this->factory->post->create_many( 10, array(
-			'post_type' => 'page',
+			'post_type' => 'post',
 		) );
 
-		$published_page = $this->get_posts_by_status();
-		$this->assertEquals( 10, count( $published_page ) );
+		$published_post = $this->get_posts_by_status();
+		$this->assertEquals( 10, count( $published_post ) );
 
 		$delete_options = array(
 			'publish'      => 'published_posts',
@@ -77,10 +77,10 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_page = $this->get_posts_by_status();
-		$this->assertEquals( 0, count( $published_page ) );
+		$published_post = $this->get_posts_by_status();
+		$this->assertEquals( 0, count( $published_post ) );
 
-		$trash_page = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 0, count( $trash_page ) );
+		$trash_post = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_post ) );
 	}
 }
