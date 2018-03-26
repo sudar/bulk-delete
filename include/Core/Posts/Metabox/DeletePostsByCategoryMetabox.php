@@ -101,9 +101,9 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 	 * @return array $options  Inputs from user for posts that were need to delete
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['post_type']     = bd_array_get( $_POST, 'smbd_cats_post_type', 'post' );
-		$options['selected_cats'] = bd_array_get( $_POST, 'smbd_cats' );
-		$options['private']       = bd_array_get_bool( $_POST, 'smbd_cats_private', false );
+		$options['post_type']     = bd_array_get( $request, 'smbd_cats_post_type', 'post' );
+		$options['selected_cats'] = bd_array_get( $request, 'smbd_cats' );
+		$options['private']       = bd_array_get_bool( $request, 'smbd_cats_private', false );
 
 		return $options;
 	}
