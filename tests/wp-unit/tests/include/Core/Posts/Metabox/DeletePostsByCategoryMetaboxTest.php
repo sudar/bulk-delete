@@ -26,6 +26,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->metabox = new DeletePostsByCategoryMetabox();
 	}
 
+	/**
+	 * Add tests to test deleting posts from All categories by default post type.
+	 */
 	public function test_for_deleting_posts_from_all_categories_default_post_type() {
 		// Create two categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
@@ -78,6 +81,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, count( $posts_in_cat2 ) );
 	}
 
+	/**
+	 * Add tests to test deleting posts from one category by default post type.
+	 */
 	public function test_for_deleting_posts_from_one_categories_default_post_type() {
 		// Create two categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
@@ -130,6 +136,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 1, count( $posts_in_cat2 ) );
 	}
 
+	/**
+	 * Add tests to test deleting posts from more than one category by default post type.
+	 */
 	public function test_for_deleting_posts_from_more_than_one_categories_default_post_type() {
 		// Create three categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
@@ -193,6 +202,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 1, count( $posts_in_cat3 ) );
 	}
 
+	/**
+	 * Add tests to test deleting posts permanently by default post type.
+	 */
 	public function test_for_deleting_posts_permanently_from_one_categories_default_post_type() {
 		// Create two categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
@@ -245,6 +257,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 1, count( $posts_in_cat2 ) );
 	}
 
+	/**
+	 * Add tests to test deleting posts that are older than x days.
+	 */
 	public function test_for_delete_posts_older_than_x_days() {
 		//Set post publish date
 		$day_post = date('Y-m-d H:i:s', strtotime('-2 day'));
