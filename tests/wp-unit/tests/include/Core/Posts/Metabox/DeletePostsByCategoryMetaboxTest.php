@@ -26,7 +26,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->metabox = new DeletePostsByCategoryMetabox();
 	}
 
-	public function test_for_deleting_posts_from_all_categories_default_post_type(){
+	public function test_for_deleting_posts_from_all_categories_default_post_type() {
 		// Create two categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
@@ -78,7 +78,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, count( $posts_in_cat2 ) );
 	}
 
-	public function test_for_deleting_posts_from_one_categories_default_post_type(){
+	public function test_for_deleting_posts_from_one_categories_default_post_type() {
 		// Create two categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
@@ -130,7 +130,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 1, count( $posts_in_cat2 ) );
 	}
 
-	public function test_for_deleting_posts_from_more_than_one_categories_default_post_type(){
+	public function test_for_deleting_posts_from_more_than_one_categories_default_post_type() {
 		// Create three categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
@@ -193,7 +193,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 1, count( $posts_in_cat3 ) );
 	}
 
-	public function test_for_deleting_posts_permanently_from_one_categories_default_post_type(){
+	public function test_for_deleting_posts_permanently_from_one_categories_default_post_type() {
 		// Create two categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
@@ -245,7 +245,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 1, count( $posts_in_cat2 ) );
 	}
 
-	public function test_for_delete_posts_older_than_x_days(){
+	public function test_for_delete_posts_older_than_x_days() {
 		//Set post publish date
 		$day_post = date('Y-m-d H:i:s', strtotime('-2 day'));
 		// Create two categories.
