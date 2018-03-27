@@ -27,6 +27,43 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
+	 * Register Custom Post Type.
+	 */
+	protected function bulk_delete_cpt() {
+		/**
+		 * Post Type: movies.
+		 */
+
+		$labels = array(
+			"name" => __( "movies", "twentyseventeen" ),
+			"singular_name" => __( "movie", "twentyseventeen" ),
+		);
+
+		$args = array(
+			"label" => __( "movies", "twentyseventeen" ),
+			"labels" => $labels,
+			"description" => "",
+			"public" => true,
+			"publicly_queryable" => true,
+			"show_ui" => true,
+			"show_in_rest" => false,
+			"rest_base" => "",
+			"has_archive" => false,
+			"show_in_menu" => true,
+			"exclude_from_search" => false,
+			"capability_type" => "post",
+			"map_meta_cap" => true,
+			"hierarchical" => false,
+			"rewrite" => array( "slug" => "movie", "with_front" => true ),
+			"query_var" => true,
+			"supports" => array( "title", "editor", "thumbnail" ),
+			"taxonomies" => array( "category" ),
+		);
+
+		register_post_type( "movie", $args );
+	}
+
+	/**
 	 * Add tests to test deleting posts from All categories by default post type.
 	 */
 	public function test_for_deleting_posts_from_all_categories_default_post_type() {
@@ -387,5 +424,64 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 1, count( $posts_in_cat1 ) );
 		$this->assertEquals( 0, count( $posts_in_cat2 ) );
+	}
+
+	/**
+	 * Add tests to test deleting posts from All categories by custom post type.
+	 */
+	public function test_for_deleting_posts_from_all_categories_custom_post_type() {
+		$taxonomy  = 'category';
+		$post_type = 'movie';
+
+		// Create two terms.
+		$term1 = $this->factory->term->create( array( 'name' => 'term1', 'taxonomy' => $taxonomy ) );
+		$term2 = $this->factory->term->create( array( 'name' => 'term2', 'taxonomy' => $taxonomy ) );
+
+		// Create two posts and assign the term.
+		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_type' => $post_type ) );
+		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_type' => $post_type ) );
+		wp_set_object_terms( $post1, $term1, $taxonomy );
+		wp_set_object_terms( $post2, $term2, $taxonomy );
+
+		// Assert that each post status is publish.
+		$post1_status = get_post_status( $post1 );
+		$post2_status = get_post_status( $post2 );
+
+		$this->assertEquals( 'publish', $post1_status );
+		$this->assertEquals( 'publish', $post2_status );
+
+		// Assert that each terms has one post.
+		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
+		$posts_in_term2 = $this->get_posts_by_custom_term( $term2, $taxonomy, $post_type );
+
+		$this->assertEquals( 1, count( $posts_in_term1 ) );
+		$this->assertEquals( 1, count( $posts_in_term2 ) );
+
+		// call our method.
+		$delete_options = array(
+			'post_type'      => array( $post_type ),
+			'selected_cats'  => array( 'all' ),
+			'restrict'       => false,
+			'private'        => false,
+			'limit_to'       => false,
+			'force_delete'   => false,
+			'date_op'        => false,
+			'days'           => false,
+		);
+		$this->metabox->delete( $delete_options );
+
+		// Assert that each post status moved to trash.
+		$post1_status = get_post_status( $post1 );
+		$post2_status = get_post_status( $post2 );
+
+		$this->assertEquals( 'trash', $post1_status );
+		$this->assertEquals( 'trash', $post2_status );
+
+		// Assert that each terms has no post.
+		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
+		$posts_in_term2 = $this->get_posts_by_custom_term( $term2, $taxonomy, $post_type );
+
+		$this->assertEquals( 0, count( $posts_in_term1 ) );
+		$this->assertEquals( 0, count( $posts_in_term2 ) );
 	}
 }
