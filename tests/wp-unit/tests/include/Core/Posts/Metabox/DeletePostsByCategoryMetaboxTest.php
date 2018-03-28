@@ -427,6 +427,57 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
+	 * Create more than 100 posts and try to delete them in batches. Test at least 2 batches.
+	 */
+	public function test_for_delete_posts_as_batches() {
+		// Create a category.
+		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
+		// Create 100 posts and assign the cat1 to all 100 posts.
+		$this->factory->post->create_many( 100, array(
+			'post_status' => 'publish',
+			'post_category' => array( $cat1 ),
+		) );
+
+		// Assert that cat1 has 100 posts.
+		$posts = $this->get_posts_by_category( $cat1 );
+		$this->assertEquals( 100, count( $posts ) );
+
+		// call our method. First batch limit_to 20 posts
+		$delete_options = array(
+			'post_type'      => array( 'post' ),
+			'selected_cats'  => array( $cat1 ),
+			'restrict'       => false,
+			'date_op'        => false,
+			'days'           => false,
+			'private'        => false,
+			'limit_to'       => 20,
+			'force_delete'   => false,
+		);
+		$this->metabox->delete( $delete_options );
+
+		// Assert that cat1 has 80 posts.
+		$posts = $this->get_posts_by_category( $cat1 );
+		$this->assertEquals( 80, count( $posts ) );
+
+		// call our method. Second batch limit_to 30 posts
+		$delete_options = array(
+			'post_type'      => array( 'post' ),
+			'selected_cats'  => array( $cat1 ),
+			'restrict'       => false,
+			'date_op'        => false,
+			'days'           => false,
+			'private'        => false,
+			'limit_to'       => 30,
+			'force_delete'   => false,
+		);
+		$this->metabox->delete( $delete_options );
+
+		// Assert that cat1 has 50 posts.
+		$posts = $this->get_posts_by_category( $cat1 );
+		$this->assertEquals( 50, count( $posts ) );
+	}
+
+	/**
 	 * Add tests to test deleting posts from All categories by custom post type.
 	 */
 	public function test_for_deleting_posts_from_all_categories_custom_post_type() {
