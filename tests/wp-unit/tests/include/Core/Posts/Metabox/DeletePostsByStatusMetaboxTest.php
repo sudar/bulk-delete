@@ -83,4 +83,30 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$trash_post = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_post ) );
 	}
+
+	public function test_that_private_post_can_be_deleted() {
+		$this->factory->post->create_many( 10, array(
+			'post_type' => 'post',
+			'post_status' => 'private',
+		) );
+
+		$published_post = $this->get_posts_by_status( 'private' );
+		$this->assertEquals( 10, count( $published_post ) );
+
+		$delete_options = array(
+			'post_status'  => 'private',
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => true,
+		);
+
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 10, $posts_deleted );
+
+		$published_post = $this->get_posts_by_status();
+		$this->assertEquals( 0, count( $published_post ) );
+
+		$trash_post = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_post ) );
+	}
 }
