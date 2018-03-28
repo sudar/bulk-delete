@@ -139,5 +139,8 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$published_post = $this->get_posts_by_status();
 		$this->assertEquals( 0, count( $published_post ) );
 
+		$trash_post = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_post ) );
+		
 	}
 }
