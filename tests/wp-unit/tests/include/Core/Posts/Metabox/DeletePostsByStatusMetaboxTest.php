@@ -143,4 +143,38 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $trash_post ) );
 		
 	}
+
+	public function test_that_posted_within_the_last_x_day_post_can_be_deleted() {
+		$date = date("Y-m-d H:i:s", strtotime("-3 day") );
+
+		$published_post = $this->factory->post->create_many( 10, array(
+			'post_type' => 'post',
+			'post_date' => $date,
+		) );
+
+		$this->assertEquals( 10, count( $published_post ) );
+
+		$delete_options = array(
+			'publish'      => 'published_posts',
+			'drafts'       => '',
+			'pending'      => '',
+			'future'       => '',
+			'private'      => '',
+			'limit_to'     => -1,
+			'restrict'     => true,
+			'force_delete' => false,
+			'date_op'      => 'after',
+			'days'         => '5',
+		);
+
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 10, $posts_deleted );
+
+		$published_post = $this->get_posts_by_status();
+		$this->assertEquals( 0, count( $published_post ) );
+
+		$trash_post = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_post ) );
+		
+	}
 }
