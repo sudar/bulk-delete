@@ -148,7 +148,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Add tests to test deleting posts from more than one category by default post type.
 	 */
-	public function test_for_deleting_posts_from_more_than_one_categories_default_post_type() {
+	public function test_for_deleting_posts_from_more_than_one_category_default_post_type() {
 		// Create three categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
@@ -196,7 +196,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Add tests to test deleting posts permanently by default post type.
 	 */
-	public function test_for_deleting_posts_permanently_from_one_categories_default_post_type() {
+	public function test_for_deleting_posts_permanently_from_one_category_default_post_type() {
 		// Create two categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
@@ -246,7 +246,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 
 		// Assign the cat1 and cat2 to post1 and post2
 		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish', 'post_category' => array( $cat1 ), 'post_date'     => $day_post, 'post_date_gmt' => $day_post ) );
-		$time = current_time('mysql');
 
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
 
@@ -290,7 +289,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 
 		// Assign the cat1 and cat2 to post1 and post2
 		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish', 'post_category' => array( $cat1 ), 'post_date'     => $day_post, 'post_date_gmt' => $day_post ) );
-		$time = current_time('mysql');
 
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
 
@@ -468,7 +466,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Add tests to test deleting posts from more than one category by custom post type.
 	 */
-	public function test_for_deleting_posts_from_more_than_one_categories_custom_post_type() {
+	public function test_for_deleting_posts_from_more_than_one_category_custom_post_type() {
 		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
