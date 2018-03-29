@@ -29,7 +29,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Register Custom Post Type.
 	 */
-	protected function bulk_delete_cpt() {
+	protected function register_post_type_for_bulk_delete() {
 		/**
 		 * Post Type: movies.
 		 */
@@ -481,6 +481,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts from All categories by custom post type.
 	 */
 	public function test_for_deleting_posts_from_all_categories_custom_post_type() {
+		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
 
@@ -540,6 +541,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts from one categories by custom post type.
 	 */
 	public function test_for_deleting_posts_from_one_categories_custom_post_type() {
+		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
 
@@ -599,6 +601,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts from more than one category by custom post type.
 	 */
 	public function test_for_deleting_posts_from_more_than_one_categories_custom_post_type() {
+		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
 
@@ -669,6 +672,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts permanently by custom post type.
 	 */
 	public function test_for_deleting_posts_permanently_from_one_category_custom_post_type() {
+		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
 
