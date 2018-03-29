@@ -35,12 +35,12 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		 */
 
 		$labels = array(
-			"name" => __( "movies", "twentyseventeen" ),
-			"singular_name" => __( "movie", "twentyseventeen" ),
+			"name" => __( "movies", "bulk-delete" ),
+			"singular_name" => __( "movie", "bulk-delete" ),
 		);
 
 		$args = array(
-			"label" => __( "movies", "twentyseventeen" ),
+			"label" => __( "movies", "bulk-delete" ),
 			"labels" => $labels,
 			"description" => "",
 			"public" => true,
