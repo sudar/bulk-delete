@@ -245,16 +245,8 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
 
 		// Assign the cat1 and cat2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish', 'post_category' => array( $cat1 ) ) );
+		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish', 'post_category' => array( $cat1 ), 'post_date'     => $day_post, 'post_date_gmt' => $day_post ) );
 		$time = current_time('mysql');
-		// Update post1 publish date.
-		wp_update_post(
-			array (
-			'ID'            => $post1,
-			'post_date'     => $day_post,
-			'post_date_gmt' => $day_post,
-			)
-		);
 
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
 
@@ -297,16 +289,8 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
 
 		// Assign the cat1 and cat2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish', 'post_category' => array( $cat1 ) ) );
+		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish', 'post_category' => array( $cat1 ), 'post_date'     => $day_post, 'post_date_gmt' => $day_post ) );
 		$time = current_time('mysql');
-		// Update post1 publish date.
-		wp_update_post(
-			array (
-			'ID'            => $post1,
-			'post_date'     => $day_post,
-			'post_date_gmt' => $day_post,
-			)
-		);
 
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
 
