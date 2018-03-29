@@ -76,13 +76,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-
 		// Assert that each category has one post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
 		$posts_in_cat2 = $this->get_posts_by_category( $cat2 );
@@ -102,13 +95,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'days'           => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that each post status moved to trash.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'trash', $post1_status );
-		$this->assertEquals( 'trash', $post2_status );
 
 		// Assert that each category has no post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
@@ -131,13 +117,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-
 		// Assert that each category has one post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
 		$posts_in_cat2 = $this->get_posts_by_category( $cat2 );
@@ -157,13 +136,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'days'           => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that post1 status moved to trash post2 status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'trash', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
 
 		// Assert that cat1 has no post cat2 has 1 post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
@@ -189,15 +161,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 
 		$post3 = $this->factory->post->create( array( 'post_title' => 'post3', 'post_status' => 'publish', 'post_category' => array( $cat3 ) ) );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-		$post3_status = get_post_status( $post3 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-		$this->assertEquals( 'publish', $post3_status );
-
 		// Assert that each category has one post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
 		$posts_in_cat2 = $this->get_posts_by_category( $cat2 );
@@ -219,15 +182,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'days'           => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that post1 and post2 status moved to trash post3 status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-		$post3_status = get_post_status( $post3 );
-
-		$this->assertEquals( 'trash', $post1_status );
-		$this->assertEquals( 'trash', $post2_status );
-		$this->assertEquals( 'publish', $post3_status );
 
 		// Assert that cat1 and cat2 has no post cat3 has 1 post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
@@ -252,13 +206,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-
 		// Assert that each category has one post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
 		$posts_in_cat2 = $this->get_posts_by_category( $cat2 );
@@ -278,13 +225,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'days'           => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that post1 status deleted permanently post2 status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( '', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
 
 		// Assert that cat1 has no post cat2 has 1 post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
@@ -318,13 +258,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-
 		// Assert that each category has one post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
 		$posts_in_cat2 = $this->get_posts_by_category( $cat2 );
@@ -344,13 +277,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'force_delete'   => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that post1 status moved to trash post2 status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'trash', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
 
 		// Assert that cat1 has no post and cat2 has one post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
@@ -384,13 +310,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 
 		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish', 'post_category' => array( $cat2 ) ) );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-
 		// Assert that each category has one post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
 		$posts_in_cat2 = $this->get_posts_by_category( $cat2 );
@@ -410,13 +329,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'force_delete'   => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that post2 status moved to trash post1 status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'trash', $post2_status );
 
 		// Assert that cat2 has no post and cat1 has one post.
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1 );
@@ -495,13 +407,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		wp_set_object_terms( $post1, $term1, $taxonomy );
 		wp_set_object_terms( $post2, $term2, $taxonomy );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-
 		// Assert that each terms has one post.
 		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
 		$posts_in_term2 = $this->get_posts_by_custom_term( $term2, $taxonomy, $post_type );
@@ -521,13 +426,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'days'           => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that each post status moved to trash.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'trash', $post1_status );
-		$this->assertEquals( 'trash', $post2_status );
 
 		// Assert that each terms has no post.
 		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
@@ -555,13 +453,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		wp_set_object_terms( $post1, $term1, $taxonomy );
 		wp_set_object_terms( $post2, $term2, $taxonomy );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-
 		// Assert that each terms has one post.
 		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
 		$posts_in_term2 = $this->get_posts_by_custom_term( $term2, $taxonomy, $post_type );
@@ -581,13 +472,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'days'           => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that each post2 status is publish and post1 status moved to trash.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'trash', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
 
 		// Assert that term1 has no post and term2 has one post.
 		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
@@ -618,15 +502,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		wp_set_object_terms( $post2, $term2, $taxonomy );
 		wp_set_object_terms( $post3, $term3, $taxonomy );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-		$post3_status = get_post_status( $post3 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-		$this->assertEquals( 'publish', $post3_status );
-
 		// Assert that each terms has one post.
 		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
 		$posts_in_term2 = $this->get_posts_by_custom_term( $term2, $taxonomy, $post_type );
@@ -648,15 +523,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'days'           => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that post1, post2 status is trash and post3 status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-		$post3_status = get_post_status( $post3 );
-
-		$this->assertEquals( 'trash', $post1_status );
-		$this->assertEquals( 'trash', $post2_status );
-		$this->assertEquals( 'publish', $post3_status );
 
 		// Assert that term1, term2 has no post and term1 has one post.
 		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
@@ -686,13 +552,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		wp_set_object_terms( $post1, $term1, $taxonomy );
 		wp_set_object_terms( $post2, $term2, $taxonomy );
 
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( 'publish', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
-
 		// Assert that each terms has one post.
 		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
 		$posts_in_term2 = $this->get_posts_by_custom_term( $term2, $taxonomy, $post_type );
@@ -712,13 +571,6 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'days'           => false,
 		);
 		$this->metabox->delete( $delete_options );
-
-		// Assert that each post status is publish.
-		$post1_status = get_post_status( $post1 );
-		$post2_status = get_post_status( $post2 );
-
-		$this->assertEquals( '', $post1_status );
-		$this->assertEquals( 'publish', $post2_status );
 
 		// Assert that each terms has one post.
 		$posts_in_term1 = $this->get_posts_by_custom_term( $term1, $taxonomy, $post_type );
