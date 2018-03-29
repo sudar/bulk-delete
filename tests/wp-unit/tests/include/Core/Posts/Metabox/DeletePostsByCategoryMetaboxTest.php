@@ -107,7 +107,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Add tests to test deleting posts from one category by default post type.
 	 */
-	public function test_for_deleting_posts_from_one_categories_default_post_type() {
+	public function test_for_deleting_posts_from_one_category_default_post_type() {
 		// Create two categories.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 		$cat2 = $this->factory->category->create( array( 'name' => 'cat2' ) );
@@ -438,7 +438,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Add tests to test deleting posts from one categories by custom post type.
 	 */
-	public function test_for_deleting_posts_from_one_categories_custom_post_type() {
+	public function test_for_deleting_posts_from_one_category_custom_post_type() {
 		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
