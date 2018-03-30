@@ -14,7 +14,7 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 	/**
 	 * @var int Limit for the tags.
 	 */
-	private $tag_limit = 50;
+	private $tags_limit = 50;
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'tags';
@@ -33,7 +33,7 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 	 */
 	public function render() {
 		//Tag Start
-		$bd_select2_ajax_limit_tags = apply_filters( 'bd_select2_ajax_limit_tags', Bulk_Delete::$this->tag_limit );
+		$bd_select2_ajax_limit_tags = apply_filters( 'bd_select2_ajax_limit_tags', $this->tags_limit );
 
 		$tags = get_tags(
 			array(
@@ -78,7 +78,7 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 				</table>
 			</fieldset>
 <?php
-			bd_render_submit_button();
+			$this->render_submit_button();
 		} else {
 ?>
 			<h4><?php _e( "You don't have any posts assigned to tags in this blog.", 'bulk-delete' ) ?></h4>
@@ -95,9 +95,8 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 	 * @return array $options  Inputs from user for posts that were need to delete
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$delete_options['selected_tags'] = bd_array_get( $request, 'smbd_tags' );
-		$delete_options['date_op']       = bd_array_get( $request, 'smbd_tags_op' );
-		$delete_options['days']          = absint( bd_array_get( $request, 'smbd_tags_days' ) );
+		$options['selected_tags'] = bd_array_get( $request, 'smbd_tags' );
+		$options['private']       = bd_array_get( $request, 'smbd_tags_private' );
 
 		return $options;
 	}
@@ -121,6 +120,7 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$options       = array();
+
 		$selected_tags = $delete_options['selected_tags'];
 		if ( in_array( 'all', $selected_tags ) ) {
 			$options['tag__not__in'] = array(0);
