@@ -177,4 +177,34 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $trash_post ) );
 		
 	}
+
+	public function test_that_try_to_delete_them_in_batches_can_be_deleted() {
+
+		$published_post = $this->factory->post->create_many( 100, array(
+			'post_type' => 'post',
+		) );
+
+		$this->assertEquals( 100, count( $published_post ) );
+
+		$delete_options = array(
+			'publish'      => 'published_posts',
+			'drafts'       => '',
+			'pending'      => '',
+			'future'       => '',
+			'private'      => '',
+			'limit_to'     => 50,
+			'restrict'     => false,
+			'force_delete' => false,
+		);
+
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 50, $posts_deleted );
+
+		$published_post = $this->get_posts_by_status();
+		$this->assertEquals( 50, count( $published_post ) );
+
+		$trash_post = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 50, count( $trash_post ) );
+		
+	}
 }
