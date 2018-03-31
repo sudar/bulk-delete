@@ -76,7 +76,7 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 
 		</fieldset>
 <?php
-		$this->render_submit_button( 'delete_posts_by_status' );
+		$this->render_submit_button();
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
@@ -94,7 +94,7 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 		$posts_deleted = 0;
 
 		if ( isset( $delete_options['delete-sticky-posts'] ) ) {
-			$posts_deleted += self::delete_sticky_posts( $delete_options['force_delete'] );
+			$posts_deleted += $this->delete_sticky_posts( $delete_options['force_delete'] );
 		}
 
 		if ( empty( $delete_options['post_status'] ) ) {
@@ -121,5 +121,15 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
+	}
+
+	protected function delete_sticky_posts( $force_delete ) {
+		$sticky_post_ids = get_option( 'sticky_posts' );
+
+		foreach ( $sticky_post_ids as $sticky_post_id ) {
+			wp_delete_post( $sticky_post_id, $force_delete );
+		}
+
+		return count( $sticky_post_ids );
 	}
 }

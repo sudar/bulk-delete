@@ -26,6 +26,12 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$this->metabox = new DeletePostsByStatusMetabox();
 	}
 
+	/**
+	 * Test Published posts can be trashed.
+	 *
+	 * @since 6.0.0
+	 *
+	 */
 	public function test_that_published_posts_can_be_trashed() {
 		$this->factory->post->create_many( 10, array(
 			'post_type' => 'post',
@@ -55,6 +61,12 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $trash_post ) );
 	}
 
+	/**
+	 * Test Published posts can be deleted.
+	 *
+	 * @since 6.0.0
+	 *
+	 */
 	public function test_that_published_posts_can_be_deleted() {
 		$this->factory->post->create_many( 10, array(
 			'post_type' => 'post',
@@ -84,6 +96,12 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, count( $trash_post ) );
 	}
 
+	/**
+	 * Test Private posts can be trashed.
+	 *
+	 * @since 6.0.0
+	 *
+	 */
 	public function test_that_private_post_can_be_deleted() {
 		$this->factory->post->create_many( 10, array(
 			'post_type' => 'post',
@@ -110,6 +128,12 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, count( $trash_post ) );
 	}
 
+	/**
+	 * Test that are older than x days post can be deleted.
+	 *
+	 * @since 6.0.0
+	 *
+	 */
 	public function test_that_are_older_than_x_days_post_can_be_deleted() {
 		$date = date("Y-m-d H:i:s", strtotime("-5 day") );
 
@@ -144,6 +168,12 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		
 	}
 
+	/**
+	 * Test that posted within the last x day post can be deleted.
+	 *
+	 * @since 6.0.0
+	 *
+	 */
 	public function test_that_posted_within_the_last_x_day_post_can_be_deleted() {
 		$date = date("Y-m-d H:i:s", strtotime("-3 day") );
 
@@ -178,6 +208,12 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		
 	}
 
+	/**
+	 * Test that try to delete them in batches can be deleted.
+	 *
+	 * @since 6.0.0
+	 *
+	 */
 	public function test_that_try_to_delete_them_in_batches_can_be_deleted() {
 
 		$published_post = $this->factory->post->create_many( 100, array(
