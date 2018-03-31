@@ -1,4 +1,5 @@
 <?php
+
 namespace BulkWP\BulkDelete\Core\Posts\Metabox;
 
 use BulkWP\BulkDelete\Core\Posts\PostsMetabox;

@@ -27,18 +27,15 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test Published posts can be trashed.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test that posts from a single post status (published posts) can be trashed.
 	 */
 	public function test_that_published_posts_can_be_trashed() {
 		$this->factory->post->create_many( 10, array(
 			'post_type' => 'post',
 		) );
 
-		$published_post = $this->get_posts_by_status();
-		$this->assertEquals( 10, count( $published_post ) );
+		$published_posts = $this->get_posts_by_status();
+		$this->assertEquals( 10, count( $published_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'publish',
@@ -50,18 +47,15 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status();
-		$this->assertEquals( 0, count( $published_post ) );
+		$published_posts = $this->get_posts_by_status();
+		$this->assertEquals( 0, count( $published_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 10, count( $trash_post ) );
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test Draft posts can be trashed.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test that posts from a single post status (draft posts) can be trashed.
 	 */
 	public function test_that_draft_posts_can_be_trashed() {
 		$this->factory->post->create_many( 10, array(
@@ -69,8 +63,8 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 			'post_status' => 'draft',
 		) );
 
-		$published_post = $this->get_posts_by_status( 'draft' );
-		$this->assertEquals( 10, count( $published_post ) );
+		$draft_posts = $this->get_posts_by_status( 'draft' );
+		$this->assertEquals( 10, count( $draft_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'draft',
@@ -82,18 +76,15 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status( 'draft' );
-		$this->assertEquals( 0, count( $published_post ) );
+		$draft_posts = $this->get_posts_by_status( 'draft' );
+		$this->assertEquals( 0, count( $draft_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 10, count( $trash_post ) );
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test Published posts can be deleted.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test that posts from a single post status (published posts) can be permanently deleted.
 	 */
 	public function test_that_published_posts_can_be_deleted() {
 		$this->factory->post->create_many( 10, array(
@@ -101,8 +92,8 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 			'post_status' => 'publish',
 		) );
 
-		$published_post = $this->get_posts_by_status();
-		$this->assertEquals( 10, count( $published_post ) );
+		$published_posts = $this->get_posts_by_status();
+		$this->assertEquals( 10, count( $published_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'publish',
@@ -114,18 +105,15 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status();
-		$this->assertEquals( 0, count( $published_post ) );
+		$published_posts = $this->get_posts_by_status();
+		$this->assertEquals( 0, count( $published_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 0, count( $trash_post ) );
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test draft posts can be deleted.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test that posts from a single post status (draft posts) can be permanently deleted.
 	 */
 	public function test_that_draft_posts_can_be_deleted() {
 		$this->factory->post->create_many( 10, array(
@@ -133,8 +121,8 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 			'post_status' => 'draft',
 		) );
 
-		$published_post = $this->get_posts_by_status( 'draft' );
-		$this->assertEquals( 10, count( $published_post ) );
+		$draft_posts = $this->get_posts_by_status( 'draft' );
+		$this->assertEquals( 10, count( $draft_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'draft',
@@ -146,27 +134,24 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status( 'draft' );
-		$this->assertEquals( 0, count( $published_post ) );
+		$draft_posts = $this->get_posts_by_status( 'draft' );
+		$this->assertEquals( 0, count( $draft_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 0, count( $trash_post ) );
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test private posts can be trashed.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test that private posts can be trashed.
 	 */
-	public function test_that_private_post_can_be_deleted() {
+	public function test_that_private_posts_can_be_deleted() {
 		$this->factory->post->create_many( 10, array(
 			'post_type'   => 'post',
 			'post_status' => 'private',
 		) );
 
-		$published_post = $this->get_posts_by_status( 'private' );
-		$this->assertEquals( 10, count( $published_post ) );
+		$private_posts = $this->get_posts_by_status( 'private' );
+		$this->assertEquals( 10, count( $private_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'private',
@@ -178,29 +163,26 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status();
-		$this->assertEquals( 0, count( $published_post ) );
+		$private_posts = $this->get_posts_by_status( 'private' );
+		$this->assertEquals( 0, count( $private_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 0, count( $trash_post ) );
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test published post that are older than x days post can be deleted.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test date filter (older than x days) with a single post status (published posts).
 	 */
-	public function test_published_post_that_are_older_than_x_days_post_can_be_deleted() {
-		$date = date("Y-m-d H:i:s", strtotime("-5 day") );
+	public function test_that_published_posts_that_are_older_than_x_days_can_be_deleted() {
+		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
 
-		$published_post = $this->factory->post->create_many( 10, array(
+		$published_posts = $this->factory->post->create_many( 10, array(
 			'post_type'   => 'post',
 			'post_status' => 'publish',
 			'post_date'   => $date,
 		) );
 
-		$this->assertEquals( 10, count( $published_post ) );
+		$this->assertEquals( 10, count( $published_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'publish',
@@ -214,30 +196,26 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status();
-		$this->assertEquals( 0, count( $published_post ) );
+		$published_posts = $this->get_posts_by_status();
+		$this->assertEquals( 0, count( $published_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 10, count( $trash_post ) );
-		
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test draft post that are older than x days post can be deleted.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test date filter (older than x days) with a single post status (draft posts).
 	 */
-	public function test_draft_post_that_are_older_than_x_days_post_can_be_deleted() {
-		$date = date("Y-m-d H:i:s", strtotime("-5 day") );
+	public function test_that_draft_posts_that_are_older_than_x_days_post_can_be_deleted() {
+		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
 
-		$published_post = $this->factory->post->create_many( 10, array(
+		$draft_posts = $this->factory->post->create_many( 10, array(
 			'post_type'   => 'post',
 			'post_status' => 'draft',
 			'post_date'   => $date,
 		) );
 
-		$this->assertEquals( 10, count( $published_post ) );
+		$this->assertEquals( 10, count( $draft_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'draft',
@@ -251,30 +229,26 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status( 'draft' );
-		$this->assertEquals( 0, count( $published_post ) );
+		$draft_posts = $this->get_posts_by_status( 'draft' );
+		$this->assertEquals( 0, count( $draft_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 10, count( $trash_post ) );
-		
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test published posts that posted within the last x day post can be deleted.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test date filter (within the last x days) with a single post status (published posts).
 	 */
-	public function test_published_post_within_the_last_x_day_post_can_be_deleted() {
-		$date = date("Y-m-d H:i:s", strtotime("-3 day") );
+	public function test_that_published_posts_that_are_posted_within_the_last_x_days_can_be_deleted() {
+		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
 
-		$published_post = $this->factory->post->create_many( 10, array(
+		$published_posts = $this->factory->post->create_many( 10, array(
 			'post_type'   => 'post',
 			'post_status' => 'publish',
 			'post_date'   => $date,
 		) );
 
-		$this->assertEquals( 10, count( $published_post ) );
+		$this->assertEquals( 10, count( $published_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'publish',
@@ -288,30 +262,26 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status();
-		$this->assertEquals( 0, count( $published_post ) );
+		$published_posts = $this->get_posts_by_status();
+		$this->assertEquals( 0, count( $published_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 10, count( $trash_post ) );
-		
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test draft posts that posted within the last x day post can be deleted.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test date filter (within the last x days) with a single post status (draft posts).
 	 */
-	public function test_that_draft_posts_within_the_last_x_day_post_can_be_deleted() {
-		$date = date("Y-m-d H:i:s", strtotime("-3 day") );
+	public function test_that_draft_posts_that_are_posted_within_the_last_x_days_can_be_deleted() {
+		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
 
-		$published_post = $this->factory->post->create_many( 10, array(
+		$draft_posts = $this->factory->post->create_many( 10, array(
 			'post_type'   => 'post',
 			'post_status' => 'draft',
 			'post_date'   => $date,
 		) );
 
-		$this->assertEquals( 10, count( $published_post ) );
+		$this->assertEquals( 10, count( $draft_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'draft',
@@ -325,28 +295,23 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status( 'draft' );
-		$this->assertEquals( 0, count( $published_post ) );
+		$draft_posts = $this->get_posts_by_status( 'draft' );
+		$this->assertEquals( 0, count( $draft_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 10, count( $trash_post ) );
-		
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test published post that try to delete them in batches can be deleted.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test batch deletion with a single post status (published posts).
 	 */
-	public function test_published_posts_that_delete_in_batches_can_be_deleted() {
-
-		$published_post = $this->factory->post->create_many( 100, array(
+	public function test_that_published_posts_can_be_deleted_in_batches() {
+		$published_posts = $this->factory->post->create_many( 100, array(
 			'post_type'   => 'post',
 			'post_status' => 'publish',
 		) );
 
-		$this->assertEquals( 100, count( $published_post ) );
+		$this->assertEquals( 100, count( $published_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'publish',
@@ -358,28 +323,23 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 50, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status();
-		$this->assertEquals( 50, count( $published_post ) );
+		$published_posts = $this->get_posts_by_status();
+		$this->assertEquals( 50, count( $published_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 50, count( $trash_post ) );
-		
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 50, count( $trash_posts ) );
 	}
 
 	/**
-	 * Test draft post that try to delete them in batches can be deleted.
-	 *
-	 * @since 6.0.0
-	 *
+	 * Test batch deletion with a single post status (draft posts).
 	 */
 	public function test_draft_posts_that_delete_in_batches_can_be_deleted() {
-
-		$published_post = $this->factory->post->create_many( 100, array(
+		$draft_posts = $this->factory->post->create_many( 100, array(
 			'post_type'   => 'post',
 			'post_status' => 'draft',
 		) );
 
-		$this->assertEquals( 100, count( $published_post ) );
+		$this->assertEquals( 100, count( $draft_posts ) );
 
 		$delete_options = array(
 			'post_status'  => 'draft',
@@ -391,11 +351,10 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->metabox->delete( $delete_options );
 		$this->assertEquals( 50, $posts_deleted );
 
-		$published_post = $this->get_posts_by_status( 'draft' );
-		$this->assertEquals( 50, count( $published_post ) );
+		$draft_posts = $this->get_posts_by_status( 'draft' );
+		$this->assertEquals( 50, count( $draft_posts ) );
 
-		$trash_post = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( 50, count( $trash_post ) );
-		
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 50, count( $trash_posts ) );
 	}
 }

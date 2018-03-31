@@ -41,7 +41,7 @@ abstract class PostsMetabox extends BaseMetabox {
 	 *
 	 * @param bool $force_delete Whether to bypass trash and force deletion.
 	 *
-	 * @return the deteted post count.
+	 * @return int Number of posts deleted.
 	 */
 	protected function delete_sticky_posts( $force_delete ) {
 		$sticky_post_ids = get_option( 'sticky_posts' );
@@ -60,7 +60,7 @@ abstract class PostsMetabox extends BaseMetabox {
 	 *
 	 * @return array List of post status objects.
 	 */
-	protected function get_post_statuses(){
+	protected function get_post_statuses() {
 		return bd_get_post_statuses();
 	}
 }

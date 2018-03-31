@@ -1,4 +1,5 @@
 <?php
+
 namespace BulkWP\BulkDelete\Core\Base;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
