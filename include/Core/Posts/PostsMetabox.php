@@ -35,4 +35,32 @@ abstract class PostsMetabox extends BaseMetabox {
 
 		return $js_array;
 	}
+
+	/**
+	 * Delete sticky posts.
+	 *
+	 * @param bool $force_delete Whether to bypass trash and force deletion.
+	 *
+	 * @return the deteted post count.
+	 */
+	public function delete_sticky_posts( $force_delete ) {
+		$sticky_post_ids = get_option( 'sticky_posts' );
+
+		foreach ( $sticky_post_ids as $sticky_post_id ) {
+			wp_delete_post( $sticky_post_id, $force_delete );
+		}
+
+		return count( $sticky_post_ids );
+	}
+
+	/**
+	 * Get the list of post statuses.
+	 *
+	 * This includes all custom post status, but excludes built-in private posts.
+	 *
+	 * @return array List of post status objects.
+	 */
+	public function get_post_statuses(){
+		return bd_get_post_statuses();
+	}
 }

@@ -25,7 +25,7 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 	}
 
 	public function render() {
-		$post_statuses = bd_get_post_statuses();
+		$post_statuses = $this->get_post_statuses();
 		$post_count    = wp_count_posts();
 		?>
 		<h4><?php _e( 'Select the post statuses from which you want to delete posts', 'bulk-delete' ); ?></h4>
@@ -122,14 +122,5 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
 	}
-
-	protected function delete_sticky_posts( $force_delete ) {
-		$sticky_post_ids = get_option( 'sticky_posts' );
-
-		foreach ( $sticky_post_ids as $sticky_post_id ) {
-			wp_delete_post( $sticky_post_id, $force_delete );
-		}
-
-		return count( $sticky_post_ids );
-	}
+	
 }
