@@ -43,7 +43,7 @@ abstract class PostsMetabox extends BaseMetabox {
 	 *
 	 * @return the deteted post count.
 	 */
-	public function delete_sticky_posts( $force_delete ) {
+	protected function delete_sticky_posts( $force_delete ) {
 		$sticky_post_ids = get_option( 'sticky_posts' );
 
 		foreach ( $sticky_post_ids as $sticky_post_id ) {
@@ -60,7 +60,7 @@ abstract class PostsMetabox extends BaseMetabox {
 	 *
 	 * @return array List of post status objects.
 	 */
-	public function get_post_statuses(){
+	protected function get_post_statuses(){
 		return bd_get_post_statuses();
 	}
 }
