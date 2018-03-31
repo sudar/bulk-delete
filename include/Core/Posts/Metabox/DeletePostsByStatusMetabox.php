@@ -122,5 +122,4 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
 	}
-	
 }
