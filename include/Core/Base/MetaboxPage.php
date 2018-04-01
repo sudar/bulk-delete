@@ -94,7 +94,7 @@ abstract class MetaboxPage extends BasePage {
 
 		$ui  = $wp_scripts->query( 'jquery-ui-core' );
 		$url = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
-		wp_enqueue_style( 'jquery-ui-smoothness', $url, false, $ui->ver );
+		wp_enqueue_style( 'jquery-ui-smoothness', $url, array(), $ui->ver );
 
 		/**
 		 * Filter JavaScript array.
