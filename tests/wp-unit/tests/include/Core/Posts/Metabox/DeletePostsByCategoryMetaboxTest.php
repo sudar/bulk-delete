@@ -249,7 +249,7 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 		);
 		$this->metabox->delete( $delete_options );
 
-		// Assert that post1 status deleted permanently post2 status is publish.
+		// Assert that post1 is deleted permanently and post2 status is publish.
 		$post2_status = get_post_status( $post2 );
 
 		$this->assertEquals( 'publish', $post2_status );
