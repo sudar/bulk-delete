@@ -39,6 +39,13 @@ abstract class PostsMetabox extends BaseMetabox {
 	}
 
 	/**
+	 * Render the "private post" setting fields.
+	 */
+	public function render_private_post_settings() {
+		bd_render_private_post_settings( $this->field_slug );
+	}
+
+	/**
 	 * Delete sticky posts.
 	 *
 	 * @param bool $force_delete Whether to bypass trash and force deletion.
@@ -64,5 +71,12 @@ abstract class PostsMetabox extends BaseMetabox {
 	 */
 	protected function get_post_statuses() {
 		return bd_get_post_statuses();
+	}
+
+	/**
+	 * Get the list of post types.
+	 */
+	public function render_post_type_dropdown() {
+		bd_render_post_type_dropdown( $this->field_slug );
 	}
 }
