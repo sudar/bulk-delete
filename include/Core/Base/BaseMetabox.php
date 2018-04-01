@@ -1,4 +1,5 @@
 <?php
+
 namespace BulkWP\BulkDelete\Core\Base;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -16,7 +17,7 @@ abstract class BaseMetabox {
 	 *
 	 * @var string
 	 */
-	protected $item_type = 'posts';
+	protected $item_type;
 
 	/**
 	 * The hook suffix of the screen where this meta box would be shown.
@@ -259,11 +260,13 @@ abstract class BaseMetabox {
 	 * @param array $request Request array.
 	 */
 	public function process( $request ) {
-		$options = $this->handle_filters( $request );
+		$options = $this->parse_filters( $request );
 		$options = $this->convert_user_input_to_options( $request, $options );
 
-		if ( $this->is_scheduled( $request ) ) {
-			$msg = $this->schedule_deletion( $request, $options );
+		$cron_options = $this->parse_cron_request( $request );
+
+		if ( $this->is_scheduled( $cron_options ) ) {
+			$msg = $this->schedule_deletion( $cron_options, $options );
 		} else {
 			$items_deleted = $this->delete( $options );
 			$msg           = sprintf( $this->get_success_message( $items_deleted ), $items_deleted );
@@ -307,30 +310,27 @@ abstract class BaseMetabox {
 	/**
 	 * Is the current deletion request a scheduled request?
 	 *
-	 * @param array $request Request object.
+	 * @param array $cron_options Request object.
 	 *
 	 * @return bool True if it is a scheduled request, False otherwise.
 	 */
-	protected function is_scheduled( $request ) {
-		return bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_cron', false );
+	protected function is_scheduled( $cron_options ) {
+		return $cron_options['is_scheduled'];
 	}
 
 	/**
 	 * Schedule Deletion of items.
 	 *
-	 * @param array $request Request array.
-	 * @param array $options Deletion option.
+	 * @param array $cron_options Cron options.
+	 * @param array $options      Deletion option.
 	 *
 	 * @return string Message.
 	 */
-	protected function schedule_deletion( $request, $options ) {
-		$freq = $request[ 'smbd_' . $this->field_slug . '_cron_freq' ];
-		$time = strtotime( $request[ 'smbd_' . $this->field_slug . '_cron_start' ] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
-
-		if ( -1 === $freq ) {
-			wp_schedule_single_event( $time, $this->cron_hook, array( $options ) );
+	protected function schedule_deletion( $cron_options, $options ) {
+		if ( '-1' === $cron_options['frequency'] ) {
+			wp_schedule_single_event( $cron_options['start_time'], $this->cron_hook, array( $options ) );
 		} else {
-			wp_schedule_event( $time, $freq, $this->cron_hook, array( $options ) );
+			wp_schedule_event( $cron_options['start_time'], $cron_options['frequency'], $this->cron_hook, array( $options ) );
 		}
 
 		return $this->messages['scheduled'] . ' ' . $this->get_task_list_link();
@@ -344,7 +344,7 @@ abstract class BaseMetabox {
 	protected function get_task_list_link() {
 		return sprintf(
 			__( 'See the full list of <a href = "%s">scheduled tasks</a>', 'bulk-delete' ),
-			get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG
+			get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . \Bulk_Delete::CRON_PAGE_SLUG
 		);
 	}
 
@@ -355,7 +355,7 @@ abstract class BaseMetabox {
 	 *
 	 * @return array User options.
 	 */
-	protected function handle_filters( $request ) {
+	protected function parse_filters( $request ) {
 		$options = array();
 
 		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
@@ -366,5 +366,28 @@ abstract class BaseMetabox {
 		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
 
 		return $options;
+	}
+
+	/**
+	 * Parse request and create cron options.
+	 *
+	 * @param array $request Request array.
+	 *
+	 * @return array Parsed cron option.
+	 */
+	protected function parse_cron_request( $request ) {
+		$cron_options = array(
+			'is_scheduled' => false,
+		);
+
+		$scheduled = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_cron', false );
+
+		if ( $scheduled ) {
+			$cron_options['is_scheduled'] = true;
+			$cron_options['frequency']    = sanitize_text_field( $request[ 'smbd_' . $this->field_slug . '_cron_freq' ] );
+			$cron_options['start_time']   = bd_get_gmt_offseted_time( sanitize_text_field( $request[ 'smbd_' . $this->field_slug . '_cron_start' ] ) );
+		}
+
+		return $cron_options;
 	}
 }

@@ -11,6 +11,8 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class PagesMetabox extends BaseMetabox {
+	protected $item_type = 'pages';
+
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][] = '_pages';
 

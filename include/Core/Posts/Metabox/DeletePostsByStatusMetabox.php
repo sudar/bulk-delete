@@ -1,4 +1,5 @@
 <?php
+
 namespace BulkWP\BulkDelete\Core\Posts\Metabox;
 
 use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
@@ -25,7 +26,7 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 	}
 
 	public function render() {
-		$post_statuses = bd_get_post_statuses();
+		$post_statuses = $this->get_post_statuses();
 		$post_count    = wp_count_posts();
 		?>
 		<h4><?php _e( 'Select the post statuses from which you want to delete posts', 'bulk-delete' ); ?></h4>
@@ -76,7 +77,7 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 
 		</fieldset>
 <?php
-		$this->render_submit_button( 'delete_posts_by_status' );
+		$this->render_submit_button();
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
@@ -93,8 +94,8 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 
 		$posts_deleted = 0;
 
-		if ( $delete_options['delete-sticky-posts'] ) {
-			$posts_deleted += self::delete_sticky_posts( $delete_options['force_delete'] );
+		if ( isset( $delete_options['delete-sticky-posts'] ) ) {
+			$posts_deleted += $this->delete_sticky_posts( $delete_options['force_delete'] );
 		}
 
 		if ( empty( $delete_options['post_status'] ) ) {

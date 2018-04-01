@@ -11,6 +11,8 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class PostsMetabox extends BaseMetabox {
+	protected $item_type = 'posts';
+
 	public function filter_js_array( $js_array ) {
 		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
 		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
@@ -41,5 +43,33 @@ abstract class PostsMetabox extends BaseMetabox {
 	 */
 	public function render_private_post_settings() {
 		bd_render_private_post_settings( $this->field_slug );
+	}
+
+	/**
+	 * Delete sticky posts.
+	 *
+	 * @param bool $force_delete Whether to bypass trash and force deletion.
+	 *
+	 * @return int Number of posts deleted.
+	 */
+	protected function delete_sticky_posts( $force_delete ) {
+		$sticky_post_ids = get_option( 'sticky_posts' );
+
+		foreach ( $sticky_post_ids as $sticky_post_id ) {
+			wp_delete_post( $sticky_post_id, $force_delete );
+		}
+
+		return count( $sticky_post_ids );
+	}
+
+	/**
+	 * Get the list of post statuses.
+	 *
+	 * This includes all custom post status, but excludes built-in private posts.
+	 *
+	 * @return array List of post status objects.
+	 */
+	protected function get_post_statuses() {
+		return bd_get_post_statuses();
 	}
 }
