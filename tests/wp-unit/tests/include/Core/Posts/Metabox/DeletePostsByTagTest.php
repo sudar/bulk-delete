@@ -5,9 +5,9 @@ namespace BulkWP\BulkDelete\Core\Posts\Metabox;
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
- * Test Deletion of posts by category.
+ * Test Deletion of posts by tag.
  *
- * Tests \BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox
+ * Tests \BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox
  *
  * @since 6.0.0
  */
