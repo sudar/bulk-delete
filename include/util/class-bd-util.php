@@ -258,6 +258,21 @@ function bd_to_bool( $string ) {
 }
 
 /**
+ * Get GMT Offseted time in Unix Timestamp format.
+ *
+ * @since 6.0.0
+ *
+ * @param string $time_string Time string.
+ *
+ * @return int GMT Offseted time.in Unix Timestamp.
+ */
+function bd_get_gmt_offseted_time( $time_string ) {
+	$gmt_offset = absint( get_option( 'gmt_offset' ) );
+
+	return strtotime( $time_string ) - ( $gmt_offset * HOUR_IN_SECONDS );
+}
+
+/**
  * Get the formatted list of allowed mime types.
  * This function was originally defined in the Bulk Delete Attachment addon.
  *

@@ -12,4 +12,14 @@
 			<directory suffix="Test.php">./tests/wp-unit/</directory>
 		</testsuite>
 	</testsuites>
+
+	<filter>
+		<whitelist>
+			<file>bulk-delete.php</file>
+			<directory suffix=".php">include</directory>
+			<exclude>
+				<directory suffix=".php">include/libraries</directory>
+			</exclude>
+		</whitelist>
+	</filter>
 </phpunit>

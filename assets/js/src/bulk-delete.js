@@ -17,25 +17,25 @@ jQuery(document).ready(function () {
 
 	jQuery( '.select2Ajax' ).select2({
 		ajax: {
-    			url: ajaxurl, 
+    			url: ajaxurl,
     			dataType: 'json',
-    			delay: 250, 
+    			delay: 250,
     			data: function (params) {
     				var taxonomy = jQuery(this).attr('data-taxonomy');
       				return {
-        				q: params.term, 
+        				q: params.term,
         				taxonomy: taxonomy,
-        				action: 'bd_load_taxonomy_term' 
+        				action: 'bd_load_taxonomy_term'
       				};
     			},
     			processResults: function( data ) {
 				var options = [];
 				if ( data ) {
- 
-					jQuery.each( data, function( index, dataPair ) { 
+
+					jQuery.each( data, function( index, dataPair ) {
 						options.push( { id: dataPair[0], text: dataPair[1] } );
 					});
- 
+
 				}
 				return {
 					results: options
@@ -151,6 +151,7 @@ jQuery(document).ready(function () {
 	jQuery.each(BulkWP.dt_iterators, function (index, value) {
 		// invoke the date time picker
 		jQuery('#smbd' + value + '_cron_start').datetimepicker({
+			dateFormat: 'yy-mm-dd',
 			timeFormat: 'HH:mm:ss'
 		});
 
