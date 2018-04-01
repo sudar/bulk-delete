@@ -29,38 +29,13 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Register Custom Post Type.
 	 */
-	protected function register_post_type_for_bulk_delete() {
+	protected function register_post_type( $post_type ) {
 		/**
 		 * Post Type: movies.
 		 */
 
-		$labels = array(
-			"name" => __( "movies", "bulk-delete" ),
-			"singular_name" => __( "movie", "bulk-delete" ),
-		);
-
-		$args = array(
-			"label" => __( "movies", "bulk-delete" ),
-			"labels" => $labels,
-			"description" => "",
-			"public" => true,
-			"publicly_queryable" => true,
-			"show_ui" => true,
-			"show_in_rest" => false,
-			"rest_base" => "",
-			"has_archive" => false,
-			"show_in_menu" => true,
-			"exclude_from_search" => false,
-			"capability_type" => "post",
-			"map_meta_cap" => true,
-			"hierarchical" => false,
-			"rewrite" => array( "slug" => "movie", "with_front" => true ),
-			"query_var" => true,
-			"supports" => array( "title", "editor", "thumbnail" ),
-			"taxonomies" => array( "category" ),
-		);
-
-		register_post_type( "movie", $args );
+		register_post_type( $post_type );
+		register_taxonomy( 'category', $post_type );
 	}
 
 	/**
@@ -417,9 +392,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts from All categories by custom post type.
 	 */
 	public function test_for_deleting_posts_from_all_categories_custom_post_type() {
-		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
+		$this->register_post_type( $post_type );
 
 		// Create two terms.
 		$term1 = $this->factory->term->create( array( 'name' => 'term1', 'taxonomy' => $taxonomy ) );
@@ -470,9 +445,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts from one categories by custom post type.
 	 */
 	public function test_for_deleting_posts_from_one_category_custom_post_type() {
-		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
+		$this->register_post_type( $post_type );
 
 		// Create two terms.
 		$term1 = $this->factory->term->create( array( 'name' => 'term1', 'taxonomy' => $taxonomy ) );
@@ -523,9 +498,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts from more than one category by custom post type.
 	 */
 	public function test_for_deleting_posts_from_more_than_one_category_custom_post_type() {
-		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
+		$this->register_post_type( $post_type );
 
 		// Create three terms.
 		$term1 = $this->factory->term->create( array( 'name' => 'term1', 'taxonomy' => $taxonomy ) );
@@ -585,9 +560,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts permanently by custom post type.
 	 */
 	public function test_for_deleting_posts_permanently_from_one_category_custom_post_type() {
-		$this->register_post_type_for_bulk_delete();
 		$taxonomy  = 'category';
 		$post_type = 'movie';
+		$this->register_post_type( $post_type );
 
 		// Create two terms.
 		$term1 = $this->factory->term->create( array( 'name' => 'term1', 'taxonomy' => $taxonomy ) );
