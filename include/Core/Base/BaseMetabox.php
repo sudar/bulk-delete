@@ -260,7 +260,7 @@ abstract class BaseMetabox {
 	 * @param array $request Request array.
 	 */
 	public function process( $request ) {
-		$options = $this->handle_filters( $request );
+		$options = $this->parse_filters( $request );
 		$options = $this->convert_user_input_to_options( $request, $options );
 
 		if ( $this->is_scheduled( $request ) ) {
@@ -356,7 +356,7 @@ abstract class BaseMetabox {
 	 *
 	 * @return array User options.
 	 */
-	protected function handle_filters( $request ) {
+	protected function parse_filters( $request ) {
 		$options = array();
 
 		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
