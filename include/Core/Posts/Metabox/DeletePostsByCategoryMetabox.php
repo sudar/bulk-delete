@@ -37,7 +37,7 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
         <h4><?php _e( 'Select the post type from which you want to delete posts by category', 'bulk-delete' ); ?></h4>
         <fieldset class="options">
             <table class="optiontable">
-				<?php bd_render_post_type_dropdown( 'cats' ); ?>
+				<?php $this->render_post_type_dropdown(); ?>
             </table>
 
             <h4><?php _e( 'Select the categories from which you wan to delete posts', 'bulk-delete' ); ?></h4>

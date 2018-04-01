@@ -72,4 +72,11 @@ abstract class PostsMetabox extends BaseMetabox {
 	protected function get_post_statuses() {
 		return bd_get_post_statuses();
 	}
+
+	/**
+	 * Get the list of post types.
+	 */
+	public function render_post_type_dropdown() {
+		bd_render_post_type_dropdown( $this->field_slug );
+	}
 }
