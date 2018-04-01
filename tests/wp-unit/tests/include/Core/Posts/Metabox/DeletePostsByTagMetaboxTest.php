@@ -11,7 +11,7 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  *
  * @since 6.0.0
  */
-class DeletePostsByTagTest extends WPCoreUnitTestCase {
+class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 
 	/**
 	 * The metabox that is getting tested.
