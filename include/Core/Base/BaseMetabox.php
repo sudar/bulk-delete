@@ -17,7 +17,7 @@ abstract class BaseMetabox {
 	 *
 	 * @var string
 	 */
-	protected $item_type = 'posts';
+	protected $item_type;
 
 	/**
 	 * The hook suffix of the screen where this meta box would be shown.
