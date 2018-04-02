@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsByCategoryMetabox extends PostsMetabox {
-
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'cats';
