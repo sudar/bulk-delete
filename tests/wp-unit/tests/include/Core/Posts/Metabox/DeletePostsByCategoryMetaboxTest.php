@@ -56,7 +56,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted all (2) posts.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 2, $posts_deleted );
 
 		// Assert that each post status moved to trash.
 		$post1_status = get_post_status( $post1 );
@@ -103,7 +105,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted 1 post.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that post1 status moved to trash post2 status is publish.
 		$post1_status = get_post_status( $post1 );
@@ -154,7 +158,8 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 2, $posts_deleted );
 
 		// Assert that post1 and post2 status moved to trash post3 status is publish.
 		$post1_status = get_post_status( $post1 );
@@ -205,7 +210,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted 1 post.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that post2 status is publish.
 		$post2_status = get_post_status( $post2 );
@@ -253,7 +260,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'limit_to'      => false,
 			'force_delete'  => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted 1 post.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that post1 status moved to trash post2 status is publish.
 		$post1_status = get_post_status( $post1 );
@@ -303,7 +312,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'limit_to'      => false,
 			'force_delete'  => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted 1 post.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that post2 status moved to trash post1 status is publish.
 		$post1_status = get_post_status( $post1 );
@@ -348,7 +359,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'limit_to'      => 20,
 			'force_delete'  => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted 20 posts.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 20, $posts_deleted );
 
 		// Assert that cat1 has 80 posts.
 		$posts = $this->get_posts_by_category( $cat1 );
@@ -365,7 +378,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'limit_to'      => 30,
 			'force_delete'  => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted 30 posts.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 30, $posts_deleted );
 
 		// Assert that cat1 has 50 posts.
 		$posts = $this->get_posts_by_category( $cat1 );
@@ -409,7 +424,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted all (2) posts.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 2, $posts_deleted );
 
 		// Assert that each post is moved to trash.
 		$post1_status = get_post_status( $post1 );
@@ -463,7 +480,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted 1 post.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that post2 status is publish and post1 status is trash.
 		$post1_status = get_post_status( $post1 );
@@ -522,7 +541,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted 2 posts.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 2, $posts_deleted );
 
 		// Assert that post1 and post2 are in trash and post3 status is publish.
 		$post1_status = get_post_status( $post1 );
@@ -580,7 +601,9 @@ class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		// Assert that delete method has deleted 1 post.
+		$posts_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that post that belong to cat2 are still published.
 		$post2_status = get_post_status( $post2 );
