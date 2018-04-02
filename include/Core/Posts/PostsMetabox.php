@@ -54,8 +54,6 @@ abstract class PostsMetabox extends BaseMetabox {
 
 	/**
 	 * Render Category dropdown.
-	 *
-	 * @param string $name Name of the dropdown.
 	 */
 	protected function render_category_dropdown() {
 		$enhanced_select_threshold = $this->get_enhanced_select_threshold();
@@ -63,16 +61,13 @@ abstract class PostsMetabox extends BaseMetabox {
 		$categories = $this->get_categories();
 
 		$class_name = 'select2';
-		$extra_atts = '';
-
 		if ( count( $categories ) >= $enhanced_select_threshold ) {
 			$class_name = 'select2-ajax';
-			$extra_atts = 'data-taxonomy="category"';
 		}
 		?>
 
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_category[]" multiple data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>"
-			class="<?php echo sanitize_html_class( $class_name ); ?>" <?php echo esc_html( $extra_atts ); ?>>
+			class="<?php echo sanitize_html_class( $class_name ); ?>" data-taxonomy="category">
 
 			<option value="all">
 				<?php _e( 'All Categories', 'bulk-delete' ); ?>
