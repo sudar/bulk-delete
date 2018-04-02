@@ -41,8 +41,51 @@ abstract class PostsMetabox extends BaseMetabox {
 	/**
 	 * Render the "private post" setting fields.
 	 */
-	public function render_private_post_settings() {
+	protected function render_private_post_settings() {
 		bd_render_private_post_settings( $this->field_slug );
+	}
+
+	/**
+	 * Render Post type dropdown.
+	 */
+	protected function render_post_type_dropdown() {
+		bd_render_post_type_dropdown( $this->field_slug );
+	}
+
+	/**
+	 * Render Category dropdown.
+	 *
+	 * @param string $name Name of the dropdown.
+	 */
+	protected function render_category_dropdown() {
+		$enhanced_select_threshold = $this->get_enhanced_select_threshold();
+
+		$categories = $this->get_categories();
+
+		$class_name = 'select2';
+		$extra_atts = '';
+
+		if ( count( $categories ) >= $enhanced_select_threshold ) {
+			$class_name = 'select2-ajax';
+			$extra_atts = 'data-taxonomy="category"';
+		}
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_category[]" multiple data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>"
+			class="<?php echo sanitize_html_class( $class_name ); ?>" <?php echo esc_html( $extra_atts ); ?>>
+
+			<option value="all">
+				<?php _e( 'All Categories', 'bulk-delete' ); ?>
+			</option>
+
+			<?php foreach ( $categories as $category ) : ?>
+				<option value="<?php echo absint( $category->cat_ID ); ?>">
+					<?php echo esc_html( $category->cat_name ), ' (', absint( $category->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
+
+		</select>
+	<?php
 	}
 
 	/**
@@ -71,5 +114,61 @@ abstract class PostsMetabox extends BaseMetabox {
 	 */
 	protected function get_post_statuses() {
 		return bd_get_post_statuses();
+	}
+
+	/**
+	 * Get the threshold after which enhanced select should be used.
+	 *
+	 * @return int Threshold.
+	 */
+	protected function get_enhanced_select_threshold() {
+		/**
+		 * Filter the enhanced select threshold.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param int Threshold.
+		 */
+		return apply_filters( 'bd_enhanced_select_threshold', 5 );
+	}
+
+	/**
+	 * Get the list of categories.
+	 *
+	 * @return array List of categories.
+	 */
+	protected function get_categories() {
+		$enhanced_select_threshold = $this->get_enhanced_select_threshold();
+
+		$categories = get_categories(
+			array(
+				'hide_empty' => false,
+				'number'     => $enhanced_select_threshold,
+			)
+		);
+
+		return $categories;
+	}
+
+	/**
+	 * Delete posts by ids.
+	 *
+	 * @param int[] $post_ids     List of post ids to delete.
+	 * @param bool  $force_delete True to force delete posts, False otherwise.
+	 *
+	 * @return int Number of posts deleted.
+	 */
+	protected function delete_posts_by_id( $post_ids, $force_delete ) {
+		foreach ( $post_ids as $post_id ) {
+			// `$force_delete` parameter to `wp_delete_post` won't work for custom post types.
+			// See https://core.trac.wordpress.org/ticket/43672
+			if ( $force_delete ) {
+				wp_delete_post( $post_id, true );
+			} else {
+				wp_trash_post( $post_id );
+			}
+		}
+
+		return count( $post_ids );
 	}
 }
