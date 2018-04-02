@@ -18,6 +18,10 @@
     "type": "git",
     "url": "https://github.com/sudar/bulk-delete.git"
   },
+  "dependencies": {
+    "jquery-ui-timepicker-addon": "1.6.3",
+    "select2": "4.0.5"
+  },
   "devDependencies": {
     "grunt": "^1.0.2",
     "grunt-contrib-clean": "^1.1.0",
