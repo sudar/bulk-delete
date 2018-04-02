@@ -124,7 +124,7 @@ abstract class PostsMetabox extends BaseMetabox {
 		 *
 		 * @param int Threshold.
 		 */
-		return apply_filters( 'bd_enhanced_select_threshold', 5 );
+		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
 	}
 
 	/**
