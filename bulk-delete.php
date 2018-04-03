@@ -297,7 +297,6 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/PostsMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByStatusMetabox.php';
-		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByTagMetabox.php';
 
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/users/class-bd-user-meta-box-module.php';
