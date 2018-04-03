@@ -71,7 +71,10 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+
+		// Assert that delete method has deleted all (2) posts.
+		$this->assertEquals( 2, $posts_deleted );
 
 		// Assert that each post status moved to trash.
 		$post1_status = get_post_status( $post1 );
@@ -130,7 +133,10 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+
+		// Assert that delete method has deleted 1 post.
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that post1 moved to trash and post2 status is publish.
 		$post1_status = get_post_status( $post1 );
@@ -189,7 +195,10 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+
+		// Assert that post1 and post2 status moved to trash.
+		$this->assertEquals( 2, $posts_deleted );
 
 		// Assert that each posts moved to trash.
 		$post1_status = get_post_status( $post1 );
@@ -248,7 +257,10 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+
+		// Assert that delete method has deleted all (2) posts.
+		$this->assertEquals( 2, $posts_deleted );
 
 		// Assert that each tags has no post.
 		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
@@ -300,7 +312,10 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+
+		// Assert that delete method has deleted 1 post.
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that each tag1 has no post and tag2 has one post.
 		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
@@ -355,7 +370,10 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => 'before',
 			'days'          => 1,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+
+		// Assert that delete method has deleted 1 post.
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that post1 status moved to trash post2 status is publish.
 		$post1_status = get_post_status( $post1 );
@@ -417,7 +435,10 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => 'after',
 			'days'          => 1,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+
+		// Assert that delete method has deleted 1 post.
+		$this->assertEquals( 1, $posts_deleted );
 
 		// Assert that post2 status moved to trash post1 status is publish.
 		$post1_status = get_post_status( $post1 );
@@ -465,7 +486,10 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+
+		// Assert that delete method has deleted 20 posts.
+		$this->assertEquals( 20, $posts_deleted );
 
 		// Assert that tag1 has 80 posts.
 		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
@@ -481,7 +505,10 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$this->metabox->delete( $delete_options );
+		$posts_deleted = $this->metabox->delete( $delete_options );
+
+		// Assert that delete method has deleted 30 posts.
+		$this->assertEquals( 30, $posts_deleted );
 
 		// Assert that tag1 has 50 posts.
 		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
