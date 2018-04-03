@@ -12,9 +12,15 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeletePostsByTagMetabox extends PostsMetabox {
 	/**
+	 * The metabox that is getting added
+	 *
 	 * @var int Limit for the tags.
 	 */
 	private $tags_limit = 50;
+
+	/**
+	 * Base parameters setup
+	 */
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'tags';
@@ -32,33 +38,33 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 	 * Render Delete posts by tag box.
 	 */
 	public function render() {
-		//Tag Start
+		// Tag Start.
 		$bd_select2_ajax_limit_tags = apply_filters( 'bd_select2_ajax_limit_tags', $this->tags_limit );
 
 		$tags = get_tags(
 			array(
-				'hide_empty'    => false,
-				'number'        => $bd_select2_ajax_limit_tags,
+				'hide_empty' => false,
+				'number'     => $bd_select2_ajax_limit_tags,
 			)
 		);
 		if ( count( $tags ) > 0 ) {
 		?>
-			<h4><?php _e( 'Select the tags from which you want to delete posts', 'bulk-delete' ) ?></h4>
+			<h4><?php _e( 'Select the tags from which you want to delete posts', 'bulk-delete' ); ?></h4>
 
 			<!-- Tags start-->
 			<fieldset class="options">
 				<table class="form-table">
 					<tr>
 					<td scope="row" colspan="2">
-						<?php if( count($tags) >= $bd_select2_ajax_limit_tags ){?>
+						<?php if ( count( $tags ) >= $bd_select2_ajax_limit_tags ) { ?>
 						<select class="select2Ajax" name="smbd_tags[]" data-taxonomy="post_tag" multiple data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>">
 						<option value="all" selected="selected"><?php _e( 'All Tags', 'bulk-delete' ); ?></option>
 						</select>
-						<?php } else{ ?>
+						<?php } else { ?>
 						<select class="select2" name="smbd_tags[]" multiple data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>">
 							<option value="all" selected="selected"><?php _e( 'All Tags', 'bulk-delete' ); ?></option>
 						<?php foreach ( $tags as $tag ) { ?>
-							<option value="<?php echo absint( $tag->term_id ); ?>"><?php echo $tag->name, ' (', $tag->count, ' ', __( 'Posts', 'bulk-delete' ), ')'; ?></option>
+							<option value="<?php echo absint( $tag->term_id ); ?>"><?php echo esc_html( $tag->name ), ' (', absint( $tag->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?></option>
 						<?php } ?>
 						</select>
 						<?php } ?>
@@ -81,7 +87,7 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 			$this->render_submit_button();
 		} else {
 ?>
-			<h4><?php _e( "You don't have any posts assigned to tags in this blog.", 'bulk-delete' ) ?></h4>
+			<h4><?php _e( "You don't have any posts assigned to tags in this blog.", 'bulk-delete' ); ?></h4>
 <?php
 		}
 	}
@@ -89,8 +95,8 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 	/**
 	 * Process delete posts user inputs by tag.
 	 *
-	 * @param array $options Options for deleting posts
-	 * @param mixed $request
+	 * @param array $request Request array.
+	 * @param array $options Options for deleting posts.
 	 *
 	 * @return array $options  Inputs from user for posts that were need to delete
 	 */
@@ -104,14 +110,14 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 	/**
 	 * Delete posts by tag.
 	 *
-	 * @param array $delete_options Options for deleting posts
+	 * @param array $delete_options Options for deleting posts.
 	 *
 	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public function delete( $delete_options ) {
 		$posts_deleted = 0;
 
-		// Backward compatibility code. Will be removed in Bulk Delete v6.0
+		// Backward compatibility code. Will be removed in Bulk Delete v6.0.
 		if ( array_key_exists( 'tags_op', $delete_options ) ) {
 			$delete_options['date_op'] = $delete_options['tags_op'];
 			$delete_options['days']    = $delete_options['tags_days'];
@@ -119,11 +125,11 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 
 		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
-		$options       = array();
+		$options = array();
 
 		$selected_tags = $delete_options['selected_tags'];
 		if ( in_array( 'all', $selected_tags ) ) {
-			$options['tag__not__in'] = array(0);
+			$options['tag__not__in'] = array( 0 );
 		} else {
 			$options['tag__in'] = $selected_tags;
 		}
@@ -142,7 +148,7 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 	/**
 	 * Response message for deleting posts.
 	 *
-	 * @param int $items_deleted
+	 * @param int $items_deleted count of items deleted.
 	 *
 	 * @return string Response message
 	 */
