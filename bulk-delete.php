@@ -522,7 +522,6 @@ final class Bulk_Delete {
 		$posts_page = new DeletePostsPage( $this->get_plugin_file() );
 
 		$posts_page->add_metabox( new DeletePostsByStatusMetabox() );
-		$posts_page->add_metabox( new DeletePostsByTagMetabox() );
 
 		return $posts_page;
 	}
