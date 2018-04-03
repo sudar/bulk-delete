@@ -12,14 +12,14 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeletePostsByTagMetabox extends PostsMetabox {
 	/**
-	 * The metabox that is getting added
+	 * The metabox that is getting added.
 	 *
 	 * @var int Limit for the tags.
 	 */
 	private $tags_limit = 50;
 
 	/**
-	 * Base parameters setup
+	 * Base parameters setup.
 	 */
 	protected function initialize() {
 		$this->item_type     = 'posts';
