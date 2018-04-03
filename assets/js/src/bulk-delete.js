@@ -6,47 +6,8 @@
  * @author: Sudar <http://sudarmuthu.com>
  */
 
-/*global BulkWP, postboxes, pagenow, ajaxurl*/
+/*global BulkWP, postboxes, pagenow */
 jQuery(document).ready(function () {
-	/**
-	 * Enable select2
-	 */
-	jQuery( '.select2' ).select2({
-		width: '300px'
-	});
-
-	jQuery( '.select2Ajax' ).select2({
-		ajax: {
-    			url: ajaxurl, 
-    			dataType: 'json',
-    			delay: 250, 
-    			data: function (params) {
-    				var taxonomy = jQuery(this).attr('data-taxonomy');
-      				return {
-        				q: params.term, 
-        				taxonomy: taxonomy,
-        				action: 'bd_load_taxonomy_term' 
-      				};
-    			},
-    			processResults: function( data ) {
-				var options = [];
-				if ( data ) {
- 
-					jQuery.each( data, function( index, dataPair ) { 
-						options.push( { id: dataPair[0], text: dataPair[1] } );
-					});
- 
-				}
-				return {
-					results: options
-				};
-			},
-			cache: true
-		},
-		minimumInputLength: 2, // the minimum of symbols to input before perform a search
-		width: '300px'
-	});
-
 	// Start Jetpack.
 	BulkWP.jetpack();
 
@@ -151,6 +112,7 @@ jQuery(document).ready(function () {
 	jQuery.each(BulkWP.dt_iterators, function (index, value) {
 		// invoke the date time picker
 		jQuery('#smbd' + value + '_cron_start').datetimepicker({
+			dateFormat: 'yy-mm-dd',
 			timeFormat: 'HH:mm:ss'
 		});
 
