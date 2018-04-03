@@ -35,8 +35,4 @@ abstract class PostsMetabox extends BaseMetabox {
 
 		return $js_array;
 	}
-
-	/**
-	 * Render the "private post" setting fields.
-	 */
 }
