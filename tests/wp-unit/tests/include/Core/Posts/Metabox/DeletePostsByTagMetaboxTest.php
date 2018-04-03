@@ -20,6 +20,9 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 	 */
 	protected $metabox;
 
+	/**
+	 * Base move class setup
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -34,11 +37,21 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
 		$tag2 = $this->factory->tag->create( array( 'name' => 'tag2' ) );
 
-		// Assign the tags tag1 and tag2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish' ) );
+		// Assign the tags tag1 and tag2 to post1 and post2.
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post1',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post1, 'tag1' );
 
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish' ) );
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post2',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post2, 'tag2' );
 
 		// Assert that each tag has one post.
@@ -50,13 +63,13 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'selected_tags'  => array( 'all' ),
-			'restrict'       => false,
-			'private'        => false,
-			'limit_to'       => false,
-			'force_delete'   => false,
-			'date_op'        => false,
-			'days'           => false,
+			'selected_tags' => array( 'all' ),
+			'restrict'      => false,
+			'private'       => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+			'date_op'       => false,
+			'days'          => false,
 		);
 		$this->metabox->delete( $delete_options );
 
@@ -83,11 +96,21 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
 		$tag2 = $this->factory->tag->create( array( 'name' => 'tag2' ) );
 
-		// Assign the tags tag1 and tag2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish' ) );
+		// Assign the tags tag1 and tag2 to post1 and post2.
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post1',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post1, 'tag1' );
 
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish' ) );
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post2',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post2, 'tag2' );
 
 		// Assert that each tag has one post.
@@ -99,13 +122,13 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'selected_tags'  => array( $tag1 ),
-			'restrict'       => false,
-			'private'        => false,
-			'limit_to'       => false,
-			'force_delete'   => false,
-			'date_op'        => false,
-			'days'           => false,
+			'selected_tags' => array( $tag1 ),
+			'restrict'      => false,
+			'private'       => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+			'date_op'       => false,
+			'days'          => false,
 		);
 		$this->metabox->delete( $delete_options );
 
@@ -132,11 +155,21 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
 		$tag2 = $this->factory->tag->create( array( 'name' => 'tag2' ) );
 
-		// Assign the tags tag1 and tag2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish' ) );
+		// Assign the tags tag1 and tag2 to post1 and post2.
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post1',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post1, 'tag1' );
 
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish' ) );
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post2',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post2, 'tag2' );
 
 		// Assert that each tag has one post.
@@ -148,13 +181,13 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'selected_tags'  => array( $tag1, $tag2 ),
-			'restrict'       => false,
-			'private'        => false,
-			'limit_to'       => false,
-			'force_delete'   => false,
-			'date_op'        => false,
-			'days'           => false,
+			'selected_tags' => array( $tag1, $tag2 ),
+			'restrict'      => false,
+			'private'       => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+			'date_op'       => false,
+			'days'          => false,
 		);
 		$this->metabox->delete( $delete_options );
 
@@ -181,11 +214,21 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
 		$tag2 = $this->factory->tag->create( array( 'name' => 'tag2' ) );
 
-		// Assign the tags tag1 and tag2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish' ) );
+		// Assign the tags tag1 and tag2 to post1 and post2.
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post1',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post1, 'tag1' );
 
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish' ) );
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post2',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post2, 'tag2' );
 
 		// Assert that each tag has one post.
@@ -197,13 +240,13 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'selected_tags'  => array( 'all' ),
-			'restrict'       => false,
-			'private'        => false,
-			'limit_to'       => false,
-			'force_delete'   => true,
-			'date_op'        => false,
-			'days'           => false,
+			'selected_tags' => array( 'all' ),
+			'restrict'      => false,
+			'private'       => false,
+			'limit_to'      => false,
+			'force_delete'  => true,
+			'date_op'       => false,
+			'days'          => false,
 		);
 		$this->metabox->delete( $delete_options );
 
@@ -223,11 +266,21 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
 		$tag2 = $this->factory->tag->create( array( 'name' => 'tag2' ) );
 
-		// Assign the tags tag1 and tag2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish' ) );
+		// Assign the tags tag1 and tag2 to post1 and post2.
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post1',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post1, 'tag1' );
 
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish' ) );
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post2',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post2, 'tag2' );
 
 		// Assert that each tag has one post.
@@ -239,13 +292,13 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'selected_tags'  => array( $tag1 ),
-			'restrict'       => false,
-			'private'        => false,
-			'limit_to'       => false,
-			'force_delete'   => true,
-			'date_op'        => false,
-			'days'           => false,
+			'selected_tags' => array( $tag1 ),
+			'restrict'      => false,
+			'private'       => false,
+			'limit_to'      => false,
+			'force_delete'  => true,
+			'date_op'       => false,
+			'days'          => false,
 		);
 		$this->metabox->delete( $delete_options );
 
@@ -261,17 +314,28 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts that are older than x days.
 	 */
 	public function test_for_delete_posts_older_than_x_days() {
-		//Set post publish date
-		$day_post = date('Y-m-d H:i:s', strtotime('-2 day'));
+		// Set post publish date.
+		$day_post = date( 'Y-m-d H:i:s', strtotime( '-2 day' ) );
 		// Create two tags.
 		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
 		$tag2 = $this->factory->tag->create( array( 'name' => 'tag2' ) );
 
-		// Assign the tags tag1 and tag2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish', 'post_date' => $day_post ) );
+		// Assign the tags tag1 and tag2 to post1 and post2.
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post1',
+				'post_status' => 'publish',
+				'post_date'   => $day_post,
+			)
+		);
 		wp_set_post_tags( $post1, 'tag1' );
 
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish' ) );
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post2',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post2, 'tag2' );
 
 		// Assert that each tag has one post.
@@ -283,13 +347,13 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'selected_tags'  => array( 'all' ),
-			'restrict'       => true,
-			'private'        => false,
-			'limit_to'       => false,
-			'force_delete'   => false,
-			'date_op'        => 'before',
-			'days'           => 1,
+			'selected_tags' => array( 'all' ),
+			'restrict'      => true,
+			'private'       => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+			'date_op'       => 'before',
+			'days'          => 1,
 		);
 		$this->metabox->delete( $delete_options );
 
@@ -312,17 +376,28 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 	 * Add tests to test deleting posts that are posted within the last x days.
 	 */
 	public function test_for_delete_posts_last_x_days() {
-		//Set post publish date
-		$day_post = date('Y-m-d H:i:s', strtotime('-2 day'));
+		// Set post publish date.
+		$day_post = date( 'Y-m-d H:i:s', strtotime( '-2 day' ) );
 		// Create two tags.
 		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
 		$tag2 = $this->factory->tag->create( array( 'name' => 'tag2' ) );
 
-		// Assign the tags tag1 and tag2 to post1 and post2
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_status' => 'publish', 'post_date' => $day_post ) );
+		// Assign the tags tag1 and tag2 to post1 and post2.
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post1',
+				'post_status' => 'publish',
+				'post_date'   => $day_post,
+			)
+		);
 		wp_set_post_tags( $post1, 'tag1' );
 
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_status' => 'publish' ) );
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title'  => 'post2',
+				'post_status' => 'publish',
+			)
+		);
 		wp_set_post_tags( $post2, 'tag2' );
 
 		// Assert that each tag has one post.
@@ -334,13 +409,13 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'selected_tags'  => array( 'all' ),
-			'restrict'       => true,
-			'private'        => false,
-			'limit_to'       => false,
-			'force_delete'   => false,
-			'date_op'        => 'after',
-			'days'           => 1,
+			'selected_tags' => array( 'all' ),
+			'restrict'      => true,
+			'private'       => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+			'date_op'       => 'after',
+			'days'          => 1,
 		);
 		$this->metabox->delete( $delete_options );
 
@@ -366,9 +441,11 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 		// Create a tag.
 		$tag1 = $this->factory->tag->create( array( 'name' => 'tag1' ) );
 		// Create 100 posts and assign the tag1 to all 100 posts.
-		$post_ids = $this->factory->post->create_many( 100, array(
-			'post_status' => 'publish',
-		) );
+		$post_ids = $this->factory->post->create_many(
+			100, array(
+				'post_status' => 'publish',
+			)
+		);
 
 		foreach ( $post_ids as $post_id ) {
 			wp_set_post_tags( $post_id, 'tag1' );
@@ -378,15 +455,15 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
 		$this->assertEquals( 100, count( $posts_in_tag1 ) );
 
-		// call our method. First batch limit_to 20 posts
+		// call our method. First batch limit_to 20 posts.
 		$delete_options = array(
-			'selected_tags'  => array( $tag1 ),
-			'restrict'       => false,
-			'private'        => false,
-			'limit_to'       => 20,
-			'force_delete'   => true,
-			'date_op'        => false,
-			'days'           => false,
+			'selected_tags' => array( $tag1 ),
+			'restrict'      => false,
+			'private'       => false,
+			'limit_to'      => 20,
+			'force_delete'  => true,
+			'date_op'       => false,
+			'days'          => false,
 		);
 		$this->metabox->delete( $delete_options );
 
@@ -394,15 +471,15 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 		$posts_in_tag1 = $this->get_posts_by_tag( $tag1 );
 		$this->assertEquals( 80, count( $posts_in_tag1 ) );
 
-		// call our method. Second batch limit_to 30 posts
+		// call our method. Second batch limit_to 30 posts.
 		$delete_options = array(
-			'selected_tags'  => array( $tag1 ),
-			'restrict'       => false,
-			'private'        => false,
-			'limit_to'       => 30,
-			'force_delete'   => true,
-			'date_op'        => false,
-			'days'           => false,
+			'selected_tags' => array( $tag1 ),
+			'restrict'      => false,
+			'private'       => false,
+			'limit_to'      => 30,
+			'force_delete'  => true,
+			'date_op'       => false,
+			'days'          => false,
 		);
 		$this->metabox->delete( $delete_options );
 
