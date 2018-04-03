@@ -1,6 +1,6 @@
 <?php
 
-namespace BulkWP\Tests\Core\Base;
+namespace BulkWP\BulkDelete\Core\Base;
 
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
