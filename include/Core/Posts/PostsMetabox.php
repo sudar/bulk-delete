@@ -39,7 +39,4 @@ abstract class PostsMetabox extends BaseMetabox {
 	/**
 	 * Render the "private post" setting fields.
 	 */
-	public function render_private_post_settings() {
-		bd_render_private_post_settings( $this->field_slug );
-	}
 }
