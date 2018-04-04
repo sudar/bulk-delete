@@ -319,8 +319,8 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-post-meta.php';
-		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-comment-meta.php';
 		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-user-meta.php';
+		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-comment-meta.php';
 
 		require_once self::$PLUGIN_DIR . '/include/misc/class-bulk-delete-misc.php';
 		require_once self::$PLUGIN_DIR . '/include/misc/class-bulk-delete-jetpack-contact-form-messages.php';
