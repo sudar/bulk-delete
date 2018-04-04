@@ -1,4 +1,5 @@
 <?php
+
 namespace BulkWP\BulkDelete\Core\Posts\Metabox;
 
 use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
@@ -11,13 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsByTagMetabox extends PostsMetabox {
-	/**
-	 * The metabox that is getting added.
-	 *
-	 * @var int Limit for the tags.
-	 */
-	private $tags_limit = 50;
-
 	/**
 	 * Base parameters setup.
 	 */
@@ -38,58 +32,38 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 	 * Render Delete posts by tag box.
 	 */
 	public function render() {
-		// Tag Start.
-		$bd_select2_ajax_limit_tags = apply_filters( 'bd_select2_ajax_limit_tags', $this->tags_limit );
+		if ( ! $this->are_tags_present() ) : ?>
+			<h4>
+				<?php _e( 'There are no tags present in this WordPress installation.', 'bulk-delete' ); ?>
+			</h4>
+			<?php return; ?>
+		<?php endif; ?>
 
-		$tags = get_tags(
-			array(
-				'hide_empty' => false,
-				'number'     => $bd_select2_ajax_limit_tags,
-			)
-		);
-		if ( count( $tags ) > 0 ) {
-		?>
-			<h4><?php _e( 'Select the tags from which you want to delete posts', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the tags from which you want to delete posts', 'bulk-delete' ); ?></h4>
 
-			<!-- Tags start-->
-			<fieldset class="options">
-				<table class="form-table">
-					<tr>
+		<!-- Tags start-->
+		<fieldset class="options">
+			<table class="form-table">
+				<tr>
 					<td scope="row" colspan="2">
-						<?php if ( count( $tags ) >= $bd_select2_ajax_limit_tags ) { ?>
-						<select class="select2Ajax" name="smbd_tags[]" data-taxonomy="post_tag" multiple data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>">
-						<option value="all" selected="selected"><?php _e( 'All Tags', 'bulk-delete' ); ?></option>
-						</select>
-						<?php } else { ?>
-						<select class="select2" name="smbd_tags[]" multiple data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>">
-							<option value="all" selected="selected"><?php _e( 'All Tags', 'bulk-delete' ); ?></option>
-						<?php foreach ( $tags as $tag ) { ?>
-							<option value="<?php echo absint( $tag->term_id ); ?>"><?php echo esc_html( $tag->name ), ' (', absint( $tag->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?></option>
-						<?php } ?>
-						</select>
-						<?php } ?>
+						<?php $this->render_tags_dropdown(); ?>
 					</td>
-					</tr>
-				</table>
+				</tr>
+			</table>
 
-				<table class="optiontable">
-					<?php
-					$this->render_filtering_table_header();
-					$this->render_restrict_settings();
-					$this->render_delete_settings();
-					$this->render_private_post_settings();
-					$this->render_limit_settings();
-					$this->render_cron_settings();
-					?>
-				</table>
-			</fieldset>
+			<table class="optiontable">
+				<?php
+				$this->render_filtering_table_header();
+				$this->render_restrict_settings();
+				$this->render_delete_settings();
+				$this->render_private_post_settings();
+				$this->render_limit_settings();
+				$this->render_cron_settings();
+				?>
+			</table>
+		</fieldset>
 <?php
-			$this->render_submit_button();
-		} else {
-?>
-			<h4><?php _e( "You don't have any posts assigned to tags in this blog.", 'bulk-delete' ); ?></h4>
-<?php
-		}
+		$this->render_submit_button();
 	}
 
 	/**

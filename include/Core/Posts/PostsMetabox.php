@@ -78,6 +78,30 @@ abstract class PostsMetabox extends BaseMetabox {
 	}
 
 	/**
+	 * Render Tags dropdown.
+	 */
+	protected function render_tags_dropdown() {
+		$tags = $this->get_tags();
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>"
+				class="<?php echo sanitize_html_class( $this->enable_ajax_if_needed_to_dropdown_class_name( count( $tags ), 'select2-taxonomy' ) ); ?>"
+				data-taxonomy="post_tag" multiple>
+
+			<option value="all">
+				<?php _e( 'All Tags', 'bulk-delete' ); ?>
+			</option>
+
+			<?php foreach ( $tags as $tag ) : ?>
+				<option value="<?php echo absint( $tag->term_id ); ?>">
+					<?php echo esc_html( $tag->name ), ' (', absint( $tag->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+	<?php
+	}
+
+	/**
 	 * Get the list of post statuses.
 	 *
 	 * This includes all custom post status, but excludes built-in private posts.
@@ -104,6 +128,42 @@ abstract class PostsMetabox extends BaseMetabox {
 		);
 
 		return $categories;
+	}
+
+	/**
+	 * Are tags present in this WordPress installation?
+	 *
+	 * Only one tag is retrieved to check if tags are present for performance reasons.
+	 *
+	 * @return bool True if tags are present, False otherwise.
+	 */
+	protected function are_tags_present() {
+		$tags = $this->get_tags( 1 );
+
+		return ( count( $tags ) > 0 );
+	}
+
+	/**
+	 * Get the list of tags.
+	 *
+	 * @param int $max_count The maximum number of tags to be returned (Optional). Default 0.
+	 *                       If 0 then the maximum number of tags specified in `get_enhanced_select_threshold` will be returned.
+	 *
+	 * @return array List of tags.
+	 */
+	protected function get_tags( $max_count = 0 ) {
+		if ( absint( $max_count ) === 0 ) {
+			$max_count = $this->get_enhanced_select_threshold();
+		}
+
+		$tags = get_tags(
+			array(
+				'hide_empty' => false,
+				'number'     => $max_count,
+			)
+		);
+
+		return $tags;
 	}
 
 	/**
