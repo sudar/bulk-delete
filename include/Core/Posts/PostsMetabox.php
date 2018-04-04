@@ -56,18 +56,12 @@ abstract class PostsMetabox extends BaseMetabox {
 	 * Render Category dropdown.
 	 */
 	protected function render_category_dropdown() {
-		$enhanced_select_threshold = $this->get_enhanced_select_threshold();
-
 		$categories = $this->get_categories();
-
-		$class_name = 'select2';
-		if ( count( $categories ) >= $enhanced_select_threshold ) {
-			$class_name = 'select2-ajax';
-		}
 		?>
 
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_category[]" multiple data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>"
-			class="<?php echo sanitize_html_class( $class_name ); ?>" data-taxonomy="category">
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_category[]" data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>"
+				class="<?php echo sanitize_html_class( $this->enable_ajax_if_needed_to_dropdown_class_name( count( $categories ), 'select2-taxonomy' ) ); ?>"
+				data-taxonomy="category" multiple>
 
 			<option value="all">
 				<?php _e( 'All Categories', 'bulk-delete' ); ?>
@@ -92,22 +86,6 @@ abstract class PostsMetabox extends BaseMetabox {
 	 */
 	protected function get_post_statuses() {
 		return bd_get_post_statuses();
-	}
-
-	/**
-	 * Get the threshold after which enhanced select should be used.
-	 *
-	 * @return int Threshold.
-	 */
-	protected function get_enhanced_select_threshold() {
-		/**
-		 * Filter the enhanced select threshold.
-		 *
-		 * @since 6.0.0
-		 *
-		 * @param int Threshold.
-		 */
-		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
 	}
 
 	/**
