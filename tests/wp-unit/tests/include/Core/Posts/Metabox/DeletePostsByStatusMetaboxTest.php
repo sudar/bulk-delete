@@ -27,7 +27,7 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test that posts from a single post status (published posts) can be trashed.
+	 * Test that posts from two post status can be trashed.
 	 */
 	public function test_that_published_posts_can_be_trashed() {
 		$this->factory->post->create_many( 10, array(
@@ -63,7 +63,7 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test that posts from a single post status (published posts) can be permanently deleted.
+	 * Test that posts from two post status can be permanently deleted.
 	 */
 	public function test_that_published_posts_can_be_deleted() {
 		$this->factory->post->create_many( 10, array(
@@ -129,7 +129,7 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test date filter (older than x days) with a single post status (published posts).
+	 * Test date filter (older than x days) with two post status (published posts).
 	 */
 	public function test_that_published_posts_that_are_older_than_x_days_can_be_deleted() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
@@ -170,7 +170,7 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test date filter (within the last x days) with a single post status (published posts).
+	 * Test date filter (within the last x days) with two post status.
 	 */
 	public function test_that_published_posts_that_are_posted_within_the_last_x_days_can_be_deleted() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
@@ -211,7 +211,7 @@ class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test batch deletion with a single post status (published posts).
+	 * Test batch deletion with two post status.
 	 */
 	public function test_that_published_posts_can_be_deleted_in_batches() {
 		$published_posts = $this->factory->post->create_many( 100, array(
