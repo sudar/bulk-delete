@@ -27,7 +27,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test that pages from a single post status can be trashed.
+	 * Test that pages from two post status can be trashed.
 	 */
 	public function test_that_pages_can_be_trashed() {
 		$this->factory->post->create_many( 10, array(
@@ -67,7 +67,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test that pages from a single post status can be permanently deleted.
+	 * Test that pages from two post status can be permanently deleted.
 	 */
 	public function test_that_pages_can_be_deleted() {
 		$this->factory->post->create_many( 10, array(
@@ -108,7 +108,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test date filter (older than x days) with a single post status.
+	 * Test date filter (older than x days) with two post status.
 	 */
 	public function test_that_pages_that_are_older_than_x_days_can_be_deleted() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
@@ -153,7 +153,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test date filter (within the last x days) with a single post status.
+	 * Test date filter (within the last x days) with two post status.
 	 */
 	public function test_that_pages_that_are_posted_within_the_last_x_days_can_be_deleted() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
@@ -198,7 +198,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test batch deletion with a single post status.
+	 * Test batch deletion with two post status.
 	 */
 	public function test_that_pages_can_be_deleted_in_batches() {
 		$published_pages = $this->factory->post->create_many( 50, array(
