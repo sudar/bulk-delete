@@ -230,10 +230,43 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 80, $pages_deleted );
 
 		$published_pages = $this->get_pages_by_status();
-		$this->assertEquals( 19, count( $published_pages ) );
+		$this->assertEquals( 20, count( $published_pages ) );
 
 		$trash_pages = $this->get_pages_by_status( 'trash' );
 		$this->assertEquals( 80, count( $trash_pages ) );
+	}
+
+	/**
+	 * Test that private pages can be permanently deleted.
+	 */
+	public function test_that_private_pages_can_be_deleted() {
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'page',
+			'post_status' => 'private',
+		) );
+
+		$private_pages = $this->get_pages_by_status( 'private' );
+		$this->assertEquals( 10, count( $private_pages ) );
+
+		$delete_options = array(
+			'publish'      => '',
+			'drafts'       => '',
+			'pending'      => '',
+			'future'       => '',
+			'private'      => 'private_pages',
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => true,
+		);
+
+		$pages_deleted = $this->metabox->delete( $delete_options );
+		$this->assertEquals( 10, $pages_deleted );
+
+		$published_pages = $this->get_pages_by_status( 'private' );
+		$this->assertEquals( 0, count( $published_pages ) );
+
+		$trash_pages = $this->get_pages_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_pages ) );
 	}
 
 }
