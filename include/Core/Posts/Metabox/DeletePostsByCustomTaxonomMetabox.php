@@ -132,7 +132,6 @@ class DeletePostsByCustomTaxonomMetabox extends PostsMetabox {
 	}
 
 	public function delete( $delete_options ) {
-
 		if ( bd_array_get( $_POST, 'smbd_taxs_cron', 'false' ) == 'true' ) {
 			$freq = $_POST['smbd_taxs_cron_freq'];
 			$time = strtotime( $_POST['smbd_taxs_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
@@ -147,7 +146,6 @@ class DeletePostsByCustomTaxonomMetabox extends PostsMetabox {
 		} else {
 			return $deleted_count = $this->delete_posts_by_taxonomy( $delete_options );
 		}
-
 	}
 
 	public static function delete_posts_by_taxonomy( $delete_options ) {

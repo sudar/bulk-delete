@@ -20,8 +20,8 @@ use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCustomTaxonomMetabox;
+use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox;
 
 /**
  * Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
