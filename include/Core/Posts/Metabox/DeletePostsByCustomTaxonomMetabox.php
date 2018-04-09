@@ -117,19 +117,41 @@ class DeletePostsByCustomTaxonomMetabox extends PostsMetabox {
 
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options                       = array();
-		$options['post_type']          = bd_array_get( $_POST, 'smbd_tax_post_type', 'post' );
-		$options['selected_taxs']      = bd_array_get( $_POST, 'smbd_taxs' );
-		$options['selected_tax_terms'] = bd_array_get( $_POST, 'smbd_tax_terms' );
-		$options['restrict']           = bd_array_get_bool( $_POST, 'smbd_taxs_restrict', false );
-		$options['private']            = bd_array_get_bool( $_POST, 'smbd_taxs_private' );
-		$options['limit_to']           = absint( bd_array_get( $_POST, 'smbd_taxs_limit_to', 0 ) );
-		$options['force_delete']       = bd_array_get_bool( $_POST, 'smbd_taxs_force_delete', false );
+		$options['post_type']          = bd_array_get( $request, 'smbd_tax_post_type', 'post' );
+		$options['selected_taxs']      = bd_array_get( $request, 'smbd_taxs' );
+		$options['selected_tax_terms'] = bd_array_get( $request, 'smbd_tax_terms' );
+		$options['restrict']           = bd_array_get_bool( $request, 'smbd_taxs_restrict', false );
+		$options['private']            = bd_array_get_bool( $request, 'smbd_taxs_private' );
+		$options['limit_to']           = absint( bd_array_get( $request, 'smbd_taxs_limit_to', 0 ) );
+		$options['force_delete']       = bd_array_get_bool( $request, 'smbd_taxs_force_delete', false );
 
-		$options['date_op']            = bd_array_get( $_POST, 'smbd_taxs_op' );
-		$options['days']               = absint( bd_array_get( $_POST, 'smbd_taxs_days' ) );
+		$options['date_op']            = bd_array_get( $request, 'smbd_taxs_op' );
+		$options['days']               = absint( bd_array_get( $request, 'smbd_taxs_days' ) );
+
+		return $options;
 	}
 
 	public function delete( $delete_options ) {
+
+		if ( bd_array_get( $_POST, 'smbd_taxs_cron', 'false' ) == 'true' ) {
+			$freq = $_POST['smbd_taxs_cron_freq'];
+			$time = strtotime( $_POST['smbd_taxs_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
+
+			if ( $freq == -1 ) {
+				wp_schedule_single_event( $time, Bulk_Delete::CRON_HOOK_TAXONOMY, array( $delete_options ) );
+			} else {
+				wp_schedule_event( $time, $freq, Bulk_Delete::CRON_HOOK_TAXONOMY, array( $delete_options ) );
+			}
+			$msg = __( 'Posts from the selected custom taxonomies are scheduled for deletion.', 'bulk-delete' ) . ' ' .
+				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
+		} else {
+			return $deleted_count = $this->delete_posts_by_taxonomy( $delete_options );
+		}
+
+	}
+
+	public static function delete_posts_by_taxonomy( $delete_options ) {
+		// For compatibility reasons set default post type to 'post'
 		$post_type = bd_array_get( $delete_options, 'post_type', 'post' );
 
 		if ( array_key_exists( 'taxs_op', $delete_options ) ) {
