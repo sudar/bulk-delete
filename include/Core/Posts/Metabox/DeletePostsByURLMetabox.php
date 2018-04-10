@@ -18,7 +18,7 @@ class DeletePostsByURLMetabox extends PostsMetabox {
 		$this->meta_box_slug = 'bd_posts_by_url';
 		$this->action        = 'delete_posts_by_url';
 		$this->messages      = array(
-			'box_label' => __( 'By URL', 'bulk-delete' )
+			'box_label' => __( 'By URL', 'bulk-delete' ),
 		);
 	}
 
@@ -49,11 +49,11 @@ class DeletePostsByURLMetabox extends PostsMetabox {
 		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_specific_force_delete', false );
 
 		$options['urls'] = preg_split( '/\r\n|\r|\n/', bd_array_get( $request, 'smdb_specific_pages_urls' ) );
+
 		return $options;
 	}
 
 	public function delete( $delete_options ) {
-
 		foreach ( $delete_options['urls'] as $url ) {
 			$checkedurl = $url;
 			if ( substr( $checkedurl , 0, 1 ) == '/' ) {
