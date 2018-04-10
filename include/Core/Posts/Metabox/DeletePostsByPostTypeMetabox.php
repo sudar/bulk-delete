@@ -85,7 +85,6 @@ class DeletePostsByPostTypeMetabox extends PostsMetabox {
             </fieldset>
 <?php
 			$this->render_submit_button();
-
 		} else {
             printf( '<h4>%s</h4>', __( "This WordPress installation doesn't have any non-empty custom post types", 'bulk-delete' ) );
 		}
