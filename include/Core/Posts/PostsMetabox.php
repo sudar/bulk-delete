@@ -204,4 +204,67 @@ abstract class PostsMetabox extends BaseMetabox {
 
 		return count( $post_ids );
 	}
+
+	/**
+	 * Generate display name from post type and status.
+	 *
+	 * @static
+	 *
+	 * @param string $str
+	 *
+	 * @return string Label
+	 */
+	public static function display_post_type_status( $str ) {
+		$type_status = self::split_post_type_status( $str );
+
+		$status = $type_status['status'];
+		$type   = $type_status['type'];
+		$label  = '';
+
+		switch ( $status ) {
+			case 'private':
+				$label = $type . ' - Private Posts';
+				break;
+			case 'future':
+				$label = $type . ' - Scheduled Posts';
+				break;
+			case 'draft':
+				$label = $type . ' - Draft Posts';
+				break;
+			case 'pending':
+				$label = $type . ' - Pending Posts';
+				break;
+			case 'publish':
+				$label = $type . ' - Published Posts';
+				break;
+		}
+
+		return $label;
+	}
+
+	/**
+	 * Split post type and status.
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @param string $str
+	 *
+	 * @return array
+	 */
+	public static function split_post_type_status( $str ) {
+		$type_status = array();
+
+		$str_arr = explode( '-', $str );
+
+		if ( count( $str_arr ) > 1 ) {
+			$type_status['status'] = end( $str_arr );
+			$type_status['type']   = implode( '-', array_slice( $str_arr, 0, -1 ) );
+		} else {
+			$type_status['status'] = 'publish';
+			$type_status['type']   = $str;
+		}
+
+		return $type_status;
+	}
 }
