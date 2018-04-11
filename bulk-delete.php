@@ -22,6 +22,7 @@ use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox;
+use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByRevisionMetabox;
 
 /**
  * Copyright 2009  Sudar Muthu  (email : sudar@sudarmuthu.com)
@@ -300,6 +301,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByStatusMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByCategoryMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByTagMetabox.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByRevisionMetabox.php';
 
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/users/class-bd-user-meta-box-module.php';
@@ -527,6 +529,7 @@ final class Bulk_Delete {
 		$posts_page->add_metabox( new DeletePostsByStatusMetabox() );
 		$posts_page->add_metabox( new DeletePostsByCategoryMetabox() );
 		$posts_page->add_metabox( new DeletePostsByTagMetabox() );
+		$posts_page->add_metabox( new DeletePostsByRevisionMetabox() );
 
 		return $posts_page;
 	}
