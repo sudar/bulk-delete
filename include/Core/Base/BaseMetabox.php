@@ -2,16 +2,20 @@
 
 namespace BulkWP\BulkDelete\Core\Base;
 
+use BulkWP\BulkDelete\Core\Base\Mixin\Renderer;
+
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Encapsulates the Bulk Delete Meta box Module Logic.
  *
  * All Bulk Delete Meta box Modules should extend this class.
+ * This class extends Renderer Mixin class since Bulk Delete still supports PHP 5.3.
+ * Once PHP 5.3 support is dropped, Renderer will be implemented as a Trait and this class will `use` it.
  *
  * @since 6.0.0
  */
-abstract class BaseMetabox {
+abstract class BaseMetabox extends Renderer {
 	/**
 	 * Item Type. Possible values 'posts', 'pages', 'users' etc.
 	 *
