@@ -112,43 +112,6 @@ class BD_Util {
 	}
 
 	/**
-	 * Get the list of cron schedules.
-	 *
-	 * @static
-	 * @access public
-	 *
-	 * @return array The list of cron schedules
-	 */
-	public static function get_cron_schedules() {
-		$cron_items  = array();
-		$cron        = _get_cron_array();
-		$date_format = _x( 'M j, Y @ G:i', 'Cron table date format', 'bulk-delete' );
-		$i           = 0;
-
-		foreach ( $cron as $timestamp => $cronhooks ) {
-			foreach ( (array) $cronhooks as $hook => $events ) {
-				if ( 'do-bulk-delete-' == substr( $hook, 0, 15 ) ) {
-					$cron_item = array();
-
-					foreach ( (array) $events as $key => $event ) {
-						$cron_item['timestamp'] = $timestamp;
-						$cron_item['due']       = date_i18n( $date_format, $timestamp + ( get_option( 'gmt_offset' ) * 60 * 60 ) );
-						$cron_item['schedule']  = $event['schedule'];
-						$cron_item['type']      = $hook;
-						$cron_item['args']      = $event['args'];
-						$cron_item['id']        = $i;
-					}
-
-					$cron_items[ $i ] = $cron_item;
-					$i++;
-				}
-			}
-		}
-
-		return $cron_items;
-	}
-
-	/**
 	 * Generate display name from post type and status.
 	 *
 	 * @static

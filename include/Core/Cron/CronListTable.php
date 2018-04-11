@@ -1,34 +1,44 @@
 <?php
-/**
- * Table to show cron list.
- *
- * @author     Sudar
- *
- * @package    BulkDelete\Cron
- */
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
-class Cron_List_Table extends WP_List_Table {
+namespace BulkWP\BulkDelete\Core\Cron;
+
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
+
+if ( ! class_exists( '\WP_List_Table' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+}
+
+/**
+ * Table that lists bulk delete cron jobs.
+ *
+ * @since 6.0.0 Added namespace.
+ */
+class CronListTable extends \WP_List_Table {
+
 	/**
-	 * Constructor, we override the parent to pass our own arguments
-	 * We usually focus on three parameters: singular and plural labels, as well as whether the class supports AJAX.
+	 * Constructor for creating new CronListTable.
+	 *
+	 * @param array $cron_jobs List of cron jobs.
 	 */
-	public function __construct() {
-		parent::__construct( array(
-				'singular' => 'cron_list', //Singular label
-				'plural'   => 'cron_lists', //plural label, also this well be one of the table css class
-				'ajax'     => false, //We won't support Ajax for this table
-			) );
+	public function __construct( $cron_jobs ) {
+		$this->items = $cron_jobs;
+
+		parent::__construct(
+			array(
+				'singular' => 'cron_list',  // Singular label.
+				'plural'   => 'cron_lists', // Plural label, also this well be one of the table css class.
+				'ajax'     => false,        // We won't support Ajax for this table.
+			)
+		);
 	}
 
 	/**
 	 * Add extra markup in the toolbars before or after the list.
 	 *
-	 * @param string $which Whether the markup should appear after (bottom) or before (top) the list
+	 * @param string $which Whether the markup should appear after (bottom) or before (top) the list.
 	 */
 	public function extra_tablenav( $which ) {
-		if ( 'top' == $which ) {
-			//The code that goes before the table is here
+		if ( 'top' === $which ) {
 			echo '<p>';
 			_e( 'This is the list of jobs that are currently scheduled for auto deleting posts in Bulk Delete Plugin.', 'bulk-delete' );
 			echo ' <strong>';
@@ -68,44 +78,31 @@ class Cron_List_Table extends WP_List_Table {
 	 * Prepare the table with different parameters, pagination, columns and table elements.
 	 */
 	public function prepare_items() {
-		$cron_items = BD_Util::get_cron_schedules();
-		$totalitems = count( $cron_items );
+		$total_items    = count( $this->items );
+		$items_per_page = 50;
 
-		//How many to display per page?
-		$perpage = 50;
-
-		//How many pages do we have in total?
-		$totalpages = ceil( $totalitems / $perpage );
-
-		/* -- Register the pagination -- */
 		$this->set_pagination_args( array(
-				'total_items' => $totalitems,
-				'total_pages' => $totalpages,
-				'per_page'    => $perpage,
-			) );
+			'total_items' => $total_items,
+			'total_pages' => ceil( $total_items / $items_per_page ),
+			'per_page'    => $items_per_page,
+		) );
 
-		//The pagination links are automatically built according to those parameters
-
-		/* — Register the Columns — */
 		$columns               = $this->get_columns();
 		$hidden                = array();
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
-
-		$this->items = $cron_items;
 	}
 
 	/**
 	 * Display cron due date column.
 	 *
-	 * @param array $item
+	 * @param array $item The item to be displayed in the row.
 	 *
-	 * @return string
+	 * @return string Column output.
 	 */
 	public function column_col_cron_due( $item ) {
-		//Build row actions
 		$actions = array(
-			'delete'    => sprintf( '<a href="?page=%s&bd_action=%s&cron_id=%s&%s=%s">%s</a>',
+			'delete' => sprintf( '<a href="?page=%s&bd_action=%s&cron_id=%s&%s=%s">%s</a>',
 				$_REQUEST['page'],
 				'delete_cron',
 				$item['id'],
@@ -117,16 +114,19 @@ class Cron_List_Table extends WP_List_Table {
 
 		//Return the title contents
 		return sprintf( '%1$s <span style="color:silver">(%2$s)</span>%3$s',
-			/*$1%s*/ $item['due'],
-			/*$2%s*/ ( $item['timestamp'] + get_option( 'gmt_offset' ) * 60 * 60 ),
-			/*$3%s*/ $this->row_actions( $actions )
+			/*$1%s*/
+			$item['due'],
+			/*$2%s*/
+			( $item['timestamp'] + get_option( 'gmt_offset' ) * 60 * 60 ),
+			/*$3%s*/
+			$this->row_actions( $actions )
 		);
 	}
 
 	/**
 	 * Display cron schedule column.
 	 *
-	 * @param array $item
+	 * @param array $item The item to be displayed in the row.
 	 */
 	public function column_col_cron_schedule( $item ) {
 		echo $item['schedule'];
@@ -135,7 +135,7 @@ class Cron_List_Table extends WP_List_Table {
 	/**
 	 * Display cron type column.
 	 *
-	 * @param array $item
+	 * @param array $item The item to be displayed in the row.
 	 */
 	public function column_col_cron_type( $item ) {
 		echo $item['type'];
@@ -144,13 +144,16 @@ class Cron_List_Table extends WP_List_Table {
 	/**
 	 * Display cron options column.
 	 *
-	 * @param array $item
+	 * @param array $item The item to be displayed in the row.
 	 */
 	public function column_col_cron_options( $item ) {
 		// TODO: Make it pretty
 		print_r( $item['args'] );
 	}
 
+	/**
+	 * Generates the message when no items are present.
+	 */
 	public function no_items() {
 		_e( 'You have not scheduled any bulk delete jobs.', 'bulk-delete' );
 	}

@@ -16,6 +16,8 @@
  */
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Controller;
+use BulkWP\BulkDelete\Core\Cron\Action;
+use BulkWP\BulkDelete\Core\Cron\CronListPage;
 use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
 use BulkWP\BulkDelete\Core\Metas\Metabox\DeleteCommentMetaMetabox;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
@@ -312,6 +314,9 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/Core/Metas/MetasMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Metas/Metabox/DeleteCommentMetaMetabox.php';
 
+		require_once self::$PLUGIN_DIR . '/include/Core/Cron/CronListPage.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Cron/CronListTable.php';
+
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/users/class-bd-user-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-base-page.php';
@@ -513,10 +518,12 @@ final class Bulk_Delete {
 			$posts_page = $this->get_delete_posts_admin_page();
 			$pages_page = $this->get_delete_pages_admin_page();
 			$metas_page = $this->get_delete_metas_admin_page();
+			$cron_list_page = $this->get_cron_list_admin_page();
 
 			$this->admin_pages[ $posts_page->get_page_slug() ] = $posts_page;
 			$this->admin_pages[ $pages_page->get_page_slug() ] = $pages_page;
 			$this->admin_pages[ $metas_page->get_page_slug() ] = $metas_page;
+			$this->admin_pages[ $cron_list_page->get_page_slug() ] = $cron_list_page;
 		}
 
 		/**
@@ -575,6 +582,19 @@ final class Bulk_Delete {
 	}
 
 	/**
+	 * Get the Cron List admin page.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Cron\CronListPage
+	 */
+	private function get_cron_list_admin_page() {
+		$cron_list_page = new CronListPage( $this->get_plugin_file() );
+
+		return $cron_list_page;
+	}
+
+	/**
 	 * Add navigation menu.
 	 */
 	public function load_legacy_menu() {
@@ -598,7 +618,6 @@ final class Bulk_Delete {
 		 */
 		do_action( 'bd_before_secondary_menus' );
 
-		$this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules', 'bulk-delete' ), __( 'Scheduled Jobs', 'bulk-delete' ), 'delete_posts'    , self::CRON_PAGE_SLUG , array( $this, 'display_cron_page' ) );
 		$this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Addon Licenses'       , 'bulk-delete' ), __( 'Addon Licenses', 'bulk-delete' ), 'activate_plugins', self::ADDON_PAGE_SLUG, array( 'BD_License', 'display_addon_page' ) );
 
 		/**
@@ -742,42 +761,6 @@ final class Bulk_Delete {
 		 * @since 5.0
 		 */
 		do_action( 'bd_admin_footer_posts_page' );
-	}
-
-	/**
-	 * Display the schedule page.
-	 */
-	public function display_cron_page() {
-		if ( ! class_exists( 'WP_List_Table' ) ) {
-			require_once ABSPATH . WPINC . '/class-wp-list-table.php';
-		}
-
-		if ( ! class_exists( 'Cron_List_Table' ) ) {
-			require_once self::$PLUGIN_DIR . '/include/cron/class-cron-list-table.php';
-		}
-
-		// Prepare Table of elements
-		$cron_list_table = new Cron_List_Table();
-		$cron_list_table->prepare_items();
-?>
-    <div class="wrap">
-        <h2><?php _e( 'Bulk Delete Schedules', 'bulk-delete' );?></h2>
-        <?php settings_errors(); ?>
-<?php
-		// Table of elements
-		$cron_list_table->display();
-		bd_display_available_addon_list();
-?>
-    </div>
-<?php
-		/**
-		 * Runs just before displaying the footer text in the "Schedules" admin page.
-		 *
-		 * This action is primarily for adding extra content in the footer of "Schedules" admin page.
-		 *
-		 * @since 5.0
-		 */
-		do_action( 'bd_admin_footer_cron_page' );
 	}
 
 	/**
