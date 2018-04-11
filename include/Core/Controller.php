@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0 Added namespace.
  */
 class Controller {
+
 	/**
 	 * Controller constructor.
 	 */
@@ -22,6 +23,10 @@ class Controller {
 		add_action( 'bd_before_scheduler', array( $this, 'increase_timeout' ), 9 );
 
 		add_filter( 'bd_get_action_nonce_check', array( $this, 'verify_get_request_nonce' ), 10, 2 );
+
+		if ( defined( 'BD_DEBUG' ) && BD_DEBUG ) {
+			add_action( 'bd_after_query', array( $this, 'log_sql_query' ) );
+		}
 	}
 
 	/**
@@ -117,5 +122,30 @@ class Controller {
 			// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
 			@set_time_limit( 0 );
 		}
+	}
+
+	/**
+	 * Log SQL query used by Bulk Delete.
+	 *
+	 * Query is logged only when `BD_DEBUG` is set.
+	 *
+	 * @since 5.6
+	 * @since 6.0.0 Moved into Controller class.
+	 *
+	 * @param \WP_Query $wp_query WP Query object.
+	 */
+	public function log_sql_query( $wp_query ) {
+		$query = $wp_query->request;
+
+		/**
+		 * Bulk Delete query is getting logged.
+		 *
+		 * @since 5.6
+		 *
+		 * @param string $query Bulk Delete SQL Query.
+		 */
+		do_action( 'bd_log_sql_query', $query );
+
+		error_log( 'Bulk Delete Query: ' . $query );
 	}
 }
