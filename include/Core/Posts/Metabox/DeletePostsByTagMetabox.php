@@ -84,34 +84,33 @@ class DeletePostsByTagMetabox extends PostsMetabox {
 	/**
 	 * Delete posts by tag.
 	 *
-	 * @param array $delete_options Options for deleting posts.
+	 * @param array $options Options for deleting posts.
 	 *
 	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
-	public function delete( $delete_options ) {
+	public function delete( $options ) {
 		$posts_deleted = 0;
 
 		// Backward compatibility code. Will be removed in Bulk Delete v6.0.
-		if ( array_key_exists( 'tags_op', $delete_options ) ) {
-			$delete_options['date_op'] = $delete_options['tags_op'];
-			$delete_options['days']    = $delete_options['tags_days'];
+		if ( array_key_exists( 'tags_op', $options ) ) {
+			$options['date_op'] = $options['tags_op'];
+			$options['days']    = $options['tags_days'];
 		}
 
-		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
+		$options = apply_filters( 'bd_delete_options', $options );
 
-		$options = array();
+		$query = array();
 
-		$selected_tags = $delete_options['selected_tags'];
-		if ( in_array( 'all', $selected_tags ) ) {
-			$options['tag__not__in'] = array( 0 );
+		if ( in_array( 'all', $options['selected_tags'], true ) ) {
+			$query['tag__not__in'] = array( 0 );
 		} else {
-			$options['tag__in'] = $selected_tags;
+			$query['tag__in'] = $options['selected_tags'];
 		}
 
-		$options  = bd_build_query_options( $delete_options, $options );
-		$post_ids = bd_query( $options );
+		$query    = bd_build_query_options( $options, $query );
+		$post_ids = bd_query( $query );
 		foreach ( $post_ids as $post_id ) {
-			wp_delete_post( $post_id, $delete_options['force_delete'] );
+			wp_delete_post( $post_id, $options['force_delete'] );
 		}
 
 		$posts_deleted += count( $post_ids );

@@ -85,26 +85,25 @@ class DeletePostsByCategoryMetabox extends PostsMetabox {
 	/**
 	 * Delete posts by category.
 	 *
-	 * @param array $delete_options Options for deleting posts.
+	 * @param array $options Options for deleting posts.
 	 *
 	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
-	public function delete( $delete_options ) {
-		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
+	public function delete( $options ) {
+		$options = apply_filters( 'bd_delete_options', $options );
 
-		$options       = array();
-		$selected_cats = $delete_options['selected_cats'];
+		$query = array();
 
-		if ( in_array( 'all', $selected_cats, true ) ) {
-			$options['category__not__in'] = array( 0 );
+		if ( in_array( 'all', $options['selected_cats'], true ) ) {
+			$query['category__not__in'] = array( 0 );
 		} else {
-			$options['category__in'] = $selected_cats;
+			$query['category__in'] = $options['selected_cats'];
 		}
 
-		$options  = bd_build_query_options( $delete_options, $options );
-		$post_ids = bd_query( $options );
+		$query    = bd_build_query_options( $options, $query );
+		$post_ids = bd_query( $query );
 
-		return $this->delete_posts_by_id( $post_ids, $delete_options['force_delete'] );
+		return $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
 	}
 
 	/**

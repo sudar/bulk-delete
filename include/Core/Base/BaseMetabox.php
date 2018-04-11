@@ -108,11 +108,11 @@ abstract class BaseMetabox extends Renderer {
 	/**
 	 * Perform the deletion.
 	 *
-	 * @param array $delete_options Array of Delete options.
+	 * @param array $options Array of Delete options.
 	 *
 	 * @return int Number of items that were deleted.
 	 */
-	abstract public function delete( $delete_options );
+	abstract public function delete( $options );
 
 	/**
 	 * Get Success Message.
