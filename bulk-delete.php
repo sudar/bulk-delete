@@ -16,7 +16,6 @@
  */
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Controller;
-use BulkWP\BulkDelete\Core\Cron\Action;
 use BulkWP\BulkDelete\Core\Cron\CronListPage;
 use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
 use BulkWP\BulkDelete\Core\Metas\Metabox\DeleteCommentMetaMetabox;
@@ -414,54 +413,6 @@ final class Bulk_Delete {
 	 */
 	private function setup_actions() {
 		add_action( 'admin_menu', array( $this, 'on_admin_menu' ) );
-
-		/**
-		 * This is Ajax hook, It's runs when user search categories or tags on bulk-delete-posts page.
-		 *
-		 * @since 6.0.0
-		 */
-		add_action( 'wp_ajax_bd_load_taxonomy_term', array( $this, 'load_taxonomy_term' ) );
-
-		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
-
-		add_filter( 'plugin_action_links', array( $this, 'filter_plugin_action_links' ), 10, 2 );
-	}
-
-	/**
-	 * Adds the settings link in the Plugin page.
-	 *
-	 * Based on http://striderweb.com/nerdaphernalia/2008/06/wp-use-action-links/.
-	 *
-	 * @staticvar string $this_plugin
-	 *
-	 * @param array  $action_links Action Links.
-	 * @param string $file         Plugin file name.
-	 *
-	 * @return array Modified links.
-	 */
-	public function filter_plugin_action_links( $action_links, $file ) {
-		static $this_plugin;
-
-		if ( ! $this_plugin ) {
-			$this_plugin = plugin_basename( $this->get_plugin_file() );
-		}
-
-		if ( $file == $this_plugin ) {
-			/**
-			 * Filter plugin action links added by Bulk Move.
-			 *
-			 * @since 6.0.0
-			 *
-			 * @param array Plugin Links.
-			 */
-			$bm_action_links = apply_filters( 'bd_plugin_action_links', array() );
-
-			if ( ! empty( $bm_action_links ) ) {
-				$action_links = array_merge( $bm_action_links, $action_links );
-			}
-		}
-
-		return $action_links;
 	}
 
 	/**
@@ -629,32 +580,6 @@ final class Bulk_Delete {
 
 		/* Enqueue WordPress' script for handling the meta boxes */
 		wp_enqueue_script( 'postbox' );
-	}
-
-	/**
-	 * Ajax call back function for getting taxonomies to load select2 options.
-	 *
-	 * @since 6.0.0
-	 */
-	public function load_taxonomy_term(){
-		$response = array();
-
-		$taxonomy = sanitize_text_field( $_GET['taxonomy'] );
-
-		$terms = get_terms( array(
-			'taxonomy'   => $taxonomy,
-			'hide_empty' => false,
-			'search'     => sanitize_text_field($_GET['q']),
-		) );
-
-		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
-			foreach ( $terms as $term ) {
-				$response[] = array( absint($term->term_id), $term->name . ' (' . $term->count . __( ' Posts', 'bulk-delete' ) . ')' );
-			}
-		}
-
-		echo json_encode( $response );
-		die;
 	}
 
 	/**
