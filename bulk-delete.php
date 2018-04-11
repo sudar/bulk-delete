@@ -400,6 +400,7 @@ final class Bulk_Delete {
 	 */
 	private function load_dependencies() {
 		$this->controller = new Controller();
+		$this->controller->load();
 	}
 
 	/**

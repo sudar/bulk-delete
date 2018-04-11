@@ -15,9 +15,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 class Controller {
 
 	/**
-	 * Controller constructor.
+	 * Load the controller and setup hooks and actions.
+	 *
+	 * @since 6.0.0
 	 */
-	public function __construct() {
+	public function load() {
 		add_action( 'admin_init', array( $this, 'request_handler' ) );
 		add_action( 'bd_pre_bulk_action', array( $this, 'increase_timeout' ), 9 );
 		add_action( 'bd_before_scheduler', array( $this, 'increase_timeout' ), 9 );
