@@ -16,6 +16,8 @@
  */
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Controller;
+use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
+use BulkWP\BulkDelete\Core\Metas\Metabox\DeleteCommentMetaMetabox;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
@@ -286,11 +288,15 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function includes() {
+		require_once self::$PLUGIN_DIR . '/include/Core/Base/Mixin/Fetcher.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Base/Mixin/Renderer.php';
+
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/BasePage.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/MetaboxPage.php';
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Pages/DeletePagesPage.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/DeletePostsPage.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Metas/DeleteMetasPage.php';
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/BaseMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Pages/PagesMetabox.php';
@@ -300,6 +306,9 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByStatusMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByCategoryMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByTagMetabox.php';
+
+		require_once self::$PLUGIN_DIR . '/include/Core/Metas/MetasMetabox.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Metas/Metabox/DeleteCommentMetaMetabox.php';
 
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/users/class-bd-user-meta-box-module.php';
@@ -317,10 +326,10 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-role.php';
 		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-meta.php';
 
-		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
-		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-post-meta.php';
-		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-user-meta.php';
-		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-comment-meta.php';
+//		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
+//		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-post-meta.php';
+//		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-user-meta.php';
+//		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-comment-meta.php';
 
 		require_once self::$PLUGIN_DIR . '/include/misc/class-bulk-delete-misc.php';
 		require_once self::$PLUGIN_DIR . '/include/misc/class-bulk-delete-jetpack-contact-form-messages.php';
@@ -501,9 +510,11 @@ final class Bulk_Delete {
 		if ( empty( $this->admin_pages ) ) {
 			$posts_page = $this->get_delete_posts_admin_page();
 			$pages_page = $this->get_delete_pages_admin_page();
+			$metas_page = $this->get_delete_metas_admin_page();
 
 			$this->admin_pages[ $posts_page->get_page_slug() ] = $posts_page;
 			$this->admin_pages[ $pages_page->get_page_slug() ] = $pages_page;
+			$this->admin_pages[ $metas_page->get_page_slug() ] = $metas_page;
 		}
 
 		/**
@@ -536,7 +547,7 @@ final class Bulk_Delete {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @return DeletePagesPage Bulk Move Post admin page.
+	 * @return \BulkWP\BulkDelete\Core\Pages\DeletePagesPage
 	 */
 	private function get_delete_pages_admin_page() {
 		$pages_page = new DeletePagesPage( $this->get_plugin_file() );
@@ -544,6 +555,21 @@ final class Bulk_Delete {
 		$pages_page->add_metabox( new DeletePagesByStatusMetabox() );
 
 		return $pages_page;
+	}
+
+	/**
+	 * Get Bulk Delete Metas admin page.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return BulkWP\BulkDelete\Core\Metas\DeleteMetasPage
+	 */
+	private function get_delete_metas_admin_page() {
+		$metas_page = new DeleteMetasPage( $this->get_plugin_file() );
+
+		$metas_page->add_metabox( new DeleteCommentMetaMetabox() );
+
+		return $metas_page;
 	}
 
 	/**

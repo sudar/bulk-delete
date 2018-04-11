@@ -33,11 +33,6 @@ class Controller {
 			$bd_action   = sanitize_text_field( $_POST['bd_action'] );
 			$nonce_valid = false;
 
-			if ( 'delete_meta_' === substr( $bd_action, 0, strlen( 'delete_meta_' ) )
-				&& check_admin_referer( 'sm-bulk-delete-meta', 'sm-bulk-delete-meta-nonce' ) ) {
-				$nonce_valid = true;
-			}
-
 			if ( 'delete_jetpack_messages' === $bd_action && wp_verify_nonce( $_POST['sm-bulk-delete-misc-nonce'], 'sm-bulk-delete-misc' ) ) {
 				$nonce_valid = true;
 			}
