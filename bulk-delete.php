@@ -288,6 +288,8 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function includes() {
+		require_once self::$PLUGIN_DIR . '/include/helpers/common.php';
+
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/Mixin/Fetcher.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/Mixin/Renderer.php';
 
