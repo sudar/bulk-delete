@@ -208,12 +208,14 @@ function bd_get_post_types() {
  * @return \WP_Post_Type[] List of post type objects.
  */
 function bd_get_post_type_objects() {
-	$types = get_post_types( array( '_builtin' => false ), 'objects' );
+	$custom_types = get_post_types( array( '_builtin' => false ), 'objects' );
 
-	$types['post'] = get_post_type_object( 'post' );
-	$types['page'] = get_post_type_object( 'page' );
+	$builtin_types = array(
+		'post' => get_post_type_object( 'post' ),
+		'page' => get_post_type_object( 'page' ),
+	);
 
-	return $types;
+	return array_merge( $builtin_types, $custom_types );
 }
 
 /**

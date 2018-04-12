@@ -253,6 +253,9 @@ abstract class BasePage {
 	 * Render page header.
 	 */
 	protected function render_header() {
+		if ( empty( $this->messages['warning_message'] ) ) {
+			return;
+		}
 ?>
 		<div class="notice notice-warning">
 			<p>
