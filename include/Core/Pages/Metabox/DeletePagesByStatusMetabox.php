@@ -98,16 +98,7 @@ class DeletePagesByStatusMetabox extends PagesMetabox {
 		return $options;
 	}
 
-	public function delete( $options ) {
-		global $wp_query;
-
-		/**
-		 * Filter Delete options.
-		 *
-		 * @param array $options Delete options.
-		 */
-		$options = apply_filters( 'bd_delete_options', $options );
-
+	protected function build_query( $options ) {
 		$post_status = array();
 
 		// published pages
@@ -140,13 +131,7 @@ class DeletePagesByStatusMetabox extends PagesMetabox {
 			'post_status' => $post_status,
 		);
 
-		$query = bd_build_query_options( $options, $query );
-		$pages = $wp_query->query( $query );
-		foreach ( $pages as $page ) {
-			wp_delete_post( $page->ID, $options['force_delete'] );
-		}
-
-		return count( $pages );
+		return $query;
 	}
 
 	protected function get_success_message( $items_deleted ) {

@@ -296,19 +296,19 @@ final class Bulk_Delete {
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/BasePage.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/MetaboxPage.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Base/BaseMetabox.php';
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Pages/DeletePagesPage.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/DeletePostsPage.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Metas/DeleteMetasPage.php';
 
-		require_once self::$PLUGIN_DIR . '/include/Core/Base/BaseMetabox.php';
-		require_once self::$PLUGIN_DIR . '/include/Core/Pages/PagesMetabox.php';
-		require_once self::$PLUGIN_DIR . '/include/Core/Pages/Metabox/DeletePagesByStatusMetabox.php';
-
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/PostsMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByStatusMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByCategoryMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByTagMetabox.php';
+
+		require_once self::$PLUGIN_DIR . '/include/Core/Pages/PagesMetabox.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Pages/Metabox/DeletePagesByStatusMetabox.php';
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Metas/MetasMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Metas/Metabox/DeleteCommentMetaMetabox.php';
