@@ -6,7 +6,6 @@
  *
  * @since 6.0.0 File created.
  */
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**

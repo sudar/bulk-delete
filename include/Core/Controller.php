@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0 Added namespace.
  */
 class Controller {
-
 	/**
 	 * Load the controller and setup hooks and actions.
 	 *

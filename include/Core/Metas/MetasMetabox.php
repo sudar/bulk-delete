@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class MetasMetabox extends BaseMetabox {
-
 	protected $item_type = 'metas';
 
 	protected function render_restrict_settings() {

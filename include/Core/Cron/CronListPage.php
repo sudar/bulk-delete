@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class CronListPage extends BasePage {
-
 	public function register() {
 		parent::register();
 

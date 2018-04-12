@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class Renderer extends Fetcher {
-
 	/**
 	 * Render Post Types as radio buttons.
 	 */
