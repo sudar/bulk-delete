@@ -16,6 +16,9 @@
  */
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Controller;
+use BulkWP\BulkDelete\Core\Cron\CronListPage;
+use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
+use BulkWP\BulkDelete\Core\Metas\Metabox\DeleteCommentMetaMetabox;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
@@ -287,21 +290,33 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	private function includes() {
+		require_once self::$PLUGIN_DIR . '/include/helpers/common.php';
+
+		require_once self::$PLUGIN_DIR . '/include/Core/Base/Mixin/Fetcher.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Base/Mixin/Renderer.php';
+
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/BasePage.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Base/MetaboxPage.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Base/BaseMetabox.php';
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Pages/DeletePagesPage.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/DeletePostsPage.php';
-
-		require_once self::$PLUGIN_DIR . '/include/Core/Base/BaseMetabox.php';
-		require_once self::$PLUGIN_DIR . '/include/Core/Pages/PagesMetabox.php';
-		require_once self::$PLUGIN_DIR . '/include/Core/Pages/Metabox/DeletePagesByStatusMetabox.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Metas/DeleteMetasPage.php';
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/PostsMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByStatusMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByCategoryMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByTagMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByPostTypeMetabox.php';
+
+		require_once self::$PLUGIN_DIR . '/include/Core/Pages/PagesMetabox.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Pages/Metabox/DeletePagesByStatusMetabox.php';
+
+		require_once self::$PLUGIN_DIR . '/include/Core/Metas/MetasMetabox.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Metas/Metabox/DeleteCommentMetaMetabox.php';
+
+		require_once self::$PLUGIN_DIR . '/include/Core/Cron/CronListPage.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Cron/CronListTable.php';
 
 		require_once self::$PLUGIN_DIR . '/include/base/class-bd-meta-box-module.php';
 		require_once self::$PLUGIN_DIR . '/include/base/users/class-bd-user-meta-box-module.php';
@@ -319,10 +334,10 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-role.php';
 		require_once self::$PLUGIN_DIR . '/include/users/modules/class-bulk-delete-users-by-user-meta.php';
 
-		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
-		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-post-meta.php';
-		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-user-meta.php';
-		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-comment-meta.php';
+//		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-meta.php';
+//		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-post-meta.php';
+//		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-user-meta.php';
+//		require_once self::$PLUGIN_DIR . '/include/meta/class-bulk-delete-comment-meta.php';
 
 		require_once self::$PLUGIN_DIR . '/include/misc/class-bulk-delete-misc.php';
 		require_once self::$PLUGIN_DIR . '/include/misc/class-bulk-delete-jetpack-contact-form-messages.php';
@@ -386,6 +401,7 @@ final class Bulk_Delete {
 	 */
 	private function load_dependencies() {
 		$this->controller = new Controller();
+		$this->controller->load();
 	}
 
 	/**
@@ -399,82 +415,6 @@ final class Bulk_Delete {
 	 */
 	private function setup_actions() {
 		add_action( 'admin_menu', array( $this, 'on_admin_menu' ) );
-
-		/**
-		 * This is Ajax hook, It's runs when user search categories or tags on bulk-delete-posts page.
-		 *
-		 * @since 6.0.0
-		 */
-		add_action( 'wp_ajax_bd_load_taxonomy_term', array( $this, 'load_taxonomy_term' ) );
-
-		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
-
-		add_filter( 'plugin_action_links', array( $this, 'filter_plugin_action_links' ), 10, 2 );
-
-		if ( defined( 'BD_DEBUG' ) && BD_DEBUG ) {
-			add_action( 'bd_after_query', array( $this, 'log_sql_query' ) );
-		}
-	}
-
-	/**
-	 * Adds the settings link in the Plugin page.
-	 *
-	 * Based on http://striderweb.com/nerdaphernalia/2008/06/wp-use-action-links/.
-	 *
-	 * @staticvar string $this_plugin
-	 *
-	 * @param array  $action_links Action Links.
-	 * @param string $file         Plugin file name.
-	 *
-	 * @return array Modified links.
-	 */
-	public function filter_plugin_action_links( $action_links, $file ) {
-		static $this_plugin;
-
-		if ( ! $this_plugin ) {
-			$this_plugin = plugin_basename( $this->get_plugin_file() );
-		}
-
-		if ( $file == $this_plugin ) {
-			/**
-			 * Filter plugin action links added by Bulk Move.
-			 *
-			 * @since 6.0.0
-			 *
-			 * @param array Plugin Links.
-			 */
-			$bm_action_links = apply_filters( 'bd_plugin_action_links', array() );
-
-			if ( ! empty( $bm_action_links ) ) {
-				$action_links = array_merge( $bm_action_links, $action_links );
-			}
-		}
-
-		return $action_links;
-	}
-
-	/**
-	 * Log SQL query used by Bulk Delete.
-	 *
-	 * Query is logged only when `BD_DEBUG` is set.
-	 *
-	 * @since 5.6
-	 *
-	 * @param \WP_Query $wp_query WP Query object.
-	 */
-	public function log_sql_query( $wp_query ) {
-		$query = $wp_query->request;
-
-		/**
-		 * Bulk Delete query is getting logged.
-		 *
-		 * @since 5.6
-		 *
-		 * @param string $query Bulk Delete SQL Query.
-		 */
-		do_action( 'bd_log_sql_query', $query );
-
-		error_log( 'Bulk Delete Query: ' . $query );
 	}
 
 	/**
@@ -501,11 +441,15 @@ final class Bulk_Delete {
 	 */
 	private function get_admin_pages() {
 		if ( empty( $this->admin_pages ) ) {
-			$posts_page = $this->get_delete_posts_admin_page();
-			$pages_page = $this->get_delete_pages_admin_page();
+			$posts_page     = $this->get_delete_posts_admin_page();
+			$pages_page     = $this->get_delete_pages_admin_page();
+			$metas_page     = $this->get_delete_metas_admin_page();
+			$cron_list_page = $this->get_cron_list_admin_page();
 
-			$this->admin_pages[ $posts_page->get_page_slug() ] = $posts_page;
-			$this->admin_pages[ $pages_page->get_page_slug() ] = $pages_page;
+			$this->admin_pages[ $posts_page->get_page_slug() ]     = $posts_page;
+			$this->admin_pages[ $pages_page->get_page_slug() ]     = $pages_page;
+			$this->admin_pages[ $metas_page->get_page_slug() ]     = $metas_page;
+			$this->admin_pages[ $cron_list_page->get_page_slug() ] = $cron_list_page;
 		}
 
 		/**
@@ -539,7 +483,7 @@ final class Bulk_Delete {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @return DeletePagesPage Bulk Move Post admin page.
+	 * @return \BulkWP\BulkDelete\Core\Pages\DeletePagesPage
 	 */
 	private function get_delete_pages_admin_page() {
 		$pages_page = new DeletePagesPage( $this->get_plugin_file() );
@@ -547,6 +491,34 @@ final class Bulk_Delete {
 		$pages_page->add_metabox( new DeletePagesByStatusMetabox() );
 
 		return $pages_page;
+	}
+
+	/**
+	 * Get Bulk Delete Metas admin page.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return BulkWP\BulkDelete\Core\Metas\DeleteMetasPage
+	 */
+	private function get_delete_metas_admin_page() {
+		$metas_page = new DeleteMetasPage( $this->get_plugin_file() );
+
+		$metas_page->add_metabox( new DeleteCommentMetaMetabox() );
+
+		return $metas_page;
+	}
+
+	/**
+	 * Get the Cron List admin page.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Cron\CronListPage
+	 */
+	private function get_cron_list_admin_page() {
+		$cron_list_page = new CronListPage( $this->get_plugin_file() );
+
+		return $cron_list_page;
 	}
 
 	/**
@@ -573,7 +545,6 @@ final class Bulk_Delete {
 		 */
 		do_action( 'bd_before_secondary_menus' );
 
-		$this->cron_page  = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Bulk Delete Schedules', 'bulk-delete' ), __( 'Scheduled Jobs', 'bulk-delete' ), 'delete_posts'    , self::CRON_PAGE_SLUG , array( $this, 'display_cron_page' ) );
 		$this->addon_page = add_submenu_page( self::POSTS_PAGE_SLUG, __( 'Addon Licenses'       , 'bulk-delete' ), __( 'Addon Licenses', 'bulk-delete' ), 'activate_plugins', self::ADDON_PAGE_SLUG, array( 'BD_License', 'display_addon_page' ) );
 
 		/**
@@ -612,32 +583,6 @@ final class Bulk_Delete {
 
 		/* Enqueue WordPress' script for handling the meta boxes */
 		wp_enqueue_script( 'postbox' );
-	}
-
-	/**
-	 * Ajax call back function for getting taxonomies to load select2 options.
-	 *
-	 * @since 6.0.0
-	 */
-	public function load_taxonomy_term(){
-		$response = array();
-
-		$taxonomy = sanitize_text_field( $_GET['taxonomy'] );
-
-		$terms = get_terms( array(
-			'taxonomy'   => $taxonomy,
-			'hide_empty' => false,
-			'search'     => sanitize_text_field($_GET['q']),
-		) );
-
-		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
-			foreach ( $terms as $term ) {
-				$response[] = array( absint($term->term_id), $term->name . ' (' . $term->count . __( ' Posts', 'bulk-delete' ) . ')' );
-			}
-		}
-
-		echo json_encode( $response );
-		die;
 	}
 
 	/**
@@ -717,42 +662,6 @@ final class Bulk_Delete {
 		 * @since 5.0
 		 */
 		do_action( 'bd_admin_footer_posts_page' );
-	}
-
-	/**
-	 * Display the schedule page.
-	 */
-	public function display_cron_page() {
-		if ( ! class_exists( 'WP_List_Table' ) ) {
-			require_once ABSPATH . WPINC . '/class-wp-list-table.php';
-		}
-
-		if ( ! class_exists( 'Cron_List_Table' ) ) {
-			require_once self::$PLUGIN_DIR . '/include/cron/class-cron-list-table.php';
-		}
-
-		// Prepare Table of elements
-		$cron_list_table = new Cron_List_Table();
-		$cron_list_table->prepare_items();
-?>
-    <div class="wrap">
-        <h2><?php _e( 'Bulk Delete Schedules', 'bulk-delete' );?></h2>
-        <?php settings_errors(); ?>
-<?php
-		// Table of elements
-		$cron_list_table->display();
-		bd_display_available_addon_list();
-?>
-    </div>
-<?php
-		/**
-		 * Runs just before displaying the footer text in the "Schedules" admin page.
-		 *
-		 * This action is primarily for adding extra content in the footer of "Schedules" admin page.
-		 *
-		 * @since 5.0
-		 */
-		do_action( 'bd_admin_footer_cron_page' );
 	}
 
 	/**

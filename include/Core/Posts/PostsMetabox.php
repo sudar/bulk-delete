@@ -11,6 +11,17 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class PostsMetabox extends BaseMetabox {
+	/**
+	 * Build query params for WP_Query by using delete options.
+	 *
+	 * Return an empty query array to short-circuit deletion.
+	 *
+	 * @param array $options Delete options.
+	 *
+	 * @return array Query.
+	 */
+	abstract protected function build_query( $options );
+
 	protected $item_type = 'posts';
 
 	public function filter_js_array( $js_array ) {
@@ -36,6 +47,42 @@ abstract class PostsMetabox extends BaseMetabox {
 		$js_array['dt_iterators'][] = '_post_status';
 
 		return $js_array;
+	}
+
+	public function delete( $options ) {
+		/**
+		 * Filter delete options before deleting posts.
+		 *
+		 * @since 6.0.0 Added `Metabox` parameter.
+		 *
+		 * @param array $options Delete options.
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox Metabox that is triggering deletion.
+		 */
+		$options = apply_filters( 'bd_delete_options', $options, $this );
+
+		$query = $this->build_query( $options );
+
+		if ( empty( $query ) ) {
+			// Short circuit deletion, if nothing needs to be deleted.
+			return 0;
+		}
+
+		return $this->delete_posts_from_query( $query, $options );
+	}
+
+	/**
+	 * Build the query using query params and then Delete posts.
+	 *
+	 * @param array $query   Params for WP Query.
+	 * @param array $options Delete Options.
+	 *
+	 * @return int Number of posts deleted.
+	 */
+	protected function delete_posts_from_query( $query, $options ) {
+		$query    = bd_build_query_options( $options, $query );
+		$post_ids = bd_query( $query );
+
+		return $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
 	}
 
 	/**
