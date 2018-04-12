@@ -439,14 +439,14 @@ final class Bulk_Delete {
 	 */
 	private function get_admin_pages() {
 		if ( empty( $this->admin_pages ) ) {
-			$posts_page = $this->get_delete_posts_admin_page();
-			$pages_page = $this->get_delete_pages_admin_page();
-			$metas_page = $this->get_delete_metas_admin_page();
+			$posts_page     = $this->get_delete_posts_admin_page();
+			$pages_page     = $this->get_delete_pages_admin_page();
+			$metas_page     = $this->get_delete_metas_admin_page();
 			$cron_list_page = $this->get_cron_list_admin_page();
 
-			$this->admin_pages[ $posts_page->get_page_slug() ] = $posts_page;
-			$this->admin_pages[ $pages_page->get_page_slug() ] = $pages_page;
-			$this->admin_pages[ $metas_page->get_page_slug() ] = $metas_page;
+			$this->admin_pages[ $posts_page->get_page_slug() ]     = $posts_page;
+			$this->admin_pages[ $pages_page->get_page_slug() ]     = $pages_page;
+			$this->admin_pages[ $metas_page->get_page_slug() ]     = $metas_page;
 			$this->admin_pages[ $cron_list_page->get_page_slug() ] = $cron_list_page;
 		}
 

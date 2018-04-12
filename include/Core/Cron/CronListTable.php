@@ -14,7 +14,6 @@ if ( ! class_exists( '\WP_List_Table' ) ) {
  * @since 6.0.0 Added namespace.
  */
 class CronListTable extends \WP_List_Table {
-
 	/**
 	 * Constructor for creating new CronListTable.
 	 *
