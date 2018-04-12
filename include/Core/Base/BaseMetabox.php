@@ -267,7 +267,7 @@ abstract class BaseMetabox extends Renderer {
 		$options = $this->parse_common_filters( $request );
 		$options = $this->convert_user_input_to_options( $request, $options );
 
-		$cron_options = $this->parse_cron_request( $request );
+		$cron_options = $this->parse_cron_filters( $request );
 
 		if ( $this->is_scheduled( $cron_options ) ) {
 			$msg = $this->schedule_deletion( $cron_options, $options );
@@ -379,7 +379,7 @@ abstract class BaseMetabox extends Renderer {
 	 *
 	 * @return array Parsed cron option.
 	 */
-	protected function parse_cron_request( $request ) {
+	protected function parse_cron_filters( $request ) {
 		$cron_options = array(
 			'is_scheduled' => false,
 		);
