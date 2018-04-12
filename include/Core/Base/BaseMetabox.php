@@ -264,7 +264,7 @@ abstract class BaseMetabox extends Renderer {
 	 * @param array $request Request array.
 	 */
 	public function process( $request ) {
-		$options = $this->parse_filters( $request );
+		$options = $this->parse_common_filters( $request );
 		$options = $this->convert_user_input_to_options( $request, $options );
 
 		$cron_options = $this->parse_cron_request( $request );
@@ -359,7 +359,7 @@ abstract class BaseMetabox extends Renderer {
 	 *
 	 * @return array User options.
 	 */
-	protected function parse_filters( $request ) {
+	protected function parse_common_filters( $request ) {
 		$options = array();
 
 		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
