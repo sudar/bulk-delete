@@ -88,35 +88,34 @@ class DeletePostsByStatusMetabox extends PostsMetabox {
 		return $options;
 	}
 
-	public function delete( $delete_options ) {
-		$delete_options = bd_convert_old_options_for_delete_post_by_status( $delete_options );
-		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
+	/**
+	 * Delete Sticky post in addition to posts by status.
+	 *
+	 * @param array $options Delete options.
+	 *
+	 * @return int Number of posts deleted.
+	 */
+	public function delete( $options ) {
+		$posts_deleted = parent::delete( $options );
 
-		$posts_deleted = 0;
-
-		if ( isset( $delete_options['delete-sticky-posts'] ) ) {
-			$posts_deleted += $this->delete_sticky_posts( $delete_options['force_delete'] );
+		if ( isset( $options['delete-sticky-posts'] ) ) {
+			$posts_deleted += $this->delete_sticky_posts( $options['force_delete'] );
 		}
 
-		if ( empty( $delete_options['post_status'] ) ) {
-			return $posts_deleted;
+		return $posts_deleted;
+	}
+
+	protected function build_query( $options ) {
+		if ( empty( $options['post_status'] ) ) {
+			return array();
 		}
 
-		$options = array(
-			'post_status'  => $delete_options['post_status'],
+		$query = array(
+			'post_status'  => $options['post_status'],
 			'post__not_in' => get_option( 'sticky_posts' ),
 		);
 
-		$options = bd_build_query_options( $delete_options, $options );
-
-		$post_ids = bd_query( $options );
-		foreach ( $post_ids as $post_id ) {
-			wp_delete_post( $post_id, $delete_options['force_delete'] );
-		}
-
-		$posts_deleted += count( $post_ids );
-
-		return $posts_deleted;
+		return $query;
 	}
 
 	protected function get_success_message( $items_deleted ) {
