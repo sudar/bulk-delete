@@ -225,4 +225,19 @@ class Controller {
 
 		error_log( 'Bulk Delete Query: ' . $query );
 	}
+
+	/**
+	 * Temporary fix to get plugin file.
+	 *
+	 * TODO: Remove this method from this class.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return string
+	 */
+	private function get_plugin_file() {
+		$bd = BULK_DELETE();
+
+		return $bd->get_plugin_file();
+	}
 }
