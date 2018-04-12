@@ -73,7 +73,7 @@ abstract class PostsMetabox extends BaseMetabox {
 	/**
 	 * Build the query using query params and then Delete posts.
 	 *
-	 * @param array $query Params for WP Query.
+	 * @param array $query   Params for WP Query.
 	 * @param array $options Delete Options.
 	 *
 	 * @return int Number of posts deleted.
