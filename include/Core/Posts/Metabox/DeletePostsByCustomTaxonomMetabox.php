@@ -7,7 +7,7 @@ use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Status Metabox.
+ * Delete Posts by Cudtom Taxonomy Metabox.
  *
  * @since 6.0.0
  */
@@ -49,7 +49,7 @@ class DeletePostsByCustomTaxonomMetabox extends PostsMetabox {
 
         <fieldset class="options">
             <table class="optiontable">
-				<?php bd_render_post_type_dropdown( 'tax' ); ?>
+				<?php $this->render_post_type_dropdown(); ?>
             </table>
 
             <h4><?php _e( 'Select the taxonomies from which you want to delete posts', 'bulk-delete' ) ?></h4>
@@ -120,32 +120,19 @@ class DeletePostsByCustomTaxonomMetabox extends PostsMetabox {
 		$options['post_type']          = bd_array_get( $request, 'smbd_tax_post_type', 'post' );
 		$options['selected_taxs']      = bd_array_get( $request, 'smbd_taxs' );
 		$options['selected_tax_terms'] = bd_array_get( $request, 'smbd_tax_terms' );
-		$options['restrict']           = bd_array_get_bool( $request, 'smbd_taxs_restrict', false );
-		$options['private']            = bd_array_get_bool( $request, 'smbd_taxs_private' );
-		$options['limit_to']           = absint( bd_array_get( $request, 'smbd_taxs_limit_to', 0 ) );
-		$options['force_delete']       = bd_array_get_bool( $request, 'smbd_taxs_force_delete', false );
-
-		$options['date_op']            = bd_array_get( $request, 'smbd_taxs_op' );
-		$options['days']               = absint( bd_array_get( $request, 'smbd_taxs_days' ) );
 
 		return $options;
 	}
 
 	public function delete( $delete_options ) {
-		if ( bd_array_get( $_POST, 'smbd_taxs_cron', 'false' ) == 'true' ) {
-			$freq = $_POST['smbd_taxs_cron_freq'];
-			$time = strtotime( $_POST['smbd_taxs_cron_start'] ) - ( get_option( 'gmt_offset' ) * 60 * 60 );
+		$delete_options = bd_convert_old_options_for_delete_post_by_status( $delete_options );
+		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
-			if ( $freq == -1 ) {
-				wp_schedule_single_event( $time, Bulk_Delete::CRON_HOOK_TAXONOMY, array( $delete_options ) );
-			} else {
-				wp_schedule_event( $time, $freq, Bulk_Delete::CRON_HOOK_TAXONOMY, array( $delete_options ) );
-			}
-			$msg = __( 'Posts from the selected custom taxonomies are scheduled for deletion.', 'bulk-delete' ) . ' ' .
-				sprintf( __( 'See the full list of <a href = "%s">scheduled tasks</a>' , 'bulk-delete' ), get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . Bulk_Delete::CRON_PAGE_SLUG );
-		} else {
-			return $deleted_count = $this->delete_posts_by_taxonomy( $delete_options );
-		}
+		$options        = array();
+		$options        = bd_build_query_options( $delete_options, $options );
+		$post_ids       = bd_query( $options );
+
+		return $this->delete_posts_by_id( $post_ids, $delete_options['force_delete'] );
 	}
 
 	public static function delete_posts_by_taxonomy( $delete_options ) {
