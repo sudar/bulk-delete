@@ -88,16 +88,16 @@ class BaseMetaboxTest extends WPCoreUnitTestCase {
 	 *
 	 * @throws \ReflectionException Throws an exception if something went wrong trying to access protected property.
 	 *
-	 * @dataProvider provide_data_to_test_parse_cron_request_method
+	 * @dataProvider provide_data_to_test_parse_cron_filters_method
 	 */
-	public function test_parse_cron_request( $field_slug, $input, $expected_output ) {
+	public function test_parse_cron_filters( $field_slug, $input, $expected_output ) {
 		$stub = $this->getMockForAbstractClass( $this->class_name );
 
 		$property_name = 'field_slug';
 
 		$this->set_protected_property( $stub, $property_name, $field_slug );
 
-		$output = $this->invoke_protected_method( $stub, 'parse_cron_request', array( $input ) );
+		$output = $this->invoke_protected_method( $stub, 'parse_cron_filters', array( $input ) );
 
 		$this->assertEquals( $expected_output, $output );
 	}
@@ -105,11 +105,11 @@ class BaseMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Data provider to test `parse_cron_request` method.
 	 *
-	 * @see BaseMetaboxTest::test_parse_cron_request() To see how the data is used.
+	 * @see BaseMetaboxTest::parse_cron_filters() To see how the data is used.
 	 *
 	 * @return array Data.
 	 */
-	public function provide_data_to_test_parse_cron_request_method() {
+	public function provide_data_to_test_parse_cron_filters_method() {
 		$test_data = array(
 			array( 'some_slug', array( 'smbd_some_slug_cron' => 'false' ), array( 'is_scheduled' => false ) ),
 			array( 'some_slug', array( 'smbd_some_slug_cron' => false ), array( 'is_scheduled' => false ) ),

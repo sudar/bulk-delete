@@ -98,55 +98,40 @@ class DeletePagesByStatusMetabox extends PagesMetabox {
 		return $options;
 	}
 
-	public function delete( $delete_options ) {
-		global $wp_query;
-
-		/**
-		 * Filter Delete options.
-		 *
-		 * @param array $delete_options Delete options.
-		 */
-		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
-
+	protected function build_query( $options ) {
 		$post_status = array();
 
 		// published pages
-		if ( 'published_pages' == $delete_options['publish'] ) {
+		if ( 'published_pages' == $options['publish'] ) {
 			$post_status[] = 'publish';
 		}
 
 		// Drafts
-		if ( 'draft_pages' == $delete_options['drafts'] ) {
+		if ( 'draft_pages' == $options['drafts'] ) {
 			$post_status[] = 'draft';
 		}
 
 		// Pending pages
-		if ( 'pending_pages' == $delete_options['pending'] ) {
+		if ( 'pending_pages' == $options['pending'] ) {
 			$post_status[] = 'pending';
 		}
 
 		// Future pages
-		if ( 'future_pages' == $delete_options['future'] ) {
+		if ( 'future_pages' == $options['future'] ) {
 			$post_status[] = 'future';
 		}
 
 		// Private pages
-		if ( 'private_pages' == $delete_options['private'] ) {
+		if ( 'private_pages' == $options['private'] ) {
 			$post_status[] = 'private';
 		}
 
-		$options = array(
+		$query = array(
 			'post_type'   => 'page',
 			'post_status' => $post_status,
 		);
 
-		$options = bd_build_query_options( $delete_options, $options );
-		$pages   = $wp_query->query( $options );
-		foreach ( $pages as $page ) {
-			wp_delete_post( $page->ID, $delete_options['force_delete'] );
-		}
-
-		return count( $pages );
+		return $query;
 	}
 
 	protected function get_success_message( $items_deleted ) {
