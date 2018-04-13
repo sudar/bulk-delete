@@ -95,6 +95,15 @@ final class BulkDelete {
 	const VERSION = '5.6.1';
 
 	/**
+	 * Set the BulkDelete constructor as private.
+	 *
+	 * An instance should be created by calling the `get_instance` method.
+	 *
+	 * @see BulkDelete::get_instance()
+	 */
+	private function __construct() {}
+
+	/**
 	 * Main BulkDelete Instance.
 	 *
 	 * Insures that only one instance of BulkDelete exists in memory at any one
@@ -104,7 +113,7 @@ final class BulkDelete {
 	 * @static
 	 * @staticvar array $instance
 	 *
-	 * @return BulkDelete The one true instance of BulkDelete
+	 * @return BulkDelete The one true instance of BulkDelete.
 	 */
 	public static function get_instance() {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof BulkDelete ) ) {

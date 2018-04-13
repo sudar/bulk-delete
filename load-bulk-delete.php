@@ -38,7 +38,7 @@ function bulk_delete_load( $plugin_file ) {
 
 	$loader->register();
 
-	$plugin = new BulkDelete();
+	$plugin = BulkDelete::get_instance();
 	$plugin->set_plugin_file( $plugin_file );
 	$plugin->set_loader( $loader );
 
