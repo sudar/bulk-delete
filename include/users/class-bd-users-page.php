@@ -29,9 +29,15 @@ class BD_Users_Page extends BD_Page  {
 
 		if ( ! $instance ) {
 			$instance = new self;
+			$instance->load_modules();
 		}
 
 		return $instance;
+	}
+
+	protected function load_modules() {
+		Bulk_Delete_Users_By_User_Meta::factory();
+		Bulk_Delete_Users_By_User_Role::factory();
 	}
 
 	/**

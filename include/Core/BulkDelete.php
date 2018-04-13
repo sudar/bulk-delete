@@ -281,9 +281,9 @@ final class BulkDelete {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @return BasePage[] List of Admin pages.
+	 * @return \BulkWP\BulkDelete\Core\Base\MetaboxPage[] List of Primary Admin pages.
 	 */
-	private function get_primary_pages() {
+	public function get_primary_pages() {
 		if ( empty( $this->primary_pages ) ) {
 			$posts_page = $this->get_delete_posts_admin_page();
 			$pages_page = $this->get_delete_pages_admin_page();
@@ -299,7 +299,7 @@ final class BulkDelete {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param BasePage[] List of Admin pages.
+		 * @param \BulkWP\BulkDelete\Core\Base\MetaboxPage[] List of Admin pages.
 		 */
 		return apply_filters( 'bd_primary_pages', $this->primary_pages );
 	}

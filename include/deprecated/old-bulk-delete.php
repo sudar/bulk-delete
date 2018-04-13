@@ -6,6 +6,8 @@
  * Don't depend on functionality from this class.
  */
 
+use BulkWP\BulkDelete\Core\BulkDelete;
+
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
@@ -184,6 +186,20 @@ final class Bulk_Delete {
 	 */
 	public function get_plugin_file() {
 		return $this->plugin_file;
+	}
+
+	/**
+	 * Monkey patch the old `add_script` method.
+	 *
+	 * @since 6.0.0
+	 */
+	public function add_script() {
+		$bd = BulkDelete::get_instance();
+
+		$primary_pages = $bd->get_primary_pages();
+		$post_page = $primary_pages[ self::POSTS_PAGE_SLUG ];
+
+		$post_page->enqueue_assets();
 	}
 }
 
