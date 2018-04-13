@@ -95,5 +95,3 @@ class BD_Users_Page extends BD_Page  {
 		return $help_tabs;
 	}
 }
-
-BD_Users_Page::factory();
