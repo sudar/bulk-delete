@@ -54,22 +54,23 @@ class DeletePostsByURLMetabox extends PostsMetabox {
 	}
 
 	public function delete( $delete_options ) {
+		$post_ids = array();
+
 		foreach ( $delete_options['urls'] as $url ) {
-			$checkedurl = $url;
-			if ( substr( $checkedurl , 0, 1 ) == '/' ) {
-				$checkedurl = get_site_url() . $checkedurl ;
+			if ( substr( $url, 0, 1 ) == '/' ) {
+				$post_ids[] = url_to_postid( get_site_url() . $url );
 			}
-			$postid = url_to_postid( $checkedurl );
-			wp_delete_post( $postid, $delete_options['force_delete'] );
 		}
 
-		$deleted_count = count( $delete_options['urls'] );
-
-		return $deleted_count;
+		return $this->delete_posts_by_id( $post_ids, $delete_options['force_delete'] );
 	}
 
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
+	}
+
+	protected function build_query( $options ) {
+		// Left empty on purpose.
 	}
 }

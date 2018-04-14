@@ -200,6 +200,3 @@ class Bulk_Delete_Users_By_User_Meta extends BD_User_Meta_Box_Module {
 		return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->prefix}usermeta ORDER BY meta_key" );
 	}
 }
-
-Bulk_Delete_Users_By_User_Meta::factory();
-?>
