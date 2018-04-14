@@ -159,6 +159,3 @@ class Bulk_Delete_Users_By_User_Role extends BD_User_Meta_Box_Module {
 		return $js_array;
 	}
 }
-
-Bulk_Delete_Users_By_User_Role::factory();
-?>
