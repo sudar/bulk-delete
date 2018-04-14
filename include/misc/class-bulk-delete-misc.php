@@ -58,7 +58,6 @@ class Bulk_Delete_Misc {
 
 		// cron hooks
 		add_action( Bulk_Delete_Jetpack_Contact_Form_Message::CRON_HOOK, array( 'Bulk_Delete_Jetpack_Contact_Form_Message', 'do_delete_jetpack_messages_cron' ), 10, 1 );
-
 	}
 
 	/**

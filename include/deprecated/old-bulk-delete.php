@@ -5,7 +5,6 @@
  * This class is deprecated since 6.0.0. But included here for backward compatibility.
  * Don't depend on functionality from this class.
  */
-
 use BulkWP\BulkDelete\Core\BulkDelete;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -17,7 +16,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0 Deprecated.
  */
 final class Bulk_Delete {
-
 	/**
 	 * The one true Bulk_Delete instance.
 	 *
@@ -175,7 +173,7 @@ final class Bulk_Delete {
 	public function set_plugin_file( $plugin_file ) {
 		$this->plugin_file = $plugin_file;
 
-		self::$PLUGIN_DIR = plugin_dir_path( $plugin_file );
+		self::$PLUGIN_DIR  = plugin_dir_path( $plugin_file );
 		self::$PLUGIN_FILE = $plugin_file;
 	}
 
@@ -197,7 +195,7 @@ final class Bulk_Delete {
 		$bd = BulkDelete::get_instance();
 
 		$primary_pages = $bd->get_primary_pages();
-		$post_page = $primary_pages[ self::POSTS_PAGE_SLUG ];
+		$post_page     = $primary_pages[ self::POSTS_PAGE_SLUG ];
 
 		$post_page->enqueue_assets();
 	}
