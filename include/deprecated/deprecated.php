@@ -164,6 +164,58 @@ function bd_convert_old_options_for_delete_post_by_status( $delete_options, $met
 add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_status', 10, 2 );
 
 /**
+ * Handle backward compatibility for Delete Posts by Taxonomy delete options.
+ *
+ * Backward compatibility code. Will be removed in Bulk Delete v6.0.
+ *
+ * @since 6.0.0
+ *
+ * @param array                                    $delete_options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox        Metabox.
+ *
+ * @return array Processed delete options.
+ */
+function bd_convert_old_options_for_delete_post_by_taxonomy( $delete_options, $metabox ) {
+	if ( 'bd_delete_posts_by_taxonomy' !== $metabox->get_action() ) {
+		return $delete_options;
+	}
+
+	if ( array_key_exists( 'taxs_op', $delete_options ) ) {
+		$delete_options['date_op'] = $delete_options['taxs_op'];
+		$delete_options['days']    = $delete_options['taxs_days'];
+	}
+
+	return $delete_options;
+}
+add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_taxonomy', 10, 2 );
+
+/**
+ * Handle backward compatibility for Delete Posts by Post type delete options.
+ *
+ * Backward compatibility code. Will be removed in Bulk Delete v6.0.
+ *
+ * @since 6.0.0
+ *
+ * @param array                                    $delete_options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox        Metabox.
+ *
+ * @return array Processed delete options.
+ */
+function bd_convert_old_options_for_delete_post_by_post_type( $delete_options, $metabox ) {
+	if ( 'delete_posts_by_post_type' !== $metabox->get_action() ) {
+		return $delete_options;
+	}
+
+	if ( array_key_exists( 'types_op', $delete_options ) ) {
+		$delete_options['date_op'] = $delete_options['types_op'];
+		$delete_options['days']    = $delete_options['types_days'];
+	}
+
+	return $delete_options;
+}
+add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_post_type', 10, 2 );
+
+/**
  * Enable cron for old pro addons that required separate JavaScript.
  * This will be removed in v6.0.
  *
