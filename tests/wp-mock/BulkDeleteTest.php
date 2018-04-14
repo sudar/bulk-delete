@@ -1,19 +1,21 @@
 <?php
 
+use BulkWP\BulkDelete\Core\BulkDelete;
 use BulkWP\Tests\WPMock\WPMockTestCase;
 
 /**
- * Test Bulk_Delete.
+ * Test BulkDelete class.
  */
 class BulkDeleteTest extends WPMockTestCase {
 
 	protected $test_files = [
-		'bulk-delete.php',
+		'include/Core/BulkDelete.php',
+		'include/Core/Controller.php',
 	];
 
 	function test_it_is_singleton() {
-		$a = \Bulk_Delete::get_instance();
-		$b = \Bulk_Delete::get_instance();
+		$a = BulkDelete::get_instance();
+		$b = BulkDelete::get_instance();
 
 		$this->assertSame( $a, $b );
 	}
@@ -23,7 +25,7 @@ class BulkDeleteTest extends WPMockTestCase {
 			'times' => 1,
 		) );
 
-		$bulk_delete = \Bulk_Delete::get_instance();
+		$bulk_delete = BulkDelete::get_instance();
 		clone $bulk_delete;
 
 		$this->assertConditionsMet();
@@ -34,16 +36,18 @@ class BulkDeleteTest extends WPMockTestCase {
 			'times' => 1,
 		) );
 
-		$bulk_delete = \Bulk_Delete::get_instance();
+		$bulk_delete = BulkDelete::get_instance();
 		unserialize( serialize( $bulk_delete ) );
 
 		$this->assertConditionsMet();
 	}
 
 	function test_load_action() {
-		\WP_Mock::expectAction( 'bd_loaded' );
+		$plugin_file = 'path/to/some/file';
+		\WP_Mock::expectAction( 'bd_loaded', $plugin_file );
 
-		$bulk_delete = \Bulk_Delete::get_instance();
+		$bulk_delete = BulkDelete::get_instance();
+		$bulk_delete->set_plugin_file( $plugin_file );
 		$bulk_delete->load();
 
 		$this->assertConditionsMet();
@@ -55,7 +59,8 @@ class BulkDeleteTest extends WPMockTestCase {
 			'args' => array( 'bulk-delete', false, \WP_Mock\Functions::type( 'string' ) )
 		) );
 
-		$bulk_delete = \Bulk_Delete::get_instance();
+		$bulk_delete = BulkDelete::get_instance();
+		$bulk_delete->set_plugin_file( 'path/to/some/file/' );
 		$bulk_delete->on_init();
 
 		$this->assertConditionsMet();
