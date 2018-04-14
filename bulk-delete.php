@@ -476,7 +476,6 @@ final class Bulk_Delete {
 		$posts_page->add_metabox( new DeletePostsByCategoryMetabox() );
 		$posts_page->add_metabox( new DeletePostsByCustomTaxonomMetabox() );
 		$posts_page->add_metabox( new DeletePostsByTagMetabox() );
-		$posts_page->add_metabox( new DeletePostsByPostTypeMetabox() );
 
 		return $posts_page;
 	}
