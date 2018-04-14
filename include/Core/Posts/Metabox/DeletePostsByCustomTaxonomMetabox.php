@@ -7,7 +7,7 @@ use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Cudtom Taxonomy Metabox.
+ * Delete Posts by Custom Taxonomy Metabox.
  *
  * @since 6.0.0
  */
