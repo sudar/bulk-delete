@@ -29,8 +29,8 @@ class DeletePostsByPostTypeMetabox extends PostsMetabox {
 		$types_array = array();
 
 		$types = get_post_types( array(
-				'_builtin' => false,
-			), 'names'
+			'_builtin' => false,
+		), 'names'
 		);
 
 		if ( count( $types ) > 0 ) {
@@ -55,97 +55,91 @@ class DeletePostsByPostTypeMetabox extends PostsMetabox {
 		}
 
 		if ( count( $types_array ) > 0 ) {
-?>
-            <!-- Custom post type Start-->
-            <h4><?php _e( 'Select the custom post types from which you want to delete posts', 'bulk-delete' ) ?></h4>
+			?>
+			<!-- Custom post type Start-->
+			<h4><?php _e( 'Select the custom post types from which you want to delete posts', 'bulk-delete' ) ?></h4>
 
-            <fieldset class="options">
-            <table class="optiontable">
-<?php
-			foreach ( $types_array as $type => $count ) {
-?>
-                <tr>
-                    <td scope="row" >
-                        <input name="smbd_types[]" value="<?php echo $type; ?>" type="checkbox">
-                    </td>
-                    <td>
-						<label for="smbd_types"><?php echo $this->display_post_type_status( $type ), ' (', $count, ')'; ?></label>
-                    </td>
-                </tr>
-<?php
-			}
+			<fieldset class="options">
+				<table class="optiontable">
+					<?php
+					foreach ( $types_array as $type => $count ) {
+						?>
+						<tr>
+							<td scope="row">
+								<input name="smbd_types[]" value="<?php echo $type; ?>" type="checkbox">
+							</td>
+							<td>
+								<label for="smbd_types"><?php echo $this->display_post_type_status( $type ), ' (', $count, ')'; ?></label>
+							</td>
+						</tr>
+						<?php
+					}
 
-			$this->render_filtering_table_header();
-			$this->render_restrict_settings();
-			$this->render_delete_settings();
-			$this->render_limit_settings();
-			$this->render_cron_settings();
-?>
-            </table>
-            </fieldset>
-<?php
+					$this->render_filtering_table_header();
+					$this->render_restrict_settings();
+					$this->render_delete_settings();
+					$this->render_limit_settings();
+					$this->render_cron_settings();
+					?>
+				</table>
+			</fieldset>
+			<?php
 			$this->render_submit_button();
 		} else {
-            printf( '<h4>%s</h4>', __( "This WordPress installation doesn't have any non-empty custom post types", 'bulk-delete' ) );
+			printf( '<h4>%s</h4>', __( "This WordPress installation doesn't have any non-empty custom post types", 'bulk-delete' ) );
 		}
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options                   = array();
-
 		$options['selected_types'] = bd_array_get( $request, 'smbd_types' );
-		$options['restrict']       = bd_array_get_bool( $request, 'smbd_types_restrict', false );
-		$options['limit_to']       = absint( bd_array_get( $request, 'smbd_types_limit_to', 0 ) );
-		$options['force_delete']   = bd_array_get_bool( $request, 'smbd_types_force_delete', false );
-
-		$options['date_op']        = bd_array_get( $request, 'smbd_types_op' );
-		$options['days']           = absint( bd_array_get( $request, 'smbd_types_days' ) );
 
 		return $options;
 	}
 
-	public function delete( $delete_options ) {
-		// Backward compatibility code. Will be removed in Bulk Delete v6.0
-		if ( array_key_exists( 'types_op', $delete_options ) ) {
-			$delete_options['date_op'] = $delete_options['types_op'];
-			$delete_options['days']    = $delete_options['types_days'];
-		}
+	public function delete( $options ) {
+		/**
+		 * Filter delete options before deleting posts.
+		 *
+		 * @since 6.0.0 Added `Metabox` parameter.
+		 *
+		 * @param array $options Delete options.
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox Metabox that is triggering deletion.
+		 */
+		$options = apply_filters( 'bd_delete_options', $options, $this );
 
-		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
-
-		$count          = 0;
-		$selected_types = $delete_options['selected_types'];
+		$posts_deleted  = 0;
+		$selected_types = $options['selected_types'];
 
 		foreach ( $selected_types as $selected_type ) {
-			$type_status = $this->split_post_type_status( $selected_type );
+			$query = $this->build_query( $selected_type );
 
-			$type        = $type_status['type'];
-			$status      = $type_status['status'];
-
-			$options = array(
-				'post_status' => $status,
-				'post_type'   => $type,
-			);
-
-			$options  = bd_build_query_options( $delete_options, $options );
-			$post_ids = bd_query( $options );
-			foreach ( $post_ids as $post_id ) {
-				// $force delete parameter to custom post types doesn't work
-				if ( $delete_options['force_delete'] ) {
-					wp_delete_post( $post_id, true );
-				} else {
-					wp_trash_post( $post_id );
-				}
-			}
-
-			$count += count( $post_ids );
+			$posts_deleted += $this->delete_posts_from_query( $query, $options );
 		}
 
-		return $count;
+		return $posts_deleted;
 	}
 
-	protected function build_query( $options ) {
-		return $options;
+	/**
+	 * Build the query from the selected type.
+	 *
+	 * In this Module, this function accepts a string and not an array.
+	 *
+	 * @param string $selected_type Post type.
+	 *
+	 * @return array Query params.
+	 */
+	protected function build_query( $selected_type ) {
+		$type_status = $this->split_post_type_status( $selected_type );
+
+		$type   = $type_status['type'];
+		$status = $type_status['status'];
+
+		$query = array(
+			'post_status' => $status,
+			'post_type'   => $type,
+		);
+
+		return $query;
 	}
 
 	protected function get_success_message( $items_deleted ) {
