@@ -23,6 +23,7 @@ use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox;
+use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByPostTypeMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox;
 
@@ -306,6 +307,7 @@ final class Bulk_Delete {
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByStatusMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByCategoryMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByTagMetabox.php';
+		require_once self::$PLUGIN_DIR . '/include/Core/Posts/Metabox/DeletePostsByPostTypeMetabox.php';
 
 		require_once self::$PLUGIN_DIR . '/include/Core/Pages/PagesMetabox.php';
 		require_once self::$PLUGIN_DIR . '/include/Core/Pages/Metabox/DeletePagesByStatusMetabox.php';
@@ -471,6 +473,7 @@ final class Bulk_Delete {
 		$posts_page->add_metabox( new DeletePostsByStatusMetabox() );
 		$posts_page->add_metabox( new DeletePostsByCategoryMetabox() );
 		$posts_page->add_metabox( new DeletePostsByTagMetabox() );
+		$posts_page->add_metabox( new DeletePostsByPostTypeMetabox() );
 
 		return $posts_page;
 	}
