@@ -58,7 +58,6 @@ if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 		</div>
 		<?php
 	}
-
 	add_action( 'admin_notices', 'bulk_delete_compatibility_notice' );
 
 	/**
@@ -69,7 +68,6 @@ if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 	function bulk_delete_deactivate() {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 	}
-
 	add_action( 'admin_init', 'bulk_delete_deactivate' );
 
 	return;

@@ -10,6 +10,7 @@ use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox;
+use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByPostTypeMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox;
 
@@ -315,6 +316,7 @@ final class BulkDelete {
 		$posts_page->add_metabox( new DeletePostsByStatusMetabox() );
 		$posts_page->add_metabox( new DeletePostsByCategoryMetabox() );
 		$posts_page->add_metabox( new DeletePostsByTagMetabox() );
+		$posts_page->add_metabox( new DeletePostsByPostTypeMetabox() );
 
 		return $posts_page;
 	}
