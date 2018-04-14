@@ -1030,29 +1030,6 @@ class Bulk_Delete_Posts {
 
 		return $js_array;
 	}
-
-	/**
-	 * Process delete cron job request.
-	 * This should ideally go in a separate class. But I was
-	 * lazy to create a separate class for a single function.
-	 *
-	 * @since 5.0
-	 * @static
-	 */
-	public static function do_delete_cron() {
-		$cron_id    = absint( $_GET['cron_id'] );
-		$cron_items = BD_Util::get_cron_schedules();
-		wp_unschedule_event( $cron_items[$cron_id]['timestamp'], $cron_items[$cron_id]['type'], $cron_items[$cron_id]['args'] );
-
-		$msg = __( 'The selected scheduled job was successfully deleted ', 'bulk-delete' );
-
-		add_settings_error(
-			Bulk_Delete::CRON_PAGE_SLUG,
-			'deleted-cron',
-			$msg,
-			'updated'
-		);
-	}
 }
 
 // hooks
