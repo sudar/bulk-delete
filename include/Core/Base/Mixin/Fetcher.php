@@ -13,4 +13,13 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class Fetcher {
+	/**
+	 * Get the list of public post types registered in WordPress.
+	 *
+	 * @return \WP_Post_Type[]
+	 */
+	protected function get_post_types() {
+		return bd_get_post_types();
+
+	}
 }

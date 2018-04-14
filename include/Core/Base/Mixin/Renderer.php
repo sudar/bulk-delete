@@ -19,7 +19,7 @@ abstract class Renderer extends Fetcher {
 	protected function render_post_type_as_radios() {
 		$field_slug = $this->field_slug;
 
-		$post_types = bd_get_post_type_objects();
+		$post_types = $this->get_post_types();
 		?>
 
 		<?php foreach ( $post_types as $post_type ) : ?>
