@@ -116,7 +116,6 @@ class DeletePostsByCustomTaxonomMetabox extends PostsMetabox {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options                       = array();
 		$options['post_type']          = bd_array_get( $request, 'smbd_tax_post_type', 'post' );
 		$options['selected_taxs']      = bd_array_get( $request, 'smbd_taxs' );
 		$options['selected_tax_terms'] = bd_array_get( $request, 'smbd_tax_terms' );
@@ -124,27 +123,9 @@ class DeletePostsByCustomTaxonomMetabox extends PostsMetabox {
 		return $options;
 	}
 
-	public function delete( $delete_options ) {
-		$delete_options = bd_convert_old_options_for_delete_post_by_status( $delete_options );
-		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
-
-		$options        = array();
-		$options        = bd_build_query_options( $delete_options, $options );
-		$post_ids       = bd_query( $options );
-
-		return $this->delete_posts_by_id( $post_ids, $delete_options['force_delete'] );
-	}
-
-	public static function delete_posts_by_taxonomy( $delete_options ) {
+	protected function build_query( $delete_options ) {
 		// For compatibility reasons set default post type to 'post'
 		$post_type = bd_array_get( $delete_options, 'post_type', 'post' );
-
-		if ( array_key_exists( 'taxs_op', $delete_options ) ) {
-			$delete_options['date_op'] = $delete_options['taxs_op'];
-			$delete_options['days']    = $delete_options['taxs_days'];
-		}
-
-		$delete_options = apply_filters( 'bd_delete_options', $delete_options );
 
 		$selected_taxs      = $delete_options['selected_taxs'];
 		$selected_tax_terms = $delete_options['selected_tax_terms'];
@@ -161,18 +142,7 @@ class DeletePostsByCustomTaxonomMetabox extends PostsMetabox {
 			),
 		);
 
-		$options  = bd_build_query_options( $delete_options, $options );
-		$post_ids = bd_query( $options );
-		foreach ( $post_ids as $post_id ) {
-			// $force delete parameter to custom post types doesn't work
-			if ( $delete_options['force_delete'] ) {
-				wp_delete_post( $post_id, true );
-			} else {
-				wp_trash_post( $post_id );
-			}
-		}
-
-		return count( $post_ids );
+		return $options;
 	}
 
 	protected function get_success_message( $items_deleted ) {
