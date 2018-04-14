@@ -20,78 +20,39 @@ class DeletePostsByPostTypeMetabox extends PostsMetabox {
 		$this->cron_hook     = 'do-bulk-delete-post-type';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-spt';
 		$this->messages      = array(
-			'box_label' => __( 'By Custom Post Type', 'bulk-delete' ),
+			'box_label' => __( 'By Post Type', 'bulk-delete' ),
 			'scheduled' => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
 		);
 	}
 
 	public function render() {
-		$types_array = array();
+		?>
 
-		$types = get_post_types( array(
-			'_builtin' => false,
-		), 'names'
-		);
+		<h4>
+			<?php _e( 'Select the post type and the status from which you want to delete posts', 'bulk-delete' ); ?>
+		</h4>
 
-		if ( count( $types ) > 0 ) {
-			foreach ( $types as $type ) {
-				$post_count = wp_count_posts( $type );
-				if ( $post_count->publish > 0 ) {
-					$types_array["$type-publish"] = $post_count->publish;
-				}
-				if ( $post_count->future > 0 ) {
-					$types_array["$type-future"] = $post_count->future;
-				}
-				if ( $post_count->pending > 0 ) {
-					$types_array["$type-pending"] = $post_count->pending;
-				}
-				if ( $post_count->draft > 0 ) {
-					$types_array["$type-draft"] = $post_count->draft;
-				}
-				if ( $post_count->private > 0 ) {
-					$types_array["$type-private"] = $post_count->private;
-				}
-			}
-		}
+		<fieldset class="options">
+			<table class="optiontable">
 
-		if ( count( $types_array ) > 0 ) {
-			?>
-			<!-- Custom post type Start-->
-			<h4><?php _e( 'Select the custom post types from which you want to delete posts', 'bulk-delete' ) ?></h4>
+				<?php
+				$this->render_post_type_with_status();
+				$this->render_filtering_table_header();
+				$this->render_restrict_settings();
+				$this->render_delete_settings();
+				$this->render_limit_settings();
+				$this->render_cron_settings();
+				?>
 
-			<fieldset class="options">
-				<table class="optiontable">
-					<?php
-					foreach ( $types_array as $type => $count ) {
-						?>
-						<tr>
-							<td scope="row">
-								<input name="smbd_types[]" value="<?php echo $type; ?>" type="checkbox">
-							</td>
-							<td>
-								<label for="smbd_types"><?php echo $this->display_post_type_status( $type ), ' (', $count, ')'; ?></label>
-							</td>
-						</tr>
-						<?php
-					}
+			</table>
+		</fieldset>
 
-					$this->render_filtering_table_header();
-					$this->render_restrict_settings();
-					$this->render_delete_settings();
-					$this->render_limit_settings();
-					$this->render_cron_settings();
-					?>
-				</table>
-			</fieldset>
-			<?php
-			$this->render_submit_button();
-		} else {
-			printf( '<h4>%s</h4>', __( "This WordPress installation doesn't have any non-empty custom post types", 'bulk-delete' ) );
-		}
+		<?php
+		$this->render_submit_button();
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['selected_types'] = bd_array_get( $request, 'smbd_types' );
+		$options['selected_types'] = bd_array_get( $request, 'smbd_' . $this->field_slug );
 
 		return $options;
 	}
@@ -129,7 +90,7 @@ class DeletePostsByPostTypeMetabox extends PostsMetabox {
 	 * @return array Query params.
 	 */
 	protected function build_query( $selected_type ) {
-		$type_status = $this->split_post_type_status( $selected_type );
+		$type_status = $this->split_post_type_and_status( $selected_type );
 
 		$type   = $type_status['type'];
 		$status = $type_status['status'];
