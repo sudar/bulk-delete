@@ -261,7 +261,7 @@ abstract class PostsMetabox extends BaseMetabox {
 	 *
 	 * @return string Label
 	 */
-	public static function display_post_type_status( $str ) {
+	protected function display_post_type_status( $str ) {
 		$type_status = self::split_post_type_status( $str );
 
 		$status = $type_status['status'];
@@ -299,7 +299,7 @@ abstract class PostsMetabox extends BaseMetabox {
 	 *
 	 * @return array
 	 */
-	public static function split_post_type_status( $str ) {
+	protected function split_post_type_status( $str ) {
 		$type_status = array();
 
 		$str_arr = explode( '-', $str );
