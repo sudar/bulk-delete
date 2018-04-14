@@ -23,7 +23,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0 Renamed to BulkDelete and added namespace.
  */
 final class BulkDelete {
-
 	/**
 	 * The one true BulkDelete instance.
 	 *
@@ -424,7 +423,7 @@ final class BulkDelete {
 	}
 
 	/**
-	 * Setter for Autoloader
+	 * Setter for Autoloader.
 	 *
 	 * @param \BulkWP\BulkDelete\BulkDeleteAutoloader $loader Autoloader.
 	 */
