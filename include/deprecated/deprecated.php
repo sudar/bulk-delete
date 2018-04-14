@@ -85,17 +85,49 @@ function bd_convert_old_options_for_delete_posts_by_category( $options ) {
 add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_posts_by_category' );
 
 /**
+ * Handle backward compatibility for Delete Posts by tag delete options.
+ *
+ * Backward compatibility code. Will be removed in future Bulk Delete releases.
+ *
+ * @since 6.0.0
+ *
+ * @param array                                    $options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox Metabox.
+ *
+ * @return array Processed delete options.
+ */
+function bd_convert_old_options_for_delete_posts_by_tag( $options, $metabox ) {
+	if ( 'delete_posts_by_tag' !== $metabox->get_action() ) {
+		return $options;
+	}
+
+	if ( array_key_exists( 'tags_op', $options ) ) {
+		$options['date_op'] = $options['tags_op'];
+		$options['days']    = $options['tags_days'];
+	}
+
+	return $options;
+}
+add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_posts_by_tag', 10, 2 );
+
+/**
  * Handle backward compatibility for Delete Posts by status delete options.
  *
  * Backward compatibility code. Will be removed in Bulk Delete v6.0.
  *
  * @since 5.6.0
+ * @since 6.0.0 Added Metabox parameter.
  *
- * @param array $delete_options Delete Options.
+ * @param array                                    $delete_options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox        Metabox.
  *
  * @return array Processed delete options.
  */
-function bd_convert_old_options_for_delete_post_by_status( $delete_options ) {
+function bd_convert_old_options_for_delete_post_by_status( $delete_options, $metabox ) {
+	if ( 'delete_posts_by_status' !== $metabox->get_action() ) {
+		return $delete_options;
+	}
+
 	// Format changed in 5.5.0.
 	if ( array_key_exists( 'post_status_op', $delete_options ) ) {
 		$delete_options['date_op'] = $delete_options['post_status_op'];
@@ -129,6 +161,7 @@ function bd_convert_old_options_for_delete_post_by_status( $delete_options ) {
 
 	return $delete_options;
 }
+add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_status', 10, 2 );
 
 /**
  * Enable cron for old pro addons that required separate JavaScript.

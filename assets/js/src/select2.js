@@ -6,14 +6,14 @@ jQuery( document ).ready( function () {
 	/**
 	 * Normal select2.
 	 */
-	jQuery( '.select2' ).select2( {
+	jQuery( '.select2-taxonomy' ).select2( {
 		width: '300px'
 	} );
 
 	/**
-	 * AJAX Select2.
+	 * Enable AJAX for Taxonomy Select2.
 	 */
-	jQuery( '.select2-ajax' ).select2( {
+	jQuery( '.select2-taxonomy-ajax' ).select2( {
 		ajax: {
 			url: ajaxurl,
 			dataType: 'json',

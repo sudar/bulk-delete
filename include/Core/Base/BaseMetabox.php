@@ -2,16 +2,20 @@
 
 namespace BulkWP\BulkDelete\Core\Base;
 
+use BulkWP\BulkDelete\Core\Base\Mixin\Renderer;
+
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Encapsulates the Bulk Delete Meta box Module Logic.
  *
  * All Bulk Delete Meta box Modules should extend this class.
+ * This class extends Renderer Mixin class since Bulk Delete still supports PHP 5.3.
+ * Once PHP 5.3 support is dropped, Renderer will be implemented as a Trait and this class will `use` it.
  *
  * @since 6.0.0
  */
-abstract class BaseMetabox {
+abstract class BaseMetabox extends Renderer {
 	/**
 	 * Item Type. Possible values 'posts', 'pages', 'users' etc.
 	 *
@@ -104,11 +108,11 @@ abstract class BaseMetabox {
 	/**
 	 * Perform the deletion.
 	 *
-	 * @param array $delete_options Array of Delete options.
+	 * @param array $options Array of Delete options.
 	 *
 	 * @return int Number of items that were deleted.
 	 */
-	abstract public function delete( $delete_options );
+	abstract public function delete( $options );
 
 	/**
 	 * Get Success Message.
@@ -260,10 +264,10 @@ abstract class BaseMetabox {
 	 * @param array $request Request array.
 	 */
 	public function process( $request ) {
-		$options = $this->parse_filters( $request );
+		$options = $this->parse_common_filters( $request );
 		$options = $this->convert_user_input_to_options( $request, $options );
 
-		$cron_options = $this->parse_cron_request( $request );
+		$cron_options = $this->parse_cron_filters( $request );
 
 		if ( $this->is_scheduled( $cron_options ) ) {
 			$msg = $this->schedule_deletion( $cron_options, $options );
@@ -355,7 +359,7 @@ abstract class BaseMetabox {
 	 *
 	 * @return array User options.
 	 */
-	protected function parse_filters( $request ) {
+	protected function parse_common_filters( $request ) {
 		$options = array();
 
 		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
@@ -375,7 +379,7 @@ abstract class BaseMetabox {
 	 *
 	 * @return array Parsed cron option.
 	 */
-	protected function parse_cron_request( $request ) {
+	protected function parse_cron_filters( $request ) {
 		$cron_options = array(
 			'is_scheduled' => false,
 		);
@@ -389,5 +393,37 @@ abstract class BaseMetabox {
 		}
 
 		return $cron_options;
+	}
+
+	/**
+	 * Get the threshold after which enhanced select should be used.
+	 *
+	 * @return int Threshold.
+	 */
+	protected function get_enhanced_select_threshold() {
+		/**
+		 * Filter the enhanced select threshold.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param int Threshold.
+		 */
+		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
+	}
+
+	/**
+	 * Get the class name for select2 dropdown based on the number of items present.
+	 *
+	 * @param int    $count      The number of items present.
+	 * @param string $class_name Primary class name.
+	 *
+	 * @return string Class name.
+	 */
+	protected function enable_ajax_if_needed_to_dropdown_class_name( $count, $class_name ) {
+		if ( $count >= $this->get_enhanced_select_threshold() ) {
+			$class_name .= '-ajax';
+		}
+
+		return $class_name;
 	}
 }
