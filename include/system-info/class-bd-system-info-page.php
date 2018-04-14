@@ -225,5 +225,3 @@ NETWORK ACTIVE PLUGINS:
 		die();
 	}
 }
-
-BD_System_Info_page::factory();
