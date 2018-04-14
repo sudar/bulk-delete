@@ -51,22 +51,6 @@ class DeletePostsByRevisionMetabox extends PostsMetabox {
 	}
 
 	public function delete( $delete_options ) {
-		$deleted_count = $this->delete_posts_by_revision( $delete_options );
-
-		return $deleted_count;
-	}
-
-	/**
-	 * Delete all post revisions.
-	 *
-	 * @since 5.0
-	 * @static
-	 *
-	 * @param array $delete_options
-	 *
-	 * @return int The number of posts that were deleted
-	 */
-	public static function delete_posts_by_revision( $delete_options ) {
 		global $wpdb;
 
 		// Revisions
@@ -86,5 +70,9 @@ class DeletePostsByRevisionMetabox extends PostsMetabox {
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
+	}
+
+	protected function build_query( $options ) {
+		// Left empty on purpose.
 	}
 }
