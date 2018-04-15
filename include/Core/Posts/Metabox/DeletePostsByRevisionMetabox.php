@@ -7,7 +7,7 @@ use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Status Metabox.
+ * Delete Posts by Revision Metabox.
  *
  * @since 6.0.0
  */
@@ -41,7 +41,7 @@ class DeletePostsByRevisionMetabox extends PostsMetabox {
         </table>
         </fieldset>
 <?php
-		$this->render_submit_button( 'delete_posts_by_revision' );
+		$this->render_submit_button();
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
