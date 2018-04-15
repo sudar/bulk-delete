@@ -82,10 +82,10 @@ class DeletePostsByCustomTaxonomyMetabox extends PostsMetabox {
 ?>
                     <tr>
                         <td scope="row" >
-                            <input name="smbd_tax_terms[]" value="<?php echo $term->slug; ?>" type="checkbox" class="terms">
+                            <input name="smbd_taxs_terms[]" value="<?php echo $term->slug; ?>" type="checkbox" class="terms">
                         </td>
                         <td>
-                            <label for="smbd_tax_terms"><?php echo $term->name; ?> (<?php echo $term->count . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
+                            <label for="smbd_taxs_terms"><?php echo $term->name; ?> (<?php echo $term->count . ' '; _e( 'Posts', 'bulk-delete' ); ?>)</label>
                         </td>
                     </tr>
 <?php
@@ -116,9 +116,9 @@ class DeletePostsByCustomTaxonomyMetabox extends PostsMetabox {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['post_type']          = bd_array_get( $request, 'smbd_tax_post_type', 'post' );
-		$options['selected_taxs']      = bd_array_get( $request, 'smbd_taxs' );
-		$options['selected_tax_terms'] = bd_array_get( $request, 'smbd_tax_terms' );
+		$options['post_type']          = bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type', 'post' );
+		$options['selected_taxs']      = bd_array_get( $request, 'smbd_' . $this->field_slug );
+		$options['selected_tax_terms'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_terms' );
 
 		return $options;
 	}
@@ -127,16 +127,16 @@ class DeletePostsByCustomTaxonomyMetabox extends PostsMetabox {
 		// For compatibility reasons set default post type to 'post'
 		$post_type = bd_array_get( $delete_options, 'post_type', 'post' );
 
-		$selected_taxs      = $delete_options['selected_taxs'];
-		$selected_tax_terms = $delete_options['selected_tax_terms'];
+		$taxonomy = $delete_options['selected_taxs'];
+		$terms    = $delete_options['selected_tax_terms'];
 
 		$options = array(
 			'post_status' => 'publish',
 			'post_type'   => $post_type,
 			'tax_query'   => array(
 				array(
-					'taxonomy' => $selected_taxs,
-					'terms'    => $selected_tax_terms,
+					'taxonomy' => $taxonomy,
+					'terms'    => $terms,
 					'field'    => 'slug',
 				),
 			),
