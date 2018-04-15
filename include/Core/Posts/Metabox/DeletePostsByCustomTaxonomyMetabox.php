@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  *
  * @since 6.0.0
  */
-class DeletePostsByCustomTaxonomMetabox extends PostsMetabox {
+class DeletePostsByCustomTaxonomyMetabox extends PostsMetabox {
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'taxs';
