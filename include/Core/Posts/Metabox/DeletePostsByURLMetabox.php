@@ -32,7 +32,7 @@ class DeletePostsByURLMetabox extends PostsMetabox {
                 <td scope="row" colspan="2">
                     <label for="smdb_specific_pages"><?php _e( 'Enter one post url (not post ids) per line', 'bulk-delete' ); ?></label>
                     <br>
-                    <textarea style="width: 450px; height: 80px;" id="smdb_specific_pages_urls" name="smdb_specific_pages_urls" rows="5" columns="80"></textarea>
+                    <textarea id="smdb_specific_pages_urls" name="smdb_specific_pages_urls" rows="5" columns="80"></textarea>
                 </td>
             </tr>
 
@@ -42,7 +42,7 @@ class DeletePostsByURLMetabox extends PostsMetabox {
         </table>
         </fieldset>
 <?php
-		$this->render_submit_button( 'delete_posts_by_url' );
+		$this->render_submit_button();
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
