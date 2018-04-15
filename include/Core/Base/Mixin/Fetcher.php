@@ -20,7 +20,6 @@ abstract class Fetcher {
 	 */
 	protected function get_post_types() {
 		return bd_get_post_types();
-
 	}
 
 	/**
