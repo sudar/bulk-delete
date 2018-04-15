@@ -32,13 +32,6 @@ final class Bulk_Delete {
 	 */
 	private $plugin_file;
 
-	/**
-	 * Path where translations are stored.
-	 *
-	 * @var string
-	 */
-	private $translations_path;
-
 	// version
 	const VERSION                   = '5.6.1';
 

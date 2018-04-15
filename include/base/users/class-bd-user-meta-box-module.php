@@ -246,7 +246,7 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @param $name Name of post type checkboxes.
 	 */
 	protected function render_post_type_checkboxes( $name ) {
-		$post_types = bd_get_post_type_objects();
+		$post_types = bd_get_post_types();
 		?>
 
 		<?php foreach( $post_types as $post_type ) : ?>
