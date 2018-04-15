@@ -174,30 +174,16 @@ function bd_render_post_type_dropdown( $slug ) {
 ?>
 	<tr>
 		<td scope="row" >
-			<select class="select2" name="smbd_<?php echo $slug; ?>_post_type">
-				<?php foreach ( $types as $type ) { $postObj = get_post_type_object( $type ); ?>
-					<option value="<?php echo esc_attr( $type ); ?>"><?php echo esc_html( $postObj->labels->singular_name . ' (' . $type . ')' ); ?></option>
-				<?php } ?>
+			<select class="select2" name="smbd_<?php echo esc_attr( $slug ); ?>_post_type">
+				<?php foreach ( $types as $type ) : ?>
+					<option value="<?php echo esc_attr( $type->name ); ?>">
+						<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
+					</option>
+				<?php endforeach; ?>
 			</select>
 		</td>
 	</tr>
 <?php
-}
-
-/**
- * Get the list of post type names that will be used in filters.
- *
- * @since 5.6.0
- *
- * @return array List of post types.
- */
-function bd_get_post_types() {
-	$post_types = get_post_types( array( '_builtin' => false ), 'names' );
-
-	array_unshift( $post_types, 'page' );
-	array_unshift( $post_types, 'post' );
-
-	return $post_types;
 }
 
 /**
@@ -207,7 +193,7 @@ function bd_get_post_types() {
  *
  * @return \WP_Post_Type[] List of post type objects.
  */
-function bd_get_post_type_objects() {
+function bd_get_post_types() {
 	$custom_types = get_post_types( array( '_builtin' => false ), 'objects' );
 
 	$builtin_types = array(
