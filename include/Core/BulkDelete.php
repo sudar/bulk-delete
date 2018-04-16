@@ -15,6 +15,7 @@ use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByPostTypeMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByRevisionMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox;
+use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByURLMetabox;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -319,6 +320,7 @@ final class BulkDelete {
 		$posts_page->add_metabox( new DeletePostsByTagMetabox() );
 		$posts_page->add_metabox( new DeletePostsByCustomTaxonomyMetabox() );
 		$posts_page->add_metabox( new DeletePostsByPostTypeMetabox() );
+		$posts_page->add_metabox( new DeletePostsByURLMetabox() );
 		$posts_page->add_metabox( new DeletePostsByRevisionMetabox() );
 
 		return $posts_page;
