@@ -12,6 +12,7 @@ use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCustomTaxonomyMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByPostTypeMetabox;
+use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByRevisionMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox;
 use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByURLMetabox;
@@ -320,6 +321,7 @@ final class BulkDelete {
 		$posts_page->add_metabox( new DeletePostsByCustomTaxonomyMetabox() );
 		$posts_page->add_metabox( new DeletePostsByPostTypeMetabox() );
 		$posts_page->add_metabox( new DeletePostsByURLMetabox() );
+		$posts_page->add_metabox( new DeletePostsByRevisionMetabox() );
 
 		return $posts_page;
 	}
