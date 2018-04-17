@@ -47,6 +47,14 @@ class CronListPage extends BasePage {
 		$cron_id    = absint( $_GET['cron_id'] );
 		$cron_items = $this->get_cron_schedules();
 
+		if ( 0 === $cron_id ) {
+			return;
+		}
+
+		if ( ! isset( $cron_items[ $cron_id ] ) ) {
+			return;
+		}
+
 		wp_unschedule_event( $cron_items[ $cron_id ]['timestamp'], $cron_items[ $cron_id ]['type'], $cron_items[ $cron_id ]['args'] );
 
 		$msg = __( 'The selected scheduled job was successfully deleted ', 'bulk-delete' );
