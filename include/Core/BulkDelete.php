@@ -378,7 +378,7 @@ final class BulkDelete {
 		if ( empty( $this->secondary_pages ) ) {
 			$cron_list_page = $this->get_cron_list_admin_page();
 
-			$this->primary_pages[ $cron_list_page->get_page_slug() ] = $cron_list_page;
+			$this->secondary_pages[ $cron_list_page->get_page_slug() ] = $cron_list_page;
 		}
 
 		/**
