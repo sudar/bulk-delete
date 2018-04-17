@@ -16,11 +16,17 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  *
  * @since 5.5
  *
- * @param array $options Old options.
+ * @param array                                   $options Old options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module Modules.
  *
  * @return array New options.
  */
-function bd_delete_options_compatibility( $options ) {
+function bd_delete_options_compatibility( $options, $module ) {
+
+	if ( 'delete_pages_by_status' === $module->get_action() ) {
+		return $options;
+	}
+
 	// Convert bool keys to boolean
 	$bool_keys = array( 'restrict', 'force_delete', 'private' );
 	foreach ( $bool_keys as $key ) {
@@ -40,7 +46,7 @@ function bd_delete_options_compatibility( $options ) {
 
 	return $options;
 }
-add_filter( 'bd_delete_options', 'bd_delete_options_compatibility' );
+add_filter( 'bd_delete_options', 'bd_delete_options_compatibility', 10, 2 );
 
 /**
  * Handle backward compatibility for Delete Pages by status delete options.
