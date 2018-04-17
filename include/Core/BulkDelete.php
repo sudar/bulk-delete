@@ -10,11 +10,11 @@ use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCategoryModule;
-use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByPostTypeModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByRevisionModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -424,7 +424,7 @@ final class BulkDelete {
 	 *
 	 * @param string $page_slug Page slug.
 	 *
-	 * @return null|string Hook suffix if found, null otherwise.
+	 * @return string|null Hook suffix if found, null otherwise.
 	 */
 	public function get_page_hook_suffix( $page_slug ) {
 		$admin_page = '';

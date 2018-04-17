@@ -5,7 +5,6 @@
  * This class is deprecated since 6.0.0. But included here for backward compatibility.
  * Don't depend on functionality from this class.
  */
-
 use BulkWP\BulkDelete\Core\BulkDelete;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -13,9 +12,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Main Bulk_Delete class.
  *
- * @property null|string translations
- * @property null|string posts_page
- * @property null|string pages_page
+ * @property string|null translations
+ * @property string|null posts_page
+ * @property string|null pages_page
  *
  * @since 5.0 Singleton
  * @since 6.0.0 Deprecated.
@@ -50,7 +49,6 @@ final class Bulk_Delete {
 	const CRON_HOOK_TAG         = 'do-bulk-delete-tag';              // used in Scheduler For Deleting Posts by Tag add-on v0.6.
 	const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';         // used in Scheduler For Deleting Posts by Taxonomy add-on v0.6.
 	const CRON_HOOK_POST_TYPE   = 'do-bulk-delete-post-type';        // used in Scheduler For Deleting Posts by Post Type add-on v0.6.
-
 
 	// page slugs
 	const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
@@ -191,7 +189,7 @@ final class Bulk_Delete {
 	 *
 	 * @param string $name Field.
 	 *
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function __get( $name ) {
 		$new_bd = BulkDelete::get_instance();

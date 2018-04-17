@@ -17,12 +17,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  * @since 5.5
  *
  * @param array                                   $options Old options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module  Modules.
  *
  * @return array New options.
  */
 function bd_delete_options_compatibility( $options, $module ) {
-
 	if ( 'delete_pages_by_status' === $module->get_action() ) {
 		return $options;
 	}
