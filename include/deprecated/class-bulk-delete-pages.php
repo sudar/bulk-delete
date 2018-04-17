@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0 Deprecated.
  */
 class Bulk_Delete_Pages {
-
 	/**
 	 * Delete Pages by post status - drafts, pending posts, scheduled posts etc.
 	 *
