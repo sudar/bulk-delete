@@ -14,11 +14,11 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 
 	/**
-	 * The metabox that is getting tested.
+	 * The module that is getting tested.
 	 *
 	 * @var \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule
 	 */
-	protected $metabox;
+	protected $module;
 
 	/**
 	 * Base move class setup
@@ -26,7 +26,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->metabox = new DeletePostsByTagModule();
+		$this->module = new DeletePostsByTagModule();
 	}
 
 	/**
@@ -71,7 +71,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 
 		// Assert that delete method has deleted all (2) posts.
 		$this->assertEquals( 2, $posts_deleted );
@@ -133,7 +133,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 
 		// Assert that delete method has deleted 1 post.
 		$this->assertEquals( 1, $posts_deleted );
@@ -195,7 +195,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 
 		// Assert that post1 and post2 status moved to trash.
 		$this->assertEquals( 2, $posts_deleted );
@@ -257,7 +257,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 
 		// Assert that delete method has deleted all (2) posts.
 		$this->assertEquals( 2, $posts_deleted );
@@ -312,7 +312,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 
 		// Assert that delete method has deleted 1 post.
 		$this->assertEquals( 1, $posts_deleted );
@@ -370,7 +370,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 			'date_op'       => 'before',
 			'days'          => 1,
 		);
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 
 		// Assert that delete method has deleted 1 post.
 		$this->assertEquals( 1, $posts_deleted );
@@ -435,7 +435,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 			'date_op'       => 'after',
 			'days'          => 1,
 		);
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 
 		// Assert that delete method has deleted 1 post.
 		$this->assertEquals( 1, $posts_deleted );
@@ -486,7 +486,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 
 		// Assert that delete method has deleted 20 posts.
 		$this->assertEquals( 20, $posts_deleted );
@@ -505,7 +505,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 			'date_op'       => false,
 			'days'          => false,
 		);
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 
 		// Assert that delete method has deleted 30 posts.
 		$this->assertEquals( 30, $posts_deleted );

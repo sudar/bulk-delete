@@ -14,16 +14,16 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 	/**
-	 * The metabox that is getting tested.
+	 * The module that is getting tested.
 	 *
 	 * @var \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule
 	 */
-	protected $metabox;
+	protected $module;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->metabox = new DeletePostsByStatusModule();
+		$this->module = new DeletePostsByStatusModule();
 	}
 
 	/**
@@ -44,7 +44,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'force_delete' => false,
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
 		$published_posts = $this->get_posts_by_status();
@@ -73,7 +73,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'force_delete' => false,
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
 		$draft_posts = $this->get_posts_by_status( 'draft' );
@@ -102,7 +102,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'force_delete' => true,
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
 		$published_posts = $this->get_posts_by_status();
@@ -131,7 +131,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'force_delete' => true,
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
 		$draft_posts = $this->get_posts_by_status( 'draft' );
@@ -160,7 +160,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'force_delete' => true,
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
 		$private_posts = $this->get_posts_by_status( 'private' );
@@ -193,7 +193,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'days'         => '3',
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
 		$published_posts = $this->get_posts_by_status();
@@ -226,7 +226,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'days'         => '3',
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
 		$draft_posts = $this->get_posts_by_status( 'draft' );
@@ -259,7 +259,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'days'         => '5',
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
 		$published_posts = $this->get_posts_by_status();
@@ -292,7 +292,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'days'         => '5',
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
 
 		$draft_posts = $this->get_posts_by_status( 'draft' );
@@ -320,7 +320,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'force_delete' => false,
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 50, $posts_deleted );
 
 		$published_posts = $this->get_posts_by_status();
@@ -348,7 +348,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'force_delete' => false,
 		);
 
-		$posts_deleted = $this->metabox->delete( $delete_options );
+		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 50, $posts_deleted );
 
 		$draft_posts = $this->get_posts_by_status( 'draft' );
