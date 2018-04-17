@@ -1,6 +1,6 @@
 <?php
 
-use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
+use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -26,7 +26,7 @@ class Bulk_Delete_Pages {
 	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_pages_by_status( $delete_options ) {
-		$metabox = new DeletePagesByStatusMetabox();
+		$metabox = new DeletePagesByStatusModule();
 
 		return $metabox->delete( $delete_options );
 	}

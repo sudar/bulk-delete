@@ -1,29 +1,29 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Posts\Metabox;
+namespace BulkWP\BulkDelete\Core\Posts\Modules;
 
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
  * Test Deletion of posts by category.
  *
- * Tests \BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox
+ * Tests \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCategoryModule
  *
  * @since 6.0.0
  */
-class DeletePostsByCategoryMetaboxTest extends WPCoreUnitTestCase {
+class DeletePostsByCategoryModuleTest extends WPCoreUnitTestCase {
 
 	/**
 	 * The metabox that is getting tested.
 	 *
-	 * @var \BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox
+	 * @var \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCategoryModule
 	 */
 	protected $metabox;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->metabox = new DeletePostsByCategoryMetabox();
+		$this->metabox = new DeletePostsByCategoryModule();
 	}
 
 	/**

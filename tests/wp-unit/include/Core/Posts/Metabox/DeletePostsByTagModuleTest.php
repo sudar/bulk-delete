@@ -1,22 +1,22 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Posts\Metabox;
+namespace BulkWP\BulkDelete\Core\Posts\Modules;
 
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
  * Test Deletion of posts by tag.
  *
- * Tests \BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox
+ * Tests \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule
  *
  * @since 6.0.0
  */
-class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
+class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 
 	/**
 	 * The metabox that is getting tested.
 	 *
-	 * @var \BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox
+	 * @var \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule
 	 */
 	protected $metabox;
 
@@ -26,7 +26,7 @@ class DeletePostsByTagMetaboxTest extends WPCoreUnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->metabox = new DeletePostsByTagMetabox();
+		$this->metabox = new DeletePostsByTagModule();
 	}
 
 	/**

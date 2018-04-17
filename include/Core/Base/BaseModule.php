@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  *
  * @since 6.0.0
  */
-abstract class BaseMetabox extends Renderer {
+abstract class BaseModule extends Renderer {
 	/**
 	 * Item Type. Possible values 'posts', 'pages', 'users' etc.
 	 *
@@ -89,7 +89,7 @@ abstract class BaseMetabox extends Renderer {
 	abstract protected function initialize();
 
 	/**
-	 * Render the Metabox.
+	 * Render the Modules.
 	 *
 	 * @return void
 	 */
@@ -124,7 +124,7 @@ abstract class BaseMetabox extends Renderer {
 	abstract protected function get_success_message( $items_deleted );
 
 	/**
-	 * Create new instances of Metabox.
+	 * Create new instances of Modules.
 	 */
 	public function __construct() {
 		$this->initialize();
@@ -305,7 +305,7 @@ abstract class BaseMetabox extends Renderer {
 	/**
 	 * Getter for action.
 	 *
-	 * @return string Metabox action.
+	 * @return string Modules action.
 	 */
 	public function get_action() {
 		return $this->action;

@@ -5,17 +5,17 @@ namespace BulkWP\BulkDelete\Core;
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Cron\CronListPage;
 use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
-use BulkWP\BulkDelete\Core\Metas\Metabox\DeleteCommentMetaMetabox;
+use BulkWP\BulkDelete\Core\Metas\Modules\DeleteCommentMetaModule;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
-use BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox;
+use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCustomTaxonomyMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByPostTypeMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByRevisionMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByURLMetabox;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCategoryModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByPostTypeModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByRevisionModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -284,7 +284,7 @@ final class BulkDelete {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @return \BulkWP\BulkDelete\Core\Base\MetaboxPage[] List of Primary Admin pages.
+	 * @return \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Primary Admin pages.
 	 */
 	public function get_primary_pages() {
 		if ( empty( $this->primary_pages ) ) {
@@ -302,7 +302,7 @@ final class BulkDelete {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param \BulkWP\BulkDelete\Core\Base\MetaboxPage[] List of Admin pages.
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Admin pages.
 		 */
 		return apply_filters( 'bd_primary_pages', $this->primary_pages );
 	}
@@ -315,13 +315,13 @@ final class BulkDelete {
 	private function get_delete_posts_admin_page() {
 		$posts_page = new DeletePostsPage( $this->get_plugin_file() );
 
-		$posts_page->add_metabox( new DeletePostsByStatusMetabox() );
-		$posts_page->add_metabox( new DeletePostsByCategoryMetabox() );
-		$posts_page->add_metabox( new DeletePostsByTagMetabox() );
-		$posts_page->add_metabox( new DeletePostsByCustomTaxonomyMetabox() );
-		$posts_page->add_metabox( new DeletePostsByPostTypeMetabox() );
-		$posts_page->add_metabox( new DeletePostsByURLMetabox() );
-		$posts_page->add_metabox( new DeletePostsByRevisionMetabox() );
+		$posts_page->add_metabox( new DeletePostsByStatusModule() );
+		$posts_page->add_metabox( new DeletePostsByCategoryModule() );
+		$posts_page->add_metabox( new DeletePostsByTagModule() );
+		$posts_page->add_metabox( new DeletePostsByTaxonomyModule() );
+		$posts_page->add_metabox( new DeletePostsByPostTypeModule() );
+		$posts_page->add_metabox( new DeletePostsByURLModule() );
+		$posts_page->add_metabox( new DeletePostsByRevisionModule() );
 
 		return $posts_page;
 	}
@@ -336,7 +336,7 @@ final class BulkDelete {
 	private function get_delete_pages_admin_page() {
 		$pages_page = new DeletePagesPage( $this->get_plugin_file() );
 
-		$pages_page->add_metabox( new DeletePagesByStatusMetabox() );
+		$pages_page->add_metabox( new DeletePagesByStatusModule() );
 
 		return $pages_page;
 	}
@@ -351,7 +351,7 @@ final class BulkDelete {
 	private function get_delete_metas_admin_page() {
 		$metas_page = new DeleteMetasPage( $this->get_plugin_file() );
 
-		$metas_page->add_metabox( new DeleteCommentMetaMetabox() );
+		$metas_page->add_metabox( new DeleteCommentMetaModule() );
 
 		return $metas_page;
 	}

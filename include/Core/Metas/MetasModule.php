@@ -2,16 +2,16 @@
 
 namespace BulkWP\BulkDelete\Core\Metas;
 
-use BulkWP\BulkDelete\Core\Base\BaseMetabox;
+use BulkWP\BulkDelete\Core\Base\BaseModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Metabox for Deleting Meta fields.
+ * Module for Deleting Meta fields.
  *
  * @since 6.0.0
  */
-abstract class MetasMetabox extends BaseMetabox {
+abstract class MetasModule extends BaseModule {
 	protected $item_type = 'metas';
 
 	protected function render_restrict_settings() {

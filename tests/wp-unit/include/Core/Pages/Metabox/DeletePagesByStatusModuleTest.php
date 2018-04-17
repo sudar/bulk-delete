@@ -1,29 +1,29 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Pages\Metabox;
+namespace BulkWP\BulkDelete\Core\Pages\Modules;
 
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
  * Test Deletion of Pages by status.
  *
- * Tests \BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox
+ * Tests \BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule
  *
  * @since 6.0.0
  */
-class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
+class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 
 	/**
 	 * The metabox that is getting tested.
 	 *
-	 * @var \BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox
+	 * @var \BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule
 	 */
 	protected $metabox;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->metabox = new DeletePagesByStatusMetabox();
+		$this->metabox = new DeletePagesByStatusModule();
 	}
 
 	/**

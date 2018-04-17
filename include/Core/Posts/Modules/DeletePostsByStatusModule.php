@@ -1,17 +1,17 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Posts\Metabox;
+namespace BulkWP\BulkDelete\Core\Posts\Modules;
 
-use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
+use BulkWP\BulkDelete\Core\Posts\PostsModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Status Metabox.
+ * Delete Posts by Status Module.
  *
  * @since 6.0.0
  */
-class DeletePostsByStatusMetabox extends PostsMetabox {
+class DeletePostsByStatusModule extends PostsModule {
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'post_status';

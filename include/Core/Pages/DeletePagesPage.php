@@ -2,7 +2,7 @@
 
 namespace BulkWP\BulkDelete\Core\Pages;
 
-use BulkWP\BulkDelete\Core\Base\MetaboxPage;
+use BulkWP\BulkDelete\Core\Base\BaseDeletePage;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  *
  * @since 6.0.0
  */
-class DeletePagesPage extends MetaboxPage {
+class DeletePagesPage extends BaseDeletePage {
 	/**
 	 * Initialize and setup variables.
 	 */

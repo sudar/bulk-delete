@@ -5,17 +5,17 @@ namespace BulkWP\BulkDelete\Core\Base;
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
- * Test the abstract interfaces of BaseMetabox class.
+ * Test the abstract interfaces of BaseModule class.
  *
- * Tests \BulkWP\BulkDelete\Core\Base\BaseMetabox
+ * Tests \BulkWP\BulkDelete\Core\Base\BaseModule
  */
-class BaseMetaboxTest extends WPCoreUnitTestCase {
+class BaseModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Name of the class to be tested.
 	 *
 	 * @var string
 	 */
-	protected $class_name = 'BulkWP\\BulkDelete\\Core\\Base\\BaseMetabox';
+	protected $class_name = 'BulkWP\\BulkDelete\\Core\\Base\\BaseModule';
 
 	/**
 	 * When a new object is created, the `initialize` abstract method should be called.
@@ -68,7 +68,7 @@ class BaseMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Data provider to test `is_scheduled` method.
 	 *
-	 * @see BaseMetaboxTest::test_is_scheduled_method() To see how the data is used.
+	 * @see BaseModuleTest::test_is_scheduled_method() To see how the data is used.
 	 *
 	 * @return array Data.
 	 */
@@ -105,7 +105,7 @@ class BaseMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Data provider to test `parse_cron_request` method.
 	 *
-	 * @see BaseMetaboxTest::parse_cron_filters() To see how the data is used.
+	 * @see BaseModuleTest::parse_cron_filters() To see how the data is used.
 	 *
 	 * @return array Data.
 	 */
@@ -199,7 +199,7 @@ class BaseMetaboxTest extends WPCoreUnitTestCase {
 	/**
 	 * Data provider to test scheduling of deletion.
 	 *
-	 * @see BaseMetaboxTest::test_that_scheduling_deletion_works() To see how the data is used.
+	 * @see BaseModuleTest::test_that_scheduling_deletion_works() To see how the data is used.
 	 *
 	 * @return array Data.
 	 */

@@ -1,10 +1,10 @@
 <?php
 
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCategoryMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByCustomTaxonomyMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByPostTypeMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox;
-use BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByTagMetabox;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCategoryModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByPostTypeModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -29,7 +29,7 @@ class Bulk_Delete_Posts {
 	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_status( $delete_options ) {
-		$metabox = new DeletePostsByStatusMetabox();
+		$metabox = new DeletePostsByStatusModule();
 
 		return $metabox->delete( $delete_options );
 	}
@@ -46,7 +46,7 @@ class Bulk_Delete_Posts {
 	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_category( $delete_options ) {
-		$metabox = new DeletePostsByCategoryMetabox();
+		$metabox = new DeletePostsByCategoryModule();
 
 		return $metabox->delete( $delete_options );
 	}
@@ -63,7 +63,7 @@ class Bulk_Delete_Posts {
 	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_tag( $delete_options ) {
-		$metabox = new DeletePostsByTagMetabox();
+		$metabox = new DeletePostsByTagModule();
 
 		return $metabox->delete( $delete_options );
 	}
@@ -80,7 +80,7 @@ class Bulk_Delete_Posts {
 	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_taxonomy( $delete_options ) {
-		$metabox = new DeletePostsByCustomTaxonomyMetabox();
+		$metabox = new DeletePostsByTaxonomyModule();
 
 		return $metabox->delete( $delete_options );
 	}
@@ -97,7 +97,7 @@ class Bulk_Delete_Posts {
 	 * @return int $posts_deleted  Number of posts that were deleted
 	 */
 	public static function delete_posts_by_post_type( $delete_options ) {
-		$metabox = new DeletePostsByPostTypeMetabox();
+		$metabox = new DeletePostsByPostTypeModule();
 
 		return $metabox->delete( $delete_options );
 	}

@@ -1,7 +1,7 @@
 <?php
-namespace BulkWP\BulkDelete\Core\Metas\Metabox;
+namespace BulkWP\BulkDelete\Core\Metas\Modules;
 
-use BulkWP\BulkDelete\Core\Metas\MetasMetabox;
+use BulkWP\BulkDelete\Core\Metas\MetasModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  *
  * @since 6.0.0
  */
-class DeleteCommentMetaMetabox extends MetasMetabox {
+class DeleteCommentMetaModule extends MetasModule {
 	protected function initialize() {
 		$this->field_slug    = 'meta_comment';
 		$this->meta_box_slug = 'bd-meta-comment';
@@ -23,7 +23,7 @@ class DeleteCommentMetaMetabox extends MetasMetabox {
 	}
 
 	/**
-	 * Render the Metabox.
+	 * Render the Modules.
 	 *
 	 * @return void
 	 */

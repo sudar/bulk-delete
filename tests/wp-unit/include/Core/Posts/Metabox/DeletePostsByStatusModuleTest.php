@@ -1,29 +1,29 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Posts\Metabox;
+namespace BulkWP\BulkDelete\Core\Posts\Modules;
 
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
  * Test Deletion of Posts by status.
  *
- * Tests \BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox
+ * Tests \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule
  *
  * @since 6.0.0
  */
-class DeletePostsByStatusMetaboxTest extends WPCoreUnitTestCase {
+class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 	/**
 	 * The metabox that is getting tested.
 	 *
-	 * @var \BulkWP\BulkDelete\Core\Posts\Metabox\DeletePostsByStatusMetabox
+	 * @var \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule
 	 */
 	protected $metabox;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->metabox = new DeletePostsByStatusMetabox();
+		$this->metabox = new DeletePostsByStatusModule();
 	}
 
 	/**
