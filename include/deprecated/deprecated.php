@@ -45,15 +45,20 @@ add_filter( 'bd_delete_options', 'bd_delete_options_compatibility' );
 /**
  * Handle backward compatibility for Delete Pages by status delete options.
  *
- * Backward compatibility code. Will be removed in Bulk Delete v6.0
+ * Backward compatibility code. Will eventually be removed.
  *
  * @since 6.0.0
  *
- * @param array $options Delete Options.
+ * @param array                                    $options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox Metabox.
  *
  * @return array Processed delete options.
  */
-function bd_convert_old_options_for_delete_pages( $options ) {
+function bd_convert_old_options_for_delete_pages( $options, $metabox ) {
+	if ( 'delete_pages_by_status' !== $metabox->get_action() ) {
+		return $options;
+	}
+
 	if ( array_key_exists( 'page_op', $options ) ) {
 		$options['date_op'] = $options['page_op'];
 		$options['days']    = $options['page_days'];
@@ -61,7 +66,7 @@ function bd_convert_old_options_for_delete_pages( $options ) {
 
 	return $options;
 }
-add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_pages' );
+add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_pages', 10, 2 );
 
 /**
  * Handle backward compatibility for Delete Posts by category delete options.
