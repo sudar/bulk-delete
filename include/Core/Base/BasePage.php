@@ -320,6 +320,15 @@ abstract class BasePage {
 	}
 
 	/**
+	 * Getter for Hook Suffix.
+	 *
+	 * @return string Hook Suffix of the page.
+	 */
+	public function get_hook_suffix() {
+		return $this->hook_suffix;
+	}
+
+	/**
 	 * Get the url to the plugin directory.
 	 *
 	 * @return string Url to plugin directory.

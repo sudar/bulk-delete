@@ -420,6 +420,31 @@ final class BulkDelete {
 	}
 
 	/**
+	 * Get the hook suffix of a page.
+	 *
+	 * @param string $page_slug Page slug.
+	 *
+	 * @return null|string Hook suffix if found, null otherwise.
+	 */
+	public function get_page_hook_suffix( $page_slug ) {
+		$admin_page = '';
+
+		if ( array_key_exists( $page_slug, $this->get_primary_pages() ) ) {
+			$admin_page = $this->primary_pages[ $page_slug ];
+		}
+
+		if ( array_key_exists( $page_slug, $this->get_secondary_pages() ) ) {
+			$admin_page = $this->secondary_pages[ $page_slug ];
+		}
+
+		if ( $admin_page instanceof BasePage ) {
+			return $admin_page->get_hook_suffix();
+		}
+
+		return null;
+	}
+
+	/**
 	 * Getter for Autoloader.
 	 *
 	 * @return \BulkWP\BulkDelete\BulkDeleteAutoloader
