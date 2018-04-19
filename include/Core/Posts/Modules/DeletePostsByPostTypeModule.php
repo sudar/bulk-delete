@@ -1,17 +1,17 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Posts\Metabox;
+namespace BulkWP\BulkDelete\Core\Posts\Modules;
 
-use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
+use BulkWP\BulkDelete\Core\Posts\PostsModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Post Type Metabox.
+ * Delete Posts by Post Type Module.
  *
  * @since 6.0.0
  */
-class DeletePostsByPostTypeMetabox extends PostsMetabox {
+class DeletePostsByPostTypeModule extends PostsModule {
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'types';
@@ -61,10 +61,10 @@ class DeletePostsByPostTypeMetabox extends PostsMetabox {
 		/**
 		 * Filter delete options before deleting posts.
 		 *
-		 * @since 6.0.0 Added `Metabox` parameter.
+		 * @since 6.0.0 Added `Modules` parameter.
 		 *
 		 * @param array $options Delete options.
-		 * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox Metabox that is triggering deletion.
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule Modules that is triggering deletion.
 		 */
 		$options = apply_filters( 'bd_delete_options', $options, $this );
 

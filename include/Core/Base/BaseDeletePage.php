@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  *
  * @since 6.0.0
  */
-abstract class MetaboxPage extends BasePage {
+abstract class BaseDeletePage extends BasePage {
 	/**
 	 * Item Type. Possible values 'posts', 'pages', 'users' etc.
 	 *
@@ -20,7 +20,7 @@ abstract class MetaboxPage extends BasePage {
 	/**
 	 * Metaboxes registered to this page.
 	 *
-	 * @var \BulkWP\BulkDelete\Core\Base\BaseMetabox[]
+	 * @var \BulkWP\BulkDelete\Core\Base\BaseModule[]
 	 */
 	protected $metaboxes = array();
 
@@ -38,7 +38,7 @@ abstract class MetaboxPage extends BasePage {
 	/**
 	 * Add a metabox to page.
 	 *
-	 * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox Metabox to add.
+	 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox Modules to add.
 	 */
 	public function add_metabox( $metabox ) {
 		if ( in_array( $metabox, $this->metaboxes, true ) ) {

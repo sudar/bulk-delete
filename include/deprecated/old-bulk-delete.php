@@ -12,6 +12,10 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Main Bulk_Delete class.
  *
+ * @property string|null translations
+ * @property string|null posts_page
+ * @property string|null pages_page
+ *
  * @since 5.0 Singleton
  * @since 6.0.0 Deprecated.
  */
@@ -32,8 +36,19 @@ final class Bulk_Delete {
 	 */
 	private $plugin_file;
 
-	// version
-	const VERSION                   = '5.6.1';
+	// Deprecated constants. They are defined here for backward compatibility.
+	const VERSION = '5.6.1';
+
+	const JS_HANDLE = 'bulk-delete';
+
+	// Cron hooks.
+	const CRON_HOOK_PAGES_STATUS = 'do-bulk-delete-pages-by-status'; // used in Scheduler For Deleting Pages by Post status add-on v0.6.
+
+	const CRON_HOOK_POST_STATUS = 'do-bulk-delete-post-status';      // used in Scheduler For Deleting Posts by Post status add-on v0.6.
+	const CRON_HOOK_CATEGORY    = 'do-bulk-delete-cat';              // used in Scheduler For Deleting Posts by Category add-on v0.6.
+	const CRON_HOOK_TAG         = 'do-bulk-delete-tag';              // used in Scheduler For Deleting Posts by Tag add-on v0.6.
+	const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';         // used in Scheduler For Deleting Posts by Taxonomy add-on v0.6.
+	const CRON_HOOK_POST_TYPE   = 'do-bulk-delete-post-type';        // used in Scheduler For Deleting Posts by Post Type add-on v0.6.
 
 	// page slugs
 	const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
@@ -41,31 +56,13 @@ final class Bulk_Delete {
 	const CRON_PAGE_SLUG            = 'bulk-delete-cron';
 	const ADDON_PAGE_SLUG           = 'bulk-delete-addon';
 
-	// JS constants
-	const JS_HANDLE                 = 'bulk-delete';
-	const CSS_HANDLE                = 'bulk-delete';
-
 	// Cron hooks
-	const CRON_HOOK_CATEGORY        = 'do-bulk-delete-cat';
-	const CRON_HOOK_POST_STATUS     = 'do-bulk-delete-post-status';
-	const CRON_HOOK_TAG             = 'do-bulk-delete-tag';
-	const CRON_HOOK_TAXONOMY        = 'do-bulk-delete-taxonomy';
-	const CRON_HOOK_POST_TYPE       = 'do-bulk-delete-post-type';
 	const CRON_HOOK_CUSTOM_FIELD    = 'do-bulk-delete-custom-field';
 	const CRON_HOOK_TITLE           = 'do-bulk-delete-by-title';
 	const CRON_HOOK_DUPLICATE_TITLE = 'do-bulk-delete-by-duplicate-title';
 	const CRON_HOOK_POST_BY_ROLE    = 'do-bulk-delete-posts-by-role';
 
-	const CRON_HOOK_PAGES_STATUS    = 'do-bulk-delete-pages-by-status';
-
 	// meta boxes for delete posts
-	const BOX_POST_STATUS           = 'bd_by_post_status';
-	const BOX_CATEGORY              = 'bd_by_category';
-	const BOX_TAG                   = 'bd_by_tag';
-	const BOX_TAX                   = 'bd_by_tax';
-	const BOX_POST_TYPE             = 'bd_by_post_type';
-	const BOX_URL                   = 'bd_by_url';
-	const BOX_POST_REVISION         = 'bd_by_post_revision';
 	const BOX_CUSTOM_FIELD          = 'bd_by_custom_field';
 	const BOX_TITLE                 = 'bd_by_title';
 	const BOX_DUPLICATE_TITLE       = 'bd_by_duplicate_title';
@@ -73,7 +70,6 @@ final class Bulk_Delete {
 	const BOX_POST_BY_ROLE          = 'bd_post_by_user_role';
 
 	// meta boxes for delete pages
-	const BOX_PAGE_STATUS           = 'bd_by_page_status';
 	const BOX_PAGE_FROM_TRASH       = 'bd_pages_from_trash';
 
 	// Settings constants
@@ -84,19 +80,12 @@ final class Bulk_Delete {
 	// Transient keys
 	const LICENSE_CACHE_KEY_PREFIX  = 'bd-license_';
 
-	const MAX_SELECT2_LIMIT  = 50;
-
 	// path variables
 	// Ideally these should be constants, but because of PHP's limitations, these are static variables
 	public static $PLUGIN_DIR;
 	public static $PLUGIN_FILE;
 
 	// Instance variables
-	public $translations;
-	public $posts_page;
-	public $pages_page;
-	public $cron_page;
-	public $addon_page;
 	public $settings_page;
 	public $meta_page;
 	public $misc_page;
@@ -141,7 +130,6 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	public function __clone() {
-		// Cloning instances of the class is forbidden
 		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'bulk-delete' ), '5.0' );
 	}
 
@@ -154,7 +142,6 @@ final class Bulk_Delete {
 	 * @return void
 	 */
 	public function __wakeup() {
-		// Unserializing instances of the class is forbidden
 		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'bulk-delete' ), '5.0' );
 	}
 
@@ -192,6 +179,40 @@ final class Bulk_Delete {
 
 		$post_page->enqueue_assets();
 	}
+
+	/**
+	 * Provide access to old public fields through Magic method.
+	 *
+	 * This function is added to provide backward compatibility and will be eventually removed from future versions.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string $name Field.
+	 *
+	 * @return string|null
+	 */
+	public function __get( $name ) {
+		$new_bd = BulkDelete::get_instance();
+
+		switch ( $name ) {
+			case 'translations':
+				return $new_bd->get_translations_path();
+				break;
+
+			case 'posts_page':
+				return $new_bd->get_page_hook_suffix( 'bulk-delete-posts' );
+				break;
+
+			case 'pages_page':
+				return $new_bd->get_page_hook_suffix( 'bulk-delete-pages' );
+				break;
+		}
+
+		$trace = debug_backtrace();
+		trigger_error( 'Undefined property via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_NOTICE );
+
+		return null;
+	}
 }
 
 /**
@@ -211,6 +232,15 @@ function BULK_DELETE() {
 	return Bulk_Delete::get_instance();
 }
 
+/**
+ * Setup old Bulk_Delete class for backward compatibility reasons.
+ *
+ * Eventually this will be removed.
+ *
+ * @since 6.0.0
+ *
+ * @param string $plugin_file Main plugin file.
+ */
 function bd_setup_backward_compatibility( $plugin_file ) {
 	$bd = BULK_DELETE();
 	$bd->set_plugin_file( $plugin_file );

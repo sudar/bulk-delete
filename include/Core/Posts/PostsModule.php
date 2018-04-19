@@ -1,16 +1,16 @@
 <?php
 namespace BulkWP\BulkDelete\Core\Posts;
 
-use BulkWP\BulkDelete\Core\Base\BaseMetabox;
+use BulkWP\BulkDelete\Core\Base\BaseModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Metabox for deleting posts.
+ * Module for deleting posts.
  *
  * @since 6.0.0
  */
-abstract class PostsMetabox extends BaseMetabox {
+abstract class PostsModule extends BaseModule {
 	/**
 	 * Build query params for WP_Query by using delete options.
 	 *
@@ -53,10 +53,10 @@ abstract class PostsMetabox extends BaseMetabox {
 		/**
 		 * Filter delete options before deleting posts.
 		 *
-		 * @since 6.0.0 Added `Metabox` parameter.
+		 * @since 6.0.0 Added `Modules` parameter.
 		 *
 		 * @param array $options Delete options.
-		 * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox Metabox that is triggering deletion.
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule Modules that is triggering deletion.
 		 */
 		$options = apply_filters( 'bd_delete_options', $options, $this );
 

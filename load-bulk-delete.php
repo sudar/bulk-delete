@@ -73,6 +73,10 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'BD_Settings_Page'                         => $plugin_dir . 'include/settings/class-bd-settings-page.php',
 		'BD_Settings'                              => $plugin_dir . 'include/settings/class-bd-settings.php',
 		'BD_System_Info_page'                      => $plugin_dir . 'include/system-info/class-bd-system-info-page.php',
+
+		// Deprecated classes.
+		'Bulk_Delete_Posts'                        => $plugin_dir . 'include/deprecated/class-bulk-delete-posts.php',
+		'Bulk_Delete_Pages'                        => $plugin_dir . 'include/deprecated/class-bulk-delete-pages.php',
 	);
 }
 
@@ -100,5 +104,6 @@ function bd_get_custom_include_files() {
 		'include/ui/admin-ui.php',
 		'include/util/query.php',
 		'include/settings/setting-helpers.php',
+		'include/deprecated/deprecated.php',
 	);
 }

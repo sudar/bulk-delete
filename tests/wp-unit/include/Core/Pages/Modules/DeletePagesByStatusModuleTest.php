@@ -1,29 +1,29 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Pages\Metabox;
+namespace BulkWP\BulkDelete\Core\Pages\Modules;
 
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
  * Test Deletion of Pages by status.
  *
- * Tests \BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox
+ * Tests \BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule
  *
  * @since 6.0.0
  */
-class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
+class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 
 	/**
-	 * The metabox that is getting tested.
+	 * The module that is getting tested.
 	 *
-	 * @var \BulkWP\BulkDelete\Core\Pages\Metabox\DeletePagesByStatusMetabox
+	 * @var \BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule
 	 */
-	protected $metabox;
+	protected $module;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->metabox = new DeletePagesByStatusMetabox();
+		$this->module = new DeletePagesByStatusModule();
 	}
 
 	/**
@@ -56,7 +56,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 			'force_delete' => false,
 		);
 
-		$pages_deleted = $this->metabox->delete( $delete_options );
+		$pages_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 20, $pages_deleted );
 
 		$published_pages = $this->get_pages_by_status();
@@ -97,7 +97,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 			'force_delete' => true,
 		);
 
-		$pages_deleted = $this->metabox->delete( $delete_options );
+		$pages_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 20, $pages_deleted );
 
 		$published_pages = $this->get_pages_by_status();
@@ -142,7 +142,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 			'days'         => '3',
 		);
 
-		$pages_deleted = $this->metabox->delete( $delete_options );
+		$pages_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 20, $pages_deleted );
 
 		$published_pages = $this->get_pages_by_status();
@@ -187,7 +187,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 			'days'         => '5',
 		);
 
-		$pages_deleted = $this->metabox->delete( $delete_options );
+		$pages_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 20, $pages_deleted );
 
 		$published_pages = $this->get_pages_by_status();
@@ -229,7 +229,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 			'force_delete' => false,
 		);
 
-		$pages_deleted = $this->metabox->delete( $delete_options );
+		$pages_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 80, $pages_deleted );
 
 		$published_pages = $this->get_pages_by_status();
@@ -264,7 +264,7 @@ class DeletePagesByStatusMetaboxTest extends WPCoreUnitTestCase {
 			'force_delete' => true,
 		);
 
-		$pages_deleted = $this->metabox->delete( $delete_options );
+		$pages_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $pages_deleted );
 
 		$published_pages = $this->get_pages_by_status( 'private' );

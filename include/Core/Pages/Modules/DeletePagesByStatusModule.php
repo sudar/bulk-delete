@@ -1,17 +1,17 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Pages\Metabox;
+namespace BulkWP\BulkDelete\Core\Pages\Modules;
 
-use BulkWP\BulkDelete\Core\Pages\PagesMetabox;
+use BulkWP\BulkDelete\Core\Pages\PagesModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Pages by Status Metabox.
+ * Delete Pages by Status Module.
  *
  * @since 6.0.0
  */
-class DeletePagesByStatusMetabox extends PagesMetabox {
+class DeletePagesByStatusModule extends PagesModule {
 	protected function initialize() {
 		$this->item_type     = 'pages';
 		$this->field_slug    = 'pages';

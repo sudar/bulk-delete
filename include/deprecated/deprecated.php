@@ -16,11 +16,16 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  *
  * @since 5.5
  *
- * @param array $options Old options.
+ * @param array                                   $options Old options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module  Modules.
  *
  * @return array New options.
  */
-function bd_delete_options_compatibility( $options ) {
+function bd_delete_options_compatibility( $options, $module ) {
+	if ( 'delete_pages_by_status' === $module->get_action() ) {
+		return $options;
+	}
+
 	// Convert bool keys to boolean
 	$bool_keys = array( 'restrict', 'force_delete', 'private' );
 	foreach ( $bool_keys as $key ) {
@@ -40,20 +45,25 @@ function bd_delete_options_compatibility( $options ) {
 
 	return $options;
 }
-add_filter( 'bd_delete_options', 'bd_delete_options_compatibility' );
+add_filter( 'bd_delete_options', 'bd_delete_options_compatibility', 10, 2 );
 
 /**
  * Handle backward compatibility for Delete Pages by status delete options.
  *
- * Backward compatibility code. Will be removed in Bulk Delete v6.0
+ * Backward compatibility code. Will eventually be removed.
  *
  * @since 6.0.0
  *
- * @param array $options Delete Options.
+ * @param array                                   $options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox Modules.
  *
  * @return array Processed delete options.
  */
-function bd_convert_old_options_for_delete_pages( $options ) {
+function bd_convert_old_options_for_delete_pages( $options, $metabox ) {
+	if ( 'delete_pages_by_status' !== $metabox->get_action() ) {
+		return $options;
+	}
+
 	if ( array_key_exists( 'page_op', $options ) ) {
 		$options['date_op'] = $options['page_op'];
 		$options['days']    = $options['page_days'];
@@ -61,7 +71,7 @@ function bd_convert_old_options_for_delete_pages( $options ) {
 
 	return $options;
 }
-add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_pages' );
+add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_pages', 10, 2 );
 
 /**
  * Handle backward compatibility for Delete Posts by category delete options.
@@ -91,8 +101,8 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_posts_by_cat
  *
  * @since 6.0.0
  *
- * @param array                                    $options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox Metabox.
+ * @param array                                   $options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox Modules.
  *
  * @return array Processed delete options.
  */
@@ -116,10 +126,10 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_posts_by_tag
  * Backward compatibility code. Will be removed in Bulk Delete v6.0.
  *
  * @since 5.6.0
- * @since 6.0.0 Added Metabox parameter.
+ * @since 6.0.0 Added Modules parameter.
  *
- * @param array                                    $delete_options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox        Metabox.
+ * @param array                                   $delete_options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox        Modules.
  *
  * @return array Processed delete options.
  */
@@ -170,8 +180,8 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_stat
  *
  * @since 6.0.0
  *
- * @param array                                    $delete_options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox        Metabox.
+ * @param array                                   $delete_options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox        Modules.
  *
  * @return array Processed delete options.
  */
@@ -196,8 +206,8 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_taxo
  *
  * @since 6.0.0
  *
- * @param array                                    $delete_options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseMetabox $metabox        Metabox.
+ * @param array                                   $delete_options Delete Options.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox        Modules.
  *
  * @return array Processed delete options.
  */

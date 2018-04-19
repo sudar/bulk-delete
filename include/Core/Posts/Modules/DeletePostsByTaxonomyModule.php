@@ -1,17 +1,17 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Posts\Metabox;
+namespace BulkWP\BulkDelete\Core\Posts\Modules;
 
-use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
+use BulkWP\BulkDelete\Core\Posts\PostsModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Custom Taxonomy Metabox.
+ * Delete Posts by Custom Taxonomy Module.
  *
  * @since 6.0.0
  */
-class DeletePostsByCustomTaxonomyMetabox extends PostsMetabox {
+class DeletePostsByTaxonomyModule extends PostsModule {
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'taxs';

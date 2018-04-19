@@ -63,7 +63,7 @@ function bd_to_bool( $string ) {
  * @return int GMT Offseted time.in Unix Timestamp.
  */
 function bd_get_gmt_offseted_time( $time_string ) {
-	$gmt_offset = absint( get_option( 'gmt_offset' ) );
+	$gmt_offset = sanitize_text_field( get_option( 'gmt_offset' ) );
 
 	return strtotime( $time_string ) - ( $gmt_offset * HOUR_IN_SECONDS );
 }

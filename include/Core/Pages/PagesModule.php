@@ -2,18 +2,18 @@
 
 namespace BulkWP\BulkDelete\Core\Pages;
 
-use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
+use BulkWP\BulkDelete\Core\Posts\PostsModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Metabox for deleting pages.
+ * Module for deleting pages.
  *
- * This class extends PostsMetabox since Page is a type of Post.
+ * This class extends PostsModule since Page is a type of Post.
  *
  * @since 6.0.0
  */
-abstract class PagesMetabox extends PostsMetabox {
+abstract class PagesModule extends PostsModule {
 	protected $item_type = 'pages';
 
 	public function filter_js_array( $js_array ) {

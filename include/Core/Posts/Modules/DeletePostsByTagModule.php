@@ -1,17 +1,17 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Posts\Metabox;
+namespace BulkWP\BulkDelete\Core\Posts\Modules;
 
-use BulkWP\BulkDelete\Core\Posts\PostsMetabox;
+use BulkWP\BulkDelete\Core\Posts\PostsModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Tag Metabox.
+ * Delete Posts by Tag Module.
  *
  * @since 6.0.0
  */
-class DeletePostsByTagMetabox extends PostsMetabox {
+class DeletePostsByTagModule extends PostsModule {
 	/**
 	 * Base parameters setup.
 	 */
