@@ -5,6 +5,7 @@ namespace BulkWP\BulkDelete\Core;
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Cron\CronListPage;
 use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
+use BulkWP\BulkDelete\Core\Metas\Modules\DeletePostMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteCommentMetaModule;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
@@ -352,6 +353,7 @@ final class BulkDelete {
 		$metas_page = new DeleteMetasPage( $this->get_plugin_file() );
 
 		$metas_page->add_metabox( new DeleteCommentMetaModule() );
+		$metas_page->add_metabox( new DeletePostMetaModule() );
 
 		return $metas_page;
 	}
