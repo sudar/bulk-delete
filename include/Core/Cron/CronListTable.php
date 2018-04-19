@@ -57,7 +57,7 @@ class CronListTable extends \WP_List_Table {
 		return array(
 			'col_cron_due'      => __( 'Next Due', 'bulk-delete' ),
 			'col_cron_schedule' => __( 'Schedule', 'bulk-delete' ),
-			'col_cron_type'     => __( 'Type', 'bulk-delete' ),
+			'col_cron_type'     => __( 'Action', 'bulk-delete' ),
 			'col_cron_options'  => __( 'Options', 'bulk-delete' ),
 		);
 	}
