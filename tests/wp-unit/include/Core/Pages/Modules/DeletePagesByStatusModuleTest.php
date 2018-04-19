@@ -193,6 +193,9 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		$published_pages = $this->get_pages_by_status();
 		$this->assertEquals( 0, count( $published_pages ) );
 
+		$draft_pages = $this->get_pages_by_status( 'draft' );
+		$this->assertEquals( 0, count( $draft_pages ) );
+
 		$trash_pages = $this->get_pages_by_status( 'trash' );
 		$this->assertEquals( 20, count( $trash_pages ) );
 	}
