@@ -182,7 +182,8 @@ class DeletePostMetaModule extends MetasModule {
 	}
 
 	public function delete( $options ) {
-		$args = array(
+		$count = 0;
+		$args  = array(
 			'post_type' => $options['post_type'],
 		);
 
@@ -196,42 +197,53 @@ class DeletePostMetaModule extends MetasModule {
 		if ( $options['restrict'] ) {
 			$args['date_query'] = array(
 				array(
-					'column' => 'comment_date',
+					'column' => 'post_date',
 					$op      => "{$days} day ago",
 				),
 			);
 		}
 
-		if ( $options['use_value'] ) {
-			$args['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $options );
+		if ( 'use_key' === $options['use_value'] ) {
+			$options['meta_key'] = $options['meta_key'];
 		} else {
-			$args['meta_key'] = $options['meta_key'];
+			$options['meta_query'] = apply_filters( 'bd_delete_post_meta_query', array(), $options );
 		}
 
-		$meta_deleted = 0;
-		$comments     = get_comments( $args );
-
-		foreach ( $comments as $comment ) {
-			if ( delete_comment_meta( $comment->comment_ID, $options['meta_key'] ) ) {
-				$meta_deleted ++;
+		$post_ids = bd_query( $args );
+		foreach ( $post_ids as $post_id ) {
+			if ( isset( $options['meta_key'] ) && is_array( $options['meta_key'] ) ) {
+				$is_post_id_counted = false;
+				foreach ( $options['meta_key'] as $meta_key ) {
+					if ( delete_post_meta( $post_id, $meta_key ) ) {
+						if ( $is_post_id_counted ) {
+							continue;
+						}
+						$count++;
+						$is_post_id_counted = true;
+					}
+				}
+			} else {
+				if ( delete_post_meta( $post_id, $options['meta_key'] ) ) {
+					$count++;
+				}
 			}
 		}
 
-		return $meta_deleted;
+		return $count;
 	}
 
 	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
-		$js_array['validators'][ $this->action ] = 'noValidation';
+		$js_array['dt_iterators'][]                 = '_pm';
+		$js_array['validators']['delete_meta_post'] = 'noValidation';
 
-		$js_array['pre_action_msg'][ $this->action ] = 'deleteCMWarning';
-		$js_array['msg']['deleteCMWarning']          = __( 'Are you sure you want to delete all the comment meta fields that match the selected filters?', 'bulk-delete' );
+		$js_array['pre_action_msg']['delete_meta_post'] = 'deletePMWarning';
+		$js_array['msg']['deletePMWarning']             = __( 'Are you sure you want to delete all the post meta fields that match the selected filters?', 'bulk-delete' );
 
 		return $js_array;
 	}
 
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted comment meta field from %d comment', 'Deleted comment meta field from %d comments', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted post meta field from %d post', 'Deleted post meta field from %d posts', $items_deleted, 'bulk-delete' );
 	}
 }
