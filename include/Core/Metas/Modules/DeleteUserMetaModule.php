@@ -39,8 +39,8 @@ class DeleteUserMetaModule extends MetasModule {
 ?>
             <tr>
                 <td>
-                    <input name="smbd_um_role" value = "<?php echo $role; ?>" type = "radio" <?php checked( $role, 'administrator' ); ?>>
-                    <label for="smbd_um_role"><?php echo $role; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)</label>
+                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_role" value = "<?php echo $role; ?>" type = "radio" <?php checked( $role, 'administrator' ); ?>>
+                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_role"><?php echo $role; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)</label>
                 </td>
             </tr>
 <?php
@@ -52,15 +52,15 @@ class DeleteUserMetaModule extends MetasModule {
         <table class="optiontable">
             <tr>
                 <td>
-                    <input name="smbd_um_use_value" value="false" type="radio" checked>
-                    <label for="smbd_um_use_value"><?php echo __( 'Delete based on user meta key name only', 'bulk-delete' ); ?></label>
+                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="false" type="radio" checked>
+                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on user meta key name only', 'bulk-delete' ); ?></label>
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    <input name="smbd_um_use_value" id="smbd_um_use_value" value="true" type="radio" disabled>
-                    <label for="smbd_um_use_value"><?php echo __( 'Delete based on user meta key name and value', 'bulk-delete' ); ?></label>
+                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="true" type="radio" disabled>
+                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on user meta key name and value', 'bulk-delete' ); ?></label>
                     <span class="bd-um-pro" style="color:red; vertical-align: middle;">
                         <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u" target="_blank">Buy now</a>
                     </span>
@@ -69,8 +69,8 @@ class DeleteUserMetaModule extends MetasModule {
 
             <tr>
                 <td>
-                    <label for="smbd_um_key"><?php _e( 'User Meta Key ', 'bulk-delete' ); ?></label>
-                    <input name="smbd_um_key" id="smbd_um_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
+                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key"><?php _e( 'User Meta Key ', 'bulk-delete' ); ?></label>
+                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
                 </td>
             </tr>
         </table>
@@ -92,19 +92,19 @@ class DeleteUserMetaModule extends MetasModule {
 
             <tr>
                 <td>
-                    <input name="smbd_um_limit" id="smbd_um_limit" value = "true" type = "checkbox">
+                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" value = "true" type = "checkbox">
                     <?php _e( 'Only delete user meta field from first ', 'bulk-delete' );?>
-                    <input type ="textbox" name="smbd_um_limit_to" id="smbd_um_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'users.', 'bulk-delete' );?>
+                    <input type ="textbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'users.', 'bulk-delete' );?>
                     <?php _e( 'Use this option if there are more than 1000 users and the script times out.', 'bulk-delete' ) ?>
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    <input name="smbd_um_cron" value = "false" type = "radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
-                    <input name="smbd_um_cron" value = "true" type = "radio" id = "smbd_um_cron" disabled > <?php _e( 'Schedule', 'bulk-delete' ); ?>
-                    <input name="smbd_um_cron_start" id = "smbd_um_cron_start" value = "now" type = "text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
-                    <select name="smbd_um_cron_freq" id = "smbd_um_cron_freq" disabled>
+                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value = "false" type = "radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
+                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value = "true" type = "radio" id = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" disabled > <?php _e( 'Schedule', 'bulk-delete' ); ?>
+                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" id = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value = "now" type = "text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
+                    <select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" id = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" disabled>
                         <option value = "-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
 <?php
 		$schedules = wp_get_schedules();
@@ -147,56 +147,49 @@ class DeleteUserMetaModule extends MetasModule {
 	}
 
 	public function delete( $options ) {
-		$args = array(
-			'post_type' => $options['post_type'],
+		$count     = 0;
+		$user_role = $options['user_role'];
+		$meta_key  = $options['meta_key'];
+		$use_value = $options['use_value'];
+		$limit_to  = $options['limit_to'];
+
+		$options = array(
+			'role' => $user_role,
 		);
 
-		if ( $options['limit_to'] > 0 ) {
-			$args['number'] = $options['limit_to'];
+		if ( $limit_to > 0 ) {
+			$options['number'] = $limit_to;
 		}
 
-		$op   = $options['date_op'];
-		$days = $options['days'];
-
-		if ( $options['restrict'] ) {
-			$args['date_query'] = array(
-				array(
-					'column' => 'comment_date',
-					$op      => "{$days} day ago",
-				),
-			);
-		}
-
-		if ( $options['use_value'] ) {
-			$args['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $options );
+		if ( $use_value ) {
+			$options['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $delete_options );
 		} else {
-			$args['meta_key'] = $options['meta_key'];
+			$options['meta_key'] = $meta_key;
 		}
 
-		$meta_deleted = 0;
-		$comments     = get_comments( $args );
+		$users = get_users( $options );
 
-		foreach ( $comments as $comment ) {
-			if ( delete_comment_meta( $comment->comment_ID, $options['meta_key'] ) ) {
-				$meta_deleted ++;
+		foreach ( $users as $user ) {
+			if ( delete_user_meta( $user->ID, $meta_key ) ) {
+				$count++;
 			}
 		}
 
-		return $meta_deleted;
+		return $count;
 	}
 
 	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
-		$js_array['validators'][ $this->action ] = 'noValidation';
+		$js_array['dt_iterators'][]                 = '_um';
+		$js_array['validators']['delete_meta_user'] = 'noValidation';
 
-		$js_array['pre_action_msg'][ $this->action ] = 'deleteCMWarning';
-		$js_array['msg']['deleteCMWarning']          = __( 'Are you sure you want to delete all the comment meta fields that match the selected filters?', 'bulk-delete' );
+		$js_array['pre_action_msg']['delete_meta_user'] = 'deleteUMWarning';
+		$js_array['msg']['deleteUMWarning']             = __( 'Are you sure you want to delete all the user meta fields that match the selected filters?', 'bulk-delete' );
 
 		return $js_array;
 	}
 
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted comment meta field from %d comment', 'Deleted comment meta field from %d comments', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted user meta field from %d user', 'Deleted user meta field from %d users', $items_deleted, 'bulk-delete' );
 	}
 }
