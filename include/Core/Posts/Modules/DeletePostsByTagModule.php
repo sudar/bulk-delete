@@ -111,6 +111,6 @@ class DeletePostsByTagModule extends PostsModule {
 	 * @return string humane readable title
 	 */
 	protected function get_cron_action_name(){
-		return _e( "Delete Post By Tag" );
+		return _e( 'Delete Post By Tag' );
 	}
 }
