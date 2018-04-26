@@ -107,4 +107,13 @@ class DeletePostsByPostTypeModule extends PostsModule {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d post with the selected post type', 'Deleted %d posts with the selected post type', $items_deleted, 'bulk-delete' );
 	}
+
+	/**
+	 * Schedule job title.
+	 *
+	 * @return string humane readable title
+	 */
+	protected function get_cron_action_name(){
+		return _e( "Delete Post By Post Type" );
+	}
 }

@@ -138,4 +138,13 @@ class DeletePagesByStatusModule extends PagesModule {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d page with the selected page status', 'Deleted %d pages with the selected page status', $items_deleted, 'bulk-delete' );
 	}
+
+	/**
+	 * Schedule job title.
+	 *
+	 * @return string humane readable title
+	 */
+	protected function get_cron_action_name(){
+		return _e( "Delete Pages by Status" );
+	}
 }

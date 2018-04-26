@@ -149,4 +149,13 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d post with the selected taxonomy', 'Deleted %d posts with the selected post taxonomy', $items_deleted, 'bulk-delete' );
 	}
+
+	/**
+	 * Schedule job title.
+	 *
+	 * @return string humane readable title
+	 */
+	protected function get_cron_action_name(){
+		return _e( "Delete Post By Taxonomy" );
+	}
 }

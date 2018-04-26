@@ -123,6 +123,8 @@ abstract class BaseModule extends Renderer {
 	 */
 	abstract protected function get_success_message( $items_deleted );
 
+	abstract protected function get_cron_action_name();
+
 	/**
 	 * Create new instances of Modules.
 	 */
@@ -266,7 +268,7 @@ abstract class BaseModule extends Renderer {
 	public function process( $request ) {
 		$options = $this->parse_common_filters( $request );
 		$options = $this->convert_user_input_to_options( $request, $options );
-
+		$options['cron_name'] = $this->get_cron_action_name();
 		$cron_options = $this->parse_cron_filters( $request );
 
 		if ( $this->is_scheduled( $cron_options ) ) {
