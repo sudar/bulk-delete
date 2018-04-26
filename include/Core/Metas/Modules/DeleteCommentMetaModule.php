@@ -161,6 +161,6 @@ class DeleteCommentMetaModule extends MetasModule {
 	 * @return string humane readable title
 	 */
 	protected function get_cron_action_name(){
-		return _e( "Delete Comment Meta" );
+		return _e( 'Delete Comment Meta' );
 	}
 }

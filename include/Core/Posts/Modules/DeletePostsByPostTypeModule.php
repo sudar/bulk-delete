@@ -114,6 +114,6 @@ class DeletePostsByPostTypeModule extends PostsModule {
 	 * @return string humane readable title
 	 */
 	protected function get_cron_action_name(){
-		return _e( "Delete Post By Post Type" );
+		return _e( 'Delete Post By Post Type' );
 	}
 }
