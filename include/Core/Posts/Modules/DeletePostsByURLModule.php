@@ -74,7 +74,7 @@ class DeletePostsByURLModule extends PostsModule {
 		// Left empty on purpose.
 	}
 
-	protected function get_cron_action_name(){
+	protected function get_cron_name(){
 		// Left empty on this module does not have schedule job
 	}
 }

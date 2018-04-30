@@ -22,6 +22,7 @@ class DeletePostsByPostTypeModule extends PostsModule {
 		$this->messages      = array(
 			'box_label' => __( 'By Post Type', 'bulk-delete' ),
 			'scheduled' => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'cron_name' => __( 'Delete Post By Post Type', 'bulk-delete' ),
 		);
 	}
 
@@ -113,7 +114,7 @@ class DeletePostsByPostTypeModule extends PostsModule {
 	 *
 	 * @return string humane readable title
 	 */
-	protected function get_cron_action_name(){
-		return _e( "Delete Post By Post Type" );
+	protected function get_cron_name(){
+		return $this->messages['cron_name'];
 	}
 }

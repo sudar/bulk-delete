@@ -22,6 +22,7 @@ class DeletePagesByStatusModule extends PagesModule {
 		$this->messages      = array(
 			'box_label' => __( 'By Page Status', 'bulk-delete' ),
 			'scheduled' => __( 'The selected pages are scheduled for deletion', 'bulk-delete' ),
+			'cron_name' => __( 'Delete Pages By status', 'bulk-delete' ),
 		);
 	}
 
@@ -144,7 +145,7 @@ class DeletePagesByStatusModule extends PagesModule {
 	 *
 	 * @return string humane readable title
 	 */
-	protected function get_cron_action_name(){
-		return _e( "Delete Pages by Status" );
+	protected function get_cron_name(){
+		return $this->messages['cron_name'];
 	}
 }
