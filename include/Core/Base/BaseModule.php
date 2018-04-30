@@ -266,9 +266,12 @@ abstract class BaseModule extends Renderer {
 
 	/**
 	 * Helper function for processing cron filter.
+	 *
+	 * @param mixed $options
 	 */
 	protected function process_cron_filters( $options ){
 		$options['cron_name'] = $this->get_cron_name();
+
 		return $options;
 	}
 
@@ -279,9 +282,9 @@ abstract class BaseModule extends Renderer {
 	 * @param array $request Request array.
 	 */
 	public function process( $request ) {
-		$options = $this->parse_common_filters( $request );
-		$options = $this->convert_user_input_to_options( $request, $options );
-		$options = $this->process_cron_filters( $options );
+		$options      = $this->parse_common_filters( $request );
+		$options      = $this->convert_user_input_to_options( $request, $options );
+		$options      = $this->process_cron_filters( $options );
 		$cron_options = $this->parse_cron_filters( $request );
 
 		if ( $this->is_scheduled( $cron_options ) ) {
