@@ -124,12 +124,4 @@ class DeletePostsByStatusModule extends PostsModule {
 		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
 	}
 
-	/**
-	 * Schedule job title.
-	 *
-	 * @return string humane readable title
-	 */
-	protected function get_cron_name(){
-		return $this->messages['cron_name'];
-	}
 }

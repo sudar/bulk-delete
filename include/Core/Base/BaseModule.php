@@ -124,13 +124,6 @@ abstract class BaseModule extends Renderer {
 	abstract protected function get_success_message( $items_deleted );
 
 	/**
-	 * Get Cron Name.
-	 *
-	 * @return string Cron Name.
-	 */
-	abstract protected function get_cron_name();
-
-	/**
 	 * Create new instances of Modules.
 	 */
 	public function __construct() {
@@ -443,5 +436,14 @@ abstract class BaseModule extends Renderer {
 		}
 
 		return $class_name;
+	}
+
+	/**
+	 * Schedule job title.
+	 *
+	 * @return string humane readable title
+	 */
+	public function get_cron_name(){
+		return $this->messages['cron_name'];
 	}
 }

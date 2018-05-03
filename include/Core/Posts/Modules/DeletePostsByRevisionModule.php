@@ -75,8 +75,5 @@ class DeletePostsByRevisionModule extends PostsModule {
 	protected function build_query( $options ) {
 		// Left empty on purpose.
 	}
-
-	protected function get_cron_name(){
-		// Left empty on this moodule does not have schedule job.
-	}
+	
 }

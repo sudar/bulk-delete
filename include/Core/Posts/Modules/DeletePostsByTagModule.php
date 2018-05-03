@@ -106,12 +106,4 @@ class DeletePostsByTagModule extends PostsModule {
 		return _n( 'Deleted %d post with the selected post tag', 'Deleted %d posts with the selected post tag', $items_deleted, 'bulk-delete' );
 	}
 
-	/**
-	 * Schedule job title.
-	 *
-	 * @return string humane readable title
-	 */
-	protected function get_cron_name(){
-		return $this->messages['cron_name'];
-	}
 }

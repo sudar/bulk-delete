@@ -155,13 +155,4 @@ class DeleteCommentMetaModule extends MetasModule {
 		/* translators: 1 Number of posts deleted */
 		return _n( 'Deleted comment meta field from %d comment', 'Deleted comment meta field from %d comments', $items_deleted, 'bulk-delete' );
 	}
-
-	/**
-	 * Schedule job title.
-	 *
-	 * @return string humane readable title
-	 */
-	protected function get_cron_name(){
-		return $this->messages['cron_name'];
-	}
 }

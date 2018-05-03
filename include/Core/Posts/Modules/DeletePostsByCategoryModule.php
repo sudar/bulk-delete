@@ -114,12 +114,4 @@ class DeletePostsByCategoryModule extends PostsModule {
 		return _n( 'Deleted %d post with the selected post category', 'Deleted %d posts with the selected post category', $items_deleted, 'bulk-delete' );
 	}
 
-	/**
-	 * Schedule job title.
-	 *
-	 * @return string humane readable title
-	 */
-	protected function get_cron_name(){
-		return $this->messages['cron_name'];
-	}
 }
