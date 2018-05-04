@@ -22,6 +22,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		$this->messages      = array(
 			'box_label' => __( 'By Taxonomy', 'bulk-delete' ),
 			'scheduled' => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'cron_label' => __( 'Delete Post By Taxonomy', 'bulk-delete' ),
 		);
 	}
 
