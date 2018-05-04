@@ -27,7 +27,7 @@ class DeletePagesByStatusModule extends PagesModule {
 	}
 
 	public function render() {
-		$post_statuses = $this->get_post_statuses();
+		$post_statuses  = $this->get_post_statuses();
 		$pages_count    = wp_count_posts( 'page' );
 		?>
 		<!-- Pages start-->
@@ -78,7 +78,7 @@ class DeletePagesByStatusModule extends PagesModule {
 		}
 
 		$query = array(
-			'post_type'   => 'page',
+			'post_type'    => 'page',
 			'post_status'  => $options['post_status'],
 		);
 
