@@ -38,7 +38,7 @@ class DeletePagesByStatusModule extends PagesModule {
 				<?php foreach ( $post_statuses as $post_status ) : ?>
 				<tr>
 					<td>
-						<input name="smbd_post_status[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
+						<input name="smbd_page_status[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
 							value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
 
 						<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
@@ -67,7 +67,7 @@ class DeletePagesByStatusModule extends PagesModule {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_post_status', array() ) );
+		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_page_status', array() ) );
 
 		return $options;
 	}
@@ -78,8 +78,8 @@ class DeletePagesByStatusModule extends PagesModule {
 		}
 
 		$query = array(
-			'post_type'    => 'page',
-			'post_status'  => $options['post_status'],
+			'post_type'   => 'page',
+			'post_status' => $options['post_status'],
 		);
 
 		return $query;
