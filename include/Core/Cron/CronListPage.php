@@ -89,7 +89,11 @@ class CronListPage extends BasePage {
 						$cron_item['timestamp'] = $timestamp;
 						$cron_item['due']       = date_i18n( $date_format, $timestamp + ( get_option( 'gmt_offset' ) * 60 * 60 ) );
 						$cron_item['schedule']  = $event['schedule'];
-						$cron_item['type']      = $hook;
+						if( isset($event['args'][0]['cron_name']) ){
+							$cron_item['type']  = $event['args'][0]['cron_name'];
+						}else{
+							$cron_item['type']  = $hook;
+						}
 						$cron_item['args']      = $event['args'];
 						$cron_item['id']        = $i;
 					}

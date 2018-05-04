@@ -258,15 +258,26 @@ abstract class BaseModule extends Renderer {
 	}
 
 	/**
+	 * Helper function for processing cron filter.
+	 *
+	 * @param mixed $options
+	 */
+	protected function process_cron_filters( $options ){
+		$options['cron_name'] = $this->get_cron_name();
+
+		return $options;
+	}
+
+	/**
 	 * Helper function for processing deletion.
 	 * Setups up cron and invokes the actual delete method.
 	 *
 	 * @param array $request Request array.
 	 */
 	public function process( $request ) {
-		$options = $this->parse_common_filters( $request );
-		$options = $this->convert_user_input_to_options( $request, $options );
-
+		$options      = $this->parse_common_filters( $request );
+		$options      = $this->convert_user_input_to_options( $request, $options );
+		$options      = $this->process_cron_filters( $options );
 		$cron_options = $this->parse_cron_filters( $request );
 
 		if ( $this->is_scheduled( $cron_options ) ) {
@@ -425,5 +436,14 @@ abstract class BaseModule extends Renderer {
 		}
 
 		return $class_name;
+	}
+
+	/**
+	 * Schedule job title.
+	 *
+	 * @return string humane readable title
+	 */
+	public function get_cron_name(){
+		return $this->messages['cron_name'];
 	}
 }

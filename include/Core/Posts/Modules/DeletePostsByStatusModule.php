@@ -22,6 +22,7 @@ class DeletePostsByStatusModule extends PostsModule {
 		$this->messages      = array(
 			'box_label' => __( 'By Post Status', 'bulk-delete' ),
 			'scheduled' => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'cron_name' => __( 'Delete Post By Status', 'bulk-delete' ),
 		);
 	}
 

@@ -25,6 +25,7 @@ class DeletePostsByTagModule extends PostsModule {
 		$this->messages      = array(
 			'box_label' => __( 'By Post Tag', 'bulk-delete' ),
 			'scheduled' => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'cron_name' => __( 'Delete Post By Tag', 'bulk-delete' ),
 		);
 	}
 

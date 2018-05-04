@@ -19,6 +19,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		$this->messages      = array(
 			'box_label' => __( 'Bulk Delete Comment Meta', 'bulk-delete' ),
 			'scheduled' => __( 'Comment meta fields from the comments with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'cron_name' => __( 'Delete Comment Meta', 'bulk-delete' ),
 		);
 	}
 
