@@ -20,9 +20,9 @@ class DeletePostsByStatusModule extends PostsModule {
 		$this->cron_hook     = 'do-bulk-delete-post-by-status';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sps';
 		$this->messages      = array(
-			'box_label' => __( 'By Post Status', 'bulk-delete' ),
-			'scheduled' => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
-			'cron_name' => __( 'Delete Post By Status', 'bulk-delete' ),
+			'box_label'  => __( 'By Post Status', 'bulk-delete' ),
+			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'cron_label' => __( 'Delete Post By Status', 'bulk-delete' ),
 		);
 	}
 

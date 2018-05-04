@@ -78,7 +78,8 @@ abstract class BaseModule extends Renderer {
 	 * @var array
 	 */
 	protected $messages = array(
-		'box_label' => '',
+		'box_label'  => '',
+		'cron_label' => '',
 	);
 
 	/**
@@ -258,17 +259,6 @@ abstract class BaseModule extends Renderer {
 	}
 
 	/**
-	 * Helper function for processing cron filter.
-	 *
-	 * @param mixed $options
-	 */
-	protected function process_cron_filters( $options ){
-		$options['cron_name'] = $this->get_cron_name();
-
-		return $options;
-	}
-
-	/**
 	 * Helper function for processing deletion.
 	 * Setups up cron and invokes the actual delete method.
 	 *
@@ -277,7 +267,6 @@ abstract class BaseModule extends Renderer {
 	public function process( $request ) {
 		$options      = $this->parse_common_filters( $request );
 		$options      = $this->convert_user_input_to_options( $request, $options );
-		$options      = $this->process_cron_filters( $options );
 		$cron_options = $this->parse_cron_filters( $request );
 
 		if ( $this->is_scheduled( $cron_options ) ) {
@@ -401,6 +390,8 @@ abstract class BaseModule extends Renderer {
 			$cron_options['is_scheduled'] = true;
 			$cron_options['frequency']    = sanitize_text_field( $request[ 'smbd_' . $this->field_slug . '_cron_freq' ] );
 			$cron_options['start_time']   = bd_get_gmt_offseted_time( sanitize_text_field( $request[ 'smbd_' . $this->field_slug . '_cron_start' ] ) );
+
+			$cron_options['cron_label'] = $this->get_cron_label();
 		}
 
 		return $cron_options;
@@ -439,11 +430,11 @@ abstract class BaseModule extends Renderer {
 	}
 
 	/**
-	 * Schedule job title.
+	 * Get the human readable label for the Schedule job.
 	 *
-	 * @return string humane readable title
+	 * @return string Human readable label for schedule job.
 	 */
-	public function get_cron_name(){
-		return $this->messages['cron_name'];
+	protected function get_cron_label() {
+		return $this->messages['cron_label'];
 	}
 }
