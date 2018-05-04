@@ -139,5 +139,4 @@ class DeletePagesByStatusModule extends PagesModule {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d page with the selected page status', 'Deleted %d pages with the selected page status', $items_deleted, 'bulk-delete' );
 	}
-
 }
