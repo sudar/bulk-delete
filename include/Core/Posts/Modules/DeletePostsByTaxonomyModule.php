@@ -150,5 +150,4 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d post with the selected taxonomy', 'Deleted %d posts with the selected post taxonomy', $items_deleted, 'bulk-delete' );
 	}
-
 }

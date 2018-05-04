@@ -75,5 +75,4 @@ class DeletePostsByRevisionModule extends PostsModule {
 	protected function build_query( $options ) {
 		// Left empty on purpose.
 	}
-	
 }

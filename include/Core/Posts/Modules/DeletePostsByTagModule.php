@@ -105,5 +105,4 @@ class DeletePostsByTagModule extends PostsModule {
 		/* translators: 1 Number of posts deleted */
 		return _n( 'Deleted %d post with the selected post tag', 'Deleted %d posts with the selected post tag', $items_deleted, 'bulk-delete' );
 	}
-
 }
