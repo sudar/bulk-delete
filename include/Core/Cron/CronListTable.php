@@ -111,7 +111,7 @@ class CronListTable extends \WP_List_Table {
 			),
 		);
 
-		//Return the title contents
+		// Return the title contents.
 		return sprintf( '%1$s <span style="color:silver">(%2$s)</span>%3$s',
 			/*$1%s*/
 			$item['due'],
@@ -137,7 +137,11 @@ class CronListTable extends \WP_List_Table {
 	 * @param array $item The item to be displayed in the row.
 	 */
 	public function column_col_cron_type( $item ) {
-		echo $item['type'];
+		if ( isset( $item['args'][0]['cron_label'] ) ) {
+			echo esc_html( $item['args'][0]['cron_label'] );
+		} else {
+			echo esc_html( $item['type'] );
+		}
 	}
 
 	/**

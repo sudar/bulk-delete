@@ -145,6 +145,7 @@ class BaseModuleTest extends WPCoreUnitTestCase {
 						'is_scheduled' => true,
 						'frequency'    => $frequency,
 						'start_time'   => $gmt_time,
+						'cron_label'   => '',
 					),
 				);
 			}

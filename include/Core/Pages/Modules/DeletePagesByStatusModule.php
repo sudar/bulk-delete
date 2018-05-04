@@ -20,8 +20,9 @@ class DeletePagesByStatusModule extends PagesModule {
 		$this->cron_hook     = 'do-bulk-delete-pages-by-status';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sp';
 		$this->messages      = array(
-			'box_label' => __( 'By Page Status', 'bulk-delete' ),
-			'scheduled' => __( 'The selected pages are scheduled for deletion', 'bulk-delete' ),
+			'box_label'  => __( 'By Page Status', 'bulk-delete' ),
+			'scheduled'  => __( 'The selected pages are scheduled for deletion', 'bulk-delete' ),
+			'cron_label' => __( 'Delete Pages By status', 'bulk-delete' ),
 		);
 	}
 
