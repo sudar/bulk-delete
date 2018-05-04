@@ -7,7 +7,7 @@ use BulkWP\BulkDelete\Core\Posts\PostsModule;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Custom Taxonomy Module.
+ * Delete Posts by Taxonomy Module.
  *
  * @since 6.0.0
  */
@@ -20,16 +20,13 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		$this->cron_hook     = 'do-bulk-delete-taxonomy';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-stx';
 		$this->messages      = array(
-			'box_label' => __( 'By Custom Taxonomy', 'bulk-delete' ),
+			'box_label' => __( 'By Taxonomy', 'bulk-delete' ),
 			'scheduled' => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
 		);
 	}
 
 	public function render() {
-		$taxs =  get_taxonomies( array(
-				'public'   => true,
-				'_builtin' => false,
-			), 'objects'
+		$taxs =  get_taxonomies( array(), 'objects'
 		);
 
 		$terms_array = array();
@@ -45,7 +42,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		if ( count( $terms_array ) > 0 ) {
 ?>
         <!-- Custom tax Start-->
-        <h4><?php _e( 'Select the post type from which you want to delete posts by custom taxonomy', 'bulk-delete' ); ?></h4>
+        <h4><?php _e( 'Select the post type from which you want to delete posts by taxonomy', 'bulk-delete' ); ?></h4>
 
         <fieldset class="options">
             <table class="optiontable">
@@ -110,7 +107,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 			$this->render_submit_button();
 		} else {
 ?>
-            <h4><?php _e( "This WordPress installation doesn't have any non-empty custom taxonomies defined", 'bulk-delete' ) ?></h4>
+            <h4><?php _e( "This WordPress installation doesn't have any non-empty taxonomies defined", 'bulk-delete' ) ?></h4>
 <?php
 		}
 	}
