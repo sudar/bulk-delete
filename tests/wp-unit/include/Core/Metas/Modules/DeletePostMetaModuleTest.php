@@ -26,6 +26,8 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_key'     => 'time',
 		);
 
+		$meta_deleted = $this->module->delete( $delete_options );
+
 		$published_posts = $this->get_posts_by_status();
 		$this->assertEquals( 10, count( $published_posts ) );
 	}
