@@ -63,4 +63,38 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 0, count( $posts_in_cat1 ) );
 	}
+
+	public function test_deleting_posts_from_built_in_taxonomy_terms_in_a_custom_post_type() {
+		// Create category.
+		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
+
+		// Assign the cat1 to post1.
+		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_type' => 'custom', 'post_status' => 'publish', 'post_category' => array( $cat1 ) ) );
+		
+		$posts_in_cat1 = wp_get_object_terms( $post1, 'category' );
+		
+		$this->assertEquals( 1, count( $posts_in_cat1 ) );
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'custom',
+			'selected_taxs' => 'category',
+			'selected_tax_terms' => array( 'cat1' ),
+			'restrict'      => false,
+			'private'       => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+			'date_op'       => false,
+			'days'          => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 1, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts_in_cat1 = wp_get_object_terms( $post1, 'category' );
+
+		$this->assertEquals( 0, count( $posts_in_cat1 ) );
+	}
 }
