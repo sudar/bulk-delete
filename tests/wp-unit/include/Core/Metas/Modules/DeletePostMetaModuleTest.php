@@ -14,21 +14,27 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	public function test_that_single_post_meta_from_the_default_post_type() {
-		$this->factory->post->create_many( 10, array(
-			'post_type' => 'post',
-		) );
+		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
+
+		add_post_meta( $post, 'time', '10/10/2018' );
+
+		$post_meta = get_post_meta( $post, 'time' );
+		$this->assertEquals( 1, count( $post_meta ) );
 
 		$delete_options = array(
+			'post_type'    => 'post', 
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
 			'use_value'    => 'use_key',
 			'meta_key'     => 'time',
+			'date_op'      => '',
+			'days'         => '',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
 
-		$published_posts = $this->get_posts_by_status();
-		$this->assertEquals( 10, count( $published_posts ) );
+		$post_meta = get_post_meta( $post, 'time' );
+		$this->assertEquals( 0, count( $post_meta ) );
 	}
 }
