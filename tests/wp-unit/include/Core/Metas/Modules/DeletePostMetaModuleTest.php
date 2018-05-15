@@ -116,4 +116,56 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 		$post_meta = get_post_meta( $post, 'time' );
 		$this->assertEquals( 0, count( $post_meta ) );
 	}
+
+	public function test_restrict_post_meta_deletion_based_on_post_published_date_older() {
+		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
+		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_date' => $date ) );
+
+		add_post_meta( $post, 'time', '10/10/2018' );
+
+		$post_meta = get_post_meta( $post, 'time' );
+		$this->assertEquals( 1, count( $post_meta ) );
+
+		$delete_options = array(
+			'post_type'    => 'post', 
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => false,
+			'use_value'    => 'use_key',
+			'meta_key'     => 'time',
+			'date_op'      => 'before',
+			'days'         => '3',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+
+		$post_meta = get_post_meta( $post, 'time' );
+		$this->assertEquals( 0, count( $post_meta ) );
+	}
+
+	public function test_restrict_post_meta_deletion_based_on_post_published_date_within_the_last_x_days() {
+		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
+		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_date' => $date ) );
+
+		add_post_meta( $post, 'time', '10/10/2018' );
+
+		$post_meta = get_post_meta( $post, 'time' );
+		$this->assertEquals( 1, count( $post_meta ) );
+
+		$delete_options = array(
+			'post_type'    => 'post', 
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => false,
+			'use_value'    => 'use_key',
+			'meta_key'     => 'time',
+			'date_op'      => 'after',
+			'days'         => '5',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+
+		$post_meta = get_post_meta( $post, 'time' );
+		$this->assertEquals( 0, count( $post_meta ) );
+	}
 }
