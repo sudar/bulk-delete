@@ -20,58 +20,36 @@ class DeletePagesByStatusModule extends PagesModule {
 		$this->cron_hook     = 'do-bulk-delete-pages-by-status';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sp';
 		$this->messages      = array(
-			'box_label' => __( 'By Page Status', 'bulk-delete' ),
-			'scheduled' => __( 'The selected pages are scheduled for deletion', 'bulk-delete' ),
+			'box_label'  => __( 'By Page Status', 'bulk-delete' ),
+			'scheduled'  => __( 'The selected pages are scheduled for deletion', 'bulk-delete' ),
+			'cron_label' => __( 'Delete Pages By status', 'bulk-delete' ),
 		);
 	}
 
 	public function render() {
-		$pages_count  = wp_count_posts( 'page' );
-		$pages        = $pages_count->publish;
-		$page_drafts  = $pages_count->draft;
-		$page_future  = $pages_count->future;
-		$page_pending = $pages_count->pending;
-		$page_private = $pages_count->private;
+		$post_statuses  = $this->get_post_statuses();
+		$pages_count    = wp_count_posts( 'page' );
 		?>
 		<!-- Pages start-->
 		<h4><?php _e( 'Select the status from which you want to delete pages', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
 			<table class="optiontable">
+				<?php foreach ( $post_statuses as $post_status ) : ?>
 				<tr>
 					<td>
-						<input name="smbd_published_pages" value="published_pages" type="checkbox">
-						<label for="smbd_published_pages"><?php _e( 'All Published Pages', 'bulk-delete' ); ?> (<?php echo $pages . ' '; _e( 'Pages', 'bulk-delete' ); ?>)</label>
-					</td>
-				</tr>
+						<input name="smbd_page_status[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
+							value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
 
-				<tr>
-					<td>
-						<input name="smbd_draft_pages" value="draft_pages" type="checkbox">
-						<label for="smbd_draft_pages"><?php _e( 'All Draft Pages', 'bulk-delete' ); ?> (<?php echo $page_drafts . ' '; _e( 'Pages', 'bulk-delete' ); ?>)</label>
+						<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
+							<?php echo esc_html( $post_status->label ), ' '; ?>
+							<?php if ( property_exists( $pages_count, $post_status->name ) ) : ?>
+								(<?php echo absint( $pages_count->{ $post_status->name } ) . ' ', __( 'Posts', 'bulk-delete' ); ?>)
+							<?php endif; ?>
+						</label>
 					</td>
 				</tr>
-
-				<tr>
-					<td>
-						<input name="smbd_future_pages" value="scheduled_pages" type="checkbox">
-						<label for="smbd_future_pages"><?php _e( 'All Scheduled Pages', 'bulk-delete' ); ?> (<?php echo $page_future . ' '; _e( 'Pages', 'bulk-delete' ); ?>)</label>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<input name="smbd_pending_pages" value="pending_pages" type="checkbox">
-						<label for="smbd_pending_pages"><?php _e( 'All Pending Pages', 'bulk-delete' ); ?> (<?php echo $page_pending . ' '; _e( 'Pages', 'bulk-delete' ); ?>)</label>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<input name="smbd_private_pages" value="private_pages" type="checkbox">
-						<label for="smbd_private_pages"><?php _e( 'All Private Pages', 'bulk-delete' ); ?> (<?php echo $page_private . ' '; _e( 'Pages', 'bulk-delete' ); ?>)</label>
-					</td>
-				</tr>
+			<?php endforeach; ?>
 			</table>
 
 			<table class="optiontable">
@@ -89,46 +67,19 @@ class DeletePagesByStatusModule extends PagesModule {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['publish'] = bd_array_get( $request, 'smbd_published_pages' );
-		$options['drafts']  = bd_array_get( $request, 'smbd_draft_pages' );
-		$options['pending'] = bd_array_get( $request, 'smbd_pending_pages' );
-		$options['future']  = bd_array_get( $request, 'smbd_future_pages' );
-		$options['private'] = bd_array_get( $request, 'smbd_private_pages' );
+		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_page_status', array() ) );
 
 		return $options;
 	}
 
 	protected function build_query( $options ) {
-		$post_status = array();
-
-		// published pages
-		if ( 'published_pages' == $options['publish'] ) {
-			$post_status[] = 'publish';
-		}
-
-		// Drafts
-		if ( 'draft_pages' == $options['drafts'] ) {
-			$post_status[] = 'draft';
-		}
-
-		// Pending pages
-		if ( 'pending_pages' == $options['pending'] ) {
-			$post_status[] = 'pending';
-		}
-
-		// Future pages
-		if ( 'future_pages' == $options['future'] ) {
-			$post_status[] = 'future';
-		}
-
-		// Private pages
-		if ( 'private_pages' == $options['private'] ) {
-			$post_status[] = 'private';
+		if ( empty( $options['post_status'] ) ) {
+			return array();
 		}
 
 		$query = array(
 			'post_type'   => 'page',
-			'post_status' => $post_status,
+			'post_status' => $options['post_status'],
 		);
 
 		return $query;
