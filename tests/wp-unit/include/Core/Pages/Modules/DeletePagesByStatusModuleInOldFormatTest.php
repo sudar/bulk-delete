@@ -6,12 +6,13 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
  * Test Deletion of Pages by status.
+ * This class tests the old format. The new format is tested in DeletePagesByStatusModuleTest class.
  *
  * Tests \BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule
  *
  * @since 6.0.0
  */
-class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
+class DeletePagesByStatusModuleInOldFormatTest extends WPCoreUnitTestCase {
 
 	/**
 	 * The module that is getting tested.
@@ -46,7 +47,11 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $draft_pages ) );
 
 		$delete_options = array(
-			'post_status'  => array( 'publish', 'draft' ),
+			'publish'      => 'published_pages',
+			'drafts'       => 'draft_pages',
+			'pending'      => '',
+			'future'       => '',
+			'private'      => '',
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
@@ -83,7 +88,11 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $draft_pages ) );
 
 		$delete_options = array(
-			'post_status'  => array( 'publish', 'draft' ),
+			'publish'      => 'published_pages',
+			'drafts'       => 'draft_pages',
+			'pending'      => '',
+			'future'       => '',
+			'private'      => '',
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => true,
@@ -122,7 +131,11 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $draft_pages ) );
 
 		$delete_options = array(
-			'post_status'  => array( 'publish', 'draft' ),
+			'publish'      => 'published_pages',
+			'drafts'       => 'draft_pages',
+			'pending'      => '',
+			'future'       => '',
+			'private'      => '',
 			'limit_to'     => -1,
 			'restrict'     => true,
 			'force_delete' => false,
@@ -163,7 +176,11 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $draft_pages ) );
 
 		$delete_options = array(
-			'post_status'  => array( 'publish', 'draft' ),
+			'publish'      => 'published_pages',
+			'drafts'       => 'draft_pages',
+			'pending'      => '',
+			'future'       => '',
+			'private'      => '',
 			'limit_to'     => -1,
 			'restrict'     => true,
 			'force_delete' => false,
@@ -203,7 +220,11 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 50, count( $draft_pages ) );
 
 		$delete_options = array(
-			'post_status'  => array( 'publish', 'draft' ),
+			'publish'      => 'published_pages',
+			'drafts'       => 'draft_pages',
+			'pending'      => '',
+			'future'       => '',
+			'private'      => '',
 			'limit_to'     => 80,
 			'restrict'     => false,
 			'force_delete' => false,
@@ -234,7 +255,11 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $private_pages ) );
 
 		$delete_options = array(
-			'post_status'  => array( 'private' ),
+			'publish'      => '',
+			'drafts'       => '',
+			'pending'      => '',
+			'future'       => '',
+			'private'      => 'private_pages',
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => true,

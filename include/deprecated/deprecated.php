@@ -69,6 +69,30 @@ function bd_convert_old_options_for_delete_pages( $options, $metabox ) {
 		$options['days']    = $options['page_days'];
 	}
 
+	if ( ! array_key_exists( 'post_status', $options ) ) {
+		$options['post_status'] = array();
+	}
+
+	if ( array_key_exists( 'publish', $options ) && 'published_pages' === $options['publish'] ) {
+		$options['post_status'][] = 'publish';
+	}
+
+	if ( array_key_exists( 'drafts', $options ) && 'draft_pages' === $options['drafts'] ) {
+		$options['post_status'][] = 'draft';
+	}
+
+	if ( array_key_exists( 'pending', $options ) && 'pending_pages' === $options['pending'] ) {
+		$options['post_status'][] = 'pending';
+	}
+
+	if ( array_key_exists( 'future', $options ) && 'future_pages' === $options['future'] ) {
+		$options['post_status'][] = 'future';
+	}
+
+	if ( array_key_exists( 'private', $options ) && 'private_pages' === $options['private'] ) {
+		$options['post_status'][] = 'private';
+	}
+
 	return $options;
 }
 add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_pages', 10, 2 );
