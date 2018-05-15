@@ -168,4 +168,28 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 		$post_meta = get_post_meta( $post, 'time' );
 		$this->assertEquals( 0, count( $post_meta ) );
 	}
+
+	public function test_delete_postmeta_in_batches() {
+		$posts = $this->factory->post->create_many( 20, array(
+			'post_type'   => 'post',
+		) );
+		foreach($posts as $post ){
+			add_post_meta( $post, 'time', '10/10/2018' );
+		}
+
+		$delete_options = array(
+			'post_type'    => 'post', 
+			'limit_to'     => 10,
+			'restrict'     => false,
+			'force_delete' => false,
+			'use_value'    => 'use_key',
+			'meta_key'     => 'time',
+			'date_op'      => '',
+			'days'         => '',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+		
+		$this->assertEquals( 10, $meta_deleted );
+	}
 }
