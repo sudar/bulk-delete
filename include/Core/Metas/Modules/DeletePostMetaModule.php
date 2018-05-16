@@ -17,8 +17,8 @@ class DeletePostMetaModule extends MetasModule {
 		$this->action        = 'delete_meta_post';
 		$this->cron_hook     = 'do-bulk-delete-post-meta';
 		$this->messages      = array(
-			'box_label' => __( 'Bulk Delete Post Meta', 'bulk-delete' ),
-			'scheduled' => __( 'Post meta fields from the posts with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'box_label'  => __( 'Bulk Delete Post Meta', 'bulk-delete' ),
+			'scheduled'  => __( 'Post meta fields from the posts with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
 			'cron_label' => __( 'Delete Post Meta', 'bulk-delete' ),
 		);
 	}
