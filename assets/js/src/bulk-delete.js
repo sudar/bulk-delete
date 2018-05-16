@@ -1,11 +1,6 @@
-/**
- * JavaScript for Bulk Delete Plugin
- *
- * http://bulkwp.com
- *
- * @author: Sudar <http://sudarmuthu.com>
- */
-
+/*! Bulk Delete - v5.6.1 %>
+ * https://bulkwp.com
+ * Copyright (c) 2018; * Licensed GPLv2+ */
 /*global BulkWP, postboxes, pagenow */
 jQuery(document).ready(function () {
 	// Start Jetpack.
@@ -254,3 +249,64 @@ BulkWP.enableHelpTooltips = function ( $selector ) {
 		}
 	});
 };
+
+/*global ajaxurl*/
+jQuery( document ).ready( function () {
+	/**
+	 * Normal select2.
+	 */
+	jQuery( '.select2-taxonomy' ).select2( {
+		width: '300px'
+	} );
+
+	/**
+	 * Enable AJAX for Taxonomy Select2.
+	 */
+	jQuery( '.select2-taxonomy-ajax' ).select2( {
+		ajax: {
+			url: ajaxurl,
+			dataType: 'json',
+			delay: 250,
+			data: function ( params ) {
+				return {
+					q: params.term,
+					taxonomy: jQuery( this ).attr( 'data-taxonomy' ),
+					action: 'bd_load_taxonomy_term'
+				};
+			},
+			processResults: function ( data ) {
+				var options = [];
+
+				if ( data ) {
+					jQuery.each( data, function ( index, dataPair ) {
+						options.push( { id: dataPair[ 0 ], text: dataPair[ 1 ] } );
+					} );
+				}
+
+				return {
+					results: options
+				};
+			},
+			cache: true
+		},
+		minimumInputLength: 2, // the minimum of symbols to input before perform a search
+		width: '300px'
+	} );
+
+	jQuery( '.select2-post' ).select2( {
+		width: '300px',
+		templateSelection: formatLabel
+	} );
+} );
+
+function formatLabel (state) {
+  if (!state.id) {
+    return state.text;
+  }
+  var parentLabel = state.element.parentElement.label;
+  var $state = jQuery(
+  	    '<span>' + parentLabel + '-' + state.text + '</span>'
+  );
+  return $state;
+};
+//# sourceMappingURL=bulk-delete.js.map

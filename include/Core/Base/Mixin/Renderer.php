@@ -46,19 +46,19 @@ abstract class Renderer extends Fetcher {
 	protected function render_post_type_with_status() {
 		$post_types_by_status = $this->get_post_types_by_status();
 		?>
-
-		<?php foreach ( $post_types_by_status as $post_type_by_status => $label ) : ?>
-			<tr>
-				<td scope="row">
-					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo esc_attr( $post_type_by_status ); ?>" type="checkbox">
-				</td>
-				<td>
-					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>">
-						<?php echo esc_html( $label ); ?>
-					</label>
-				</td>
-			</tr>
-		<?php endforeach; ?>
+		<tr>
+			<td scope="row" colspan="2">
+				<select class="select2-post" multiple="multiple"> name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]">
+				<?php foreach ( $post_types_by_status as $post_type => $all_status ) : ?>
+					<optgroup label="<?php echo esc_html( $post_type ); ?>">
+					<?php foreach ( $all_status as $status_key => $status_value ) : ?>
+						<option value="<?php echo esc_attr( $status_key ); ?>"><?php echo esc_html( $status_value ); ?></option>
+					<?php endforeach; ?>
+					</optgroup>
+				<?php endforeach; ?>
+				</select>
+			</td>
+		</tr>
 		<?php
 	}
 
