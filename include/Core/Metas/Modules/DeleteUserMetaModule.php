@@ -162,7 +162,7 @@ class DeleteUserMetaModule extends MetasModule {
 		}
 
 		if ( $use_value ) {
-			$options['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $delete_options );
+			$options['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $options );
 		} else {
 			$options['meta_key'] = $meta_key;
 		}
