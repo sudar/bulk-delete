@@ -19,6 +19,7 @@ class DeleteUserMetaModule extends MetasModule {
 		$this->messages      = array(
 			'box_label' => __( 'Bulk Delete User Meta', 'bulk-delete' ),
 			'scheduled' => __( 'User meta fields from the users with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'cron_label' => __( 'Delete User Meta`', 'bulk-delete' ),
 		);
 	}
 

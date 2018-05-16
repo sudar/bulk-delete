@@ -19,6 +19,7 @@ class DeletePostMetaModule extends MetasModule {
 		$this->messages      = array(
 			'box_label' => __( 'Bulk Delete Post Meta', 'bulk-delete' ),
 			'scheduled' => __( 'Post meta fields from the posts with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'cron_label' => __( 'Delete Post Meta', 'bulk-delete' ),
 		);
 	}
 
@@ -32,18 +33,12 @@ class DeletePostMetaModule extends MetasModule {
 		<!-- Post Meta box start-->
         <fieldset class="options">
 <?php
-		$types = get_post_types( array(
-				'public'   => true,
-				'_builtin' => false,
-			), 'names'
-		);
-
-		array_unshift( $types, 'post' );
+		$types = $this->get_post_types();
 ?>
         <h4><?php _e( 'Select the post type whose post meta fields you want to delete', 'bulk-delete' ); ?></h4>
         <table class="optiontable">
 <?php
-		foreach ( $types as $type ) {
+		foreach ( $types as $type => $post_data ) {
 ?>
             <tr>
                 <td>
