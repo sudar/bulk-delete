@@ -198,7 +198,6 @@ function bd_print_scheduled_jobs() {
 					echo $event['schedule'];
 					echo ' | ';
 					echo $hook;
-					// print_r( $event['args'] );
 					echo "\n";
 				}
 			}
