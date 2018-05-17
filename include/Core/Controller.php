@@ -31,6 +31,8 @@ class Controller {
 		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
 		add_filter( 'plugin_action_links', array( $this, 'filter_plugin_action_links' ), 10, 2 );
 
+		$this->load_old_hooks();
+
 		if ( defined( 'BD_DEBUG' ) && BD_DEBUG ) {
 			add_action( 'bd_after_query', array( $this, 'log_sql_query' ) );
 		}
@@ -239,5 +241,31 @@ class Controller {
 		$bd = BULK_DELETE();
 
 		return $bd->get_plugin_file();
+	}
+
+	/**
+	 * Load Old hooks.
+	 *
+	 * TODO: Refactor these hooks into seperate classes.
+	 *
+	 * @since 6.0.0
+	 */
+	protected function load_old_hooks() {
+		// license related.
+		add_action( 'bd_license_form', array( 'BD_License', 'display_activate_license_form' ), 100 );
+		add_action( 'bd_deactivate_license', array( 'BD_License', 'deactivate_license' ) );
+		add_action( 'bd_delete_license', array( 'BD_License', 'delete_license' ) );
+		add_action( 'bd_validate_license', array( 'BD_License', 'validate_license' ), 10, 2 );
+
+		// Settings related.
+		add_action( 'bd_before_secondary_menus', array( 'BD_Settings_Page', 'add_menu' ) );
+		add_action( 'bd_admin_footer_settings_page', 'bd_modify_admin_footer' );
+		add_action( 'admin_init', array( 'BD_Settings', 'create_settings' ), 100 );
+
+		// Help tab related.
+		add_action( 'bd_add_contextual_help', array( 'Bulk_Delete_Help_Screen', 'add_contextual_help' ) );
+
+		// Misc page related.
+		add_action( 'bd_admin_footer_misc_page', 'bd_modify_admin_footer' );
 	}
 }
