@@ -193,15 +193,14 @@ function bd_print_scheduled_jobs() {
 				$cron_item = array();
 
 				foreach ( (array) $events as $key => $event ) {
-					echo date_i18n( $date_format, $timestamp + ( get_option( 'gmt_offset' ) * 60 * 60 ) ). ' ('. $timestamp. ')';
-					echo " | ";
+					echo date_i18n( $date_format, $timestamp + ( get_option( 'gmt_offset' ) * 60 * 60 ) ) . ' (' . $timestamp . ')';
+					echo ' | ';
 					echo $event['schedule'];
-					echo " | ";
+					echo ' | ';
 					echo $hook;
 					// print_r( $event['args'] );
 					echo "\n";
 				}
-
 			}
 		}
 	}
