@@ -17,8 +17,9 @@ class DeleteUserMetaModule extends MetasModule {
 		$this->action        = 'delete_user_comment';
 		$this->cron_hook     = 'do-bulk-delete-user-meta';
 		$this->messages      = array(
-			'box_label' => __( 'Bulk Delete User Meta', 'bulk-delete' ),
-			'scheduled' => __( 'User meta fields from the users with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'box_label'  => __( 'Bulk Delete User Meta', 'bulk-delete' ),
+			'scheduled'  => __( 'User meta fields from the users with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'cron_label' => __( 'Delete User Meta`', 'bulk-delete' ),
 		);
 	}
 
@@ -162,7 +163,7 @@ class DeleteUserMetaModule extends MetasModule {
 		}
 
 		if ( $use_value ) {
-			$options['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $delete_options );
+			$options['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $options );
 		} else {
 			$options['meta_key'] = $meta_key;
 		}
