@@ -189,7 +189,9 @@ ACTIVE PLUGINS:
 
 <?php bd_print_current_plugins(); ?>
 
-<?php if ( ! empty( _get_cron_array() ) ){ ?>
+<?php 
+$cron_jobs = _get_cron_array();
+if ( ! empty( $cron_jobs ) ){ ?>
 SCHEDULED JOBS:
 <?php }?>
 
