@@ -184,7 +184,3 @@ class Bulk_Delete_Misc {
 		return get_user_meta( $current_user->ID, self::VISIBLE_MISC_BOXES, true );
 	}
 }
-
-// Modify admin footer
-add_action( 'bd_admin_footer_misc_page', 'bd_modify_admin_footer' );
-?>

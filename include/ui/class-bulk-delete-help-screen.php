@@ -107,6 +107,3 @@ class Bulk_Delete_Help_Screen {
 		echo '<p>' . __( 'This plugin can be used to delete the posts, pages or users using various filters and conditions.', 'bulk-delete' ) . '</p>';
 	}
 }
-
-// hooks
-add_action( 'bd_add_contextual_help', array( 'Bulk_Delete_Help_Screen', 'add_contextual_help' ) );

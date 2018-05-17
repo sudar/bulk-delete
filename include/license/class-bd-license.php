@@ -352,10 +352,3 @@ class BD_License {
 		}
 	}
 }
-
-// hooks
-add_action( 'bd_license_form'      , array( 'BD_License', 'display_activate_license_form' ), 100 );
-add_action( 'bd_deactivate_license', array( 'BD_License', 'deactivate_license' ) );
-add_action( 'bd_delete_license'    , array( 'BD_License', 'delete_license' ) );
-add_action( 'bd_validate_license'  , array( 'BD_License', 'validate_license' ), 10, 2 );
-?>
