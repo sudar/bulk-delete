@@ -177,3 +177,30 @@ function bd_print_network_active_plugins() {
 		echo $plugin['Name'] . ' :' . $plugin['Version'] . "\n";
 	}
 }
+
+/**
+ * Print scheduled jobs.
+ *
+ * @since 6.0
+ */
+function bd_print_scheduled_jobs() {
+	$cron        = _get_cron_array();
+	$date_format = _x( 'M j, Y @ G:i', 'Cron table date format', 'bulk-delete' );
+
+	foreach ( $cron as $timestamp => $cronhooks ) {
+		foreach ( (array) $cronhooks as $hook => $events ) {
+			if ( 'do-bulk-delete-' === substr( $hook, 0, 15 ) ) {
+				$cron_item = array();
+
+				foreach ( (array) $events as $key => $event ) {
+					echo date_i18n( $date_format, $timestamp + ( get_option( 'gmt_offset' ) * 60 * 60 ) ) . ' (' . $timestamp . ')';
+					echo ' | ';
+					echo $event['schedule'];
+					echo ' | ';
+					echo $hook;
+					echo "\n";
+				}
+			}
+		}
+	}
+}
