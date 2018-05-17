@@ -189,6 +189,10 @@ ACTIVE PLUGINS:
 
 <?php bd_print_current_plugins(); ?>
 
+SCHEDULED JOBS:
+
+<?php bd_print_scheduled_jobs(); ?>
+
 <?php
 		if ( is_multisite() ) : ?>
 NETWORK ACTIVE PLUGINS:
