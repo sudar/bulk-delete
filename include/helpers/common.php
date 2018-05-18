@@ -190,8 +190,6 @@ function bd_print_scheduled_jobs() {
 	foreach ( $cron as $timestamp => $cronhooks ) {
 		foreach ( (array) $cronhooks as $hook => $events ) {
 			if ( 'do-bulk-delete-' === substr( $hook, 0, 15 ) ) {
-				$cron_item = array();
-
 				foreach ( (array) $events as $key => $event ) {
 					echo date_i18n( $date_format, $timestamp + ( get_option( 'gmt_offset' ) * 60 * 60 ) ) . ' (' . $timestamp . ')';
 					echo ' | ';
