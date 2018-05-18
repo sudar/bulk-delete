@@ -238,6 +238,13 @@ abstract class BaseModule extends Renderer {
 	}
 
 	/**
+	 * Render sticky settings.
+	 */
+	protected function render_sticky_settings() {
+		bd_render_sticky_settings( $this->field_slug );
+	}
+
+	/**
 	 * Render limit settings.
 	 */
 	protected function render_limit_settings() {

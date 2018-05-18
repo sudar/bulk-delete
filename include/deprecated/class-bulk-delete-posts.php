@@ -5,6 +5,7 @@ use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByPostTypeModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
