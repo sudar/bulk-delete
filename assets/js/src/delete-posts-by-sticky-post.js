@@ -1,19 +1,17 @@
 /**
  * Add select2 functionality..
  */
-/* global BulkWP */
 jQuery( document ).ready( function () {
-	/**
-	 * Normal select2.
-	 */
-	jQuery( '.select2-sticky-post' ).select2( {
-		width: '300px'
-	} );
+	
+	jQuery( '.sticky_force_delete' ).hide();
+
+	jQuery("input[name='smbd_sticky_post_sticky_option']").change(function(){
+		var sticky_option = jQuery("input[name='smbd_sticky_post_sticky_option']:checked").val();
+		if( sticky_option == "show" ){
+			jQuery( '.sticky_force_delete' ).show();
+		}else{
+			jQuery( '.sticky_force_delete' ).hide();
+		}
+	});
+
 } );
-BulkWP.validateStickyPostSelect2 = function(that) {
-	if (null !== jQuery(that).parent().prev().children().find(".select2-sticky-post[multiple]").val()) {
-		return true;
-	} else {
-		return false;
-	}
-};

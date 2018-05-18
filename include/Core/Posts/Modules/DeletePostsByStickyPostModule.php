@@ -40,7 +40,7 @@ class DeletePostsByStickyPostModule extends PostsModule {
 
 		<!-- Tags start-->
 		<fieldset class="options">
-			<table class="form-table">
+			<table class="optiontable">
 				<tr>
 					<td scope="row" colspan="2">
 						<?php $this->render_sticky_post_dropdown(); ?>
@@ -51,22 +51,13 @@ class DeletePostsByStickyPostModule extends PostsModule {
 			<table class="optiontable">
 				<?php
 				$this->render_filtering_table_header();
+				$this->render_sticky_settings();
 				$this->render_delete_settings();
 				?>
 			</table>
 		</fieldset>
 <?php
 		$this->render_submit_button();
-	}
-
-	public function filter_js_array( $js_array ) {
-		$js_array['validators'][ $this->action ] = 'validateStickyPostSelect2';
-		$js_array['error_msg'][ $this->action ]  = 'selectStickyPost';
-		$js_array['msg']['selectStickyPost']       = __( 'Please select at least one sticky post', 'bulk-delete' );
-
-		$js_array['dt_iterators'][] = '_' . $this->field_slug;
-
-		return $js_array;
 	}
 
 	/**
@@ -80,7 +71,7 @@ class DeletePostsByStickyPostModule extends PostsModule {
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['selected_posts'] = bd_array_get( $request, 'smbd_sticky_post' );
 
-		$options['remove_sticky'] = bd_array_get( $request, 'smbd_sticky_post_remove_sticky' );
+		$options['sticky_option'] = bd_array_get( $request, 'smbd_sticky_post_sticky_option' );
 
 		return $options;
 	}
@@ -88,13 +79,20 @@ class DeletePostsByStickyPostModule extends PostsModule {
 	protected function build_query( $options ) {
 		$query = array();
 
-		if ( in_array( 'all', $options['selected_posts'], true ) ) {
-			$query['post__in'] = get_option( 'sticky_posts' );
-		} else {
-			$query['post__in'] = $options['selected_posts'];
-		}
+		if( $options['sticky_option'] == "hide" ){
+			foreach( $options['selected_posts'] as $post ){
+				unstick_post($post);
+			}
+		}else{
 
-		return $query;
+			if ( in_array( 'all', $options['selected_posts'], true ) ) {
+				$query['post__in'] = get_option( 'sticky_posts' );
+			} else {
+				$query['post__in'] = $options['selected_posts'];
+			}
+
+			return $query;
+		}
 	}
 
 	/**

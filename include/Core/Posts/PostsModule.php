@@ -45,7 +45,6 @@ abstract class PostsModule extends BaseModule {
 		$js_array['dt_iterators'][] = '_taxs';
 		$js_array['dt_iterators'][] = '_types';
 		$js_array['dt_iterators'][] = '_post_status';
-		$js_array['dt_iterators'][] = '_sticky_post';
 
 		return $js_array;
 	}
@@ -155,19 +154,24 @@ abstract class PostsModule extends BaseModule {
 	protected function render_sticky_post_dropdown() {
 		$posts = $this->get_sticky_posts();
 		?>
-
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" class="select2-sticky-post" data-placeholder="<?php _e( 'Select Posts', 'bulk-delete' ); ?>" multiple>
-
-			<option value="all">
-				<?php _e( 'All Posts', 'bulk-delete' ); ?>
-			</option>
-
-			<?php foreach ( $posts as $post ) : ?>
-				<option value="<?php echo absint( $post->ID ); ?>">
-					<?php echo esc_html( $post->post_title. ' (' .$post->post_date. ')' ); ?>
-				</option>
+		<table class="optiontable">
+			<tr>
+				<td scope="row">
+					<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="All">
+					<label>All</label>	
+				</td>
+			</tr>
+			<?php foreach ( $posts as $post ) : 
+			$user = get_userdata( $post->post_author ); 
+			?>
+			<tr>
+				<td scope="row">
+				<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
+				<label><?php echo esc_html( $post->post_title. ' Published by ' .$user->display_name. ' on ' .$post->post_date ); ?></label>
+				</td>
+			</tr>
 			<?php endforeach; ?>
-		</select>
+		</table>
 	<?php
 	}
 
