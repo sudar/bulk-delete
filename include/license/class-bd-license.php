@@ -330,6 +330,8 @@ class BD_License {
 	public static function validate_license( $addon_code, $addon_name ) {
 		$key = Bulk_Delete::LICENSE_CACHE_KEY_PREFIX . $addon_code;
 
+		$license_data = false;
+
 		$licenses = get_option( Bulk_Delete::SETTING_OPTION_NAME );
 		if ( is_array( $licenses ) && key_exists( $addon_code, $licenses ) ) {
 			$license_data = BD_EDD_API_Wrapper::check_license( $addon_name, $licenses[ $addon_code ] );
