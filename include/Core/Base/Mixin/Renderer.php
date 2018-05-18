@@ -48,7 +48,7 @@ abstract class Renderer extends Fetcher {
 		?>
 		<tr>
 			<td scope="row" colspan="2">
-				<select class="select2-post" multiple="multiple"> name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]">
+				<select class="select2-post" multiple="multiple" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]">
 				<?php foreach ( $post_types_by_status as $post_type => $all_status ) : ?>
 					<optgroup label="<?php echo esc_html( $post_type ); ?>">
 					<?php foreach ( $all_status as $status_key => $status_value ) : ?>
