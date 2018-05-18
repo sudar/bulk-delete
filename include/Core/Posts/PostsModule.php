@@ -175,6 +175,11 @@ abstract class PostsModule extends BaseModule {
 	<?php
 	}
 
+	/**
+	 * Get the list of sticky posts.
+	 *
+	 * @return array List of sticky posts.
+	 */
 	protected function get_sticky_posts(){
 		$posts = get_posts( array( 'post__in' => get_option( 'sticky_posts' ) ) );
 		return $posts;
@@ -218,7 +223,7 @@ abstract class PostsModule extends BaseModule {
 	 *
 	 * @return bool True if posts are present, False otherwise.
 	 */
-	protected function are_stickt_post_present() {
+	protected function are_sticky_post_present() {
 		$sticky_post_ids = get_option( 'sticky_posts' );
 		return ( count( $sticky_post_ids ) > 0 );
 	}

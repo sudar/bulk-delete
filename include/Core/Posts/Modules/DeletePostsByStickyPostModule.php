@@ -29,7 +29,7 @@ class DeletePostsByStickyPostModule extends PostsModule {
 	 * Render Delete posts by tag box.
 	 */
 	public function render() {
-		if ( ! $this->are_stickt_post_present() ) : ?>
+		if ( ! $this->are_sticky_post_present() ) : ?>
 			<h4>
 				<?php _e( 'There are no sticky post present in this WordPress installation.', 'bulk-delete' ); ?>
 			</h4>
