@@ -7,7 +7,7 @@ use BulkWP\BulkDelete\Core\Posts\PostsModule;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Sticky Post
+ * Delete Posts by Sticky Post.
  *
  * @since 6.0.0
  */
@@ -79,12 +79,11 @@ class DeletePostsByStickyPostModule extends PostsModule {
 	protected function build_query( $options ) {
 		$query = array();
 
-		if( $options['sticky_option'] == "hide" ){
+		if( $options['sticky_option'] == 'hide' ){
 			foreach( $options['selected_posts'] as $post ){
 				unstick_post($post);
 			}
 		}else{
-
 			if ( in_array( 'all', $options['selected_posts'], true ) ) {
 				$query['post__in'] = get_option( 'sticky_posts' );
 			} else {

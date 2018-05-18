@@ -160,13 +160,13 @@ abstract class PostsModule extends BaseModule {
 					<label>All</label>	
 				</td>
 			</tr>
-			<?php foreach ( $posts as $post ) : 
-			$user = get_userdata( $post->post_author ); 
+			<?php foreach ( $posts as $post ) :
+			$user = get_userdata( $post->post_author );
 			?>
 			<tr>
 				<td scope="row">
 				<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
-				<label><?php echo esc_html( $post->post_title. ' Published by ' .$user->display_name. ' on ' .$post->post_date ); ?></label>
+				<label><?php echo esc_html( $post->post_title . ' Published by ' . $user->display_name . ' on ' . $post->post_date ); ?></label>
 				</td>
 			</tr>
 			<?php endforeach; ?>
@@ -181,6 +181,7 @@ abstract class PostsModule extends BaseModule {
 	 */
 	protected function get_sticky_posts(){
 		$posts = get_posts( array( 'post__in' => get_option( 'sticky_posts' ) ) );
+
 		return $posts;
 	}
 
@@ -224,6 +225,7 @@ abstract class PostsModule extends BaseModule {
 	 */
 	protected function are_sticky_post_present() {
 		$sticky_post_ids = get_option( 'sticky_posts' );
+
 		return ( count( $sticky_post_ids ) > 0 );
 	}
 
