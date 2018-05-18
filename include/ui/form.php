@@ -64,6 +64,9 @@ function bd_render_delete_settings( $slug ) {
 		<td scope="row" colspan="2">
 			<input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio" checked> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
 			<input name="smbd_<?php echo $slug; ?>_force_delete" value="true" type="radio"> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
+			<?php if( $slug == "sticky_post" ){ ?>
+			<input name="smbd_<?php echo $slug; ?>_remove_sticky" value="true" type="radio"> <?php _e( 'Remove Sticky', 'bulk-delete' ); ?>
+			<?php } ?>
 		</td>
 	</tr>
 <?php

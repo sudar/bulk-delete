@@ -45,6 +45,7 @@ abstract class PostsModule extends BaseModule {
 		$js_array['dt_iterators'][] = '_taxs';
 		$js_array['dt_iterators'][] = '_types';
 		$js_array['dt_iterators'][] = '_post_status';
+		$js_array['dt_iterators'][] = '_sticky_post';
 
 		return $js_array;
 	}
@@ -149,6 +150,33 @@ abstract class PostsModule extends BaseModule {
 	}
 
 	/**
+	 * Render Sticky Posts dropdown.
+	 */
+	protected function render_sticky_post_dropdown() {
+		$posts = $this->get_sticky_posts();
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" class="select2-sticky-post" data-placeholder="<?php _e( 'Select Posts', 'bulk-delete' ); ?>" multiple>
+
+			<option value="all">
+				<?php _e( 'All Posts', 'bulk-delete' ); ?>
+			</option>
+
+			<?php foreach ( $posts as $post ) : ?>
+				<option value="<?php echo absint( $post->ID ); ?>">
+					<?php echo esc_html( $post->post_title. ' (' .$post->post_date. ')' ); ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+	<?php
+	}
+
+	protected function get_sticky_posts(){
+		$posts = get_posts( array( 'post__in' => get_option( 'sticky_posts' ) ) );
+		return $posts;
+	}
+
+	/**
 	 * Get the list of categories.
 	 *
 	 * @return array List of categories.
@@ -177,6 +205,18 @@ abstract class PostsModule extends BaseModule {
 		$tags = $this->get_tags( 1 );
 
 		return ( count( $tags ) > 0 );
+	}
+
+	/**
+	 * Are sticky post present in this WordPress?
+	 *
+	 * Only one post is retrieved to check if stick post are present for performance reasons.
+	 *
+	 * @return bool True if posts are present, False otherwise.
+	 */
+	protected function are_stickt_post_present() {
+		$sticky_post_ids = get_option( 'sticky_posts' );
+		return ( count( $sticky_post_ids ) > 0 );
 	}
 
 	/**
