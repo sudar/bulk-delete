@@ -224,7 +224,10 @@ abstract class PostsModule extends BaseModule {
 	 * @return bool True if posts are present, False otherwise.
 	 */
 	protected function are_sticky_post_present() {
-		return ( get_option( 'sticky_posts' ) );
+		$sticky_post_ids = get_option( 'sticky_posts' );
+		if( is_array($sticky_post_ids) ){
+			return ( count( $sticky_post_ids ) > 0 );
+		}
 	}
 
 	/**
