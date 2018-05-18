@@ -62,6 +62,7 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'BD_Meta_Box_Module'                       => $plugin_dir . 'include/base/class-bd-meta-box-module.php',
 		'BD_Base_Page'                             => $plugin_dir . 'include/base/class-bd-base-page.php',
 		'BD_Page'                                  => $plugin_dir . 'include/base/class-bd-page.php',
+		'Bulk_Delete_Help_Screen'                  => $plugin_dir . 'include/ui/class-bulk-delete-help-screen.php',
 		'BD_License'                               => $plugin_dir . 'include/license/class-bd-license.php',
 		'BD_License_Handler'                       => $plugin_dir . 'include/license/class-bd-license-handler.php',
 		'BD_EDD_API_Wrapper'                       => $plugin_dir . 'include/license/class-bd-edd-api-wrapper.php',
