@@ -190,6 +190,13 @@ ACTIVE PLUGINS:
 <?php bd_print_current_plugins(); ?>
 
 <?php 
+$keys = BD_License::get_licenses(); 
+if ( ! empty( $keys ) ){ ?>
+BULKWP-LICENSE: 
+<?php bd_print_license_info( $keys ); ?>
+<?php }?> 
+
+<?php 
 $cron_jobs = _get_cron_array();
 if ( ! empty( $cron_jobs ) ){ ?>
 SCHEDULED JOBS:

@@ -202,3 +202,23 @@ function bd_print_scheduled_jobs() {
 		}
 	}
 }
+
+/**
+ * Print License Info.
+ *
+ * @since 6.0
+ */
+function bd_print_license_info( $keys ) {
+	foreach ( $keys as $key ) {
+		echo $key['addon-name'];
+		echo ' | ';
+		echo $key['license'];
+		echo ' | ';
+		echo $key['expires'];
+		echo ' | ';
+		echo $key['validity'];
+		echo ' | ';
+		echo $key['addon-code'];
+	}
+}
+
