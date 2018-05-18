@@ -207,6 +207,8 @@ function bd_print_scheduled_jobs() {
  * Print License Info.
  *
  * @since 6.0
+ *
+ * @param mixed $keys
  */
 function bd_print_license_info( $keys ) {
 	foreach ( $keys as $key ) {
@@ -221,4 +223,3 @@ function bd_print_license_info( $keys ) {
 		echo $key['addon-code'];
 	}
 }
-
