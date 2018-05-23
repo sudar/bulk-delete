@@ -7,7 +7,6 @@
  *
  * @package    BulkDelete\Deprecated
  */
-
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
