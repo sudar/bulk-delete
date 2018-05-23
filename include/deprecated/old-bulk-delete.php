@@ -87,7 +87,6 @@ final class Bulk_Delete {
 
 	// Instance variables
 	public $settings_page;
-	public $meta_page;
 	public $misc_page;
 	public $display_activate_license_form = false;
 
@@ -205,6 +204,10 @@ final class Bulk_Delete {
 
 			case 'pages_page':
 				return $new_bd->get_page_hook_suffix( 'bulk-delete-pages' );
+				break;
+
+			case 'meta_page':
+				return $new_bd->get_page_hook_suffix( 'bulk-delete-metas' );
 				break;
 		}
 
