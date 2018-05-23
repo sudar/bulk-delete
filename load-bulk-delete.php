@@ -79,6 +79,7 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'Bulk_Delete_Posts'                        => $plugin_dir . 'include/deprecated/class-bulk-delete-posts.php',
 		'Bulk_Delete_Pages'                        => $plugin_dir . 'include/deprecated/class-bulk-delete-pages.php',
 		'Bulk_Delete_Post_Meta'                    => $plugin_dir . 'include/deprecated/class-bulk-delete-post-meta.php',
+		'Bulk_Delete_User_Meta'                    => $plugin_dir . 'include/deprecated/class-bulk-delete-user-meta.php',
 	);
 }
 
