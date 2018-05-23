@@ -97,6 +97,15 @@ abstract class BaseModule extends Renderer {
 	abstract public function render();
 
 	/**
+	 * Process common filters.
+	 *
+	 * @param array $request Request array.
+	 *
+	 * @return array User options.
+	 */
+	abstract protected function parse_common_filters( $request );
+
+	/**
 	 * Process user input and create metabox options.
 	 *
 	 * @param array $request Request array.
@@ -438,26 +447,6 @@ abstract class BaseModule extends Renderer {
 			__( 'See the full list of <a href = "%s">scheduled tasks</a>', 'bulk-delete' ),
 			get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . \Bulk_Delete::CRON_PAGE_SLUG
 		);
-	}
-
-	/**
-	 * Handle common filters.
-	 *
-	 * @param array $request Request array.
-	 *
-	 * @return array User options.
-	 */
-	protected function parse_common_filters( $request ) {
-		$options = array();
-
-		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
-		$options['limit_to']     = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
-		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
-
-		$options['date_op'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
-		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
-
-		return $options;
 	}
 
 	/**

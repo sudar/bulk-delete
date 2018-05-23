@@ -7,6 +7,9 @@
  *
  * @package    BulkDelete\Deprecated
  */
+
+use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
+
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 class Bulk_Delete_Users {
@@ -18,8 +21,8 @@ class Bulk_Delete_Users {
 	 * @param mixed $delete_options
 	 */
 	public static function delete_users_by_role( $delete_options ) {
-		$factory = Bulk_Delete_Users_By_User_Role::factory();
+		$module = new DeleteUsersByUserRoleModule();
 
-		return $factory->delete( $delete_options );
+		return $module->delete( $delete_options );
 	}
 }

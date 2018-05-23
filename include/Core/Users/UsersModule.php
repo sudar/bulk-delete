@@ -1,49 +1,98 @@
 <?php
-/**
- * Base class for a Bulk Delete User Meta Box Module.
- *
- * @since 5.5.2
- *
- * @author Sudar
- *
- * @package BulkDelete\Base\Users
- */
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly
+
+namespace BulkWP\BulkDelete\Core\Users;
+
+use BulkWP\BulkDelete\Core\Base\BaseModule;
+
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Encapsulates the Bulk Delete User Meta box Module Logic.
  * All Bulk Delete User Meta box Modules should extend this class.
  *
- * @see BD_Meta_Box_Module
+ * @see BaseModule
+ *
  * @since 5.5.2
- * @abstract
+ * @since 6.0.0 Renamed to UsersModule.
  */
-abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
+abstract class UsersModule extends BaseModule {
+	/**
+	 * Build query params for WP_User_Query by using delete options.
+	 *
+	 * Return an empty query array to short-circuit deletion.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $options Delete options.
+	 *
+	 * @return array Query.
+	 */
+	abstract protected function build_query( $options );
+
+	/**
+	 * Handle common filters.
+	 *
+	 * @param array $request Request array.
+	 *
+	 * @return array User options.
+	 */
+	protected function parse_common_filters( $request ) {
+		$options = array();
+
+		$options['login_restrict'] = bd_array_get_bool( $request, "smbd_{$this->field_slug}_login_restrict", false );
+		$options['login_days']     = absint( bd_array_get( $request, "smbd_{$this->field_slug}_login_days", 0 ) );
+
+		$options['registered_restrict'] = bd_array_get_bool( $request, "smbd_{$this->field_slug}_registered_restrict", false );
+		$options['registered_days']     = absint( bd_array_get( $request, "smbd_{$this->field_slug}_registered_days", 0 ) );
+
+		$options['no_posts']            = bd_array_get_bool( $request, "smbd_{$this->field_slug}_no_posts", false );
+		$options['no_posts_post_types'] = bd_array_get( $request, "smbd_{$this->field_slug}_no_post_post_types", array() );
+
+		$options['limit_to'] = absint( bd_array_get( $request, "smbd_{$this->field_slug}_limit_to", 0 ) );
+
+		return $options;
+	}
+
+	protected function do_delete( $options ) {
+		$query = $this->build_query( $options );
+
+		if ( empty( $query ) ) {
+			// Short circuit deletion, if nothing needs to be deleted.
+			return 0;
+		}
+
+		return $this->delete_users_from_query( $query, $options );
+	}
+
 	/**
 	 * Query and Delete users.
 	 *
 	 * @since  5.5.2
 	 * @access protected
 	 *
-	 * @param array $options        Options to query users.
-	 * @param array $delete_options Delete options.
+	 * @param array $query   Options to query users.
+	 * @param array $options Delete options.
 	 *
 	 * @return int Number of users who were deleted.
 	 */
-	protected function delete_users( $options, $delete_options ) {
+	protected function delete_users_from_query( $query, $options ) {
 		$count = 0;
-		$users = get_users( $options );
+		$users = get_users( $query );
+
+		if ( ! function_exists( 'wp_delete_user' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/user.php';
+		}
 
 		foreach ( $users as $user ) {
-			if ( ! $this->can_delete_by_registered_date( $delete_options, $user ) ) {
+			if ( ! $this->can_delete_by_registered_date( $options, $user ) ) {
 				continue;
 			}
 
-			if ( ! $this->can_delete_by_logged_date( $delete_options, $user ) ) {
+			if ( ! $this->can_delete_by_logged_date( $options, $user ) ) {
 				continue;
 			}
 
-			if ( ! $this->can_delete_by_post_count( $delete_options, $user ) ) {
+			if ( ! $this->can_delete_by_post_count( $options, $user ) ) {
 				continue;
 			}
 
@@ -146,18 +195,7 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @param array $delete_options Delete Options.
 	 */
 	protected function process_user_delete( $delete_options ) {
-		$delete_options['login_restrict']      = bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_login_restrict", false );
-		$delete_options['login_days']          = absint( bd_array_get( $_POST, "smbd_{$this->field_slug}_login_days", 0 ) );
 
-		$delete_options['registered_restrict'] = bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_registered_restrict", false );
-		$delete_options['registered_days']     = absint( bd_array_get( $_POST, "smbd_{$this->field_slug}_registered_days", 0 ) );
-
-		$delete_options['no_posts']            = bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_no_posts", false );
-		$delete_options['no_posts_post_types'] = bd_array_get( $_POST, "smbd_{$this->field_slug}_no_post_post_types", array() );
-
-		$delete_options['limit_to']            = absint( bd_array_get( $_POST, "smbd_{$this->field_slug}_limit_to", 0 ) );
-
-		$this->process_delete( $delete_options );
 	} // phpcs:disable
 
 	/**

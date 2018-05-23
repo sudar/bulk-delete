@@ -15,6 +15,8 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @property string|null translations
  * @property string|null posts_page
  * @property string|null pages_page
+ * @property string|null users_page
+ * @property string|null metas_page
  *
  * @since 5.0 Singleton
  * @since 6.0.0 Deprecated.
@@ -49,6 +51,7 @@ final class Bulk_Delete {
 	const CRON_HOOK_TAG         = 'do-bulk-delete-tag';              // used in Scheduler For Deleting Posts by Tag add-on v0.6.
 	const CRON_HOOK_TAXONOMY    = 'do-bulk-delete-taxonomy';         // used in Scheduler For Deleting Posts by Taxonomy add-on v0.6.
 	const CRON_HOOK_POST_TYPE   = 'do-bulk-delete-post-type';        // used in Scheduler For Deleting Posts by Post Type add-on v0.6.
+	const CRON_HOOK_USER_ROLE   = 'do-bulk-delete-users-by-role';    // used in Scheduler for Deleting Users by User Role add-on v0.6.
 
 	// page slugs
 	const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
@@ -89,11 +92,6 @@ final class Bulk_Delete {
 	public $settings_page;
 	public $misc_page;
 	public $display_activate_license_form = false;
-
-	// Deprecated.
-	// Will be removed in v6.0
-	const CRON_HOOK_USER_ROLE = 'do-bulk-delete-users-by-role';
-	public $users_page;
 
 	/**
 	 * Main Bulk_Delete Instance.
@@ -204,6 +202,10 @@ final class Bulk_Delete {
 
 			case 'pages_page':
 				return $new_bd->get_page_hook_suffix( 'bulk-delete-pages' );
+				break;
+
+			case 'users_page':
+				return $new_bd->get_page_hook_suffix( 'bulk-delete-users' );
 				break;
 
 			case 'meta_page':

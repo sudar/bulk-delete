@@ -24,6 +24,26 @@ abstract class PostsModule extends BaseModule {
 
 	protected $item_type = 'posts';
 
+	/**
+	 * Handle common filters.
+	 *
+	 * @param array $request Request array.
+	 *
+	 * @return array User options.
+	 */
+	protected function parse_common_filters( $request ) {
+		$options = array();
+
+		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
+		$options['limit_to']     = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
+		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
+
+		$options['date_op'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
+		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
+
+		return $options;
+	}
+
 	public function filter_js_array( $js_array ) {
 		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
 		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
