@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0 Renamed to DeleteUsersByUserRoleModule
  */
 class DeleteUsersByUserRoleModule extends UsersModule {
-
 	/**
 	 * Initialize and setup variables.
 	 *

@@ -11,7 +11,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * All Bulk Delete User Meta box Modules should extend this class.
  *
  * @see BaseModule
- *
  * @since 5.5.2
  * @since 6.0.0 Renamed to UsersModule.
  */
@@ -195,7 +194,6 @@ abstract class UsersModule extends BaseModule {
 	 * @param array $delete_options Delete Options.
 	 */
 	protected function process_user_delete( $delete_options ) {
-
 	} // phpcs:disable
 
 	/**
