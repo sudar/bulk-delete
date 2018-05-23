@@ -182,21 +182,6 @@ abstract class UsersModule extends BaseModule {
 	}
 
 	/**
-	 * Process user delete form.
-	 *
-	 * Helper function to handle common delete user fields.
-	 * Nonce verification is done in the hook that calls this function.
-	 * phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
-	 *
-	 * @since 5.5.3
-	 * @access protected
-	 *
-	 * @param array $delete_options Delete Options.
-	 */
-	protected function process_user_delete( $delete_options ) {
-	} // phpcs:disable
-
-	/**
 	 * Render User Login restrict settings.
 	 *
 	 * @since 5.5

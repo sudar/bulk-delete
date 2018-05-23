@@ -239,7 +239,6 @@ final class BulkDelete {
 			$page->register();
 		}
 
-//		\BD_Users_Page::factory();
 		\Bulk_Delete_Misc::add_menu();
 
 		/**
