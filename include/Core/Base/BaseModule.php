@@ -276,8 +276,8 @@ abstract class BaseModule extends Renderer {
 					 *
 					 * @since 6.0.0
 					 *
-					 * @param array $cron_schedules List of cron schedules.
-					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module Module.
+					 * @param array                                   $cron_schedules List of cron schedules.
+					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module         Module.
 					 */
 					$cron_schedules = apply_filters( 'bd_cron_schedules', wp_get_schedules(), $this );
 					?>
@@ -296,9 +296,9 @@ abstract class BaseModule extends Renderer {
 					 *
 					 * @since 6.0.0
 					 *
-					 * @param string $pro_class HTML class.
-					 * @param string $field_slug Field Slug of module.
-					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module Module.
+					 * @param string                                  $pro_class  HTML class.
+					 * @param string                                  $field_slug Field Slug of module.
+					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module     Module.
 					 */
 					apply_filters( 'bd_pro_only_feature_class', $pro_class, $this->field_slug, $this )
 					?>

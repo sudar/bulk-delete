@@ -213,10 +213,10 @@ class DeleteCommentMetaModule extends MetasModule {
 	 *
 	 * @since 0.1 of Bulk Delete Comment Meta add-on
 	 *
-	 * @param  array $delete_options Delete options array.
-	 * @param  array $post           The POST array.
+	 * @param array $delete_options Delete options array.
+	 * @param array $post           The POST array.
 	 *
-	 * @return array                 Processed delete options array.
+	 * @return array Processed delete options array.
 	 */
 	public function process_filtering_options( $delete_options, $post ) {
 		if ( 'true' == bd_array_get( $post, 'smbd_' . $this->field_slug . '_use_value', 'false' ) ) {
@@ -235,10 +235,10 @@ class DeleteCommentMetaModule extends MetasModule {
 	 *
 	 * @since 0.1 of Bulk Delete Comment Meta add-on
 	 *
-	 * @param  array $meta_query     Meta query.
-	 * @param  array $delete_options List of options chosen by the user.
+	 * @param array $meta_query     Meta query.
+	 * @param array $delete_options List of options chosen by the user.
 	 *
-	 * @return array                 Modified meta query.
+	 * @return array Modified meta query.
 	 */
 	public function change_meta_query( $meta_query, $delete_options ) {
 		$meta_query = array(
@@ -260,7 +260,7 @@ class DeleteCommentMetaModule extends MetasModule {
 	 *
 	 * @since 0.1 of Bulk Delete Comment Meta add-on
 	 *
-	 * @param  array $delete_options Delete options array.
+	 * @param array $delete_options Delete options array.
 	 */
 	public function do_delete_comment_meta( $delete_options ) {
 		do_action( 'bd_before_scheduler', $this->messages['cron_label'] );
