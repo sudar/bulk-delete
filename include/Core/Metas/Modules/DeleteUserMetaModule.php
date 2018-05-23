@@ -147,7 +147,7 @@ class DeleteUserMetaModule extends MetasModule {
 		return $options;
 	}
 
-	public function delete( $options ) {
+	protected function do_delete( $options ) {
 		$count     = 0;
 		$user_role = $options['user_role'];
 		$meta_key  = $options['meta_key'];

@@ -108,7 +108,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		return $options;
 	}
 
-	public function delete( $options ) {
+	protected function do_delete( $options ) {
 		$args = array(
 			'post_type' => $options['post_type'],
 		);

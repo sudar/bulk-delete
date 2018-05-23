@@ -48,17 +48,7 @@ abstract class PostsModule extends BaseModule {
 		return $js_array;
 	}
 
-	public function delete( $options ) {
-		/**
-		 * Filter delete options before deleting posts.
-		 *
-		 * @since 6.0.0 Added `Modules` parameter.
-		 *
-		 * @param array $options Delete options.
-		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule Modules that is triggering deletion.
-		 */
-		$options = apply_filters( 'bd_delete_options', $options, $this );
-
+	protected function do_delete( $options ) {
 		$query = $this->build_query( $options );
 
 		if ( empty( $query ) ) {
@@ -157,7 +147,7 @@ abstract class PostsModule extends BaseModule {
 			<tr>
 				<td scope="row">
 					<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="All">
-					<label>All</label>	
+					<label>All</label>
 				</td>
 			</tr>
 			<?php foreach ( $posts as $post ) :

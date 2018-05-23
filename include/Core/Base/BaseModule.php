@@ -113,7 +113,7 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @return int Number of items that were deleted.
 	 */
-	abstract public function delete( $options );
+	abstract protected function do_delete( $options );
 
 	/**
 	 * Get Success Message.
@@ -349,6 +349,27 @@ abstract class BaseModule extends Renderer {
 			$msg,
 			'updated'
 		);
+	}
+
+	/**
+	 * Delete items based on delete options.
+	 *
+	 * @param array $options Delete Options.
+	 *
+	 * @return int Number of items deleted.
+	 */
+	public function delete( $options ) {
+		/**
+		 * Filter delete options before deleting items.
+		 *
+		 * @since 6.0.0 Added `Modules` parameter.
+		 *
+		 * @param array $options Delete options.
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule Modules that is triggering deletion.
+		 */
+		$options = apply_filters( 'bd_delete_options', $options, $this );
+
+		return $this->do_delete( $options );
 	}
 
 	/**
