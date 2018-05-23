@@ -1,4 +1,5 @@
 <?php
+
 namespace BulkWP\BulkDelete\Core\Metas\Modules;
 
 use BulkWP\BulkDelete\Core\Metas\MetasModule;
@@ -12,9 +13,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeleteCommentMetaModule extends MetasModule {
 	protected function initialize() {
-		$this->field_slug    = 'meta_comment';
-		$this->meta_box_slug = 'bd-meta-comment';
-		$this->action        = 'delete_meta_comment';
+		$this->field_slug    = 'comment_meta';
+		$this->meta_box_slug = 'bd-comment-meta';
+		$this->action        = 'delete_comment_meta';
 		$this->cron_hook     = 'do-bulk-delete-comment-meta';
 		$this->messages      = array(
 			'box_label'  => __( 'Bulk Delete Comment Meta', 'bulk-delete' ),
@@ -23,11 +24,15 @@ class DeleteCommentMetaModule extends MetasModule {
 		);
 	}
 
-	/**
-	 * Render the Modules.
-	 *
-	 * @return void
-	 */
+	public function register( $hook_suffix, $page_slug ) {
+		parent::register( $hook_suffix, $page_slug );
+
+		add_action( 'bd_delete_comment_meta_form', array( $this, 'add_filtering_options' ) );
+
+		add_filter( 'bd_delete_comment_meta_options', array( $this, 'process_filtering_options' ), 10, 2 );
+		add_filter( 'bd_delete_comment_meta_query', array( $this, 'change_meta_query' ), 10, 2 );
+	}
+
 	public function render() {
 		?>
 		<!-- Comment Meta box start-->
@@ -48,18 +53,19 @@ class DeleteCommentMetaModule extends MetasModule {
 
 				<tr>
 					<td>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="true" type="radio" disabled>
+						<input type="radio" value="true" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"
+							id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value">
+
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on comment meta key name and value', 'bulk-delete' ); ?></label>
-						<span class="bd-cm-pro" style="color:red; vertical-align: middle;">
-							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-comment-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-c" target="_blank">Buy now</a>
-						</span>
 					</td>
 				</tr>
 
 				<tr>
 					<td>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key"><?php _e( 'Comment Meta Key ', 'bulk-delete' ); ?></label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key"
+						       id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key"
+						       placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
 					</td>
 				</tr>
 			</table>
@@ -154,5 +160,111 @@ class DeleteCommentMetaModule extends MetasModule {
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
 		return _n( 'Deleted comment meta field from %d comment', 'Deleted comment meta field from %d comments', $items_deleted, 'bulk-delete' );
+	}
+
+	/**
+	 * Append filtering options to the delete comment meta form.
+	 *
+	 * This function was originally part of the Bulk Delete Comment Meta add-on.
+	 *
+	 * @since 0.1 of Bulk Delete Comment Meta add-on
+	 */
+	public function add_filtering_options() {
+		?>
+		<table class="optiontable" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_filters" style="display:none;">
+			<tr>
+				<td>
+					<?php _e( 'Comment Meta Value ', 'bulk-delete' ); ?>
+					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op">
+						<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+						<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+						<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
+						<option value="<="><?php _e( 'less than or equal to', 'bulk-delete' ); ?></option>
+						<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
+						<option value=">="><?php _e( 'greater than or equal to', 'bulk-delete' ); ?></option>
+						<option value="LIKE"><?php _e( 'like', 'bulk-delete' ); ?></option>
+						<option value="NOT LIKE"><?php _e( 'not like', 'bulk-delete' ); ?></option>
+					</select>
+					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type">
+						<option value="CHAR"><?php _e( 'CHAR', 'bulk-delete' ); ?></option>
+						<option value="NUMERIC"><?php _e( 'NUMERIC', 'bulk-delete' ); ?></option>
+						<option value="DECIMAL"><?php _e( 'DECIMAL', 'bulk-delete' ); ?></option>
+						<option value="SIGNED"><?php _e( 'SIGNED', 'bulk-delete' ); ?></option>
+						<option value="UNSIGNED"><?php _e( 'UNSIGNED', 'bulk-delete' ); ?></option>
+						<option value="DATE"><?php _e( 'DATE', 'bulk-delete' ); ?></option>
+						<option value="TIME"><?php _e( 'TIME', 'bulk-delete' ); ?></option>
+						<option value="DATETIME"><?php _e( 'DATETIME', 'bulk-delete' ); ?></option>
+						<option value="BINARY"><?php _e( 'BINARY', 'bulk-delete' ); ?></option>
+					</select>
+
+					<input type="text" placeholder="<?php _e( 'Meta Value', 'bulk-delete' ); ?>"
+						name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
+						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value">
+				</td>
+			</tr>
+		</table>
+		<?php
+	}
+
+	/**
+	 * Process additional delete options.
+	 *
+	 * This function was originally part of the Bulk Delete Comment Meta add-on.
+	 *
+	 * @since 0.1 of Bulk Delete Comment Meta add-on
+	 *
+	 * @param  array $delete_options Delete options array.
+	 * @param  array $post           The POST array.
+	 *
+	 * @return array                 Processed delete options array.
+	 */
+	public function process_filtering_options( $delete_options, $post ) {
+		if ( 'true' == bd_array_get( $post, 'smbd_' . $this->field_slug . '_use_value', 'false' ) ) {
+			$delete_options['meta_op']    = bd_array_get( $post, 'smbd_' . $this->field_slug . '_meta_op', '=' );
+			$delete_options['meta_type']  = bd_array_get( $post, 'smbd_' . $this->field_slug . '_type', 'CHAR' );
+			$delete_options['meta_value'] = bd_array_get( $post, 'smbd_' . $this->field_slug . '_value', '' );
+		}
+
+		return $delete_options;
+	}
+
+	/**
+	 * Change the meta query.
+	 *
+	 * This function was originally part of the Bulk Delete Comment Meta add-on.
+	 *
+	 * @since 0.1 of Bulk Delete Comment Meta add-on
+	 *
+	 * @param  array $meta_query     Meta query.
+	 * @param  array $delete_options List of options chosen by the user.
+	 *
+	 * @return array                 Modified meta query.
+	 */
+	public function change_meta_query( $meta_query, $delete_options ) {
+		$meta_query = array(
+			array(
+				'key'     => $delete_options['meta_key'],
+				'value'   => $delete_options['meta_value'],
+				'compare' => $delete_options['meta_op'],
+				'type'    => $delete_options['meta_type'],
+			),
+		);
+
+		return $meta_query;
+	}
+
+	/**
+	 * Hook handler.
+	 *
+	 * This function was originally part of the Bulk Delete Comment Meta add-on.
+	 *
+	 * @since 0.1 of Bulk Delete Comment Meta add-on
+	 *
+	 * @param  array $delete_options Delete options array.
+	 */
+	public function do_delete_comment_meta( $delete_options ) {
+		do_action( 'bd_before_scheduler', $this->messages['cron_label'] );
+		$count = $this->delete( $delete_options );
+		do_action( 'bd_after_scheduler', $this->messages['cron_label'], $count );
 	}
 }
