@@ -17,4 +17,11 @@ abstract class MetasModule extends BaseModule {
 	protected function render_restrict_settings() {
 		bd_render_restrict_settings( $this->field_slug, 'posts' );
 	}
+
+	/**
+	 * Render User role dropdown.
+	 */
+	protected function render_user_role_dropdown() {
+		bd_render_user_role_dropdown( $this->field_slug );
+	}
 }

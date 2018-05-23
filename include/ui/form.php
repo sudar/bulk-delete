@@ -205,6 +205,30 @@ function bd_render_post_type_dropdown( $slug ) {
 }
 
 /**
+ * Render the user role dropdown.
+ *
+ * @since 5.5
+ *
+ * @param string $slug The slug to be used in field names.
+ */
+function bd_render_user_role_dropdown( $slug ) {
+	$users_count = count_users();
+?>
+    <tr>
+        <td>
+        	<select class="select2" name="smbd_<?php echo esc_attr( $slug ); ?>_post_type">
+        		<?php foreach ( $users_count['avail_roles'] as $role => $count ) {?>
+        		<option value="<?php echo $role; ?>">
+					<?php echo $role; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)
+				</option>
+				<?php }?>
+        	</select>
+        </td>
+    </tr>
+<?php
+}
+
+/**
  * Get the list of post type objects that will be used in filters.
  *
  * @since 5.6.0
