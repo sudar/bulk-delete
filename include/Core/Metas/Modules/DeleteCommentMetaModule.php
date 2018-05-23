@@ -34,7 +34,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		<fieldset class="options">
 			<h4><?php _e( 'Select the post type whose comment meta fields you want to delete', 'bulk-delete' ); ?></h4>
 			<table class="optiontable">
-				<?php $this->render_post_type_as_radios(); ?>
+				<?php $this->render_post_type_dropdown(); ?>
 			</table>
 
 			<h4><?php _e( 'Choose your comment meta field settings', 'bulk-delete' ); ?></h4>

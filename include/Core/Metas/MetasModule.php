@@ -17,4 +17,5 @@ abstract class MetasModule extends BaseModule {
 	protected function render_restrict_settings() {
 		bd_render_restrict_settings( $this->field_slug, 'posts' );
 	}
+	
 }
