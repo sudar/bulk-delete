@@ -12,9 +12,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeletePostMetaModule extends MetasModule {
 	protected function initialize() {
-		$this->field_slug    = 'meta_post';
-		$this->meta_box_slug = 'bd-meta-post';
-		$this->action        = 'delete_meta_post';
+		$this->field_slug    = 'pm'; // Ideally it should be `meta_post`. But we are keeping it as pm for backward compatibility.
+		$this->meta_box_slug = 'bd-post-meta';
+		$this->action        = 'delete_post_meta';
 		$this->cron_hook     = 'do-bulk-delete-post-meta';
 		$this->messages      = array(
 			'box_label'  => __( 'Bulk Delete Post Meta', 'bulk-delete' ),
@@ -162,7 +162,7 @@ class DeletePostMetaModule extends MetasModule {
 		return $options;
 	}
 
-	public function delete( $options ) {
+	protected function do_delete( $options ) {
 		$count = 0;
 		$args  = array(
 			'post_type' => $options['post_type'],

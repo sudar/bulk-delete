@@ -12,9 +12,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeleteUserMetaModule extends MetasModule {
 	protected function initialize() {
-		$this->field_slug    = 'user_comment';
+		$this->field_slug    = 'um'; // Ideally it should be `meta_user`. But we are keeping it as pm for backward compatibility.
 		$this->meta_box_slug = 'bd-user-meta';
-		$this->action        = 'delete_user_comment';
+		$this->action        = 'delete_user_meta';
 		$this->cron_hook     = 'do-bulk-delete-user-meta';
 		$this->messages      = array(
 			'box_label'  => __( 'Bulk Delete User Meta', 'bulk-delete' ),
@@ -147,7 +147,7 @@ class DeleteUserMetaModule extends MetasModule {
 		return $options;
 	}
 
-	public function delete( $options ) {
+	protected function do_delete( $options ) {
 		$count     = 0;
 		$user_role = $options['user_role'];
 		$meta_key  = $options['meta_key'];

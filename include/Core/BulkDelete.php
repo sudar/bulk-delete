@@ -19,6 +19,9 @@ use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
+use BulkWP\BulkDelete\Core\Users\DeleteUsersPage;
+use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule;
+use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -236,7 +239,6 @@ final class BulkDelete {
 			$page->register();
 		}
 
-		\BD_Users_Page::factory();
 		\Bulk_Delete_Misc::add_menu();
 
 		/**
@@ -293,10 +295,12 @@ final class BulkDelete {
 		if ( empty( $this->primary_pages ) ) {
 			$posts_page = $this->get_delete_posts_admin_page();
 			$pages_page = $this->get_delete_pages_admin_page();
+			$users_page = $this->get_delete_users_admin_page();
 			$metas_page = $this->get_delete_metas_admin_page();
 
 			$this->primary_pages[ $posts_page->get_page_slug() ] = $posts_page;
 			$this->primary_pages[ $pages_page->get_page_slug() ] = $pages_page;
+			$this->primary_pages[ $users_page->get_page_slug() ] = $users_page;
 			$this->primary_pages[ $metas_page->get_page_slug() ] = $metas_page;
 		}
 
@@ -343,6 +347,22 @@ final class BulkDelete {
 		$pages_page->add_metabox( new DeletePagesByStatusModule() );
 
 		return $pages_page;
+	}
+
+	/**
+	 * Get Bulk Delete Users admin page.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Users\DeleteUsersPage
+	 */
+	private function get_delete_users_admin_page() {
+		$users_page = new DeleteUsersPage( $this->get_plugin_file() );
+
+		$users_page->add_metabox( new DeleteUsersByUserRoleModule() );
+		$users_page->add_metabox( new DeleteUsersByUserMetaModule() );
+
+		return $users_page;
 	}
 
 	/**

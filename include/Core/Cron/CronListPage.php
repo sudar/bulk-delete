@@ -16,6 +16,7 @@ class CronListPage extends BasePage {
 		parent::register();
 
 		add_action( 'bd_delete_cron', array( $this, 'delete_cron_job' ) );
+		add_action( 'bd_run_cron', array( $this, 'run_cron_job' ) );
 	}
 
 	protected function initialize() {
@@ -35,6 +36,35 @@ class CronListPage extends BasePage {
 
 		// TODO: Move this to a seperate Add-on page.
 		bd_display_available_addon_list();
+	}
+
+	/**
+	 * Process run cron job request.
+	 *
+	 * @since 6.0
+	 */
+	public function run_cron_job() {
+		$cron_id    = absint( $_GET['cron_id'] );
+		$cron_items = $this->get_cron_schedules();
+
+		if ( 0 === $cron_id ) {
+			return;
+		}
+
+		if ( ! isset( $cron_items[ $cron_id ] ) ) {
+			return;
+		}
+
+		wp_schedule_single_event( time(), $cron_items[ $cron_id ]['type'], $cron_items[ $cron_id ]['args'] );
+
+		$msg = __( 'The selected scheduled job was successfully run', 'bulk-delete' );
+
+		add_settings_error(
+			\Bulk_Delete::CRON_PAGE_SLUG, // TODO: Replace this constant.
+			'deleted-cron',
+			$msg,
+			'updated'
+		);
 	}
 
 	/**
@@ -78,7 +108,7 @@ class CronListPage extends BasePage {
 		$cron_items  = array();
 		$cron        = _get_cron_array();
 		$date_format = _x( 'M j, Y @ G:i', 'Cron table date format', 'bulk-delete' );
-		$i           = 0;
+		$i           = 1;
 
 		foreach ( $cron as $timestamp => $cronhooks ) {
 			foreach ( (array) $cronhooks as $hook => $events ) {
