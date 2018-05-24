@@ -109,6 +109,15 @@ class CronListTable extends \WP_List_Table {
 				wp_create_nonce( 'bd-delete_cron' ),
 				__( 'Delete', 'bulk-delete' )
 			),
+			'run' => sprintf( '<a href="?page=%s&bd_action=%s&cron_id=%s&%s=%s" onclick="return confirm(%s)">%s</a>',
+				$_REQUEST['page'],
+				'run_cron',
+				$item['id'],
+				'bd-run_cron-nonce',
+				wp_create_nonce( 'bd-run_cron' ),
+				__( "'Are you sure you want to run the schedule job manually'", 'bulk-delete' ),
+				__( 'Run Now', 'bulk-delete' )
+			),
 		);
 
 		// Return the title contents.
