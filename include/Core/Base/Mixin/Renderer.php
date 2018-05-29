@@ -89,6 +89,19 @@ abstract class Renderer extends Fetcher {
 	 * Render User role dropdown.
 	 */
 	protected function render_user_role_dropdown() {
-		bd_render_user_role_dropdown( $this->field_slug );
+		$users_count = count_users();
+?>
+    <tr>
+        <td>
+        	<select class="select2" name="smbd_<?php echo esc_attr( $slug ); ?>_post_type">
+        		<?php foreach ( $users_count['avail_roles'] as $role => $count ) {?>
+        		<option value="<?php echo $role; ?>">
+					<?php echo $role; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)
+				</option>
+				<?php }?>
+        	</select>
+        </td>
+    </tr>
+<?php
 	}
 }

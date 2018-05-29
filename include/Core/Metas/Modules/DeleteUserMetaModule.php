@@ -137,7 +137,6 @@ $this->render_user_role_dropdown();
 	}
 
 	public function delete( $options ) {
-		print_r($options);
 		$count     = 0;
 		$user_role = $options['user_role'];
 		$meta_key  = $options['meta_key'];
