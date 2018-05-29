@@ -43,20 +43,7 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 
 		<fieldset class="options">
 			<table class="optiontable">
-				<?php
-				$users_count = count_users();
-				foreach ( $users_count['avail_roles'] as $role => $count ) {
-					?>
-					<tr>
-						<td scope="row">
-							<input name="smbd_u_roles[]" value="<?php echo $role; ?>" type="checkbox">
-							<label for="smbd_u_roles"><?php echo $role; ?> (<?php echo $count . ' ';
-								_e( 'Users', 'bulk-delete' ); ?>)</label>
-						</td>
-					</tr>
-					<?php
-				}
-				?>
+				<?php $this->render_user_role_dropdown(); ?>
 			</table>
 
 			<table class="optiontable">
