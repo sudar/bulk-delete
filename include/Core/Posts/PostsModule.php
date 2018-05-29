@@ -236,6 +236,10 @@ abstract class PostsModule extends BaseModule {
 	protected function are_sticky_post_present() {
 		$sticky_post_ids = get_option( 'sticky_posts' );
 
+		if ( ! is_array( $sticky_post_ids ) ) {
+			return false;
+		}
+
 		return ( count( $sticky_post_ids ) > 0 );
 	}
 
