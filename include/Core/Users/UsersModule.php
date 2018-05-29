@@ -286,5 +286,4 @@ abstract class UsersModule extends BaseModule {
 		<?php endforeach; ?>
 		<?php
 	}
-
 }

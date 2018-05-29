@@ -107,5 +107,4 @@ abstract class Renderer extends Fetcher {
 		</select>
 		<?php 
 	}
-
 }
