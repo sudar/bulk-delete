@@ -84,4 +84,11 @@ abstract class Renderer extends Fetcher {
 
 		return $type_status;
 	}
+
+	/**
+	 * Render User role dropdown.
+	 */
+	protected function render_user_role_dropdown() {
+		bd_render_user_role_dropdown( $this->field_slug );
+	}
 }
