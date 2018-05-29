@@ -84,4 +84,28 @@ abstract class Renderer extends Fetcher {
 
 		return $type_status;
 	}
+
+	/**
+	 * Render Tags dropdown.
+	 */
+	protected function render_user_role_dropdown() {
+		$users_count = count_users();
+		?>
+		<select name="smbd_u_roles[]" class="select2" multiple="multiple" data-placeholder="<?php _e( 'Select Role', 'bulk-delete' ); ?>">
+		<?php 
+			foreach ( $users_count['avail_roles'] as $role => $count ) {
+			$role_detail = get_role( $role );
+			if( isset( $role_detail->name ) ){
+				$role_name = $role_detail->name;
+			}else{
+				$role_name = $role;
+			}
+		?>
+			<option value="<?php echo $role; ?>"><?php echo $role; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)</option>
+			<?php
+		} ?>
+		</select>
+		<?php 
+	}
+
 }
