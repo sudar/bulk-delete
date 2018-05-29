@@ -104,9 +104,9 @@ abstract class Renderer extends Fetcher {
     </tr>
 <?php
   }
-   /**
-    * Render Post type dropdown.
-	*/
+	/**
+	 * Render Post type dropdown.
+	 */
 	protected function render_post_type_dropdown() {
 		$types = bd_get_post_types();
 ?>
