@@ -106,5 +106,11 @@ abstract class Renderer extends Fetcher {
 		} ?>
 		</select>
 		<?php 
+
+  /**
+	 * Render Post type dropdown.
+	 */
+	protected function render_post_type_dropdown() {
+		bd_render_post_type_dropdown( $this->field_slug );
 	}
 }

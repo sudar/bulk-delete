@@ -102,13 +102,6 @@ abstract class PostsModule extends BaseModule {
 	}
 
 	/**
-	 * Render Post type dropdown.
-	 */
-	protected function render_post_type_dropdown() {
-		bd_render_post_type_dropdown( $this->field_slug );
-	}
-
-	/**
 	 * Render Category dropdown.
 	 */
 	protected function render_category_dropdown() {
@@ -235,6 +228,10 @@ abstract class PostsModule extends BaseModule {
 	 */
 	protected function are_sticky_post_present() {
 		$sticky_post_ids = get_option( 'sticky_posts' );
+
+		if ( ! is_array( $sticky_post_ids ) ) {
+			return false;
+		}
 
 		return ( count( $sticky_post_ids ) > 0 );
 	}
