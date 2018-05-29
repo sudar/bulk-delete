@@ -86,7 +86,7 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
-	 * Render Tags dropdown.
+	 * Render user role dropdown.
 	 */
 	protected function render_user_role_dropdown() {
 		$users_count = count_users();
@@ -101,7 +101,7 @@ abstract class Renderer extends Fetcher {
 				$role_name = $role;
 			}
 		?>
-			<option value="<?php echo $role; ?>"><?php echo $role; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)</option>
+			<option value="<?php echo $role; ?>"><?php echo $role_name; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)</option>
 			<?php
 		} ?>
 		</select>
