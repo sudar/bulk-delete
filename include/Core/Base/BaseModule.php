@@ -514,5 +514,4 @@ abstract class BaseModule extends Renderer {
 	protected function get_cron_label() {
 		return $this->messages['cron_label'];
 	}
-
 }
