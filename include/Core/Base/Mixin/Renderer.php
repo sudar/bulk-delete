@@ -92,22 +92,25 @@ abstract class Renderer extends Fetcher {
 		$users_count = count_users();
 		?>
 		<select name="smbd_u_roles[]" class="select2" multiple="multiple" data-placeholder="<?php _e( 'Select Role', 'bulk-delete' ); ?>">
-		<?php 
-			foreach ( $users_count['avail_roles'] as $role => $count ) {
-			$role_detail = get_role( $role );
-			if( isset( $role_detail->name ) ){
-				$role_name = $role_detail->name;
-			}else{
-				$role_name = $role;
-			}
-		?>
-			<option value="<?php echo $role; ?>"><?php echo $role_name; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)</option>
-			<?php
-		} ?>
-		</select>
-		<?php 
+			<?php foreach ( $users_count['avail_roles'] as $role => $count ) : ?>
+				<?php
+					$role_detail = get_role( $role );
+					$role_name   = $role;
 
-  /**
+					if ( isset( $role_detail->name ) ) {
+						$role_name = $role_detail->name;
+					}
+				?>
+
+				<option value="<?php echo esc_attr( $role ); ?>">
+					<?php echo esc_html( $role_name ), '(', esc_html( $count ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
+
+	/**
 	 * Render Post type dropdown.
 	 */
 	protected function render_post_type_dropdown() {
