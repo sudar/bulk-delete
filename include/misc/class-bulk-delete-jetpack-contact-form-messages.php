@@ -110,7 +110,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
                             <option value ="<"><?php _e( 'older than', 'bulk-delete' );?></option>
                             <option value =">"><?php _e( 'posted within last', 'bulk-delete' );?></option>
                         </select>
-                        <input type ="textbox" name="smbd_feedback_days" id ="smbd_feedback_days" value ="0"  maxlength="4" size="4" disabled><?php _e( 'days', 'bulk-delete' );?>
+                        <input type ="text" name="smbd_feedback_days" id ="smbd_feedback_days" value ="0"  maxlength="4" size="4" disabled><?php _e( 'days', 'bulk-delete' );?>
                     </td>
                 </tr>
 
@@ -120,7 +120,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
                     </td>
                     <td>
                         <?php _e( 'Only delete first ', 'bulk-delete' );?>
-                        <input type ="textbox" name="smbd_feedback_limit_to" id="smbd_feedback_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'posts.', 'bulk-delete' );?>
+                        <input type ="text" name="smbd_feedback_limit_to" id="smbd_feedback_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'posts.', 'bulk-delete' );?>
                         <?php _e( 'Use this option if there are more than 1000 posts and the script times out.', 'bulk-delete' ) ?>
                     </td>
                 </tr>
@@ -354,7 +354,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 						<option value ="is"><?php _e( 'is', 'bulk-delete' );?></option>
 						<option value ="is-not"><?php _e( 'is not', 'bulk-delete' );?></option>
 					</select>
-					<input type ="textbox" name="smbd_feedback_author_name_value" id ="smbd_feedback_author_name_value" disabled placeholder="<?php _e( 'Author Name', 'bulk-delete' ); ?>">
+					<input type ="text" name="smbd_feedback_author_name_value" id ="smbd_feedback_author_name_value" disabled placeholder="<?php _e( 'Author Name', 'bulk-delete' ); ?>">
 				</td>
 			</tr>
 
@@ -368,7 +368,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 						<option value ="is"><?php _e( 'is', 'bulk-delete' );?></option>
 						<option value ="is-not"><?php _e( 'is not', 'bulk-delete' );?></option>
 					</select>
-					<input type ="textbox" name="smbd_feedback_author_email_value" id ="smbd_feedback_author_email_value" disabled placeholder="<?php _e( 'Author Email', 'bulk-delete' ); ?>">
+					<input type ="text" name="smbd_feedback_author_email_value" id ="smbd_feedback_author_email_value" disabled placeholder="<?php _e( 'Author Email', 'bulk-delete' ); ?>">
 				</td>
 			</tr>
 
@@ -382,7 +382,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 						<option value ="is"><?php _e( 'is', 'bulk-delete' );?></option>
 						<option value ="is-not"><?php _e( 'is not', 'bulk-delete' );?></option>
 					</select>
-					<input type ="textbox" name="smbd_feedback_author_ip_value" id ="smbd_feedback_author_ip_value" disabled placeholder="<?php _e( 'Author ip', 'bulk-delete' ); ?>">
+					<input type ="text" name="smbd_feedback_author_ip_value" id ="smbd_feedback_author_ip_value" disabled placeholder="<?php _e( 'Author ip', 'bulk-delete' ); ?>">
 				</td>
 			</tr>
 		</table>
