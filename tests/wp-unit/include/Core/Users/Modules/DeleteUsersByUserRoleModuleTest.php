@@ -1,34 +1,42 @@
 <?php
 
+namespace BulkWP\BulkDelete\Core\Users\Modules;
+
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
- * Sample test case.
+ * Test Deletion of users by user role.
+ *
+ * Tests \BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule
+ *
+ * @since 6.0.0
  */
-class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
+class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 
 	/**
-	 * A single example test.
+	 * The module that is getting tested.
+	 *
+	 * @var \BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule
 	 */
-	protected $delete_by_user_role;
+	protected $module;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->delete_by_user_role = new \Bulk_Delete_Users_By_User_Role();
+		$this->module = new DeleteUsersByUserRoleModule();
 	}
 
 	/**
 	 * Test basic case of delete users by role.
 	 */
 	public function test_delete_users_by_role_without_filters() {
-		//Create one user and assign to subscriber role
-		$user = $this->factory->user->create( array( 'user_login' => 'user_test', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber' ) );
+		// Create one user and assign to subscriber role.
+		$this->factory->user->create( array( 'user_login' => 'user_test', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber' ) );
 
 		// Assert that user role has one user.
-		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
+		$subscribers = get_users( array( 'role' => 'subscriber' ) );
 
-		$this->assertEquals( 1, count( $users_in_role ) );
+		$this->assertEquals( 1, count( $subscribers ) );
 
 		// call our method.
 		$delete_options = array(
@@ -38,28 +46,28 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 			'login_restrict'      => false,
 			'no_posts'            => false,
 		);
-		$this->delete_by_user_role->delete( $delete_options );
+		$this->module->delete( $delete_options );
 
 		// Assert that user role has no user.
-		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
+		$subscribers = get_users( array( 'role' => 'subscriber' ) );
 
-		$this->assertEquals( 0, count( $users_in_role ) );
+		$this->assertEquals( 0, count( $subscribers ) );
 	}
 
 	/**
 	 * Test case of delete users by role with filter set registered day at least two days.
 	 */
 	public function test_delete_users_by_role_with_filter_set_registered_day_at_least_two_days() {
-		//Set registered date
-		$day_past = date('Y-m-d', strtotime('-2 day'));
+		// Set registered date.
+		$day_past = date( 'Y-m-d', strtotime( '-2 day' ) );
 
-		//Create one user and assign to subscriber role
-		$user = $this->factory->user->create( array( 'user_login' => 'user_test', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber', 'user_registered' => $day_past ) );
+		// Create one user and assign to subscriber role.
+		$this->factory->user->create( array( 'user_login' => 'user_test', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber', 'user_registered' => $day_past ) );
 
 		// Assert that user role has one user.
-		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
+		$subscribers = get_users( array( 'role' => 'subscriber' ) );
 
-		$this->assertEquals( 1, count( $users_in_role ) );
+		$this->assertEquals( 1, count( $subscribers ) );
 
 		// call our method.
 		$delete_options = array(
@@ -70,28 +78,28 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 			'login_restrict'      => false,
 			'no_posts'            => false,
 		);
-		$this->delete_by_user_role->delete( $delete_options );
+		$this->module->delete( $delete_options );
 
 		// Assert that user role has one user.
-		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
+		$subscribers = get_users( array( 'role' => 'subscriber' ) );
 
-		$this->assertEquals( 1, count( $users_in_role ) );
+		$this->assertEquals( 1, count( $subscribers ) );
 	}
 
 	/**
 	 * Test case of delete users by role with filter set registered day at least one days.
 	 */
 	public function test_delete_users_by_role_with_filter_set_registered_day_at_least_one_days() {
-		//Set registered date
-		$day_past = date('Y-m-d', strtotime('-2 day'));
+		// Set registered date.
+		$day_past = date( 'Y-m-d', strtotime( '-2 day' ) );
 
-		//Create one user and assign to subscriber role
-		$user = $this->factory->user->create( array( 'user_login' => 'user_test', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber', 'user_registered' => $day_past ) );
+		// Create one user and assign to subscriber role.
+		$this->factory->user->create( array( 'user_login' => 'user_test', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber', 'user_registered' => $day_past ) );
 
 		// Assert that user role has one user.
-		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
+		$subscribers = get_users( array( 'role' => 'subscriber' ) );
 
-		$this->assertEquals( 1, count( $users_in_role ) );
+		$this->assertEquals( 1, count( $subscribers ) );
 
 		// call our method.
 		$delete_options = array(
@@ -102,30 +110,31 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 			'login_restrict'      => false,
 			'no_posts'            => false,
 		);
-		$this->delete_by_user_role->delete( $delete_options );
+		$this->module->delete( $delete_options );
 
 		// Assert that user role has no user.
-		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
+		$subscribers = get_users( array( 'role' => 'subscriber' ) );
 
-		$this->assertEquals( 0, count( $users_in_role ) );
+		$this->assertEquals( 0, count( $subscribers ) );
 	}
 
 	/**
 	 * Test case of delete users by role with filter set post type.
 	 */
 	public function test_delete_users_by_role_with_filter_set_post_type() {
-		//Create two user and assign to subscriber role
+		// Create two user and assign to subscriber role.
 		$user1 = $this->factory->user->create( array( 'user_login' => 'user_test1', 'user_pass' => 'ZXC987abc', 'role' => 'subscriber' ) );
 		$user2 = $this->factory->user->create( array( 'user_login' => 'user_test2', 'user_pass' => 'ZXC987abc2', 'role' => 'subscriber' ) );
 
-		//Create post and assign author
+		// Create post and assign author.
 		$post = $this->factory->post->create( array( 'post_title' => 'post1', 'post_author' => $user1 ) );
 		$page = $this->factory->post->create( array( 'post_title' => 'page1', 'post_type' => 'page', 'post_author' => $user2 ) );
 
 		// Assert that user role has two users $user1 and $user2.
-		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
-		$user_id_only = wp_list_pluck( $users_in_role, 'ID' );
-		$this->assertEquals( array( $user1, $user2 ), $user_id_only );
+		$subscribers = get_users( array( 'role' => 'subscriber' ) );
+
+		$this->assertEquals( array( $user1, $user2 ), wp_list_pluck( $subscribers, 'ID' ) );
+
 		// call our method.
 		$delete_options = array(
 			'selected_roles'      => array( 'subscriber' ),
@@ -133,13 +142,13 @@ class Bulk_Delete_Users_By_User_RoleTest extends WPCoreUnitTestCase {
 			'registered_restrict' => false,
 			'login_restrict'      => false,
 			'no_posts'            => true,
-			'no_posts_post_types' => 'post'
+			'no_posts_post_types' => 'post',
 		);
-		$this->delete_by_user_role->delete( $delete_options );
+		$this->module->delete( $delete_options );
 
 		// Assert that user role has one $user1 and $user2 is deleted.
-		$users_in_role = get_users( array( 'role' => 'subscriber' ) );
-		$user_id_only = wp_list_pluck( $users_in_role, 'ID' );
-		$this->assertEquals( array( $user1 ), $user_id_only );
+		$subscribers = get_users( array( 'role' => 'subscriber' ) );
+
+		$this->assertEquals( array( $user1 ), wp_list_pluck( $subscribers, 'ID' ) );
 	}
 }

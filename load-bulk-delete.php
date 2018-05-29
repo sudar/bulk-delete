@@ -58,26 +58,26 @@ function bulk_delete_load( $plugin_file ) {
  */
 function bd_get_custom_class_map( $plugin_dir ) {
 	return array(
-		'BD_User_Meta_Box_Module'                  => $plugin_dir . 'include/base/users/class-bd-user-meta-box-module.php',
-		'BD_Meta_Box_Module'                       => $plugin_dir . 'include/base/class-bd-meta-box-module.php',
 		'BD_Base_Page'                             => $plugin_dir . 'include/base/class-bd-base-page.php',
-		'BD_Page'                                  => $plugin_dir . 'include/base/class-bd-page.php',
 		'Bulk_Delete_Help_Screen'                  => $plugin_dir . 'include/ui/class-bulk-delete-help-screen.php',
 		'BD_License'                               => $plugin_dir . 'include/license/class-bd-license.php',
 		'BD_License_Handler'                       => $plugin_dir . 'include/license/class-bd-license-handler.php',
 		'BD_EDD_API_Wrapper'                       => $plugin_dir . 'include/license/class-bd-edd-api-wrapper.php',
-		'BD_Users_Page'                            => $plugin_dir . 'include/users/class-bd-users-page.php',
-		'Bulk_Delete_Users_By_User_Role'           => $plugin_dir . 'include/users/modules/class-bulk-delete-users-by-user-role.php',
-		'Bulk_Delete_Users_By_User_Meta'           => $plugin_dir . 'include/users/modules/class-bulk-delete-users-by-user-meta.php',
 		'Bulk_Delete_Misc'                         => $plugin_dir . 'include/misc/class-bulk-delete-misc.php',
 		'Bulk_Delete_Jetpack_Contact_Form_Message' => $plugin_dir . 'include/misc/class-bulk-delete-jetpack-contact-form-messages.php',
 		'BD_Settings_Page'                         => $plugin_dir . 'include/settings/class-bd-settings-page.php',
 		'BD_Settings'                              => $plugin_dir . 'include/settings/class-bd-settings.php',
 		'BD_System_Info_page'                      => $plugin_dir . 'include/system-info/class-bd-system-info-page.php',
 
+		// Compatibility. Will be removed once compatibility is addressed.
+		'BD_Meta_Box_Module'                       => $plugin_dir . 'include/base/class-bd-meta-box-module.php', // Used in Bulk Delete Attachments Addon.
+		'BD_Page'                                  => $plugin_dir . 'include/base/class-bd-page.php', // Used in Bulk Delete Attachments Addon.
+
 		// Deprecated classes.
 		'Bulk_Delete_Posts'                        => $plugin_dir . 'include/deprecated/class-bulk-delete-posts.php',
 		'Bulk_Delete_Pages'                        => $plugin_dir . 'include/deprecated/class-bulk-delete-pages.php',
+		'Bulk_Delete_Post_Meta'                    => $plugin_dir . 'include/deprecated/class-bulk-delete-post-meta.php',
+		'Bulk_Delete_User_Meta'                    => $plugin_dir . 'include/deprecated/class-bulk-delete-user-meta.php',
 	);
 }
 
