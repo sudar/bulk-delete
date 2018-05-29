@@ -50,7 +50,7 @@ class DeletePostsByRevisionModule extends PostsModule {
 		return $options;
 	}
 
-	public function delete( $delete_options ) {
+	protected function do_delete( $delete_options ) {
 		global $wpdb;
 
 		// Revisions

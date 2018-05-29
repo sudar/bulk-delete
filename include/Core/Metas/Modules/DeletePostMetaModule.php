@@ -12,9 +12,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeletePostMetaModule extends MetasModule {
 	protected function initialize() {
-		$this->field_slug    = 'meta_post';
-		$this->meta_box_slug = 'bd-meta-post';
-		$this->action        = 'delete_meta_post';
+		$this->field_slug    = 'pm'; // Ideally it should be `meta_post`. But we are keeping it as pm for backward compatibility.
+		$this->meta_box_slug = 'bd-post-meta';
+		$this->action        = 'delete_post_meta';
 		$this->cron_hook     = 'do-bulk-delete-post-meta';
 		$this->messages      = array(
 			'box_label'  => __( 'Bulk Delete Post Meta', 'bulk-delete' ),
@@ -32,23 +32,9 @@ class DeletePostMetaModule extends MetasModule {
 		?>
 		<!-- Post Meta box start-->
         <fieldset class="options">
-<?php
-		$types = $this->get_post_types();
-?>
         <h4><?php _e( 'Select the post type whose post meta fields you want to delete', 'bulk-delete' ); ?></h4>
         <table class="optiontable">
-<?php
-		foreach ( $types as $type => $post_data ) {
-?>
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_type" value = "<?php echo $type; ?>" type = "radio" class = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_type" <?php checked( $type, 'post' ); ?>>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_type"><?php echo $type; ?> </label>
-                </td>
-            </tr>
-<?php
-		}
-?>
+<?php $this->render_post_type_dropdown(); ?>
         </table>
 
         <h4><?php _e( 'Choose your post meta field settings', 'bulk-delete' ); ?></h4>
@@ -116,7 +102,7 @@ class DeletePostMetaModule extends MetasModule {
                         <option value ="before"><?php _e( 'older than', 'bulk-delete' );?></option>
                         <option value ="after"><?php _e( 'posted within last', 'bulk-delete' );?></option>
                     </select>
-                    <input type ="textbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_days" disabled value ="0" maxlength="4" size="4"><?php _e( 'days', 'bulk-delete' );?>
+                    <input type ="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_days" disabled value ="0" maxlength="4" size="4"><?php _e( 'days', 'bulk-delete' );?>
                 </td>
             </tr>
 
@@ -124,7 +110,7 @@ class DeletePostMetaModule extends MetasModule {
                 <td>
                     <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" value = "true" type = "checkbox">
                     <?php _e( 'Only delete post meta field from first ', 'bulk-delete' );?>
-                    <input type ="textbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'posts.', 'bulk-delete' );?>
+                    <input type ="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'posts.', 'bulk-delete' );?>
                     <?php _e( 'Use this option if there are more than 1000 posts and the script times out.', 'bulk-delete' ) ?>
                 </td>
             </tr>
@@ -176,7 +162,7 @@ class DeletePostMetaModule extends MetasModule {
 		return $options;
 	}
 
-	public function delete( $options ) {
+	protected function do_delete( $options ) {
 		$count = 0;
 		$args  = array(
 			'post_type' => $options['post_type'],
@@ -228,7 +214,7 @@ class DeletePostMetaModule extends MetasModule {
 	}
 
 	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]                 = '_pm';
+		$js_array['dt_iterators'][]                 = '_' . $this->field_slug;
 		$js_array['validators']['delete_meta_post'] = 'noValidation';
 
 		$js_array['pre_action_msg']['delete_meta_post'] = 'deletePMWarning';

@@ -24,6 +24,26 @@ abstract class PostsModule extends BaseModule {
 
 	protected $item_type = 'posts';
 
+	/**
+	 * Handle common filters.
+	 *
+	 * @param array $request Request array.
+	 *
+	 * @return array User options.
+	 */
+	protected function parse_common_filters( $request ) {
+		$options = array();
+
+		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
+		$options['limit_to']     = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
+		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
+
+		$options['date_op'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
+		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
+
+		return $options;
+	}
+
 	public function filter_js_array( $js_array ) {
 		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
 		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
@@ -48,17 +68,7 @@ abstract class PostsModule extends BaseModule {
 		return $js_array;
 	}
 
-	public function delete( $options ) {
-		/**
-		 * Filter delete options before deleting posts.
-		 *
-		 * @since 6.0.0 Added `Modules` parameter.
-		 *
-		 * @param array $options Delete options.
-		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule Modules that is triggering deletion.
-		 */
-		$options = apply_filters( 'bd_delete_options', $options, $this );
-
+	protected function do_delete( $options ) {
 		$query = $this->build_query( $options );
 
 		if ( empty( $query ) ) {
@@ -89,13 +99,6 @@ abstract class PostsModule extends BaseModule {
 	 */
 	protected function render_private_post_settings() {
 		bd_render_private_post_settings( $this->field_slug );
-	}
-
-	/**
-	 * Render Post type dropdown.
-	 */
-	protected function render_post_type_dropdown() {
-		bd_render_post_type_dropdown( $this->field_slug );
 	}
 
 	/**
@@ -157,7 +160,7 @@ abstract class PostsModule extends BaseModule {
 			<tr>
 				<td scope="row">
 					<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="All">
-					<label>All</label>	
+					<label>All</label>
 				</td>
 			</tr>
 			<?php foreach ( $posts as $post ) :
@@ -225,6 +228,10 @@ abstract class PostsModule extends BaseModule {
 	 */
 	protected function are_sticky_post_present() {
 		$sticky_post_ids = get_option( 'sticky_posts' );
+
+		if ( ! is_array( $sticky_post_ids ) ) {
+			return false;
+		}
 
 		return ( count( $sticky_post_ids ) > 0 );
 	}

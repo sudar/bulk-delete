@@ -14,6 +14,7 @@ notifications:
 cache:
   directories:
   - vendor
+  - node_modules
   - "$HOME/.composer/cache"
 
 matrix:
@@ -48,6 +49,11 @@ install:
       # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x
       composer install
     fi
+  - |
+    if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+      # Run npm install only for PHP 7.1 since we are going to test grunt and other npm related things only in PHP 7.1
+      npm install
+    fi
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -72,9 +78,15 @@ script:
       # Validate composer.json file
       composer validate --no-check-all --strict
 
+      # Validate that grunt works
+      grunt
+      grunt vendor
+
+      # Check php syntax
+      npm run phpcs
+
       # Run code coverage for PHP 7.1 alone
       npm run test:cover-coverage
-      npm run phpcs
     else
       phpunit
 

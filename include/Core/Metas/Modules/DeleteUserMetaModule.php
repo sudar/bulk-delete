@@ -12,9 +12,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeleteUserMetaModule extends MetasModule {
 	protected function initialize() {
-		$this->field_slug    = 'user_comment';
+		$this->field_slug    = 'um'; // Ideally it should be `meta_user`. But we are keeping it as pm for backward compatibility.
 		$this->meta_box_slug = 'bd-user-meta';
-		$this->action        = 'delete_user_comment';
+		$this->action        = 'delete_user_meta';
 		$this->cron_hook     = 'do-bulk-delete-user-meta';
 		$this->messages      = array(
 			'box_label'  => __( 'Bulk Delete User Meta', 'bulk-delete' ),
@@ -85,7 +85,7 @@ $this->render_user_role_dropdown();
                 <td>
                     <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" value = "true" type = "checkbox">
                     <?php _e( 'Only delete user meta field from first ', 'bulk-delete' );?>
-                    <input type ="textbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'users.', 'bulk-delete' );?>
+                    <input type ="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'users.', 'bulk-delete' );?>
                     <?php _e( 'Use this option if there are more than 1000 users and the script times out.', 'bulk-delete' ) ?>
                 </td>
             </tr>
@@ -136,7 +136,7 @@ $this->render_user_role_dropdown();
 		return $options;
 	}
 
-	public function delete( $options ) {
+	protected function do_delete( $options ) {
 		$count     = 0;
 		$user_role = $options['user_role'];
 		$meta_key  = $options['meta_key'];

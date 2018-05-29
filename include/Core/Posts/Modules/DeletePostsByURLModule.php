@@ -53,7 +53,7 @@ class DeletePostsByURLModule extends PostsModule {
 		return $options;
 	}
 
-	public function delete( $delete_options ) {
+	protected function do_delete( $delete_options ) {
 		$post_ids = array();
 
 		foreach ( $delete_options['urls'] as $url ) {
