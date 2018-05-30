@@ -116,4 +116,20 @@ abstract class Renderer extends Fetcher {
 	protected function render_post_type_dropdown() {
 		bd_render_post_type_dropdown( $this->field_slug );
 	}
+
+	/**
+	 * Render Taxonomy dropdown.
+	 */
+	protected function render_taxonomy_dropdown() {
+		$taxonomies = get_taxonomies( array(), 'objects' );
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomies[]" class="select2" multiple="multiple" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
+			<?php foreach ( $taxonomies as $role => $taxonomy ) : ?>
+				<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
+					<?php echo esc_html( $taxonomy->label ); ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
 }

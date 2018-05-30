@@ -22,6 +22,8 @@ use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
 use BulkWP\BulkDelete\Core\Users\DeleteUsersPage;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
+use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
+use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostfixAndPrefixModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -297,11 +299,13 @@ final class BulkDelete {
 			$pages_page = $this->get_delete_pages_admin_page();
 			$users_page = $this->get_delete_users_admin_page();
 			$metas_page = $this->get_delete_metas_admin_page();
+			$terms_page = $this->get_delete_terms_admin_page();
 
 			$this->primary_pages[ $posts_page->get_page_slug() ] = $posts_page;
 			$this->primary_pages[ $pages_page->get_page_slug() ] = $pages_page;
 			$this->primary_pages[ $users_page->get_page_slug() ] = $users_page;
 			$this->primary_pages[ $metas_page->get_page_slug() ] = $metas_page;
+			$this->primary_pages[ $terms_page->get_page_slug() ] = $terms_page;
 		}
 
 		/**
@@ -380,6 +384,21 @@ final class BulkDelete {
 		$metas_page->add_metabox( new DeleteCommentMetaModule() );
 
 		return $metas_page;
+	}
+
+	/**
+	 * Get Bulk Delete Terms admin page.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Terms\DeleteTermsPage
+	 */
+	private function get_delete_terms_admin_page() {
+		$terms_page = new DeleteTermsPage( $this->get_plugin_file() );
+
+		$terms_page->add_metabox( new DeleteTermsByPostfixAndPrefixModule() );
+
+		return $terms_page;
 	}
 
 	/**
