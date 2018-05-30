@@ -61,7 +61,7 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['selected_roles'] = bd_array_get( $request, 'smbd_u_roles', array() );
+		$options['selected_roles'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_roles', array() );
 
 		return $options;
 	}

@@ -33,20 +33,9 @@ class DeleteUserMetaModule extends MetasModule {
 		<!-- User Meta box start-->
         <fieldset class="options">
         <h4><?php _e( 'Select the user role whose user meta fields you want to delete', 'bulk-delete' ); ?></h4>
+
         <table class="optiontable">
-<?php
-		$users_count = count_users();
-		foreach ( $users_count['avail_roles'] as $role => $count ) {
-?>
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_role" value = "<?php echo $role; ?>" type = "radio" <?php checked( $role, 'administrator' ); ?>>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_role"><?php echo $role; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)</label>
-                </td>
-            </tr>
-<?php
-		}
-?>
+			<?php $this->render_user_role_dropdown(); ?>
         </table>
 
         <h4><?php _e( 'Choose your user meta field settings', 'bulk-delete' ); ?></h4>
@@ -131,15 +120,14 @@ class DeleteUserMetaModule extends MetasModule {
         </table>
         </fieldset>
 
-        <p>
-            <button type="submit" name="bd_action" value="delete_meta_user" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ) ?>&raquo;</button>
+        <?php $this->render_submit_button(); ?>
         </p>
         <!-- User Meta box end-->
 		<?php
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['post_type'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type', 'post' ) );
+		$options['selected_roles'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_roles' ) );
 
 		$options['use_value'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_use_value', false );
 		$options['meta_key']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_meta_key', '' ) );
@@ -149,13 +137,12 @@ class DeleteUserMetaModule extends MetasModule {
 
 	protected function do_delete( $options ) {
 		$count     = 0;
-		$user_role = $options['user_role'];
 		$meta_key  = $options['meta_key'];
 		$use_value = $options['use_value'];
 		$limit_to  = $options['limit_to'];
 
 		$options = array(
-			'role' => $user_role,
+			'role__in' => $options['selected_roles'],
 		);
 
 		if ( $limit_to > 0 ) {
@@ -180,7 +167,7 @@ class DeleteUserMetaModule extends MetasModule {
 	}
 
 	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]                 = '_um';
+		$js_array['dt_iterators'][]                 = '_' . $this->field_slug;
 		$js_array['validators']['delete_meta_user'] = 'noValidation';
 
 		$js_array['pre_action_msg']['delete_meta_user'] = 'deleteUMWarning';
