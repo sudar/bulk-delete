@@ -83,6 +83,4 @@ abstract class TermsModule extends BaseModule {
 	protected function render_private_post_settings() {
 		bd_render_private_post_settings( $this->field_slug );
 	}
-
-	
 }

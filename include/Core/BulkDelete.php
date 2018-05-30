@@ -19,11 +19,11 @@ use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
+use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
+use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostfixAndPrefixModule;
 use BulkWP\BulkDelete\Core\Users\DeleteUsersPage;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
-use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
-use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostfixAndPrefixModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
