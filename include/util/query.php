@@ -102,3 +102,51 @@ function bd_query( $options ) {
 
 	return $posts;
 }
+
+/**
+ * Wrapper for WP_Term.
+ *
+ * Adds some performance enhancing defaults.
+ *
+ * @since  6.0
+ *
+ * @param array $options List of options
+ *
+ * @return array Result array
+ */
+function bd_term_query( $options ) {
+	$defaults = array(
+		'cache_results'          => false, // don't cache results
+		'update_post_meta_cache' => false, // No need to fetch post meta fields
+		'update_post_term_cache' => false, // No need to fetch taxonomy fields
+		'no_found_rows'          => true,  // No need for pagination
+		'fields'                 => 'ids', // retrieve only ids
+	);
+	$options = wp_parse_args( $options, $defaults );
+
+	$term_query = new WP_Term_Query();
+
+	/**
+	 * This action runs before the query happens.
+	 *
+	 * @since 5.5
+	 * @since 5.6 added $term_query param.
+	 *
+	 * @param \WP_Query $term_query Query object.
+	 */
+	do_action( 'bd_before_term_query', $term_query );
+
+	$posts = $term_query->query( $options );
+
+	/**
+	 * This action runs after the query happens.
+	 *
+	 * @since 5.5
+	 * @since 5.6 added $term_query param.
+	 *
+	 * @param \WP_Query $term_query Query object.
+	 */
+	do_action( 'bd_after_query', $term_query );
+
+	return $posts;
+}

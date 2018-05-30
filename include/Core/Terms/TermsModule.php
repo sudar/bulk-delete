@@ -45,9 +45,6 @@ abstract class TermsModule extends BaseModule {
 	}
 
 	public function filter_js_array( $js_array ) {
-		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
-		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
-
 		return $js_array;
 	}
 
@@ -59,7 +56,7 @@ abstract class TermsModule extends BaseModule {
 			return 0;
 		}
 
-		return $this->delete_posts_from_query( $query, $options );
+		return $this->delete_terms_from_query( $query, $options );
 	}
 
 	/**
@@ -70,11 +67,12 @@ abstract class TermsModule extends BaseModule {
 	 *
 	 * @return int Number of posts deleted.
 	 */
-	protected function delete_posts_from_query( $query, $options ) {
-		$query    = bd_build_query_options( $options, $query );
-		$post_ids = bd_query( $query );
+	protected function delete_terms_from_query( $query, $options ) {
+		$term_ids = bd_term_query( $query );
 
-		return $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
+		print_r($term_ids);
+
+		return $this->delete_terms_by_id( $term_ids, $options['taxonomy'] );
 	}
 
 	/**
@@ -82,5 +80,20 @@ abstract class TermsModule extends BaseModule {
 	 */
 	protected function render_private_post_settings() {
 		bd_render_private_post_settings( $this->field_slug );
+	}
+
+	/**
+	 * Delete terms by ids.
+	 *
+	 * @param int[] $term_ids     List of term ids to delete.
+	 *
+	 * @return int Number of posts deleted.
+	 */
+	protected function delete_terms_by_id( $term_ids, $taxonomy ) {
+		foreach ( $term_ids as $term_id ) {	
+			wp_delete_term( $term_id, $taxonomy );
+		}
+
+		return count( $term_ids );
 	}
 }
