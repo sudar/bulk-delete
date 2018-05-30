@@ -85,12 +85,13 @@ abstract class TermsModule extends BaseModule {
 	/**
 	 * Delete terms by ids.
 	 *
-	 * @param int[] $term_ids     List of term ids to delete.
+	 * @param int[] $term_ids List of term ids to delete.
+	 * @param mixed $taxonomy
 	 *
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_terms_by_id( $term_ids, $taxonomy ) {
-		foreach ( $term_ids as $term_id ) {	
+		foreach ( $term_ids as $term_id ) {
 			wp_delete_term( $term_id, $taxonomy );
 		}
 

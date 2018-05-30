@@ -90,23 +90,24 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	protected function build_query( $options ) {
 		$query = array();
 
-		if ( $options['term_opt'] == "equal_to" ) {
+		if ( $options['term_opt'] == 'equal_to' ) {
 			$query['name__like'] = $options['term_text'];
-		}else if ( $options['term_opt'] == "not_equal_to" ) {
+		}elseif ( $options['term_opt'] == 'not_equal_to' ) {
 			$query['name__like'] = '';
-		}else if ( $options['term_opt'] == "starts" ) {
+		}elseif ( $options['term_opt'] == 'starts' ) {
 			$query['name__like'] = '';
-		}else if ( $options['term_opt'] == "ends" ) {
+		}elseif ( $options['term_opt'] == 'ends' ) {
 			$query['name__like'] = '';
-		}else if ( $options['term_opt'] == "contains" ) {
+		}elseif ( $options['term_opt'] == 'contains' ) {
 			$query['name__like'] = '';
-		}else if ( $options['term_opt'] == "non_contains" ) {
+		}elseif ( $options['term_opt'] == 'non_contains' ) {
 			$query['name__like'] = '';
 		}
 
 		if( isset($options['no_posts']) ){
 			$query['count'] = '';
 		}
+
 		return $query;
 	}
 

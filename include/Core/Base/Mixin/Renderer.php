@@ -148,7 +148,7 @@ abstract class Renderer extends Fetcher {
 			<option value="non_contains">non contains</option>
 		</select> With 
 		<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_text">
-		<?php  
+		<?php 
 	}
 
 	/**
@@ -157,7 +157,6 @@ abstract class Renderer extends Fetcher {
 	protected function render_have_post_settings() {
 		?>
 		<p><label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"><input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"> <?php _e( 'Only if it doesn\'t contain any post', 'bulk-delete' ); ?></label></p>
-		<?php  
+		<?php 
 	}
-
 }
