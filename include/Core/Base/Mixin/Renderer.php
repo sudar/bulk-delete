@@ -93,7 +93,7 @@ abstract class Renderer extends Fetcher {
 ?>
     <tr>
         <td>
-        	<select class="select2" name="smbd_<?php echo esc_attr( $slug ); ?>_post_type">
+        	<select class="select2" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_type">
         		<?php foreach ( $users_count['avail_roles'] as $role => $count ) {?>
         		<option value="<?php echo $role; ?>">
 					<?php echo $role; ?> (<?php echo $count . ' '; _e( 'Users', 'bulk-delete' ); ?>)
@@ -112,7 +112,7 @@ abstract class Renderer extends Fetcher {
 ?>
 	<tr>
 		<td scope="row" >
-			<select class="select2" name="smbd_<?php echo esc_attr( $slug ); ?>_post_type">
+			<select class="select2" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_type">
 				<?php foreach ( $types as $type ) : ?>
 					<option value="<?php echo esc_attr( $type->name ); ?>">
 						<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
