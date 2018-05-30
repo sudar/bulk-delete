@@ -65,4 +65,23 @@ abstract class Fetcher {
 
 		return $post_types_by_status;
 	}
+
+	/**
+	 * Get the number of users present in a role.
+	 *
+	 * @param string $role Role slug.
+	 *
+	 * @return int Number of users in that role.
+	 */
+	protected function get_user_count_by_role( $role ) {
+		$users_count = count_users();
+
+		$roles = $users_count['avail_roles'];
+
+		if ( ! array_key_exists( $role, $roles ) ) {
+			return 0;
+		}
+
+		return $roles[ $role ];
+	}
 }
