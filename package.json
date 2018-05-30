@@ -37,10 +37,10 @@
   "scripts": {
     "test:unit": "vendor/bin/phpunit",
     "unit": "npm run test:unit -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
-    "test:unit-c": "npm run test:unit -- --coverage-php code-coverage/unit.cov",
+    "unit-c": "npm run unit -- --coverage-php code-coverage/unit.cov",
     "test:mock": "npm run test:unit -- --configuration phpunit-wp-mock.xml.dist",
     "mock": "npm run test:mock -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
-    "test:mock-c": "npm run test:mock -- --coverage-php code-coverage/mock.cov",
+    "mock-c": "npm run mock -- --coverage-php code-coverage/mock.cov",
     "test": "npm run test:mock && npm run test:unit",
     "test:coverage": "mkdir code-coverage && npm run test:mock-c && npm run test:unit-c",
     "test:merge-coverage": "vendor/bin/phpcov merge code-coverage/",
