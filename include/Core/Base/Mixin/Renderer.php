@@ -104,8 +104,8 @@ abstract class Renderer extends Fetcher {
     </tr>
 <?php
   }
-  
-  /**
+
+	/**
 	 * Render user role dropdown.
 	 */
 	protected function render_user_role_dropdown() {
