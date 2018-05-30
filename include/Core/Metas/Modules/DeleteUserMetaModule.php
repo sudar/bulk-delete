@@ -33,10 +33,9 @@ class DeleteUserMetaModule extends MetasModule {
 		<!-- User Meta box start-->
         <fieldset class="options">
         <h4><?php _e( 'Select the user role whose user meta fields you want to delete', 'bulk-delete' ); ?></h4>
+
         <table class="optiontable">
-<?php
-$this->render_user_role_dropdown();
-?>
+			<?php $this->render_user_role_dropdown(); ?>
         </table>
 
         <h4><?php _e( 'Choose your user meta field settings', 'bulk-delete' ); ?></h4>
@@ -128,7 +127,7 @@ $this->render_user_role_dropdown();
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['post_type'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type', 'post' ) );
+		$options['selected_roles'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_roles' ) );
 
 		$options['use_value'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_use_value', false );
 		$options['meta_key']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_meta_key', '' ) );
@@ -138,13 +137,12 @@ $this->render_user_role_dropdown();
 
 	protected function do_delete( $options ) {
 		$count     = 0;
-		$user_role = $options['user_role'];
 		$meta_key  = $options['meta_key'];
 		$use_value = $options['use_value'];
 		$limit_to  = $options['limit_to'];
 
 		$options = array(
-			'role' => $user_role,
+			'role__in' => $options['selected_roles'],
 		);
 
 		if ( $limit_to > 0 ) {
