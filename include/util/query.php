@@ -114,13 +114,13 @@ function bd_query( $options ) {
  *
  * @return array Result array
  */
-function bd_term_query( $options ) {
+function bd_term_query( $options, $taxonomy ) {
+	$options = array();
 	$defaults = array(
-		'cache_results'          => false, // don't cache results
-		'update_post_meta_cache' => false, // No need to fetch post meta fields
-		'update_post_term_cache' => false, // No need to fetch taxonomy fields
-		'no_found_rows'          => true,  // No need for pagination
 		'fields'                 => 'ids', // retrieve only ids
+		'taxonomy'				 => $taxonomy,
+		'hide_empty'			 => 0,
+		'name__like'			 => 'Test',
 	);
 	$options = wp_parse_args( $options, $defaults );
 
@@ -136,7 +136,10 @@ function bd_term_query( $options ) {
 	 */
 	do_action( 'bd_before_term_query', $term_query );
 
-	$posts = $term_query->query( $options );
+	$terms = $term_query->query( $options );
+
+	print_r($options);
+	print_r($terms);
 
 	/**
 	 * This action runs after the query happens.
@@ -146,7 +149,7 @@ function bd_term_query( $options ) {
 	 *
 	 * @param \WP_Query $term_query Query object.
 	 */
-	do_action( 'bd_after_query', $term_query );
+	do_action( 'bd_after_term_query', $term_query );
 
-	return $posts;
+	return $terms;
 }

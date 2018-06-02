@@ -68,10 +68,7 @@ abstract class TermsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_terms_from_query( $query, $options ) {
-		$term_ids = bd_term_query( $query );
-
-		print_r($term_ids);
-
+		$term_ids = bd_term_query( $query, $options['taxonomy'] );
 		return $this->delete_terms_by_id( $term_ids, $options['taxonomy'] );
 	}
 

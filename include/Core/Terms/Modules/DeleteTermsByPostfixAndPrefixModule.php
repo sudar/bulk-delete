@@ -89,23 +89,35 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	 */
 	protected function build_query( $options ) {
 		$query = array();
+		$term_text = $options['term_text'];
+		$term_opt  = $options['term_opt'];
 
-		if ( $options['term_opt'] == 'equal_to' ) {
-			$query['name__like'] = $options['term_text'];
-		}elseif ( $options['term_opt'] == 'not_equal_to' ) {
-			$query['name__like'] = '';
-		}elseif ( $options['term_opt'] == 'starts' ) {
-			$query['name__like'] = '';
-		}elseif ( $options['term_opt'] == 'ends' ) {
-			$query['name__like'] = '';
-		}elseif ( $options['term_opt'] == 'contains' ) {
-			$query['name__like'] = '';
-		}elseif ( $options['term_opt'] == 'non_contains' ) {
-			$query['name__like'] = '';
-		}
+		switch ( $term_opt ) {
+			case 'equal_to':
+				$query['name__like'] = $term_text;
+				break;
 
-		if( isset($options['no_posts']) ){
-			$query['count'] = '';
+			case 'not_equal_to':
+				$term_ids = bd_term_query( array( 'name__like' => $term_text ) );
+				$query['exclude'] = $term_ids;
+				break;
+
+			case 'starts':
+				$query['name__like'] = "%$term_text";
+				break;
+
+			case 'ends':
+				$query['name__like'] = "$term_text%";
+				break;
+
+			case 'contains':
+				$query['name__like'] = "%$term_text%";
+				break;
+
+			case 'non_contains':
+				$term_ids = bd_term_query( array( 'name__like' => "%$term_text%" ) );
+				$query['exclude'] = $term_ids;
+				break;
 		}
 
 		return $query;
@@ -120,6 +132,6 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	 */
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted %d post with the selected post category', 'Deleted %d posts with the selected post category', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected options', $items_deleted, 'bulk-delete' );
 	}
 }
