@@ -115,12 +115,11 @@ function bd_query( $options ) {
  * @return array Result array
  */
 function bd_term_query( $options, $taxonomy ) {
-	$options = array();
 	$defaults = array(
 		'fields'                 => 'ids', // retrieve only ids
 		'taxonomy'				 => $taxonomy,
 		'hide_empty'			 => 0,
-		'name__like'			 => 'Test',
+		'count'					 => true,
 	);
 	$options = wp_parse_args( $options, $defaults );
 
@@ -137,9 +136,6 @@ function bd_term_query( $options, $taxonomy ) {
 	do_action( 'bd_before_term_query', $term_query );
 
 	$terms = $term_query->query( $options );
-
-	print_r($options);
-	print_r($terms);
 
 	/**
 	 * This action runs after the query happens.

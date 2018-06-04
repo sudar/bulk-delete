@@ -21,6 +21,7 @@ use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
 use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostfixAndPrefixModule;
+use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostCountModule;
 use BulkWP\BulkDelete\Core\Users\DeleteUsersPage;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
@@ -397,6 +398,7 @@ final class BulkDelete {
 		$terms_page = new DeleteTermsPage( $this->get_plugin_file() );
 
 		$terms_page->add_metabox( new DeleteTermsByPostfixAndPrefixModule() );
+		$terms_page->add_metabox( new DeleteTermsByPostCountModule() );
 
 		return $terms_page;
 	}

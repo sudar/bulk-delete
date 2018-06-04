@@ -69,7 +69,7 @@ abstract class TermsModule extends BaseModule {
 	 */
 	protected function delete_terms_from_query( $query, $options ) {
 		$term_ids = bd_term_query( $query, $options['taxonomy'] );
-		return $this->delete_terms_by_id( $term_ids, $options['taxonomy'] );
+		return $this->delete_terms_by_id( $term_ids, $options );
 	}
 
 	/**
@@ -83,15 +83,26 @@ abstract class TermsModule extends BaseModule {
 	 * Delete terms by ids.
 	 *
 	 * @param int[] $term_ids List of term ids to delete.
-	 * @param mixed $taxonomy
+	 * @param mixed $options
 	 *
 	 * @return int Number of posts deleted.
 	 */
-	protected function delete_terms_by_id( $term_ids, $taxonomy ) {
+	protected function delete_terms_by_id( $term_ids, $options ) {
+		$count = 0;
 		foreach ( $term_ids as $term_id ) {
-			wp_delete_term( $term_id, $taxonomy );
+
+			$term = get_term( $term_id, $options['taxonomy'] );
+			if( isset( $options['no_posts'] ) ){
+				if( $term->count == 0 ){
+					wp_delete_term( $term_id, $options['taxonomy'] );
+					$count++;
+				}
+			}else{
+				wp_delete_term( $term_id, $options['taxonomy'] );
+				$count++;
+			}
 		}
 
-		return count( $term_ids );
+		return $count;
 	}
 }

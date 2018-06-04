@@ -7,22 +7,22 @@ use BulkWP\BulkDelete\Core\Terms\TermsModule;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Terms by Postfix and Prefix.
+ * Delete Terms by Post Count.
  *
  * @since 6.0.0
  */
-class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
+class DeleteTermsByPostCountModule extends TermsModule {
 	protected function initialize() {
 		$this->item_type     = 'terms';
-		$this->field_slug    = 'by_name';
-		$this->meta_box_slug = 'bd_by_name';
-		$this->action        = 'delete_terms_by_name';
-		$this->cron_hook     = 'do-bulk-delete-term-name';
+		$this->field_slug    = 'by_post_count';
+		$this->meta_box_slug = 'bd_by_post_count';
+		$this->action        = 'delete_terms_by_post_count';
+		$this->cron_hook     = 'do-bulk-delete-term-post-count';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sc';
 		$this->messages      = array(
-			'box_label'  => __( 'By Terms by Name', 'bulk-delete' ),
+			'box_label'  => __( 'By Terms by Post Count', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
-			'cron_label' => __( 'Delete Terms By Name', 'bulk-delete' ),
+			'cron_label' => __( 'Delete Terms By Post Count', 'bulk-delete' ),
 		);
 	}
 
@@ -38,14 +38,13 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 				<?php $this->render_taxonomy_dropdown(); ?>
 			</table>
 
+			<h4><?php _e( 'Select the post type', 'bulk-delete' ); ?></h4>
 			<table class="optiontable">
-				<?php $this->render_term_options(); ?>
+				<?php $this->render_post_type_dropdown(); ?>
 			</table>
 
 			<table class="optiontable">
-				<?php
-				$this->render_have_post_settings();
-				?>
+				<?php $this->render_term_options(); ?>
 			</table>
 
 		</fieldset>
@@ -73,9 +72,9 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['taxonomy']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' );
-		$options['term_opt']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
-		$options['term_text']    = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_text' );
-		$options['no_posts']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_no_posts' );
+		$options['post_type']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type' );
+		$options['term_opt']    = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
+		$options['term_text']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_text' );
 
 		return $options;
 	}
@@ -89,35 +88,13 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	 */
 	protected function build_query( $options ) {
 		$query = array();
-		$term_text = $options['term_text'];
-		$term_opt  = $options['term_opt'];
+		$taxonomy   = $options['taxonomy'];
+		$post_type  = $options['post_type'];
+		$term_opt   = $options['term_opt'];
+		$term_text  = $options['term_text'];
 
-		switch ( $term_opt ) {
-			case 'equal_to':
-				$query['name__like'] = $term_text;
-				break;
-
-			case 'not_equal_to':
-				$term_ids = bd_term_query( array( 'name__like' => $term_text ), $options['taxonomy'] );
-				$query['exclude'] = $term_ids;
-				break;
-
-			case 'starts':			//TODO
-				$query['name__like'] = "%$term_text";
-				break;
-
-			case 'ends':			//TODO
-				$query['name__like'] = "$term_text%";
-				break;
-
-			case 'contains':		//TODO
-				$query['name__like'] = "%$term_text%";
-				break;
-
-			case 'non_contains':	//TODO
-				$term_ids = bd_term_query( array( 'name__like' => "%$term_text%" ), $options['taxonomy'] );
-				$query['exclude'] = $term_ids;
-				break;
+		if( isset( $term_text ) ){
+			$query['taxonomy'] = $taxonomy;
 		}
 
 		return $query;
