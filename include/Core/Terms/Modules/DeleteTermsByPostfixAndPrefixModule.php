@@ -88,7 +88,7 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	 * @return array Query.
 	 */
 	protected function build_query( $options ) {
-		$query = array();
+		$query     = array();
 		$term_text = $options['term_text'];
 		$term_opt  = $options['term_opt'];
 
@@ -98,7 +98,7 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 				break;
 
 			case 'not_equal_to':
-				$term_ids = bd_term_query( array( 'name__like' => $term_text ), $options['taxonomy'] );
+				$term_ids         = bd_term_query( array( 'name__like' => $term_text ), $options['taxonomy'] );
 				$query['exclude'] = $term_ids;
 				break;
 
@@ -115,7 +115,7 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 				break;
 
 			case 'non_contains':	//TODO
-				$term_ids = bd_term_query( array( 'name__like' => "%$term_text%" ), $options['taxonomy'] );
+				$term_ids         = bd_term_query( array( 'name__like' => "%$term_text%" ), $options['taxonomy'] );
 				$query['exclude'] = $term_ids;
 				break;
 		}

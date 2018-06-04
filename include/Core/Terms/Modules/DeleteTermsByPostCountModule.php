@@ -71,9 +71,9 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	 * @return array $options  Inputs from user for posts that were need to delete
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['taxonomy']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' );
+		$options['taxonomy']      = bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' );
 		$options['post_type']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type' );
-		$options['term_opt']    = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
+		$options['term_opt']      = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
 		$options['term_text']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_text' );
 
 		return $options;
@@ -87,7 +87,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	 * @return array Query.
 	 */
 	protected function build_query( $options ) {
-		$query = array();
+		$query      = array();
 		$taxonomy   = $options['taxonomy'];
 		$post_type  = $options['post_type'];
 		$term_opt   = $options['term_opt'];

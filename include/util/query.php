@@ -110,16 +110,17 @@ function bd_query( $options ) {
  *
  * @since  6.0
  *
- * @param array $options List of options
+ * @param array $options  List of options
+ * @param mixed $taxonomy
  *
  * @return array Result array
  */
 function bd_term_query( $options, $taxonomy ) {
 	$defaults = array(
 		'fields'                 => 'ids', // retrieve only ids
-		'taxonomy'				 => $taxonomy,
-		'hide_empty'			 => 0,
-		'count'					 => true,
+		'taxonomy'				           => $taxonomy,
+		'hide_empty'			          => 0,
+		'count'					             => true,
 	);
 	$options = wp_parse_args( $options, $defaults );
 
