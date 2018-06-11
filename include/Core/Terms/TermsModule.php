@@ -69,6 +69,7 @@ abstract class TermsModule extends BaseModule {
 	 */
 	protected function delete_terms_from_query( $query, $options ) {
 		$term_ids = bd_term_query( $query, $options['taxonomy'] );
+
 		return $this->delete_terms_by_id( $term_ids, $options );
 	}
 
@@ -90,7 +91,6 @@ abstract class TermsModule extends BaseModule {
 	protected function delete_terms_by_id( $term_ids, $options ) {
 		$count = 0;
 		foreach ( $term_ids as $term_id ) {
-
 			$term = get_term( $term_id, $options['taxonomy'] );
 			if( isset( $options['no_posts'] ) ){
 				if( $term->count == 0 ){
