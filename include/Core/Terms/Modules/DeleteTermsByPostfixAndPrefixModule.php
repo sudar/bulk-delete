@@ -44,7 +44,7 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 
 			<table class="optiontable">
 				<?php
-				$this->render_have_post_settings();
+				// $this->render_have_post_settings(); // TODO
 				?>
 			</table>
 
@@ -110,8 +110,8 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 				$query['name__like'] = "$term_text%";
 				break;
 
-			case 'contains':		//TODO
-				$query['name__like'] = "%$term_text%";
+			case 'contains':
+				$query['name__like'] = "$term_text";
 				break;
 
 			case 'non_contains':	//TODO
