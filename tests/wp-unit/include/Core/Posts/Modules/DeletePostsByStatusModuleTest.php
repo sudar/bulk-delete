@@ -398,4 +398,26 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 50, count( $trash_posts ) );
 	}
+
+	/**
+	 * Helper Function.
+	 * Create posts from a custom post status
+	 */
+	public function create_posts_by_custom_status( $post_status = "custom", $count = 10 ) {
+		register_post_status( $post_status );
+		$this->factory->post->create_many( $count, array(
+			'post_status' => $post_status,
+		) );
+	}
+
+	/**
+	 * Helper Function.
+	 * Create single post from a custom post status
+	 */
+	public function create_post_by_scustom_tatus( $post_status = "custom" ) {
+		register_post_status( $post_status );
+		$this->factory->post->create( array(
+			'post_status' => $post_status,
+		) );
+	}
 }
