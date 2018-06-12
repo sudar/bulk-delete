@@ -420,4 +420,77 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 			'post_status' => $post_status,
 		) );
 	}
+
+	/**
+	 * Test delete posts from a single custom post status.
+	 */
+	public function test_that_posts_from_single_custom_post_status() {
+
+		$this->create_posts_by_custom_status( 'custom', 50 );
+		
+		$custom_posts = $this->get_posts_by_status( 'custom' );
+		$this->assertEquals( 50, count( $custom_posts ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'custom' ),
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => false,
+		);
+
+		$posts_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 50, $posts_deleted );		
+	}
+
+	/**
+	 * Test delete posts from a two custom post status.
+	 */
+	public function test_that_posts_from_two_custom_post_status() {
+
+		$this->create_posts_by_custom_status( 'customa', 25 );
+		
+		$customa_posts = $this->get_posts_by_status( 'customa' );
+		$this->assertEquals( 25, count( $customa_posts ) );
+
+		$this->create_posts_by_custom_status( 'customb', 25 );
+		
+		$customb_posts = $this->get_posts_by_status( 'customb' );
+		$this->assertEquals( 25, count( $customb_posts ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'customa', 'customb' ),
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => false,
+		);
+
+		$posts_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 50, $posts_deleted );		
+	}
+
+	/**
+	 * Test delete posts from a one custom post status and one built-in post status.
+	 */
+	public function test_that_posts_from_two_various_post_status() {
+
+		$this->create_posts_by_custom_status( 'custom', 25 );
+		
+		$custom_posts = $this->get_posts_by_status( 'custom' );
+		$this->assertEquals( 25, count( $custom_posts ) );
+
+		$published_posts = $this->factory->post->create_many( 25, array(
+			'post_type'   => 'post',
+			'post_status' => 'publish',
+		) );
+
+		$delete_options = array(
+			'post_status'  => array( 'custom', 'publish' ),
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => false,
+		);
+
+		$posts_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 50, $posts_deleted );		
+	}
 }
