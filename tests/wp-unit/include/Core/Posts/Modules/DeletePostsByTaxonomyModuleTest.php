@@ -98,5 +98,55 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$posts_in_cat1 = $this->get_posts_by_category( $cat1, 'custom' );
 
 		$this->assertEquals( 0, count( $posts_in_cat1 ) );
+
+		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term', 10 );
+		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$this->assertEquals( 10, count( $posts ) );
 	}
+
+	/**
+	 * Helper function to create posts with custom taxonomy
+	 */
+	public function create_posts_with_custom_taxonomy( $taxonomy = "custom", $term = "Custom Term", $count = 10) {
+
+		register_taxonomy( $taxonomy, 'post' );
+		$t = wp_insert_term( $term, $taxonomy );
+
+		$post_data = array(
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			$termObj  = get_term_by( 'id', array( $t['term_id'] ), $taxonomy );
+			wp_set_object_terms($post_id, $termObj, $taxonomy);
+		}
+
+	}
+
+	/**
+	 * Helper function to get posts by custom taxonomy
+	 */
+	public function get_posts_by_custom_taxonomy( $taxonomy = "custom", $term = "Custom Term" ) {
+
+		$args = array(
+			'post_type' => 'post',
+			'numberposts' => -1,
+			// 'tax_query' => array(
+			// 	array(
+			// 		'taxonomy' => $taxonomy,
+			// 		'field' => 'name',
+			// 		'terms' => $term
+			// 	)
+			// )
+		);
+
+		$posts = get_posts( $args );
+
+		print_r($posts);
+
+		return $posts;
+	}
+
 }
