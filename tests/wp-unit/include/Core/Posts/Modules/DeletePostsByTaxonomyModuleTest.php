@@ -120,7 +120,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		for( $i = 1; $i <= $count; $i++ ){
 			$post_id  = wp_insert_post($post_data);
 			$termObj  = get_term_by( 'id', array( $t['term_id'] ), $taxonomy );
-			wp_set_object_terms($post_id, $termObj, $taxonomy);
+			$opt = wp_set_object_terms($post_id, $termObj, $taxonomy);
+
+			print_r($opt);
 		}
 
 	}
@@ -143,8 +145,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		);
 
 		$posts = get_posts( $args );
-
-		print_r($posts);
 
 		return $posts;
 	}
