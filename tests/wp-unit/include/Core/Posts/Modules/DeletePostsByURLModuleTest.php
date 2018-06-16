@@ -26,4 +26,139 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		$this->module = new DeletePostsByURLModule();
 	}
 
+	/**
+	 * Helper function.
+	 * create post by URL
+	 */
+	public function get_post_by_url( $url ) {
+
+		$post_id = array();
+		
+		if( is_array($url) ){
+			foreach( $url as $post_url ){
+				if( url_to_postid($post_url) ){
+					$post_id[] = url_to_postid($post_url);
+				}
+			}
+		}else{
+			if( url_to_postid($url) ){
+				$post_id[] = url_to_postid($url);
+			}
+		}
+
+		$args = array(
+			'post__in' => $post_id, 
+		);
+
+		$wp_query = new \WP_Query();
+
+		return $wp_query->query( $args );
+
+	}
+
+	public function test_to_delete_one_valid_url() {
+		$post = $this->factory->post->create();
+
+		$url = get_permalink( $post );
+
+		//print_r($url);
+		
+		// call our method.
+		$delete_options = array(
+			'urls'          => array( $url ),
+			'restrict'      => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 1, $posts_deleted );
+
+	}
+
+	public function test_to_delete_one_invalid_url() {
+		
+		$url = 'http://invalidurl.com/?p=1';
+
+		// call our method.
+		$delete_options = array(
+			'urls'          => array( $url ),
+			'restrict'      => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 0, $posts_deleted );
+
+	}
+
+	public function test_to_delete_one_valid_and_one_invalid_url() {
+		$post = $this->factory->post->create();
+
+		$valid_url = get_permalink( $post );
+		$invalid_url = 'http://invalidurl.com/?p=1';
+		
+		// call our method.
+		$delete_options = array(
+			'urls'          => array( $valid_url, $invalid_url ),
+			'restrict'      => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 1, $posts_deleted );
+
+	}
+
+	public function test_to_delete_many_valid_url() {
+		$post1 = $this->factory->post->create();
+		$url1 = get_permalink( $post1 );
+
+		$post2 = $this->factory->post->create();
+		$url2 = get_permalink( $post2 );
+		
+		// call our method.
+		$delete_options = array(
+			'urls'          => array( $url1, $url2 ),
+			'restrict'      => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 2, $posts_deleted );
+
+	}
+
+	public function test_to_force_delete_post_by_url() {
+		$post1 = $this->factory->post->create();
+		$url1 = get_permalink( $post1 );
+
+		$post2 = $this->factory->post->create();
+		$url2 = get_permalink( $post2 );
+
+		$url3 = 'http://invalidurl.com/?p=1';
+
+		// call our method.
+		$delete_options = array(
+			'urls'          => array( $url1, $url2, $url3 ),
+			'restrict'      => false,
+			'limit_to'      => false,
+			'force_delete'  => true,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 2, $posts_deleted );
+
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
+
+	}
 }
