@@ -322,14 +322,14 @@ final class BulkDelete {
 	private function get_delete_posts_admin_page() {
 		$posts_page = new DeletePostsPage( $this->get_plugin_file() );
 
-		$posts_page->add_metabox( new DeletePostsByStatusModule() );
-		$posts_page->add_metabox( new DeletePostsByCategoryModule() );
-		$posts_page->add_metabox( new DeletePostsByTagModule() );
-		$posts_page->add_metabox( new DeletePostsByTaxonomyModule() );
-		$posts_page->add_metabox( new DeletePostsByPostTypeModule() );
-		$posts_page->add_metabox( new DeletePostsByURLModule() );
-		$posts_page->add_metabox( new DeletePostsByRevisionModule() );
-		$posts_page->add_metabox( new DeletePostsByStickyPostModule() );
+		$posts_page->add_module( new DeletePostsByStatusModule() );
+		$posts_page->add_module( new DeletePostsByCategoryModule() );
+		$posts_page->add_module( new DeletePostsByTagModule() );
+		$posts_page->add_module( new DeletePostsByTaxonomyModule() );
+		$posts_page->add_module( new DeletePostsByPostTypeModule() );
+		$posts_page->add_module( new DeletePostsByURLModule() );
+		$posts_page->add_module( new DeletePostsByRevisionModule() );
+		$posts_page->add_module( new DeletePostsByStickyPostModule() );
 
 		return $posts_page;
 	}
@@ -344,7 +344,7 @@ final class BulkDelete {
 	private function get_delete_pages_admin_page() {
 		$pages_page = new DeletePagesPage( $this->get_plugin_file() );
 
-		$pages_page->add_metabox( new DeletePagesByStatusModule() );
+		$pages_page->add_module( new DeletePagesByStatusModule() );
 
 		return $pages_page;
 	}
@@ -359,8 +359,8 @@ final class BulkDelete {
 	private function get_delete_users_admin_page() {
 		$users_page = new DeleteUsersPage( $this->get_plugin_file() );
 
-		$users_page->add_metabox( new DeleteUsersByUserRoleModule() );
-		$users_page->add_metabox( new DeleteUsersByUserMetaModule() );
+		$users_page->add_module( new DeleteUsersByUserRoleModule() );
+		$users_page->add_module( new DeleteUsersByUserMetaModule() );
 
 		return $users_page;
 	}
@@ -375,9 +375,9 @@ final class BulkDelete {
 	private function get_delete_metas_admin_page() {
 		$metas_page = new DeleteMetasPage( $this->get_plugin_file() );
 
-		$metas_page->add_metabox( new DeletePostMetaModule() );
-		$metas_page->add_metabox( new DeleteUserMetaModule() );
-		$metas_page->add_metabox( new DeleteCommentMetaModule() );
+		$metas_page->add_module( new DeletePostMetaModule() );
+		$metas_page->add_module( new DeleteUserMetaModule() );
+		$metas_page->add_module( new DeleteCommentMetaModule() );
 
 		return $metas_page;
 	}
