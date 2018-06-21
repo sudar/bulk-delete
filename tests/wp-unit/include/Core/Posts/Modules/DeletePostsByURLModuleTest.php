@@ -79,7 +79,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 
 	public function test_to_delete_one_invalid_url() {
 		
-		$url = 'http://invalidurl.com/?p=1';
+		$url = 'http://invalidurl.com/';
 
 		// call our method.
 		$delete_options = array(
@@ -99,7 +99,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		$post = $this->factory->post->create();
 
 		$valid_url = get_permalink( $post );
-		$invalid_url = 'http://invalidurl.com/?p=1';
+		$invalid_url = 'http://invalidurl.com/';
 		
 		// call our method.
 		$delete_options = array(
@@ -143,7 +143,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		$post2 = $this->factory->post->create();
 		$url2 = get_permalink( $post2 );
 
-		$url3 = 'http://invalidurl.com/?p=1';
+		$url3 = 'http://invalidurl.com/';
 
 		// call our method.
 		$delete_options = array(

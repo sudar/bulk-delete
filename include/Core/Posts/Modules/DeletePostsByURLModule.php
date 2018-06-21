@@ -57,8 +57,9 @@ class DeletePostsByURLModule extends PostsModule {
 		$post_ids = array();
 
 		foreach ( $delete_options['urls'] as $url ) {
-			print_r($url);
-			$post_ids[] = url_to_postid( $url );
+			if( url_to_postid( $url ) ){
+				$post_ids[] = url_to_postid( $url );
+			}
 		}
 
 		return $this->delete_posts_by_id( $post_ids, $delete_options['force_delete'] );
