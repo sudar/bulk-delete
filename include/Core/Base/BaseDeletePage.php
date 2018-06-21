@@ -182,4 +182,13 @@ abstract class BaseDeletePage extends BasePage {
 			$this->actions[] = $module->get_action();
 		}
 	}
+
+	/**
+	 * Get the item type of the page.
+	 *
+	 * @return string Item type of the page.
+	 */
+	public function get_item_type() {
+		return $this->item_type;
+	}
 }
