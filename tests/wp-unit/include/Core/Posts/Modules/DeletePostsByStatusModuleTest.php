@@ -400,23 +400,10 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Helper Function.
-	 * Create posts from a custom post status
+	 * Create posts from a custom registered post status
 	 */
 	public function create_posts_by_custom_status( $post_status = "custom", $count = 10 ) {
-		register_post_status( $post_status );
 		$this->factory->post->create_many( $count, array(
-			'post_status' => $post_status,
-		) );
-	}
-
-	/**
-	 * Helper Function.
-	 * Create single post from a custom post status
-	 */
-	public function create_post_by_scustom_tatus( $post_status = "custom" ) {
-		register_post_status( $post_status );
-		$this->factory->post->create( array(
 			'post_status' => $post_status,
 		) );
 	}
@@ -426,6 +413,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_posts_from_single_custom_post_status() {
 
+		register_post_status( 'custom' );
 		$this->create_posts_by_custom_status( 'custom', 50 );
 		
 		$custom_posts = $this->get_posts_by_status( 'custom' );
@@ -447,11 +435,13 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_posts_from_two_custom_post_status() {
 
+		register_post_status( 'customa' );
 		$this->create_posts_by_custom_status( 'customa', 25 );
 		
 		$customa_posts = $this->get_posts_by_status( 'customa' );
 		$this->assertEquals( 25, count( $customa_posts ) );
 
+		register_post_status( 'customb' );
 		$this->create_posts_by_custom_status( 'customb', 25 );
 		
 		$customb_posts = $this->get_posts_by_status( 'customb' );
@@ -473,6 +463,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_posts_from_two_various_post_status() {
 
+		register_post_status( 'custom' );
 		$this->create_posts_by_custom_status( 'custom', 25 );
 		
 		$custom_posts = $this->get_posts_by_status( 'custom' );
