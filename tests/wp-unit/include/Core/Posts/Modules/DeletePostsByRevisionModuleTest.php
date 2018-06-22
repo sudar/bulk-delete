@@ -31,12 +31,12 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_delete_revisions_for_single_post() {
 		
-		$post = $this->factory->post->create( array(
+		$post_id = $this->factory->post->create( array(
 			'post_type' => 'post',
 		) );
 
 		$revision_post_1 = array(
-			'ID'           => $post,
+			'ID'           => $post_id,
 			'post_title'   => rand(),
 			'post_content' => md5( rand() ),
 		);
@@ -44,7 +44,7 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 		wp_update_post( $revision_post_1 );
 
 		$revision_post_2 = array(
-			'ID'           => $post,
+			'ID'           => $post_id,
 			'post_title'   => rand(),
 			'post_content' => md5( rand() ),
 		);
@@ -72,10 +72,10 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 			'post_type' => 'post',
 		) );
 
-		foreach( $posts as $post ){
+		foreach( $posts as $post_id ){
 
 			$revision_post = array(
-				'ID'           => $post,
+				'ID'           => $post_id,
 				'post_title'   => rand(),
 				'post_content' => md5( rand() ),
 			);
