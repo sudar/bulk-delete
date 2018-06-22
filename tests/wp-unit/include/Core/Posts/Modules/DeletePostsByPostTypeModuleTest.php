@@ -83,6 +83,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from single custom post type.
 	 */
 	public function test_delete_posts_from_single_custom_post_type() {
+		register_post_type( 'custom' );
 		$this->create_posts_by_custom_post_type( 'custom', 10 );
 
 		$custom_posts = $this->get_posts_by_post_type( 'custom' );
@@ -104,11 +105,13 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from two custom post types.
 	 */
 	public function test_delete_posts_from_two_custom_post_types() {
+		register_post_type( 'custom' );
 		$this->create_posts_by_custom_post_type( 'customa', 10 );
 
 		$customa_posts = $this->get_posts_by_post_type( 'customa' );
 		$this->assertEquals( 10, count( $customa_posts ) );
 
+		register_post_type( 'custom' );
 		$this->create_posts_by_custom_post_type( 'customb', 10 );
 
 		$customb_posts = $this->get_posts_by_post_type( 'customb' );
@@ -130,6 +133,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from one custom post type and one default post type.
 	 */
 	public function test_delete_posts_from_two_various_post_types() {
+		register_post_type( 'custom' );
 		$this->create_posts_by_custom_post_type( 'custom', 10 );
 
 		$custom_posts = $this->get_posts_by_post_type( 'custom' );
@@ -158,6 +162,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from one custom post type and one default post type.
 	 */
 	public function test_force_delete_post() {
+		register_post_type( 'custom' );
 		$this->create_posts_by_custom_post_type( 'custom', 10 );
 
 		$custom_posts = $this->get_posts_by_post_type( 'custom' );
@@ -272,33 +277,15 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Helper function.
 	 * create posts by custom post type
 	 */
 	public function create_posts_by_custom_post_type( $post_type = 'custom', $count = 10 ) {
-		register_post_type( $post_type );
-
 		$this->factory->post->create_many( $count, array(
 			'post_type'   => $post_type,
 		) );
-
 	}
 
 	/**
-	 * Helper function.
-	 * create post by custom post type
-	 */
-	public function create_post_by_custom_post_type( $post_type = 'custom' ) {
-		register_post_type( $post_type );
-
-		$this->factory->post->create( array(
-			'post_type'   => $post_type,
-		) );
-
-	}
-
-	/**
-	 * Helper function.
 	 * get posts by post type
 	 */
 	public function get_posts_by_post_type( $post_type = 'post' ) {
