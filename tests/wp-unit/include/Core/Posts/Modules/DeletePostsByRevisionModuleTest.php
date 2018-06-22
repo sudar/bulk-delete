@@ -68,11 +68,11 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_delete_revisions_for_multiple_post() {
 		
-		$posts = $this->factory->post->create_many( 10, array(
+		$post_ids = $this->factory->post->create_many( 10, array(
 			'post_type' => 'post',
 		) );
 
-		foreach( $posts as $post_id ){
+		foreach( $post_ids as $post_id ){
 
 			$revision_post = array(
 				'ID'           => $post_id,
