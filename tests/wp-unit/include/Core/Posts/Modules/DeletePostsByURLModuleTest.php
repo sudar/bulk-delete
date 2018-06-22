@@ -27,8 +27,8 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Helper function.
-	 * create post by URL
+	 * get post by post URL
+	 * @param $url Post URL
 	 */
 	public function get_post_by_url( $url ) {
 
@@ -56,12 +56,13 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test to remove post by one valid URL
+	 */
 	public function test_to_delete_one_valid_url() {
 		$post = $this->factory->post->create();
 
 		$url = get_permalink( $post );
-
-		//print_r($url);
 		
 		// call our method.
 		$delete_options = array(
@@ -77,6 +78,9 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test to remove post by one invalid URL
+	 */
 	public function test_to_delete_one_invalid_url() {
 		
 		$url = 'http://invalidurl.com/';
@@ -95,6 +99,9 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test to remove post by one valid URL and one invalid URL
+	 */
 	public function test_to_delete_one_valid_and_one_invalid_url() {
 		$post = $this->factory->post->create();
 
@@ -115,6 +122,9 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test to remove post by multi valid URL.
+	 */
 	public function test_to_delete_many_valid_url() {
 		$post1 = $this->factory->post->create();
 		$url1 = get_permalink( $post1 );
@@ -136,6 +146,9 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test to force remove post by URL.
+	 */
 	public function test_to_force_delete_post_by_url() {
 		$post1 = $this->factory->post->create();
 		$url1 = get_permalink( $post1 );
