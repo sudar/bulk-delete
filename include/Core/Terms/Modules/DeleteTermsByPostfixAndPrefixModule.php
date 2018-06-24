@@ -102,19 +102,22 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 				$query['exclude'] = $term_ids;
 				break;
 
-			case 'starts':			//TODO
-				$query['name__like'] = "%$term_text";
+			case 'starts':
+				$term_ids            = bd_term_starts( $term_text , $options );	
+				$query['include']    = $term_ids;
 				break;
 
-			case 'ends':			//TODO
-				$query['name__like'] = "$term_text%";
+			case 'ends':
+				$term_ids            = bd_term_ends( $term_text , $options );	
+				$query['include']    = $term_ids;
 				break;
 
 			case 'contains':
-				$query['name__like'] = "$term_text";
+				$term_ids            = bd_term_contains( $term_text , $options );	
+				$query['include']    = $term_ids;
 				break;
 
-			case 'non_contains':	//TODO
+			case 'non_contains':
 				$term_ids         = bd_term_query( array( 'name__like' => "%$term_text%" ), $options['taxonomy'] );
 				$query['exclude'] = $term_ids;
 				break;
