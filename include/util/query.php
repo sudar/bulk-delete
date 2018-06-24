@@ -154,6 +154,7 @@ function bd_term_query( $options, $taxonomy ) {
 function bd_starts_with($haystack, $needle)
 {
      $length = strlen($needle);
+
      return (substr($haystack, 0, $length) === $needle);
 }
 
@@ -161,13 +162,13 @@ function bd_ends_with($haystack, $needle)
 {
     $length = strlen($needle);
 
-    return $length === 0 || 
+    return $length === 0 ||
     (substr($haystack, -$length) === $needle);
 }
 
 function bd_term_starts( $term_text , $options ){
 	$term_ids = array();
-	$terms = get_terms( $options['taxonomy'], array(
+	$terms    = get_terms( $options['taxonomy'], array(
 	    'hide_empty' => false,
 	) );
 
@@ -176,12 +177,13 @@ function bd_term_starts( $term_text , $options ){
 			$term_ids[] = $term->term_id;
 		}
 	}
+
 	return $term_ids;
 }
 
 function bd_term_ends( $term_text , $options ){
 	$term_ids = array();
-	$terms = get_terms( $options['taxonomy'], array(
+	$terms    = get_terms( $options['taxonomy'], array(
 	    'hide_empty' => false,
 	) );
 
@@ -190,12 +192,13 @@ function bd_term_ends( $term_text , $options ){
 			$term_ids[] = $term->term_id;
 		}
 	}
+
 	return $term_ids;
 }
 
 function bd_term_contains( $term_text , $options ){
 	$term_ids = array();
-	$terms = get_terms( $options['taxonomy'], array(
+	$terms    = get_terms( $options['taxonomy'], array(
 	    'hide_empty' => false,
 	) );
 
@@ -204,5 +207,6 @@ function bd_term_contains( $term_text , $options ){
 			$term_ids[] = $term->term_id;
 		}
 	}
+
 	return $term_ids;
 }
