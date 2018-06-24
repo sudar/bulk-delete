@@ -103,17 +103,17 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 				break;
 
 			case 'starts':
-				$term_ids            = bd_term_starts( $term_text , $options );	
+				$term_ids            = bd_term_starts( $term_text , $options );
 				$query['include']    = $term_ids;
 				break;
 
 			case 'ends':
-				$term_ids            = bd_term_ends( $term_text , $options );	
+				$term_ids            = bd_term_ends( $term_text , $options );
 				$query['include']    = $term_ids;
 				break;
 
 			case 'contains':
-				$term_ids            = bd_term_contains( $term_text , $options );	
+				$term_ids            = bd_term_contains( $term_text , $options );
 				$query['include']    = $term_ids;
 				break;
 
