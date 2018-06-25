@@ -108,19 +108,20 @@ abstract class TermsModule extends BaseModule {
 
 	protected function bd_starts_with($haystack, $needle){
 	     $length = strlen($needle);
+
 	     return (substr($haystack, 0, $length) === $needle);
 	}
 
 	protected function bd_ends_with($haystack, $needle){
 	    $length = strlen($needle);
 
-	    return $length === 0 || 
+	    return $length === 0 ||
 	    (substr($haystack, -$length) === $needle);
 	}
 
 	protected function bd_term_starts( $term_text , $options ){
 		$term_ids = array();
-		$terms = get_terms( $options['taxonomy'], array(
+		$terms    = get_terms( $options['taxonomy'], array(
 		    'hide_empty' => false,
 		) );
 
@@ -129,12 +130,13 @@ abstract class TermsModule extends BaseModule {
 				$term_ids[] = $term->term_id;
 			}
 		}
+
 		return $term_ids;
 	}
 
 	protected function bd_term_ends( $term_text , $options ){
 		$term_ids = array();
-		$terms = get_terms( $options['taxonomy'], array(
+		$terms    = get_terms( $options['taxonomy'], array(
 		    'hide_empty' => false,
 		) );
 
@@ -143,12 +145,13 @@ abstract class TermsModule extends BaseModule {
 				$term_ids[] = $term->term_id;
 			}
 		}
+
 		return $term_ids;
 	}
 
 	protected function bd_term_contains( $term_text , $options ){
 		$term_ids = array();
-		$terms = get_terms( $options['taxonomy'], array(
+		$terms    = get_terms( $options['taxonomy'], array(
 		    'hide_empty' => false,
 		) );
 
@@ -157,16 +160,16 @@ abstract class TermsModule extends BaseModule {
 				$term_ids[] = $term->term_id;
 			}
 		}
+
 		return $term_ids;
 	}
 	protected function bd_term_count_query( $options ){
 		$term_ids = array();
-		$terms = get_terms( $options['taxonomy'], array(
+		$terms    = get_terms( $options['taxonomy'], array(
 		    'hide_empty' => false,
 		) );
 
 		foreach( $terms as $term ){
-
 			$args = array(
 				'post_type' => 'post',
 				'tax_query' => array(
@@ -180,17 +183,17 @@ abstract class TermsModule extends BaseModule {
 
 			$posts = get_posts($args);
 
-			if( count($posts) == $options['term_text'] && $options['term_opt'] == "equal_to" ){
+			if( count($posts) == $options['term_text'] && $options['term_opt'] == 'equal_to' ){
 				$term_ids[] = $term->term_id;
-			}else if( count($posts) != $options['term_text'] && $options['term_opt'] == "not_equal_to" ){
+			}elseif( count($posts) != $options['term_text'] && $options['term_opt'] == 'not_equal_to' ){
 				$term_ids[] = $term->term_id;
-			}else if( count($posts) < $options['term_text'] && $options['term_opt'] == "less_than" ){
+			}elseif( count($posts) < $options['term_text'] && $options['term_opt'] == 'less_than' ){
 				$term_ids[] = $term->term_id;
-			}else if( count($posts) > $options['term_text'] && $options['term_opt'] == "greater_than" ){
+			}elseif( count($posts) > $options['term_text'] && $options['term_opt'] == 'greater_than' ){
 				$term_ids[] = $term->term_id;
 			}
-
 		}
+
 		return $term_ids;
 	}
 }
