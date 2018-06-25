@@ -105,4 +105,58 @@ abstract class TermsModule extends BaseModule {
 
 		return $count;
 	}
+
+	protected function bd_starts_with($haystack, $needle){
+	     $length = strlen($needle);
+	     return (substr($haystack, 0, $length) === $needle);
+	}
+
+	protected function bd_ends_with($haystack, $needle){
+	    $length = strlen($needle);
+
+	    return $length === 0 || 
+	    (substr($haystack, -$length) === $needle);
+	}
+
+	protected function bd_term_starts( $term_text , $options ){
+		$term_ids = array();
+		$terms = get_terms( $options['taxonomy'], array(
+		    'hide_empty' => false,
+		) );
+
+		foreach( $terms as $term ){
+			if( $this->bd_starts_with( $term->name, $term_text ) ){
+				$term_ids[] = $term->term_id;
+			}
+		}
+		return $term_ids;
+	}
+
+	protected function bd_term_ends( $term_text , $options ){
+		$term_ids = array();
+		$terms = get_terms( $options['taxonomy'], array(
+		    'hide_empty' => false,
+		) );
+
+		foreach( $terms as $term ){
+			if( $this->bd_ends_with( $term->name, $term_text ) ){
+				$term_ids[] = $term->term_id;
+			}
+		}
+		return $term_ids;
+	}
+
+	protected function bd_term_contains( $term_text , $options ){
+		$term_ids = array();
+		$terms = get_terms( $options['taxonomy'], array(
+		    'hide_empty' => false,
+		) );
+
+		foreach( $terms as $term ){
+			if ( strpos( $term->name, $term_text ) !== false ) {
+				$term_ids[] = $term->term_id;
+			}
+		}
+		return $term_ids;
+	}
 }
