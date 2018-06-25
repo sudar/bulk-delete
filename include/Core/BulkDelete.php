@@ -2,6 +2,7 @@
 
 namespace BulkWP\BulkDelete\Core;
 
+use BulkWP\BulkDelete\Core\Addon\Upseller;
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Cron\CronListPage;
 use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
@@ -70,6 +71,15 @@ final class BulkDelete {
 	 * @var \BulkWP\BulkDelete\Core\Controller
 	 */
 	private $controller;
+
+	/**
+	 * Upseller responsible for upselling add-ons.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @var \BulkWP\BulkDelete\Core\Addon\Upseller
+	 */
+	private $upseller;
 
 	/**
 	 * Bulk Delete Autoloader.
@@ -192,6 +202,9 @@ final class BulkDelete {
 	private function load_dependencies() {
 		$this->controller = new Controller();
 		$this->controller->load();
+
+		$this->upseller = new Upseller();
+		$this->upseller->load();
 	}
 
 	/**
