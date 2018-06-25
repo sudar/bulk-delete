@@ -22,7 +22,6 @@ function bd_register_post_addons() {
 	add_meta_box( Bulk_Delete::BOX_TITLE           , __( 'By Title'             , 'bulk-delete' ) , 'bd_render_delete_posts_by_title_box'           , $bd->posts_page , 'advanced' );
 	add_meta_box( Bulk_Delete::BOX_DUPLICATE_TITLE , __( 'By Duplicate Title'   , 'bulk-delete' ) , 'bd_render_delete_posts_by_duplicate_title_box' , $bd->posts_page , 'advanced' );
 	add_meta_box( Bulk_Delete::BOX_POST_BY_ROLE    , __( 'By User Role'         , 'bulk-delete' ) , 'bd_render_delete_posts_by_user_role_box'       , $bd->posts_page , 'advanced' );
-	add_meta_box( Bulk_Delete::BOX_POST_FROM_TRASH , __( 'Posts in Trash'       , 'bulk-delete' ) , 'bd_render_delete_posts_from_trash'             , $bd->posts_page , 'advanced' );
 }
 add_action( 'bd_add_meta_box_for_posts', 'bd_register_post_addons' );
 
@@ -136,37 +135,3 @@ function bd_render_delete_posts_by_user_role_box() {
 		Bulk_Delete_Posts_By_User_Role::render_delete_posts_by_user_role_box();
 	}
 }
-
-/**
- * Render delete posts from trash box.
- *
- * @since 5.5
- */
-function bd_render_delete_posts_from_trash() {
-	if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_POST_FROM_TRASH ) ) {
-		printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
-
-		return;
-	}
-
-	if ( ! class_exists( 'Bulk_Delete_From_Trash' ) ) {
-?>
-		<!-- Posts In Trash box start-->
-		<p>
-			<span class = "bd-post-trash-pro" style = "color:red">
-				<?php _e( 'You need "Bulk Delete From Trash" Addon, to delete post in Trash.', 'bulk-delete' ); ?>
-				<a href = "http://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-th">Buy now</a>
-			</span>
-		</p>
-		<!-- Posts In Trash box end-->
-<?php
-	} else {
-		/**
-		 * Render delete posts from trash box.
-		 *
-		 * @since 5.4
-		 */
-		do_action( 'bd_render_delete_posts_from_trash' );
-	}
-}
-?>

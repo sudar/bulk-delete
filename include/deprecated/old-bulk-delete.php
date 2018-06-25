@@ -5,6 +5,7 @@
  * This class is deprecated since 6.0.0. But included here for backward compatibility.
  * Don't depend on functionality from this class.
  */
+
 use BulkWP\BulkDelete\Core\BulkDelete;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -53,11 +54,11 @@ final class Bulk_Delete {
 	const CRON_HOOK_POST_TYPE   = 'do-bulk-delete-post-type';        // used in Scheduler For Deleting Posts by Post Type add-on v0.6.
 	const CRON_HOOK_USER_ROLE   = 'do-bulk-delete-users-by-role';    // used in Scheduler for Deleting Users by User Role add-on v0.6.
 
-	// page slugs
-	const POSTS_PAGE_SLUG           = 'bulk-delete-posts';
-	const PAGES_PAGE_SLUG           = 'bulk-delete-pages';
-	const CRON_PAGE_SLUG            = 'bulk-delete-cron';
-	const ADDON_PAGE_SLUG           = 'bulk-delete-addon';
+	// Page slugs. Page slugs are still used in lot of add-ons.
+	const POSTS_PAGE_SLUG = 'bulk-delete-posts';
+	const PAGES_PAGE_SLUG = 'bulk-delete-pages';                     // used in Bulk Delete From Trash add-on v0.3.
+	const CRON_PAGE_SLUG  = 'bulk-delete-cron';
+	const ADDON_PAGE_SLUG = 'bulk-delete-addon';
 
 	// Cron hooks
 	const CRON_HOOK_CUSTOM_FIELD    = 'do-bulk-delete-custom-field';
@@ -69,11 +70,7 @@ final class Bulk_Delete {
 	const BOX_CUSTOM_FIELD          = 'bd_by_custom_field';
 	const BOX_TITLE                 = 'bd_by_title';
 	const BOX_DUPLICATE_TITLE       = 'bd_by_duplicate_title';
-	const BOX_POST_FROM_TRASH       = 'bd_posts_from_trash';
 	const BOX_POST_BY_ROLE          = 'bd_post_by_user_role';
-
-	// meta boxes for delete pages
-	const BOX_PAGE_FROM_TRASH       = 'bd_pages_from_trash';
 
 	// Settings constants
 	const SETTING_OPTION_GROUP      = 'bd_settings';

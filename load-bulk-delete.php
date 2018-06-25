@@ -7,6 +7,7 @@
  *
  * @since 6.0.0
  */
+
 use BulkWP\BulkDelete\BulkDeleteAutoloader;
 use BulkWP\BulkDelete\Core\BulkDelete;
 
@@ -78,6 +79,10 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'Bulk_Delete_Pages'                        => $plugin_dir . 'include/deprecated/class-bulk-delete-pages.php',
 		'Bulk_Delete_Post_Meta'                    => $plugin_dir . 'include/deprecated/class-bulk-delete-post-meta.php',
 		'Bulk_Delete_User_Meta'                    => $plugin_dir . 'include/deprecated/class-bulk-delete-user-meta.php',
+
+		// Deprecated Modules.
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeprecatedModule' => $plugin_dir . 'include/deprecated/addons/DeprecatedModule.php',
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeleteFromTrashModule' => $plugin_dir . 'include/deprecated/addons/DeleteFromTrashModule.php',
 	);
 }
 
@@ -93,7 +98,6 @@ function bd_get_custom_class_map( $plugin_dir ) {
 function bd_get_custom_include_files() {
 	return array(
 		'include/addons/addon-list.php',
-		'include/addons/pages.php',
 		'include/addons/posts.php',
 		'include/addons/util.php',
 		'include/compatibility/simple-login-log.php',
@@ -106,5 +110,6 @@ function bd_get_custom_include_files() {
 		'include/util/query.php',
 		'include/settings/setting-helpers.php',
 		'include/deprecated/deprecated.php',
+		'include/deprecated/support-old-addons.php',
 	);
 }
