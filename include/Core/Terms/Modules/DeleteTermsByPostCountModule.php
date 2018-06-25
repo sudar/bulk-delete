@@ -97,6 +97,9 @@ class DeleteTermsByPostCountModule extends TermsModule {
 			$query['taxonomy'] = $taxonomy;
 		}
 
+		$term_ids            = $this->bd_term_count_query( $options );	
+		$query['include']    = $term_ids;
+
 		return $query;
 	}
 
