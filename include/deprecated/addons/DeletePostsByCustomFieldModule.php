@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsByCustomFieldModule extends DeprecatedModule {
-
 	protected function initialize() {
 		$this->addon_class_name = 'Bulk_Delete_Posts_By_Custom_Field';
 		$this->addon_slug       = 'bulk-delete-posts-by-custom-field';

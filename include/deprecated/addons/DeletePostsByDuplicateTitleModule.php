@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsByDuplicateTitleModule extends DeprecatedModule {
-
 	protected function initialize() {
 		$this->addon_class_name = 'Bulk_Delete_Posts_By_Duplicate_Title';
 		$this->addon_slug       = 'bulk-delete-posts-by-duplicate-title';
