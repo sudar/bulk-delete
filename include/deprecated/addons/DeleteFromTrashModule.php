@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteFromTrashModule extends DeprecatedModule {
-
 	protected function initialize() {
 		$this->addon_class_name = 'Bulk_Delete_From_Trash';
 		$this->addon_slug       = 'bulk-delete-from-trash';

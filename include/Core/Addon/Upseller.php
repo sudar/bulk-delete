@@ -10,7 +10,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class Upseller {
-
 	/**
 	 * Setup hooks.
 	 */
@@ -34,7 +33,7 @@ class Upseller {
 	/**
 	 * Get Upsell add-on to be shown on a particular page.
 	 *
-	 * @param  \BulkWP\BulkDelete\Core\Base\BaseDeletePage $page Delete Page in which upsell add-ons to be shown.
+	 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage $page Delete Page in which upsell add-ons to be shown.
 	 *
 	 * @return array List of Upsell modules.
 	 */
@@ -42,16 +41,12 @@ class Upseller {
 		switch ( $page->get_item_type() ) {
 			case 'posts':
 				return $this->get_post_upsell_addons();
-
 			case 'pages':
 				return $this->get_page_upsell_addons();
-
 			case 'users':
 				return $this->get_user_upsell_addons();
-
 			case 'metas':
 				return $this->get_meta_upsell_addons();
-
 			default:
 				return array();
 		}
@@ -136,8 +131,8 @@ class Upseller {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param array $addon_details Add-on details.
-		 * @param string $item_type Item type.
+		 * @param array  $addon_details Add-on details.
+		 * @param string $item_type     Item type.
 		 */
 		return apply_filters( 'bd_upsell_addons', $addon_details, 'posts' );
 	}
@@ -167,8 +162,8 @@ class Upseller {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param array $addon_details Add-on details.
-		 * @param string $item_type Item type.
+		 * @param array  $addon_details Add-on details.
+		 * @param string $item_type     Item type.
 		 */
 		return apply_filters( 'bd_upsell_addons', $addon_details, 'pages' );
 	}
@@ -186,8 +181,8 @@ class Upseller {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param array $addon_details Add-on details.
-		 * @param string $item_type Item type.
+		 * @param array  $addon_details Add-on details.
+		 * @param string $item_type     Item type.
 		 */
 		return apply_filters( 'bd_upsell_addons', array(), 'users' );
 	}
@@ -205,8 +200,8 @@ class Upseller {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param array $addon_details Add-on details.
-		 * @param string $item_type Item type.
+		 * @param array  $addon_details Add-on details.
+		 * @param string $item_type     Item type.
 		 */
 		return apply_filters( 'bd_upsell_addons', array(), 'metas' );
 	}

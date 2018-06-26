@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class AddonInfo {
-
 	protected $name;
 	protected $description;
 	protected $slug;

@@ -7,7 +7,6 @@
  *
  * @since 6.0.0
  */
-
 use BulkWP\BulkDelete\BulkDeleteAutoloader;
 use BulkWP\BulkDelete\Core\BulkDelete;
 
@@ -81,12 +80,12 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'Bulk_Delete_User_Meta'                    => $plugin_dir . 'include/deprecated/class-bulk-delete-user-meta.php',
 
 		// Deprecated Modules.
-		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeprecatedModule' => $plugin_dir . 'include/deprecated/addons/DeprecatedModule.php',
-		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeleteFromTrashModule' => $plugin_dir . 'include/deprecated/addons/DeleteFromTrashModule.php',
-		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByCustomFieldModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByCustomFieldModule.php',
-		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByTitleModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByTitleModule.php',
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeprecatedModule'                  => $plugin_dir . 'include/deprecated/addons/DeprecatedModule.php',
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeleteFromTrashModule'             => $plugin_dir . 'include/deprecated/addons/DeleteFromTrashModule.php',
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByCustomFieldModule'    => $plugin_dir . 'include/deprecated/addons/DeletePostsByCustomFieldModule.php',
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByTitleModule'          => $plugin_dir . 'include/deprecated/addons/DeletePostsByTitleModule.php',
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByDuplicateTitleModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByDuplicateTitleModule.php',
-		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByUserRoleModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByUserRoleModule.php',
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByUserRoleModule'       => $plugin_dir . 'include/deprecated/addons/DeletePostsByUserRoleModule.php',
 	);
 }
 
