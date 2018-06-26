@@ -84,6 +84,7 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeprecatedModule' => $plugin_dir . 'include/deprecated/addons/DeprecatedModule.php',
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeleteFromTrashModule' => $plugin_dir . 'include/deprecated/addons/DeleteFromTrashModule.php',
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByCustomFieldModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByCustomFieldModule.php',
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByTitleModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByTitleModule.php',
 	);
 }
 
