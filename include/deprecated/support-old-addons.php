@@ -11,6 +11,7 @@
 
 use BulkWP\BulkDelete\Deprecated\Addons\DeleteFromTrashModule;
 use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByCustomFieldModule;
+use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByDuplicateTitleModule;
 use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByTitleModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -35,6 +36,9 @@ function bd_load_deprecated_post_modules( $page ) {
 
 	$title_module = new DeletePostsByTitleModule();
 	$title_module->load_if_needed( $page );
+
+	$duplicate_title_module = new DeletePostsByDuplicateTitleModule();
+	$duplicate_title_module->load_if_needed( $page );
 }
 add_action( 'bd_after_posts_modules', 'bd_load_deprecated_post_modules' );
 
