@@ -10,6 +10,7 @@
  */
 
 use BulkWP\BulkDelete\Deprecated\Addons\DeleteFromTrashModule;
+use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByCustomFieldModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -27,6 +28,9 @@ function bd_load_deprecated_post_modules( $page ) {
 	$trash_module = new DeleteFromTrashModule();
 	$trash_module->set_item_type( 'posts' );
 	$trash_module->load_if_needed( $page );
+
+	$custom_fields_module = new DeletePostsByCustomFieldModule();
+	$custom_fields_module->load_if_needed( $page );
 }
 add_action( 'bd_after_posts_modules', 'bd_load_deprecated_post_modules' );
 

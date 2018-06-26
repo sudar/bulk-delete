@@ -18,40 +18,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 function bd_register_post_addons() {
 	$bd = BULK_DELETE();
 
-	add_meta_box( Bulk_Delete::BOX_CUSTOM_FIELD    , __( 'By Custom Field'      , 'bulk-delete' ) , 'bd_render_delete_posts_by_custom_field_box'    , $bd->posts_page , 'advanced' );
 	add_meta_box( Bulk_Delete::BOX_TITLE           , __( 'By Title'             , 'bulk-delete' ) , 'bd_render_delete_posts_by_title_box'           , $bd->posts_page , 'advanced' );
 	add_meta_box( Bulk_Delete::BOX_DUPLICATE_TITLE , __( 'By Duplicate Title'   , 'bulk-delete' ) , 'bd_render_delete_posts_by_duplicate_title_box' , $bd->posts_page , 'advanced' );
 	add_meta_box( Bulk_Delete::BOX_POST_BY_ROLE    , __( 'By User Role'         , 'bulk-delete' ) , 'bd_render_delete_posts_by_user_role_box'       , $bd->posts_page , 'advanced' );
 }
 add_action( 'bd_add_meta_box_for_posts', 'bd_register_post_addons' );
-
-/**
- * Render delete posts by custom field box.
- *
- * @since 5.5
- */
-function bd_render_delete_posts_by_custom_field_box() {
-	if ( BD_Util::is_posts_box_hidden( Bulk_Delete::BOX_CUSTOM_FIELD ) ) {
-		printf( __( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ), 'admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG );
-
-		return;
-	}
-
-	if ( ! class_exists( 'Bulk_Delete_Posts_By_Custom_Field' ) ) {
-?>
-		<!-- Custom Field box start-->
-		<p>
-			<span class = "bd-post-custom-field-pro" style = "color:red">
-				<?php _e( 'You need "Bulk Delete Posts by Custom Field" Addon, to delete post by custom field.', 'bulk-delete' ); ?>
-				<a href = "http://bulkwp.com/addons/bulk-delete-posts-by-custom-field/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-cf">Buy now</a>
-			</span>
-		</p>
-		<!-- Custom Field box end-->
-<?php
-	} else {
-		Bulk_Delete_Posts_By_Custom_Field::render_delete_posts_by_custom_field_box();
-	}
-}
 
 /**
  * Render posts by title box.
