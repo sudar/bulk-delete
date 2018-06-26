@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class DeprecatedModule extends BaseModule {
-
 	/**
 	 * Addon class name of the old add-on that is used to find out whether the old add-on is active or not.
 	 *

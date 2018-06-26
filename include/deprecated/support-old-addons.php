@@ -8,7 +8,6 @@
  *
  * @since 6.0.0
  */
-
 use BulkWP\BulkDelete\Deprecated\Addons\DeleteFromTrashModule;
 use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByCustomFieldModule;
 use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByDuplicateTitleModule;

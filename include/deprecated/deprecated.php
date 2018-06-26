@@ -9,7 +9,6 @@
  *
  * @since 5.5
  */
-
 use BulkWP\BulkDelete\Core\Base\BaseModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
@@ -58,7 +57,7 @@ add_filter( 'bd_delete_options', 'bd_delete_options_compatibility', 10, 2 );
  * @since 6.0.0
  *
  * @param array                                   $options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module  Modules.
  *
  * @return array Processed delete options.
  */
@@ -129,7 +128,7 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_posts_by_cat
  * @since 6.0.0
  *
  * @param array                                   $options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module  Modules.
  *
  * @return array Processed delete options.
  */
@@ -156,7 +155,7 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_posts_by_tag
  * @since 6.0.0 Added Modules parameter.
  *
  * @param array                                   $delete_options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module        Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module         Modules.
  *
  * @return array Processed delete options.
  */
@@ -208,7 +207,7 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_stat
  * @since 6.0.0
  *
  * @param array                                   $delete_options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module        Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module         Modules.
  *
  * @return array Processed delete options.
  */
@@ -234,7 +233,7 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_taxo
  * @since 6.0.0
  *
  * @param array                                   $delete_options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module        Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module         Modules.
  *
  * @return array Processed delete options.
  */
