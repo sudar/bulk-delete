@@ -57,18 +57,13 @@ final class Bulk_Delete {
 	const CRON_HOOK_CUSTOM_FIELD    = 'do-bulk-delete-custom-field';         // used in Bulk Delete Posts by Custom Field add-on v1.0.
 	const CRON_HOOK_TITLE           = 'do-bulk-delete-by-title';            // used in Bulk Delete Posts by Title add-on v1.0.
 	const CRON_HOOK_DUPLICATE_TITLE = 'do-bulk-delete-by-duplicate-title';  // used in Bulk Delete Posts by Duplicate Title add-on v0.7.
+	const CRON_HOOK_POST_BY_ROLE    = 'do-bulk-delete-posts-by-role';       // used in Bulk Delete Posts by User Role add-on v0.5.
 
 	// Page slugs. Page slugs are still used in lot of add-ons.
 	const POSTS_PAGE_SLUG = 'bulk-delete-posts';
 	const PAGES_PAGE_SLUG = 'bulk-delete-pages';                     // used in Bulk Delete From Trash add-on v0.3.
 	const CRON_PAGE_SLUG  = 'bulk-delete-cron';
 	const ADDON_PAGE_SLUG = 'bulk-delete-addon';
-
-	// Cron hooks
-	const CRON_HOOK_POST_BY_ROLE    = 'do-bulk-delete-posts-by-role';
-
-	// meta boxes for delete posts
-	const BOX_POST_BY_ROLE          = 'bd_post_by_user_role';
 
 	// Settings constants
 	const SETTING_OPTION_GROUP      = 'bd_settings';

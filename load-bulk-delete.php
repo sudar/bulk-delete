@@ -86,6 +86,7 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByCustomFieldModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByCustomFieldModule.php',
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByTitleModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByTitleModule.php',
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByDuplicateTitleModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByDuplicateTitleModule.php',
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByUserRoleModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByUserRoleModule.php',
 	);
 }
 
@@ -101,7 +102,6 @@ function bd_get_custom_class_map( $plugin_dir ) {
 function bd_get_custom_include_files() {
 	return array(
 		'include/addons/addon-list.php',
-		'include/addons/posts.php',
 		'include/addons/util.php',
 		'include/compatibility/simple-login-log.php',
 		'include/compatibility/the-event-calendar.php',
