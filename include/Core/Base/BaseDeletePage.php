@@ -5,7 +5,7 @@ namespace BulkWP\BulkDelete\Core\Base;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Base class for all Bulk Delete pages that will have metaboxes.
+ * Base class for all Bulk Delete pages that will have modules.
  *
  * @since 6.0.0
  */
@@ -18,34 +18,34 @@ abstract class BaseDeletePage extends BasePage {
 	protected $item_type;
 
 	/**
-	 * Metaboxes registered to this page.
+	 * Modules registered to this page.
 	 *
 	 * @var \BulkWP\BulkDelete\Core\Base\BaseModule[]
 	 */
-	protected $metaboxes = array();
+	protected $modules = array();
 
 	/**
-	 * Register the metaboxes after the page is registered.
+	 * Register the modules after the page is registered.
 	 */
 	public function register() {
 		parent::register();
 
-		if ( $this->has_metaboxes() ) {
-			$this->register_metaboxes();
+		if ( $this->has_modules() ) {
+			$this->register_modules();
 		}
 	}
 
 	/**
-	 * Add a metabox to page.
+	 * Add a module to the page.
 	 *
-	 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox Modules to add.
+	 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module Module to add.
 	 */
-	public function add_metabox( $metabox ) {
-		if ( in_array( $metabox, $this->metaboxes, true ) ) {
+	public function add_module( $module ) {
+		if ( in_array( $module, $this->modules, true ) ) {
 			return;
 		}
 
-		$this->metaboxes[] = $metabox;
+		$this->modules[] = $module;
 	}
 
 	protected function register_hooks() {
@@ -124,14 +124,14 @@ abstract class BaseDeletePage extends BasePage {
 	}
 
 	/**
-	 * Trigger the add_meta_boxes hooks to allow meta boxes to be added when the page is loaded.
+	 * Trigger the add_meta_boxes hooks to allow modules to be added when the page is loaded.
 	 */
 	public function on_load_page() {
 		do_action( 'add_meta_boxes_' . $this->hook_suffix, null );
 	}
 
 	/**
-	 * Add additional nonce fields that are related to metaboxes.
+	 * Add additional nonce fields that are related to modules.
 	 */
 	protected function render_nonce_fields() {
 		parent::render_nonce_fields();
@@ -165,21 +165,30 @@ abstract class BaseDeletePage extends BasePage {
 	}
 
 	/**
-	 * Does this page has metaboxes?
+	 * Does this page have any modules?
 	 *
-	 * @return bool True if page has metaboxes, False otherwise.
+	 * @return bool True if page has modules, False otherwise.
 	 */
-	protected function has_metaboxes() {
-		return ! empty( $this->metaboxes );
+	protected function has_modules() {
+		return ! empty( $this->modules );
 	}
 
 	/**
-	 * Load all the registered metaboxes.
+	 * Load all the registered modules.
 	 */
-	protected function register_metaboxes() {
-		foreach ( $this->metaboxes as $metabox ) {
-			$metabox->register( $this->hook_suffix, $this->page_slug );
-			$this->actions[] = $metabox->get_action();
+	protected function register_modules() {
+		foreach ( $this->modules as $module ) {
+			$module->register( $this->hook_suffix, $this->page_slug );
+			$this->actions[] = $module->get_action();
 		}
+	}
+
+	/**
+	 * Get the item type of the page.
+	 *
+	 * @return string Item type of the page.
+	 */
+	public function get_item_type() {
+		return $this->item_type;
 	}
 }
