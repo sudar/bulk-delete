@@ -9,6 +9,9 @@
  *
  * @since 5.5
  */
+
+use BulkWP\BulkDelete\Core\Base\BaseModule;
+
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 /**
@@ -21,8 +24,8 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly
  *
  * @return array New options.
  */
-function bd_delete_options_compatibility( $options, $module ) {
-	if ( 'delete_pages_by_status' === $module->get_action() ) {
+function bd_delete_options_compatibility( $options, $module = null ) {
+	if ( $module instanceof BaseModule && 'delete_pages_by_status' === $module->get_action() ) {
 		return $options;
 	}
 
@@ -55,12 +58,12 @@ add_filter( 'bd_delete_options', 'bd_delete_options_compatibility', 10, 2 );
  * @since 6.0.0
  *
  * @param array                                   $options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module Modules.
  *
  * @return array Processed delete options.
  */
-function bd_convert_old_options_for_delete_pages( $options, $metabox ) {
-	if ( 'delete_pages_by_status' !== $metabox->get_action() ) {
+function bd_convert_old_options_for_delete_pages( $options, $module = null ) {
+	if ( $module instanceof BaseModule && 'delete_pages_by_status' !== $module->get_action() ) {
 		return $options;
 	}
 
@@ -126,12 +129,12 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_posts_by_cat
  * @since 6.0.0
  *
  * @param array                                   $options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module Modules.
  *
  * @return array Processed delete options.
  */
-function bd_convert_old_options_for_delete_posts_by_tag( $options, $metabox ) {
-	if ( 'delete_posts_by_tag' !== $metabox->get_action() ) {
+function bd_convert_old_options_for_delete_posts_by_tag( $options, $module = null ) {
+	if ( $module instanceof BaseModule && 'delete_posts_by_tag' !== $module->get_action() ) {
 		return $options;
 	}
 
@@ -153,12 +156,12 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_posts_by_tag
  * @since 6.0.0 Added Modules parameter.
  *
  * @param array                                   $delete_options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox        Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module        Modules.
  *
  * @return array Processed delete options.
  */
-function bd_convert_old_options_for_delete_post_by_status( $delete_options, $metabox ) {
-	if ( 'delete_posts_by_status' !== $metabox->get_action() ) {
+function bd_convert_old_options_for_delete_post_by_status( $delete_options, $module = null ) {
+	if ( $module instanceof BaseModule && 'delete_posts_by_status' !== $module->get_action() ) {
 		return $delete_options;
 	}
 
@@ -205,12 +208,12 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_stat
  * @since 6.0.0
  *
  * @param array                                   $delete_options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox        Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module        Modules.
  *
  * @return array Processed delete options.
  */
-function bd_convert_old_options_for_delete_post_by_taxonomy( $delete_options, $metabox ) {
-	if ( 'bd_delete_posts_by_taxonomy' !== $metabox->get_action() ) {
+function bd_convert_old_options_for_delete_post_by_taxonomy( $delete_options, $module = null ) {
+	if ( $module instanceof BaseModule && 'bd_delete_posts_by_taxonomy' !== $module->get_action() ) {
 		return $delete_options;
 	}
 
@@ -231,12 +234,12 @@ add_filter( 'bd_delete_options', 'bd_convert_old_options_for_delete_post_by_taxo
  * @since 6.0.0
  *
  * @param array                                   $delete_options Delete Options.
- * @param \BulkWP\BulkDelete\Core\Base\BaseModule $metabox        Modules.
+ * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module        Modules.
  *
  * @return array Processed delete options.
  */
-function bd_convert_old_options_for_delete_post_by_post_type( $delete_options, $metabox ) {
-	if ( 'delete_posts_by_post_type' !== $metabox->get_action() ) {
+function bd_convert_old_options_for_delete_post_by_post_type( $delete_options, $module = null ) {
+	if ( $module instanceof BaseModule && 'delete_posts_by_post_type' !== $module->get_action() ) {
 		return $delete_options;
 	}
 
