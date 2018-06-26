@@ -5,7 +5,6 @@
  * This class is deprecated since 6.0.0. But included here for backward compatibility.
  * Don't depend on functionality from this class.
  */
-
 use BulkWP\BulkDelete\Core\BulkDelete;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.

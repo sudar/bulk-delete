@@ -17,7 +17,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class UpsellModule extends BaseModule {
-
 	/**
 	 * Details about the add-on.
 	 *
