@@ -2,6 +2,7 @@
 
 namespace BulkWP\BulkDelete\Core;
 
+use BulkWP\BulkDelete\Core\Addon\Upseller;
 use BulkWP\BulkDelete\Core\Base\BasePage;
 use BulkWP\BulkDelete\Core\Cron\CronListPage;
 use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
@@ -70,6 +71,15 @@ final class BulkDelete {
 	 * @var \BulkWP\BulkDelete\Core\Controller
 	 */
 	private $controller;
+
+	/**
+	 * Upseller responsible for upselling add-ons.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @var \BulkWP\BulkDelete\Core\Addon\Upseller
+	 */
+	private $upseller;
 
 	/**
 	 * Bulk Delete Autoloader.
@@ -192,6 +202,9 @@ final class BulkDelete {
 	private function load_dependencies() {
 		$this->controller = new Controller();
 		$this->controller->load();
+
+		$this->upseller = new Upseller();
+		$this->upseller->load();
 	}
 
 	/**
@@ -322,14 +335,32 @@ final class BulkDelete {
 	private function get_delete_posts_admin_page() {
 		$posts_page = new DeletePostsPage( $this->get_plugin_file() );
 
-		$posts_page->add_metabox( new DeletePostsByStatusModule() );
-		$posts_page->add_metabox( new DeletePostsByCategoryModule() );
-		$posts_page->add_metabox( new DeletePostsByTagModule() );
-		$posts_page->add_metabox( new DeletePostsByTaxonomyModule() );
-		$posts_page->add_metabox( new DeletePostsByPostTypeModule() );
-		$posts_page->add_metabox( new DeletePostsByURLModule() );
-		$posts_page->add_metabox( new DeletePostsByRevisionModule() );
-		$posts_page->add_metabox( new DeletePostsByStickyPostModule() );
+		$posts_page->add_module( new DeletePostsByStatusModule() );
+		$posts_page->add_module( new DeletePostsByCategoryModule() );
+		$posts_page->add_module( new DeletePostsByTagModule() );
+		$posts_page->add_module( new DeletePostsByTaxonomyModule() );
+		$posts_page->add_module( new DeletePostsByPostTypeModule() );
+		$posts_page->add_module( new DeletePostsByURLModule() );
+		$posts_page->add_module( new DeletePostsByRevisionModule() );
+		$posts_page->add_module( new DeletePostsByStickyPostModule() );
+
+		/**
+		 * After the modules are registered in the delete posts page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param DeletePostsPage $posts_page The page in which the modules are registered.
+		 */
+		do_action( "bd_after_{$posts_page->get_item_type()}_modules", $posts_page );
+
+		/**
+		 * After the modules are registered in a delete page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param BasePage $posts_page The page in which the modules are registered.
+		 */
+		do_action( 'bd_after_modules', $posts_page );
 
 		return $posts_page;
 	}
@@ -344,7 +375,25 @@ final class BulkDelete {
 	private function get_delete_pages_admin_page() {
 		$pages_page = new DeletePagesPage( $this->get_plugin_file() );
 
-		$pages_page->add_metabox( new DeletePagesByStatusModule() );
+		$pages_page->add_module( new DeletePagesByStatusModule() );
+
+		/**
+		 * After the modules are registered in the delete pages page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param DeletePagesPage $pages_page The page in which the modules are registered.
+		 */
+		do_action( "bd_after_{$pages_page->get_item_type()}_modules", $pages_page );
+
+		/**
+		 * After the modules are registered in a delete page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param BasePage $pages_page The page in which the modules are registered.
+		 */
+		do_action( 'bd_after_modules', $pages_page );
 
 		return $pages_page;
 	}
@@ -359,8 +408,26 @@ final class BulkDelete {
 	private function get_delete_users_admin_page() {
 		$users_page = new DeleteUsersPage( $this->get_plugin_file() );
 
-		$users_page->add_metabox( new DeleteUsersByUserRoleModule() );
-		$users_page->add_metabox( new DeleteUsersByUserMetaModule() );
+		$users_page->add_module( new DeleteUsersByUserRoleModule() );
+		$users_page->add_module( new DeleteUsersByUserMetaModule() );
+
+		/**
+		 * After the modules are registered in the delete users page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param DeleteUsersPage $users_page The page in which the modules are registered.
+		 */
+		do_action( "bd_after_{$users_page->get_item_type()}_modules", $users_page );
+
+		/**
+		 * After the modules are registered in a delete page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param BasePage $users_page The page in which the modules are registered.
+		 */
+		do_action( 'bd_after_modules', $users_page );
 
 		return $users_page;
 	}
@@ -375,9 +442,27 @@ final class BulkDelete {
 	private function get_delete_metas_admin_page() {
 		$metas_page = new DeleteMetasPage( $this->get_plugin_file() );
 
-		$metas_page->add_metabox( new DeletePostMetaModule() );
-		$metas_page->add_metabox( new DeleteUserMetaModule() );
-		$metas_page->add_metabox( new DeleteCommentMetaModule() );
+		$metas_page->add_module( new DeletePostMetaModule() );
+		$metas_page->add_module( new DeleteUserMetaModule() );
+		$metas_page->add_module( new DeleteCommentMetaModule() );
+
+		/**
+		 * After the modules are registered in the delete metas page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param DeleteMetasPage $metas_page The page in which the modules are registered.
+		 */
+		do_action( "bd_after_{$metas_page->get_item_type()}_modules", $metas_page );
+
+		/**
+		 * After the modules are registered in a delete page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param BasePage $metas_page The page in which the modules are registered.
+		 */
+		do_action( 'bd_after_modules', $metas_page );
 
 		return $metas_page;
 	}

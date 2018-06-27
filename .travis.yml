@@ -26,16 +26,10 @@ matrix:
       env: WP_VERSION=trunk
     - php: 7.1
       env: WP_VERSION=latest
-    - php: 7.0
-      env: WP_VERSION=latest
     - php: 5.6
       env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 5.6 also run Multisite
-    - php: 5.5
-      env: WP_VERSION=latest
-    - php: 5.4
-      env: WP_VERSION=latest
     - php: 5.3
-      env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 5.3 also run Multisite
+      env: WP_VERSION=latest
       dist: precise
   allow_failures:
     - php: nightly
@@ -88,10 +82,10 @@ script:
       # Run code coverage for PHP 7.1 alone
       npm run test:cover-coverage
     else
-      phpunit
-
       if [[ ! -z "$WP_MULTISITE" ]] ; then
         WP_MULTISITE=1 phpunit
+      else
+        phpunit
       fi
     fi
 

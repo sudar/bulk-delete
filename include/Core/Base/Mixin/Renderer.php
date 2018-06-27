@@ -109,19 +109,6 @@ abstract class Renderer extends Fetcher {
 	 * Render Post type dropdown.
 	 */
 	protected function render_post_type_dropdown() {
-		$types = bd_get_post_types();
-		?>
-			<tr>
-				<td scope="row" >
-					<select class="select2" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_type">
-						<?php foreach ( $types as $type ) : ?>
-							<option value="<?php echo esc_attr( $type->name ); ?>">
-								<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-				</td>
-			</tr>
-		<?php
+		bd_render_post_type_dropdown( $this->field_slug );
 	}
 }
