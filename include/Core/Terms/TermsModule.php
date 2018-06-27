@@ -106,12 +106,30 @@ abstract class TermsModule extends BaseModule {
 		return $count;
 	}
 
+	/**
+	 * custom string function use to get is string start with specified string.
+	 *
+	 * @param string $haystack.
+	 * 
+	 * @param string $needle.
+	 *
+	 * @return boolean.
+	 */
 	protected function bd_starts_with($haystack, $needle){
 	     $length = strlen($needle);
 
 	     return (substr($haystack, 0, $length) === $needle);
 	}
 
+	/**
+	 * custom string function use to get is string ends with specified string.
+	 *
+	 * @param string $haystack.
+	 * 
+	 * @param string $needle.
+	 *
+	 * @return boolean.
+	 */
 	protected function bd_ends_with($haystack, $needle){
 	    $length = strlen($needle);
 
@@ -119,6 +137,15 @@ abstract class TermsModule extends BaseModule {
 	    (substr($haystack, -$length) === $needle);
 	}
 
+	/**
+	 * get terms which is start with specified string.
+	 *
+	 * @param string $term_text.
+	 * 
+	 * @param array $options.
+	 *
+	 * @return array term ids.
+	 */
 	protected function term_starts( $term_text , $options ){
 		$term_ids = array();
 		$terms    = get_terms( $options['taxonomy'], array(
@@ -134,6 +161,15 @@ abstract class TermsModule extends BaseModule {
 		return $term_ids;
 	}
 
+	/**
+	 * get terms which is ends with specified string.
+	 *
+	 * @param string $term_text.
+	 * 
+	 * @param array $options.
+	 *
+	 * @return array term ids.
+	 */
 	protected function term_ends( $term_text , $options ){
 		$term_ids = array();
 		$terms    = get_terms( $options['taxonomy'], array(
@@ -149,6 +185,15 @@ abstract class TermsModule extends BaseModule {
 		return $term_ids;
 	}
 
+	/**
+	 * get terms which is contain specified string.
+	 *
+	 * @param string $term_text.
+	 * 
+	 * @param array $options.
+	 *
+	 * @return array term ids.
+	 */
 	protected function term_contains( $term_text , $options ){
 		$term_ids = array();
 		$terms    = get_terms( $options['taxonomy'], array(
@@ -163,6 +208,14 @@ abstract class TermsModule extends BaseModule {
 
 		return $term_ids;
 	}
+
+	/**
+	 * Get term ids which is have the sepcified post count .
+	 * 
+	 * @param array $options.
+	 *
+	 * @return array term ids.
+	 */
 	protected function term_count_query( $options ){
 		$term_ids = array();
 		$terms    = get_terms( $options['taxonomy'], array(
@@ -209,7 +262,7 @@ abstract class TermsModule extends BaseModule {
 	 *
 	 * @return array Result array
 	 */
-	public function term_query( $options, $taxonomy ) {
+	function term_query( $options, $taxonomy ) {
 		$defaults = array(
 			'fields'                 => 'ids', // retrieve only ids
 			'taxonomy'				           => $taxonomy,
