@@ -110,7 +110,6 @@ abstract class TermsModule extends BaseModule {
 	 * custom string function use to get is string start with specified string.
 	 *
 	 * @param string $haystack.
-	 * 
 	 * @param string $needle.
 	 *
 	 * @return boolean.
@@ -125,7 +124,6 @@ abstract class TermsModule extends BaseModule {
 	 * custom string function use to get is string ends with specified string.
 	 *
 	 * @param string $haystack.
-	 * 
 	 * @param string $needle.
 	 *
 	 * @return boolean.
@@ -141,8 +139,7 @@ abstract class TermsModule extends BaseModule {
 	 * get terms which is start with specified string.
 	 *
 	 * @param string $term_text.
-	 * 
-	 * @param array $options.
+	 * @param array  $options.
 	 *
 	 * @return array term ids.
 	 */
@@ -165,8 +162,7 @@ abstract class TermsModule extends BaseModule {
 	 * get terms which is ends with specified string.
 	 *
 	 * @param string $term_text.
-	 * 
-	 * @param array $options.
+	 * @param array  $options.
 	 *
 	 * @return array term ids.
 	 */
@@ -189,8 +185,7 @@ abstract class TermsModule extends BaseModule {
 	 * get terms which is contain specified string.
 	 *
 	 * @param string $term_text.
-	 * 
-	 * @param array $options.
+	 * @param array  $options.
 	 *
 	 * @return array term ids.
 	 */
@@ -211,7 +206,7 @@ abstract class TermsModule extends BaseModule {
 
 	/**
 	 * Get term ids which is have the sepcified post count .
-	 * 
+	 *
 	 * @param array $options.
 	 *
 	 * @return array term ids.
@@ -262,7 +257,7 @@ abstract class TermsModule extends BaseModule {
 	 *
 	 * @return array Result array
 	 */
-	function term_query( $options, $taxonomy ) {
+	public function term_query( $options, $taxonomy ) {
 		$defaults = array(
 			'fields'                 => 'ids', // retrieve only ids
 			'taxonomy'				           => $taxonomy,
