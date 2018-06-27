@@ -89,24 +89,19 @@ abstract class Renderer extends Fetcher {
 	 * Render user role dropdown.
 	 */
 	protected function render_user_role_dropdown() {
-		$users_count = count_users();
+		global $wp_roles;
 		?>
-		<select name="smbd_u_roles[]" class="select2" multiple="multiple" data-placeholder="<?php _e( 'Select Role', 'bulk-delete' ); ?>">
-			<?php foreach ( $users_count['avail_roles'] as $role => $count ) : ?>
-				<?php
-					$role_detail = get_role( $role );
-					$role_name   = $role;
 
-					if ( isset( $role_detail->name ) ) {
-						$role_name = $role_detail->name;
-					}
-				?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="select2"
+				multiple="multiple" data-placeholder="<?php _e( 'Select User Role', 'bulk-delete' ); ?>">
 
+			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
 				<option value="<?php echo esc_attr( $role ); ?>">
-					<?php echo esc_html( $role_name ), '(', esc_html( $count ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
+					<?php echo esc_html( $role_details['name'] ), ' (', absint( $this->get_user_count_by_role( $role ) ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
 				</option>
 			<?php endforeach; ?>
 		</select>
+
 		<?php
 	}
 
