@@ -88,10 +88,10 @@ script:
       # Run code coverage for PHP 7.1 alone
       npm run test:cover-coverage
     else
-      phpunit
-
       if [[ ! -z "$WP_MULTISITE" ]] ; then
         WP_MULTISITE=1 phpunit
+      else
+        phpunit
       fi
     fi
 
