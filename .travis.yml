@@ -50,16 +50,8 @@ install:
     fi
 
 before_script:
+  - phpenv config-rm xdebug.ini
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - |
-    if [[ $TRAVIS_PHP_VERSION != 7.2 ]]; then
-      # Disable x-debug to increase performance. x-debug is enabled only for PHP 7.2 to run code-coverage reports.
-      if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
-        phpenv config-rm xdebug.ini
-      else
-        echo "xdebug.ini does not exist"
-      fi
-    fi
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
@@ -82,7 +74,7 @@ script:
 
     if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
       # Run code coverage for PHP 7.2 alone
-      npm run test:cover-coverage
+      phpdbg -qrr npm run test:cover-coverage
     else
       if [[ ! -z "$WP_MULTISITE" ]] ; then
         WP_MULTISITE=1 phpunit
