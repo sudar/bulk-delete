@@ -35,7 +35,7 @@ matrix:
     - php: 5.4
       env: WP_VERSION=latest
     - php: 5.3
-      env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 5.3 also run Multisite
+      env: WP_VERSION=latest
       dist: precise
   allow_failures:
     - php: nightly
