@@ -119,7 +119,7 @@ abstract class TermsModule extends BaseModule {
 	    (substr($haystack, -$length) === $needle);
 	}
 
-	protected function bd_term_starts( $term_text , $options ){
+	protected function term_starts( $term_text , $options ){
 		$term_ids = array();
 		$terms    = get_terms( $options['taxonomy'], array(
 		    'hide_empty' => false,
@@ -134,7 +134,7 @@ abstract class TermsModule extends BaseModule {
 		return $term_ids;
 	}
 
-	protected function bd_term_ends( $term_text , $options ){
+	protected function term_ends( $term_text , $options ){
 		$term_ids = array();
 		$terms    = get_terms( $options['taxonomy'], array(
 		    'hide_empty' => false,
@@ -149,7 +149,7 @@ abstract class TermsModule extends BaseModule {
 		return $term_ids;
 	}
 
-	protected function bd_term_contains( $term_text , $options ){
+	protected function term_contains( $term_text , $options ){
 		$term_ids = array();
 		$terms    = get_terms( $options['taxonomy'], array(
 		    'hide_empty' => false,
@@ -163,7 +163,7 @@ abstract class TermsModule extends BaseModule {
 
 		return $term_ids;
 	}
-	protected function bd_term_count_query( $options ){
+	protected function term_count_query( $options ){
 		$term_ids = array();
 		$terms    = get_terms( $options['taxonomy'], array(
 		    'hide_empty' => false,
@@ -195,5 +195,53 @@ abstract class TermsModule extends BaseModule {
 		}
 
 		return $term_ids;
+	}
+
+	/**
+	 * Wrapper for WP_Term.
+	 *
+	 * Adds some performance enhancing defaults.
+	 *
+	 * @since  6.0
+	 *
+	 * @param array $options  List of options
+	 * @param mixed $taxonomy
+	 *
+	 * @return array Result array
+	 */
+	function term_query( $options, $taxonomy ) {
+		$defaults = array(
+			'fields'                 => 'ids', // retrieve only ids
+			'taxonomy'				           => $taxonomy,
+			'hide_empty'			          => 0,
+			'count'					             => true,
+		);
+		$options = wp_parse_args( $options, $defaults );
+
+		$term_query = new WP_Term_Query();
+
+		/**
+		 * This action runs before the query happens.
+		 *
+		 * @since 5.5
+		 * @since 5.6 added $term_query param.
+		 *
+		 * @param \WP_Query $term_query Query object.
+		 */
+		do_action( 'bd_before_term_query', $term_query );
+
+		$terms = $term_query->query( $options );
+
+		/**
+		 * This action runs after the query happens.
+		 *
+		 * @since 5.5
+		 * @since 5.6 added $term_query param.
+		 *
+		 * @param \WP_Query $term_query Query object.
+		 */
+		do_action( 'bd_after_term_query', $term_query );
+
+		return $terms;
 	}
 }

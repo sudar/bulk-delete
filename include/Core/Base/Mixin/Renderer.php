@@ -135,14 +135,14 @@ abstract class Renderer extends Fetcher {
 		?>
 		<h4><?php _e( 'Delete terms that', 'bulk-delete' ); ?></h4>
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_opt">
-		<?php if( $this->field_slug == 'by_name' ){ ?>
+		<?php if( $this->field_slug == 'terms_by_name' ){ ?>
 			<option value="equal_to">equal to</option>
 			<option value="not_equal_to">not equal to</option>
 			<option value="starts">starts</option>
 			<option value="ends">ends</option>
 			<option value="contains">contains</option>
 			<option value="non_contains">non contains</option>
-		<?php }elseif( $this->field_slug == 'by_post_count' ){ ?>
+		<?php }elseif( $this->field_slug == 'terms_by_post_count' ){ ?>
 			<option value="equal_to">equal to</option>
 			<option value="not_equal_to">not equal to</option>
 			<option value="less_than">less than</option>

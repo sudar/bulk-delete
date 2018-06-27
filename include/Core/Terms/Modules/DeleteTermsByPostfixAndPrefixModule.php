@@ -14,14 +14,14 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	protected function initialize() {
 		$this->item_type     = 'terms';
-		$this->field_slug    = 'by_name';
-		$this->meta_box_slug = 'bd_by_name';
+		$this->field_slug    = 'terms_by_name';
+		$this->meta_box_slug = 'bd_delete_terms_by_name';
 		$this->action        = 'delete_terms_by_name';
-		$this->cron_hook     = 'do-bulk-delete-term-name';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sc';
+		$this->cron_hook     = 'do-bulk-delete-term-by-name';
+		$this->scheduler_url = '';
 		$this->messages      = array(
-			'box_label'  => __( 'By Terms by Name', 'bulk-delete' ),
-			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'box_label'  => __( 'Delete Terms by Name', 'bulk-delete' ),
+			'scheduled'  => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
 			'cron_label' => __( 'Delete Terms By Name', 'bulk-delete' ),
 		);
 	}
@@ -32,7 +32,7 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	public function render() {
 		?>
 		<!-- Category Start-->
-		<h4><?php _e( 'Select the taxonomy from which you want to delete', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the taxonomy from which you want to delete terms', 'bulk-delete' ); ?></h4>
 		<fieldset class="options">
 			<table class="optiontable">
 				<?php $this->render_taxonomy_dropdown(); ?>
@@ -40,12 +40,6 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 
 			<table class="optiontable">
 				<?php $this->render_term_options(); ?>
-			</table>
-
-			<table class="optiontable">
-				<?php
-				// $this->render_have_post_settings(); // TODO
-				?>
 			</table>
 
 		</fieldset>
@@ -98,27 +92,27 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 				break;
 
 			case 'not_equal_to':
-				$term_ids         = bd_term_query( array( 'name__like' => $term_text ), $options['taxonomy'] );
+				$term_ids         = $this->term_query( array( 'name__like' => $term_text ), $options['taxonomy'] );
 				$query['exclude'] = $term_ids;
 				break;
 
 			case 'starts':
-				$term_ids            = $this->bd_term_starts( $term_text , $options );
+				$term_ids            = $this->term_starts( $term_text , $options );
 				$query['include']    = $term_ids;
 				break;
 
 			case 'ends':
-				$term_ids            = $this->bd_term_ends( $term_text , $options );
+				$term_ids            = $this->term_ends( $term_text , $options );
 				$query['include']    = $term_ids;
 				break;
 
 			case 'contains':
-				$term_ids            = $this->bd_term_contains( $term_text , $options );
+				$term_ids            = $this->term_contains( $term_text , $options );
 				$query['include']    = $term_ids;
 				break;
 
 			case 'non_contains':
-				$term_ids         = bd_term_query( array( 'name__like' => "%$term_text%" ), $options['taxonomy'] );
+				$term_ids         = $this->term_query( array( 'name__like' => "%$term_text%" ), $options['taxonomy'] );
 				$query['exclude'] = $term_ids;
 				break;
 		}

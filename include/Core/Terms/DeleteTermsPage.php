@@ -45,7 +45,7 @@ class DeleteTermsPage extends BaseDeletePage {
 		$overview_tab = array(
 			'title'    => __( 'Overview', 'bulk-delete' ),
 			'id'       => 'overview_tab',
-			'content'  => '<p>' . __( 'This screen contains different modules that allows you to delete posts or schedule them for deletion.', 'bulk-delete' ) . '</p>',
+			'content'  => '<p>' . __( 'This screen contains different modules that allows you to delete terms from taxonomies', 'bulk-delete' ) . '</p>',
 			'callback' => false,
 		);
 

@@ -14,14 +14,14 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 class DeleteTermsByPostCountModule extends TermsModule {
 	protected function initialize() {
 		$this->item_type     = 'terms';
-		$this->field_slug    = 'by_post_count';
-		$this->meta_box_slug = 'bd_by_post_count';
+		$this->field_slug    = 'terms_by_post_count';
+		$this->meta_box_slug = 'bd_delete_terms_by_post_count';
 		$this->action        = 'delete_terms_by_post_count';
-		$this->cron_hook     = 'do-bulk-delete-term-post-count';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sc';
+		$this->cron_hook     = 'do-bulk-delete-term-by-post-count';
+		$this->scheduler_url = '';
 		$this->messages      = array(
-			'box_label'  => __( 'By Terms by Post Count', 'bulk-delete' ),
-			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'box_label'  => __( 'Delete Terms by Post Count', 'bulk-delete' ),
+			'scheduled'  => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
 			'cron_label' => __( 'Delete Terms By Post Count', 'bulk-delete' ),
 		);
 	}
@@ -32,7 +32,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	public function render() {
 		?>
 		<!-- Category Start-->
-		<h4><?php _e( 'Select the taxonomy from which you want to delete', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the taxonomy from which you want to delete terms', 'bulk-delete' ); ?></h4>
 		<fieldset class="options">
 			<table class="optiontable">
 				<?php $this->render_taxonomy_dropdown(); ?>
@@ -97,7 +97,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 			$query['taxonomy'] = $taxonomy;
 		}
 
-		$term_ids            = $this->bd_term_count_query( $options );
+		$term_ids            = $this->term_count_query( $options );
 		$query['include']    = $term_ids;
 
 		return $query;

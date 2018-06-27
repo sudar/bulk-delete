@@ -482,8 +482,8 @@ final class BulkDelete {
 	private function get_delete_terms_admin_page() {
 		$terms_page = new DeleteTermsPage( $this->get_plugin_file() );
 
-		$terms_page->add_metabox( new DeleteTermsByPostfixAndPrefixModule() );
-		$terms_page->add_metabox( new DeleteTermsByPostCountModule() );
+		$terms_page->add_module( new DeleteTermsByPostfixAndPrefixModule() );
+		$terms_page->add_module( new DeleteTermsByPostCountModule() );
 
 		return $terms_page;
 	}
