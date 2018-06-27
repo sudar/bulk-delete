@@ -199,6 +199,28 @@ function bd_get_post_types() {
 }
 
 /**
+ * Render Post type dropdown.
+ *
+ * @param string $field_slug Field slug.
+ */
+function bd_render_post_type_dropdown( $field_slug ) {
+	$types = bd_get_post_types();
+	?>
+	<tr>
+		<td scope="row" >
+			<select class="select2" name="smbd_<?php echo esc_attr( $field_slug ); ?>_post_type">
+				<?php foreach ( $types as $type ) : ?>
+					<option value="<?php echo esc_attr( $type->name ); ?>">
+						<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<?php
+}
+
+/**
  * Render the post status filter.
  *
  * @since 5.6.0

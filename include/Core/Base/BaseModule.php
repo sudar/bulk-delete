@@ -56,7 +56,7 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @var string
 	 */
-	protected $action;
+	protected $action = '';
 
 	/**
 	 * Hook for scheduler.
@@ -152,8 +152,11 @@ abstract class BaseModule extends Renderer {
 
 		add_action( "add_meta_boxes_{$this->page_hook_suffix}", array( $this, 'setup_metabox' ) );
 
-		add_action( 'bd_' . $this->action, array( $this, 'process' ) );
 		add_filter( 'bd_javascript_array', array( $this, 'filter_js_array' ) );
+
+		if ( ! empty( $this->action ) ) {
+			add_action( 'bd_' . $this->action, array( $this, 'process' ) );
+		}
 	}
 
 	/**
