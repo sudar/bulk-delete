@@ -400,79 +400,75 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Create posts from a custom registered post status
-	 */
-	public function create_posts_by_custom_status( $post_status = "custom", $count = 10 ) {
-		$this->factory->post->create_many( $count, array(
-			'post_status' => $post_status,
-		) );
-	}
-
-	/**
 	 * Test delete posts from a single custom post status.
 	 */
 	public function test_that_posts_from_single_custom_post_status() {
+		register_post_status( 'custom_post_status' );
+		$this->factory->post->create_many( 50, array(
+			'post_status' => 'custom_post_status',
+		) );
 
-		register_post_status( 'custom' );
-		$this->create_posts_by_custom_status( 'custom', 50 );
-		
-		$custom_posts = $this->get_posts_by_status( 'custom' );
-		$this->assertEquals( 50, count( $custom_posts ) );
+		$posts_in_custom_post_status = $this->get_posts_by_status( 'custom_post_status' );
+		$this->assertEquals( 50, count( $posts_in_custom_post_status ) );
 
 		$delete_options = array(
-			'post_status'  => array( 'custom' ),
+			'post_status'  => array( 'custom_post_status' ),
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
 		);
 
 		$posts_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 50, $posts_deleted );		
+		$this->assertEquals( 50, $posts_deleted );
 	}
 
 	/**
-	 * Test delete posts from a two custom post status.
+	 * Test delete posts from two custom post status.
 	 */
-	public function test_that_posts_from_two_custom_post_status() {
+	public function test_that_posts_from_two_custom_post_status_can_be_trashed() {
+		register_post_status( 'custom_post_status_1' );
+		$this->factory->post->create_many( 25, array(
+			'post_status' => 'custom_post_status_1',
+		) );
 
-		register_post_status( 'customa' );
-		$this->create_posts_by_custom_status( 'customa', 25 );
-		
-		$customa_posts = $this->get_posts_by_status( 'customa' );
-		$this->assertEquals( 25, count( $customa_posts ) );
+		$posts_in_custom_status_1 = $this->get_posts_by_status( 'custom_post_status_1' );
+		$this->assertEquals( 25, count( $posts_in_custom_status_1 ) );
 
-		register_post_status( 'customb' );
-		$this->create_posts_by_custom_status( 'customb', 25 );
-		
-		$customb_posts = $this->get_posts_by_status( 'customb' );
-		$this->assertEquals( 25, count( $customb_posts ) );
+		register_post_status( 'custom_post_status_2' );
+		$this->factory->post->create_many( 25, array(
+			'post_status' => 'custom_post_status_2',
+		) );
+
+		$posts_in_custom_status_2 = $this->get_posts_by_status( 'custom_post_status_2' );
+		$this->assertEquals( 25, count( $posts_in_custom_status_2 ) );
 
 		$delete_options = array(
-			'post_status'  => array( 'customa', 'customb' ),
+			'post_status'  => array( 'custom_post_status_1', 'custom_post_status_2' ),
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
 		);
 
 		$posts_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 50, $posts_deleted );		
+		$this->assertEquals( 50, $posts_deleted );
 	}
 
 	/**
 	 * Test delete posts from a one custom post status and one built-in post status.
 	 */
-	public function test_that_posts_from_two_various_post_status() {
-
+	public function test_that_posts_from_builtin_status_and_custom_status_can_be_trashed_together() {
 		register_post_status( 'custom' );
-		$this->create_posts_by_custom_status( 'custom', 25 );
-		
-		$custom_posts = $this->get_posts_by_status( 'custom' );
-		$this->assertEquals( 25, count( $custom_posts ) );
+		$this->factory->post->create_many( 25, array(
+			'post_status' => 'custom',
+		) );
+
+		$posts_in_custom_post_status = $this->get_posts_by_status( 'custom' );
+		$this->assertEquals( 25, count( $posts_in_custom_post_status ) );
 
 		$published_posts = $this->factory->post->create_many( 25, array(
-			'post_type'   => 'post',
 			'post_status' => 'publish',
 		) );
+		$this->assertEquals( 25, count( $published_posts ) );
 
 		$delete_options = array(
 			'post_status'  => array( 'custom', 'publish' ),
@@ -482,6 +478,6 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		);
 
 		$posts_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 50, $posts_deleted );		
+		$this->assertEquals( 50, $posts_deleted );
 	}
 }
