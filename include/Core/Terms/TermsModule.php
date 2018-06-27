@@ -209,7 +209,7 @@ abstract class TermsModule extends BaseModule {
 	 *
 	 * @return array Result array
 	 */
-	function term_query( $options, $taxonomy ) {
+	public function term_query( $options, $taxonomy ) {
 		$defaults = array(
 			'fields'                 => 'ids', // retrieve only ids
 			'taxonomy'				           => $taxonomy,
