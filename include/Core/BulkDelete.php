@@ -8,6 +8,7 @@ use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteCommentMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeletePostMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteUserMetaModule;
+use BulkWP\BulkDelete\Core\Metas\Modules\DeleteTermMetaModule;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
@@ -358,6 +359,7 @@ final class BulkDelete {
 		$metas_page->add_metabox( new DeletePostMetaModule() );
 		$metas_page->add_metabox( new DeleteUserMetaModule() );
 		$metas_page->add_metabox( new DeleteCommentMetaModule() );
+		$metas_page->add_metabox( new DeleteTermMetaModule() );
 
 		return $metas_page;
 	}
