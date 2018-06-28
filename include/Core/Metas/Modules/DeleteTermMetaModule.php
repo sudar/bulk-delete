@@ -33,17 +33,17 @@ class DeleteTermMetaModule extends MetasModule {
 		<!-- Post Meta box start-->
         <fieldset class="options">
 <?php
-		$types = $this->get_post_types();
+		$taxonomies = $this->get_taxonomies();
 ?>
-        <h4><?php _e( 'Select the post type whose post meta fields you want to delete', 'bulk-delete' ); ?></h4>
+        <h4><?php _e( 'Select the taxonomy whose term meta fields you want to delete', 'bulk-delete' ); ?></h4>
         <table class="optiontable">
 <?php
-		foreach ( $types as $type => $post_data ) {
+		foreach ( $taxonomies as $taxonomy ) {
 ?>
             <tr>
                 <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_type" value = "<?php echo $type; ?>" type = "radio" class = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_type" <?php checked( $type, 'post' ); ?>>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_type"><?php echo $type; ?> </label>
+                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" value = "<?php echo $taxonomy; ?>" type = "radio" class = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy">
+                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy"><?php echo $taxonomy; ?> </label>
                 </td>
             </tr>
 <?php
@@ -51,44 +51,13 @@ class DeleteTermMetaModule extends MetasModule {
 ?>
         </table>
 
-        <h4><?php _e( 'Choose your post meta field settings', 'bulk-delete' ); ?></h4>
+        <h4><?php _e( 'Choose your term wany to delete', 'bulk-delete' ); ?></h4>
         <table class="optiontable">
             <tr>
                 <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="use_key" type="radio" checked>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name only', 'bulk-delete' ); ?></label>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smdb_<?php echo esc_attr( $this->field_slug ); ?>_use_key_compare" value="use_key_compare" type="radio" disabled>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name prefix or postfix', 'bulk-delete' ); ?></label>
-                    <span class="bd-pm-pro" style="color:red; vertical-align: middle;">
-                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
-                    </span>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="use_value" type="radio" disabled>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name and value', 'bulk-delete' ); ?></label>
-                    <span class="bd-pm-pro" style="color:red; vertical-align: middle;">
-                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
-                    </span>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key"><?php _e( 'Post Meta Key ', 'bulk-delete' ); ?></label>
-                    <select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key_prefix_postfix" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key_prefix_postfix" style="display: none;">
-                        <option value="starts_with">starts with</option>
-                        <option value="contains">contains</option>
-                        <option value="ends_with">ends with</option>
+                    <select class="select2 select2-terms"> name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term">
+                        <option>Choose Terms</option>
                     </select>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
                 </td>
             </tr>
         </table>

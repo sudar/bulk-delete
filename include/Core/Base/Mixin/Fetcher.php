@@ -22,6 +22,10 @@ abstract class Fetcher {
 		return bd_get_post_types();
 	}
 
+	protected function get_taxonomies() {
+		return bd_get_taxonomies();
+	}
+
 	/**
 	 * Get the list of post statuses.
 	 *

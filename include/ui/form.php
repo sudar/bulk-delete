@@ -222,6 +222,12 @@ function bd_get_post_types() {
 	return array_merge( $builtin_types, $custom_types );
 }
 
+function bd_get_taxonomies(){
+	$taxonomies = get_taxonomies();
+
+	return $taxonomies;
+}
+
 /**
  * Render the post status filter.
  *
