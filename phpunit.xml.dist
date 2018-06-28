@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <phpunit
 	bootstrap="tests/wp-unit/bootstrap.php"
-	printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
 	backupGlobals="false"
 	colors="true"
 	convertErrorsToExceptions="true"

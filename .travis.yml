@@ -39,7 +39,6 @@ install:
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
       bash bin/install-wp-test-tools.sh
-      composer require --dev codedungeon/phpunit-result-printer
     else
       # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x
       composer install

@@ -35,17 +35,17 @@
     "time-grunt": "^1.4.0"
   },
   "scripts": {
-    "phpunit": "vendor/bin/phpunit",
-    "phpdbg": "phpdbg -qrr vendor/bin/phpunit",
-    "test:unit": "npm run phpunit",
-    "test:unit:coverage": "npm run phpdbg -- --coverage-php code-coverage/unit.cov",
-    "test:mock": "npm run phpunit -- --configuration phpunit-wp-mock.xml.dist",
-    "test:mock:coverage": "npm run phpdbg --  --configuration phpunit-wp-mock.xml.dist --coverage-php code-coverage/mock.cov",
-    "test:php": "npm run test:mock && npm run test:unit",
-    "test:php:coverage": "rm -rf code-coverage && mkdir code-coverage && npm run test:mock:coverage && npm run test:unit:coverage",
-    "phpcov": "vendor/bin/phpcov merge code-coverage/",
-    "test:php:coverage:html": "npm run test:php:coverage && npm run phpcov -- --html code-coverage/html/",
-    "test:php:coverage:cover": "npm run test:php:coverage && npm run phpcov -- --clover=code-coverage/bulk-delete.clover",
+    "test:unit": "vendor/bin/phpunit",
+    "unit": "npm run test:unit -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
+    "unit-c": "npm run unit -- --coverage-php code-coverage/unit.cov",
+    "test:mock": "npm run test:unit -- --configuration phpunit-wp-mock.xml.dist",
+    "mock": "npm run test:mock -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
+    "mock-c": "npm run mock -- --coverage-php code-coverage/mock.cov",
+    "test": "npm run test:mock && npm run test:unit",
+    "test:coverage": "mkdir code-coverage && npm run mock-c && npm run unit-c",
+    "test:merge-coverage": "vendor/bin/phpcov merge code-coverage/",
+    "test:html-coverage": "npm run test:coverage && npm run test:merge-coverage -- --html code-coverage/html/",
+    "test:cover-coverage": "npm run test:coverage && npm run test:merge-coverage -- --clover=code-coverage/bulk-delete.clover",
     "phpcs": "vendor/bin/phpcs -p *.php include/ --standard=PHPCompatibility --runtime-set testVersion 5.3-"
   },
   "private": true
