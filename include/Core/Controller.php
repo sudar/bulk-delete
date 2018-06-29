@@ -27,6 +27,7 @@ class Controller {
 		add_filter( 'bd_get_action_nonce_check', array( $this, 'verify_get_request_nonce' ), 10, 2 );
 
 		add_action( 'wp_ajax_bd_load_taxonomy_term', array( $this, 'load_taxonomy_term' ) );
+		add_action( 'wp_ajax_bd_load_taxonomy_term_meta', array( $this, 'load_taxonomy_term_meta' ) );
 
 		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
 		add_filter( 'plugin_action_links', array( $this, 'filter_plugin_action_links' ), 10, 2 );
@@ -156,6 +157,32 @@ class Controller {
 				$response[] = array(
 					absint( $term->term_id ),
 					$term->name . ' (' . $term->count . __( ' Posts', 'bulk-delete' ) . ')',
+				);
+			}
+		}
+
+		echo wp_json_encode( $response );
+		die;
+	}
+
+
+	/**
+	 * Ajax call back function for getting taxonomies meta to load select2 options.
+	 *
+	 * @since 6.0.1
+	 */
+	public function load_taxonomy_term_meta() {
+		$response = array();
+
+		$term_id = sanitize_text_field( $_GET['term_id'] );
+
+		$term_vals = get_term_meta($term_id);
+
+		if ( ! empty( $term_vals ) && ! is_wp_error( $term_vals ) ) {
+			foreach ( $term_vals as $key => $value ) {
+				$response[] = array(
+					$key,
+					$value,
 				);
 			}
 		}
