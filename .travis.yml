@@ -96,4 +96,6 @@ after_script:
     if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
       wget https://scrutinizer-ci.com/ocular.phar
       php ocular.phar code-coverage:upload --format=php-clover code-coverage/bulk-delete.clover
+
+      php vendor/bin/codacycoverage clover code-coverage/bulk-delete.clover
     fi
