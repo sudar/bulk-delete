@@ -37,8 +37,6 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		// call our method.
 		$delete_options = array(
 			'urls'         => array( $url ),
-			'restrict'     => false,
-			'limit_to'     => false,
 			'force_delete' => false,
 		);
 
@@ -57,8 +55,6 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		// call our method.
 		$delete_options = array(
 			'urls'         => array( $url ),
-			'restrict'     => false,
-			'limit_to'     => false,
 			'force_delete' => false,
 		);
 
@@ -80,8 +76,6 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		// call our method.
 		$delete_options = array(
 			'urls'         => array( $valid_url, $invalid_url ),
-			'restrict'     => false,
-			'limit_to'     => false,
 			'force_delete' => false,
 		);
 
@@ -104,8 +98,6 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		// call our method.
 		$delete_options = array(
 			'urls'         => array( $url1, $url2 ),
-			'restrict'     => false,
-			'limit_to'     => false,
 			'force_delete' => false,
 		);
 
@@ -130,8 +122,6 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		// call our method.
 		$delete_options = array(
 			'urls'         => array( $url1, $url2, $url3 ),
-			'restrict'     => false,
-			'limit_to'     => false,
 			'force_delete' => true,
 		);
 
