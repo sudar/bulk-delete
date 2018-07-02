@@ -69,7 +69,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test to trash post by one invalid URL
 	 */
-	public function test_to_delete_one_invalid_url() {
+	public function test_to_trash_one_invalid_url() {
 		$url = 'http://invalidurl.com/';
 
 		// call our method.
@@ -136,7 +136,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		// call our method.
 		$delete_options = array(
 			'urls'         => array( $valid_url, $invalid_url ),
-			'force_delete' => tuue,
+			'force_delete' => true,
 		);
 
 		$posts_deleted = $this->module->delete( $delete_options );
