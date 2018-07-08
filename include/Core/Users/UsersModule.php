@@ -149,8 +149,8 @@ abstract class UsersModule extends BaseModule {
 	 * @since  5.5.2
 	 * @access protected
 	 *
-	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User object that needs to be deleted.
+	 * @param array    $delete_options Delete Options.
+	 * @param \WP_User $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
@@ -167,8 +167,8 @@ abstract class UsersModule extends BaseModule {
 	 * @since  5.5.3
 	 * @access protected
 	 *
-	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User object that needs to be deleted.
+	 * @param array    $delete_options Delete Options.
+	 * @param \WP_User $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
@@ -193,8 +193,8 @@ abstract class UsersModule extends BaseModule {
 	 * @since  5.5.2
 	 * @access protected
 	 *
-	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User object that needs to be deleted.
+	 * @param array    $delete_options Delete Options.
+	 * @param \WP_User $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
@@ -303,13 +303,13 @@ abstract class UsersModule extends BaseModule {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param $name Name of post type checkboxes.
+	 * @param string $name Name of post type checkboxes.
 	 */
 	protected function render_post_type_checkboxes( $name ) {
 		$post_types = bd_get_post_types();
 		?>
 
-		<?php foreach( $post_types as $post_type ) : ?>
+		<?php foreach ( $post_types as $post_type ) : ?>
 
 		<tr>
 			<td scope="row">
