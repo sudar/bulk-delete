@@ -76,7 +76,7 @@ abstract class UsersModule extends BaseModule {
 	 */
 	protected function delete_users_from_query( $query, $options ) {
 		$count = 0;
-		$users = get_users( $query );
+		$users = $this->query_users( $query );
 
 		if ( ! function_exists( 'wp_delete_user' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
@@ -102,6 +102,45 @@ abstract class UsersModule extends BaseModule {
 		}
 
 		return $count;
+	}
+
+	/**
+	 * Query users using options.
+	 *
+	 * @param array $options Query options.
+	 *
+	 * @return \WP_User[] List of users.
+	 */
+	protected function query_users( $options ) {
+		$defaults = array(
+			'count_total' => false,
+		);
+
+		$options = wp_parse_args( $options, $defaults );
+
+		$wp_user_query = new \WP_User_Query( $options );
+
+		/**
+		 * This action before the query happens.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param \WP_User_Query $wp_user_query Query object.
+		 */
+		do_action( 'bd_before_query', $wp_user_query );
+
+		$users = (array) $wp_user_query->get_results();
+
+		/**
+		 * This action runs after the query happens.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param \WP_User_Query $wp_user_query Query object.
+		 */
+		do_action( 'bd_after_query', $wp_user_query );
+
+		return $users;
 	}
 
 	/**
