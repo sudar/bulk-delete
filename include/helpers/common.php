@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  *
  * @param array  $array   Array from which value has to be retrieved.
  * @param string $key     Key, whose value to be retrieved.
- * @param string $default Optional. Default value to be returned, if the key is not found.
+ * @param mixed  $default Optional. Default value to be returned, if the key is not found.
  *
  * @return mixed Value if key is present, else the default value.
  */
