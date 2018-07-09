@@ -99,20 +99,179 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 0, count( $posts_in_cat1 ) );
 
+	}
+
+	public function test_that_trash_posts_from_single_taxonomy_term() {
+		
 		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term', 10 );
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'post',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term' ),
+			'restrict'      => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 10, $posts_deleted );
+
+		// Assert that category has no post.
 		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
-		$this->assertEquals( 10, count( $posts ) );
+		$this->assertEquals( 0, count( $posts ) );
+
+	}
+
+	public function test_that_delete_posts_from_single_taxonomy_term() {
+		
+		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term', 10 );
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'post',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term' ),
+			'restrict'      => false,
+			'force_delete'  => true,
+			'limit_to'      => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 10, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$this->assertEquals( 0, count( $posts ) );
+
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
+
+	}
+
+	public function test_that_trash_posts_from_multiple_taxonomy_term() {
+		
+		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term 1', 10 );
+		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term 2', 10 );
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'post',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term 1', 'Custom Term 2' ),
+			'restrict'      => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 20, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts1 = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term 1" );
+		$this->assertEquals( 0, count( $posts1 ) );
+
+		$posts2 = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term 2" );
+		$this->assertEquals( 0, count( $posts2 ) );
+
+	}
+
+	public function test_that_delete_posts_from_multiple_taxonomy_term() {
+		
+		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term 1', 10 );
+		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term 2', 10 );
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'post',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term 1', 'Custom Term 2' ),
+			'restrict'      => false,
+			'force_delete'  => true,
+			'limit_to'      => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 20, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts1 = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term 1" );
+		$this->assertEquals( 0, count( $posts1 ) );
+
+		$posts2 = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term 2" );
+		$this->assertEquals( 0, count( $posts2 ) );
+
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
+
+	}
+
+	public function test_that_trash_custom_posts_from_single_taxonomy_term() {
+		
+		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term', 10, 'book' );
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'book',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term' ),
+			'restrict'      => false,
+			'limit_to'      => false,
+			'force_delete'  => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 10, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term", 'book' );
+		$this->assertEquals( 0, count( $posts ) );
+
+	}
+
+	public function test_that_delete_custom_posts_from_single_taxonomy_term() {
+		
+		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term', 10, 'book' );
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'book',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term' ),
+			'restrict'      => false,
+			'limit_to'      => false,
+			'force_delete'  => true,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 10, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term", 'book' );
+		$this->assertEquals( 0, count( $posts ) );
+
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
+
 	}
 
 	/**
 	 * Helper function to create posts with custom taxonomy
 	 */
-	public function create_posts_with_custom_taxonomy( $taxonomy = "custom", $term = "Custom Term", $count = 10) {
+	public function create_posts_with_custom_taxonomy( $taxonomy = "custom", $term = "Custom Term", $count = 10, $post_type = "post" ) {
 
 		register_taxonomy( $taxonomy, 'post' );
 		$t = wp_insert_term( $term, $taxonomy );
 
 		$post_data = array(
+			'post_type'     => $post_type,
 			'post_title'    => 'Sample Post',
 			'post_status'   => 'publish',
 		);
@@ -120,9 +279,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		for( $i = 1; $i <= $count; $i++ ){
 			$post_id  = wp_insert_post($post_data);
 			$termObj  = get_term_by( 'id', array( $t['term_id'] ), $taxonomy );
-			$opt = wp_set_object_terms($post_id, $termObj, $taxonomy);
-
-			print_r($opt);
+			$opt = wp_set_object_terms($post_id, array( $t['term_id'] ), $taxonomy);
 		}
 
 	}
@@ -130,18 +287,18 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Helper function to get posts by custom taxonomy
 	 */
-	public function get_posts_by_custom_taxonomy( $taxonomy = "custom", $term = "Custom Term" ) {
+	public function get_posts_by_custom_taxonomy( $taxonomy = "custom", $term = "Custom Term", $post_type = "post" ) {
 
 		$args = array(
-			'post_type' => 'post',
+			'post_type' => $post_type,
 			'numberposts' => -1,
-			// 'tax_query' => array(
-			// 	array(
-			// 		'taxonomy' => $taxonomy,
-			// 		'field' => 'name',
-			// 		'terms' => $term
-			// 	)
-			// )
+			'tax_query' => array(
+				array(
+					'taxonomy' => $taxonomy,
+					'field' => 'name',
+					'terms' => $term
+				)
+			)
 		);
 
 		$posts = get_posts( $args );
