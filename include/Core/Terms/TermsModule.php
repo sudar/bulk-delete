@@ -90,17 +90,16 @@ abstract class TermsModule extends BaseModule {
 	 */
 	protected function delete_terms_by_id( $term_ids, $options ) {
 		$count = 0;
+
 		foreach ( $term_ids as $term_id ) {
 			$term = get_term( $term_id, $options['taxonomy'] );
-			if( isset( $options['no_posts'] ) ){
-				if( $term->count == 0 ){
-					wp_delete_term( $term_id, $options['taxonomy'] );
-					$count++;
-				}
-			}else{
-				wp_delete_term( $term_id, $options['taxonomy'] );
-				$count++;
+
+			if ( isset( $options['no_posts'] ) && $term->count > 0 ) {
+				continue;
 			}
+
+			wp_delete_term( $term_id, $options['taxonomy'] );
+			$count ++;
 		}
 
 		return $count;
