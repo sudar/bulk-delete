@@ -89,8 +89,6 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	protected function build_query( $options ) {
 		$query      = array();
 		$taxonomy   = $options['taxonomy'];
-		$post_type  = $options['post_type'];
-		$term_opt   = $options['term_opt'];
 		$term_text  = $options['term_text'];
 
 		if( isset( $term_text ) ){
