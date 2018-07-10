@@ -94,6 +94,10 @@ abstract class TermsModule extends BaseModule {
 		foreach ( $term_ids as $term_id ) {
 			$term = get_term( $term_id, $options['taxonomy'] );
 
+			if( is_wp_error($term) ){
+				continue;
+			}
+
 			if ( isset( $options['no_posts'] ) && $term->count > 0 ) {
 				continue;
 			}
