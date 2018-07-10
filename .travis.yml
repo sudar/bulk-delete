@@ -26,16 +26,10 @@ matrix:
       env: WP_VERSION=trunk
     - php: 7.1
       env: WP_VERSION=latest
-    - php: 7.0
-      env: WP_VERSION=latest
     - php: 5.6
       env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 5.6 also run Multisite
-    - php: 5.5
-      env: WP_VERSION=latest
-    - php: 5.4
-      env: WP_VERSION=latest
     - php: 5.3
-      env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 5.3 also run Multisite
+      env: WP_VERSION=latest
       dist: precise
   allow_failures:
     - php: nightly
@@ -43,7 +37,7 @@ matrix:
 
 install:
   - |
-    if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]] || [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
+    if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
       bash bin/install-wp-test-tools.sh
     else
       # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x
@@ -58,8 +52,8 @@ install:
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - |
-    if [[ $TRAVIS_PHP_VERSION != 7.1 ]]; then
-      # Disable x-debug to increase performance. x-debug is enabled only for PHP 7.1 to run code-coverage reports.
+    if [[ $TRAVIS_PHP_VERSION != 7.2 ]]; then
+      # Disable x-debug to increase performance. x-debug is enabled only for PHP 7.2 to run code-coverage reports.
       if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
         phpenv config-rm xdebug.ini
       else
@@ -79,25 +73,29 @@ script:
       composer validate --no-check-all --strict
 
       # Validate that grunt works
-      grunt
       grunt vendor
+      grunt
 
       # Check php syntax
       npm run phpcs
+    fi
 
-      # Run code coverage for PHP 7.1 alone
+    if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
+      # Run code coverage for PHP 7.2 alone
       npm run test:cover-coverage
     else
-      phpunit
-
       if [[ ! -z "$WP_MULTISITE" ]] ; then
         WP_MULTISITE=1 phpunit
+      else
+        phpunit
       fi
     fi
 
 after_script:
   - |
-    if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+    if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
       wget https://scrutinizer-ci.com/ocular.phar
       php ocular.phar code-coverage:upload --format=php-clover code-coverage/bulk-delete.clover
+
+      php vendor/bin/codacycoverage clover code-coverage/bulk-delete.clover
     fi

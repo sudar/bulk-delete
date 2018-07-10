@@ -76,7 +76,7 @@ abstract class UsersModule extends BaseModule {
 	 */
 	protected function delete_users_from_query( $query, $options ) {
 		$count = 0;
-		$users = get_users( $query );
+		$users = $this->query_users( $query );
 
 		if ( ! function_exists( 'wp_delete_user' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
@@ -105,13 +105,52 @@ abstract class UsersModule extends BaseModule {
 	}
 
 	/**
+	 * Query users using options.
+	 *
+	 * @param array $options Query options.
+	 *
+	 * @return \WP_User[] List of users.
+	 */
+	protected function query_users( $options ) {
+		$defaults = array(
+			'count_total' => false,
+		);
+
+		$options = wp_parse_args( $options, $defaults );
+
+		$wp_user_query = new \WP_User_Query( $options );
+
+		/**
+		 * This action before the query happens.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param \WP_User_Query $wp_user_query Query object.
+		 */
+		do_action( 'bd_before_query', $wp_user_query );
+
+		$users = (array) $wp_user_query->get_results();
+
+		/**
+		 * This action runs after the query happens.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param \WP_User_Query $wp_user_query Query object.
+		 */
+		do_action( 'bd_after_query', $wp_user_query );
+
+		return $users;
+	}
+
+	/**
 	 * Can the user be deleted based on the 'post count' option?
 	 *
 	 * @since  5.5.2
 	 * @access protected
 	 *
-	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User object that needs to be deleted.
+	 * @param array    $delete_options Delete Options.
+	 * @param \WP_User $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
@@ -128,8 +167,8 @@ abstract class UsersModule extends BaseModule {
 	 * @since  5.5.3
 	 * @access protected
 	 *
-	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User object that needs to be deleted.
+	 * @param array    $delete_options Delete Options.
+	 * @param \WP_User $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
@@ -154,8 +193,8 @@ abstract class UsersModule extends BaseModule {
 	 * @since  5.5.2
 	 * @access protected
 	 *
-	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User object that needs to be deleted.
+	 * @param array    $delete_options Delete Options.
+	 * @param \WP_User $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
@@ -264,13 +303,13 @@ abstract class UsersModule extends BaseModule {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param $name Name of post type checkboxes.
+	 * @param string $name Name of post type checkboxes.
 	 */
 	protected function render_post_type_checkboxes( $name ) {
 		$post_types = bd_get_post_types();
 		?>
 
-		<?php foreach( $post_types as $post_type ) : ?>
+		<?php foreach ( $post_types as $post_type ) : ?>
 
 		<tr>
 			<td scope="row">

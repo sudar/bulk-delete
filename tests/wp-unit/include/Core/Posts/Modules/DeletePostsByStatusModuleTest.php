@@ -398,4 +398,86 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 50, count( $trash_posts ) );
 	}
+
+	/**
+	 * Test delete posts from a single custom post status.
+	 */
+	public function test_that_posts_from_single_custom_post_status() {
+		register_post_status( 'custom_post_status' );
+		$this->factory->post->create_many( 50, array(
+			'post_status' => 'custom_post_status',
+		) );
+
+		$posts_in_custom_post_status = $this->get_posts_by_status( 'custom_post_status' );
+		$this->assertEquals( 50, count( $posts_in_custom_post_status ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'custom_post_status' ),
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => false,
+		);
+
+		$posts_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 50, $posts_deleted );
+	}
+
+	/**
+	 * Test delete posts from two custom post status.
+	 */
+	public function test_that_posts_from_two_custom_post_status_can_be_trashed() {
+		register_post_status( 'custom_post_status_1' );
+		$this->factory->post->create_many( 25, array(
+			'post_status' => 'custom_post_status_1',
+		) );
+
+		$posts_in_custom_status_1 = $this->get_posts_by_status( 'custom_post_status_1' );
+		$this->assertEquals( 25, count( $posts_in_custom_status_1 ) );
+
+		register_post_status( 'custom_post_status_2' );
+		$this->factory->post->create_many( 25, array(
+			'post_status' => 'custom_post_status_2',
+		) );
+
+		$posts_in_custom_status_2 = $this->get_posts_by_status( 'custom_post_status_2' );
+		$this->assertEquals( 25, count( $posts_in_custom_status_2 ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'custom_post_status_1', 'custom_post_status_2' ),
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => false,
+		);
+
+		$posts_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 50, $posts_deleted );
+	}
+
+	/**
+	 * Test delete posts from a one custom post status and one built-in post status.
+	 */
+	public function test_that_posts_from_builtin_status_and_custom_status_can_be_trashed_together() {
+		register_post_status( 'custom' );
+		$this->factory->post->create_many( 25, array(
+			'post_status' => 'custom',
+		) );
+
+		$posts_in_custom_post_status = $this->get_posts_by_status( 'custom' );
+		$this->assertEquals( 25, count( $posts_in_custom_post_status ) );
+
+		$published_posts = $this->factory->post->create_many( 25, array(
+			'post_status' => 'publish',
+		) );
+		$this->assertEquals( 25, count( $published_posts ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'custom', 'publish' ),
+			'limit_to'     => -1,
+			'restrict'     => false,
+			'force_delete' => false,
+		);
+
+		$posts_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 50, $posts_deleted );
+	}
 }

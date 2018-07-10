@@ -11,6 +11,7 @@ class BulkDeleteTest extends WPMockTestCase {
 	protected $test_files = [
 		'include/Core/BulkDelete.php',
 		'include/Core/Controller.php',
+		'include/Core/Addon/Upseller.php',
 	];
 
 	function test_it_is_singleton() {
