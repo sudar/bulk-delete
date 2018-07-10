@@ -230,20 +230,20 @@ abstract class TermsModule extends BaseModule {
 
 			$posts = get_posts($args);
 
-			$term_ids[] = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id );
+			$term_ids[] = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id, count($posts) );
 		}
 
 		return $term_ids;
 	}
 
-	protected function get_term_id_by_name( $term_text, $term_opt, $term_id ){
-		if( count($posts) == $term_text && $term_opt == 'equal_to' ){
+	protected function get_term_id_by_name( $term_text, $term_opt, $term_id, $post_count ){
+		if( $post_count == $term_text && $term_opt == 'equal_to' ){
 			return $term_id;
-		}elseif( count($posts) != $term_text && $term_opt == 'not_equal_to' ){
+		}elseif( $post_count != $term_text && $term_opt == 'not_equal_to' ){
 			return $term_id;
-		}elseif( count($posts) < $term_text && $term_opt == 'less_than' ){
+		}elseif( $post_count < $term_text && $term_opt == 'less_than' ){
 			return $term_id;
-		}elseif( count($posts) > $term_text && $term_opt == 'greater_than' ){
+		}elseif( $post_count > $term_text && $term_opt == 'greater_than' ){
 			return $term_id;
 		}
 	}
