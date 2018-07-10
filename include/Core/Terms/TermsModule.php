@@ -231,14 +231,12 @@ abstract class TermsModule extends BaseModule {
 			$posts = get_posts($args);
 
 			$term_ids[] = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id );
-
 		}
 
 		return $term_ids;
 	}
 
 	protected function get_term_id_by_name( $term_text, $term_opt, $term_id ){
-
 		if( count($posts) == $term_text && $term_opt == 'equal_to' ){
 			return $term_id;
 		}elseif( count($posts) != $term_text && $term_opt == 'not_equal_to' ){
@@ -248,7 +246,6 @@ abstract class TermsModule extends BaseModule {
 		}elseif( count($posts) > $term_text && $term_opt == 'greater_than' ){
 			return $term_id;
 		}
-		
 	}
 
 	/**
@@ -266,9 +263,9 @@ abstract class TermsModule extends BaseModule {
 	public function term_query( $options, $taxonomy ) {
 		$defaults = array(
 			'fields'     => 'ids', // retrieve only ids
-			'taxonomy'	 => $taxonomy,
+			'taxonomy'	  => $taxonomy,
 			'hide_empty' => 0,
-			'count'		 => true,
+			'count'		    => true,
 		);
 		$options = wp_parse_args( $options, $defaults );
 
