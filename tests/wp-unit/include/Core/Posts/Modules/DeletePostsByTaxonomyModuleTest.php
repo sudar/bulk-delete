@@ -268,7 +268,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	public function create_posts_with_custom_taxonomy( $taxonomy = "custom", $term = "Custom Term", $count = 10, $post_type = "post" ) {
 
 		register_taxonomy( $taxonomy, 'post' );
-		$t = wp_insert_term( $term, $taxonomy );
+		$term_opt = wp_insert_term( $term, $taxonomy );
 
 		$post_data = array(
 			'post_type'     => $post_type,
@@ -278,8 +278,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 		for( $i = 1; $i <= $count; $i++ ){
 			$post_id  = wp_insert_post($post_data);
-			$termObj  = get_term_by( 'id', array( $t['term_id'] ), $taxonomy );
-			$opt = wp_set_object_terms($post_id, array( $t['term_id'] ), $taxonomy);
+			wp_set_object_terms($post_id, array( $term_opt['term_id'] ), $taxonomy);
 		}
 
 	}
