@@ -103,7 +103,20 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	public function test_that_trash_posts_from_single_taxonomy_term() {
 		
-		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term', 10 );
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt = wp_insert_term( 'Custom Term', 'custom' );
+		$count = 10;
+
+		$post_data = array(
+			'post_type'     => 'post',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_opt['term_id'] ), 'custom' );
+		}
 		
 		// call our method.
 		$delete_options = array(
@@ -127,7 +140,20 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	public function test_that_delete_posts_from_single_taxonomy_term() {
 		
-		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term', 10 );
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt = wp_insert_term( 'Custom Term', 'custom' );
+		$count = 10;
+
+		$post_data = array(
+			'post_type'     => 'post',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_opt['term_id'] ), 'custom' );
+		}
 		
 		// call our method.
 		$delete_options = array(
@@ -154,8 +180,25 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	public function test_that_trash_posts_from_multiple_taxonomy_term() {
 		
-		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term 1', 10 );
-		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term 2', 10 );
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt_1 = wp_insert_term( 'Custom Term 1', 'custom' );
+		$term_opt_2 = wp_insert_term( 'Custom Term 2', 'custom' );
+		$count = 20;
+
+		$post_data = array(
+			'post_type'     => 'post',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+		);
+
+		$term_id = $term_opt_1['term_id'];
+		for( $i = 1; $i <= $count; $i++ ){
+			if( $i >= 10 ){
+				$term_id = $term_opt_2['term_id'];
+			}
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_id ), 'custom' );
+		}
 		
 		// call our method.
 		$delete_options = array(
@@ -182,8 +225,25 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	public function test_that_delete_posts_from_multiple_taxonomy_term() {
 		
-		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term 1', 10 );
-		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term 2', 10 );
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt_1 = wp_insert_term( 'Custom Term 1', 'custom' );
+		$term_opt_2 = wp_insert_term( 'Custom Term 2', 'custom' );
+		$count = 20;
+
+		$post_data = array(
+			'post_type'     => 'post',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+		);
+
+		$term_id = $term_opt_1['term_id'];
+		for( $i = 1; $i <= $count; $i++ ){
+			if( $i >= 10 ){
+				$term_id = $term_opt_2['term_id'];
+			}
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_id ), 'custom' );
+		}
 		
 		// call our method.
 		$delete_options = array(
@@ -213,7 +273,20 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	public function test_that_trash_custom_posts_from_single_taxonomy_term() {
 		
-		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term', 10, 'book' );
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt = wp_insert_term( 'Custom Term', 'custom' );
+		$count = 10;
+
+		$post_data = array(
+			'post_type'     => 'book',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_opt['term_id'] ), 'custom' );
+		}
 		
 		// call our method.
 		$delete_options = array(
@@ -237,7 +310,20 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	public function test_that_delete_custom_posts_from_single_taxonomy_term() {
 		
-		$this->create_posts_with_custom_taxonomy( 'custom', 'Custom Term', 10, 'book' );
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt = wp_insert_term( 'Custom Term', 'custom' );
+		$count = 10;
+
+		$post_data = array(
+			'post_type'     => 'book',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_opt['term_id'] ), 'custom' );
+		}
 		
 		// call our method.
 		$delete_options = array(
@@ -259,27 +345,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
-
-	}
-
-	/**
-	 * Helper function to create posts with custom taxonomy
-	 */
-	public function create_posts_with_custom_taxonomy( $taxonomy = "custom", $term = "Custom Term", $count = 10, $post_type = "post" ) {
-
-		register_taxonomy( $taxonomy, 'post' );
-		$term_opt = wp_insert_term( $term, $taxonomy );
-
-		$post_data = array(
-			'post_type'     => $post_type,
-			'post_title'    => 'Sample Post',
-			'post_status'   => 'publish',
-		);
-
-		for( $i = 1; $i <= $count; $i++ ){
-			$post_id  = wp_insert_post($post_data);
-			wp_set_object_terms($post_id, array( $term_opt['term_id'] ), $taxonomy);
-		}
 
 	}
 
