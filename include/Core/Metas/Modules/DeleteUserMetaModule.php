@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeleteUserMetaModule extends MetasModule {
 	protected function initialize() {
-		$this->field_slug    = 'um'; // Ideally it should be `meta_user`. But we are keeping it as pm for backward compatibility.
+		$this->field_slug    = 'um'; // Ideally it should be `meta_user`. But we are keeping it as um for backward compatibility.
 		$this->meta_box_slug = 'bd-user-meta';
 		$this->action        = 'delete_user_meta';
 		$this->cron_hook     = 'do-bulk-delete-user-meta';
@@ -25,46 +25,46 @@ class DeleteUserMetaModule extends MetasModule {
 
 	/**
 	 * Render the Modules.
-	 *
-	 * @return void
 	 */
 	public function render() {
 		?>
 		<!-- User Meta box start-->
-        <fieldset class="options">
-        <h4><?php _e( 'Select the user role whose user meta fields you want to delete', 'bulk-delete' ); ?></h4>
+		<fieldset class="options">
+			<h4><?php _e( 'Select the user role whose user meta fields you want to delete', 'bulk-delete' ); ?></h4>
 
-        <table class="optiontable">
-			<?php $this->render_user_role_dropdown(); ?>
-        </table>
+			<table class="optiontable">
+				<?php $this->render_user_role_dropdown(); ?>
+			</table>
 
-        <h4><?php _e( 'Choose your user meta field settings', 'bulk-delete' ); ?></h4>
-        <table class="optiontable">
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="false" type="radio" checked>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on user meta key name only', 'bulk-delete' ); ?></label>
-                </td>
-            </tr>
+			<h4><?php _e( 'Choose your user meta field settings', 'bulk-delete' ); ?></h4>
+			<table class="optiontable">
+				<tr>
+					<td>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="false" type="radio" checked>
+						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on user meta key name only', 'bulk-delete' ); ?></label>
+					</td>
+				</tr>
 
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="true" type="radio" disabled>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on user meta key name and value', 'bulk-delete' ); ?></label>
-                    <span class="bd-um-pro" style="color:red; vertical-align: middle;">
-                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u" target="_blank">Buy now</a>
-                    </span>
-                </td>
-            </tr>
+				<tr>
+					<td>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"
+								value="true" type="radio" disabled>
+						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on user meta key name and value', 'bulk-delete' ); ?></label>
+						<span class="bd-um-pro" style="color:red; vertical-align: middle;">
+							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?>
+							<a href="http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u" target="_blank">Buy now</a>
+						</span>
+					</td>
+				</tr>
 
-            <tr>
-                <td>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key"><?php _e( 'User Meta Key ', 'bulk-delete' ); ?></label>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
-                </td>
-            </tr>
-        </table>
-<?php
+				<tr>
+					<td>
+						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key"><?php _e( 'User Meta Key ', 'bulk-delete' ); ?></label>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
+					</td>
+				</tr>
+			</table>
+		<?php
 		/**
 		 * Add more fields to the delete user meta field form.
 		 * This hook can be used to add more fields to the delete user meta field form.
@@ -72,57 +72,57 @@ class DeleteUserMetaModule extends MetasModule {
 		 * @since 5.4
 		 */
 		do_action( 'bd_delete_user_meta_form' );
-?>
-        <table class="optiontable">
-            <tr>
-                <td>
-                    <h4><?php _e( 'Choose your deletion options', 'bulk-delete' ); ?></h4>
-                </td>
-            </tr>
+		?>
+			<table class="optiontable">
+				<tr>
+					<td>
+						<h4><?php _e( 'Choose your deletion options', 'bulk-delete' ); ?></h4>
+					</td>
+				</tr>
 
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" value = "true" type = "checkbox">
-                    <?php _e( 'Only delete user meta field from first ', 'bulk-delete' );?>
-                    <input type ="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'users.', 'bulk-delete' );?>
-                    <?php _e( 'Use this option if there are more than 1000 users and the script times out.', 'bulk-delete' ) ?>
-                </td>
-            </tr>
+				<tr>
+					<td>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" value="true" type="checkbox">
+						<?php _e( 'Only delete user meta field from first ', 'bulk-delete' ); ?>
+						<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to"
+									disabled value="0" maxlength="4" size="4">
+						<?php _e( 'users.', 'bulk-delete' ); ?>
+						<?php _e( 'Use this option if there are more than 1000 users and the script times out.', 'bulk-delete' ); ?>
+					</td>
+				</tr>
 
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value = "false" type = "radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value = "true" type = "radio" id = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" disabled > <?php _e( 'Schedule', 'bulk-delete' ); ?>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" id = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value = "now" type = "text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
-                    <select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" id = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" disabled>
-                        <option value = "-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
-<?php
-		$schedules = wp_get_schedules();
-		foreach ( $schedules as $key => $value ) {
-?>
-                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
-<?php
-		}
-?>
-                    </select>
-                    <span class="bd-um-pro" style="color:red">
-                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u">Buy now</a>
-                    </span>
-                </td>
-            </tr>
+				<tr>
+					<td>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="true" type="radio" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" disabled>
+						<?php _e( 'Schedule', 'bulk-delete' ); ?>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value="now" type="text" disabled>
+						<?php _e( 'repeat ', 'bulk-delete' ); ?>
+						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" disabled>
+							<option value="-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
+							<?php foreach ( wp_get_schedules() as $key => $value ) : ?>
+								<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value['display'] ); ?></option>
+							<?php endforeach; ?>
+						</select>
 
-            <tr>
-                <td>
-                    <?php _e( 'Enter time in Y-m-d H:i:s format or enter now to use current time', 'bulk-delete' );?>
-                </td>
-            </tr>
+						<span class="bd-um-pro" style="color:red">
+							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?>
+							<a href = "http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u">Buy now</a>
+						</span>
+					</td>
+				</tr>
 
-        </table>
-        </fieldset>
+				<tr>
+					<td>
+						<?php _e( 'Enter time in Y-m-d H:i:s format or enter now to use current time', 'bulk-delete' ); ?>
+					</td>
+				</tr>
 
-        <?php $this->render_submit_button(); ?>
-        </p>
-        <!-- User Meta box end-->
+			</table>
+		</fieldset>
+
+		<?php $this->render_submit_button(); ?>
+		<!-- User Meta box end-->
 		<?php
 	}
 
@@ -168,9 +168,9 @@ class DeleteUserMetaModule extends MetasModule {
 
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][]                 = '_' . $this->field_slug;
-		$js_array['validators']['delete_meta_user'] = 'noValidation';
+		$js_array['validators']['delete_user_meta'] = 'noValidation';
 
-		$js_array['pre_action_msg']['delete_meta_user'] = 'deleteUMWarning';
+		$js_array['pre_action_msg']['delete_user_meta'] = 'deleteUMWarning';
 		$js_array['msg']['deleteUMWarning']             = __( 'Are you sure you want to delete all the user meta fields that match the selected filters?', 'bulk-delete' );
 
 		return $js_array;
