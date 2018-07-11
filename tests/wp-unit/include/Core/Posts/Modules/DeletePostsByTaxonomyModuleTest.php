@@ -348,6 +348,213 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	public function test_that_trash_posts_that_are_older_than_x_days() {
+		
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt = wp_insert_term( 'Custom Term', 'custom' );
+		$count = 10;
+		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
+
+		$post_data = array(
+			'post_type'     => 'post',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+			'post_date'   => $date,
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_opt['term_id'] ), 'custom' );
+		}
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'post',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term' ),
+			'limit_to'      => false,
+			'force_delete' => false,
+			'restrict'     => true,
+			'date_op'      => 'before',
+			'days'         => '3',
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 10, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$this->assertEquals( 0, count( $posts ) );
+
+	}
+
+	public function test_that_delete_posts_that_are_older_than_x_days() {
+		
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt = wp_insert_term( 'Custom Term', 'custom' );
+		$count = 10;
+		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
+
+		$post_data = array(
+			'post_type'     => 'post',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+			'post_date'   => $date,
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_opt['term_id'] ), 'custom' );
+		}
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'post',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term' ),
+			'limit_to'      => false,
+			'force_delete' => true,
+			'restrict'     => true,
+			'date_op'      => 'before',
+			'days'         => '3',
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 10, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$this->assertEquals( 0, count( $posts ) );
+
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
+
+	}
+
+	public function test_that_trash_posts_posted_within_the_last_x_days() {
+		
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt = wp_insert_term( 'Custom Term', 'custom' );
+		$count = 10;
+		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
+
+		$post_data = array(
+			'post_type'     => 'post',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+			'post_date'   => $date,
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_opt['term_id'] ), 'custom' );
+		}
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'post',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term' ),
+			'limit_to'     => -1,
+			'restrict'     => true,
+			'force_delete' => false,
+			'date_op'      => 'after',
+			'days'         => '5',
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 10, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$this->assertEquals( 0, count( $posts ) );
+
+	}
+
+	public function test_that_delete_posts_posted_within_the_last_x_days() {
+		
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt = wp_insert_term( 'Custom Term', 'custom' );
+		$count = 10;
+		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
+
+		$post_data = array(
+			'post_type'     => 'post',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+			'post_date'   => $date,
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_opt['term_id'] ), 'custom' );
+		}
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'post',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term' ),
+			'limit_to'     => -1,
+			'restrict'     => true,
+			'force_delete' => true,
+			'date_op'      => 'after',
+			'days'         => '5',
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 10, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$this->assertEquals( 0, count( $posts ) );
+
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
+
+	}
+
+	public function test_that_trash_posts_them_in_batches() {
+		
+		register_taxonomy( 'custom' , 'post' );
+		$term_opt = wp_insert_term( 'Custom Term', 'custom' );
+		$count = 100;
+
+		$post_data = array(
+			'post_type'     => 'post',
+			'post_title'    => 'Sample Post',
+			'post_status'   => 'publish',
+		);
+
+		for( $i = 1; $i <= $count; $i++ ){
+			$post_id  = wp_insert_post($post_data);
+			wp_set_object_terms( $post_id, array( $term_opt['term_id'] ), 'custom' );
+		}
+		
+		// call our method.
+		$delete_options = array(
+			'post_type'     => 'post',
+			'selected_taxs' => 'custom',
+			'selected_tax_terms' => array( 'Custom Term' ),
+			'restrict'      => false,
+			'limit_to'     => 50,
+			'force_delete'  => false,
+		);
+		$posts_deleted = $this->module->delete( $delete_options );
+
+		// Assert that delete method has deleted post.
+		$this->assertEquals( 50, $posts_deleted );
+
+		// Assert that category has no post.
+		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$this->assertEquals( 50, count( $posts ) );
+
+	}
+
 	/**
 	 * Helper function to get posts by custom taxonomy
 	 */
