@@ -168,9 +168,9 @@ class DeleteUserMetaModule extends MetasModule {
 
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][]                 = '_' . $this->field_slug;
-		$js_array['validators']['delete_meta_user'] = 'noValidation';
+		$js_array['validators']['delete_user_meta'] = 'noValidation';
 
-		$js_array['pre_action_msg']['delete_meta_user'] = 'deleteUMWarning';
+		$js_array['pre_action_msg']['delete_user_meta'] = 'deleteUMWarning';
 		$js_array['msg']['deleteUMWarning']             = __( 'Are you sure you want to delete all the user meta fields that match the selected filters?', 'bulk-delete' );
 
 		return $js_array;
