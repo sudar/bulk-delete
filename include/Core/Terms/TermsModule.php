@@ -74,13 +74,6 @@ abstract class TermsModule extends BaseModule {
 	}
 
 	/**
-	 * Render the "private post" setting fields.
-	 */
-	protected function render_private_post_settings() {
-		bd_render_private_post_settings( $this->field_slug );
-	}
-
-	/**
 	 * Delete terms by ids.
 	 *
 	 * @param int[] $term_ids List of term ids to delete.
@@ -241,15 +234,29 @@ abstract class TermsModule extends BaseModule {
 	}
 
 	protected function get_term_id_by_name( $term_text, $term_opt, $term_id, $post_count ){
-		if( $post_count == $term_text && $term_opt == 'equal_to' ){
-			return $term_id;
-		}elseif( $post_count != $term_text && $term_opt == 'not_equal_to' ){
-			return $term_id;
-		}elseif( $post_count < $term_text && $term_opt == 'less_than' ){
-			return $term_id;
-		}elseif( $post_count > $term_text && $term_opt == 'greater_than' ){
-			return $term_id;
+
+		switch ($term_opt) {
+			case 'equal_to':
+				if( $post_count == $term_text )
+				return $term_id;
+				break;
+
+			case 'not_equal_to':
+				if( $post_count != $term_text )
+				return $term_id;
+				break;
+			
+			case 'less_than':
+				if( $post_count < $term_text )
+				return $term_id;
+				break;
+
+			case 'greater_than':
+				if( $post_count > $term_text )
+				return $term_id;
+				break;
 		}
+
 	}
 
 	/**

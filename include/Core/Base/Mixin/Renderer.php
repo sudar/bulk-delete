@@ -161,4 +161,11 @@ abstract class Renderer extends Fetcher {
 		<p><label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"><input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"> <?php _e( 'Only if it doesn\'t contain any post', 'bulk-delete' ); ?></label></p>
 		<?php 
 	}
+
+	/**
+	 * Render the "private post" setting fields.
+	 */
+	protected function render_private_post_settings() {
+		bd_render_private_post_settings( $this->field_slug );
+	}
 }
