@@ -26,6 +26,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->module = new DeletePostsByTaxonomyModule();
 	}
 
+	/**
+	 * Test deleting posts from a single taxonomy term default post type.
+	 */
 	public function test_deleting_posts_from_built_in_taxonomy_terms() {
 		// Create category.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
@@ -64,6 +67,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, count( $posts_in_cat1 ) );
 	}
 
+	/**
+	 * test deleting posts from a single taxonomy term custom post type
+	 */
 	public function test_deleting_posts_from_built_in_taxonomy_terms_in_a_custom_post_type() {
 		// Create category.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
@@ -101,6 +107,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test trash posts from a single taxonomy term
+	 */
 	public function test_that_trash_posts_from_single_taxonomy_term() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -133,11 +142,14 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$posts = $this->get_posts_by_custom_term( $term_opt['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts ) );
 
 	}
 
+	/**
+	 * Test deleting posts from a single taxonomy term
+	 */
 	public function test_that_delete_posts_from_single_taxonomy_term() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -170,7 +182,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$posts = $this->get_posts_by_custom_term( $term_opt['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts ) );
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
@@ -178,6 +190,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test trash posts from a multiple taxonomy term
+	 */
 	public function test_that_trash_posts_from_multiple_taxonomy_term() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -215,14 +230,17 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 20, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts1 = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term 1" );
+		$posts1 = $this->get_posts_by_custom_term( $term_opt_1['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts1 ) );
 
-		$posts2 = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term 2" );
+		$posts2 = $this->get_posts_by_custom_term( $term_opt_2['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts2 ) );
 
 	}
 
+	/**
+	 * Test deleting posts from a multiple taxonomy term
+	 */
 	public function test_that_delete_posts_from_multiple_taxonomy_term() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -260,10 +278,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 20, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts1 = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term 1" );
+		$posts1 = $this->get_posts_by_custom_term( $term_opt_1['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts1 ) );
 
-		$posts2 = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term 2" );
+		$posts2 = $this->get_posts_by_custom_term( $term_opt_2['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts2 ) );
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
@@ -271,6 +289,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test trash posts from a single taxonomy term custom post type
+	 */
 	public function test_that_trash_custom_posts_from_single_taxonomy_term() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -303,11 +324,14 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term", 'book' );
+		$posts = $this->get_posts_by_custom_term( $term_opt['term_id'], 'custom', 'book' );
 		$this->assertEquals( 0, count( $posts ) );
 
 	}
 
+	/**
+	 * Test deleting posts from a single taxonomy term custom post type
+	 */
 	public function test_that_delete_custom_posts_from_single_taxonomy_term() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -340,7 +364,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term", 'book' );
+		$posts = $this->get_posts_by_custom_term( $term_opt['term_id'], 'custom', 'book' );
 		$this->assertEquals( 0, count( $posts ) );
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
@@ -348,6 +372,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test trash posts thar are older than x days
+	 */
 	public function test_that_trash_posts_that_are_older_than_x_days() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -384,11 +411,14 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$posts = $this->get_posts_by_custom_term( $term_opt['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts ) );
 
 	}
 
+	/**
+	 * Test deleting posts that are older than x days
+	 */
 	public function test_that_delete_posts_that_are_older_than_x_days() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -425,7 +455,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$posts = $this->get_posts_by_custom_term( $term_opt['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts ) );
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
@@ -433,6 +463,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test trash posts that posted with in last x days
+	 */
 	public function test_that_trash_posts_posted_within_the_last_x_days() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -469,11 +502,14 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$posts = $this->get_posts_by_custom_term( $term_opt['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts ) );
 
 	}
 
+	/**
+	 * Test deleting posts that posted with in last x days
+	 */
 	public function test_that_delete_posts_posted_within_the_last_x_days() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -510,7 +546,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$posts = $this->get_posts_by_custom_term( $term_opt['term_id'], 'custom' );
 		$this->assertEquals( 0, count( $posts ) );
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
@@ -518,6 +554,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 	}
 
+	/**
+	 * Test trash posts term in batches
+	 */
 	public function test_that_trash_posts_them_in_batches() {
 		
 		register_taxonomy( 'custom' , 'post' );
@@ -550,31 +589,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 50, $posts_deleted );
 
 		// Assert that category has no post.
-		$posts = $this->get_posts_by_custom_taxonomy( "custom", "Custom Term" );
+		$posts = $this->get_posts_by_custom_term( $term_opt['term_id'], 'custom' );
 		$this->assertEquals( 50, count( $posts ) );
 
-	}
-
-	/**
-	 * Helper function to get posts by custom taxonomy
-	 */
-	public function get_posts_by_custom_taxonomy( $taxonomy = "custom", $term = "Custom Term", $post_type = "post" ) {
-
-		$args = array(
-			'post_type' => $post_type,
-			'numberposts' => -1,
-			'tax_query' => array(
-				array(
-					'taxonomy' => $taxonomy,
-					'field' => 'name',
-					'terms' => $term
-				)
-			)
-		);
-
-		$posts = get_posts( $args );
-
-		return $posts;
 	}
 
 }
