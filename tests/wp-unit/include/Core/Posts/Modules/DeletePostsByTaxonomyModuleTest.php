@@ -29,7 +29,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test deleting posts from a single taxonomy term default post type.
 	 */
-	public function test_deleting_posts_from_built_in_taxonomy_terms() {
+	public function test_that_trash_posts_from_built_in_taxonomy_terms() {
 		// Create category.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 
@@ -44,12 +44,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$delete_options = array(
 			'selected_taxs' => 'category',
 			'selected_tax_terms' => array( 'cat1' ),
-			'restrict'      => false,
-			'private'       => false,
-			'limit_to'      => false,
-			'force_delete'  => false,
-			'date_op'       => false,
-			'days'          => false,
 		);
 		$posts_deleted = $this->module->delete( $delete_options );
 
@@ -70,7 +64,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * test deleting posts from a single taxonomy term custom post type
 	 */
-	public function test_deleting_posts_from_built_in_taxonomy_terms_in_a_custom_post_type() {
+	public function test_that_trash_posts_from_built_in_taxonomy_terms_in_a_custom_post_type() {
 		// Create category.
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 
@@ -88,12 +82,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'custom',
 			'selected_taxs' => 'category',
 			'selected_tax_terms' => array( 'cat1' ),
-			'restrict'      => false,
-			'private'       => false,
-			'limit_to'      => false,
-			'force_delete'  => false,
-			'date_op'       => false,
-			'days'          => false,
 		);
 		$posts_deleted = $this->module->delete( $delete_options );
 
@@ -132,9 +120,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'post',
 			'selected_taxs' => 'custom',
 			'selected_tax_terms' => array( 'Custom Term' ),
-			'restrict'      => false,
-			'limit_to'      => false,
-			'force_delete'  => false,
 		);
 		$posts_deleted = $this->module->delete( $delete_options );
 
@@ -172,9 +157,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'post',
 			'selected_taxs' => 'custom',
 			'selected_tax_terms' => array( 'Custom Term' ),
-			'restrict'      => false,
 			'force_delete'  => true,
-			'limit_to'      => false,
 		);
 		$posts_deleted = $this->module->delete( $delete_options );
 
@@ -220,9 +203,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'post',
 			'selected_taxs' => 'custom',
 			'selected_tax_terms' => array( 'Custom Term 1', 'Custom Term 2' ),
-			'restrict'      => false,
-			'limit_to'      => false,
-			'force_delete'  => false,
 		);
 		$posts_deleted = $this->module->delete( $delete_options );
 
@@ -268,9 +248,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'post',
 			'selected_taxs' => 'custom',
 			'selected_tax_terms' => array( 'Custom Term 1', 'Custom Term 2' ),
-			'restrict'      => false,
 			'force_delete'  => true,
-			'limit_to'      => false,
 		);
 		$posts_deleted = $this->module->delete( $delete_options );
 
@@ -314,9 +292,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'book',
 			'selected_taxs' => 'custom',
 			'selected_tax_terms' => array( 'Custom Term' ),
-			'restrict'      => false,
-			'limit_to'      => false,
-			'force_delete'  => false,
 		);
 		$posts_deleted = $this->module->delete( $delete_options );
 
@@ -354,8 +329,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'book',
 			'selected_taxs' => 'custom',
 			'selected_tax_terms' => array( 'Custom Term' ),
-			'restrict'      => false,
-			'limit_to'      => false,
 			'force_delete'  => true,
 		);
 		$posts_deleted = $this->module->delete( $delete_options );
@@ -399,8 +372,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'post',
 			'selected_taxs' => 'custom',
 			'selected_tax_terms' => array( 'Custom Term' ),
-			'limit_to'      => false,
-			'force_delete' => false,
 			'restrict'     => true,
 			'date_op'      => 'before',
 			'days'         => '3',
@@ -443,7 +414,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'post',
 			'selected_taxs' => 'custom',
 			'selected_tax_terms' => array( 'Custom Term' ),
-			'limit_to'      => false,
 			'force_delete' => true,
 			'restrict'     => true,
 			'date_op'      => 'before',
@@ -492,7 +462,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'selected_tax_terms' => array( 'Custom Term' ),
 			'limit_to'     => -1,
 			'restrict'     => true,
-			'force_delete' => false,
 			'date_op'      => 'after',
 			'days'         => '5',
 		);
@@ -579,9 +548,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'     => 'post',
 			'selected_taxs' => 'custom',
 			'selected_tax_terms' => array( 'Custom Term' ),
-			'restrict'      => false,
 			'limit_to'     => 50,
-			'force_delete'  => false,
 		);
 		$posts_deleted = $this->module->delete( $delete_options );
 

@@ -29,7 +29,8 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 	}
 
 	// limit to query
-	if ( $delete_options['limit_to'] > 0 ) {
+	$limit_to = isset( $delete_options['limit_to'] ) ? $delete_options['limit_to'] : false;
+	if ( $limit_to ) {
 		$options['showposts'] = $delete_options['limit_to'];
 	} else {
 		$options['nopaging']  = 'true';
@@ -41,7 +42,8 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 	}
 
 	// date query
-	if ( $delete_options['restrict'] ) {
+	$restrict = isset( $delete_options['restrict'] ) ? $delete_options['restrict'] : false; 
+	if ( $restrict ) {
 		if ( 'before' === $delete_options['date_op'] || 'after' === $delete_options['date_op'] ) {
 			$options['date_query'] = array(
 				array(
