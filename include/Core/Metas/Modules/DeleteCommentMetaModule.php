@@ -105,7 +105,14 @@ class DeleteCommentMetaModule extends MetasModule {
 		$options['use_value'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_use_value', false );
 		$options['meta_key']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_meta_key', '' ) );
 
-		return $options;
+		/**
+		 * Delete comment-meta delete options filter.
+		 *
+		 * This filter is for processing filtering options for deleting comment meta.
+		 *
+		 * @since 5.4
+		 */
+		return apply_filters( 'bd_delete_comment_meta_options', $options, $request );
 	}
 
 	protected function do_delete( $options ) {
