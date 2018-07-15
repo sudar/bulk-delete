@@ -130,9 +130,16 @@ class DeleteUserMetaModule extends MetasModule {
 		$options['selected_roles'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_roles' ) );
 
 		$options['use_value'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_use_value', false );
-		$options['meta_key']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_meta_key', '' ) );
+		$options['meta_key']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_key', '' ) );
 
-		return $options;
+		/**
+		 * Delete user-meta delete options filter.
+		 *
+		 * This filter is for processing filtering options for deleting user meta.
+		 *
+		 * @since 5.4
+		 */
+		return apply_filters( 'bd_delete_user_meta_options', $options, $request );
 	}
 
 	protected function do_delete( $options ) {
@@ -141,21 +148,21 @@ class DeleteUserMetaModule extends MetasModule {
 		$use_value = $options['use_value'];
 		$limit_to  = $options['limit_to'];
 
-		$options = array(
+		$args = array(
 			'role__in' => $options['selected_roles'],
 		);
 
 		if ( $limit_to > 0 ) {
-			$options['number'] = $limit_to;
+			$args['number'] = $limit_to;
 		}
 
 		if ( $use_value ) {
-			$options['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $options );
+			$args['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $options );
 		} else {
-			$options['meta_key'] = $meta_key;
+			$args['meta_key'] = $meta_key;
 		}
 
-		$users = get_users( $options );
+		$users = get_users( $args );
 
 		foreach ( $users as $user ) {
 			if ( delete_user_meta( $user->ID, $meta_key ) ) {
