@@ -146,9 +146,8 @@ class DeletePostMetaModule extends MetasModule {
         </table>
         </fieldset>
 
-        <p>
-            <button type="submit" name="bd_action" value="delete_meta_post" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ) ?>&raquo;</button>
-        </p>
+		<?php $this->render_submit_button(); ?>
+
         <!-- Post Meta box end-->
 		<?php
 	}
@@ -177,6 +176,8 @@ class DeletePostMetaModule extends MetasModule {
 
 		if ( $options['limit_to'] > 0 ) {
 			$args['number'] = $options['limit_to'];
+		} else {
+			$args['nopaging']  = 'true';
 		}
 
 		$op   = $options['date_op'];
@@ -221,11 +222,11 @@ class DeletePostMetaModule extends MetasModule {
 	}
 
 	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]                 = '_' . $this->field_slug;
-		$js_array['validators']['delete_meta_post'] = 'noValidation';
+		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
+		$js_array['validators'][ $this->action ] = 'noValidation';
 
-		$js_array['pre_action_msg']['delete_meta_post'] = 'deletePMWarning';
-		$js_array['msg']['deletePMWarning']             = __( 'Are you sure you want to delete all the post meta fields that match the selected filters?', 'bulk-delete' );
+		$js_array['pre_action_msg'][ $this->action ] = 'deletePMWarning';
+		$js_array['msg']['deletePMWarning']          = __( 'Are you sure you want to delete all the post meta fields that match the selected filters?', 'bulk-delete' );
 
 		return $js_array;
 	}
