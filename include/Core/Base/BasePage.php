@@ -161,7 +161,17 @@ abstract class BasePage {
 	 * @return bool True if nonce is verified, False otherwise.
 	 */
 	public function verify_nonce( $result, $action ) {
-		if ( in_array( $action, $this->actions, true ) ) {
+		/**
+		 * List of actions for page.
+		 *
+		 * @param array    $actions Actions.
+		 * @param BasePage $page    Page objects.
+		 *
+		 * @since 6.0.0
+		 */
+		$page_actions = apply_filters( 'bd_page_actions', $this->actions, $this );
+
+		if ( in_array( $action, $page_actions, true ) ) {
 			if ( check_admin_referer( "bd-{$this->page_slug}", "bd-{$this->page_slug}-nonce" ) ) {
 				return true;
 			}

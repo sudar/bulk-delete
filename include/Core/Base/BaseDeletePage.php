@@ -181,6 +181,13 @@ abstract class BaseDeletePage extends BasePage {
 			$module->register( $this->hook_suffix, $this->page_slug );
 			$this->actions[] = $module->get_action();
 		}
+
+		/**
+		 * Triggered after all post modules are registered.
+		 *
+		 * @since 6.0.0
+		 */
+		do_action( 'bd_add_meta_box_for_posts' );
 	}
 
 	/**
