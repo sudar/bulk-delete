@@ -16,6 +16,7 @@ class DeletePostMetaModule extends MetasModule {
 		$this->meta_box_slug = 'bd-post-meta';
 		$this->action        = 'delete_post_meta';
 		$this->cron_hook     = 'do-bulk-delete-post-meta';
+		$this->scheduler_url = 'http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p';
 		$this->messages      = array(
 			'box_label'  => __( 'Bulk Delete Post Meta', 'bulk-delete' ),
 			'scheduled'  => __( 'Post meta fields from the posts with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
@@ -31,124 +32,82 @@ class DeletePostMetaModule extends MetasModule {
 	public function render() {
 		?>
 		<!-- Post Meta box start-->
-        <fieldset class="options">
-        <h4><?php _e( 'Select the post type whose post meta fields you want to delete', 'bulk-delete' ); ?></h4>
-        <table class="optiontable">
-<?php $this->render_post_type_dropdown(); ?>
-        </table>
+		<fieldset class="options">
+			<h4><?php _e( 'Select the post type whose post meta fields you want to delete', 'bulk-delete' ); ?></h4>
 
-        <h4><?php _e( 'Choose your post meta field settings', 'bulk-delete' ); ?></h4>
-        <table class="optiontable">
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="use_key" type="radio" checked>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name only', 'bulk-delete' ); ?></label>
-                </td>
-            </tr>
+			<table class="optiontable">
+				<?php $this->render_post_type_dropdown(); ?>
+			</table>
 
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smdb_<?php echo esc_attr( $this->field_slug ); ?>_use_key_compare" value="use_key_compare" type="radio" disabled>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name prefix or postfix', 'bulk-delete' ); ?></label>
-                    <span class="bd-pm-pro" style="color:red; vertical-align: middle;">
-                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
-                    </span>
-                </td>
-            </tr>
+			<h4><?php _e( 'Choose your post meta field settings', 'bulk-delete' ); ?></h4>
+			<table class="optiontable">
+				<tr>
+					<td>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="use_key" type="radio" checked>
+						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name only', 'bulk-delete' ); ?></label>
+					</td>
+				</tr>
 
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="use_value" type="radio" disabled>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name and value', 'bulk-delete' ); ?></label>
-                    <span class="bd-pm-pro" style="color:red; vertical-align: middle;">
-                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
-                    </span>
-                </td>
-            </tr>
+				<tr>
+					<td>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smdb_<?php echo esc_attr( $this->field_slug ); ?>_use_key_compare" value="use_key_compare" type="radio" disabled>
+						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name prefix or postfix', 'bulk-delete' ); ?></label>
+						<span class="bd-pm-pro" style="color:red; vertical-align: middle;">
+							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
+						</span>
+					</td>
+				</tr>
 
-            <tr>
-                <td>
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key"><?php _e( 'Post Meta Key ', 'bulk-delete' ); ?></label>
-                    <select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key_prefix_postfix" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key_prefix_postfix" style="display: none;">
-                        <option value="starts_with">starts with</option>
-                        <option value="contains">contains</option>
-                        <option value="ends_with">ends with</option>
-                    </select>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
-                </td>
-            </tr>
-        </table>
-<?php
-		/**
-		 * Add more fields to the delete post meta field form.
-		 * This hook can be used to add more fields to the delete post meta field form.
-		 *
-		 * @since 5.4
-		 */
-		do_action( 'bd_delete_post_meta_form' );
-?>
-        <table class="optiontable">
-            <tr>
-                <td>
-                    <h4><?php _e( 'Choose your deletion options', 'bulk-delete' ); ?></h4>
-                </td>
-            </tr>
+				<tr>
+					<td>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="use_value" type="radio" disabled>
+						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name and value', 'bulk-delete' ); ?></label>
+						<span class="bd-pm-pro" style="color:red; vertical-align: middle;">
+							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
+						</span>
+					</td>
+				</tr>
 
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_restrict" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_restrict" value = "true" type = "checkbox" >
-                    <?php _e( 'Only restrict to posts which are ', 'bulk-delete' );?>
-                    <select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_op" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_op" disabled>
-                        <option value ="before"><?php _e( 'older than', 'bulk-delete' );?></option>
-                        <option value ="after"><?php _e( 'posted within last', 'bulk-delete' );?></option>
-                    </select>
-                    <input type ="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_days" disabled value ="0" maxlength="4" size="4"><?php _e( 'days', 'bulk-delete' );?>
-                </td>
-            </tr>
+				<tr>
+					<td>
+						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key"><?php _e( 'Post Meta Key ', 'bulk-delete' ); ?></label>
+						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key_prefix_postfix" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key_prefix_postfix" style="display: none;">
+							<option value="starts_with">starts with</option>
+							<option value="contains">contains</option>
+							<option value="ends_with">ends with</option>
+						</select>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
+					</td>
+				</tr>
+			</table>
 
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" value = "true" type = "checkbox">
-                    <?php _e( 'Only delete post meta field from first ', 'bulk-delete' );?>
-                    <input type ="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" disabled value ="0" maxlength="4" size="4"><?php _e( 'posts.', 'bulk-delete' );?>
-                    <?php _e( 'Use this option if there are more than 1000 posts and the script times out.', 'bulk-delete' ) ?>
-                </td>
-            </tr>
+		<?php
+			/**
+			 * Add more fields to the delete post meta field form.
+			 * This hook can be used to add more fields to the delete post meta field form.
+			 *
+			 * @since 5.4
+			 */
+			do_action( 'bd_delete_post_meta_form' );
+		?>
 
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value = "false" type = "radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value = "true" type = "radio" id = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" disabled > <?php _e( 'Schedule', 'bulk-delete' ); ?>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" id = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value = "now" type = "text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
-                    <select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" id = "smbd_pm_cron_freq" disabled>
-                        <option value = "-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
-<?php
-		$schedules = wp_get_schedules();
-		foreach ( $schedules as $key => $value ) {
-?>
-                        <option value = "<?php echo $key; ?>"><?php echo $value['display']; ?></option>
-<?php
-		}
-?>
-                    </select>
-                    <span class="bd-pm-pro" style="color:red">
-                        <?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p">Buy now</a>
-                    </span>
-                </td>
-            </tr>
+			<table class="optiontable">
+				<tr>
+					<td colspan="2">
+						<h4><?php _e( 'Choose your deletion options', 'bulk-delete' ); ?></h4>
+					</td>
+				</tr>
 
-            <tr>
-                <td>
-                    <?php _e( 'Enter time in Y-m-d H:i:s format or enter now to use current time', 'bulk-delete' );?>
-                </td>
-            </tr>
+				<?php $this->render_restrict_settings(); ?>
+				<?php $this->render_limit_settings(); ?>
+				<?php $this->render_cron_settings(); ?>
 
-        </table>
-        </fieldset>
+			</table>
+		</fieldset>
 
 		<?php $this->render_submit_button(); ?>
 
-        <!-- Post Meta box end-->
+		<!-- Post Meta box end-->
 		<?php
 	}
 
@@ -177,7 +136,7 @@ class DeletePostMetaModule extends MetasModule {
 		if ( $options['limit_to'] > 0 ) {
 			$args['number'] = $options['limit_to'];
 		} else {
-			$args['nopaging']  = 'true';
+			$args['nopaging'] = 'true';
 		}
 
 		$op   = $options['date_op'];
