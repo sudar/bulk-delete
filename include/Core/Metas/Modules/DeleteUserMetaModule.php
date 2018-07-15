@@ -148,21 +148,21 @@ class DeleteUserMetaModule extends MetasModule {
 		$use_value = $options['use_value'];
 		$limit_to  = $options['limit_to'];
 
-		$options = array(
+		$args = array(
 			'role__in' => $options['selected_roles'],
 		);
 
 		if ( $limit_to > 0 ) {
-			$options['number'] = $limit_to;
+			$args['number'] = $limit_to;
 		}
 
 		if ( $use_value ) {
-			$options['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $options );
+			$args['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $options );
 		} else {
-			$options['meta_key'] = $meta_key;
+			$args['meta_key'] = $meta_key;
 		}
 
-		$users = get_users( $options );
+		$users = get_users( $args );
 
 		foreach ( $users as $user ) {
 			if ( delete_user_meta( $user->ID, $meta_key ) ) {
