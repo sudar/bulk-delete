@@ -61,3 +61,36 @@ function bd_load_deprecated_page_modules( $page ) {
 	$trash_module->load_if_needed( $page );
 }
 add_action( 'bd_after_pages_modules', 'bd_load_deprecated_page_modules' );
+
+/**
+ * Enable nonce checks for old post add-ons.
+ *
+ * This is needed only to do automatic nonce checks for old add-ons and will be eventually removed.
+ *
+ * @since 6.0.0
+ *
+ * @param array                                 $actions Actions.
+ * @param \BulkWP\BulkDelete\Core\Base\BasePage $page    Page to which actions might be added.
+ *
+ * @return array List of modified actions.
+ */
+function bd_enable_nonce_check_for_old_post_addons( $actions, $page ) {
+	if ( 'bulk-delete-posts' !== $page->get_page_slug() ) {
+		return $actions;
+	}
+
+	if ( class_exists( '\Bulk_Delete_Posts_By_User' ) ) {
+		$actions[] = 'delete_posts_by_user';
+	}
+
+	if ( class_exists( '\Bulk_Delete_Posts_By_Attachment' ) ) {
+		$actions[] = 'delete_posts_by_attachment';
+	}
+
+	if ( class_exists( '\Bulk_Delete_Posts_By_Content' ) ) {
+		$actions[] = 'delete_posts_by_content';
+	}
+
+	return $actions;
+}
+add_filter( 'bd_page_actions', 'bd_enable_nonce_check_for_old_post_addons', 10, 2 );
