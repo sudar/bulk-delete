@@ -141,9 +141,8 @@ class DeleteUserMetaModule extends MetasModule {
 		$use_value = $options['use_value'];
 		$limit_to  = $options['limit_to'];
 
-		$options = array(
-			'role__in' => $options['selected_roles'],
-		);
+		$options['role__in'] = $options['selected_roles'];
+		unset( $options['selected_roles'] );
 
 		if ( $limit_to > 0 ) {
 			$options['number'] = $limit_to;
@@ -154,7 +153,6 @@ class DeleteUserMetaModule extends MetasModule {
 		} else {
 			$options['meta_key'] = $meta_key;
 		}
-
 		$users = get_users( $options );
 
 		foreach ( $users as $user ) {
