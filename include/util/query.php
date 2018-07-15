@@ -42,7 +42,7 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 	}
 
 	// date query
-	$restrict = isset( $delete_options['restrict'] ) ? $delete_options['restrict'] : false; 
+	$restrict = isset( $delete_options['restrict'] ) ? $delete_options['restrict'] : false;
 	if ( $restrict ) {
 		if ( 'before' === $delete_options['date_op'] || 'after' === $delete_options['date_op'] ) {
 			$options['date_query'] = array(
