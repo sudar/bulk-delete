@@ -159,7 +159,14 @@ class DeletePostMetaModule extends MetasModule {
 		$options['use_value'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_use_value', 'use_key' );
 		$options['meta_key']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_key', '' ) );
 
-		return $options;
+		/**
+		 * Delete post-meta delete options filter.
+		 *
+		 * This filter is for processing filtering options for deleting post meta.
+		 *
+		 * @since 5.4
+		 */
+		return apply_filters( 'bd_delete_post_meta_options', $options, $request );
 	}
 
 	protected function do_delete( $options ) {
