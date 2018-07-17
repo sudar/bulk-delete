@@ -473,7 +473,7 @@ final class BulkDelete {
 	}
 
 	/**
-	 * Get Bulk Delete Terms admin page.
+	 * Gets Bulk Delete Term's admin page
 	 *
 	 * @since 6.0.0
 	 *

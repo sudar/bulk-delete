@@ -119,7 +119,7 @@ abstract class Renderer extends Fetcher {
 		$taxonomies = get_taxonomies( array(), 'objects' );
 		?>
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" class="select2" multiple="multiple" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
-			<?php foreach ( $taxonomies as $role => $taxonomy ) : ?>
+			<?php foreach ( $taxonomies as $taxonomy ) : ?>
 				<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
 					<?php echo esc_html( $taxonomy->label ); ?>
 				</option>
@@ -135,19 +135,19 @@ abstract class Renderer extends Fetcher {
 		?>
 		<h4><?php _e( 'Delete terms that', 'bulk-delete' ); ?></h4>
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_opt">
-		<?php if( $this->field_slug == 'terms_by_name' ){ ?>
-			<option value="equal_to">equal to</option>
-			<option value="not_equal_to">not equal to</option>
-			<option value="starts">starts</option>
-			<option value="ends">ends</option>
-			<option value="contains">contains</option>
-			<option value="non_contains">non contains</option>
-		<?php }elseif( $this->field_slug == 'terms_by_post_count' ){ ?>
-			<option value="equal_to">equal to</option>
-			<option value="not_equal_to">not equal to</option>
-			<option value="less_than">less than</option>
-			<option value="greater_than">greater than</option>
-		<?php }?>
+			<?php if( $this->field_slug == 'terms_by_name' ){ ?>
+				<option value="equal_to">equal to</option>
+				<option value="not_equal_to">not equal to</option>
+				<option value="starts">starts</option>
+				<option value="ends">ends</option>
+				<option value="contains">contains</option>
+				<option value="non_contains">non contains</option>
+			<?php }elseif( $this->field_slug == 'terms_by_post_count' ){ ?>
+				<option value="equal_to">equal to</option>
+				<option value="not_equal_to">not equal to</option>
+				<option value="less_than">less than</option>
+				<option value="greater_than">greater than</option>
+			<?php }?>
 		</select> With 
 		<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_text">
 		<?php 
