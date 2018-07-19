@@ -70,8 +70,11 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'BD_System_Info_page'                      => $plugin_dir . 'include/system-info/class-bd-system-info-page.php',
 
 		// Compatibility. Will be removed once compatibility is addressed.
-		'BD_Meta_Box_Module'                       => $plugin_dir . 'include/base/class-bd-meta-box-module.php', // Used in Bulk Delete Attachments Addon.
-		'BD_Page'                                  => $plugin_dir . 'include/base/class-bd-page.php', // Used in Bulk Delete Attachments Addon.
+		'BD_Meta_Box_Module'                       => $plugin_dir . 'include/base/class-bd-meta-box-module.php', // Used in Bulk Delete Attachments Addon - v1.2.
+		'BD_Page'                                  => $plugin_dir . 'include/base/class-bd-page.php', // Used in Bulk Delete Attachments Addon - v1.2.
+		'BD_Addon'                                 => $plugin_dir . 'include/addons/base/class-bd-addon.php', // Used in Bulk Delete Attachments Addon - v1.2.
+		'BD_Base_Addon'                            => $plugin_dir . 'include/addons/base/class-bd-base-addon.php', // Used in Bulk Delete Attachments Addon - v1.2.
+		'BD_Scheduler_Addon'                       => $plugin_dir . 'include/addons/base/class-bd-scheduler-addon.php', // Used in Scheduler for Deleting Attachments and User Meta Addon.
 
 		// Deprecated classes.
 		'Bulk_Delete_Posts'                        => $plugin_dir . 'include/deprecated/class-bulk-delete-posts.php',
