@@ -100,7 +100,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			'term_opt'  => 'not_equal_to',
 			'term_text' => '5',
 		);
-		$posts_deleted = $this->module->delete( $delete_options );
+		$this->module->delete( $delete_options );
 
 		$posts_in_cat1 = $this->get_posts_by_custom_term( $cat1, 'category', $post_type );
 
@@ -141,7 +141,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			'term_opt'  => 'less_than',
 			'term_text' => '5',
 		);
-		$posts_deleted = $this->module->delete( $delete_options );
+		$this->module->delete( $delete_options );
 
 		$posts_in_cat1 = $this->get_posts_by_custom_term( $cat1, 'category', $post_type );
 
@@ -182,7 +182,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			'term_opt'  => 'greater_than',
 			'term_text' => '2',
 		);
-		$posts_deleted = $this->module->delete( $delete_options );
+		$this->module->delete( $delete_options );
 
 		$posts_in_cat1 = $this->get_posts_by_custom_term( $cat1, 'category', $post_type );
 
