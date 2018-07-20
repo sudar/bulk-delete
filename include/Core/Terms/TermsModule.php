@@ -68,16 +68,9 @@ abstract class TermsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_terms_from_query( $query, $options ) {
-		$term_ids = bd_term_query( $query, $options['taxonomy'] );
+		$term_ids = $this->term_query( $query, $options['taxonomy'] );
 
 		return $this->delete_terms_by_id( $term_ids, $options );
-	}
-
-	/**
-	 * Render the "private post" setting fields.
-	 */
-	protected function render_private_post_settings() {
-		bd_render_private_post_settings( $this->field_slug );
 	}
 
 	/**
@@ -90,17 +83,20 @@ abstract class TermsModule extends BaseModule {
 	 */
 	protected function delete_terms_by_id( $term_ids, $options ) {
 		$count = 0;
+
 		foreach ( $term_ids as $term_id ) {
 			$term = get_term( $term_id, $options['taxonomy'] );
-			if( isset( $options['no_posts'] ) ){
-				if( $term->count == 0 ){
-					wp_delete_term( $term_id, $options['taxonomy'] );
-					$count++;
-				}
-			}else{
-				wp_delete_term( $term_id, $options['taxonomy'] );
-				$count++;
+
+			if( is_wp_error($term) ){
+				continue;
 			}
+
+			if ( isset( $options['no_posts'] ) && $term->count > 0 ) {
+				continue;
+			}
+
+			wp_delete_term( $term_id, $options['taxonomy'] );
+			$count ++;
 		}
 
 		return $count;
@@ -112,7 +108,7 @@ abstract class TermsModule extends BaseModule {
 	 * @param string $haystack.
 	 * @param string $needle.
 	 *
-	 * @return boolean.
+	 * @return bool.
 	 */
 	protected function bd_starts_with($haystack, $needle){
 	     $length = strlen($needle);
@@ -126,7 +122,7 @@ abstract class TermsModule extends BaseModule {
 	 * @param string $haystack.
 	 * @param string $needle.
 	 *
-	 * @return boolean.
+	 * @return bool.
 	 */
 	protected function bd_ends_with($haystack, $needle){
 	    $length = strlen($needle);
@@ -231,18 +227,34 @@ abstract class TermsModule extends BaseModule {
 
 			$posts = get_posts($args);
 
-			if( count($posts) == $options['term_text'] && $options['term_opt'] == 'equal_to' ){
-				$term_ids[] = $term->term_id;
-			}elseif( count($posts) != $options['term_text'] && $options['term_opt'] == 'not_equal_to' ){
-				$term_ids[] = $term->term_id;
-			}elseif( count($posts) < $options['term_text'] && $options['term_opt'] == 'less_than' ){
-				$term_ids[] = $term->term_id;
-			}elseif( count($posts) > $options['term_text'] && $options['term_opt'] == 'greater_than' ){
-				$term_ids[] = $term->term_id;
-			}
+			$term_ids[] = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id, count($posts) );
 		}
 
 		return $term_ids;
+	}
+
+	protected function get_term_id_by_name( $term_text, $term_opt, $term_id, $post_count ){
+		switch ($term_opt) {
+			case 'equal_to':
+				if( $post_count == $term_text )
+				return $term_id;
+				break;
+
+			case 'not_equal_to':
+				if( $post_count != $term_text )
+				return $term_id;
+				break;
+
+			case 'less_than':
+				if( $post_count < $term_text )
+				return $term_id;
+				break;
+
+			case 'greater_than':
+				if( $post_count > $term_text )
+				return $term_id;
+				break;
+		}
 	}
 
 	/**
@@ -259,14 +271,14 @@ abstract class TermsModule extends BaseModule {
 	 */
 	public function term_query( $options, $taxonomy ) {
 		$defaults = array(
-			'fields'                 => 'ids', // retrieve only ids
-			'taxonomy'				           => $taxonomy,
-			'hide_empty'			          => 0,
-			'count'					             => true,
+			'fields'     => 'ids', // retrieve only ids
+			'taxonomy'	  => $taxonomy,
+			'hide_empty' => 0,
+			'count'		    => true,
 		);
 		$options = wp_parse_args( $options, $defaults );
 
-		$term_query = new WP_Term_Query();
+		$term_query = new \WP_Term_Query();
 
 		/**
 		 * This action runs before the query happens.
