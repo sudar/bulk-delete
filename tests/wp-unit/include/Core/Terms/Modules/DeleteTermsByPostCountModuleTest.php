@@ -59,7 +59,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			'term_opt'  => 'equal_to',
 			'term_text' => '3',
 		);
-		$posts_deleted = $this->module->delete( $delete_options );
+		$this->module->delete( $delete_options );
 
 		$posts_in_cat1 = $this->get_posts_by_custom_term( $cat1, 'category', $post_type );
 
