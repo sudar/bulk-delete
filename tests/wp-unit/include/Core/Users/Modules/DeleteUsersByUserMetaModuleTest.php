@@ -23,8 +23,20 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	protected $subscriber;
 	protected $subscriber_with_past_registration_date;
 
+	private $common_filter_defaults;
+
 	public function setUp() {
 		parent::setUp();
+
+		$this->common_filter_defaults = array(
+			'login_restrict'      => false,
+			'login_days'          => 0,
+			'registered_restrict' => false,
+			'registered_days'     => 0,
+			'no_posts'            => false,
+			'no_posts_post_types' => array(),
+			'limit_to'            => 0,
+		);
 
 		$this->module = new DeleteUsersByUserMetaModule();
 
@@ -74,12 +86,9 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_key'            => $meta_key,
 			'meta_value'          => $meta_value,
 			'meta_compare'        => $meta_compare,
-			'limit_to'            => false,
-			'registered_restrict' => false,
-			'registered_days'     => false,
-			'login_restrict'      => false,
-			'no_posts'            => false,
 		);
+
+		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
 		$this->module->delete( $delete_options );
 
 		// Assert that user meta has no user.
@@ -118,9 +127,9 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare'        => $meta_compare,
 			'registered_restrict' => true,
 			'registered_days'     => 1,
-			'limit_to'            => false,
-			'login_restrict'      => false,
 		);
+
+		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
 		$this->module->delete( $delete_options );
 
 		// Assert that user meta has one user.
@@ -152,12 +161,11 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_key'            => 'plugin_name',
 			'meta_value'          => 'bulk_delete',
 			'meta_compare'        => '=',
-			'limit_to'            => false,
 			'registered_restrict' => true,
 			'registered_days'     => 4,
-			'login_restrict'      => false,
-			'no_posts'            => false,
 		);
+
+		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
 		$this->module->delete( $delete_options );
 
 		// Assert that user meta has no user.
@@ -185,16 +193,14 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 		$this->factory->post->create( array(
 			'post_title'  => 'page1',
 			'post_type'   => 'page',
-			'post_author' =>
-				$this->subscriber_with_past_registration_date,
+			'post_author' => $this->subscriber_with_past_registration_date,
 		) );
 
 		// Assert that user meta has two users $user1 and $user2.
 		$users_with_meta = get_users( array(
-			'meta_key'   => 'plugin_name',
-			'meta_value' => 'bulk_delete',
-			'meta_compare'
-			             => '=',
+			'meta_key'     => 'plugin_name',
+			'meta_value'   => 'bulk_delete',
+			'meta_compare' => '=',
 		) );
 
 		$this->assertEquals( array( $this->subscriber, $this->subscriber_with_past_registration_date ),
@@ -205,12 +211,11 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_key'            => 'plugin_name',
 			'meta_value'          => 'bulk_delete',
 			'meta_compare'        => '=',
-			'limit_to'            => false,
-			'registered_restrict' => false,
-			'login_restrict'      => false,
 			'no_posts'            => true,
 			'no_posts_post_types' => 'post',
 		);
+
+		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
 		$this->module->delete( $delete_options );
 
 		// Assert that user meta has one $user1 and $user2 is deleted.
