@@ -518,6 +518,13 @@ abstract class BaseModule extends Renderer {
 		return $this->messages['cron_label'];
 	}
 
+	/**
+	 * Gets the Trash URL by the Item type.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return string
+	 */
 	protected function get_trash_url_by_item_type() {
 		$trash_url = '';
 		switch ( $this->item_type ) {
