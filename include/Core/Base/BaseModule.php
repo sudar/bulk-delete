@@ -246,7 +246,7 @@ abstract class BaseModule extends Renderer {
 	 * Render delete settings.
 	 */
 	protected function render_delete_settings() {
-		bd_render_delete_settings( $this->field_slug );
+		bd_render_delete_settings( $this->field_slug, $this->get_trash_url_by_item_type() );
 	}
 
 	/**
@@ -516,5 +516,16 @@ abstract class BaseModule extends Renderer {
 	 */
 	protected function get_cron_label() {
 		return $this->messages['cron_label'];
+	}
+
+	protected function get_trash_url_by_item_type() {
+		$trash_url = '';
+		switch ( $this->item_type ) {
+			case 'posts':
+				$trash_url = admin_url( 'edit.php?post_status=trash&post_type=post' );
+				break;
+		}
+
+		return $trash_url;
 	}
 }

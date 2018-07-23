@@ -58,15 +58,23 @@ function bd_render_restrict_settings( $slug, $item = 'posts' ) {
  *
  * @param string $slug The slug to be used in field names.
  */
-function bd_render_delete_settings( $slug ) {
-?>
-	<tr>
-		<td scope="row" colspan="2" class="<?php if( $slug == 'sticky_post' ){ ?>sticky_force_delete<?php }?>">
-			<input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio" checked> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
-			<input name="smbd_<?php echo $slug; ?>_force_delete" value="true" type="radio"> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
-		</td>
-	</tr>
-<?php
+function bd_render_delete_settings( $slug, $trash_url = '' ) {
+	?>
+    <tr>
+        <td scope="row" colspan="2" class="<?php if ( $slug == 'sticky_post' ) { ?>sticky_force_delete<?php } ?>">
+			<?php if ( '' !== trim( $trash_url ) ) : ?>
+                <input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio" checked> <a
+                        href="<?php echo esc_url( $trash_url ); ?>"><?php
+					_e( 'Move to Trash', 'bulk-delete' ); ?></a>
+			<?php else : ?>
+                <input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio"
+                       checked> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
+			<?php endif; ?>
+            <input name="smbd_<?php echo $slug; ?>_force_delete" value="true"
+                   type="radio"> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
+        </td>
+    </tr>
+	<?php
 }
 
 /**
