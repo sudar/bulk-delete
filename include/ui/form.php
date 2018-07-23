@@ -56,7 +56,8 @@ function bd_render_restrict_settings( $slug, $item = 'posts' ) {
  *
  * @since 5.5
  *
- * @param string $slug The slug to be used in field names.
+ * @param string $slug      The slug to be used in field names.
+ * @param string $trash_url Actual link to be used on "Move to Trash" option.
  */
 function bd_render_delete_settings( $slug, $trash_url = '' ) {
 	?>
