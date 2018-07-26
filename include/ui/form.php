@@ -63,14 +63,15 @@ function bd_render_delete_settings( $slug, $trash_url = '' ) {
 	?>
     <tr>
         <td scope="row" colspan="2" class="<?php if ( $slug == 'sticky_post' ) { ?>sticky_force_delete<?php } ?>">
-			<?php if ( '' !== trim( $trash_url ) ) : ?>
-                <input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio" checked> <a
-                        href="<?php echo esc_url( $trash_url ); ?>"><?php
-					_e( 'Move to Trash', 'bulk-delete' ); ?></a>
-			<?php else : ?>
-                <input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio"
-                       checked> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
-			<?php endif; ?>
+            <input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio"
+                   checked>
+            <?php if ( ! empty( trim( $trash_url ) ) ) : ?>
+                <a href="<?php echo esc_url( $trash_url ); ?>">
+            <?php endif; ?>
+                <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
+            <?php if ( ! empty( trim( $trash_url ) ) ) : ?>
+                </a>
+            <?php endif; ?>
             <input name="smbd_<?php echo $slug; ?>_force_delete" value="true"
                    type="radio"> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
         </td>
