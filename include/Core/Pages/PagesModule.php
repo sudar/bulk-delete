@@ -21,4 +21,11 @@ abstract class PagesModule extends PostsModule {
 
 		return $js_array;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function get_trash_url() {
+		return admin_url( 'edit.php?post_status=trash&post_type=page' );
+	}
 }

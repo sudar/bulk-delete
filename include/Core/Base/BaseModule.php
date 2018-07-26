@@ -246,7 +246,7 @@ abstract class BaseModule extends Renderer {
 	 * Render delete settings.
 	 */
 	protected function render_delete_settings() {
-		bd_render_delete_settings( $this->field_slug, $this->get_trash_url_by_item_type() );
+		bd_render_delete_settings( $this->field_slug, $this->get_trash_url() );
 	}
 
 	/**
@@ -523,16 +523,9 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @return string
+	 * @return string The Trash URL by the respective Item type.
 	 */
-	protected function get_trash_url_by_item_type() {
-		$trash_url = '';
-		switch ( $this->item_type ) {
-			case 'posts':
-				$trash_url = admin_url( 'edit.php?post_status=trash&post_type=post' );
-				break;
-		}
-
-		return $trash_url;
+	protected function get_trash_url() {
+		return '';
 	}
 }
