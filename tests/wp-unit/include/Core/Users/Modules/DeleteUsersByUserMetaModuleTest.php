@@ -158,7 +158,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'registered_restrict' => false,
 			'login_restrict'      => false,
 			'no_posts'            => true,
-			'no_posts_post_types' => 'post',
+			'no_posts_post_types' => array( 'post' ),
 		);
 		$this->module->delete( $delete_options );
 
