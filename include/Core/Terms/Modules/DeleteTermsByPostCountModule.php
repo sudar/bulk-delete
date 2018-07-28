@@ -12,6 +12,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteTermsByPostCountModule extends TermsModule {
+	/**
+	 * Initialize the values.
+	 */
 	protected function initialize() {
 		$this->item_type     = 'terms';
 		$this->field_slug    = 'terms_by_post_count';
@@ -51,7 +54,13 @@ class DeleteTermsByPostCountModule extends TermsModule {
 		<?php
 		$this->render_submit_button();
 	}
-
+	/**
+	 * Filter the js array.
+	 *
+	 * @param array $js_array JavaScript Array.
+	 *
+	 * @return array Modified JavaScript Array
+	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validatePostTypeSelect2';
 		$js_array['error_msg'][ $this->action ]  = 'selectPostType';
@@ -71,10 +80,10 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	 * @return array $options  Inputs from user for posts that were need to delete
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['taxonomy']      = bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' );
-		$options['post_type']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type' );
-		$options['term_opt']      = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
-		$options['term_text']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_text' );
+		$options['taxonomy']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' );
+		$options['post_type'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type' );
+		$options['term_opt']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
+		$options['term_text'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_text' );
 
 		return $options;
 	}
@@ -87,16 +96,16 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	 * @return array Query.
 	 */
 	protected function build_query( $options ) {
-		$query      = array();
-		$taxonomy   = $options['taxonomy'];
-		$term_text  = $options['term_text'];
+		$query     = array();
+		$taxonomy  = $options['taxonomy'];
+		$term_text = $options['term_text'];
 
-		if( isset( $term_text ) ){
+		if ( isset( $term_text ) ) {
 			$query['taxonomy'] = $taxonomy;
 		}
 
-		$term_ids            = $this->term_count_query( $options );
-		$query['include']    = $term_ids;
+		$term_ids         = $this->term_count_query( $options );
+		$query['include'] = $term_ids;
 
 		return $query;
 	}

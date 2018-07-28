@@ -12,6 +12,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
+	/**
+	 * Initialize the values.
+	 */
 	protected function initialize() {
 		$this->item_type     = 'terms';
 		$this->field_slug    = 'terms_by_name';
@@ -47,6 +50,13 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 		$this->render_submit_button();
 	}
 
+	/**
+	 * Filter the js array.
+	 *
+	 * @param array $js_array JavaScript Array.
+	 *
+	 * @return array Modified JavaScript Array
+	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validatePostTypeSelect2';
 		$js_array['error_msg'][ $this->action ]  = 'selectPostType';
@@ -66,10 +76,10 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	 * @return array $options  Inputs from user for posts that were need to delete
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['taxonomy']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' );
-		$options['term_opt']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
-		$options['term_text']    = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_text' );
-		$options['no_posts']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_no_posts' );
+		$options['taxonomy']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' );
+		$options['term_opt']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
+		$options['term_text'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_text' );
+		$options['no_posts']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_no_posts' );
 
 		return $options;
 	}
@@ -97,18 +107,18 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 				break;
 
 			case 'starts':
-				$term_ids            = $this->term_starts( $term_text , $options );
-				$query['include']    = $term_ids;
+				$term_ids         = $this->term_starts( $term_text, $options );
+				$query['include'] = $term_ids;
 				break;
 
 			case 'ends':
-				$term_ids            = $this->term_ends( $term_text , $options );
-				$query['include']    = $term_ids;
+				$term_ids         = $this->term_ends( $term_text, $options );
+				$query['include'] = $term_ids;
 				break;
 
 			case 'contains':
-				$term_ids            = $this->term_contains( $term_text , $options );
-				$query['include']    = $term_ids;
+				$term_ids         = $this->term_contains( $term_text, $options );
+				$query['include'] = $term_ids;
 				break;
 
 			case 'non_contains':
