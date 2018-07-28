@@ -67,7 +67,7 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 		$js_array['validators'][ $this->action ] = 'noValidation';
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteTermsWarning';
-		$js_array['msg']['deleteTermsWarning'] = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );
+		$js_array['msg']['deleteTermsWarning']       = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );
 
 		return $js_array;
 	}
