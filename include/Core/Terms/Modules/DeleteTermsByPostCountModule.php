@@ -119,6 +119,6 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	 */
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected options', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected terms count', $items_deleted, 'bulk-delete' );
 	}
 }

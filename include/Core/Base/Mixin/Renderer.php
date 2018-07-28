@@ -141,14 +141,14 @@ abstract class Renderer extends Fetcher {
 			<option value="starts">starts</option>
 			<option value="ends">ends</option>
 			<option value="contains">contains</option>
-			<option value="non_contains">non contains</option>
+			<option value="not_contains">not contains</option>
 		<?php }elseif( $this->field_slug == 'terms_by_post_count' ){ ?>
 			<option value="equal_to">equal to</option>
 			<option value="not_equal_to">not equal to</option>
 			<option value="less_than">less than</option>
 			<option value="greater_than">greater than</option>
 		<?php }?>
-		</select> With 
+		</select> 
 		<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_text">
 		<?php 
 	}

@@ -64,6 +64,11 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 
 		$js_array['dt_iterators'][] = '_' . $this->field_slug;
 
+		$js_array['validators'][ $this->action ] = 'noValidation';
+
+		$js_array['pre_action_msg'][ $this->action ] = 'deleteTermsWarning';
+		$js_array['msg']['deleteTermsWarning'] = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );
+
 		return $js_array;
 	}
 
@@ -121,7 +126,7 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 				$query['include'] = $term_ids;
 				break;
 
-			case 'non_contains':
+			case 'not_contains':
 				$term_ids         = $this->term_query( array( 'name__like' => "%$term_text%" ), $options['taxonomy'] );
 				$query['exclude'] = $term_ids;
 				break;
@@ -139,6 +144,6 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 	 */
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected options', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected terms', $items_deleted, 'bulk-delete' );
 	}
 }
