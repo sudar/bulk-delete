@@ -75,13 +75,13 @@ script:
       # Run code coverage for PHP 7.2 alone
       npm run test:cover-coverage
 
-      exit(0)
+      exit 0
     fi
 
     if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
       npm run test
 
-      exit(0)
+      exit 0
     fi
 
     if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
@@ -95,7 +95,7 @@ script:
       # Check php syntax
       npm run phpcs
 
-      exit(0)
+      exit 0
     fi
 
     if [[ ! -z "$WP_MULTISITE" ]] ; then
