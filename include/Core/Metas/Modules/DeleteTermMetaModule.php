@@ -106,7 +106,6 @@ class DeleteTermMetaModule extends MetasModule {
 	 * Convert user input to bulkwp standard.
 	 *
 	 * @param array $request Request array.
-	 *
 	 * @param array $options User options.
 	 *
 	 * @return array User options.
@@ -128,7 +127,6 @@ class DeleteTermMetaModule extends MetasModule {
 	 * @param array $options User options.
 	 */
 	public function delete( $options ) {
-
 		$count = 0;
 
 		if ( $options['term_meta_option'] === 'equal' ) {
@@ -143,6 +141,7 @@ class DeleteTermMetaModule extends MetasModule {
 				$count++;
 			}
 		}
+		
 		return $count;
 	}
 
