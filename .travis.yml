@@ -40,16 +40,18 @@ matrix:
 
 install:
   - |
-    if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
-      bash bin/install-wp-test-tools.sh
-    else
-      # Run composer install only for PHP 7.0 or above. The dependencies are not compatible with PHP 5.x
-      composer install
-    fi
-  - |
     if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
       # Run npm install only for PHP 7.0 since we are going to test grunt and other npm related things only in PHP 7.0
       npm install
+
+      exit 0
+    fi
+  - |
+    if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
+      bash bin/install-wp-test-tools.sh
+    else
+      # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x or PHP 7.0
+      composer install
     fi
 
 before_script:
@@ -64,9 +66,11 @@ before_script:
       fi
     fi
   - |
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      composer global require "phpunit/phpunit=4.8.*|5.7.*"
+    if [[ $TRAVIS_PHP_VERSION != 7.0 ]]; then
+      if [[ ! -z "$WP_VERSION" ]] ; then
+        bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+        composer global require "phpunit/phpunit=4.8.*|5.7.*"
+      fi
     fi
 
 script:
@@ -79,15 +83,15 @@ script:
     fi
 
     if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+      # Validate composer.json file
+      composer validate --no-check-all --strict
+
       npm run test
 
       exit 0
     fi
 
     if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
-      # Validate composer.json file
-      composer validate --no-check-all --strict
-
       # Validate that grunt works
       grunt vendor
       grunt
