@@ -443,10 +443,10 @@ final class BulkDelete {
 	private function get_delete_metas_admin_page() {
 		$metas_page = new DeleteMetasPage( $this->get_plugin_file() );
 
-		$metas_page->add_metabox( new DeletePostMetaModule() );
-		$metas_page->add_metabox( new DeleteUserMetaModule() );
-		$metas_page->add_metabox( new DeleteCommentMetaModule() );
-		$metas_page->add_metabox( new DeleteTermMetaModule() );
+		$metas_page->add_module( new DeletePostMetaModule() );
+		$metas_page->add_module( new DeleteUserMetaModule() );
+		$metas_page->add_module( new DeleteCommentMetaModule() );
+		$metas_page->add_module( new DeleteTermMetaModule() );
 
 		/**
 		 * After the modules are registered in the delete metas page.

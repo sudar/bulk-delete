@@ -126,7 +126,7 @@ class DeleteTermMetaModule extends MetasModule {
 	 *
 	 * @param array $options User options.
 	 */
-	public function delete( $options ) {
+	public function do_delete( $options ) {
 		$count = 0;
 
 		if ( $options['term_meta_option'] === 'equal' ) {
