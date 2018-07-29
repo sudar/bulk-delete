@@ -141,7 +141,7 @@ class DeleteTermMetaModule extends MetasModule {
 				$count++;
 			}
 		}
-		
+
 		return $count;
 	}
 
