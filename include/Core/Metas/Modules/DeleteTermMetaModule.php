@@ -134,7 +134,7 @@ class DeleteTermMetaModule extends MetasModule {
 			if ( $is_delete ) {
 				$count++;
 			}
-		} else {
+		} elseif ( $options['term_meta_option'] === 'not_equal' )  {
 			$term_value = get_term_meta( $options['term'], $options['term_meta'], true );
 			if ( $term_value !== $options['term_meta_value'] ) {
 				delete_term_meta( $options['term'], $options['term_meta'] );
