@@ -172,8 +172,8 @@ class Controller {
 	 */
 	public function load_taxonomy_term_meta() {
 		$response = array();
-
-		$term_id = sanitize_text_field( $_GET['term_id'] );
+		$term_id = $_GET['term_id'];
+		$term_id = sanitize_text_field( $term_id );
 
 		$term_vals = get_term_meta($term_id);
 
