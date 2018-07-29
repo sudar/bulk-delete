@@ -20,51 +20,77 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	protected $module;
 
-	protected $subscriber;
-	protected $subscriber_with_two_days_old_registration_date;
-	protected $second_subscriber;
+	/**
+	 * User with role as 'Subscriber'.
+	 *
+	 * @var int
+	 */
+	protected $subscriber_1;
 
-	private $common_filter_defaults;
+	/**
+	 * User with role as 'Subscriber'.
+	 *
+	 * @var int
+	 */
+	protected $subscriber_2;
+
+	/**
+	 * User with role as 'Subscriber' whose registration date is two days
+	 * older than the current
+	 *
+	 * @var int
+	 */
+	protected $subscriber_3;
+
+	/**
+	 * User with role as 'Subscriber'.
+	 *
+	 * @var int
+	 */
+	protected $subscriber_4;
+
+	/**
+	 * Filters with default values.
+	 *
+	 * @var array
+	 */
+	protected $common_filter_defaults = array(
+		'login_restrict'      => false,
+		'login_days'          => 0,
+		'registered_restrict' => false,
+		'registered_days'     => 0,
+		'no_posts'            => false,
+		'no_posts_post_types' => array(),
+		'limit_to'            => 0,
+	);
 
 	public function setUp() {
 		parent::setUp();
-
-		$this->common_filter_defaults = array(
-			'login_restrict'      => false,
-			'login_days'          => 0,
-			'registered_restrict' => false,
-			'registered_days'     => 0,
-			'no_posts'            => false,
-			'no_posts_post_types' => array(),
-			'limit_to'            => 0,
-		);
 
 		$this->module = new DeleteUsersByUserMetaModule();
 
 		$user_role = 'subscriber';
 
-		// Create one user with role as `subscriber`.
-		$this->subscriber = $this->factory->user->create( array(
+		$this->subscriber_1 = $this->factory->user->create( array(
 			'role' => $user_role,
 		) );
-
-		// Create one user with role as `subscriber` with
-		// registration date two days older than the current date.
-		$this->subscriber_with_two_days_old_registration_date = $this->factory->user->create( array(
+		$this->subscriber_2 = $this->factory->user->create( array(
+			'role' => $user_role,
+		) );
+		$this->subscriber_3 = $this->factory->user->create( array(
 			'role'            => $user_role,
 			'user_registered' => date( 'Y-m-d', strtotime( '-2 day' ) ),
 		) );
-
-		// Create another user with role as `subscriber`.
-		$this->second_subscriber = $this->factory->user->create( array(
+		$this->subscriber_4 = $this->factory->user->create( array(
 			'role' => $user_role,
 		) );
 	}
 
 	public function tearDown() {
-		wp_delete_user( $this->subscriber );
-		wp_delete_user( $this->subscriber_with_two_days_old_registration_date );
-		wp_delete_user( $this->second_subscriber );
+		wp_delete_user( $this->subscriber_1 );
+		wp_delete_user( $this->subscriber_2 );
+		wp_delete_user( $this->subscriber_3 );
+		wp_delete_user( $this->subscriber_4 );
 	}
 
 	/**
@@ -75,45 +101,96 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 * @return array Data.
 	 */
 	public function provide_data_to_test_that_users_can_be_deleted_when_user_and_no_filters_set() {
-		$meta_key   = 'bwp_plugin_name';
-		$meta_value = 'bulk-delete';
+		$meta_key     = 'bwp_plugin_name';
+		$meta_value_1 = 'bulk_delete';
+		$meta_value_2 = 'my_awesome_plugin';
+		$meta_value_3 = 'bulk';
+		$meta_value_4 = 'hulk';
 
-		$delete_options_when_meta_equals_to = array(
+		$delete_options_when_meta_value_equals_to = array(
 			'meta_key'     => $meta_key,
-			'meta_value'   => $meta_value,
+			'meta_value'   => $meta_value_1,
 			'meta_compare' => '=',
 		);
 
-		$get_users_when_meta_equals_to = array(
+		$delete_options_when_meta_value_equals_not_equals_to = array(
 			'meta_key'     => $meta_key,
-			'meta_value'   => $meta_value,
-			'meta_compare' => '=',
-		);
-
-		$delete_options_when_meta_equals_not_equals_to = array(
-			'meta_key'     => $meta_key,
-			'meta_value'   => $meta_value,
+			'meta_value'   => $meta_value_2,
 			'meta_compare' => '!=',
 		);
 
-		$get_users_when_meta_equals_not_equals_to = array(
+		$delete_options_when_meta_value_contains = array(
 			'meta_key'     => $meta_key,
-			'meta_value'   => $meta_value,
-			'meta_compare' => '!=',
+			'meta_value'   => $meta_value_3,
+			'meta_compare' => 'LIKE',
+		);
+
+		$delete_options_when_meta_value_not_contains = array(
+			'meta_key'     => $meta_key,
+			'meta_value'   => $meta_value_4,
+			'meta_compare' => 'NOT LIKE',
+		);
+
+		$delete_options_when_meta_value_starts_with = array(
+			'meta_key'     => $meta_key,
+			'meta_value'   => $meta_value_3,
+			'meta_compare' => 'STARTS WITH',
+		);
+
+		$delete_options_when_meta_value_ends_with = array(
+			'meta_key'     => $meta_key,
+			'meta_value'   => $meta_value_4,
+			'meta_compare' => 'ENDS WITH',
 		);
 
 		return array(
 			array(
 				array(
-					'delete_options' => $delete_options_when_meta_equals_to,
-					'get_options'    => $get_users_when_meta_equals_to,
-				), 0
+					'delete_options' => $delete_options_when_meta_value_equals_to,
+				),
+				array(
+					'count_of_deleted_users' => 1,
+				),
 			),
 			array(
 				array(
-					'delete_options' => $delete_options_when_meta_equals_not_equals_to,
-					'get_options'    => $get_users_when_meta_equals_not_equals_to,
-				), 0
+					'delete_options' => $delete_options_when_meta_value_equals_not_equals_to,
+				),
+				array(
+					'count_of_deleted_users' => 3,
+				),
+			),
+			array(
+				array(
+					'delete_options' => $delete_options_when_meta_value_contains,
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+			array(
+				array(
+					'delete_options' => $delete_options_when_meta_value_not_contains,
+				),
+				array(
+					'count_of_deleted_users' => 3,
+				),
+			),
+			array(
+				array(
+					'delete_options' => $delete_options_when_meta_value_starts_with,
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+			array(
+				array(
+					'delete_options' => $delete_options_when_meta_value_ends_with,
+				),
+				array(
+					'count_of_deleted_users' => 1,
+				),
 			),
 		);
 	}
@@ -126,460 +203,54 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_when_user_and_no_filters_set
 	 */
-	public function test_that_users_can_be_deleted_when_user_and_no_filters_set($input, $expected_output) {
+	public function test_that_users_can_be_deleted_with_string_meta_operators_and_with_no_filters_set($input, $expected_output) {
 		$meta_key     = 'bwp_plugin_name';
-		$meta_value   = 'bulk-delete';
+		$meta_value_1 = 'bulk_delete';
+		$meta_value_2 = 'my_awesome_plugin';
+		$meta_value_3 = 'bulk_move';
+		$meta_value_4 = 'the_green_hulk';
 
 		// Update user meta.
-		update_user_meta( $this->subscriber, $meta_key, $meta_value );
-		update_user_meta( $this->second_subscriber, $meta_key, 'my_awesome_plugin' );
+		update_user_meta( $this->subscriber_1, $meta_key, $meta_value_1 );
+		update_user_meta( $this->subscriber_2, $meta_key, $meta_value_2 );
+		update_user_meta( $this->subscriber_3, $meta_key, $meta_value_3 );
+		update_user_meta( $this->subscriber_4, $meta_key, $meta_value_4 );
 
-		$delete_options = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
-		$this->module->delete( $delete_options );
+		$users_with_meta_value_1 = get_users( array(
+			'meta_key'     => $meta_key,
+			'meta_value'   => $meta_value_1,
+			'meta_compare' => '=',
+		) );
 
-		// Assert that user meta has no user.
-		$users_with_meta = get_users( $input['get_options'] );
+		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
 
-		$output = count( $users_with_meta );
-		$this->assertEquals( $expected_output, $output );
+		$users_with_meta_value_2 = get_users( array(
+			'meta_key'     => $meta_key,
+			'meta_value'   => $meta_value_2,
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_2, 'ID' ) );
+
+		$users_with_meta_value_3 = get_users( array(
+			'meta_key'     => $meta_key,
+			'meta_value'   => $meta_value_3,
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_3, 'ID' ) );
+
+		$users_with_meta_value_4 = get_users( array(
+			'meta_key'     => $meta_key,
+			'meta_value'   => $meta_value_4,
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_4, 'ID' ) );
+
+		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users'], $count_of_deleted_users );
 	}
-
-//	/**
-//	 * Test case for deleting users by user meta with user registration filter set.
-//	 */
-//	public function test_that_users_deleted_when_user_meta_value_equals_to_and_user_registration_filter_fulfilled() {
-//		$meta_key     = 'plugin_name';
-//		$meta_value   = 'bulk_delete';
-//		$meta_compare = '=';
-//
-//		// Update user meta.
-//		update_user_meta( $this->subscriber_with_two_days_old_registration_date, 'plugin_name', 'bulk_delete' );
-//
-//		// Assert that user meta has one user.
-//		$users_with_meta = get_users( array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//		) );
-//		$this->assertEquals( 1, count( $users_with_meta ) );
-//
-//		// call our method.
-//		$delete_options = array(
-//			'meta_key'            => $meta_key,
-//			'meta_value'          => $meta_value,
-//			'meta_compare'        => $meta_compare,
-//			'registered_restrict' => true,
-//			'registered_days'     => 1,
-//		);
-//
-//		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that user meta has one user.
-//		$users_with_meta = get_users( array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//		) );
-//		$this->assertEquals( 0, count( $users_with_meta ) );
-//	}
-//
-//	/**
-//	 * Test case for not deleting users when user registration filter is not fulfilled.
-//	 */
-//	public function test_that_users_not_deleted_when_user_meta_value_equals_to_and_user_registration_filter_not_fulfilled(
-//	) {
-//		// Update user meta.
-//		update_user_meta( $this->subscriber_with_two_days_old_registration_date, 'plugin_name', 'bulk_delete' );
-//
-//		// Assert that user meta has one user.
-//		$users_in_meta = get_users( array(
-//			'meta_key'     => 'plugin_name',
-//			'meta_value'   => 'bulk_delete',
-//			'meta_compare' => '=',
-//		) );
-//		$this->assertEquals( 1, count( $users_in_meta ) );
-//
-//		// call our method.
-//		$delete_options = array(
-//			'meta_key'            => 'plugin_name',
-//			'meta_value'          => 'bulk_delete',
-//			'meta_compare'        => '=',
-//			'registered_restrict' => true,
-//			'registered_days'     => 4,
-//		);
-//
-//		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that user meta has no user.
-//		$users_in_meta = get_users( array(
-//			'meta_key'     => 'plugin_name',
-//			'meta_value'   => 'bulk_delete',
-//			'meta_compare' => '=',
-//		) );
-//		$this->assertEquals( 1, count( $users_in_meta ) );
-//	}
-//
-//	/**
-//	 * Test case of delete users by meta with filter set post type.
-//	 */
-//	public function test_that_users_deleted_when_user_meta_value_equals_to_and_restricted_by_post_type_filter() {
-//		// Update user meta.
-//		update_user_meta( $this->subscriber, 'plugin_name', 'bulk_delete' );
-//		update_user_meta( $this->subscriber_with_two_days_old_registration_date, 'plugin_name', 'bulk_delete' );
-//
-//		// Create post and assign author.
-//		$this->factory->post->create( array(
-//			'post_title'  => 'post1',
-//			'post_author' => $this->subscriber,
-//		) );
-//		$this->factory->post->create( array(
-//			'post_title'  => 'page1',
-//			'post_type'   => 'page',
-//			'post_author' => $this->subscriber_with_two_days_old_registration_date,
-//		) );
-//
-//		// Assert that user meta has two users $user1 and $user2.
-//		$users_with_meta = get_users( array(
-//			'meta_key'     => 'plugin_name',
-//			'meta_value'   => 'bulk_delete',
-//			'meta_compare' => '=',
-//		) );
-//
-//		$this->assertEquals( array( $this->subscriber, $this->subscriber_with_two_days_old_registration_date ),
-//			wp_list_pluck( $users_with_meta, 'ID' ) );
-//
-//		// Delete Users who do not have any posts except for `post` post type.
-//		$delete_options = array(
-//			'meta_key'            => 'plugin_name',
-//			'meta_value'          => 'bulk_delete',
-//			'meta_compare'        => '=',
-//			'no_posts'            => true,
-//			'no_posts_post_types' => 'post',
-//		);
-//
-//		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that user meta has one $user1 and $user2 is deleted.
-//		$users_in_meta = get_users( array(
-//			'meta_key'     => 'plugin_name',
-//			'meta_value'   => 'bulk_delete',
-//			'meta_compare' => '=',
-//		) );
-//
-//		$this->assertEquals( array( $this->subscriber ), wp_list_pluck( $users_in_meta, 'ID' ) );
-//	}
-//
-//	public function test_that_users_deleted_when_user_meta_value_equals_to_and_in_batches() {
-//		$meta_key     = 'plugin_name';
-//		$meta_value   = 'bulk_delete';
-//		$meta_compare = '=';
-//
-//		// Update user meta.
-//		update_user_meta( $this->subscriber, $meta_key, $meta_value );
-//		update_user_meta( $this->subscriber_with_two_days_old_registration_date, $meta_key, $meta_value );
-//
-//		// Assert that user meta has two users.
-//		$users_with_meta = get_users( array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//		) );
-//		$this->assertEquals( 2, count( $users_with_meta ) );
-//
-//		// Delete the 1st set of Users.
-//		$delete_options = array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//			'limit_to'     => 1,
-//		);
-//
-//		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that user meta has no user.
-//		$users_remaining_after_1st_batch = get_users( array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//		) );
-//		$this->assertEquals( 1, count( $users_remaining_after_1st_batch ) );
-//
-//		// Delete the 2nd set of Users.
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that user meta has no user.
-//		$users_remaining_after_2nd_batch = get_users( array(
-//			'meta_key'     => $meta_key,
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//		) );
-//		$this->assertEquals( 0, count( $users_remaining_after_2nd_batch ) );
-//	}
-//
-//	/**
-//	 * Test case for user deletion when the given value not equals to the meta value.
-//	 */
-//	public function test_that_users_deleted_when_user_meta_value_not_equals_to_and_no_filters_set() {
-//		$meta_key     = 'plugin_name';
-//		$meta_value   = 'bulk_delete';
-//		$meta_compare = '!=';
-//
-//		// Update user meta.
-//		update_user_meta( $this->subscriber, $meta_key, $meta_value );
-//		update_user_meta( $this->subscriber_with_two_days_old_registration_date, $meta_key, 'my_awesome_plugin' );
-//
-//		// Assert that two users have the same meta key.
-//		$users_with_same_meta_key = get_users( array(
-//			'meta_key' => $meta_key,
-//		) );
-//		$this->assertEquals( 2, count( $users_with_same_meta_key ) );
-//
-//		// call our method.
-//		$delete_options = array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//		);
-//
-//		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that one of the users is deleted.
-//		$users_with_same_meta_key = get_users( array(
-//			'meta_key' => $meta_key,
-//		) );
-//
-//		$this->assertEquals( 1, count( $users_with_same_meta_key ) );
-//	}
-//
-//	/**
-//	 * Test case for deleting users when user meta not equals to and user registration filter set.
-//	 */
-//	public function test_that_users_deleted_when_user_meta_value_not_equals_to_and_user_registration_filter_fulfilled(
-//	) {
-//		$meta_key     = 'plugin_name';
-//		$meta_value   = 'bulk_delete';
-//		$meta_compare = '!=';
-//
-//		// Update user meta.
-//		update_user_meta( $this->subscriber, $meta_key, $meta_value );
-//		update_user_meta( $this->subscriber_with_two_days_old_registration_date, $meta_key, 'my_awesome_plugin' );
-//		update_user_meta( $this->second_subscriber, $meta_key, 'my_second_plugin' );
-//
-//		// Assert that two users have the same meta key.
-//		$users_with_same_meta_key = get_users( array(
-//			'meta_key' => $meta_key,
-//		) );
-//		$this->assertEquals( 3, count( $users_with_same_meta_key ) );
-//
-//		// call our method.
-//		$delete_options = array(
-//			'meta_key'            => $meta_key,
-//			'meta_value'          => $meta_value,
-//			'meta_compare'        => $meta_compare,
-//			'registered_restrict' => true,
-//			'registered_days'     => 1,
-//		);
-//
-//		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that one of the users is deleted.
-//		$users_with_same_meta_key = get_users( array(
-//			'meta_key' => $meta_key,
-//		) );
-//
-//		$this->assertEquals( 2, count( $users_with_same_meta_key ) );
-//	}
-//
-//	/**
-//	 * Test case for not deleting users when user registration filter is not fulfilled.
-//	 */
-//	public function
-//	test_that_users_not_deleted_when_user_meta_value_not_equals_to_and_user_registration_filter_not_fulfilled() {
-//		$meta_key     = 'plugin_name';
-//		$meta_value   = 'bulk_delete';
-//		$meta_compare = '!=';
-//
-//		// Update user meta.
-//		update_user_meta( $this->subscriber, $meta_key, $meta_value );
-//		update_user_meta( $this->subscriber_with_two_days_old_registration_date, $meta_key, 'my_awesome_plugin' );
-//		update_user_meta( $this->second_subscriber, $meta_key, 'my_second_plugin' );
-//
-//		// Assert that two users have the same meta key.
-//		$users_with_same_meta_key = get_users( array(
-//			'meta_key' => $meta_key,
-//		) );
-//		$this->assertEquals( 3, count( $users_with_same_meta_key ) );
-//
-//		// call our method.
-//		$delete_options = array(
-//			'meta_key'            => $meta_key,
-//			'meta_value'          => $meta_value,
-//			'meta_compare'        => $meta_compare,
-//			'registered_restrict' => true,
-//			'registered_days'     => 4,
-//		);
-//
-//		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that one of the users is deleted.
-//		$users_with_same_meta_key = get_users( array(
-//			'meta_key' => $meta_key,
-//		) );
-//
-//		$this->assertEquals( 3, count( $users_with_same_meta_key ) );
-//	}
-//
-//	/**
-//	 * Test case of delete users by meta with filter set post type.
-//	 */
-//	public function test_that_users_deleted_when_user_meta_value_not_equals_to_and_restricted_by_post_type_filter() {
-//		$meta_key     = 'plugin_name';
-//		$meta_value   = 'bulk_delete';
-//		$meta_compare = '!=';
-//
-//		// Update user meta.
-//		update_user_meta( $this->subscriber, $meta_key, $meta_value );
-//		update_user_meta( $this->subscriber_with_two_days_old_registration_date, $meta_key, 'my_awesome_plugin' );
-//		update_user_meta( $this->second_subscriber, $meta_key, 'my_second_plugin' );
-//
-//		// Create post and assign author.
-//		$this->factory->post->create( array(
-//			'post_title'  => 'A sample Post',
-//			'post_author' => $this->subscriber,
-//		) );
-//
-//		$this->factory->post->create( array(
-//			'post_title'  => 'Another sample Post',
-//			'post_author' => $this->second_subscriber,
-//		) );
-//
-//		// Create Page and assign author.
-//		$this->factory->post->create( array(
-//			'post_title'  => 'A sample Page',
-//			'post_type'   => 'page',
-//			'post_author' => $this->subscriber_with_two_days_old_registration_date,
-//		) );
-//
-//		// Assert that three users have the same meta key.
-//		$users_with_same_meta_key = get_users( array(
-//			'meta_key' => $meta_key,
-//		) );
-//
-//		$this->assertEquals( array(
-//			$this->subscriber,
-//			$this->subscriber_with_two_days_old_registration_date,
-//			$this->second_subscriber,
-//		),
-//			wp_list_pluck( $users_with_same_meta_key, 'ID' )
-//		);
-//
-//		// call our method.
-//		$delete_options = array(
-//			'meta_key'            => $meta_key,
-//			'meta_value'          => $meta_value,
-//			'meta_compare'        => $meta_compare,
-//			'no_posts'            => true,
-//			'no_posts_post_types' => 'post',
-//		);
-//
-//		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that two of the users is deleted.
-//		$users_with_same_meta_key = get_users( array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//		) );
-//
-//		$this->assertEquals(
-//			array( $this->second_subscriber ),
-//			wp_list_pluck( $users_with_same_meta_key, 'ID' )
-//		);
-//	}
-//
-//	/**
-//	 * Test case of delete users by meta and in batches.
-//	 */
-//	public function test_that_users_deleted_when_user_meta_value_not_equals_to_and_in_batches() {
-//		$meta_key     = 'plugin_name';
-//		$meta_value   = 'bulk_delete';
-//		$meta_compare = '!=';
-//
-//		// Update user meta.
-//		update_user_meta( $this->subscriber, $meta_key, $meta_value );
-//		update_user_meta( $this->subscriber_with_two_days_old_registration_date, $meta_key, 'my_awesome_plugin' );
-//		update_user_meta( $this->second_subscriber, $meta_key, 'my_second_plugin' );
-//
-//		// Assert that user meta has two users.
-//		$users_with_same_meta_key = get_users( array(
-//			'meta_key' => $meta_key,
-//		) );
-//		$this->assertEquals( array(
-//			$this->subscriber,
-//			$this->subscriber_with_two_days_old_registration_date,
-//			$this->second_subscriber,
-//		),
-//			wp_list_pluck( $users_with_same_meta_key, 'ID' )
-//		);
-//
-//		// Delete the 1st set of Users.
-//		$delete_options = array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//			'limit_to'     => 1,
-//		);
-//
-//		$delete_options = wp_parse_args( $delete_options, $this->common_filter_defaults );
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that user meta has one user with no matching meta value.
-//		$users_remaining_after_1st_batch = get_users( array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//		) );
-//		$this->assertEquals( 1, count( $users_remaining_after_1st_batch ) );
-//
-//		// Delete the 2nd set of Users.
-//		$this->module->delete( $delete_options );
-//
-//		// Assert that both Users with non matching meta value are deleted.
-//		$users_remaining_after_2nd_batch = get_users( array(
-//			'meta_key'     => $meta_key,
-//			'meta_value'   => $meta_value,
-//			'meta_compare' => $meta_compare,
-//		) );
-//		$this->assertEquals( 0, count( $users_remaining_after_2nd_batch ) );
-//	}
-//
-//	public function test_that_users_deleted_when_user_meta_value_greater_than_and_no_filters_set() {
-//
-//	}
-//
-//	public function test_that_users_deleted_when_user_meta_value_greater_than_and_user_registration_filter_fulfilled() {
-//
-//	}
-//
-//	public function test_that_users_deleted_when_user_meta_value_greater_than_and_user_registration_filter_not_fulfilled(
-//	) {
-//
-//	}
-//
-//	public function test_that_users_deleted_when_user_meta_value_greater_than_and_restricted_by_post_type_filter() {
-//
-//	}
-//
-//	public function test_that_users_deleted_when_user_meta_value_greater_than_and_in_batches() {
-//
-//	}
 }
