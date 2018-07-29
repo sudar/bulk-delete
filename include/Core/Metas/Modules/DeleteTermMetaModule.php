@@ -11,6 +11,9 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.1.0
  */
 class DeleteTermMetaModule extends MetasModule {
+	/**
+	 * Initialize the Module.
+	 */
 	protected function initialize() {
 		$this->field_slug    = 'meta_term';
 		$this->meta_box_slug = 'bd-meta-term';
@@ -31,62 +34,62 @@ class DeleteTermMetaModule extends MetasModule {
 	public function render() {
 		?>
 		<!-- Term Meta box start-->
-        <fieldset class="options">
-<?php
+		<fieldset class="options">
+		<?php
 		$taxonomies = $this->get_taxonomies();
-?>
-        <h4><?php _e( 'Select the taxonomy whose term meta fields you want to delete', 'bulk-delete' ); ?></h4>
-        <table class="optiontable">
-<?php
+		?>
+		<h4><?php _e( 'Select the taxonomy whose term meta fields you want to delete', 'bulk-delete' ); ?></h4>
+		<table class="optiontable">
+		<?php
 		foreach ( $taxonomies as $taxonomy ) {
-?>
-            <tr>
-                <td>
-                    <input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" value = "<?php echo $taxonomy; ?>" type = "radio" class = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy">
-                    <label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy"><?php echo $taxonomy; ?> </label>
-                </td>
-            </tr>
-<?php
+			?>
+			<tr>
+				<td>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" value = "<?php echo $taxonomy; ?>" type = "radio" class = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy">
+					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy"><?php echo $taxonomy; ?> </label>
+				</td>
+			</tr>
+			<?php
 		}
-?>
-        </table>
+		?>
+		</table>
 
-        <h4><?php _e( 'Choose your term want to delete', 'bulk-delete' ); ?></h4>
-        <table class="optiontable">
-            <tr>
-                <td>
-                    <select class="select2 select2-terms" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term">
-                        <option>Choose Terms</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+		<h4><?php _e( 'Choose your term want to delete', 'bulk-delete' ); ?></h4>
+		<table class="optiontable">
+			<tr>
+				<td>
+					<select class="select2 select2-terms" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term">
+						<option>Choose Terms</option>
+					</select>
+				</td>
+			</tr>
+		</table>
 
-        <h4><?php _e( 'Choose your term meta want to delete', 'bulk-delete' ); ?></h4>
-        <table class="optiontable">
-            <tr>
-                <td>
-                    <select class="select2 select2-term-meta" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta">
-                        <option>Choose Term Meta</option>
-                    </select>
+		<h4><?php _e( 'Choose your term meta want to delete', 'bulk-delete' ); ?></h4>
+		<table class="optiontable">
+			<tr>
+				<td>
+					<select class="select2 select2-term-meta" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta">
+						<option>Choose Term Meta</option>
+					</select>
 
-                    <select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_option">
-                        <option value="equal">Equal to</option>
-                        <option value="not_equal">Not equal to</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_option">
+						<option value="equal">Equal to</option>
+						<option value="not_equal">Not equal to</option>
+					</select>
+				</td>
+			</tr>
+		</table>
 
-        <h4><?php _e( 'Term Meta Value', 'bulk-delete' ); ?></h4>
-        <table class="optiontable">
-            <tr>
-                <td>
-                    <input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_value" />
-                </td>
-            </tr>
-        </table>
-<?php
+		<h4><?php _e( 'Term Meta Value', 'bulk-delete' ); ?></h4>
+		<table class="optiontable">
+			<tr>
+				<td>
+					<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_value" />
+				</td>
+			</tr>
+		</table>
+		<?php
 		/**
 		 * Add more fields to the delete post meta field form.
 		 * This hook can be used to add more fields to the delete post meta field form.
@@ -94,39 +97,54 @@ class DeleteTermMetaModule extends MetasModule {
 		 * @since 5.4
 		 */
 		do_action( 'bd_delete_post_meta_form' );
-?>
-        
-        </fieldset>
+		?>
 
-        <p>
-            <button type="submit" name="bd_action" value="delete_meta_term" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ) ?>&raquo;</button>
-        </p>
-        <!-- Term Meta box end-->
+		</fieldset>
+
+		<p>
+			<button type="submit" name="bd_action" value="delete_meta_term" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ); ?>&raquo;</button>
+		</p>
+		<!-- Term Meta box end-->
 		<?php
 	}
 
+	/**
+	 * Convert user input to bulkwp standard.
+	 *
+	 * @param array $request Request array.
+	 *
+	 * @param array $options User options.
+	 *
+	 * @return array User options.
+	 */
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['term'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term', 'term' ) );
 
-		$options['term_meta'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta', 'term_meta' );
-		$options['term_meta_value']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_value', '' ) );
+		$options['term_meta']       = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta', 'term_meta' );
+		$options['term_meta_value'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_value', '' ) );
 
-		$options['term_meta_option']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_option', '' ) );
+		$options['term_meta_option'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_option', '' ) );
 
 		return $options;
 	}
 
+	/**
+	 * Delete action.
+	 *
+	 * @param array $options User options.
+	 */
 	public function delete( $options ) {
 
 		$count = 0;
 
-		if( $options['term_meta_option'] == 'equal' ){
-			if( delete_term_meta( $options['term'], $options['term_meta'], $options['term_meta_value'] ) ){
+		if ( $options['term_meta_option'] === 'equal' ) {
+			$is_delete = delete_term_meta( $options['term'], $options['term_meta'], $options['term_meta_value'] );
+			if ( $is_delete ) {
 				$count++;
 			}
-		}else{
+		} else {
 			$term_value = get_term_meta( $options['term'], $options['term_meta'], true );
-			if( $term_value != $options['term_meta_value'] ){
+			if ( $term_value !== $options['term_meta_value'] ) {
 				delete_term_meta( $options['term'], $options['term_meta'] );
 				$count++;
 			}
@@ -134,6 +152,13 @@ class DeleteTermMetaModule extends MetasModule {
 		return $count;
 	}
 
+	/**
+	 * Filter JS Array and add pro hooks.
+	 *
+	 * @param array $js_array JavaScript Array.
+	 *
+	 * @return array Modified JavaScript Array.
+	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][]                 = '_' . $this->field_slug;
 		$js_array['validators']['delete_meta_term'] = 'noValidation';
@@ -144,6 +169,13 @@ class DeleteTermMetaModule extends MetasModule {
 		return $js_array;
 	}
 
+	/**
+	 * Get Success Message.
+	 *
+	 * @param int $items_deleted Number of items that were deleted.
+	 *
+	 * @return string Success message.
+	 */
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
 		return _n( 'Deleted %d term meta field', 'Deleted %d term meta field', $items_deleted, 'bulk-delete' );
