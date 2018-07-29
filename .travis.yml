@@ -36,6 +36,7 @@ matrix:
   allow_failures:
     - php: nightly
     - php: 7.2
+    - php: 5.3
   fast_finish: true
 
 install:

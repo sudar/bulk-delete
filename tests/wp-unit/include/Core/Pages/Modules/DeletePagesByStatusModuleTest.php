@@ -143,7 +143,7 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (within the last x days) with two post status.
 	 */
-	public function test_that_pages_that_are_posted_within_the_last_x_days_can_be_deleted() {
+	public function test_that_pages_that_are_posted_within_the_last_x_days_can_be_trashed() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
 
 		$published_pages = $this->factory->post->create_many( 10, array(
@@ -187,7 +187,7 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test batch deletion with two post status.
 	 */
-	public function test_that_pages_can_be_deleted_in_batches() {
+	public function test_that_pages_can_be_trashed_in_batches() {
 		$published_pages = $this->factory->post->create_many( 50, array(
 			'post_type'   => 'page',
 			'post_status' => 'publish',
