@@ -76,8 +76,8 @@ class DeletePostsByTagModule extends PostsModule {
 	 * @return array $options  Inputs from user for posts that were need to delete
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['selected_tags'] = bd_array_get( $request, 'smbd_tags' );
-		$options['private']       = bd_array_get( $request, 'smbd_tags_private' );
+		$options['selected_tags'] = bd_array_get( $request, 'smbd_tags', array() );
+		$options['private']       = bd_array_get( $request, 'smbd_tags_private', false );
 
 		return $options;
 	}

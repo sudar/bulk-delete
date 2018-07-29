@@ -56,7 +56,7 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @var string
 	 */
-	protected $action;
+	protected $action = '';
 
 	/**
 	 * Hook for scheduler.
@@ -97,6 +97,15 @@ abstract class BaseModule extends Renderer {
 	abstract public function render();
 
 	/**
+	 * Process common filters.
+	 *
+	 * @param array $request Request array.
+	 *
+	 * @return array User options.
+	 */
+	abstract protected function parse_common_filters( $request );
+
+	/**
 	 * Process user input and create metabox options.
 	 *
 	 * @param array $request Request array.
@@ -113,7 +122,7 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @return int Number of items that were deleted.
 	 */
-	abstract public function delete( $options );
+	abstract protected function do_delete( $options );
 
 	/**
 	 * Get Success Message.
@@ -143,8 +152,11 @@ abstract class BaseModule extends Renderer {
 
 		add_action( "add_meta_boxes_{$this->page_hook_suffix}", array( $this, 'setup_metabox' ) );
 
-		add_action( 'bd_' . $this->action, array( $this, 'process' ) );
 		add_filter( 'bd_javascript_array', array( $this, 'filter_js_array' ) );
+
+		if ( ! empty( $this->action ) ) {
+			add_action( 'bd_' . $this->action, array( $this, 'process' ) );
+		}
 	}
 
 	/**
@@ -252,10 +264,70 @@ abstract class BaseModule extends Renderer {
 	}
 
 	/**
-	 * Render cron settings.
+	 * Render cron settings based on whether scheduler is present or not.
 	 */
 	protected function render_cron_settings() {
-		bd_render_cron_settings( $this->field_slug, $this->scheduler_url );
+		$disabled_attr = 'disabled';
+		if ( empty( $this->scheduler_url ) ) {
+			$disabled_attr = '';
+		}
+		?>
+
+		<tr>
+			<td scope="row" colspan="2">
+				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
+				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="true" type="radio" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" <?php echo esc_attr( $disabled_attr ); ?>> <?php _e( 'Schedule', 'bulk-delete' ); ?>
+				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value="now" type="text" <?php echo esc_attr( $disabled_attr ); ?>><?php _e( 'repeat ', 'bulk-delete' ); ?>
+
+				<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" <?php echo esc_attr( $disabled_attr ); ?>>
+					<option value="-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
+
+					<?php
+					/**
+					 * List of cron schedules.
+					 *
+					 * @since 6.0.0
+					 *
+					 * @param array                                   $cron_schedules List of cron schedules.
+					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module         Module.
+					 */
+					$cron_schedules = apply_filters( 'bd_cron_schedules', wp_get_schedules(), $this );
+					?>
+
+					<?php foreach ( $cron_schedules as $key => $value ) : ?>
+						<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value['display'] ); ?></option>
+					<?php endforeach; ?>
+				</select>
+
+				<?php if ( ! empty( $this->scheduler_url ) ) : ?>
+					<?php
+					$pro_class = 'bd-' . str_replace( '_', '-', $this->field_slug ) . '-pro';
+
+					/**
+					 * HTML class of the span that displays the 'Pro only feature' message.
+					 *
+					 * @since 6.0.0
+					 *
+					 * @param string                                  $pro_class  HTML class.
+					 * @param string                                  $field_slug Field Slug of module.
+					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module     Module.
+					 */
+					apply_filters( 'bd_pro_only_feature_class', $pro_class, $this->field_slug, $this )
+					?>
+
+					<span class="<?php echo sanitize_html_class( $pro_class ); ?>" style="color:red">
+						<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href="<?php echo esc_url( $this->scheduler_url ); ?>">Buy now</a>
+					</span>
+				<?php endif; ?>
+			</td>
+		</tr>
+
+		<tr>
+			<td scope="row" colspan="2">
+				<?php _e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time', 'bulk-delete' ); ?>
+			</td>
+		</tr>
+		<?php
 	}
 
 	/**
@@ -289,6 +361,27 @@ abstract class BaseModule extends Renderer {
 			$msg,
 			'updated'
 		);
+	}
+
+	/**
+	 * Delete items based on delete options.
+	 *
+	 * @param array $options Delete Options.
+	 *
+	 * @return int Number of items deleted.
+	 */
+	public function delete( $options ) {
+		/**
+		 * Filter delete options before deleting items.
+		 *
+		 * @since 6.0.0 Added `Modules` parameter.
+		 *
+		 * @param array $options Delete options.
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule Modules that is triggering deletion.
+		 */
+		$options = apply_filters( 'bd_delete_options', $options, $this );
+
+		return $this->do_delete( $options );
 	}
 
 	/**
@@ -357,26 +450,6 @@ abstract class BaseModule extends Renderer {
 			__( 'See the full list of <a href = "%s">scheduled tasks</a>', 'bulk-delete' ),
 			get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . \Bulk_Delete::CRON_PAGE_SLUG
 		);
-	}
-
-	/**
-	 * Handle common filters.
-	 *
-	 * @param array $request Request array.
-	 *
-	 * @return array User options.
-	 */
-	protected function parse_common_filters( $request ) {
-		$options = array();
-
-		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
-		$options['limit_to']     = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
-		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
-
-		$options['date_op'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
-		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
-
-		return $options;
 	}
 
 	/**
