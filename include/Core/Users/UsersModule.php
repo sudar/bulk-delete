@@ -1,49 +1,97 @@
 <?php
-/**
- * Base class for a Bulk Delete User Meta Box Module.
- *
- * @since 5.5.2
- *
- * @author Sudar
- *
- * @package BulkDelete\Base\Users
- */
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly
+
+namespace BulkWP\BulkDelete\Core\Users;
+
+use BulkWP\BulkDelete\Core\Base\BaseModule;
+
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Encapsulates the Bulk Delete User Meta box Module Logic.
  * All Bulk Delete User Meta box Modules should extend this class.
  *
- * @see BD_Meta_Box_Module
+ * @see BaseModule
  * @since 5.5.2
- * @abstract
+ * @since 6.0.0 Renamed to UsersModule.
  */
-abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
+abstract class UsersModule extends BaseModule {
+	/**
+	 * Build query params for WP_User_Query by using delete options.
+	 *
+	 * Return an empty query array to short-circuit deletion.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $options Delete options.
+	 *
+	 * @return array Query.
+	 */
+	abstract protected function build_query( $options );
+
+	/**
+	 * Handle common filters.
+	 *
+	 * @param array $request Request array.
+	 *
+	 * @return array User options.
+	 */
+	protected function parse_common_filters( $request ) {
+		$options = array();
+
+		$options['login_restrict'] = bd_array_get_bool( $request, "smbd_{$this->field_slug}_login_restrict", false );
+		$options['login_days']     = absint( bd_array_get( $request, "smbd_{$this->field_slug}_login_days", 0 ) );
+
+		$options['registered_restrict'] = bd_array_get_bool( $request, "smbd_{$this->field_slug}_registered_restrict", false );
+		$options['registered_days']     = absint( bd_array_get( $request, "smbd_{$this->field_slug}_registered_days", 0 ) );
+
+		$options['no_posts']            = bd_array_get_bool( $request, "smbd_{$this->field_slug}_no_posts", false );
+		$options['no_posts_post_types'] = bd_array_get( $request, "smbd_{$this->field_slug}_no_post_post_types", array() );
+
+		$options['limit_to'] = absint( bd_array_get( $request, "smbd_{$this->field_slug}_limit_to", 0 ) );
+
+		return $options;
+	}
+
+	protected function do_delete( $options ) {
+		$query = $this->build_query( $options );
+
+		if ( empty( $query ) ) {
+			// Short circuit deletion, if nothing needs to be deleted.
+			return 0;
+		}
+
+		return $this->delete_users_from_query( $query, $options );
+	}
+
 	/**
 	 * Query and Delete users.
 	 *
 	 * @since  5.5.2
 	 * @access protected
 	 *
-	 * @param array $options        Options to query users.
-	 * @param array $delete_options Delete options.
+	 * @param array $query   Options to query users.
+	 * @param array $options Delete options.
 	 *
 	 * @return int Number of users who were deleted.
 	 */
-	protected function delete_users( $options, $delete_options ) {
+	protected function delete_users_from_query( $query, $options ) {
 		$count = 0;
-		$users = get_users( $options );
+		$users = $this->query_users( $query );
+
+		if ( ! function_exists( 'wp_delete_user' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/user.php';
+		}
 
 		foreach ( $users as $user ) {
-			if ( ! $this->can_delete_by_registered_date( $delete_options, $user ) ) {
+			if ( ! $this->can_delete_by_registered_date( $options, $user ) ) {
 				continue;
 			}
 
-			if ( ! $this->can_delete_by_logged_date( $delete_options, $user ) ) {
+			if ( ! $this->can_delete_by_logged_date( $options, $user ) ) {
 				continue;
 			}
 
-			if ( ! $this->can_delete_by_post_count( $delete_options, $user ) ) {
+			if ( ! $this->can_delete_by_post_count( $options, $user ) ) {
 				continue;
 			}
 
@@ -57,13 +105,52 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	}
 
 	/**
+	 * Query users using options.
+	 *
+	 * @param array $options Query options.
+	 *
+	 * @return \WP_User[] List of users.
+	 */
+	protected function query_users( $options ) {
+		$defaults = array(
+			'count_total' => false,
+		);
+
+		$options = wp_parse_args( $options, $defaults );
+
+		$wp_user_query = new \WP_User_Query( $options );
+
+		/**
+		 * This action before the query happens.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param \WP_User_Query $wp_user_query Query object.
+		 */
+		do_action( 'bd_before_query', $wp_user_query );
+
+		$users = (array) $wp_user_query->get_results();
+
+		/**
+		 * This action runs after the query happens.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param \WP_User_Query $wp_user_query Query object.
+		 */
+		do_action( 'bd_after_query', $wp_user_query );
+
+		return $users;
+	}
+
+	/**
 	 * Can the user be deleted based on the 'post count' option?
 	 *
 	 * @since  5.5.2
 	 * @access protected
 	 *
-	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User object that needs to be deleted.
+	 * @param array    $delete_options Delete Options.
+	 * @param \WP_User $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
@@ -80,8 +167,8 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @since  5.5.3
 	 * @access protected
 	 *
-	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User object that needs to be deleted.
+	 * @param array    $delete_options Delete Options.
+	 * @param \WP_User $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
@@ -106,8 +193,8 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 * @since  5.5.2
 	 * @access protected
 	 *
-	 * @param array  $delete_options Delete Options.
-	 * @param object $user           User object that needs to be deleted.
+	 * @param array    $delete_options Delete Options.
+	 * @param \WP_User $user           User object that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
@@ -132,33 +219,6 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 
 		return true;
 	}
-
-	/**
-	 * Process user delete form.
-	 *
-	 * Helper function to handle common delete user fields.
-	 * Nonce verification is done in the hook that calls this function.
-	 * phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
-	 *
-	 * @since 5.5.3
-	 * @access protected
-	 *
-	 * @param array $delete_options Delete Options.
-	 */
-	protected function process_user_delete( $delete_options ) {
-		$delete_options['login_restrict']      = bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_login_restrict", false );
-		$delete_options['login_days']          = absint( bd_array_get( $_POST, "smbd_{$this->field_slug}_login_days", 0 ) );
-
-		$delete_options['registered_restrict'] = bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_registered_restrict", false );
-		$delete_options['registered_days']     = absint( bd_array_get( $_POST, "smbd_{$this->field_slug}_registered_days", 0 ) );
-
-		$delete_options['no_posts']            = bd_array_get_bool( $_POST, "smbd_{$this->field_slug}_no_posts", false );
-		$delete_options['no_posts_post_types'] = bd_array_get( $_POST, "smbd_{$this->field_slug}_no_post_post_types", array() );
-
-		$delete_options['limit_to']            = absint( bd_array_get( $_POST, "smbd_{$this->field_slug}_limit_to", 0 ) );
-
-		$this->process_delete( $delete_options );
-	} // phpcs:disable
 
 	/**
 	 * Render User Login restrict settings.
@@ -243,13 +303,13 @@ abstract class BD_User_Meta_Box_Module extends BD_Meta_Box_Module {
 	 *
 	 * @since 5.6.0
 	 *
-	 * @param $name Name of post type checkboxes.
+	 * @param string $name Name of post type checkboxes.
 	 */
 	protected function render_post_type_checkboxes( $name ) {
 		$post_types = bd_get_post_types();
 		?>
 
-		<?php foreach( $post_types as $post_type ) : ?>
+		<?php foreach ( $post_types as $post_type ) : ?>
 
 		<tr>
 			<td scope="row">

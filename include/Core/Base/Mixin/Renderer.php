@@ -48,7 +48,7 @@ abstract class Renderer extends Fetcher {
 		?>
 		<tr>
 			<td scope="row" colspan="2">
-				<select class="select2-post" multiple="multiple" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]">
+				<select class="enhanced-post-types-with-status" multiple="multiple" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]">
 				<?php foreach ( $post_types_by_status as $post_type => $all_status ) : ?>
 					<optgroup label="<?php echo esc_html( $post_type ); ?>">
 					<?php foreach ( $all_status as $status_key => $status_value ) : ?>
@@ -83,5 +83,32 @@ abstract class Renderer extends Fetcher {
 		}
 
 		return $type_status;
+	}
+
+	/**
+	 * Render user role dropdown.
+	 */
+	protected function render_user_role_dropdown() {
+		global $wp_roles;
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="select2"
+				multiple="multiple" data-placeholder="<?php _e( 'Select User Role', 'bulk-delete' ); ?>">
+
+			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
+				<option value="<?php echo esc_attr( $role ); ?>">
+					<?php echo esc_html( $role_details['name'] ), ' (', absint( $this->get_user_count_by_role( $role ) ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+
+		<?php
+	}
+
+	/**
+	 * Render Post type dropdown.
+	 */
+	protected function render_post_type_dropdown() {
+		bd_render_post_type_dropdown( $this->field_slug );
 	}
 }

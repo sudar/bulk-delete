@@ -42,6 +42,10 @@ class BaseModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_process_method_calls_all_the_required_methods() {
 		$stub = $this->getMockForAbstractClass( $this->class_name );
+		$stub->method( 'parse_common_filters' )->willReturn( array() );
+		$stub->method( 'convert_user_input_to_options' )->willReturn( array() );
+
+		$stub->expects( $this->once() )->method( 'parse_common_filters' );
 		$stub->expects( $this->once() )->method( 'convert_user_input_to_options' );
 
 		$stub->process( array() );

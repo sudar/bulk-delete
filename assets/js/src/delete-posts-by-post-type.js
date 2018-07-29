@@ -1,22 +1,16 @@
+/**
+ * Delete Posts by Post Type Module of Bulk Delete Plugin.
+ *
+ * Ideally the select2 for post type should be here.
+ * But because of a wired issue in select2 this has been moved to select2.js file.
+ *
+ * @since 6.0.0
+ */
 /* global BulkWP */
-jQuery( document ).ready( function () {
-	jQuery( '.select2-post' ).select2( {
-		width: '300px',
-		templateSelection: function (state) {
-			if (!state.id) {
-				return state.text;
-			}
 
-			var parentLabel = state.element.parentElement.label;
-			var $state = jQuery(
-				'<span>' + parentLabel + '-' + state.text + '</span>'
-			);
-
-			return $state;
-		}
-	});
-});
-
+/**
+ * Validation for Post Type select2.
+ */
 BulkWP.validatePostTypeSelect2 = function(that) {
 	if (null !== jQuery(that).parent().prev().children().find(".select2-post[multiple]").val()) {
 		return true;
