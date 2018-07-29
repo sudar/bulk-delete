@@ -77,18 +77,12 @@ class DeleteTermMetaModule extends MetasModule {
 						<option value="equal">Equal to</option>
 						<option value="not_equal">Not equal to</option>
 					</select>
-				</td>
-			</tr>
-		</table>
 
-		<h4><?php _e( 'Term Meta Value', 'bulk-delete' ); ?></h4>
-		<table class="optiontable">
-			<tr>
-				<td>
 					<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_value" />
 				</td>
 			</tr>
 		</table>
+
 		<?php
 		/**
 		 * Add more fields to the delete post meta field form.
