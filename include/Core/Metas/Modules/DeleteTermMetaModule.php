@@ -69,6 +69,11 @@ class DeleteTermMetaModule extends MetasModule {
                     <select class="select2 select2-term-meta" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta">
                         <option>Choose Term Meta</option>
                     </select>
+
+                    <select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_option">
+                        <option value="equal">Equal to</option>
+                        <option value="not_equal">Not equal to</option>
+                    </select>
                 </td>
             </tr>
         </table>
@@ -106,16 +111,26 @@ class DeleteTermMetaModule extends MetasModule {
 		$options['term_meta'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta', 'term_meta' );
 		$options['term_meta_value']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_value', '' ) );
 
+		$options['term_meta_option']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_option', '' ) );
+
 		return $options;
 	}
 
 	public function delete( $options ) {
-		$count = 10;
 
-        if( delete_term_meta( $options['term'], $options['term_meta'] ) ){
-            return 1;
-        }
+		$count = 0;
 
+		if( $options['term_meta_option'] == 'equal' ){
+			if( delete_term_meta( $options['term'], $options['term_meta'], $options['term_meta_value'] ) ){
+				$count++;
+			}
+		}else{
+			$term_value = get_term_meta( $options['term'], $options['term_meta'], true );
+			if( $term_value != $options['term_meta_value'] ){
+				delete_term_meta( $options['term'], $options['term_meta'] );
+				$count++;
+			}
+		}
 		return $count;
 	}
 
