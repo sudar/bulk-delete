@@ -165,7 +165,6 @@ class Controller {
 		die;
 	}
 
-
 	/**
 	 * Ajax call back function for getting taxonomies meta to load select2 options.
 	 *
