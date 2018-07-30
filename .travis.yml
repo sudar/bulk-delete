@@ -26,6 +26,8 @@ matrix:
       env: WP_VERSION=trunk
     - php: 7.1
       env: WP_VERSION=latest
+    - php: 7.0
+      env: WP_VERSION=latest
     - php: 5.6
       env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 5.6 also run Multisite
     - php: 5.3
@@ -33,20 +35,24 @@ matrix:
       dist: precise
   allow_failures:
     - php: nightly
+    - php: 7.2
+    - php: 5.3
   fast_finish: true
 
 install:
   - |
+    if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
+      # Run npm install only for PHP 7.0 since we are going to test grunt and other npm related things only in PHP 7.0
+      npm install
+
+      exit 0
+    fi
+  - |
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
       bash bin/install-wp-test-tools.sh
     else
-      # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x
+      # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x or PHP 7.0
       composer install
-    fi
-  - |
-    if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
-      # Run npm install only for PHP 7.1 since we are going to test grunt and other npm related things only in PHP 7.1
-      npm install
     fi
 
 before_script:
@@ -61,41 +67,52 @@ before_script:
       fi
     fi
   - |
-    if [[ ! -z "$WP_VERSION" ]] ; then
-      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      composer global require "phpunit/phpunit=4.8.*|5.7.*"
+    if [[ $TRAVIS_PHP_VERSION != 7.0 ]]; then
+      if [[ ! -z "$WP_VERSION" ]] ; then
+        bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+        composer global require "phpunit/phpunit=4.8.*|5.7.*"
+      fi
     fi
 
 script:
   - |
+    if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
+      # Run code coverage for PHP 7.2 alone
+      npm run test:cover-coverage
+
+      # Ideally this should be in `after_script`. Since `fast_finish` is used `after_script` will not be called.
+      # So it is done as part of `script` itself.
+
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover code-coverage/bulk-delete.clover
+
+      php vendor/bin/codacycoverage clover code-coverage/bulk-delete.clover
+
+      exit 0
+    fi
+
     if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
       # Validate composer.json file
       composer validate --no-check-all --strict
 
+      npm run test
+
+      exit 0
+    fi
+
+    if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
       # Validate that grunt works
       grunt vendor
       grunt
 
       # Check php syntax
       npm run phpcs
+
+      exit 0
     fi
 
-    if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
-      # Run code coverage for PHP 7.2 alone
-      npm run test:cover-coverage
+    if [[ ! -z "$WP_MULTISITE" ]] ; then
+      WP_MULTISITE=1 phpunit
     else
-      if [[ ! -z "$WP_MULTISITE" ]] ; then
-        WP_MULTISITE=1 phpunit
-      else
-        phpunit
-      fi
-    fi
-
-after_script:
-  - |
-    if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
-      wget https://scrutinizer-ci.com/ocular.phar
-      php ocular.phar code-coverage:upload --format=php-clover code-coverage/bulk-delete.clover
-
-      php vendor/bin/codacycoverage clover code-coverage/bulk-delete.clover
+      phpunit
     fi
