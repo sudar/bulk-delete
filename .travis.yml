@@ -80,6 +80,14 @@ script:
       # Run code coverage for PHP 7.2 alone
       npm run test:cover-coverage
 
+      # Ideally this should be in `after_script`. Since `fast_finish` is used `after_script` will not be called.
+      # So it is done as part of `script` itself.
+
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover code-coverage/bulk-delete.clover
+
+      php vendor/bin/codacycoverage clover code-coverage/bulk-delete.clover
+
       exit 0
     fi
 
@@ -107,13 +115,4 @@ script:
       WP_MULTISITE=1 phpunit
     else
       phpunit
-    fi
-
-after_script:
-  - |
-    if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
-      wget https://scrutinizer-ci.com/ocular.phar
-      php ocular.phar code-coverage:upload --format=php-clover code-coverage/bulk-delete.clover
-
-      php vendor/bin/codacycoverage clover code-coverage/bulk-delete.clover
     fi
