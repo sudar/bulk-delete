@@ -253,4 +253,156 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( $expected_output['count_of_deleted_users'], $count_of_deleted_users );
 	}
+
+	/**
+	 * Data provider to test `is_scheduled` method.
+	 *
+	 * @see BaseModuleTest::test_is_scheduled_method() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_that_users_can_be_deleted_with_string_meta_operators_and_with_user_registration_filter_set() {
+		return array(
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'bulk_delete',
+						'meta_compare'        => '=',
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+				),
+				array(
+					'count_of_deleted_users' => 0,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'my_awesome_plugin',
+						'meta_compare'        => '!=',
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users' => 0,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'bulk',
+						'meta_compare'        => 'LIKE',
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'hulk',
+						'meta_compare'        => 'NOT LIKE',
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'bulk',
+						'meta_compare'        => 'STARTS WITH',
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'hulk',
+						'meta_compare'        => 'ENDS WITH',
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users' => 0,
+				),
+			),
+			),
+		);
+	}
+
+	/**
+	 * Test basic case of delete users by user meta.
+	 *
+	 * @param array $input           Input to the `users_can_be_deleted_when_user_and_no_filters_set` method.
+	 * @param bool  $expected_output Expected output of `users_can_be_deleted_when_user_and_no_filters_set` method.
+	 *
+	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_string_meta_operators_and_with_user_registration_filter_set
+	 */
+	public function test_that_users_can_be_deleted_with_string_meta_operators_and_with_user_registration_filter_set
+	($input, $expected_output) {
+		// Update user meta.
+		update_user_meta( $this->subscriber_1, 'bwp_plugin_name', 'bulk_delete' );
+		update_user_meta( $this->subscriber_2, 'bwp_plugin_name', 'my_awesome_plugin' );
+		update_user_meta( $this->subscriber_3, 'bwp_plugin_name', 'bulk_move' );
+		update_user_meta( $this->subscriber_4, 'bwp_plugin_name', 'the_green_hulk' );
+
+		$users_with_meta_value_1 = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'bulk_delete',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
+
+		$users_with_meta_value_2 = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'my_awesome_plugin',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_2, 'ID' ) );
+
+		$users_with_meta_value_3 = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'bulk_move',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_3, 'ID' ) );
+
+		// TODO: Assert User registration date is older.
+
+		$users_with_meta_value_4 = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'the_green_hulk',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_4, 'ID' ) );
+
+		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users'], $count_of_deleted_users );
+	}
 }
