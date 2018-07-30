@@ -23,7 +23,7 @@ abstract class TermsModule extends BaseModule {
 	abstract protected function build_query( $options );
 
 	/**
-	 * Item type
+	 * Item type.
 	 *
 	 * @var string Item Type. Possible values 'posts', 'pages', 'users', 'terms' etc.
 	 */
@@ -99,7 +99,7 @@ abstract class TermsModule extends BaseModule {
 	 * Delete terms by ids.
 	 *
 	 * @param int[] $term_ids List of term ids to delete.
-	 * @param mixed $options user options.
+	 * @param mixed $options  user options.
 	 *
 	 * @return int Number of posts deleted.
 	 */
@@ -128,12 +128,13 @@ abstract class TermsModule extends BaseModule {
 	 * Custom string function use to get is string start with specified string.
 	 *
 	 * @param string $haystack search string.
-	 * @param string $needle find string.
+	 * @param string $needle   find string.
 	 *
 	 * @return bool.
 	 */
 	protected function bd_starts_with( $haystack, $needle ) {
 		$length = strlen( $needle );
+
 		return ( substr( $haystack, 0, $length ) === $needle );
 	}
 
@@ -141,7 +142,7 @@ abstract class TermsModule extends BaseModule {
 	 * Custom string function use to get is string ends with specified string.
 	 *
 	 * @param string $haystack search string.
-	 * @param string $needle find string.
+	 * @param string $needle   find string.
 	 *
 	 * @return bool.
 	 */
@@ -156,7 +157,7 @@ abstract class TermsModule extends BaseModule {
 	 * Get terms which is start with specified string.
 	 *
 	 * @param string $term_text user input text.
-	 * @param array  $options user options.
+	 * @param array  $options   user options.
 	 *
 	 * @return array term ids.
 	 */
@@ -181,7 +182,7 @@ abstract class TermsModule extends BaseModule {
 	 * Get terms which is ends with specified string.
 	 *
 	 * @param string $term_text user input text.
-	 * @param array  $options user options.
+	 * @param array  $options   user options.
 	 *
 	 * @return array term ids.
 	 */
@@ -206,7 +207,7 @@ abstract class TermsModule extends BaseModule {
 	 * Get terms which is contain specified string.
 	 *
 	 * @param string $term_text user input text.
-	 * @param array  $options user options.
+	 * @param array  $options   user options.
 	 *
 	 * @return array term ids.
 	 */
@@ -265,9 +266,9 @@ abstract class TermsModule extends BaseModule {
 	/**
 	 * Get term id by name.
 	 *
-	 * @param string $term_text user text input.
-	 * @param array  $term_opt user options.
-	 * @param int    $term_id term id.
+	 * @param string $term_text  user text input.
+	 * @param array  $term_opt   user options.
+	 * @param int    $term_id    term id.
 	 * @param int    $post_count post count.
 	 *
 	 * @return int term id.
