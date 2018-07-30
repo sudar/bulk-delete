@@ -20,6 +20,9 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 	 */
 	protected $module;
 
+	/**
+	 * Setup the module.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -30,10 +33,12 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 	 * Test trash revisions for a single post
 	 */
 	public function test_trash_revisions_for_single_post() {
-		
-		$post_id = $this->factory->post->create( array(
-			'post_type' => 'post',
-		) );
+
+		$post_id = $this->factory->post->create(
+			array(
+				'post_type' => 'post',
+			)
+		);
 
 		$revision_post_1 = array(
 			'ID'           => $post_id,
@@ -52,7 +57,7 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 		wp_update_post( $revision_post_2 );
 
 		$delete_options = array(
-			'revisions'    => 'revisions',
+			'revisions' => 'revisions',
 		);
 
 		$posts_deleted = $this->module->delete( $delete_options );
@@ -63,10 +68,12 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 	 * Test delete revisions for a single post
 	 */
 	public function test_delete_revisions_for_single_post() {
-		
-		$post_id = $this->factory->post->create( array(
-			'post_type' => 'post',
-		) );
+
+		$post_id = $this->factory->post->create(
+			array(
+				'post_type' => 'post',
+			)
+		);
 
 		$revision_post_1 = array(
 			'ID'           => $post_id,
@@ -100,12 +107,14 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 	 * Test trash revisions for a multiple post
 	 */
 	public function test_trash_revisions_for_multiple_post() {
-		
-		$post_ids = $this->factory->post->create_many( 10, array(
-			'post_type' => 'post',
-		) );
 
-		foreach( $post_ids as $post_id ){
+		$post_ids = $this->factory->post->create_many(
+			10, array(
+				'post_type' => 'post',
+			)
+		);
+
+		foreach ( $post_ids as $post_id ) {
 
 			$revision_post = array(
 				'ID'           => $post_id,
@@ -118,7 +127,7 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$delete_options = array(
-			'revisions'    => 'revisions',
+			'revisions' => 'revisions',
 		);
 
 		$posts_deleted = $this->module->delete( $delete_options );
@@ -130,12 +139,14 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 	 * Test delete revisions for a multiple post
 	 */
 	public function test_delete_revisions_for_multiple_post() {
-		
-		$post_ids = $this->factory->post->create_many( 10, array(
-			'post_type' => 'post',
-		) );
 
-		foreach( $post_ids as $post_id ){
+		$post_ids = $this->factory->post->create_many(
+			10, array(
+				'post_type' => 'post',
+			)
+		);
+
+		foreach ( $post_ids as $post_id ) {
 
 			$revision_post = array(
 				'ID'           => $post_id,
