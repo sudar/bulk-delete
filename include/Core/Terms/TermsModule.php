@@ -22,6 +22,11 @@ abstract class TermsModule extends BaseModule {
 	 */
 	abstract protected function build_query( $options );
 
+	/**
+	 * Item type
+	 *
+	 * @var string Item Type. Possible values 'posts', 'pages', 'users', 'terms' etc.
+	 */
 	protected $item_type = 'terms';
 
 	/**
@@ -44,10 +49,27 @@ abstract class TermsModule extends BaseModule {
 		return $options;
 	}
 
+	/**
+	 * Filter the js array.
+	 * This function will be overridden by the child classes.
+	 *
+	 * @since 5.5
+	 *
+	 * @param array $js_array JavaScript Array.
+	 *
+	 * @return array Modified JavaScript Array.
+	 */
 	public function filter_js_array( $js_array ) {
 		return $js_array;
 	}
 
+	/**
+	 * Perform the deletion.
+	 *
+	 * @param array $options Array of Delete options.
+	 *
+	 * @return int Number of items that were deleted.
+	 */
 	protected function do_delete( $options ) {
 		$query = $this->build_query( $options );
 
@@ -77,7 +99,7 @@ abstract class TermsModule extends BaseModule {
 	 * Delete terms by ids.
 	 *
 	 * @param int[] $term_ids List of term ids to delete.
-	 * @param mixed $options
+	 * @param mixed $options user options.
 	 *
 	 * @return int Number of posts deleted.
 	 */
@@ -87,7 +109,7 @@ abstract class TermsModule extends BaseModule {
 		foreach ( $term_ids as $term_id ) {
 			$term = get_term( $term_id, $options['taxonomy'] );
 
-			if( is_wp_error($term) ){
+			if ( is_wp_error( $term ) ) {
 				continue;
 			}
 
@@ -103,50 +125,51 @@ abstract class TermsModule extends BaseModule {
 	}
 
 	/**
-	 * custom string function use to get is string start with specified string.
+	 * Custom string function use to get is string start with specified string.
 	 *
-	 * @param string $haystack.
-	 * @param string $needle.
-	 *
-	 * @return bool.
-	 */
-	protected function bd_starts_with($haystack, $needle){
-	     $length = strlen($needle);
-
-	     return (substr($haystack, 0, $length) === $needle);
-	}
-
-	/**
-	 * custom string function use to get is string ends with specified string.
-	 *
-	 * @param string $haystack.
-	 * @param string $needle.
+	 * @param string $haystack search string.
+	 * @param string $needle find string.
 	 *
 	 * @return bool.
 	 */
-	protected function bd_ends_with($haystack, $needle){
-	    $length = strlen($needle);
-
-	    return $length === 0 ||
-	    (substr($haystack, -$length) === $needle);
+	protected function bd_starts_with( $haystack, $needle ) {
+		$length = strlen( $needle );
+		return ( substr( $haystack, 0, $length ) === $needle );
 	}
 
 	/**
-	 * get terms which is start with specified string.
+	 * Custom string function use to get is string ends with specified string.
 	 *
-	 * @param string $term_text.
-	 * @param array  $options.
+	 * @param string $haystack search string.
+	 * @param string $needle find string.
+	 *
+	 * @return bool.
+	 */
+	protected function bd_ends_with( $haystack, $needle ) {
+		$length = strlen( $needle );
+
+		return $length === 0 ||
+		( substr( $haystack, -$length ) === $needle );
+	}
+
+	/**
+	 * Get terms which is start with specified string.
+	 *
+	 * @param string $term_text user input text.
+	 * @param array  $options user options.
 	 *
 	 * @return array term ids.
 	 */
-	protected function term_starts( $term_text , $options ){
+	protected function term_starts( $term_text, $options ) {
 		$term_ids = array();
-		$terms    = get_terms( $options['taxonomy'], array(
-		    'hide_empty' => false,
-		) );
+		$terms    = get_terms(
+			$options['taxonomy'], array(
+				'hide_empty' => false,
+			)
+		);
 
-		foreach( $terms as $term ){
-			if( $this->bd_starts_with( $term->name, $term_text ) ){
+		foreach ( $terms as $term ) {
+			if ( $this->bd_starts_with( $term->name, $term_text ) ) {
 				$term_ids[] = $term->term_id;
 			}
 		}
@@ -155,21 +178,23 @@ abstract class TermsModule extends BaseModule {
 	}
 
 	/**
-	 * get terms which is ends with specified string.
+	 * Get terms which is ends with specified string.
 	 *
-	 * @param string $term_text.
-	 * @param array  $options.
+	 * @param string $term_text user input text.
+	 * @param array  $options user options.
 	 *
 	 * @return array term ids.
 	 */
-	protected function term_ends( $term_text , $options ){
+	protected function term_ends( $term_text, $options ) {
 		$term_ids = array();
-		$terms    = get_terms( $options['taxonomy'], array(
-		    'hide_empty' => false,
-		) );
+		$terms    = get_terms(
+			$options['taxonomy'], array(
+				'hide_empty' => false,
+			)
+		);
 
-		foreach( $terms as $term ){
-			if( $this->bd_ends_with( $term->name, $term_text ) ){
+		foreach ( $terms as $term ) {
+			if ( $this->bd_ends_with( $term->name, $term_text ) ) {
 				$term_ids[] = $term->term_id;
 			}
 		}
@@ -178,20 +203,22 @@ abstract class TermsModule extends BaseModule {
 	}
 
 	/**
-	 * get terms which is contain specified string.
+	 * Get terms which is contain specified string.
 	 *
-	 * @param string $term_text.
-	 * @param array  $options.
+	 * @param string $term_text user input text.
+	 * @param array  $options user options.
 	 *
 	 * @return array term ids.
 	 */
-	protected function term_contains( $term_text , $options ){
+	protected function term_contains( $term_text, $options ) {
 		$term_ids = array();
-		$terms    = get_terms( $options['taxonomy'], array(
-		    'hide_empty' => false,
-		) );
+		$terms    = get_terms(
+			$options['taxonomy'], array(
+				'hide_empty' => false,
+			)
+		);
 
-		foreach( $terms as $term ){
+		foreach ( $terms as $term ) {
 			if ( strpos( $term->name, $term_text ) !== false ) {
 				$term_ids[] = $term->term_id;
 			}
@@ -203,17 +230,19 @@ abstract class TermsModule extends BaseModule {
 	/**
 	 * Get term ids which is have the sepcified post count .
 	 *
-	 * @param array $options.
+	 * @param array $options user options.
 	 *
 	 * @return array term ids.
 	 */
-	protected function term_count_query( $options ){
+	protected function term_count_query( $options ) {
 		$term_ids = array();
-		$terms    = get_terms( $options['taxonomy'], array(
-		    'hide_empty' => false,
-		) );
+		$terms    = get_terms(
+			$options['taxonomy'], array(
+				'hide_empty' => false,
+			)
+		);
 
-		foreach( $terms as $term ){
+		foreach ( $terms as $term ) {
 			$args = array(
 				'post_type' => 'post',
 				'tax_query' => array(
@@ -225,34 +254,48 @@ abstract class TermsModule extends BaseModule {
 				),
 			);
 
-			$posts = get_posts($args);
+			$posts = get_posts( $args );
 
-			$term_ids[] = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id, count($posts) );
+			$term_ids[] = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id, count( $posts ) );
 		}
 
 		return $term_ids;
 	}
 
-	protected function get_term_id_by_name( $term_text, $term_opt, $term_id, $post_count ){
-		switch ($term_opt) {
+	/**
+	 * Get term id by name.
+	 *
+	 * @param string $term_text user text input.
+	 * @param array  $term_opt user options.
+	 * @param int    $term_id term id.
+	 * @param int    $post_count post count.
+	 *
+	 * @return int term id.
+	 */
+	protected function get_term_id_by_name( $term_text, $term_opt, $term_id, $post_count ) {
+		switch ( $term_opt ) {
 			case 'equal_to':
-				if( $post_count == $term_text )
-				return $term_id;
+				if ( $post_count === $term_text ) {
+					return $term_id;
+				}
 				break;
 
 			case 'not_equal_to':
-				if( $post_count != $term_text )
-				return $term_id;
+				if ( $post_count !== $term_text ) {
+					return $term_id;
+				}
 				break;
 
 			case 'less_than':
-				if( $post_count < $term_text )
-				return $term_id;
+				if ( $post_count < $term_text ) {
+					return $term_id;
+				}
 				break;
 
 			case 'greater_than':
-				if( $post_count > $term_text )
-				return $term_id;
+				if ( $post_count > $term_text ) {
+					return $term_id;
+				}
 				break;
 		}
 	}
@@ -264,19 +307,19 @@ abstract class TermsModule extends BaseModule {
 	 *
 	 * @since  6.0
 	 *
-	 * @param array $options  List of options
-	 * @param mixed $taxonomy
+	 * @param array $options  List of options.
+	 * @param mixed $taxonomy List of Taxonomies.
 	 *
 	 * @return array Result array
 	 */
 	public function term_query( $options, $taxonomy ) {
 		$defaults = array(
-			'fields'     => 'ids', // retrieve only ids
-			'taxonomy'	  => $taxonomy,
+			'fields'     => 'ids', // retrieve only ids.
+			'taxonomy'   => $taxonomy,
 			'hide_empty' => 0,
-			'count'		    => true,
+			'count'      => true,
 		);
-		$options = wp_parse_args( $options, $defaults );
+		$options  = wp_parse_args( $options, $defaults );
 
 		$term_query = new \WP_Term_Query();
 

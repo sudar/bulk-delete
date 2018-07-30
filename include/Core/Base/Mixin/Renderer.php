@@ -135,22 +135,22 @@ abstract class Renderer extends Fetcher {
 		?>
 		<h4><?php _e( 'Delete terms that', 'bulk-delete' ); ?></h4>
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_opt">
-		<?php if( $this->field_slug == 'terms_by_name' ){ ?>
+		<?php if ( $this->field_slug === 'terms_by_name' ) { ?>
 			<option value="equal_to">equal to</option>
 			<option value="not_equal_to">not equal to</option>
 			<option value="starts">starts</option>
 			<option value="ends">ends</option>
 			<option value="contains">contains</option>
 			<option value="not_contains">not contains</option>
-		<?php }elseif( $this->field_slug == 'terms_by_post_count' ){ ?>
+		<?php } elseif ( $this->field_slug === 'terms_by_post_count' ) { ?>
 			<option value="equal_to">equal to</option>
 			<option value="not_equal_to">not equal to</option>
 			<option value="less_than">less than</option>
 			<option value="greater_than">greater than</option>
-		<?php }?>
+		<?php } ?>
 		</select> 
 		<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_text">
-		<?php 
+		<?php
 	}
 
 	/**
@@ -159,7 +159,7 @@ abstract class Renderer extends Fetcher {
 	protected function render_have_post_settings() {
 		?>
 		<p><label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"><input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"> <?php _e( 'Only if it doesn\'t contain any post', 'bulk-delete' ); ?></label></p>
-		<?php 
+		<?php
 	}
 
 	/**

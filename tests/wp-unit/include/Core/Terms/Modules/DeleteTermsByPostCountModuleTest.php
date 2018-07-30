@@ -20,6 +20,9 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 	 */
 	protected $module;
 
+	/**
+	 * Setup the Module.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -39,9 +42,24 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 
 		// Create two posts and assign them to categories just created.
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_type' => $post_type ) );
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_type' => $post_type ) );
-		$post3 = $this->factory->post->create( array( 'post_title' => 'post3', 'post_type' => $post_type ) );
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title' => 'post1',
+				'post_type'  => $post_type,
+			)
+		);
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title' => 'post2',
+				'post_type'  => $post_type,
+			)
+		);
+		$post3 = $this->factory->post->create(
+			array(
+				'post_title' => 'post3',
+				'post_type'  => $post_type,
+			)
+		);
 
 		wp_set_object_terms( $post1, $cat1, 'category' );
 		wp_set_object_terms( $post2, $cat1, 'category' );
@@ -80,9 +98,24 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 
 		// Create two posts and assign them to categories just created.
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_type' => $post_type ) );
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_type' => $post_type ) );
-		$post3 = $this->factory->post->create( array( 'post_title' => 'post3', 'post_type' => $post_type ) );
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title' => 'post1',
+				'post_type'  => $post_type,
+			)
+		);
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title' => 'post2',
+				'post_type'  => $post_type,
+			)
+		);
+		$post3 = $this->factory->post->create(
+			array(
+				'post_title' => 'post3',
+				'post_type'  => $post_type,
+			)
+		);
 
 		wp_set_object_terms( $post1, $cat1, 'category' );
 		wp_set_object_terms( $post2, $cat1, 'category' );
@@ -121,9 +154,24 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 
 		// Create two posts and assign them to categories just created.
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_type' => $post_type ) );
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_type' => $post_type ) );
-		$post3 = $this->factory->post->create( array( 'post_title' => 'post3', 'post_type' => $post_type ) );
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title' => 'post1',
+				'post_type'  => $post_type,
+			)
+		);
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title' => 'post2',
+				'post_type'  => $post_type,
+			)
+		);
+		$post3 = $this->factory->post->create(
+			array(
+				'post_title' => 'post3',
+				'post_type'  => $post_type,
+			)
+		);
 
 		wp_set_object_terms( $post1, $cat1, 'category' );
 		wp_set_object_terms( $post2, $cat1, 'category' );
@@ -162,9 +210,24 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 		$cat1 = $this->factory->category->create( array( 'name' => 'cat1' ) );
 
 		// Create two posts and assign them to categories just created.
-		$post1 = $this->factory->post->create( array( 'post_title' => 'post1', 'post_type' => $post_type ) );
-		$post2 = $this->factory->post->create( array( 'post_title' => 'post2', 'post_type' => $post_type ) );
-		$post3 = $this->factory->post->create( array( 'post_title' => 'post3', 'post_type' => $post_type ) );
+		$post1 = $this->factory->post->create(
+			array(
+				'post_title' => 'post1',
+				'post_type'  => $post_type,
+			)
+		);
+		$post2 = $this->factory->post->create(
+			array(
+				'post_title' => 'post2',
+				'post_type'  => $post_type,
+			)
+		);
+		$post3 = $this->factory->post->create(
+			array(
+				'post_title' => 'post3',
+				'post_type'  => $post_type,
+			)
+		);
 
 		wp_set_object_terms( $post1, $cat1, 'category' );
 		wp_set_object_terms( $post2, $cat1, 'category' );
@@ -198,5 +261,5 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 	protected function register_post_type_and_associate_category( $post_type ) {
 		register_post_type( $post_type );
 		register_taxonomy_for_object_type( 'category', $post_type );
-	}	
+	}
 }
