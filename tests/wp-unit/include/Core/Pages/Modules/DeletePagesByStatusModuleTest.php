@@ -102,7 +102,7 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (older than x days) with two post status.
 	 */
-	public function test_that_pages_that_are_older_than_x_days_can_be_deleted() {
+	public function test_that_pages_that_are_older_than_x_days_can_be_trashed() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
 
 		$published_pages = $this->factory->post->create_many( 10, array(
