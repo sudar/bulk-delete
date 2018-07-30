@@ -40,8 +40,8 @@ class DeletePostsByCategoryModule extends PostsModule {
 
 			<h4><?php _e( 'Select the categories from which you want to delete posts', 'bulk-delete' ); ?></h4>
 			<p>
-				<?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type', 'bulk-delete' ); ?>
-			.</p>
+				<?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type.', 'bulk-delete' ); ?>
+			</p>
 
 			<table class="form-table">
 				<tr>
