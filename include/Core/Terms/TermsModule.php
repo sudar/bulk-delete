@@ -242,10 +242,9 @@ abstract class TermsModule extends BaseModule {
 				'hide_empty' => false,
 			)
 		);
-
 		foreach ( $terms as $term ) {
 			$args = array(
-				'post_type' => 'post',
+				'post_type' => $options['post_type'],
 				'tax_query' => array(
 					array(
 						'taxonomy' => $options['taxonomy'],

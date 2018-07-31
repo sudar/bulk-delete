@@ -105,8 +105,8 @@ class DeleteTermsByPostCountModule extends TermsModule {
 		}
 
 		$term_ids         = $this->term_count_query( $options );
-		$query['include'] = $term_ids['include'];
-		$query['exclude'] = $term_ids['exclude'];
+		$query['include'] = isset( $term_ids['include'] ) ? $term_ids['include'] : '';
+		$query['exclude'] = isset( $term_ids['exclude'] ) ? $term_ids['exclude'] : '';
 
 		return $query;
 	}
