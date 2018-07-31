@@ -27,8 +27,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 	}
 
 	public function render() {
-		$taxs =  get_taxonomies( array(), 'objects'
-		);
+		$taxs = get_taxonomies( array(), 'objects' );
 
 		$terms_array = array();
 		if ( count( $taxs ) > 0 ) {
