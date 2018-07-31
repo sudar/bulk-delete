@@ -40,32 +40,33 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		}
 
 		if ( count( $terms_array ) > 0 ) {
-?>
-        <!-- Custom tax Start-->
-        <h4><?php _e( 'Select the post type from which you want to delete posts by taxonomy', 'bulk-delete' ); ?></h4>
+			?>
+            <!-- Custom tax Start-->
+            <h4><?php _e( 'Select the post type from which you want to delete posts by taxonomy',
+					'bulk-delete' ); ?></h4>
 
-        <fieldset class="options">
-            <table class="optiontable">
-				<?php $this->render_post_type_dropdown(); ?>
-            </table>
+            <fieldset class="options">
+                <table class="optiontable">
+					<?php $this->render_post_type_dropdown(); ?>
+                </table>
 
-            <h4><?php _e( 'Select the taxonomies from which you want to delete posts', 'bulk-delete' ) ?></h4>
+                <h4><?php _e( 'Select the taxonomies from which you want to delete posts', 'bulk-delete' ) ?></h4>
 
-            <table class="optiontable">
-<?php
-			foreach ( $terms_array as $tax => $terms ) {
-?>
-                <tr>
-                    <td scope="row" >
-                        <input name="smbd_taxs" value="<?php echo $tax; ?>" type="radio" class="custom-tax">
-                    </td>
-                    <td>
-                        <label for="smbd_taxs"><?php echo $taxs[$tax]->labels->name; ?> </label>
-                    </td>
-                </tr>
-<?php
-			}
-?>
+                <table class="optiontable">
+					<?php
+					foreach ( $terms_array as $tax => $terms ) {
+						?>
+                        <tr>
+                            <td scope="row">
+                                <input name="smbd_taxs" value="<?php echo $tax; ?>" type="radio" class="custom-tax">
+                            </td>
+                            <td>
+                                <label for="smbd_taxs"><?php echo $taxs[ $tax ]->labels->name; ?> </label>
+                            </td>
+                        </tr>
+						<?php
+					}
+					?>
             </table>
 
             <h4><?php _e( 'The selected taxonomy has the following terms. Select the terms from which you want to delete posts', 'bulk-delete' ) ?></h4>
