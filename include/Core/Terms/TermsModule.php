@@ -257,7 +257,12 @@ abstract class TermsModule extends BaseModule {
 
 			$posts = get_posts( $args );
 
-			$term_ids[] = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id, count( $posts ) );
+			$term_id = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id, count( $posts ) );
+			if( !empty( $term_id ) ){
+				$term_ids['include'][] = $term->term_id;
+			}else{
+				$term_ids['exclude'][] = $term->term_id;
+			}
 		}
 
 		return $term_ids;
@@ -276,13 +281,13 @@ abstract class TermsModule extends BaseModule {
 	protected function get_term_id_by_name( $term_text, $term_opt, $term_id, $post_count ) {
 		switch ( $term_opt ) {
 			case 'equal_to':
-				if ( $post_count === $term_text ) {
+				if ( $post_count == $term_text ) {
 					return $term_id;
 				}
 				break;
 
 			case 'not_equal_to':
-				if ( $post_count !== $term_text ) {
+				if ( $post_count != $term_text ) {
 					return $term_id;
 				}
 				break;
