@@ -45,7 +45,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'term'             => $term,
+			'term'             => $term_array['term_id'],
 			'term_meta'        => $meta_key,
 			'term_meta_value'  => $meta_value,
 			'term_meta_option' => 'equal',
@@ -54,7 +54,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 
 		// Assert that post meta deleted.
-		$this->assertEquals( 1, count( $meta_deleted ) );
+		$this->assertEquals( 1, $meta_deleted );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'term'             => $term,
+			'term'             => $term_array['term_id'],
 			'term_meta'        => $meta_key,
 			'term_meta_value'  => 'Unknown',
 			'term_meta_option' => 'not_equal',
@@ -82,7 +82,67 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 
 		// Assert that post meta deleted.
-		$this->assertEquals( 1, count( $meta_deleted ) );
+		$this->assertEquals( 1, $meta_deleted );
+	}
+
+	/**
+	 * Add to test delete custom taxonomy term meta with equal value.
+	 */
+	public function test_that_delete_custom_taxonomy_term_meta_with_equal_value() {
+
+		$term       = 'Apple';
+		$taxonomy   = 'fruit';
+		$meta_key   = 'grade';
+		$meta_value = 'A1';
+
+		register_taxonomy( $taxonomy, 'post' );
+
+		$term_array = wp_insert_term( $term, $taxonomy );
+
+		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+
+		// call our method.
+		$delete_options = array(
+			'term'             => $term_array['term_id'],
+			'term_meta'        => $meta_key,
+			'term_meta_value'  => $meta_value,
+			'term_meta_option' => 'equal',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+
+		// Assert that post meta deleted.
+		$this->assertEquals( 1, $meta_deleted );
+	}
+
+	/**
+	 * Add to test delete custom taxonomy term meta with not equal value.
+	 */
+	public function test_that_delete_custom_taxonomy_term_meta_with_not_equal_value() {
+
+		$term       = 'Apple';
+		$taxonomy   = 'fruit';
+		$meta_key   = 'grade';
+		$meta_value = 'A1';
+
+		register_taxonomy( $taxonomy, 'post' );
+
+		$term_array = wp_insert_term( $term, $taxonomy );
+
+		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+
+		// call our method.
+		$delete_options = array(
+			'term'             => $term_array['term_id'],
+			'term_meta'        => $meta_key,
+			'term_meta_value'  => 'Unknown',
+			'term_meta_option' => 'not_equal',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+
+		// Assert that post meta deleted.
+		$this->assertEquals( 1, $meta_deleted );
 	}
 
 
