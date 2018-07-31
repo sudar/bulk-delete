@@ -128,7 +128,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 	}
 
 	protected function build_query( $delete_options ) {
-		// For compatibility reasons set default post type to 'post'
+		// For compatibility reasons set default post type to 'post'.
 		$post_type = bd_array_get( $delete_options, 'post_type', 'post' );
 
 		$taxonomy = $delete_options['selected_taxs'];
