@@ -34,7 +34,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 			foreach ( $taxs as $tax ) {
 				$terms = get_terms( $tax->name );
 				if ( count( $terms ) > 0 ) {
-					$terms_array[$tax->name] = $terms;
+					$terms_array[ $tax->name ] = $terms;
 				}
 			}
 		}
