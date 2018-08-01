@@ -150,6 +150,7 @@ abstract class TermsModule extends BaseModule {
 		$length = strlen( $needle );
 		$substr = substr( $haystack, -$length );
 		$zero   = 0;
+
 		return $length === $zero ||
 		( $substr === $needle );
 	}
