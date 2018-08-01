@@ -148,9 +148,10 @@ abstract class TermsModule extends BaseModule {
 	 */
 	protected function bd_ends_with( $haystack, $needle ) {
 		$length = strlen( $needle );
-
-		return $length === 0 ||
-		( substr( $haystack, -$length ) === $needle );
+		$substr = substr( $haystack, -$length );
+		$zero   = 0;
+		return $length === $zero ||
+		( $substr === $needle );
 	}
 
 	/**
@@ -261,7 +262,7 @@ abstract class TermsModule extends BaseModule {
 				$term_ids['include'][] = $term->term_id;
 				continue;
 			}
-			
+
 			$term_ids['exclude'][] = $term->term_id;
 		}
 
