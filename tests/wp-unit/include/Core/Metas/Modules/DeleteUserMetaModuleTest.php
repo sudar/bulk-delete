@@ -352,4 +352,30 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 100, $meta_deleted );
 
 	}
+
+	/**
+	 * Test deletion of user metas with both meta key and value.
+	 */
+	public function test_deleting_user_meta_fields_both_key_and_value() {
+		// Create a user with subscriber role.
+		$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+
+		add_user_meta( $user, 'test_key', 'Test Value' );
+
+		// call our method.
+		$delete_options = array(
+			'selected_roles' => array( 'subscriber' ),
+			'meta_key'       => 'test_key',
+			'meta_value'       => 'Test Value',
+			'use_value'      => true,
+			'limit_to'       => - 1,
+			'delete_options' => '',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 1, $meta_deleted );
+
+		$user_meta = get_user_meta( $user, 'test_key', true );
+		$this->assertEquals( '', $user_meta );
+	}
 }
