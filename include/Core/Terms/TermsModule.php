@@ -260,6 +260,7 @@ abstract class TermsModule extends BaseModule {
 			$term_id = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id, count( $posts ) );
 			if ( ! empty( $term_id ) ) {
 				$term_ids['include'][] = $term->term_id;
+
 				continue;
 			}
 
