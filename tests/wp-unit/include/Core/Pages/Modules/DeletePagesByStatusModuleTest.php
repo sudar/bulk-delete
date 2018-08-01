@@ -185,6 +185,51 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
+	 * Test date filter (within the last x days) with two post status
+	 * can be permanently deleted.
+	 */
+	public function test_that_pages_that_are_posted_within_the_last_x_days_can_be_deleted() {
+		$date = date( 'Y-m-d H:i:s', strtotime( '-4 day' ) );
+
+		$published_pages = $this->factory->post->create_many( 10, array(
+			'post_type'   => 'page',
+			'post_status' => 'publish',
+			'post_date'   => $date,
+		) );
+
+		$this->assertEquals( 10, count( $published_pages ) );
+
+		$draft_pages = $this->factory->post->create_many( 10, array(
+			'post_type'   => 'page',
+			'post_status' => 'draft',
+			'post_date'   => $date,
+		) );
+
+		$this->assertEquals( 10, count( $draft_pages ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'publish', 'draft' ),
+			'limit_to'     => 0,
+			'restrict'     => true,
+			'force_delete' => true,
+			'date_op'      => 'after',
+			'days'         => '5',
+		);
+
+		$pages_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 20, $pages_deleted );
+
+		$published_pages = $this->get_pages_by_status();
+		$this->assertEquals( 0, count( $published_pages ) );
+
+		$draft_pages = $this->get_pages_by_status( 'draft' );
+		$this->assertEquals( 0, count( $draft_pages ) );
+
+		$trash_pages = $this->get_pages_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_pages ) );
+	}
+
+	/**
 	 * Test batch deletion with two post status.
 	 */
 	public function test_that_pages_can_be_trashed_in_batches() {
@@ -248,5 +293,34 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_pages = $this->get_pages_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_pages ) );
+	}
+
+	/**
+	 * Test private pages can be trashed
+	 */
+	public function test_that_private_pages_can_be_trashed() {
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'page',
+			'post_status' => 'private',
+		) );
+
+		$private_pages = $this->get_pages_by_status( 'private' );
+		$this->assertEquals( 10, count( $private_pages ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'private' ),
+			'limit_to'     => 0,
+			'restrict'     => false,
+			'force_delete' => false,
+		);
+
+		$pages_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 10, $pages_deleted );
+
+		$published_pages = $this->get_pages_by_status( 'private' );
+		$this->assertEquals( 0, count( $published_pages ) );
+
+		$trash_pages = $this->get_pages_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_pages ) );
 	}
 }
