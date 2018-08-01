@@ -235,37 +235,37 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 		update_user_meta( $this->subscriber_3, 'bwp_plugin_name', 'bulk_move' );
 		update_user_meta( $this->subscriber_4, 'bwp_plugin_name', 'the_green_hulk' );
 
-		$users_with_meta_value_1 = get_users( array(
+		$users_with_meta_value_bulk_delete = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'bulk_delete',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_bulk_delete, 'ID' ) );
 
-		$users_with_meta_value_2 = get_users( array(
+		$users_with_meta_value_my_awesome_plugin = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'my_awesome_plugin',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_2, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
 
-		$users_with_meta_value_3 = get_users( array(
+		$users_with_meta_value_bulk_move = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'bulk_move',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_3, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_bulk_move, 'ID' ) );
 
-		$users_with_meta_value_4 = get_users( array(
+		$users_with_meta_value_the_green_hulk = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'the_green_hulk',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_4, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_the_green_hulk, 'ID' ) );
 
 		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
 		$count_of_deleted_users = $this->module->delete( $delete_options );
@@ -387,29 +387,29 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 		update_user_meta( $this->subscriber_3, 'bwp_plugin_name', 'bulk_move' );
 		update_user_meta( $this->subscriber_4, 'bwp_plugin_name', 'the_green_hulk' );
 
-		$users_with_meta_value_1 = get_users( array(
+		$users_with_meta_value_bulk_delete = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'bulk_delete',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_bulk_delete, 'ID' ) );
 
-		$users_with_meta_value_2 = get_users( array(
+		$users_with_meta_value_my_awesome_plugin = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'my_awesome_plugin',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_2, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
 
-		$users_with_meta_value_3 = get_users( array(
+		$users_with_meta_value_bulk_move = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'bulk_move',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_3, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_bulk_move, 'ID' ) );
 
 		$subscriber_data = get_userdata( $this->subscriber_3 );
 
@@ -421,13 +421,13 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			$this->assertEquals( '-2', $diff_in_days );
 		}
 
-		$users_with_meta_value_4 = get_users( array(
+		$users_with_meta_value_the_green_hulk = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'the_green_hulk',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_4, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_the_green_hulk, 'ID' ) );
 
 		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
 		$count_of_deleted_users = $this->module->delete( $delete_options );
@@ -560,13 +560,13 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'post_author' => $this->subscriber_2,
 		) );
 
-		$users_with_meta_value_1 = get_users( array(
+		$users_with_meta_value_bulk_delete = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'bulk_delete',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_bulk_delete, 'ID' ) );
 
 		$subscriber_1_posts = get_posts( array(
 			'author'    => $this->subscriber_1,
@@ -575,13 +575,13 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 1, count( $subscriber_1_posts ) );
 
-		$users_with_meta_value_2 = get_users( array(
+		$users_with_meta_value_my_awesome_plugin = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'my_awesome_plugin',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_2, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
 
 		$subscriber_2_posts = get_posts( array(
 			'author' => $this->subscriber_2,
@@ -590,13 +590,13 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 1, count( $subscriber_2_posts ) );
 
-		$users_with_meta_value_3 = get_users( array(
+		$users_with_meta_value_bulk_move = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
 			'meta_value'   => 'bulk_move',
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_3, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_bulk_move, 'ID' ) );
 
 		$subscriber_data = get_userdata( $this->subscriber_3 );
 
