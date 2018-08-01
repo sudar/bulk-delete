@@ -294,4 +294,33 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		$trash_pages = $this->get_pages_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_pages ) );
 	}
+
+	/**
+	 * Test private pages can be trashed
+	 */
+	public function test_that_private_pages_can_be_trashed() {
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'page',
+			'post_status' => 'private',
+		) );
+
+		$private_pages = $this->get_pages_by_status( 'private' );
+		$this->assertEquals( 10, count( $private_pages ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'private' ),
+			'limit_to'     => 0,
+			'restrict'     => false,
+			'force_delete' => false,
+		);
+
+		$pages_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 10, $pages_deleted );
+
+		$published_pages = $this->get_pages_by_status( 'private' );
+		$this->assertEquals( 0, count( $published_pages ) );
+
+		$trash_pages = $this->get_pages_by_status( 'trash' );
+		$this->assertEquals( 10, count( $trash_pages ) );
+	}
 }
