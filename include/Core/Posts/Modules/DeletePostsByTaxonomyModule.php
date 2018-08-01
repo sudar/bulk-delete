@@ -12,6 +12,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsByTaxonomyModule extends PostsModule {
+	/**
+	 * Initialize and setup variables.
+	 *
+	 * @return void
+	 */
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'taxs';
@@ -26,6 +31,11 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		);
 	}
 
+	/**
+	 * Render the Modules.
+	 *
+	 * @return void
+	 */
 	public function render() {
 		$taxs = get_taxonomies( array(), 'objects' );
 
@@ -41,64 +51,85 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 
 		if ( count( $terms_array ) > 0 ) {
 			?>
-            <!-- Custom tax Start-->
-            <h4><?php _e( 'Select the post type from which you want to delete posts by taxonomy',
-					'bulk-delete' ); ?></h4>
+			<!-- Custom tax Start-->
+			<h4>
+			<?php
+			_e(
+				'Select the post type from which you want to delete posts by taxonomy',
+				'bulk-delete'
+			);
+			?>
+					</h4>
 
-            <fieldset class="options">
-                <table class="optiontable">
+			<fieldset class="options">
+				<table class="optiontable">
 					<?php $this->render_post_type_dropdown(); ?>
-                </table>
+				</table>
 
-                <h4><?php _e( 'Select the taxonomies from which you want to delete posts', 'bulk-delete' ) ?></h4>
+				<h4><?php _e( 'Select the taxonomies from which you want to delete posts', 'bulk-delete' ); ?></h4>
 
-                <table class="optiontable">
+				<table class="optiontable">
 					<?php
 					foreach ( $terms_array as $tax => $terms ) {
 						?>
-                        <tr>
-                            <td scope="row">
-                                <input name="smbd_taxs" value="<?php echo $tax; ?>" type="radio" class="custom-tax">
-                            </td>
-                            <td>
-                                <label for="smbd_taxs"><?php echo $taxs[ $tax ]->labels->name; ?> </label>
-                            </td>
-                        </tr>
+						<tr>
+							<td scope="row">
+								<input name="smbd_taxs" value="<?php echo esc_html( $tax ); ?>" type="radio" class="custom-tax">
+							</td>
+							<td>
+								<label for="smbd_taxs"><?php echo esc_html( $taxs[ $tax ]->labels->name ); ?> </label>
+							</td>
+						</tr>
 						<?php
 					}
 					?>
-                </table>
+				</table>
 
-                <h4><?php _e( 'The selected taxonomy has the following terms. Select the terms from which you want to delete posts',
-						'bulk-delete' ) ?></h4>
-                <p><?php _e( 'Note: The post count below for each term is the total number of posts in that term, irrespective of post type',
-						'bulk-delete' ); ?>.</p>
+				<h4>
+				<?php
+				_e(
+					'The selected taxonomy has the following terms. Select the terms from which you want to delete posts',
+					'bulk-delete'
+				)
+				?>
+						</h4>
+				<p>
+				<?php
+				_e(
+					'Note: The post count below for each term is the total number of posts in that term, irrespective of post type',
+					'bulk-delete'
+				);
+				?>
+						.</p>
 				<?php
 				foreach ( $terms_array as $tax => $terms ) {
 					?>
-                    <table class="optiontable terms_<?php echo $tax; ?> terms">
+					<table class="optiontable terms_<?php echo esc_html( $tax ); ?> terms">
 						<?php
 						foreach ( $terms as $term ) {
 							?>
-                            <tr>
-                                <td scope="row">
-                                    <input name="smbd_taxs_terms[]" value="<?php echo $term->slug; ?>" type="checkbox"
-                                           class="terms">
-                                </td>
-                                <td>
-                                    <label for="smbd_taxs_terms"><?php echo $term->name; ?>
-                                        (<?php echo $term->count . ' ';
-										_e( 'Posts', 'bulk-delete' ); ?>)</label>
-                                </td>
-                            </tr>
+							<tr>
+								<td scope="row">
+									<input name="smbd_taxs_terms[]" value="<?php echo esc_html( $term->slug ); ?>" type="checkbox" class="terms">
+								</td>
+								<td>
+									<label for="smbd_taxs_terms"><?php echo esc_html( $term->name ); ?>
+										(
+										<?php
+										echo esc_html( $term->count ) . ' ';
+										_e( 'Posts', 'bulk-delete' );
+										?>
+										)</label>
+								</td>
+							</tr>
 							<?php
 						}
 						?>
-                    </table>
+					</table>
 					<?php
 				}
 				?>
-                <table class="optiontable">
+				<table class="optiontable">
 					<?php
 					$this->render_filtering_table_header();
 					$this->render_restrict_settings();
@@ -106,19 +137,33 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 					$this->render_limit_settings();
 					$this->render_cron_settings();
 					?>
-                </table>
+				</table>
 
-            </fieldset>
+			</fieldset>
 			<?php
 			$this->render_submit_button();
 		} else {
 			?>
-            <h4><?php _e( "This WordPress installation doesn't have any non-empty taxonomies defined",
-					'bulk-delete' ) ?></h4>
+			<h4>
+			<?php
+			_e(
+				"This WordPress installation doesn't have any non-empty taxonomies defined",
+				'bulk-delete'
+			)
+			?>
+					</h4>
 			<?php
 		}
 	}
 
+	/**
+	 * Process user input and create metabox options.
+	 *
+	 * @param array $request Request array.
+	 * @param array $options User options.
+	 *
+	 * @return array User options.
+	 */
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_type']          = bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type', 'post' );
 		$options['selected_taxs']      = bd_array_get( $request, 'smbd_' . $this->field_slug );
@@ -127,6 +172,13 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		return $options;
 	}
 
+	/**
+	 * Build query from delete options.
+	 *
+	 * @param array $delete_options Delete options.
+	 *
+	 * @return array Query.
+	 */
 	protected function build_query( $delete_options ) {
 		// For compatibility reasons set default post type to 'post'.
 		$post_type = bd_array_get( $delete_options, 'post_type', 'post' );
@@ -149,6 +201,13 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		return $options;
 	}
 
+	/**
+	 * Get Success Message.
+	 *
+	 * @param int $items_deleted Number of items that were deleted.
+	 *
+	 * @return string Success message.
+	 */
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
 		return _n( 'Deleted %d post with the selected taxonomy', 'Deleted %d posts with the selected post taxonomy', $items_deleted, 'bulk-delete' );

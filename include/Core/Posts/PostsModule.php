@@ -22,6 +22,11 @@ abstract class PostsModule extends BaseModule {
 	 */
 	abstract protected function build_query( $options );
 
+	/**
+	 * Item Type. Possible values 'posts', 'pages', 'users' etc.
+	 *
+	 * @var string
+	 */
 	protected $item_type = 'posts';
 
 	/**
@@ -44,6 +49,15 @@ abstract class PostsModule extends BaseModule {
 		return $options;
 	}
 
+	/**
+	 * Filter JS Array and add pro hooks.
+	 *
+	 * @since 5.5
+	 *
+	 * @param array $js_array JavaScript Array.
+	 *
+	 * @return array Modified JavaScript Array
+	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
 		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
@@ -68,6 +82,13 @@ abstract class PostsModule extends BaseModule {
 		return $js_array;
 	}
 
+	/**
+	 * Perform the deletion.
+	 *
+	 * @param array $options Array of Delete options.
+	 *
+	 * @return int Number of items that were deleted.
+	 */
 	protected function do_delete( $options ) {
 		$query = $this->build_query( $options );
 
@@ -124,7 +145,7 @@ abstract class PostsModule extends BaseModule {
 			<?php endforeach; ?>
 
 		</select>
-	<?php
+		<?php
 	}
 
 	/**
@@ -148,7 +169,7 @@ abstract class PostsModule extends BaseModule {
 				</option>
 			<?php endforeach; ?>
 		</select>
-	<?php
+		<?php
 	}
 
 	/**
@@ -164,9 +185,10 @@ abstract class PostsModule extends BaseModule {
 					<label>All</label>
 				</td>
 			</tr>
-			<?php foreach ( $posts as $post ) :
-			$user = get_userdata( $post->post_author );
-			?>
+			<?php
+			foreach ( $posts as $post ) :
+				$user = get_userdata( $post->post_author );
+				?>
 			<tr>
 				<td scope="row">
 				<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
@@ -175,7 +197,7 @@ abstract class PostsModule extends BaseModule {
 			</tr>
 			<?php endforeach; ?>
 		</table>
-	<?php
+		<?php
 	}
 
 	/**
@@ -183,7 +205,7 @@ abstract class PostsModule extends BaseModule {
 	 *
 	 * @return array List of sticky posts.
 	 */
-	protected function get_sticky_posts(){
+	protected function get_sticky_posts() {
 		$posts = get_posts( array( 'post__in' => get_option( 'sticky_posts' ) ) );
 
 		return $posts;
