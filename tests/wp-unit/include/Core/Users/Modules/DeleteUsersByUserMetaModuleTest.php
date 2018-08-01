@@ -791,4 +791,579 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_2'], $count_of_deleted_users );
 	}
+
+	/**
+	 * Data provider to test `test_that_users_can_be_deleted_with_string_meta_operators_and_with_no_filters_set` method.
+	 *
+	 * @see DeleteUsersByUserMetaModuleTest::test_that_users_can_be_deleted_with_string_meta_operators_and_with_no_filters_set() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_that_users_can_be_deleted_when_user_with_numeric_meta_value_and_no_filters_set
+	() {
+		return array(
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'     => 'bwp_integer',
+						'meta_value'   => '0',
+						'meta_compare' => '>',
+						'type'         => 'NUMERIC',
+					),
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'     => 'bwp_integer',
+						'meta_value'   => '1',
+						'meta_compare' => '>=',
+						'type'         => 'NUMERIC',
+					),
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'     => 'bwp_integer',
+						'meta_value'   => '1',
+						'meta_compare' => '<',
+						'type'         => 'NUMERIC',
+					),
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'     => 'bwp_integer',
+						'meta_value'   => '0',
+						'meta_compare' => '<=',
+						'type'         => 'NUMERIC',
+					),
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test basic case of delete users by user meta.
+	 *
+	 * @param array $input           Input to the `users_can_be_deleted_when_user_and_no_filters_set` method.
+	 * @param bool  $expected_output Expected output of `users_can_be_deleted_when_user_and_no_filters_set` method.
+	 *
+	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_when_user_with_numeric_meta_value_and_no_filters_set
+	 */
+	public function test_that_users_can_be_deleted_when_user_with_numeric_meta_value_and_no_filters_set($input, $expected_output) {
+		// Update user meta.
+		update_user_meta( $this->subscriber_1, 'bwp_integer', '-1' );
+		update_user_meta( $this->subscriber_2, 'bwp_integer', '0' );
+		update_user_meta( $this->subscriber_3, 'bwp_integer', '1' );
+		update_user_meta( $this->subscriber_4, 'bwp_integer', '2' );
+
+		$users_with_meta_value_negative_1 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '-1',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_negative_1, 'ID' ) );
+
+		$users_with_meta_value_0 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '0',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_0, 'ID' ) );
+
+		$users_with_meta_value_1 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '1',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
+
+		$users_with_meta_value_2 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '2',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_2, 'ID' ) );
+
+		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users'], $count_of_deleted_users );
+	}
+
+	/**
+	 * Data provider to test `test_that_users_can_be_deleted_with_string_meta_operators_and_with_no_filters_set` method.
+	 *
+	 * @see DeleteUsersByUserMetaModuleTest::test_that_users_can_be_deleted_with_string_meta_operators_and_with_no_filters_set() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_user_registration_filter_set
+	() {
+		return array(
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '0',
+						'meta_compare'        => '>',
+						'type'                => 'NUMERIC',
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '1',
+						'meta_compare'        => '>=',
+						'type'                => 'NUMERIC',
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '1',
+						'meta_compare'        => '<',
+						'type'                => 'NUMERIC',
+						'registered_restrict' => true,
+						'registered_days'     => 0,
+					),
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '0',
+						'meta_compare'        => '<=',
+						'type'                => 'NUMERIC',
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users' => 0,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test basic case of delete users by user meta.
+	 *
+	 * @param array $input           Input to the `users_can_be_deleted_when_user_and_no_filters_set` method.
+	 * @param bool  $expected_output Expected output of `users_can_be_deleted_when_user_and_no_filters_set` method.
+	 *
+	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_user_registration_filter_set
+	 */
+	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_with_user_registration_filter_set($input, $expected_output) {
+		// Update user meta.
+		update_user_meta( $this->subscriber_1, 'bwp_integer', '-1' );
+		update_user_meta( $this->subscriber_2, 'bwp_integer', '0' );
+		update_user_meta( $this->subscriber_3, 'bwp_integer', '1' );
+		update_user_meta( $this->subscriber_4, 'bwp_integer', '2' );
+
+		$users_with_meta_value_negative_1 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '-1',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_negative_1, 'ID' ) );
+
+		$users_with_meta_value_0 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '0',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_0, 'ID' ) );
+
+		$users_with_meta_value_1 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '1',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
+
+		$subscriber_3_data = get_userdata( $this->subscriber_3 );
+
+		// Assert Subscriber 3 registration date is two days older than current date.
+		$this->assertTrue( $subscriber_3_data instanceof \WP_User );
+
+		$todays_date                    = new \DateTime();
+		$subscriber_3_registration_date = new \DateTime( $subscriber_3_data->user_registered );
+		$diff_in_days                   = $todays_date->diff( $subscriber_3_registration_date )->format( '%R%a' );
+
+		$this->assertEquals( '-2', $diff_in_days );
+
+		$users_with_meta_value_2 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '2',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_2, 'ID' ) );
+
+		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users'], $count_of_deleted_users );
+	}
+
+	/**
+	 * Data provider to test `test_that_users_can_be_deleted_with_string_meta_operators_and_with_posts_filter_set` method.
+	 *
+	 * @see DeleteUsersByUserMetaModuleTest::test_that_users_can_be_deleted_with_string_meta_operators_and_with_posts_filter_set() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function
+	provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_posts_filter_set (
+	) {
+		return array(
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '0',
+						'meta_compare'        => '>',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'type'                => 'NUMERIC',
+					),
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '0',
+						'meta_compare'        => '>=',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'type'                => 'NUMERIC',
+					),
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '2',
+						'meta_compare'        => '<',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'type'                => 'NUMERIC',
+					),
+				),
+				array(
+					'count_of_deleted_users' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '2',
+						'meta_compare'        => '<=',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'type'                => 'NUMERIC',
+					),
+				),
+				array(
+					'count_of_deleted_users' => 2,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test User deletion with string meta operators and with posts filter set.
+	 *
+	 * @param array $input           Input to the `users_can_be_deleted_with_string_meta_operators_and_with_posts_filter_set` method.
+	 * @param bool  $expected_output Expected output of `users_can_be_deleted_with_string_meta_operators_and_with_posts_filter_set` method.
+	 *
+	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_posts_filter_set
+	 */
+	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_with_posts_filter_set
+	($input, $expected_output) {
+		// Update user meta.
+		update_user_meta( $this->subscriber_1, 'bwp_integer', '-1' );
+		update_user_meta( $this->subscriber_2, 'bwp_integer', '0' );
+		update_user_meta( $this->subscriber_3, 'bwp_integer', '1' );
+		update_user_meta( $this->subscriber_4, 'bwp_integer', '2' );
+
+		$post_1 = $this->factory->post->create( array(
+			'post_title'  => 'Post 1',
+			'post_author' => $this->subscriber_1,
+		) );
+
+		$post_2 = $this->factory->post->create( array(
+			'post_title'  => 'Post 2',
+			'post_author' => $this->subscriber_2,
+		) );
+
+		$users_with_meta_value_negative_1 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '-1',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_negative_1, 'ID' ) );
+
+		$subscriber_1_posts = get_posts( array(
+			'author'    => $this->subscriber_1,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_1_posts ) );
+
+		$users_with_meta_value_0 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '0',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_0, 'ID' ) );
+
+		$subscriber_2_posts = get_posts( array(
+			'author'    => $this->subscriber_2,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_2_posts ) );
+
+		$users_with_meta_value_1 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '1',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
+
+		$subscriber_3_posts = get_posts( array(
+			'author'    => $this->subscriber_3,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 0, count( $subscriber_3_posts ) );
+
+		$users_with_meta_value_2 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '2',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_2, 'ID' ) );
+
+		$subscriber_4_posts = get_posts( array(
+			'author'    => $this->subscriber_4,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 0, count( $subscriber_4_posts ) );
+
+		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users'], $count_of_deleted_users );
+	}
+
+	/**
+	 * Data provider to test `test_that_users_can_be_deleted_with_string_meta_operators_and_in_batches` method.
+	 *
+	 * @see DeleteUsersByUserMetaModuleTest::test_that_users_can_be_deleted_with_string_meta_operators_and_in_batches()
+	 *      To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_in_batches() {
+		return array(
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '-1',
+						'meta_compare'        => '>',
+						'limit_to'            => 2,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 2,
+					'count_of_deleted_users_in_batch_2' => 1,
+				),
+			),
+
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '0',
+						'meta_compare'        => '>=',
+						'limit_to'            => 2,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 2,
+					'count_of_deleted_users_in_batch_2' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '1',
+						'meta_compare'        => '<',
+						'limit_to'            => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 1,
+					'count_of_deleted_users_in_batch_2' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_integer',
+						'meta_value'          => '2',
+						'meta_compare'        => '<=',
+						'limit_to'            => 2,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 2,
+					'count_of_deleted_users_in_batch_2' => 2,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test User deletion with string meta operators and with posts filter set.
+	 *
+	 * @param array $input           Input to the `delete()` method.
+	 * @param bool  $expected_output Expected output of `delete()` method.
+	 *
+	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_in_batches
+	 */
+	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_in_batches
+	($input, $expected_output) {
+		// Update user meta.
+		update_user_meta( $this->subscriber_1, 'bwp_integer', '-1' );
+		update_user_meta( $this->subscriber_2, 'bwp_integer', '0' );
+		update_user_meta( $this->subscriber_3, 'bwp_integer', '1' );
+		update_user_meta( $this->subscriber_4, 'bwp_integer', '2' );
+
+		$users_with_meta_value_negative_1 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '-1',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_1, ),
+			wp_list_pluck( $users_with_meta_value_negative_1, 'ID' ) );
+
+		$users_with_meta_value_0 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '0',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_2 ),
+			wp_list_pluck( $users_with_meta_value_0,
+				'ID' ) );
+
+		$users_with_meta_value_1 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '1',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_3 ),
+			wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
+
+		$users_with_meta_value_2 = get_users( array(
+			'meta_key'     => 'bwp_integer',
+			'meta_value'   => '2',
+			'meta_compare' => '=',
+			'type'         => 'NUMERIC',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_4 ),
+			wp_list_pluck(
+				$users_with_meta_value_2,
+				'ID' ) );
+
+		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
+		// 1st Batch deletion.
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_1'], $count_of_deleted_users );
+
+		// 2nd Batch deletion.
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_2'], $count_of_deleted_users );
+	}
 }
