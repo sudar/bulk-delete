@@ -189,7 +189,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test deletion of user metas from more than role, with easy role having one user.
 	 */
-	public function test_deleting_multiple_users_with_meta_fields_from_multiple_user_role() {
+	public function test_deleting_users_with_meta_fields_from_multiple_user_role() {
 
 		$role_array = array();
 		// Create a users with meta value in dynamic role.
@@ -214,5 +214,64 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 
 		$user_meta = get_user_meta( $user, 'time', true );
 		$this->assertEquals( '', $user_meta );
+	}
+
+	/**
+	 * Test deletion of user metas from more than role, with easy role having more than one user.
+	 */
+	public function test_deleting_multiple_users_with_meta_fields_from_multiple_user_role() {
+
+		$role_array = array();
+		// Create a users with meta value in dynamic role.
+		for ( $i = 0; $i < 10; $i++ ) {
+			$role         = 'user_type_' . $i;
+			$role_array[] = $role;
+			for ( $j = 0; $j < 10; $j++ ) {
+				$user = $this->factory->user->create( array( 'role' => $role ) );
+				add_user_meta( $user, 'time', '10/10/2018' );
+			}
+		}
+
+		// call our method.
+		$delete_options = array(
+			'selected_roles' => $role_array,
+			'meta_key'       => 'time',
+			'use_value'      => false,
+			'limit_to'       => - 1,
+			'delete_options' => '',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 100, $meta_deleted );
+
+		$user_meta = get_user_meta( $user, 'time', true );
+		$this->assertEquals( '', $user_meta );
+	}
+
+	/**
+	 * Test deletion of user metas from one role, which has no users. Nothing should be deleted.
+	 */
+	public function test_deleting_multiple_users_metas_fields_from_one_user_role_no_users() {
+
+		$role_array = array();
+		// Create a users with meta value in dynamic role.
+		for ( $i = 0; $i < 10; $i++ ) {
+			$role = 'subscriber';
+			$user = $this->factory->user->create( array( 'role' => $role ) );
+			add_user_meta( $user, 'time', '10/10/2018' );
+		}
+
+		// call our method.
+		$delete_options = array(
+			'selected_roles' => array( 'administrator' ),
+			'meta_key'       => 'time',
+			'use_value'      => false,
+			'limit_to'       => - 1,
+			'delete_options' => '',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 0, $meta_deleted );
+
 	}
 }
