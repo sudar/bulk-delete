@@ -237,8 +237,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 * Add to test deleting comment meta from more than one comment using meta value as well with different operations.
 	 *
 	 * @param string $meta_key Meta key.
-	 * @param        $operators
-	 * @param        $comment_metas_to_be_deleted
+	 * @param string $operators Possible values =, !=, <=, >=, <, >, LIKE, NOT LIKE and etc.
+	 * @param string $comment_metas_to_be_deleted Static string value.
 	 *
 	 * @dataProvider different_operations
 	 */
