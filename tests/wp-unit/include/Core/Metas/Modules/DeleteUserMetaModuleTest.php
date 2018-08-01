@@ -304,4 +304,52 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, $meta_deleted );
 
 	}
+
+	/**
+	 * Test deletion of user metas from more than one role, where one role doesn't have any users and other role has users. Nothing should be deleted.
+	 */
+	public function test_deleting_multiple_users_metas_fields_from_multiple_user_role_no_users_and_have_users() {
+
+		$role_array_without_users = array();
+		for ( $i = 0; $i < 10; $i++ ) {
+			$role                       = 'user_type_no_user_' . $i;
+			$role_array_without_users[] = $role;
+		}
+
+		$role_array_with_users = array();
+		for ( $i = 0; $i < 10; $i++ ) {
+			$role                    = 'user_type_' . $i;
+			$role_array_with_users[] = $role;
+			// Create a users with meta value in dynamic role.
+			for ( $j = 0; $j < 10; $j++ ) {
+				$user = $this->factory->user->create( array( 'role' => $role ) );
+				add_user_meta( $user, 'time', '10/10/2018' );
+			}
+		}
+
+		// call our method.
+		$delete_options = array(
+			'selected_roles' => $role_array_without_users,
+			'meta_key'       => 'time',
+			'use_value'      => false,
+			'limit_to'       => - 1,
+			'delete_options' => '',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 0, $meta_deleted );
+
+		// call our method.
+		$delete_options = array(
+			'selected_roles' => $role_array_with_users,
+			'meta_key'       => 'time',
+			'use_value'      => false,
+			'limit_to'       => - 1,
+			'delete_options' => '',
+		);
+
+		$meta_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 100, $meta_deleted );
+
+	}
 }
