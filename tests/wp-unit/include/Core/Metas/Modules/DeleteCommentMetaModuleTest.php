@@ -141,16 +141,16 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'post_type' 	=> $post_type,
-			'use_value' 	=> true,
-			'meta_key'  	=> $meta_key,
-			'meta_value'  	=> $meta_value,
-			'meta_op'  		=> '=',
-			'meta_type'  	=> 'CHAR',
-			'limit_to'  	=> -1,
-			'date_op'   	=> '',
-			'days'      	=> '',
-			'restrict'  	=> false,
+			'post_type'  => $post_type,
+			'use_value'  => true,
+			'meta_key'   => $meta_key,
+			'meta_value' => $meta_value,
+			'meta_op'    => '=',
+			'meta_type'  => 'CHAR',
+			'limit_to'   => -1,
+			'date_op'    => '',
+			'days'       => '',
+			'restrict'   => false,
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
@@ -194,17 +194,17 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'post_type' 	=> $post_type,
-			'use_value' 	=> 1,
-			'meta_key'  	=> $meta_key,
-			'meta_value'  	=> $meta_value,
-			'meta_op'  		=> '=',
-			'meta_type'  	=> 'CHAR',
-			'limit_to'  	=> 0,
-			'date_op'   	=> '',
-			'days'      	=> 0,
-			'restrict'  	=> false,
-			'force_delete'	=> false,
+			'post_type'    => $post_type,
+			'use_value'    => 1,
+			'meta_key'     => $meta_key,
+			'meta_value'   => $meta_value,
+			'meta_op'      => '=',
+			'meta_type'    => 'CHAR',
+			'limit_to'     => 0,
+			'date_op'      => '',
+			'days'         => 0,
+			'restrict'     => false,
+			'force_delete' => false,
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
@@ -217,21 +217,35 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function different_operations(){
+	public function different_operations() {
 		return array(
 			array(
-				'meta_type'	 => 'CHAR',
-				'meta_key'   => 'test_key',
-				'meta_value' => 'Test Value',
-				'operator'		=> '=',
-				'query_value'	=> 'Test Value',
+				'meta_type'   => 'CHAR',
+				'meta_key'    => 'test_key',
+				'meta_value'  => 'Test Value',
+				'operator'    => '=',
+				'query_value' => 'Test Value',
 			),
 			array(
-				'meta_type'	 => 'CHAR',
-				'meta_key'   => 'test_key',
-				'meta_value' => 'Test Value',
-				'operator'		=> '!=',
-				'query_value'	=> 'Test Value',
+				'meta_type'   => 'CHAR',
+				'meta_key'    => 'test_key',
+				'meta_value'  => 'Test Value',
+				'operator'    => '!=',
+				'query_value' => 'Wrong Value',
+			),
+			array(
+				'meta_type'   => 'CHAR',
+				'meta_key'    => 'test_key',
+				'meta_value'  => 'Test Value',
+				'operator'    => 'LIKE',
+				'query_value' => 'Test Value',
+			),
+			array(
+				'meta_type'   => 'CHAR',
+				'meta_key'    => 'test_key',
+				'meta_value'  => 'Test Value',
+				'operator'    => 'NOT LIKE',
+				'query_value' => 'Wrong Value',
 			),
 		);
 	}
@@ -239,17 +253,23 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test deleting comment meta from more than one comment using meta value as well with different operations.
 	 *
+	 * @param string $meta_type Meta type.
+	 * @param string $meta_key Meta key.
+	 * @param string $meta_value Meta value.
+	 * @param string $operator Arithmatic or Binary Operator.
+	 * @param string $query_value Query value.
+	 *
 	 * @dataProvider different_operations
 	 */
 	public function test_that_deleting_comment_meta_more_than_one_comment_using_meta_value_with_different_operations( $meta_type, $meta_key, $meta_value, $operator, $query_value ) {
 
-		$post_type  = 'post';
+		$post_type          = 'post';
 		$number_of_comments = 10;
 
-		//Create a post.
+		// Create a post.
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
 
-		for( $i = 1; $i <= $number_of_comments; $i++ ){
+		for ( $i = 1; $i <= $number_of_comments; $i++ ) {
 
 			$comment_data = array(
 				'comment_post_ID' => $post,
@@ -262,21 +282,21 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$delete_options = array(
-			'post_type' 	=> $post_type,
-			'use_value' 	=> true,
-			'meta_key'  	=> $meta_key,
-			'meta_value'  	=> $query_value,
-			'meta_op'  		=> $operator,
-			'meta_type'  	=> $meta_type,
-			'limit_to'  	=> -1,
-			'date_op'   	=> '',
-			'days'      	=> '',
-			'restrict'  	=> false,
+			'post_type'  => $post_type,
+			'use_value'  => true,
+			'meta_key'   => $meta_key,
+			'meta_value' => $query_value,
+			'meta_op'    => $operator,
+			'meta_type'  => $meta_type,
+			'limit_to'   => -1,
+			'date_op'    => '',
+			'days'       => '',
+			'restrict'   => false,
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( $number_of_comments, $meta_deleted );
-			
+
 	}
 
 }
