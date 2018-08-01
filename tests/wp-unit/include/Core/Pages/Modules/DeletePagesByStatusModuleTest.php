@@ -185,6 +185,51 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
+	 * Test date filter (within the last x days) with two post status
+	 * can be permanently deleted.
+	 */
+	public function test_that_pages_that_are_posted_within_the_last_x_days_can_be_deleted() {
+		$date = date( 'Y-m-d H:i:s', strtotime( '-4 day' ) );
+
+		$published_pages = $this->factory->post->create_many( 10, array(
+			'post_type'   => 'page',
+			'post_status' => 'publish',
+			'post_date'   => $date,
+		) );
+
+		$this->assertEquals( 10, count( $published_pages ) );
+
+		$draft_pages = $this->factory->post->create_many( 10, array(
+			'post_type'   => 'page',
+			'post_status' => 'draft',
+			'post_date'   => $date,
+		) );
+
+		$this->assertEquals( 10, count( $draft_pages ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'publish', 'draft' ),
+			'limit_to'     => 0,
+			'restrict'     => true,
+			'force_delete' => true,
+			'date_op'      => 'after',
+			'days'         => '5',
+		);
+
+		$pages_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 20, $pages_deleted );
+
+		$published_pages = $this->get_pages_by_status();
+		$this->assertEquals( 0, count( $published_pages ) );
+
+		$draft_pages = $this->get_pages_by_status( 'draft' );
+		$this->assertEquals( 0, count( $draft_pages ) );
+
+		$trash_pages = $this->get_pages_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_pages ) );
+	}
+
+	/**
 	 * Test batch deletion with two post status.
 	 */
 	public function test_that_pages_can_be_trashed_in_batches() {
@@ -277,5 +322,118 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_pages = $this->get_pages_by_status( 'trash' );
 		$this->assertEquals( 10, count( $trash_pages ) );
+	}
+
+	/**
+	 * Test delete pages of single custom post status
+	 */
+	public function test_that_pages_from_single_custom_post_status_can_be_deleted() {
+		register_post_status( 'custom_post_status' );
+		$this->factory->post->create_many( 50, array(
+			'post_type'   => 'page',
+			'post_status' => 'custom_post_status',
+		) );
+
+		$custom_post_status_pages = $this->get_pages_by_status( 'custom_post_status' );
+		$this->assertEquals( 50, count( $custom_post_status_pages ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'custom_post_status' ),
+			'limit_to'     => 0,
+			'restrict'     => false,
+			'force_delete' => true,
+		);
+
+		$pages_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 50, $pages_deleted );
+
+		$custom_post_status_pages = $this->get_pages_by_status( 'custom_post_status' );
+		$this->assertEquals( 0, count( $custom_post_status_pages ) );
+
+		$trash_pages = $this->get_pages_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_pages ) );
+	}
+
+	/**
+	 * Test delete pages of two custom post statuses
+	 */
+	public function test_that_pages_from_two_custom_post_statuses_can_be_deleted() {
+		register_post_status( 'custom_post_status_1' );
+		$this->factory->post->create_many( 25, array(
+			'post_type'   => 'page',
+			'post_status' => 'custom_post_status_1',
+		) );
+
+		$custom_post_status_1_pages = $this->get_pages_by_status( 'custom_post_status_1' );
+		$this->assertEquals( 25, count( $custom_post_status_1_pages ) );
+
+		register_post_status( 'custom_post_status_2' );
+		$this->factory->post->create_many( 25, array(
+			'post_type'   => 'page',
+			'post_status' => 'custom_post_status_2',
+		) );
+
+		$custom_post_status_2_pages = $this->get_pages_by_status( 'custom_post_status_2' );
+		$this->assertEquals( 25, count( $custom_post_status_2_pages ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'custom_post_status_1', 'custom_post_status_2' ),
+			'limit_to'     => 0,
+			'restrict'     => false,
+			'force_delete' => true,
+		);
+
+		$pages_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 50, $pages_deleted );
+
+		$custom_post_status_1_pages = $this->get_pages_by_status( 'custom_post_status_1' );
+		$this->assertEquals( 0, count( $custom_post_status_1_pages ) );
+
+		$custom_post_status_2_pages = $this->get_pages_by_status( 'custom_post_status_2' );
+		$this->assertEquals( 0, count( $custom_post_status_2_pages ) );
+
+		$trash_pages = $this->get_pages_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_pages ) );
+	}
+
+	/**
+	 * Test delete pages of one custom post status and one built-in post status
+	 */
+	public function test_pages_from_custom_and_built_in_post_status_can_be_deleted_together() {
+		register_post_status( 'custom' );
+		$this->factory->post->create_many( 25, array(
+			'post_type'   => 'page',
+			'post_status' => 'custom',
+		) );
+
+		$custom_pages = $this->get_pages_by_status( 'custom' );
+		$this->assertEquals( 25, count( $custom_pages ) );
+
+		$this->factory->post->create_many( 25, array(
+			'post_type'   => 'page',
+			'post_status' => 'publish',
+		) );
+
+		$published_pages = $this->get_pages_by_status( 'publish' );
+		$this->assertEquals( 25, count( $published_pages ) );
+
+		$delete_options = array(
+			'post_status'  => array( 'custom', 'publish' ),
+			'limit_to'     => 0,
+			'restrict'     => false,
+			'force_delete' => true,
+		);
+
+		$pages_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 50, $pages_deleted );
+
+		$custom_pages = $this->get_pages_by_status( 'custom' );
+		$this->assertEquals( 0, count( $custom_pages ) );
+
+		$published_pages = $this->get_pages_by_status();
+		$this->assertEquals( 0, count( $published_pages ) );
+
+		$trash_pages = $this->get_pages_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_pages ) );
 	}
 }
