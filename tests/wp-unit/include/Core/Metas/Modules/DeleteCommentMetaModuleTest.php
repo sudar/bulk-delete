@@ -32,7 +32,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test deleting comment meta from one comment.
 	 */
-	public function test_that_deleting_comment_meta_from_one_comment() {
+	public function test_that_comment_meta_from_one_comment_can_be_deleted() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -72,7 +72,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test deleting comment meta from more than one comment.
 	 */
-	public function test_that_deleting_comment_meta_from_more_than_one_comment() {
+	public function test_that_comment_meta_from_multiple_comments_can_be_deleted() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -120,7 +120,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test deleting comment meta from one comment using meta value as well.
 	 */
-	public function test_that_deleting_comment_meta_from_one_comment_using_meta_value() {
+	public function test_that_comment_meta_from_one_comment_can_be_deleted_using_meta_values() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -163,7 +163,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test deleting comment meta from more than one comment using meta value as well.
 	 */
-	public function test_that_deleting_comment_meta_from_more_than_one_comment_using_meta_value() {
+	public function test_that_comment_meta_from_multiple_comments_can_be_deleted_using_meta_values() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -230,27 +230,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 				),
 				5,
 			),
-//			array(
-//				'meta_type'   => 'CHAR',
-//				'meta_key'    => $meta_key,
-//				'meta_value'  => 'Test Value',
-//				'operator'    => '!=',
-//				'query_value' => 'Wrong Value',
-//			),
-//			array(
-//				'meta_type'   => 'CHAR',
-//				'meta_key'    => $meta_key,
-//				'meta_value'  => 'Test Value',
-//				'operator'    => 'LIKE',
-//				'query_value' => 'Test Value',
-//			),
-//			array(
-//				'meta_type'   => 'CHAR',
-//				'meta_key'    => $meta_key,
-//				'meta_value'  => 'Test Value',
-//				'operator'    => 'NOT LIKE',
-//				'query_value' => 'Wrong Value',
-//			),
 		);
 	}
 
@@ -279,7 +258,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		for ( $i = 0; $i < 5; $i++ ) {
 			$comment_data = array(
 				'comment_post_ID' => $post,
-				'comment_content' => 'Test Comment', // TODO: Make this dynamic.
 			);
 
 			$comment_id = $this->factory->comment->create( $comment_data );
@@ -289,7 +267,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		for ( $i = 0; $i < 5; $i++ ) {
 			$comment_data = array(
 				'comment_post_ID' => $post,
-				'comment_content' => 'Test Comment', // TODO: Make this dynamic.
 			);
 
 			$comment_id = $this->factory->comment->create( $comment_data );
@@ -316,7 +293,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test deleting comment meta older than x days.
 	 */
-	public function test_that_deleting_comment_meta_older_than_x_days() {
+	public function test_that_comment_meta_can_be_deleted_olderthan_x_days() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -358,7 +335,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test deleting comment meta older than x days.
 	 */
-	public function test_that_deleting_comment_meta_last_x_days() {
+	public function test_that_comment_meta_can_be_deleted_last_x_days() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -398,9 +375,9 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Add to test deleting comment meta older than x days.
+	 * Add to test deleting comment meta in batches.
 	 */
-	public function test_that_deleting_comment_meta_in_batches() {
+	public function test_that_comment_meta_can_be_deleted_in_batches() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
