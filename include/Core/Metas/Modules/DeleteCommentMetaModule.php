@@ -137,7 +137,14 @@ class DeleteCommentMetaModule extends MetasModule {
 		}
 
 		if ( $options['use_value'] ) {
-			$args['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $options );
+			$args['meta_query'] = array(
+				array(
+					'key'     => $options['meta_key'],
+					'value'   => $options['meta_value'],
+					'compare' => $options['meta_op'],
+					'type'    => $options['meta_type'],
+				),
+			);
 		} else {
 			$args['meta_key'] = $options['meta_key'];
 		}
