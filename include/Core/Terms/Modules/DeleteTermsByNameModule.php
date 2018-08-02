@@ -7,11 +7,11 @@ use BulkWP\BulkDelete\Core\Terms\TermsModule;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Terms by Postfix and Prefix.
+ * Delete Terms by Name.
  *
  * @since 6.0.0
  */
-class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
+class DeleteTermsByNameModule extends TermsModule {
 	/**
 	 * Initialize the values.
 	 */
@@ -113,25 +113,28 @@ class DeleteTermsByPostfixAndPrefixModule extends TermsModule {
 
 			case 'starts':
 				$term_ids         = $this->term_starts( $term_text, $options );
-				$query['include'] = $term_ids;
+				$query['include'] = $term_ids['include'];
+				$query['exclude'] = $term_ids['exclude'];
 				break;
 
 			case 'ends':
 				$term_ids         = $this->term_ends( $term_text, $options );
-				$query['include'] = $term_ids;
+				$query['include'] = $term_ids['include'];
+				$query['exclude'] = $term_ids['exclude'];
 				break;
 
 			case 'contains':
 				$term_ids         = $this->term_contains( $term_text, $options );
-				$query['include'] = $term_ids;
+				$query['include'] = $term_ids['include'];
+				$query['exclude'] = $term_ids['exclude'];
 				break;
 
 			case 'not_contains':
-				$term_ids         = $this->term_query( array( 'name__like' => "%$term_text%" ), $options['taxonomy'] );
-				$query['exclude'] = $term_ids;
+				$term_ids         = $this->term_contains( $term_text, $options );
+				$query['exclude'] = $term_ids['include'];
+				$query['include'] = $term_ids['exclude'];
 				break;
 		}
-
 		return $query;
 	}
 

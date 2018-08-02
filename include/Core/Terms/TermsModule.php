@@ -164,7 +164,10 @@ abstract class TermsModule extends BaseModule {
 	 * @return array term ids.
 	 */
 	protected function term_starts( $term_text, $options ) {
-		$term_ids = array();
+		$term_ids = array(
+			'include' => array(),
+			'exclude' => array(),
+		);
 		$terms    = get_terms(
 			$options['taxonomy'], array(
 				'hide_empty' => false,
@@ -173,8 +176,10 @@ abstract class TermsModule extends BaseModule {
 
 		foreach ( $terms as $term ) {
 			if ( $this->bd_starts_with( $term->name, $term_text ) ) {
-				$term_ids[] = $term->term_id;
+				$term_ids['include'][] = $term->term_id;
+				continue;
 			}
+			$term_ids['exclude'][] = $term->term_id;
 		}
 
 		return $term_ids;
@@ -189,7 +194,10 @@ abstract class TermsModule extends BaseModule {
 	 * @return array term ids.
 	 */
 	protected function term_ends( $term_text, $options ) {
-		$term_ids = array();
+		$term_ids = array(
+			'include' => array(),
+			'exclude' => array(),
+		);
 		$terms    = get_terms(
 			$options['taxonomy'], array(
 				'hide_empty' => false,
@@ -198,8 +206,10 @@ abstract class TermsModule extends BaseModule {
 
 		foreach ( $terms as $term ) {
 			if ( $this->bd_ends_with( $term->name, $term_text ) ) {
-				$term_ids[] = $term->term_id;
+				$term_ids['include'][] = $term->term_id;
+				continue;
 			}
+			$term_ids['exclude'][] = $term->term_id;
 		}
 
 		return $term_ids;
@@ -214,7 +224,10 @@ abstract class TermsModule extends BaseModule {
 	 * @return array term ids.
 	 */
 	protected function term_contains( $term_text, $options ) {
-		$term_ids = array();
+		$term_ids = array(
+			'include' => array(),
+			'exclude' => array(),
+		);
 		$terms    = get_terms(
 			$options['taxonomy'], array(
 				'hide_empty' => false,
@@ -223,8 +236,10 @@ abstract class TermsModule extends BaseModule {
 
 		foreach ( $terms as $term ) {
 			if ( strpos( $term->name, $term_text ) !== false ) {
-				$term_ids[] = $term->term_id;
+				$term_ids['include'][] = $term->term_id;
+				continue;
 			}
+			$term_ids['exclude'][] = $term->term_id;
 		}
 
 		return $term_ids;
