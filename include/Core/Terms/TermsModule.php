@@ -177,6 +177,7 @@ abstract class TermsModule extends BaseModule {
 		foreach ( $terms as $term ) {
 			if ( $this->bd_starts_with( $term->name, $term_text ) ) {
 				$term_ids['include'][] = $term->term_id;
+
 				continue;
 			}
 			$term_ids['exclude'][] = $term->term_id;
@@ -207,6 +208,7 @@ abstract class TermsModule extends BaseModule {
 		foreach ( $terms as $term ) {
 			if ( $this->bd_ends_with( $term->name, $term_text ) ) {
 				$term_ids['include'][] = $term->term_id;
+
 				continue;
 			}
 			$term_ids['exclude'][] = $term->term_id;
@@ -237,6 +239,7 @@ abstract class TermsModule extends BaseModule {
 		foreach ( $terms as $term ) {
 			if ( strpos( $term->name, $term_text ) !== false ) {
 				$term_ids['include'][] = $term->term_id;
+
 				continue;
 			}
 			$term_ids['exclude'][] = $term->term_id;
