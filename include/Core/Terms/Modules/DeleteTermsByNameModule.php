@@ -135,6 +135,7 @@ class DeleteTermsByNameModule extends TermsModule {
 				$query['include'] = $term_ids['exclude'];
 				break;
 		}
+
 		return $query;
 	}
 
