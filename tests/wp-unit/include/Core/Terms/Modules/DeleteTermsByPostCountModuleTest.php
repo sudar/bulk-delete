@@ -32,7 +32,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Dataprovider of test case.
 	 */
-	public function delete_terms_by_post_count_various_inputs() {
+	public function provide_data_to_test_that_delete_terms_by_post_count() {
 		return array(
 			array(
 				array(
@@ -41,15 +41,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 2,
+							'number_of_posts' => 2,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 0,
+							'number_of_posts' => 0,
 						),
 					),
 				),
@@ -67,15 +67,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 0,
+							'number_of_posts' => 0,
 						),
 					),
 				),
@@ -93,15 +93,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 					),
 				),
@@ -119,15 +119,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 2,
+							'number_of_posts' => 2,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 0,
+							'number_of_posts' => 0,
 						),
 					),
 				),
@@ -145,15 +145,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 0,
+							'number_of_posts' => 0,
 						),
 					),
 				),
@@ -171,15 +171,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 					),
 				),
@@ -197,15 +197,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 					),
 				),
@@ -223,15 +223,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 4,
+							'number_of_posts' => 4,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 					),
 				),
@@ -249,15 +249,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 2,
+							'number_of_posts' => 2,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 2,
+							'number_of_posts' => 2,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 					),
 				),
@@ -275,15 +275,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 					),
 				),
@@ -301,15 +301,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 4,
+							'number_of_posts' => 4,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 					),
 				),
@@ -327,15 +327,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 6,
+							'number_of_posts' => 6,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 					),
 				),
@@ -353,15 +353,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 2,
+							'number_of_posts' => 2,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 3,
+							'number_of_posts' => 3,
 						),
 					),
 				),
@@ -379,15 +379,15 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
-							'number_0f_posts' => 5,
+							'number_of_posts' => 5,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_0f_posts' => 2,
+							'number_of_posts' => 2,
 						),
 						array(
 							'term'            => 'Term C',
-							'number_0f_posts' => 0,
+							'number_of_posts' => 0,
 						),
 					),
 				),
@@ -403,7 +403,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add tests to delete term with various cases.
 	 *
-	 * @dataProvider delete_terms_by_post_count_various_inputs
+	 * @dataProvider provide_data_to_test_that_delete_terms_by_post_count
 	 *
 	 * @param array $inputs Inputs for test cases.
 	 * @param array $operation Operation performed after user inputs.
@@ -425,7 +425,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 
 		foreach ( $term_input as $term ) {
 			$matched_term_array = wp_insert_term( $term['term'], $taxonomy );
-			for ( $i = 0; $i < $term['number_0f_posts']; $i++ ) {
+			for ( $i = 0; $i < $term['number_of_posts']; $i++ ) {
 
 				$post = $this->factory->post->create(
 					array(
