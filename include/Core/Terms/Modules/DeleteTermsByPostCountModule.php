@@ -34,7 +34,6 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	 */
 	public function render() {
 		?>
-		<!-- Category Start-->
 		<h4><?php _e( 'Select the taxonomy from which you want to delete terms', 'bulk-delete' ); ?></h4>
 		<fieldset class="options">
 			<table class="optiontable">
@@ -54,6 +53,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 		<?php
 		$this->render_submit_button();
 	}
+
 	/**
 	 * Filter the js array.
 	 *
@@ -120,6 +120,6 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	 */
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected terms count', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected options', $items_deleted, 'bulk-delete' );
 	}
 }

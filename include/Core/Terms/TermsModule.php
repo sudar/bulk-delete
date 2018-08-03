@@ -109,7 +109,7 @@ abstract class TermsModule extends BaseModule {
 		foreach ( $term_ids as $term_id ) {
 			$term = get_term( $term_id, $options['taxonomy'] );
 
-			if ( is_wp_error( $term ) ) {
+			if ( ! $term instanceof \WP_Term ) {
 				continue;
 			}
 
@@ -130,7 +130,7 @@ abstract class TermsModule extends BaseModule {
 	 * @param string $haystack search string.
 	 * @param string $needle   find string.
 	 *
-	 * @return bool.
+	 * @return boolean.
 	 */
 	protected function bd_starts_with( $haystack, $needle ) {
 		$length = strlen( $needle );
@@ -144,7 +144,7 @@ abstract class TermsModule extends BaseModule {
 	 * @param string $haystack search string.
 	 * @param string $needle   find string.
 	 *
-	 * @return bool.
+	 * @return boolean.
 	 */
 	protected function bd_ends_with( $haystack, $needle ) {
 		$length = strlen( $needle );
