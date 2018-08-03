@@ -29,7 +29,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test single post meta from the default post type.
 	 */
-	public function test_that_single_post_meta_from_the_default_post_type() {
+	public function test_that_single_post_meta_can_be_deleted_from_default_post_type() {
 		// Create a post
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
 
@@ -64,7 +64,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test more than one post meta from the default post type.
 	 */
-	public function test_that_more_than_one_post_meta_from_the_default_post_type() {
+	public function test_that_more_than_one_post_meta_can_be_deleted_from_default_post_type() {
 		// Create a post
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
 
@@ -97,7 +97,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test single post meta from the custom post type.
 	 */
-	public function test_that_single_post_meta_from_the_custom_post_type() {
+	public function test_that_single_post_meta_can_be_deleted_from_custom_post_type() {
 		// Create a post with custom post type
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_type' => 'custom' ) );
 
@@ -128,7 +128,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test more than one post meta from the custom post type.
 	 */
-	public function test_that_more_than_one_post_meta_from_the_custom_post_type() {
+	public function test_that_more_than_one_post_meta_can_de_deleted_from_custom_post_type() {
 		// Create a post with custom post type
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_type' => 'custom' ) );
 
@@ -161,7 +161,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test post meta delete from post published date.
 	 */
-	public function test_restrict_post_meta_deletion_based_on_post_published_date_older() {
+	public function test_that_post_meta_deletion_be_restricted_by_post_older_than() {
 		// Create a post with past date
 		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_date' => $date ) );
@@ -193,7 +193,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test post meta delete from previous published with in x date.
 	 */
-	public function test_restrict_post_meta_deletion_based_on_post_published_date_within_the_last_x_days() {
+	public function test_that_post_meta_deletion_be_restricted_by_posts_within_the_last_x_days() {
 		// Create a post with past date
 		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_date' => $date ) );
@@ -225,7 +225,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test delete post meta in batches.
 	 */
-	public function test_delete_postmeta_in_batches() {
+	public function test_that_post_meta_can_be_deleted_in_batches() {
 		$posts = $this->factory->post->create_many( 20, array(
 			'post_type'   => 'post',
 		) );
