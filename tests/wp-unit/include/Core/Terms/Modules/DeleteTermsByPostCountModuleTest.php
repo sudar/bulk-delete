@@ -37,7 +37,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -63,7 +63,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -89,7 +89,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -115,7 +115,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -135,13 +135,13 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'post_count' => 3,
 					'operator'   => 'not_equal_to',
 				),
-				3, // Because Uncategorized is default term for category taxonomy, Its also does not have posts.
+				2, 
 			),
 
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -161,13 +161,13 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'post_count' => 3,
 					'operator'   => 'not_equal_to',
 				),
-				2, // Because Uncategorized is default term for category taxonomy, Its also does not have posts.
+				1, 
 			),
 
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -187,13 +187,13 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'post_count' => 3,
 					'operator'   => 'not_equal_to',
 				),
-				1, // Because Uncategorized is default term for category taxonomy, Its also does not have posts.
+				0, 
 			),
 
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -213,13 +213,13 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'post_count' => 0,
 					'operator'   => 'not_equal_to',
 				),
-				3, // Because Uncategorized is default term for category taxonomy, Its also does not have posts.
+				3, 
 			),
 
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -239,13 +239,13 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'post_count' => 4,
 					'operator'   => 'less_than',
 				),
-				2, // Because Uncategorized is default term for category taxonomy, Its also does not have posts.
+				1, 
 			),
 
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -265,13 +265,13 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'post_count' => 4,
 					'operator'   => 'less_than',
 				),
-				4, // Because Uncategorized is default term for category taxonomy, Its also does not have posts.
+				3, 
 			),
 
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -291,13 +291,13 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'post_count' => 2,
 					'operator'   => 'less_than',
 				),
-				1, // Because Uncategorized is default term for category taxonomy, Its also does not have posts.
+				0, 
 			),
 
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -323,7 +323,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',
@@ -349,7 +349,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						array(
 							'term'            => 'Term A',

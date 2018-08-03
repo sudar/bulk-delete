@@ -37,7 +37,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'Term A',
 						'Term B',
@@ -53,7 +53,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'Term A',
 						'Term B',
@@ -64,12 +64,12 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'term_text' => 'Term A',
 					'operator'  => 'not_equal_to',
 				),
-				3, // Because Uncategorized is default term for category taxonomy.
+				2,
 			),
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'Term A',
 						'Term B',
@@ -85,7 +85,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'Term A',
 						'Term B',
@@ -101,7 +101,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'A Term',
 						'B Term',
@@ -117,7 +117,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'Term A',
 						'Term B',
@@ -133,7 +133,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'Term sample A',
 						'Term sample B',
@@ -149,7 +149,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'Term A',
 						'Term B',
@@ -165,7 +165,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'Term sample A',
 						'Term sample B',
@@ -176,12 +176,12 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'term_text' => 'sample',
 					'operator'  => 'not_contains',
 				),
-				2, // Because Uncategorized is default term for category taxonomy.
+				1, 
 			),
 			array(
 				array(
 					'post_type'  => 'post',
-					'taxonomy'   => 'category',
+					'taxonomy'   => 'post_tag',
 					'term_input' => array(
 						'Term A',
 						'Term B',
@@ -192,7 +192,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'term_text' => 'sample',
 					'operator'  => 'not_contains',
 				),
-				4, // Because Uncategorized is default term for category taxonomy.
+				3, 
 			),
 
 			array(
