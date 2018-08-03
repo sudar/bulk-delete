@@ -176,7 +176,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'term_text' => 'sample',
 					'operator'  => 'not_contains',
 				),
-				1, 
+				1,
 			),
 			array(
 				array(
@@ -192,7 +192,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'term_text' => 'sample',
 					'operator'  => 'not_contains',
 				),
-				3, 
+				3,
 			),
 
 			array(
