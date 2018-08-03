@@ -364,7 +364,6 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'taxonomy'   => $taxonomy,
 					'hide_empty' => false,
 					'name'       => $query['term_text'],
-					'count'      => true,
 				)
 			);
 			$this->assertEquals( $query['term_count'], count( $terms ) );
