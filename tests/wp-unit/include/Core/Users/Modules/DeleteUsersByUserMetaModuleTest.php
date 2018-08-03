@@ -198,8 +198,8 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'     => 'bwp_plugin_name',
-						'meta_value'   => 'bulk',
-						'meta_compare' => 'STARTS WITH',
+						'meta_value'   => '^' . 'bulk', // Strings are concatenated for readability.
+						'meta_compare' => 'REGEXP',
 					),
 				),
 				array(
@@ -210,8 +210,8 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'     => 'bwp_plugin_name',
-						'meta_value'   => 'hulk',
-						'meta_compare' => 'ENDS WITH',
+						'meta_value'   => 'hulk' . '$',// Strings are concatenated for readability.
+						'meta_compare' => 'REGEXP',
 					),
 				),
 				array(
@@ -347,10 +347,11 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'            => 'bwp_plugin_name',
-						'meta_value'          => 'bulk',
-						'meta_compare'        => 'STARTS WITH',
+						'meta_value'          => '^' . 'bulk', // Strings are concatenated for readability.
+						'meta_compare'        => 'REGEXP',
 						'registered_restrict' => true,
 						'registered_days'     => 1,
+
 					),
 				),
 				array(
@@ -361,8 +362,8 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'            => 'bwp_plugin_name',
-						'meta_value'          => 'hulk',
-						'meta_compare'        => 'ENDS WITH',
+						'meta_value'          => 'hulk' . '$',// Strings are concatenated for readability.
+						'meta_compare'        => 'REGEXP',
 						'registered_restrict' => true,
 						'registered_days'     => 1,
 					),
@@ -513,8 +514,8 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'            => 'bwp_plugin_name',
-						'meta_value'          => 'bulk',
-						'meta_compare'        => 'STARTS WITH',
+						'meta_value'          => '^' . 'bulk', // Strings are concatenated for readability.
+						'meta_compare'        => 'REGEXP',
 						'no_posts'            => true,
 						'no_posts_post_types' => array( 'post' ),
 					),
@@ -527,8 +528,8 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'            => 'bwp_plugin_name',
-						'meta_value'          => 'hulk',
-						'meta_compare'        => 'ENDS WITH',
+						'meta_value'          => 'hulk' . '$',// Strings are concatenated for readability.
+						'meta_compare'        => 'REGEXP',
 						'no_posts'            => true,
 						'no_posts_post_types' => array( 'post' ),
 					),
@@ -646,12 +647,12 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Data provider to test `provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_in_batches` method.
 	 *
-	 * @see DeleteUsersByUserMetaModuleTest::provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_in_batches()
+	 * @see DeleteUsersByUserMetaModuleTest::test_that_users_can_be_deleted_with_string_meta_value_and_in_batches()
 	 *      To see how the data is used.
 	 *
 	 * @return array Data.
 	 */
-	public function provide_data_to_test_that_users_can_be_deleted_with_string_meta_operators_and_in_batches() {
+	public function provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_in_batches() {
 		return array(
 			array(
 				array(
@@ -714,8 +715,8 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'     => 'bwp_plugin_name',
-						'meta_value'   => 'bulk',
-						'meta_compare' => 'STARTS WITH',
+						'meta_value'   => '^' . 'bulk', // Strings are concatenated for readability.
+						'meta_compare' => 'REGEXP',
 						'limit_to'     => 2,
 					),
 				),
@@ -728,8 +729,8 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'     => 'bwp_plugin_name',
-						'meta_value'   => 'hulk',
-						'meta_compare' => 'ENDS WITH',
+						'meta_value'   => 'hulk' . '$',// Strings are concatenated for readability.
+						'meta_compare' => 'REGEXP',
 						'limit_to'     => 1,
 					),
 				),
