@@ -56,7 +56,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'post_type' => $post_type,
 			'use_value' => false,
 			'meta_key'  => $meta_key,
-			'limit_to'  => -1,
+			'limit_to'  => 0,
 			'date_op'   => '',
 			'days'      => '',
 			'restrict'  => false,
@@ -106,7 +106,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'post_type' => $post_type,
 			'use_value' => false,
 			'meta_key'  => $meta_key,
-			'limit_to'  => -1,
+			'limit_to'  => 0,
 			'date_op'   => '',
 			'days'      => '',
 			'restrict'  => false,
@@ -147,7 +147,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_value' => $meta_value,
 			'meta_op'    => '=',
 			'meta_type'  => 'CHAR',
-			'limit_to'   => -1,
+			'limit_to'   => 0,
 			'date_op'    => '',
 			'days'       => '',
 			'restrict'   => false,
@@ -217,7 +217,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function different_operations() {
+	public function provide_data_to_test_that_comment_meta_from_multiple_comments() {
 		$meta_key = 'test_key';
 
 		return array(
@@ -240,9 +240,9 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 * @param string $operators Possible values =, !=, <=, >=, <, >, LIKE, NOT LIKE and etc.
 	 * @param string $comment_metas_to_be_deleted Static string value.
 	 *
-	 * @dataProvider different_operations
+	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments
 	 */
-	public function test_that_comment_meta_from_multiple_comments_can_be_deleted_using_different_operators( $meta_key, $operators, $comment_metas_to_be_deleted ) {
+	public function test_that_comment_meta_from_multiple_comments( $meta_key, $operators, $comment_metas_to_be_deleted ) {
 		$post_type               = 'post';
 		$matching_meta_value     = 'This value should match';
 		$non_matching_meta_value = 'This value should not match';
@@ -273,21 +273,34 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			add_comment_meta( $comment_id, $meta_key, $non_matching_meta_value );
 		}
 
-		$delete_options = array(
-			'post_type'  => $post_type,
-			'use_value'  => true,
-			'meta_key'   => $meta_key,
-			'meta_value' => $operators['meta_value'],
-			'meta_op'    => $operators['operator'],
-			'meta_type'  => $operators['meta_type'],
-			'limit_to'   => 0,
-			'date_op'    => '',
-			'days'       => '',
-			'restrict'   => false,
-		);
+		// $delete_options = array(
+		// 	'post_type'  => $post_type,
+		// 	'use_value'  => true,
+		// 	'meta_key'   => $meta_key,
+		// 	'meta_value' => $operators['meta_value'],
+		// 	'meta_op'    => $operators['operator'],
+		// 	'meta_type'  => $operators['meta_type'],
+		// 	'limit_to'   => 0,
+		// 	'date_op'    => '',
+		// 	'days'       => '',
+		// 	'restrict'   => false,
+		// );
 
-		$comment_metas_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( $comment_metas_to_be_deleted, $comment_metas_deleted );
+		// $comment_metas_deleted = $this->module->delete( $delete_options );
+		// $this->assertEquals( $comment_metas_to_be_deleted, $comment_metas_deleted );
+
+		$args = array(
+			'post_type' => $post_type,
+			'meta_query'=> array(
+				'key'     => $meta_key,
+				'value'   => $non_matching_meta_value,
+				'compare' => $operators['operator'],
+				'type'    => $operators['meta_type'],
+			),
+		);
+		print_r($args);
+		$comments = get_comments( $args );
+		$this->assertEquals( 5, count($comments) );
 	}
 
 	/**
@@ -319,7 +332,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'post_type' => $post_type,
 			'use_value' => false,
 			'meta_key'  => $meta_key,
-			'limit_to'  => -1,
+			'limit_to'  => 0,
 			'date_op'   => 'before',
 			'days'      => 1,
 			'restrict'  => true,
@@ -361,7 +374,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'post_type' => $post_type,
 			'use_value' => false,
 			'meta_key'  => $meta_key,
-			'limit_to'  => -1,
+			'limit_to'  => 0,
 			'date_op'   => 'after',
 			'days'      => '5',
 			'restrict'  => true,
