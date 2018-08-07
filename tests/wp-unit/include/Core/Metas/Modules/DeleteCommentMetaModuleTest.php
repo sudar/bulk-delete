@@ -213,94 +213,221 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Data provider to test `meta_value_with_different_operations` method.
+	 * Data provider to test `test_that_comment_meta_from_multiple_comments` method.
 	 *
 	 * @return array Data.
 	 */
 	public function provide_data_to_test_that_comment_meta_from_multiple_comments() {
-		$meta_key = 'test_key';
-
 		return array(
 			array(
-				$meta_key,
 				array(
+					'matched'      => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => 'Matched Value',
+						'number_of_comments' => 5,
+					),
+					'miss_matched' => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => 'Miss Matched Value',
+						'number_of_comments' => 3,
+					),
+				),
+				array(
+					'meta_key'   => 'test_key',
 					'meta_type'  => 'CHAR',
-					'meta_value' => 'This value should match',
+					'meta_value' => 'Matched Value',
 					'operator'   => '=',
 				),
-				5,
+				array(
+					'matched'      => '5',
+					'miss_matched' => '3',
+				),
 			),
+
+			array(
+				array(
+					'matched'      => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => 'Matched Value',
+						'number_of_comments' => 5,
+					),
+					'miss_matched' => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => 'Miss Matched Value',
+						'number_of_comments' => 3,
+					),
+				),
+				array(
+					'meta_key'   => 'test_key',
+					'meta_type'  => 'CHAR',
+					'meta_value' => 'Miss Matched Value',
+					'operator'   => '!=',
+				),
+				array(
+					'matched'      => '5',
+					'miss_matched' => '3',
+				),
+			),
+
+			array(
+				array(
+					'matched'      => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => 'Matched Value',
+						'number_of_comments' => 5,
+					),
+					'miss_matched' => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => 'Another Value',
+						'number_of_comments' => 3,
+					),
+				),
+				array(
+					'meta_key'   => 'test_key',
+					'meta_type'  => 'CHAR',
+					'meta_value' => 'Matched Value',
+					'operator'   => 'LIKE',
+				),
+				array(
+					'matched'      => '5',
+					'miss_matched' => '3',
+				),
+			),
+
+			array(
+				array(
+					'matched'      => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => 'Matched Value',
+						'number_of_comments' => 5,
+					),
+					'miss_matched' => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => 'Miss Matched Value',
+						'number_of_comments' => 3,
+					),
+				),
+				array(
+					'meta_key'   => 'test_key',
+					'meta_type'  => 'CHAR',
+					'meta_value' => 'Miss Matched Value',
+					'operator'   => 'NOT LIKE',
+				),
+				array(
+					'matched'      => '5',
+					'miss_matched' => '3',
+				),
+			),
+
+			array(
+				array(
+					'matched'      => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => '10',
+						'number_of_comments' => 5,
+					),
+					'miss_matched' => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => '20',
+						'number_of_comments' => 3,
+					),
+				),
+				array(
+					'meta_key'   => 'test_key',
+					'meta_type'  => 'NUMERIC',
+					'meta_value' => '10',
+					'operator'   => '=',
+				),
+				array(
+					'matched'      => '5',
+					'miss_matched' => '3',
+				),
+			),
+
+			array(
+				array(
+					'matched'      => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => '10',
+						'number_of_comments' => 5,
+					),
+					'miss_matched' => array(
+						'meta_key'           => 'test_key',
+						'meta_value'         => '20',
+						'number_of_comments' => 3,
+					),
+				),
+				array(
+					'meta_key'   => 'test_key',
+					'meta_type'  => 'NUMERIC',
+					'meta_value' => '10',
+					'operator'   => '!=',
+				),
+				array(
+					'matched'      => '3',
+					'miss_matched' => '0',
+				),
+			),
+
 		);
 	}
 
 	/**
 	 * Add to test deleting comment meta from more than one comment using meta value as well with different operations.
 	 *
-	 * @param string $meta_key Meta key.
-	 * @param string $operators Possible values =, !=, <=, >=, <, >, LIKE, NOT LIKE and etc.
-	 * @param string $comment_metas_to_be_deleted Static string value.
+	 * @param array $input create posts, comments and meta params.
+	 * @param array $opetation Possible operations.
+	 * @param array $expected expected output.
 	 *
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments
 	 */
-	public function test_that_comment_meta_from_multiple_comments( $meta_key, $operators, $comment_metas_to_be_deleted ) {
-		$post_type               = 'post';
-		$matching_meta_value     = 'This value should match';
-		$non_matching_meta_value = 'This value should not match';
+	public function test_that_comment_meta_from_multiple_comments( $input, $opetation, $expected ) {
+		$post_type = 'post';
 
 		// Create a post.
 		$post = $this->factory->post->create(
 			array(
-				'post_title' => 'Test Post',
-				'post_type'  => $post_type,
+				'post_type' => $post_type,
 			)
 		);
 
-		for ( $i = 0; $i < 5; $i++ ) {
-			$comment_data = array(
-				'comment_post_ID' => $post,
-			);
+		$comment_data = array(
+			'comment_post_ID' => $post,
+		);
 
-			$comment_id = $this->factory->comment->create( $comment_data );
-			add_comment_meta( $comment_id, $meta_key, $matching_meta_value );
+		foreach ( $input as $meta ) {
+			for ( $i = 0; $i < $meta['number_of_comments']; $i++ ) {
+				$comment_id = $this->factory->comment->create( $comment_data );
+				add_comment_meta( $comment_id, $meta['meta_key'], $meta['meta_value'] );
+			}
 		}
 
-		for ( $i = 0; $i < 5; $i++ ) {
-			$comment_data = array(
-				'comment_post_ID' => $post,
-			);
+		$delete_options = array(
+			'post_type'  => $post_type,
+			'use_value'  => true,
+			'meta_key'   => $opetation['meta_key'],
+			'meta_value' => $opetation['meta_value'],
+			'meta_type'  => $opetation['meta_type'],
+			'meta_op'    => $opetation['operator'],
+			'limit_to'   => 0,
+			'date_op'    => '',
+			'days'       => '',
+			'restrict'   => false,
+		);
 
-			$comment_id = $this->factory->comment->create( $comment_data );
-			add_comment_meta( $comment_id, $meta_key, $non_matching_meta_value );
-		}
-
-		// $delete_options = array(
-		// 	'post_type'  => $post_type,
-		// 	'use_value'  => true,
-		// 	'meta_key'   => $meta_key,
-		// 	'meta_value' => $operators['meta_value'],
-		// 	'meta_op'    => $operators['operator'],
-		// 	'meta_type'  => $operators['meta_type'],
-		// 	'limit_to'   => 0,
-		// 	'date_op'    => '',
-		// 	'days'       => '',
-		// 	'restrict'   => false,
-		// );
-
-		// $comment_metas_deleted = $this->module->delete( $delete_options );
-		// $this->assertEquals( $comment_metas_to_be_deleted, $comment_metas_deleted );
+		$comment_metas_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( $expected['matched'], $comment_metas_deleted );
 
 		$args = array(
-			'post_type' => $post_type,
-			'meta_query'=> array(
-				'key'     => $meta_key,
-				'value'   => $non_matching_meta_value,
-				'compare' => $operators['operator'],
-				'type'    => $operators['meta_type'],
-			),
+			'post_type'  => $post_type,
+			'meta_key'   => $input['miss_matched']['meta_key'],
+			'meta_value' => $input['miss_matched']['meta_value'],
 		);
-		print_r($args);
+
 		$comments = get_comments( $args );
-		$this->assertEquals( 5, count($comments) );
+
+		$this->assertEquals( $expected['miss_matched'], count( $comments ) );
+
 	}
 
 	/**
