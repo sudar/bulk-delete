@@ -467,8 +467,9 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 
 		if ( 1 == $count ) {
 			return true;
-		} else {
-			return false; }
+		}
+
+		return false;
 
 	}
 }
