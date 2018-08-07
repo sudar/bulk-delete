@@ -478,22 +478,6 @@ abstract class BaseModule extends Renderer {
 	}
 
 	/**
-	 * Get the threshold after which enhanced select should be used.
-	 *
-	 * @return int Threshold.
-	 */
-	protected function get_enhanced_select_threshold() {
-		/**
-		 * Filter the enhanced select threshold.
-		 *
-		 * @since 6.0.0
-		 *
-		 * @param int Threshold.
-		 */
-		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
-	}
-
-	/**
 	 * Get the class name for select2 dropdown based on the number of items present.
 	 *
 	 * @param int    $count      The number of items present.
