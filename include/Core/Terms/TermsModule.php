@@ -50,20 +50,6 @@ abstract class TermsModule extends BaseModule {
 	}
 
 	/**
-	 * Filter the js array.
-	 * This function will be overridden by the child classes.
-	 *
-	 * @since 5.5
-	 *
-	 * @param array $js_array JavaScript Array.
-	 *
-	 * @return array Modified JavaScript Array.
-	 */
-	public function filter_js_array( $js_array ) {
-		return $js_array;
-	}
-
-	/**
 	 * Perform the deletion.
 	 *
 	 * @param array $options Array of Delete options.
