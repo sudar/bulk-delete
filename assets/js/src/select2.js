@@ -10,6 +10,10 @@ jQuery( document ).ready( function () {
 		width: '300px'
 	} );
 
+	jQuery( '.select2-dropdown' ).select2( {
+		width: '300px'
+	} );
+
 	/**
 	 * Select 2 for posts types with status.
 	 *
