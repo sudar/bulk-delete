@@ -264,7 +264,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 					'published'     => 3,
 				),
 			),
-
 			// Deleting posts from a single taxonomy term custom post type and default taxonomy.
 			array(
 				array(
