@@ -232,4 +232,23 @@ abstract class Renderer extends Fetcher {
 		 */
 		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
 	}
+
+	/**
+	 * Check there is have any private post is exist.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string $post_type.
+	 *
+	 * @return bool
+	 */
+	public function are_private_posts_present( $post_type='any') {
+		$args  = array(
+			'post_status' => array( 'private' ),
+			'post_type'   => $post_type,
+		);
+		$query = new \WP_Query( $args );
+
+		return $query->have_posts();
+	}
 }
