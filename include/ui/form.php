@@ -88,6 +88,25 @@ function bd_render_sticky_settings( $slug ) {
 }
 
 /**
+ * Check there is have any private post is exist.
+ *
+ * @since 6.0.0
+ *
+ * @param string $post_type.
+ */
+function are_private_posts_present( $post_type='any') {
+	$args  = array(
+		'post_status' => array( 'private' ),
+		'post_type'   => $post_type
+	);
+	$query = new WP_Query( $args );
+	if ( $query->have_posts() ) {
+		return true;
+	}
+	return false;
+}
+
+/**
  * Render the "private post" setting fields.
  *
  * @since 5.5
@@ -95,11 +114,7 @@ function bd_render_sticky_settings( $slug ) {
  * @param string $slug The slug to be used in field names.
  */
 function bd_render_private_post_settings( $slug ) {
-	$args  = array(
-		'post_status' => array( 'private' ),
-	);
-	$query = new WP_Query( $args );
-	if ( $query->have_posts() ) {
+	if ( are_private_posts_present() ) {
 		?>
 	<tr>
 		<td scope="row" colspan="2">
