@@ -232,5 +232,4 @@ abstract class Renderer extends Fetcher {
 		 */
 		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
 	}
-
 }
