@@ -118,12 +118,30 @@ abstract class Renderer extends Fetcher {
 	protected function render_taxonomy_dropdown() {
 		$taxonomies = get_taxonomies( array(), 'objects' );
 		?>
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" class="select2" multiple="multiple" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" class="enhanced-taxonomy-list" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
 			<?php foreach ( $taxonomies as $taxonomy ) : ?>
 				<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
 					<?php echo esc_html( $taxonomy->label ); ?>
 				</option>
 			<?php endforeach; ?>
+		</select>
+
+		<?php
+	}
+
+	/**
+	 * Render String based comparison operators dropdown.
+	 */
+	protected function render_string_comparison_operators() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
+			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+			<option value="starts"><?php _e( 'starts', 'bulk-delete' ); ?></option>
+			<option value="ends"><?php _e( 'ends', 'bulk-delete' ); ?></option>
+			<option value="contains"><?php _e( 'contains', 'bulk-delete' ); ?></option>
+			<option value="not_contains"><?php _e( 'not contains', 'bulk-delete' ); ?></option>
 		</select>
 		<?php
 	}
@@ -150,8 +168,7 @@ abstract class Renderer extends Fetcher {
 			<option value="less_than">less than</option>
 			<option value="greater_than">greater than</option>
 		<?php } ?>
-		</select> 
-		<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_text">
+		</select>
 		<?php
 	}
 

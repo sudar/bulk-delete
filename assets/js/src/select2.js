@@ -6,9 +6,9 @@ jQuery( document ).ready( function () {
 	/**
 	 * Normal select2.
 	 */
-	jQuery( '.select2-taxonomy, .select2' ).select2( {
-		width: '300px'
-	} );
+	// jQuery( '.select2-taxonomy, .select2' ).select2( {
+	// 	width: '300px'
+	// } );
 
 	/**
 	 * Select 2 for posts types with status.

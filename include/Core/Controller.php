@@ -211,9 +211,13 @@ class Controller {
 	 * @since 5.6
 	 * @since 6.0.0 Moved into Controller class.
 	 *
-	 * @param \WP_Query $wp_query WP Query object.
+	 * @param \WP_Query|\WP_User_Query|\WP_Term_Query $wp_query Query object.
 	 */
 	public function log_sql_query( $wp_query ) {
+		if ( ! property_exists( $wp_query, 'request' ) ) {
+			return;
+		}
+
 		$query = $wp_query->request;
 
 		/**

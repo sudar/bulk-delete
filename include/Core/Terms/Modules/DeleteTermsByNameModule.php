@@ -12,16 +12,12 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteTermsByNameModule extends TermsModule {
-	/**
-	 * Initialize the values.
-	 */
+
 	protected function initialize() {
 		$this->item_type     = 'terms';
 		$this->field_slug    = 'terms_by_name';
 		$this->meta_box_slug = 'bd_delete_terms_by_name';
 		$this->action        = 'delete_terms_by_name';
-		$this->cron_hook     = 'do-bulk-delete-term-by-name';
-		$this->scheduler_url = '';
 		$this->messages      = array(
 			'box_label'  => __( 'Delete Terms by Name', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
@@ -29,23 +25,21 @@ class DeleteTermsByNameModule extends TermsModule {
 		);
 	}
 
-	/**
-	 * Render Delete terms by postfix and prefix box.
-	 */
 	public function render() {
 		?>
-		<!-- Category Start-->
-		<h4><?php _e( 'Select the taxonomy from which you want to delete terms', 'bulk-delete' ); ?></h4>
+
 		<fieldset class="options">
-			<table class="optiontable">
-				<?php $this->render_taxonomy_dropdown(); ?>
-			</table>
+			<h4><?php _e( 'Select the taxonomy from which you want to delete terms', 'bulk-delete' ); ?></h4>
 
-			<table class="optiontable">
-				<?php $this->render_term_options(); ?>
-			</table>
+			<?php $this->render_taxonomy_dropdown(); ?>
 
+			<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
+
+			<?php _e( 'Delete Terms if the name ', 'bulk-delete' ); ?>
+			<?php $this->render_string_comparison_operators(); ?>
+			<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Term Name', 'bulk-delete' ); ?>">
 		</fieldset>
+
 		<?php
 		$this->render_submit_button();
 	}
@@ -72,19 +66,9 @@ class DeleteTermsByNameModule extends TermsModule {
 		return $js_array;
 	}
 
-	/**
-	 * Process delete posts user inputs by category.
-	 *
-	 * @param array $request Request array.
-	 * @param array $options Options for deleting posts.
-	 *
-	 * @return array $options  Inputs from user for posts that were need to delete
-	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['taxonomy']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' );
-		$options['term_opt']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
-		$options['term_text'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_text' );
-		$options['no_posts']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_no_posts' );
+		$options['operator'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' );
+		$options['value']    = bd_array_get( $request, 'smbd_' . $this->field_slug . '_value' );
 
 		return $options;
 	}
@@ -97,40 +81,45 @@ class DeleteTermsByNameModule extends TermsModule {
 	 * @return array Query.
 	 */
 	protected function build_query( $options ) {
-		$query     = array();
-		$term_text = $options['term_text'];
-		$term_opt  = $options['term_opt'];
+		$query    = array();
+		$value    = $options['value'];
+		$operator = $options['operator'];
 
-		switch ( $term_opt ) {
+		switch ( $operator ) {
 			case 'equal_to':
-				$query['name__like'] = $term_text;
+				$query['name__like'] = $value;
 				break;
 
 			case 'not_equal_to':
-				$term_ids         = $this->term_query( array( 'name__like' => $term_text ), $options['taxonomy'] );
+				$name_like_args = array(
+					'name__like' => $value,
+					'taxonomy'   => $options['taxonomy'],
+				);
+
+				$term_ids         = $this->query_terms( $name_like_args, $options );
 				$query['exclude'] = $term_ids;
 				break;
 
 			case 'starts':
-				$term_ids         = $this->term_starts( $term_text, $options );
+				$term_ids         = $this->term_starts( $value, $options );
 				$query['include'] = $term_ids['include'];
 				$query['exclude'] = $term_ids['exclude'];
 				break;
 
 			case 'ends':
-				$term_ids         = $this->term_ends( $term_text, $options );
+				$term_ids         = $this->term_ends( $value, $options );
 				$query['include'] = $term_ids['include'];
 				$query['exclude'] = $term_ids['exclude'];
 				break;
 
 			case 'contains':
-				$term_ids         = $this->term_contains( $term_text, $options );
+				$term_ids         = $this->term_contains( $value, $options );
 				$query['include'] = $term_ids['include'];
 				$query['exclude'] = $term_ids['exclude'];
 				break;
 
 			case 'not_contains':
-				$term_ids         = $this->term_contains( $term_text, $options );
+				$term_ids         = $this->term_contains( $value, $options );
 				$query['exclude'] = $term_ids['include'];
 				$query['include'] = $term_ids['exclude'];
 				break;
@@ -149,5 +138,98 @@ class DeleteTermsByNameModule extends TermsModule {
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
 		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected options', $items_deleted, 'bulk-delete' );
+	}
+
+	/**
+	 * Get terms which is start with specified string.
+	 *
+	 * @param string $term_text user input text.
+	 * @param array  $options   user options.
+	 *
+	 * @return array term ids.
+	 */
+	protected function term_starts( $term_text, $options ) {
+		$term_ids = array(
+			'include' => array(),
+			'exclude' => array(),
+		);
+		$terms    = get_terms(
+			$options['taxonomy'], array(
+				'hide_empty' => false,
+			)
+		);
+
+		foreach ( $terms as $term ) {
+			if ( $this->bd_starts_with( $term->name, $term_text ) ) {
+				$term_ids['include'][] = $term->term_id;
+
+				continue;
+			}
+			$term_ids['exclude'][] = $term->term_id;
+		}
+
+		return $term_ids;
+	}
+
+	/**
+	 * Get terms which is ends with specified string.
+	 *
+	 * @param string $term_text user input text.
+	 * @param array  $options   user options.
+	 *
+	 * @return array term ids.
+	 */
+	protected function term_ends( $term_text, $options ) {
+		$term_ids = array(
+			'include' => array(),
+			'exclude' => array(),
+		);
+		$terms    = get_terms(
+			$options['taxonomy'], array(
+				'hide_empty' => false,
+			)
+		);
+
+		foreach ( $terms as $term ) {
+			if ( $this->bd_ends_with( $term->name, $term_text ) ) {
+				$term_ids['include'][] = $term->term_id;
+
+				continue;
+			}
+			$term_ids['exclude'][] = $term->term_id;
+		}
+
+		return $term_ids;
+	}
+
+	/**
+	 * Get terms which is contain specified string.
+	 *
+	 * @param string $term_text user input text.
+	 * @param array  $options   user options.
+	 *
+	 * @return array term ids.
+	 */
+	protected function term_contains( $term_text, $options ) {
+		$term_ids = array(
+			'include' => array(),
+			'exclude' => array(),
+		);
+		$terms    = get_terms(
+			$options['taxonomy'], array(
+				'hide_empty' => false,
+			)
+		);
+
+		foreach ( $terms as $term ) {
+			if ( strpos( $term->name, $term_text ) !== false ) {
+				$term_ids['include'][] = $term->term_id;
+
+				continue;
+			}
+			$term_ids['exclude'][] = $term->term_id;
+		}
+
+		return $term_ids;
 	}
 }
