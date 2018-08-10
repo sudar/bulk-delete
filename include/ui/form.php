@@ -97,12 +97,13 @@ function bd_render_sticky_settings( $slug ) {
 function are_private_posts_present( $post_type='any') {
 	$args  = array(
 		'post_status' => array( 'private' ),
-		'post_type'   => $post_type
+		'post_type'   => $post_type,
 	);
 	$query = new WP_Query( $args );
 	if ( $query->have_posts() ) {
 		return true;
 	}
+
 	return false;
 }
 
