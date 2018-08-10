@@ -240,14 +240,15 @@ abstract class Renderer extends Fetcher {
 	 *
 	 * @param string $post_type.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function are_private_posts_present( $post_type='any') {
 		$args  = array(
 			'post_status' => array( 'private' ),
-			'post_type'   => $post_type
+			'post_type'   => $post_type,
 		);
 		$query = new \WP_Query( $args );
+
 		return $query->have_posts();
 	}
 }
