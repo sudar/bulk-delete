@@ -27,6 +27,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		parent::setUp();
 
 		$this->module = new DeleteCommentMetaModule();
+		$this->module->register( 'bulk-wp_page_bulk-delete-metas', 'bulk-delete-metas' );
 	}
 
 	/**
