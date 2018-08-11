@@ -126,7 +126,31 @@ abstract class Renderer extends Fetcher {
 				</option>
 			<?php endforeach; ?>
 		</select>
+		<?php
+	}
 
+	/**
+	 * Render Category dropdown.
+	 */
+	protected function render_category_dropdown() {
+		$categories = $this->get_categories();
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_category[]" data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>"
+				class="<?php echo sanitize_html_class( $this->enable_ajax_if_needed_to_dropdown_class_name( count( $categories ), 'select2-taxonomy' ) ); ?>"
+				data-taxonomy="category" multiple>
+
+			<option value="all">
+				<?php _e( 'All Categories', 'bulk-delete' ); ?>
+			</option>
+
+			<?php foreach ( $categories as $category ) : ?>
+				<option value="<?php echo absint( $category->cat_ID ); ?>">
+					<?php echo esc_html( $category->cat_name ), ' (', absint( $category->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
+
+		</select>
 		<?php
 	}
 
@@ -142,6 +166,30 @@ abstract class Renderer extends Fetcher {
 			<option value="ends"><?php _e( 'ends', 'bulk-delete' ); ?></option>
 			<option value="contains"><?php _e( 'contains', 'bulk-delete' ); ?></option>
 			<option value="not_contains"><?php _e( 'not contains', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render Tags dropdown.
+	 */
+	protected function render_tags_dropdown() {
+		$tags = $this->get_tags();
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>"
+				class="<?php echo sanitize_html_class( $this->enable_ajax_if_needed_to_dropdown_class_name( count( $tags ), 'select2-taxonomy' ) ); ?>"
+				data-taxonomy="post_tag" multiple>
+
+			<option value="all">
+				<?php _e( 'All Tags', 'bulk-delete' ); ?>
+			</option>
+
+			<?php foreach ( $tags as $tag ) : ?>
+				<option value="<?php echo absint( $tag->term_id ); ?>">
+					<?php echo esc_html( $tag->name ), ' (', absint( $tag->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
 		</select>
 		<?php
 	}
@@ -173,6 +221,34 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
+	 * Render Sticky Posts dropdown.
+	 */
+	protected function render_sticky_post_dropdown() {
+		$posts = $this->get_sticky_posts();
+		?>
+		<table class="optiontable">
+			<tr>
+				<td scope="row">
+					<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="All">
+					<label>All</label>
+				</td>
+			</tr>
+			<?php
+			foreach ( $posts as $post ) :
+				$user = get_userdata( $post->post_author );
+				?>
+			<tr>
+				<td scope="row">
+				<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
+				<label><?php echo esc_html( $post->post_title . ' Published by ' . $user->display_name . ' on ' . $post->post_date ); ?></label>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</table>
+		<?php
+	}
+
+	/**
 	 * Render have post settings.
 	 */
 	protected function render_have_post_settings() {
@@ -182,9 +258,72 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
+	 * Render Post Types as checkboxes.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param string $name Name of post type checkboxes.
+	 */
+	protected function render_post_type_checkboxes( $name ) {
+		$post_types = bd_get_post_types();
+		?>
+
+		<?php foreach ( $post_types as $post_type ) : ?>
+
+		<tr>
+			<td scope="row">
+				<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[]" value="<?php echo esc_attr( $post_type->name ); ?>"
+					id="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>" checked>
+
+				<label for="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>">
+					<?php echo esc_html( $post_type->label ); ?>
+				</label>
+			</td>
+		</tr>
+
+		<?php endforeach; ?>
+		<?php
+	}
+
+	/**
 	 * Render the "private post" setting fields.
 	 */
 	protected function render_private_post_settings() {
 		bd_render_private_post_settings( $this->field_slug );
+	}
+
+	/**
+	 * Get the threshold after which enhanced select should be used.
+	 *
+	 * @return int Threshold.
+	 */
+	protected function get_enhanced_select_threshold() {
+		/**
+		 * Filter the enhanced select threshold.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param int Threshold.
+		 */
+		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
+	}
+
+	/**
+	 * Check there is have any private post is exist.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string $post_type.
+	 *
+	 * @return bool
+	 */
+	public function are_private_posts_present( $post_type='any') {
+		$args  = array(
+			'post_status' => array( 'private' ),
+			'post_type'   => $post_type,
+		);
+		$query = new \WP_Query( $args );
+
+		return $query->have_posts();
 	}
 }
