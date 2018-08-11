@@ -168,12 +168,12 @@ class Controller {
 	/**
 	 * Ajax call back function for getting taxonomies meta to load select2 options.
 	 *
-	 * @since 6.0.1
+	 * @since 6.0.0
 	 */
 	public function load_taxonomy_term_meta() {
 		$response = array();
 
-		$term_id = sanitize_text_field( $_GET['term_id'] );
+		$term_id = absint( $_GET['term_id'] );
 
 		$term_vals = get_term_meta($term_id);
 
