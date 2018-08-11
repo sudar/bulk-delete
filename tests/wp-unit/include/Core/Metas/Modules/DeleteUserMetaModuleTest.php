@@ -32,13 +32,13 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test single user meta from admin user role.
 	 */
-	public function test_that_delete_single_user_meta_fields_from_admin_user_role() {
+	public function test_that_meta_fields_from_a_single_user_in_admin_role_can_be_delete() {
 		// Create a user with admin role.
 		$user = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
-		$user_another = $this->factory->user->create( array( 'role' => 'administrator' ) );
-
 		add_user_meta( $user, 'time', '10/10/2018' );
+
+		add_user_meta( $user, 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -55,7 +55,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$user_meta = get_user_meta( $user, 'time', true );
 		$this->assertEquals( '', $user_meta );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 
@@ -64,13 +64,13 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test single user meta from subscriber user role.
 	 */
-	public function test_that_delete_single_user_meta_fields_from_subscriber_user_role() {
+	public function test_that_meta_fields_from_a_single_user_in_subscriber_role_can_be_delete() {
 		// Create a user with subscriber role.
 		$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
 
-		$user_another = $this->factory->user->create( array( 'role' => 'administrator' ) );
-
 		add_user_meta( $user, 'time', '10/10/2018' );
+
+		add_user_meta( $user, 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -87,7 +87,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$user_meta = get_user_meta( $user, 'time', true );
 		$this->assertEquals( '', $user_meta );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 	}
@@ -95,15 +95,15 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test multiple user meta from admin user role.
 	 */
-	public function test_that_delete_multiple_user_meta_fields_from_admin_user_role() {
+	public function test_that_meta_fields_from_multiple_users_in_admin_role_can_be_delete() {
 		// Create a user with admin role.
 		$user = $this->factory->user->create( array( 'role' => 'administrator' ) );
-
-		$user_another = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
 		add_user_meta( $user, 'time', '10/10/2018' );
 		add_user_meta( $user, 'time', '11/10/2018' );
 		add_user_meta( $user, 'time', '12/10/2018' );
+
+		add_user_meta( $user, 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -120,7 +120,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$user_meta = get_user_meta( $user, 'time' );
 		$this->assertEquals( 0, count( $user_meta ) );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 	}
@@ -128,15 +128,15 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test multiple user meta from subscriber user role.
 	 */
-	public function test_that_delete_multiple_user_meta_fields_from_subscriber_user_role() {
+	public function test_that_meta_fields_from_multiple_users_in_subscriber_role_can_be_delete() {
 		// Create a user with subscriber role.
 		$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-
-		$user_another = $this->factory->user->create( array( 'role' => 'subscriber' ) );
 
 		add_user_meta( $user, 'time', '10/10/2018' );
 		add_user_meta( $user, 'time', '11/10/2018' );
 		add_user_meta( $user, 'time', '12/10/2018' );
+
+		add_user_meta( $user, 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -153,7 +153,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$user_meta = get_user_meta( $user, 'time' );
 		$this->assertEquals( 0, count( $user_meta ) );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 	}
@@ -165,10 +165,9 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		// Create a user with subscriber role.
 		$users = $this->factory->user->create_many( 20, array( 'role' => 'subscriber' ) );
 
-		$user_another = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-
 		foreach ( $users as $user ) {
 			add_user_meta( $user, 'time', '10/10/2018' );
+			add_user_meta( $user, 'another', 'Another' );
 		}
 
 		// call our method.
@@ -183,23 +182,23 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $meta_deleted );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
-
-		$this->assertEquals( true, $exist_user );
+		foreach ( $users as $user ) {
+			$exist_user = $this->is_user_meta_exists( $user, 'another' );
+			$this->assertEquals( true, $exist_user );
+		}
 	}
 
 	/**
 	 * Test deletion of user metas from more than one users in a single role.
 	 */
-	public function test_that_delete_multiple_users_with_meta_fields_from_single_user_role() {
+	public function test_that_meta_fields_from_multiple_users_in_single_role_can_be_delete() {
 
 		// Create a users with meta value in admin role.
 		for ( $i = 0; $i < 10; $i++ ) {
 			$user = $this->factory->user->create( array( 'role' => 'administrator' ) );
 			add_user_meta( $user, 'time', '10/10/2018' );
+			add_user_meta( $user, 'another', 'Another' );
 		}
-
-		$user_another = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
 		// call our method.
 		$delete_options = array(
@@ -216,15 +215,14 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$user_meta = get_user_meta( $user, 'time', true );
 		$this->assertEquals( '', $user_meta );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
-
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 		$this->assertEquals( true, $exist_user );
 	}
 
 	/**
 	 * Test deletion of user metas from more than role, with easy role having one user.
 	 */
-	public function test_that_delete_users_with_meta_fields_from_multiple_user_role() {
+	public function test_that_meta_fields_from_multiple_users_in_multiple_role_can_be_delete() {
 
 		$role_array = array();
 		// Create a users with meta value in dynamic role.
@@ -233,9 +231,8 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 			$role_array[] = $role;
 			$user         = $this->factory->user->create( array( 'role' => $role ) );
 			add_user_meta( $user, 'time', '10/10/2018' );
+			add_user_meta( $user, 'another', 'Another' );
 		}
-
-		$user_another = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
 		// call our method.
 		$delete_options = array(
@@ -252,19 +249,16 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$user_meta = get_user_meta( $user, 'time', true );
 		$this->assertEquals( '', $user_meta );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
-
-		$this->assertEquals( true, $exist_user );
 	}
 
 	/**
 	 * Test deletion of user metas from more than role, with easy role having more than one user.
 	 */
-	public function test_that_delete_multiple_users_with_meta_fields_from_multiple_user_role() {
+	public function test_that_meta_fields_from_multiple_users_in_each_multiple_role_can_be_delete() {
 
 		$role_array = array();
 		// Create a users with meta value in dynamic role.
@@ -274,10 +268,9 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 			for ( $j = 0; $j < 10; $j++ ) {
 				$user = $this->factory->user->create( array( 'role' => $role ) );
 				add_user_meta( $user, 'time', '10/10/2018' );
+				add_user_meta( $user, 'another', 'Another' );
 			}
 		}
-
-		$user_another = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
 		// call our method.
 		$delete_options = array(
@@ -294,7 +287,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$user_meta = get_user_meta( $user, 'time', true );
 		$this->assertEquals( '', $user_meta );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 	}
@@ -302,16 +295,15 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test deletion of user metas from one role, which has no users. Nothing should be deleted.
 	 */
-	public function test_that_delete_multiple_users_metas_fields_from_one_user_role_no_users() {
+	public function test_that_meta_fields_from_user_role_does_not_have_users() {
 
 		// Create a users with meta value in dynamic role.
 		for ( $i = 0; $i < 10; $i++ ) {
 			$role = 'subscriber';
 			$user = $this->factory->user->create( array( 'role' => $role ) );
 			add_user_meta( $user, 'time', '10/10/2018' );
+			add_user_meta( $user, 'another', 'Another' );
 		}
-
-		$user_another = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
 		// call our method.
 		$delete_options = array(
@@ -325,7 +317,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 0, $meta_deleted );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 
@@ -334,7 +326,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test deletion of user metas from more than one role, where each role has no users. Nothing should be deleted.
 	 */
-	public function test_that_delete_multiple_users_metas_fields_from_multiple_user_role_no_users() {
+	public function test_that_meta_fields_from_multiple_user_role_does_not_have_users() {
 
 		$role_array = array();
 		for ( $i = 0; $i < 10; $i++ ) {
@@ -346,9 +338,8 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		for ( $j = 0; $j < 10; $j++ ) {
 			$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
 			add_user_meta( $user, 'time', '10/10/2018' );
+			add_user_meta( $user, 'another', 'Another' );
 		}
-
-		$user_another = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
 		// call our method.
 		$delete_options = array(
@@ -362,7 +353,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 0, $meta_deleted );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 
@@ -387,10 +378,9 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 			for ( $j = 0; $j < 10; $j++ ) {
 				$user = $this->factory->user->create( array( 'role' => $role ) );
 				add_user_meta( $user, 'time', '10/10/2018' );
+				add_user_meta( $user, 'another', 'Another' );
 			}
 		}
-
-		$user_another = $this->factory->user->create( array( 'role' => 'administrator' ) );
 
 		// call our method.
 		$delete_options = array(
@@ -416,7 +406,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 100, $meta_deleted );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 
@@ -425,13 +415,12 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test deletion of user metas with both meta key and value.
 	 */
-	public function test_that_delete_user_meta_fields_both_key_and_value() {
+	public function test_that_meta_fields_from_meta_keys_and_meta_values() {
 		// Create a user with subscriber role.
 		$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
 
 		add_user_meta( $user, 'test_key', 'Test Value' );
-
-		$user_another = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		add_user_meta( $user, 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -449,7 +438,7 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$user_meta = get_user_meta( $user, 'test_key', true );
 		$this->assertEquals( '', $user_meta );
 
-		$exist_user = $this->is_user_id_exists( $user_another );
+		$exist_user = $this->is_user_meta_exists( $user, 'another' );
 
 		$this->assertEquals( true, $exist_user );
 	}
@@ -457,19 +446,14 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Check is user id is exist.
 	 *
-	 * @param int $user_id User id.
+	 * @param int    $user_id User id.
+	 * @param string $meta_key Meta key.
 	 */
-	public function is_user_id_exists( $user_id ) {
+	public function is_user_meta_exists( $user_id, $meta_key ) {
 
-		global $wpdb;
+		$meta = get_user_meta( $user_id, $meta_key );
 
-		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->users WHERE ID = %d", $user_id ) );
-
-		if ( 1 == $count ) {
-			return true;
-		}
-
-		return false;
+		return ( count( $meta ) > 0 );
 
 	}
 }
