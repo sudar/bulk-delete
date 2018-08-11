@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Delete Term Meta.
  *
- * @since 6.1.0
+ * @since 6.0.0
  */
 class DeleteTermMetaModule extends MetasModule {
 	/**
@@ -28,8 +28,6 @@ class DeleteTermMetaModule extends MetasModule {
 
 	/**
 	 * Render the Modules.
-	 *
-	 * @return void
 	 */
 	public function render() {
 		?>
@@ -45,8 +43,8 @@ class DeleteTermMetaModule extends MetasModule {
 			?>
 			<tr>
 				<td>
-					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" value = "<?php echo $taxonomy; ?>" type = "radio" class = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy">
-					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy"><?php echo $taxonomy; ?> </label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" value = "<?php echo esc_html( $taxonomy ); ?>" type = "radio" class = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy">
+					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy"><?php echo esc_html( $taxonomy ); ?> </label>
 				</td>
 			</tr>
 			<?php
@@ -59,23 +57,23 @@ class DeleteTermMetaModule extends MetasModule {
 			<tr>
 				<td>
 					<select class="enhanced-terms-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term">
-						<option>Choose Terms</option>
+						<option><?php _e( 'Choose Terms', 'bulk-delete' ); ?></option>
 					</select>
 				</td>
 			</tr>
 		</table>
 
-		<h4><?php _e( 'Choose your term meta want to delete', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the term meta that you want to delete', 'bulk-delete' ); ?></h4>
 		<table class="optiontable">
 			<tr>
 				<td>
 					<select class="enhanced-term-meta-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta">
-						<option>Choose Term Meta</option>
+						<option><?php _e( 'Choose Term Meta', 'bulk-delete' ); ?></option>
 					</select>
 
 					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_option">
-						<option value="equal">Equal to</option>
-						<option value="not_equal">Not equal to</option>
+						<option value="equal"><?php _e( 'Equal to', 'bulk-delete' ); ?></option>
+						<option value="not_equal"><?php _e( 'Not equal to', 'bulk-delete' ); ?></option>
 					</select>
 
 					<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_value" />
@@ -85,12 +83,12 @@ class DeleteTermMetaModule extends MetasModule {
 
 		<?php
 		/**
-		 * Add more fields to the delete post meta field form.
-		 * This hook can be used to add more fields to the delete post meta field form.
+		 * Add more fields to the delete term meta field form.
+		 * This hook can be used to add more fields to the delete term meta field form.
 		 *
-		 * @since 5.4
+		 * @since 6.0.0
 		 */
-		do_action( 'bd_delete_post_meta_form' );
+		do_action( 'bd_delete_term_meta_form' );
 		?>
 
 		</fieldset>
@@ -129,12 +127,12 @@ class DeleteTermMetaModule extends MetasModule {
 	public function do_delete( $options ) {
 		$count = 0;
 
-		if ( $options['term_meta_option'] === 'equal' ) {
+		if ( 'equal' === $options['term_meta_option'] ) {
 			$is_delete = delete_term_meta( $options['term'], $options['term_meta'], $options['term_meta_value'] );
 			if ( $is_delete ) {
 				$count++;
 			}
-		} elseif ( $options['term_meta_option'] === 'not_equal' ) {
+		} elseif ( 'not_equal' === $options['term_meta_option'] ) {
 			$term_value = get_term_meta( $options['term'], $options['term_meta'], true );
 			if ( $term_value !== $options['term_meta_value'] ) {
 				delete_term_meta( $options['term'], $options['term_meta'] );
