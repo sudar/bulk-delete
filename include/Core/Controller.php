@@ -175,7 +175,7 @@ class Controller {
 
 		$term_id = absint( $_GET['term_id'] );
 
-		$term_vals = get_term_meta($term_id);
+		$term_vals = get_term_meta( $term_id );
 
 		if ( ! empty( $term_vals ) && ! is_wp_error( $term_vals ) ) {
 			foreach ( $term_vals as $key => $value ) {
