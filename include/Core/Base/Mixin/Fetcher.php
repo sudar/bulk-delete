@@ -28,7 +28,9 @@ abstract class Fetcher {
 	 * @return A list of taxonomy names
 	 */
 	protected function get_taxonomies() {
-		return bd_get_taxonomies();
+		$taxonomies = get_taxonomies();
+
+		return $taxonomies;
 	}
 
 	/**
