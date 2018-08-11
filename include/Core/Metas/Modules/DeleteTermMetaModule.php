@@ -58,7 +58,7 @@ class DeleteTermMetaModule extends MetasModule {
 		<table class="optiontable">
 			<tr>
 				<td>
-					<select class="select2 select2-terms" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term">
+					<select class="enhanced-terms-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term">
 						<option>Choose Terms</option>
 					</select>
 				</td>
@@ -69,7 +69,7 @@ class DeleteTermMetaModule extends MetasModule {
 		<table class="optiontable">
 			<tr>
 				<td>
-					<select class="select2 select2-term-meta" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta">
+					<select class="enhanced-term-meta-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta">
 						<option>Choose Term Meta</option>
 					</select>
 
