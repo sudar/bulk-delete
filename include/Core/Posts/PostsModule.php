@@ -120,7 +120,9 @@ abstract class PostsModule extends BaseModule {
 	 * Render the "private post" setting fields.
 	 */
 	protected function render_private_post_settings() {
-		bd_render_private_post_settings( $this->field_slug );
+    if( $this->are_private_posts_present() ){
+			bd_render_private_post_settings( $this->field_slug );
+    }
 	}
 
 	/**
@@ -271,15 +273,6 @@ abstract class PostsModule extends BaseModule {
 		if ( absint( $max_count ) === 0 ) {
 			$max_count = $this->get_enhanced_select_threshold();
 		}
-
-		$tags = get_tags(
-			array(
-				'hide_empty' => false,
-				'number'     => $max_count,
-			)
-		);
-
-		return $tags;
 	}
 
 	/**
