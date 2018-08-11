@@ -22,6 +22,11 @@ abstract class Fetcher {
 		return bd_get_post_types();
 	}
 
+	/**
+	 * Get the list of taxompmies registered in WordPress.
+	 *
+	 * @return A list of taxonomy names
+	 */
 	protected function get_taxonomies() {
 		return bd_get_taxonomies();
 	}
