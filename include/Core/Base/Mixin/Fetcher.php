@@ -70,11 +70,93 @@ abstract class Fetcher {
 					continue;
 				}
 
-				$post_types_by_status[$post_type->labels->singular_name][ "$post_type_name-$post_status_name" ] = $post_status->label . ' (' . $count_posts->{$post_status_name} . ' ' . __( 'Posts', 'bulk-delete' ) . ')';
+				$post_types_by_status[ $post_type->labels->singular_name ][ "$post_type_name-$post_status_name" ] = $post_status->label . ' (' . $count_posts->{$post_status_name} . ' ' . __( 'Posts', 'bulk-delete' ) . ')';
 			}
 		}
 
 		return $post_types_by_status;
+	}
+
+	/**
+	 * Get the list of sticky posts.
+	 *
+	 * @return array List of sticky posts.
+	 */
+	protected function get_sticky_posts() {
+		$posts = get_posts( array( 'post__in' => get_option( 'sticky_posts' ) ) );
+
+		return $posts;
+	}
+
+	/**
+	 * Get the list of categories.
+	 *
+	 * @return array List of categories.
+	 */
+	protected function get_categories() {
+		$enhanced_select_threshold = $this->get_enhanced_select_threshold();
+
+		$categories = get_categories(
+			array(
+				'hide_empty' => false,
+				'number'     => $enhanced_select_threshold,
+			)
+		);
+
+		return $categories;
+	}
+
+	/**
+	 * Are tags present in this WordPress installation?
+	 *
+	 * Only one tag is retrieved to check if tags are present for performance reasons.
+	 *
+	 * @return bool True if tags are present, False otherwise.
+	 */
+	protected function are_tags_present() {
+		$tags = $this->get_tags( 1 );
+
+		return ( count( $tags ) > 0 );
+	}
+
+	/**
+	 * Get the list of tags.
+	 *
+	 * @param int $max_count The maximum number of tags to be returned (Optional). Default 0.
+	 *                       If 0 then the maximum number of tags specified in `get_enhanced_select_threshold` will be returned.
+	 *
+	 * @return array List of tags.
+	 */
+	protected function get_tags( $max_count = 0 ) {
+		if ( absint( $max_count ) === 0 ) {
+			$max_count = $this->get_enhanced_select_threshold();
+		}
+
+		$tags = get_tags(
+			array(
+				'hide_empty' => false,
+				'number'     => $max_count,
+			)
+		);
+
+		return $tags;
+	}
+
+	/**
+	 * Are sticky post present in this WordPress?
+	 *
+	 * Only one post is retrieved to check if stick post are present for performance reasons.
+	 *
+	 * @return bool True if posts are present, False otherwise.
+	 */
+	protected function are_sticky_post_present() {
+		$sticky_post_ids = get_option( 'sticky_posts' );
+
+		if ( ! is_array( $sticky_post_ids ) ) {
+			return false;
+		}
+
+		return ( count( $sticky_post_ids ) > 0 );
 	}
 
 	/**
