@@ -92,7 +92,7 @@ abstract class Renderer extends Fetcher {
 		global $wp_roles;
 		?>
 
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="select2"
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-dropdown"
 				multiple="multiple" data-placeholder="<?php _e( 'Select User Role', 'bulk-delete' ); ?>">
 
 			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
@@ -206,6 +206,22 @@ abstract class Renderer extends Fetcher {
 			<?php endforeach; ?>
 		</select>
 		<?php
+	}
+
+	/**
+	 * Get the class name for select2 dropdown based on the number of items present.
+	 *
+	 * @param int    $count      The number of items present.
+	 * @param string $class_name Primary class name.
+	 *
+	 * @return string Class name.
+	 */
+	protected function enable_ajax_if_needed_to_dropdown_class_name( $count, $class_name ) {
+		if ( $count >= $this->get_enhanced_select_threshold() ) {
+			$class_name .= '-ajax';
+		}
+
+		return $class_name;
 	}
 
 	/**
