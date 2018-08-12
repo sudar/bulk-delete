@@ -237,15 +237,6 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
-	 * Render have post settings.
-	 */
-	protected function render_have_post_settings() {
-		?>
-		<p><label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"><input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"> <?php _e( 'Only if it doesn\'t contain any post', 'bulk-delete' ); ?></label></p>
-		<?php
-	}
-
-	/**
 	 * Render Post Types as checkboxes.
 	 *
 	 * @since 5.6.0
