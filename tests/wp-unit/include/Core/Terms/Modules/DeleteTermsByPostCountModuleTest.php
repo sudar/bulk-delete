@@ -453,7 +453,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add tests to delete term based on post count using various filters.
 	 *
-	 * @dataProvider provide_data_to_test_that_delete_terms_by_post_count
+	 * @dataProvider provide_data_to_test_that_terms_can_be_deleted_by_post_count
 	 *
 	 * @param array $inputs                           Inputs for test cases.
 	 * @param array $user_input                       Options selected by user.
