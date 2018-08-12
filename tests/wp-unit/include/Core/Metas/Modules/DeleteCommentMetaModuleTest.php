@@ -101,7 +101,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		add_comment_meta( $comment_id_1, $meta_key, $meta_value );
 
-		add_comment_meta( $comment_id_1, 'another', 'Another' );
+		add_comment_meta( $comment_id_1, $another_meta_key, $another_meta_value );
 
 		// Create a comment.
 		$comment_id_2 = $this->factory->comment->create( $comment_data );
