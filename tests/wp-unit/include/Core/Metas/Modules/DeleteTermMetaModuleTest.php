@@ -32,7 +32,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test delete default taxonomy term meta with equal value.
 	 */
-	public function test_that_delete_default_taxonomy_term_meta_with_equal_value() {
+	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_equal_value() {
 
 		$term       = 'Apple';
 		$taxonomy   = 'category';
@@ -42,6 +42,8 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		$term_array = wp_insert_term( $term, $taxonomy );
 
 		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+
+		add_term_meta( $term_array['term_id'], 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -55,12 +57,17 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
+
+		$meta = get_term_meta( $term_array['term_id'], 'another' );
+
+		$this->assertEquals( 1, count( $meta ) );
+
 	}
 
 	/**
 	 * Add to test delete default taxonomy term meta with not equal value.
 	 */
-	public function test_that_delete_default_taxonomy_term_meta_with_not_equal_value() {
+	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_not_equal_value() {
 
 		$term       = 'Apple';
 		$taxonomy   = 'category';
@@ -70,6 +77,8 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		$term_array = wp_insert_term( $term, $taxonomy );
 
 		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+
+		add_term_meta( $term_array['term_id'], 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -83,12 +92,16 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
+
+		$meta = get_term_meta( $term_array['term_id'], 'another' );
+
+		$this->assertEquals( 1, count( $meta ) );
 	}
 
 	/**
 	 * Add to test delete custom taxonomy term meta with equal value.
 	 */
-	public function test_that_delete_custom_taxonomy_term_meta_with_equal_value() {
+	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_equal_value() {
 
 		$term       = 'Apple';
 		$taxonomy   = 'fruit';
@@ -100,6 +113,8 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		$term_array = wp_insert_term( $term, $taxonomy );
 
 		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+
+		add_term_meta( $term_array['term_id'], 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -113,12 +128,16 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
+
+		$meta = get_term_meta( $term_array['term_id'], 'another' );
+
+		$this->assertEquals( 1, count( $meta ) );
 	}
 
 	/**
 	 * Add to test delete custom taxonomy term meta with not equal value.
 	 */
-	public function test_that_delete_custom_taxonomy_term_meta_with_not_equal_value() {
+	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_not_equal_value() {
 
 		$term       = 'Apple';
 		$taxonomy   = 'fruit';
@@ -130,6 +149,8 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		$term_array = wp_insert_term( $term, $taxonomy );
 
 		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+
+		add_term_meta( $term_array['term_id'], 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -143,6 +164,10 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
+
+		$meta = get_term_meta( $term_array['term_id'], 'another' );
+
+		$this->assertEquals( 1, count( $meta ) );
 	}
 
 
