@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteTermsPage extends BaseDeletePage {
-
 	protected function initialize() {
 		$this->page_slug  = 'bulk-delete-terms';
 		$this->item_type  = 'terms';

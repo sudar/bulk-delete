@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteTermsByNameModule extends TermsModule {
-
 	protected function initialize() {
 		$this->item_type     = 'terms';
 		$this->field_slug    = 'terms_by_name';
