@@ -102,7 +102,6 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, $posts_deleted );
 	}
 
-	
 	/**
 	 * Test to trash post by one valid URL and one invalid URL
 	 */

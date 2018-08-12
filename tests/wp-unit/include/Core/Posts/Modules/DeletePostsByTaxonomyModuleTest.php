@@ -483,12 +483,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$taxonomy  = $creater['taxonomy'];
 		$terms     = $creater['terms'];
 
-		$default_taxonomies = array( 'category', 'post_tag', 'link_category', 'post_format' );
-		register_post_type( $post_type );
-		if ( ! in_array( $taxonomy, $default_taxonomies, true ) ) {
-			register_taxonomy( $taxonomy, $post_type );
-		}
-		register_taxonomy_for_object_type( $taxonomy, $post_type );
+		$this->register_post_type_and_taxonomy( $post_type, $taxonomy );
 
 		foreach ( $terms as $term ) {
 			$matched_term_array = wp_insert_term( $term['term'], $taxonomy );
@@ -518,7 +513,5 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 		$posts_in_published = $this->get_posts_by_status( 'publish', $post_type );
 		$this->assertEquals( $expected['published'], count( $posts_in_published ) );
-
 	}
-
 }
