@@ -95,14 +95,14 @@ function bd_render_sticky_settings( $slug ) {
  * @param string $slug The slug to be used in field names.
  */
 function bd_render_private_post_settings( $slug ) {
-?>
+		?>
 	<tr>
 		<td scope="row" colspan="2">
 			<input name="smbd_<?php echo $slug; ?>_private" value="false" type="radio" checked> <?php _e( 'Public posts', 'bulk-delete' ); ?>
 			<input name="smbd_<?php echo $slug; ?>_private" value="true" type="radio"> <?php _e( 'Private Posts', 'bulk-delete' ); ?>
 		</td>
 	</tr>
-<?php
+		<?php
 }
 
 /**
@@ -208,7 +208,7 @@ function bd_render_post_type_dropdown( $field_slug ) {
 	?>
 	<tr>
 		<td scope="row" >
-			<select class="select2" name="smbd_<?php echo esc_attr( $field_slug ); ?>_post_type">
+			<select class="enhanced-dropdown" name="smbd_<?php echo esc_attr( $field_slug ); ?>_post_type">
 				<?php foreach ( $types as $type ) : ?>
 					<option value="<?php echo esc_attr( $type->name ); ?>">
 						<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>

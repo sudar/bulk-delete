@@ -92,7 +92,7 @@ abstract class Renderer extends Fetcher {
 		global $wp_roles;
 		?>
 
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="select2"
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-dropdown"
 				multiple="multiple" data-placeholder="<?php _e( 'Select User Role', 'bulk-delete' ); ?>">
 
 			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
@@ -110,5 +110,196 @@ abstract class Renderer extends Fetcher {
 	 */
 	protected function render_post_type_dropdown() {
 		bd_render_post_type_dropdown( $this->field_slug );
+	}
+
+	/**
+	 * Render Taxonomy dropdown.
+	 */
+	protected function render_taxonomy_dropdown() {
+		$taxonomies = get_taxonomies( array(), 'objects' );
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" class="enhanced-taxonomy-list" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
+			<?php foreach ( $taxonomies as $taxonomy ) : ?>
+				<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
+					<?php echo esc_html( $taxonomy->label ); ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render Category dropdown.
+	 */
+	protected function render_category_dropdown() {
+		$categories = $this->get_categories();
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_category[]" data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>"
+				class="<?php echo sanitize_html_class( $this->enable_ajax_if_needed_to_dropdown_class_name( count( $categories ), 'select2-taxonomy' ) ); ?>"
+				data-taxonomy="category" multiple>
+
+			<option value="all">
+				<?php _e( 'All Categories', 'bulk-delete' ); ?>
+			</option>
+
+			<?php foreach ( $categories as $category ) : ?>
+				<option value="<?php echo absint( $category->cat_ID ); ?>">
+					<?php echo esc_html( $category->cat_name ), ' (', absint( $category->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
+
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render String based comparison operators dropdown.
+	 */
+	protected function render_string_comparison_operators() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
+			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+			<option value="starts_with"><?php _e( 'starts with', 'bulk-delete' ); ?></option>
+			<option value="ends_with"><?php _e( 'ends with', 'bulk-delete' ); ?></option>
+			<option value="contains"><?php _e( 'contains', 'bulk-delete' ); ?></option>
+			<option value="not_contains"><?php _e( 'not contains', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render number based comparison operators dropdown.
+	 */
+	protected function render_number_comparison_operators() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
+			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+			<option value="less_than"><?php _e( 'less than', 'bulk-delete' ); ?></option>
+			<option value="greater_than"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render Tags dropdown.
+	 */
+	protected function render_tags_dropdown() {
+		$tags = $this->get_tags();
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>"
+				class="<?php echo sanitize_html_class( $this->enable_ajax_if_needed_to_dropdown_class_name( count( $tags ), 'select2-taxonomy' ) ); ?>"
+				data-taxonomy="post_tag" multiple>
+
+			<option value="all">
+				<?php _e( 'All Tags', 'bulk-delete' ); ?>
+			</option>
+
+			<?php foreach ( $tags as $tag ) : ?>
+				<option value="<?php echo absint( $tag->term_id ); ?>">
+					<?php echo esc_html( $tag->name ), ' (', absint( $tag->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Get the class name for select2 dropdown based on the number of items present.
+	 *
+	 * @param int    $count      The number of items present.
+	 * @param string $class_name Primary class name.
+	 *
+	 * @return string Class name.
+	 */
+	protected function enable_ajax_if_needed_to_dropdown_class_name( $count, $class_name ) {
+		if ( $count >= $this->get_enhanced_select_threshold() ) {
+			$class_name .= '-ajax';
+		}
+
+		return $class_name;
+	}
+
+	/**
+	 * Render Sticky Posts dropdown.
+	 */
+	protected function render_sticky_post_dropdown() {
+		$posts = $this->get_sticky_posts();
+		?>
+		<table class="optiontable">
+			<tr>
+				<td scope="row">
+					<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="All">
+					<label>All</label>
+				</td>
+			</tr>
+			<?php
+			foreach ( $posts as $post ) :
+				$user = get_userdata( $post->post_author );
+				?>
+			<tr>
+				<td scope="row">
+				<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
+				<label><?php echo esc_html( $post->post_title . ' Published by ' . $user->display_name . ' on ' . $post->post_date ); ?></label>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</table>
+		<?php
+	}
+
+	/**
+	 * Render Post Types as checkboxes.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param string $name Name of post type checkboxes.
+	 */
+	protected function render_post_type_checkboxes( $name ) {
+		$post_types = bd_get_post_types();
+		?>
+
+		<?php foreach ( $post_types as $post_type ) : ?>
+
+		<tr>
+			<td scope="row">
+				<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[]" value="<?php echo esc_attr( $post_type->name ); ?>"
+					id="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>" checked>
+
+				<label for="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>">
+					<?php echo esc_html( $post_type->label ); ?>
+				</label>
+			</td>
+		</tr>
+
+		<?php endforeach; ?>
+		<?php
+	}
+
+	/**
+	 * Render the "private post" setting fields.
+	 */
+	protected function render_private_post_settings() {
+		bd_render_private_post_settings( $this->field_slug );
+	}
+
+	/**
+	 * Get the threshold after which enhanced select should be used.
+	 *
+	 * @return int Threshold.
+	 */
+	protected function get_enhanced_select_threshold() {
+		/**
+		 * Filter the enhanced select threshold.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param int Threshold.
+		 */
+		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
 	}
 }
