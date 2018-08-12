@@ -95,14 +95,14 @@ function bd_render_sticky_settings( $slug ) {
  * @param string $slug The slug to be used in field names.
  */
 function bd_render_private_post_settings( $slug ) {
-?>
+		?>
 	<tr>
 		<td scope="row" colspan="2">
 			<input name="smbd_<?php echo $slug; ?>_private" value="false" type="radio" checked> <?php _e( 'Public posts', 'bulk-delete' ); ?>
 			<input name="smbd_<?php echo $slug; ?>_private" value="true" type="radio"> <?php _e( 'Private Posts', 'bulk-delete' ); ?>
 		</td>
 	</tr>
-<?php
+		<?php
 }
 
 /**
