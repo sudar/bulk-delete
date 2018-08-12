@@ -33,7 +33,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test deleting comment meta from one comment.
 	 */
-	public function test_that_comment_meta_from_one_comment_can_be_deleted() {
+	public function test_that_comment_meta_can_be_deleted_from_one_comment() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -52,6 +52,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		add_comment_meta( $comment_id, $meta_key, $meta_value );
 
+		add_comment_meta( $comment_id, 'another', 'Another' );
+
 		// call our method.
 		$delete_options = array(
 			'post_type' => $post_type,
@@ -68,12 +70,15 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		$comment_meta = get_comment_meta( $comment_id, $meta_key );
 		$this->assertEquals( 0, count( $comment_meta ) );
+
+		$another_comment_meta = get_comment_meta( $comment_id, 'another' );
+		$this->assertEquals( 1, count( $another_comment_meta ) );
 	}
 
 	/**
 	 * Add to test deleting comment meta from more than one comment.
 	 */
-	public function test_that_comment_meta_from_multiple_comments_can_be_deleted() {
+	public function test_that_comment_meta_can_be_deleted_from_multiple_comments() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -91,6 +96,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$comment_id_1 = $this->factory->comment->create( $comment_data );
 
 		add_comment_meta( $comment_id_1, $meta_key, $meta_value );
+
+		add_comment_meta( $comment_id_1, 'another', 'Another' );
 
 		// Create a comment.
 		$comment_id_2 = $this->factory->comment->create( $comment_data );
@@ -116,12 +123,15 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 3, $meta_deleted );
 
+		$another_comment_meta = get_comment_meta( $comment_id_1, 'another' );
+		$this->assertEquals( 1, count( $another_comment_meta ) );
+
 	}
 
 	/**
 	 * Add to test deleting comment meta from one comment using meta value as well.
 	 */
-	public function test_that_comment_meta_from_one_comment_can_be_deleted_using_meta_values() {
+	public function test_that_comment_meta_can_be_deleted_from_one_comment_with_meta_value() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -139,6 +149,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$comment_id = $this->factory->comment->create( $comment_data );
 
 		add_comment_meta( $comment_id, $meta_key, $meta_value );
+
+		add_comment_meta( $comment_id, 'another', 'Another' );
 
 		// call our method.
 		$delete_options = array(
@@ -159,12 +171,15 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		$comment_meta = get_comment_meta( $comment_id, $meta_key );
 		$this->assertEquals( 0, count( $comment_meta ) );
+
+		$another_comment_meta = get_comment_meta( $comment_id, 'another' );
+		$this->assertEquals( 1, count( $another_comment_meta ) );
 	}
 
 	/**
 	 * Add to test deleting comment meta from more than one comment using meta value as well.
 	 */
-	public function test_that_comment_meta_from_multiple_comments_can_be_deleted_using_meta_values() {
+	public function test_that_comment_meta_can_be_deleted_from_multiple_comment_with_meta_value() {
 
 		$post_type  = 'post';
 		$meta_key   = 'test_key';
@@ -182,6 +197,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$comment_id_1 = $this->factory->comment->create( $comment_data );
 
 		add_comment_meta( $comment_id_1, $meta_key, $meta_value );
+
+		add_comment_meta( $comment_id_1, 'another', 'Another' );
 
 		// Create a comment.
 		$comment_id_2 = $this->factory->comment->create( $comment_data );
@@ -210,6 +227,9 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 3, $meta_deleted );
+
+		$another_comment_meta = get_comment_meta( $comment_id_1, 'another' );
+		$this->assertEquals( 1, count( $another_comment_meta ) );
 
 	}
 
@@ -455,6 +475,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		add_comment_meta( $comment_id, $meta_key, $meta_value );
 
+		add_comment_meta( $comment_id, 'another', 'Another' );
+
 		// call our method.
 		$delete_options = array(
 			'post_type' => $post_type,
@@ -471,6 +493,9 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		$comment_meta = get_comment_meta( $comment_id, $meta_key );
 		$this->assertEquals( 0, count( $comment_meta ) );
+
+		$another_comment_meta = get_comment_meta( $comment_id, 'another' );
+		$this->assertEquals( 1, count( $another_comment_meta ) );
 	}
 
 	/**
@@ -497,6 +522,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		add_comment_meta( $comment_id, $meta_key, $meta_value );
 
+		add_comment_meta( $comment_id, 'another', 'Another' );
+
 		// call our method.
 		$delete_options = array(
 			'post_type' => $post_type,
@@ -513,6 +540,10 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		$comment_meta = get_comment_meta( $comment_id, $meta_key );
 		$this->assertEquals( 0, count( $comment_meta ) );
+
+		$another_comment_meta = get_comment_meta( $comment_id, 'another' );
+		$this->assertEquals( 1, count( $another_comment_meta ) );
+
 	}
 
 	/**
