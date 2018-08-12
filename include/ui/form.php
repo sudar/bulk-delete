@@ -208,7 +208,7 @@ function bd_render_post_type_dropdown( $field_slug ) {
 	?>
 	<tr>
 		<td scope="row" >
-			<select class="select2" name="smbd_<?php echo esc_attr( $field_slug ); ?>_post_type">
+			<select class="enhanced-dropdown" name="smbd_<?php echo esc_attr( $field_slug ); ?>_post_type">
 				<?php foreach ( $types as $type ) : ?>
 					<option value="<?php echo esc_attr( $type->name ); ?>">
 						<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>

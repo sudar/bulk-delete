@@ -6,7 +6,7 @@ jQuery( document ).ready( function () {
 	/**
 	 * Normal select2.
 	 */
-	jQuery( '.select2-taxonomy, .select2' ).select2( {
+	jQuery( '.select2-taxonomy, .enhanced-dropdown' ).select2( {
 		width: '300px'
 	} );
 
