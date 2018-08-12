@@ -297,32 +297,4 @@ abstract class UsersModule extends BaseModule {
 
 	<?php
 	}
-
-	/**
-	 * Render Post Types as checkboxes.
-	 *
-	 * @since 5.6.0
-	 *
-	 * @param string $name Name of post type checkboxes.
-	 */
-	protected function render_post_type_checkboxes( $name ) {
-		$post_types = bd_get_post_types();
-		?>
-
-		<?php foreach ( $post_types as $post_type ) : ?>
-
-		<tr>
-			<td scope="row">
-				<input type="checkbox" name="<?php echo esc_attr( $name ); ?>[]" value="<?php echo esc_attr( $post_type->name ); ?>"
-					id="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>" checked>
-
-				<label for="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>">
-					<?php echo esc_html( $post_type->label ); ?>
-				</label>
-			</td>
-		</tr>
-
-		<?php endforeach; ?>
-		<?php
-	}
 }

@@ -95,14 +95,14 @@ function bd_render_sticky_settings( $slug ) {
  * @param string $slug The slug to be used in field names.
  */
 function bd_render_private_post_settings( $slug ) {
-?>
+		?>
 	<tr>
 		<td scope="row" colspan="2">
 			<input name="smbd_<?php echo $slug; ?>_private" value="false" type="radio" checked> <?php _e( 'Public posts', 'bulk-delete' ); ?>
 			<input name="smbd_<?php echo $slug; ?>_private" value="true" type="radio"> <?php _e( 'Private Posts', 'bulk-delete' ); ?>
 		</td>
 	</tr>
-<?php
+		<?php
 }
 
 /**
@@ -208,7 +208,7 @@ function bd_render_post_type_dropdown( $field_slug ) {
 	?>
 	<tr>
 		<td scope="row" >
-			<select class="select2" name="smbd_<?php echo esc_attr( $field_slug ); ?>_post_type">
+			<select class="enhanced-dropdown" name="smbd_<?php echo esc_attr( $field_slug ); ?>_post_type">
 				<?php foreach ( $types as $type ) : ?>
 					<option value="<?php echo esc_attr( $type->name ); ?>">
 						<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
@@ -259,15 +259,7 @@ function bd_render_post_status_filter( $slug, $selected = 'publish' ) {
 function bd_get_post_statuses() {
 	$post_statuses = get_post_stati( array(), 'object' );
 
-	/**
-	 * List of post statuses that should be excluded from post status filter.
-	 *
-	 * @since 5.6.0
-	 *
-	 * @param array $post_statuses List of post statuses.
-	 */
-	$exclude_post_statuses = apply_filters( 'bd_exclude_post_statuses', array( 'inherit', 'trash', 'auto-draft' ) );
-
+	$exclude_post_statuses = bd_get_excluded_post_statuses();
 	foreach ( $exclude_post_statuses as $key ) {
 		unset( $post_statuses[ $key ] );
 	}
@@ -280,6 +272,35 @@ function bd_get_post_statuses() {
 	 * @param array $post_statuses List of post statuses.
 	 */
 	return apply_filters( 'bd_post_statuses', $post_statuses );
+}
+
+/**
+ * Get the list of excluded post statuses.
+ *
+ * @since 6.0.0
+ *
+ * @return array List of excluded post statuses.
+ */
+function bd_get_excluded_post_statuses() {
+	/**
+	 * List of post statuses that should be excluded from post status filter.
+	 *
+	 * @since 5.6.0
+	 *
+	 * @param array $post_statuses List of post statuses to exclude.
+	 */
+	return apply_filters(
+		'bd_excluded_post_statuses',
+		array(
+			'inherit',
+			'trash',
+			'auto-draft',
+			'request-pending',
+			'request-confirmed',
+			'request-failed',
+			'request-completed',
+		)
+	);
 }
 
 /**
