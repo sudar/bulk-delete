@@ -12,16 +12,21 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 abstract class TermsModule extends BaseModule {
 	/**
-	 * Build query params for WP_Query by using delete options.
+	 * Get the list of terms ids that need to be deleted.
 	 *
 	 * Return an empty query array to short-circuit deletion.
 	 *
 	 * @param array $options Delete options.
 	 *
-	 * @return array Query.
+	 * @return int[] List of term ids to delete.
 	 */
-	abstract protected function build_query( $options );
+	abstract protected function get_term_ids_to_delete( $options );
 
+	/**
+	 * Item type.
+	 *
+	 * @var string Item Type. Possible values 'posts', 'pages', 'users', 'terms' etc.
+	 */
 	protected $item_type = 'terms';
 
 	/**
@@ -34,274 +39,108 @@ abstract class TermsModule extends BaseModule {
 	protected function parse_common_filters( $request ) {
 		$options = array();
 
-		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
-		$options['limit_to']     = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
-		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
-
-		$options['date_op'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
-		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
+		$options['taxonomy'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' ) );
 
 		return $options;
 	}
 
-	public function filter_js_array( $js_array ) {
-		return $js_array;
-	}
-
+	/**
+	 * Perform the deletion.
+	 *
+	 * @param array $options Array of Delete options.
+	 *
+	 * @return int Number of items that were deleted.
+	 */
 	protected function do_delete( $options ) {
-		$query = $this->build_query( $options );
+		$term_ids_to_delete = $this->get_term_ids_to_delete( $options );
 
-		if ( empty( $query ) ) {
+		if ( $term_ids_to_delete <= 0 ) {
 			// Short circuit deletion, if nothing needs to be deleted.
 			return 0;
 		}
 
-		return $this->delete_terms_from_query( $query, $options );
-	}
-
-	/**
-	 * Build the query using query params and then Delete posts.
-	 *
-	 * @param array $query   Params for WP Query.
-	 * @param array $options Delete Options.
-	 *
-	 * @return int Number of posts deleted.
-	 */
-	protected function delete_terms_from_query( $query, $options ) {
-		$term_ids = $this->term_query( $query, $options['taxonomy'] );
-
-		return $this->delete_terms_by_id( $term_ids, $options );
+		return $this->delete_terms_by_id( $term_ids_to_delete, $options );
 	}
 
 	/**
 	 * Delete terms by ids.
 	 *
 	 * @param int[] $term_ids List of term ids to delete.
-	 * @param mixed $options
+	 * @param array $options  User options.
 	 *
-	 * @return int Number of posts deleted.
+	 * @return int Number of terms deleted.
 	 */
 	protected function delete_terms_by_id( $term_ids, $options ) {
 		$count = 0;
 
 		foreach ( $term_ids as $term_id ) {
-			$term = get_term( $term_id, $options['taxonomy'] );
-
-			if( is_wp_error($term) ){
-				continue;
+			if ( wp_delete_term( $term_id, $options['taxonomy'] ) ) {
+				$count ++;
 			}
-
-			if ( isset( $options['no_posts'] ) && $term->count > 0 ) {
-				continue;
-			}
-
-			wp_delete_term( $term_id, $options['taxonomy'] );
-			$count ++;
 		}
 
 		return $count;
 	}
 
 	/**
-	 * custom string function use to get is string start with specified string.
+	 * Get all terms from a taxonomy.
 	 *
-	 * @param string $haystack.
-	 * @param string $needle.
+	 * @param string $taxonomy Taxonomy name.
 	 *
-	 * @return bool.
+	 * @return \WP_Term[] List of terms.
 	 */
-	protected function bd_starts_with($haystack, $needle){
-	     $length = strlen($needle);
-
-	     return (substr($haystack, 0, $length) === $needle);
-	}
-
-	/**
-	 * custom string function use to get is string ends with specified string.
-	 *
-	 * @param string $haystack.
-	 * @param string $needle.
-	 *
-	 * @return bool.
-	 */
-	protected function bd_ends_with($haystack, $needle){
-	    $length = strlen($needle);
-
-	    return $length === 0 ||
-	    (substr($haystack, -$length) === $needle);
-	}
-
-	/**
-	 * get terms which is start with specified string.
-	 *
-	 * @param string $term_text.
-	 * @param array  $options.
-	 *
-	 * @return array term ids.
-	 */
-	protected function term_starts( $term_text , $options ){
-		$term_ids = array();
-		$terms    = get_terms( $options['taxonomy'], array(
-		    'hide_empty' => false,
-		) );
-
-		foreach( $terms as $term ){
-			if( $this->bd_starts_with( $term->name, $term_text ) ){
-				$term_ids[] = $term->term_id;
-			}
-		}
-
-		return $term_ids;
-	}
-
-	/**
-	 * get terms which is ends with specified string.
-	 *
-	 * @param string $term_text.
-	 * @param array  $options.
-	 *
-	 * @return array term ids.
-	 */
-	protected function term_ends( $term_text , $options ){
-		$term_ids = array();
-		$terms    = get_terms( $options['taxonomy'], array(
-		    'hide_empty' => false,
-		) );
-
-		foreach( $terms as $term ){
-			if( $this->bd_ends_with( $term->name, $term_text ) ){
-				$term_ids[] = $term->term_id;
-			}
-		}
-
-		return $term_ids;
-	}
-
-	/**
-	 * get terms which is contain specified string.
-	 *
-	 * @param string $term_text.
-	 * @param array  $options.
-	 *
-	 * @return array term ids.
-	 */
-	protected function term_contains( $term_text , $options ){
-		$term_ids = array();
-		$terms    = get_terms( $options['taxonomy'], array(
-		    'hide_empty' => false,
-		) );
-
-		foreach( $terms as $term ){
-			if ( strpos( $term->name, $term_text ) !== false ) {
-				$term_ids[] = $term->term_id;
-			}
-		}
-
-		return $term_ids;
-	}
-
-	/**
-	 * Get term ids which is have the sepcified post count .
-	 *
-	 * @param array $options.
-	 *
-	 * @return array term ids.
-	 */
-	protected function term_count_query( $options ){
-		$term_ids = array();
-		$terms    = get_terms( $options['taxonomy'], array(
-		    'hide_empty' => false,
-		) );
-
-		foreach( $terms as $term ){
-			$args = array(
-				'post_type' => 'post',
-				'tax_query' => array(
-					array(
-						'taxonomy' => $options['taxonomy'],
-						'field'    => 'slug',
-						'terms'    => $term->slug,
-					),
-				),
-			);
-
-			$posts = get_posts($args);
-
-			$term_ids[] = $this->get_term_id_by_name( $options['term_text'], $options['term_opt'], $term->term_id, count($posts) );
-		}
-
-		return $term_ids;
-	}
-
-	protected function get_term_id_by_name( $term_text, $term_opt, $term_id, $post_count ){
-		switch ($term_opt) {
-			case 'equal_to':
-				if( $post_count == $term_text )
-				return $term_id;
-				break;
-
-			case 'not_equal_to':
-				if( $post_count != $term_text )
-				return $term_id;
-				break;
-
-			case 'less_than':
-				if( $post_count < $term_text )
-				return $term_id;
-				break;
-
-			case 'greater_than':
-				if( $post_count > $term_text )
-				return $term_id;
-				break;
-		}
-	}
-
-	/**
-	 * Wrapper for WP_Term.
-	 *
-	 * Adds some performance enhancing defaults.
-	 *
-	 * @since  6.0
-	 *
-	 * @param array $options  List of options
-	 * @param mixed $taxonomy
-	 *
-	 * @return array Result array
-	 */
-	public function term_query( $options, $taxonomy ) {
-		$defaults = array(
-			'fields'     => 'ids', // retrieve only ids
-			'taxonomy'	  => $taxonomy,
-			'hide_empty' => 0,
-			'count'		    => true,
+	protected function get_all_terms( $taxonomy ) {
+		$args = array(
+			'taxonomy' => $taxonomy,
+			'fields'   => 'all',
 		);
-		$options = wp_parse_args( $options, $defaults );
+
+		return $this->query_terms( $args );
+	}
+
+	/**
+	 * Query terms using WP_Term_Query.
+	 *
+	 * @param array $query Query args.
+	 *
+	 * @return array List of terms.
+	 */
+	protected function query_terms( $query ) {
+		$defaults = array(
+			'fields'     => 'ids', // retrieve only ids.
+			'hide_empty' => false,
+			'count'      => false,
+		);
+
+		$query = wp_parse_args( $query, $defaults );
 
 		$term_query = new \WP_Term_Query();
 
 		/**
 		 * This action runs before the query happens.
 		 *
-		 * @since 5.5
-		 * @since 5.6 added $term_query param.
+		 * @since 6.0.0
 		 *
-		 * @param \WP_Query $term_query Query object.
+		 * @param \WP_Term_Query $term_query Query object.
 		 */
-		do_action( 'bd_before_term_query', $term_query );
+		do_action( 'bd_before_query', $term_query );
 
-		$terms = $term_query->query( $options );
+		$terms = $term_query->query( $query );
 
 		/**
 		 * This action runs after the query happens.
 		 *
-		 * @since 5.5
-		 * @since 5.6 added $term_query param.
+		 * @since 6.0.0
 		 *
-		 * @param \WP_Query $term_query Query object.
+		 * @param \WP_Term_Query $term_query Query object.
 		 */
-		do_action( 'bd_after_term_query', $term_query );
+		do_action( 'bd_after_query', $term_query );
 
 		return $terms;
+	}
+
+	protected function get_success_message( $items_deleted ) {
+		/* translators: 1 Number of terms deleted */
+		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected options', $items_deleted, 'bulk-delete' );
 	}
 }

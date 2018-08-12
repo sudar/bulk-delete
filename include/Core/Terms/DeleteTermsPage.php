@@ -9,26 +9,23 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Bulk Delete Terms Page.
  *
- * Shows the list of modules that allows you to delete posts.
+ * Shows the list of modules that allows you to delete terms.
  *
  * @since 6.0.0
  */
 class DeleteTermsPage extends BaseDeletePage {
-	/**
-	 * Initialize and setup variables.
-	 */
 	protected function initialize() {
 		$this->page_slug  = 'bulk-delete-terms';
 		$this->item_type  = 'terms';
 		$this->capability = 'delete_posts';
 
 		$this->label = array(
-			'page_title' => __( 'Bulk Delete Terms', 'bulk-delete' ),
+			'page_title' => __( 'Bulk Delete Taxonomy Terms', 'bulk-delete' ),
 			'menu_title' => __( 'Bulk Delete Terms', 'bulk-delete' ),
 		);
 
 		$this->messages = array(
-			'warning_message' => __( 'WARNING: Terms deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ),
+			'warning_message' => __( 'WARNING: Once deleted, terms cannot be retrieved back. Use with caution.', 'bulk-delete' ),
 		);
 
 		$this->show_link_in_plugin_list = true;

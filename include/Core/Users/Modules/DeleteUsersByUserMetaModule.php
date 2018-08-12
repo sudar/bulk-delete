@@ -44,7 +44,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 
         <fieldset class="options">
         <table class="optiontable">
-		<select name="smbd_u_meta_key" class="select2">
+		<select name="smbd_u_meta_key" class="enhanced-dropdown">
 <?php
 		$meta_keys = $this->get_unique_meta_keys();
 		foreach ( $meta_keys as $meta_key ) {
