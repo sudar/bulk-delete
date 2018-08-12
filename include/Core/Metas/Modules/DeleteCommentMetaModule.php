@@ -7,9 +7,7 @@ use BulkWP\BulkDelete\Core\Metas\MetasModule;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Comment Meta.
- *
- * @since 6.0.0
+ * Delete Comment Meta Module.
  */
 class DeleteCommentMetaModule extends MetasModule {
 	/**
@@ -43,7 +41,7 @@ class DeleteCommentMetaModule extends MetasModule {
 	}
 
 	/**
-	 * Render the Modules.
+	 * Render the Delete Comment Meta box.
 	 */
 	public function render() {
 		?>
