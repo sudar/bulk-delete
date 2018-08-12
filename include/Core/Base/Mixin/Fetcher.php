@@ -160,6 +160,23 @@ abstract class Fetcher {
 	}
 
 	/**
+	 * Check if private posts are present in a post type.
+	 *
+	 * @param string $post_type Post type.
+	 *
+	 * @return bool
+	 */
+	protected function are_private_posts_present( $post_type = 'any' ) {
+		$args  = array(
+			'post_status' => array( 'private' ),
+			'post_type'   => $post_type,
+		);
+		$query = new \WP_Query( $args );
+
+		return $query->have_posts();
+	}
+
+	/**
 	 * Get the number of users present in a role.
 	 *
 	 * @param string $role Role slug.

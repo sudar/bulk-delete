@@ -1,0 +1,520 @@
+<?php
+
+namespace BulkWP\BulkDelete\Core\Terms\Modules;
+
+use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
+
+/**
+ * Test deletion of Taxonomy terms based on post count.
+ *
+ * Tests \BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostCountModule
+ *
+ * @since 6.0.0
+ */
+class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
+
+	/**
+	 * The module that is getting tested.
+	 *
+	 * @var \BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostCountModule
+	 */
+	protected $module;
+
+	/**
+	 * Setup the Module.
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->module = new DeleteTermsByPostCountModule();
+	}
+
+	/**
+	 * Provide data to test deletion of terms by name.
+	 */
+	public function provide_data_to_test_that_terms_can_be_deleted_by_post_count() {
+		return array(
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 0,
+						),
+					),
+				),
+				array(
+					'post_count' => 5,
+					'operator'   => 'equal_to',
+				),
+				1,
+				array(
+					'Term B',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 0,
+						),
+					),
+				),
+				array(
+					'post_count' => 5,
+					'operator'   => 'equal_to',
+				),
+				2,
+				array(
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 5,
+						),
+					),
+				),
+				array(
+					'post_count' => 2,
+					'operator'   => 'equal_to',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 0,
+						),
+					),
+				),
+				array(
+					'post_count' => 3,
+					'operator'   => 'not_equal_to',
+				),
+				2,
+				array(
+					'Term A',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 0,
+						),
+					),
+				),
+				array(
+					'post_count' => 3,
+					'operator'   => 'not_equal_to',
+				),
+				1,
+				array(
+					'Term A',
+					'Term B',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 3,
+						),
+					),
+				),
+				array(
+					'post_count' => 3,
+					'operator'   => 'not_equal_to',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 3,
+						),
+					),
+				),
+				array(
+					'post_count' => 0,
+					'operator'   => 'not_equal_to',
+				),
+				3,
+				array(),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 4,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 3,
+						),
+					),
+				),
+				array(
+					'post_count' => 4,
+					'operator'   => 'less_than',
+				),
+				1,
+				array(
+					'Term A',
+					'Term B',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 3,
+						),
+					),
+				),
+				array(
+					'post_count' => 4,
+					'operator'   => 'less_than',
+				),
+				3,
+				array(),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 3,
+						),
+					),
+				),
+				array(
+					'post_count' => 2,
+					'operator'   => 'less_than',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 4,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 3,
+						),
+					),
+				),
+				array(
+					'post_count' => 4,
+					'operator'   => 'greater_than',
+				),
+				1,
+				array(
+					'Term B',
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 6,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 3,
+						),
+					),
+				),
+				array(
+					'post_count' => 4,
+					'operator'   => 'greater_than',
+				),
+				2,
+				array(
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 3,
+						),
+					),
+				),
+				array(
+					'post_count' => 4,
+					'operator'   => 'greater_than',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'custom_post_type',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 0,
+						),
+					),
+				),
+				array(
+					'post_count' => 5,
+					'operator'   => 'equal_to',
+				),
+				1,
+				array(
+					'Term B',
+					'Term C',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Add tests to delete term based on post count using various filters.
+	 *
+	 * @dataProvider provide_data_to_test_that_terms_can_be_deleted_by_post_count
+	 *
+	 * @param array $inputs                           Inputs for test cases.
+	 * @param array $user_input                       Options selected by user.
+	 * @param int   $no_of_terms_to_be_deleted        Number of terms to be deleted.
+	 * @param array $terms_that_should_not_be_deleted Terms that should not be deleted.
+	 */
+	public function test_that_terms_can_be_deleted_by_post_count_using_various_filters( $inputs, $user_input, $no_of_terms_to_be_deleted, $terms_that_should_not_be_deleted ) {
+		$post_type = $inputs['post_type'];
+		$taxonomy  = $inputs['taxonomy'];
+		$terms     = $inputs['terms'];
+
+		if ( ! $this->is_default_post_type( $post_type ) ) {
+			register_post_type( $post_type );
+		}
+
+		if ( ! $this->is_default_taxonomy( $taxonomy ) ) {
+			register_taxonomy( $taxonomy, $post_type );
+		}
+
+		if ( ! $this->is_default_post_type( $post_type ) || ! $this->is_default_taxonomy( $taxonomy ) ) {
+			register_taxonomy_for_object_type( $taxonomy, $post_type );
+		}
+
+		$post_ids = array();
+		foreach ( $terms as $term ) {
+			wp_insert_term( $term['term'], $taxonomy );
+
+			for ( $i = 0; $i < $term['number_of_posts']; $i ++ ) {
+				$post_id = $this->factory->post->create(
+					array(
+						'post_type' => $post_type,
+					)
+				);
+
+				wp_set_object_terms( $post_id, $term['term'], $taxonomy );
+
+				$post_ids[] = $post_id;
+			}
+		}
+
+		$delete_options = array(
+			'taxonomy'   => $taxonomy,
+			'operator'   => $user_input['operator'],
+			'post_count' => $user_input['post_count'],
+		);
+
+		$terms_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( $no_of_terms_to_be_deleted, $terms_deleted );
+
+		foreach ( $terms_that_should_not_be_deleted as $term ) {
+			$does_term_exists = term_exists( $term, $taxonomy );
+
+			$this->assertNotNull( $does_term_exists );
+			$this->assertNotEquals( 0, $does_term_exists );
+			$this->assertArrayHasKey( 'term_taxonomy_id', $does_term_exists );
+		}
+
+
+		// Assert that the posts to which the terms were associated were not deleted.
+		foreach ( $post_ids as $post_id ) {
+			$this->assertEquals( 'publish', get_post_status( $post_id ) );
+		}
+	}
+}
