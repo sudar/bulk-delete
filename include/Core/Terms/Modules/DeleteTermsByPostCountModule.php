@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteTermsByPostCountModule extends TermsModule {
-
 	protected function initialize() {
 		$this->item_type     = 'terms';
 		$this->field_slug    = 'terms_by_post_count';
@@ -87,13 +86,10 @@ class DeleteTermsByPostCountModule extends TermsModule {
 		switch ( $operator ) {
 			case 'equal_to':
 				return $term_post_count === $compared_to;
-
 			case 'not_equal_to':
 				return $term_post_count !== $compared_to;
-
 			case 'less_than':
 				return $term_post_count < $compared_to;
-
 			case 'greater_than':
 				return $term_post_count > $compared_to;
 		}
