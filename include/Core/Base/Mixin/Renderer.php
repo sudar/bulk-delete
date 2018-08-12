@@ -162,10 +162,24 @@ abstract class Renderer extends Fetcher {
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
 			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
 			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
-			<option value="starts"><?php _e( 'starts', 'bulk-delete' ); ?></option>
-			<option value="ends"><?php _e( 'ends', 'bulk-delete' ); ?></option>
+			<option value="starts_with"><?php _e( 'starts with', 'bulk-delete' ); ?></option>
+			<option value="ends_with"><?php _e( 'ends with', 'bulk-delete' ); ?></option>
 			<option value="contains"><?php _e( 'contains', 'bulk-delete' ); ?></option>
 			<option value="not_contains"><?php _e( 'not contains', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render number based comparison operators dropdown.
+	 */
+	protected function render_number_comparison_operators() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
+			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+			<option value="less_than"><?php _e( 'less than', 'bulk-delete' ); ?></option>
+			<option value="greater_than"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
 		</select>
 		<?php
 	}
@@ -190,32 +204,6 @@ abstract class Renderer extends Fetcher {
 					<?php echo esc_html( $tag->name ), ' (', absint( $tag->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
 				</option>
 			<?php endforeach; ?>
-		</select>
-		<?php
-	}
-
-	/**
-	 * Render term options.
-	 */
-	protected function render_term_options() {
-		$by_name_slug       = 'terms_by_name';
-		$by_post_count_slug = 'terms_by_post_count';
-		?>
-		<h4><?php _e( 'Delete terms that', 'bulk-delete' ); ?></h4>
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_opt">
-		<?php if ( $this->field_slug === $by_name_slug ) { ?>
-			<option value="equal_to">equal to</option>
-			<option value="not_equal_to">not equal to</option>
-			<option value="starts">starts</option>
-			<option value="ends">ends</option>
-			<option value="contains">contains</option>
-			<option value="not_contains">not contains</option>
-		<?php } elseif ( $this->field_slug === $by_post_count_slug ) { ?>
-			<option value="equal_to">equal to</option>
-			<option value="not_equal_to">not equal to</option>
-			<option value="less_than">less than</option>
-			<option value="greater_than">greater than</option>
-		<?php } ?>
 		</select>
 		<?php
 	}

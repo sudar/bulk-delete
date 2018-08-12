@@ -12,114 +12,90 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteTermsByPostCountModule extends TermsModule {
-	/**
-	 * Initialize the values.
-	 */
+
 	protected function initialize() {
 		$this->item_type     = 'terms';
 		$this->field_slug    = 'terms_by_post_count';
 		$this->meta_box_slug = 'bd_delete_terms_by_post_count';
 		$this->action        = 'delete_terms_by_post_count';
-		$this->cron_hook     = 'do-bulk-delete-term-by-post-count';
-		$this->scheduler_url = '';
 		$this->messages      = array(
-			'box_label'  => __( 'Delete Terms by Post Count', 'bulk-delete' ),
-			'scheduled'  => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
-			'cron_label' => __( 'Delete Terms By Post Count', 'bulk-delete' ),
+			'box_label' => __( 'Delete Terms by Post Count', 'bulk-delete' ),
+			'scheduled' => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
 		);
 	}
 
-	/**
-	 * Render Delete terms by postfix and prefix box.
-	 */
 	public function render() {
 		?>
-		<h4><?php _e( 'Select the taxonomy from which you want to delete terms', 'bulk-delete' ); ?></h4>
+
 		<fieldset class="options">
-			<table class="optiontable">
-				<?php $this->render_taxonomy_dropdown(); ?>
-			</table>
+			<h4><?php _e( 'Select the taxonomy from which you want to delete terms', 'bulk-delete' ); ?></h4>
 
-			<h4><?php _e( 'Select the post type', 'bulk-delete' ); ?></h4>
-			<table class="optiontable">
-				<?php $this->render_post_type_dropdown(); ?>
-			</table>
+			<?php $this->render_taxonomy_dropdown(); ?>
 
-			<table class="optiontable">
-				<?php $this->render_term_options(); ?>
-			</table>
+			<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
 
+			<?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?>
+			<?php $this->render_number_comparison_operators(); ?>
+			<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_count" placeholder="<?php _e( 'Post count', 'bulk-delete' ); ?>">
 		</fieldset>
+
 		<?php
 		$this->render_submit_button();
 	}
 
-	/**
-	 * Filter the js array.
-	 *
-	 * @param array $js_array JavaScript Array.
-	 *
-	 * @return array Modified JavaScript Array
-	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validatePostTypeSelect2';
 		$js_array['error_msg'][ $this->action ]  = 'selectPostType';
 		$js_array['msg']['selectPostType']       = __( 'Please select at least one post type', 'bulk-delete' );
 
-		$js_array['dt_iterators'][] = '_' . $this->field_slug;
+		$js_array['pre_action_msg'][ $this->action ] = 'deleteTermsWarning';
+		$js_array['msg']['deleteTermsWarning']       = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );
 
 		return $js_array;
 	}
 
-	/**
-	 * Process delete posts user inputs by category.
-	 *
-	 * @param array $request Request array.
-	 * @param array $options Options for deleting posts.
-	 *
-	 * @return array $options  Inputs from user for posts that were need to delete
-	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['taxonomy']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_taxonomy' );
-		$options['post_type'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type' );
-		$options['term_opt']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_opt' );
-		$options['term_text'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_text' );
+		$options['operator']   = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' ) );
+		$options['post_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_count' ) );
 
 		return $options;
 	}
 
-	/**
-	 * Build query from delete options.
-	 *
-	 * @param array $options Delete options.
-	 *
-	 * @return array Query.
-	 */
-	protected function build_query( $options ) {
-		$query     = array();
-		$taxonomy  = $options['taxonomy'];
-		$term_text = $options['term_text'];
+	protected function get_term_ids_to_delete( $options ) {
+		$term_ids = array();
 
-		if ( isset( $term_text ) ) {
-			$query['taxonomy'] = $taxonomy;
+		$terms = $this->get_all_terms( $options['taxonomy'] );
+		foreach ( $terms as $term ) {
+			if ( $this->should_delete_term_based_on_post_count( $term->count, $options['operator'], $options['post_count'] ) ) {
+				$term_ids[] = $term->term_id;
+			}
 		}
 
-		$term_ids         = $this->term_count_query( $options );
-		$query['include'] = isset( $term_ids['include'] ) ? $term_ids['include'] : '';
-		$query['exclude'] = isset( $term_ids['exclude'] ) ? $term_ids['exclude'] : '';
-
-		return $query;
+		return $term_ids;
 	}
 
 	/**
-	 * Response message for deleting posts.
+	 * Determine if a term should be deleted based on post count.
 	 *
-	 * @param int $items_deleted Total number of posts deleted.
+	 * @param int    $term_post_count Number of posts associated with a term.
+	 * @param string $operator        Operator.
+	 * @param int    $compared_to     The user entered value to which the comparison should be made.
 	 *
-	 * @return string Response message
+	 * @return int term id.
 	 */
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected options', $items_deleted, 'bulk-delete' );
+	protected function should_delete_term_based_on_post_count( $term_post_count, $operator, $compared_to ) {
+		switch ( $operator ) {
+			case 'equal_to':
+				return $term_post_count === $compared_to;
+
+			case 'not_equal_to':
+				return $term_post_count !== $compared_to;
+
+			case 'less_than':
+				return $term_post_count < $compared_to;
+
+			case 'greater_than':
+				return $term_post_count > $compared_to;
+		}
 	}
 }

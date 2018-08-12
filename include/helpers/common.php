@@ -54,6 +54,60 @@ function bd_to_bool( $string ) {
 }
 
 /**
+ * Check if a string starts with a sub string.
+ *
+ * Copied from StackOverFlow.
+ *
+ * @see https://stackoverflow.com/a/834355/24949.
+ *
+ * @since 6.0.0
+ *
+ * @param string $haystack Haystack.
+ * @param string $needle   Needle.
+ *
+ * @return boolean True if Haystack starts with Needle, False otherwise.
+ */
+function bd_starts_with( $haystack, $needle ) {
+	return ( substr( $haystack, 0, strlen( $needle ) ) === $needle );
+}
+
+/**
+ * Check if a string ends with a sub string.
+ *
+ * Copied from StackOverFlow.
+ *
+ * @see https://stackoverflow.com/a/51491517/24949
+ *
+ * @since 6.0.0
+ *
+ * @param string $haystack Haystack.
+ * @param string $needle   Needle.
+ *
+ * @return boolean True if Haystack ends with Needle, False otherwise.
+ */
+function bd_ends_with( $haystack, $needle ) {
+	return substr( $haystack, - strlen( $needle ) ) === $needle;
+}
+
+/**
+ * Check if a string contains another sub string.
+ *
+ * Copied from StackOverFlow.
+ *
+ * @see https://stackoverflow.com/a/4366748/24949
+ *
+ * @since 6.0.0
+ *
+ * @param string $haystack Haystack.
+ * @param string $needle   Needle.
+ *
+ * @return boolean True if Haystack ends with Needle, False otherwise.
+ */
+function bd_contains( $haystack, $needle ) {
+	return strpos( $haystack, $needle ) !== false;
+}
+
+/**
  * Get GMT Offseted time in Unix Timestamp format.
  *
  * @since 6.0.0
