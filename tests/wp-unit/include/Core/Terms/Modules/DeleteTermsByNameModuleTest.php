@@ -263,17 +263,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 		$taxonomy  = $inputs['taxonomy'];
 		$terms     = $inputs['terms'];
 
-		if ( ! $this->is_default_post_type( $post_type ) ) {
-			register_post_type( $post_type );
-		}
-
-		if ( ! $this->is_default_taxonomy( $taxonomy ) ) {
-			register_taxonomy( $taxonomy, $post_type );
-		}
-
-		if ( ! $this->is_default_post_type( $post_type ) || ! $this->is_default_taxonomy( $taxonomy ) ) {
-			register_taxonomy_for_object_type( $taxonomy, $post_type );
-		}
+		$this->register_post_type_and_taxonomy( $post_type, $taxonomy );
 
 		$post_ids = array();
 		foreach ( $terms as $term ) {
