@@ -120,9 +120,9 @@ abstract class PostsModule extends BaseModule {
 	 * Render the "private post" setting fields.
 	 */
 	protected function render_private_post_settings() {
-    if( $this->are_private_posts_present() ){
+		if ( $this->are_private_posts_present() ) {
 			bd_render_private_post_settings( $this->field_slug );
-    }
+		}
 	}
 
 	/**
@@ -266,8 +266,6 @@ abstract class PostsModule extends BaseModule {
 	 *
 	 * @param int $max_count The maximum number of tags to be returned (Optional). Default 0.
 	 *                       If 0 then the maximum number of tags specified in `get_enhanced_select_threshold` will be returned.
-	 *
-	 * @return array List of tags.
 	 */
 	protected function get_tags( $max_count = 0 ) {
 		if ( absint( $max_count ) === 0 ) {

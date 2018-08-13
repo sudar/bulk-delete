@@ -8,6 +8,7 @@
  *
  * @package    BulkDelete\Util
  */
+
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**

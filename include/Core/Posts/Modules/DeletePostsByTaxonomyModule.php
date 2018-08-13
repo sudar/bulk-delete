@@ -14,8 +14,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 class DeletePostsByTaxonomyModule extends PostsModule {
 	/**
 	 * Initialize and setup variables.
-	 *
-	 * @return void
 	 */
 	protected function initialize() {
 		$this->item_type     = 'posts';
@@ -32,9 +30,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 	}
 
 	/**
-	 * Render the Modules.
-	 *
-	 * @return void
+	 * Render Delete Posts by Taxonomy box.
 	 */
 	public function render() {
 		$taxs = get_taxonomies( array(), 'objects' );
