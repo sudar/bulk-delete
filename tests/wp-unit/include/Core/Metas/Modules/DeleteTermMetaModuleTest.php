@@ -34,16 +34,18 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_equal_value() {
 
-		$term       = 'Apple';
-		$taxonomy   = 'category';
-		$meta_key   = 'grade';
-		$meta_value = 'A1';
+		$term               = 'Apple';
+		$taxonomy           = 'category';
+		$meta_key           = 'grade';
+		$meta_value         = 'A1';
+		$another_meta_key   = 'another';
+		$another_meta_value = 'Another';
 
 		$term_array = wp_insert_term( $term, $taxonomy );
 
 		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
 
-		add_term_meta( $term_array['term_id'], 'another', 'Another' );
+		add_term_meta( $term_array['term_id'], $another_meta_key, $another_meta_value );
 
 		// call our method.
 		$delete_options = array(
@@ -58,7 +60,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
-		$meta = get_term_meta( $term_array['term_id'], 'another' );
+		$meta = get_term_meta( $term_array['term_id'], $another_meta_key );
 
 		$this->assertEquals( 1, count( $meta ) );
 
@@ -69,16 +71,18 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_not_equal_value() {
 
-		$term       = 'Apple';
-		$taxonomy   = 'category';
-		$meta_key   = 'grade';
-		$meta_value = 'A1';
+		$term               = 'Apple';
+		$taxonomy           = 'category';
+		$meta_key           = 'grade';
+		$meta_value         = 'A1';
+		$another_meta_key   = 'another';
+		$another_meta_value = 'Another';
 
 		$term_array = wp_insert_term( $term, $taxonomy );
 
 		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
 
-		add_term_meta( $term_array['term_id'], 'another', 'Another' );
+		add_term_meta( $term_array['term_id'], $another_meta_key, $another_meta_value );
 
 		// call our method.
 		$delete_options = array(
@@ -93,7 +97,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
-		$meta = get_term_meta( $term_array['term_id'], 'another' );
+		$meta = get_term_meta( $term_array['term_id'], $another_meta_key );
 
 		$this->assertEquals( 1, count( $meta ) );
 	}
@@ -103,10 +107,12 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_equal_value() {
 
-		$term       = 'Apple';
-		$taxonomy   = 'fruit';
-		$meta_key   = 'grade';
-		$meta_value = 'A1';
+		$term               = 'Apple';
+		$taxonomy           = 'fruit';
+		$meta_key           = 'grade';
+		$meta_value         = 'A1';
+		$another_meta_key   = 'another';
+		$another_meta_value = 'Another';
 
 		register_taxonomy( $taxonomy, 'post' );
 
@@ -114,7 +120,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
 
-		add_term_meta( $term_array['term_id'], 'another', 'Another' );
+		add_term_meta( $term_array['term_id'], $another_meta_key, $another_meta_value );
 
 		// call our method.
 		$delete_options = array(
@@ -129,7 +135,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
-		$meta = get_term_meta( $term_array['term_id'], 'another' );
+		$meta = get_term_meta( $term_array['term_id'], $another_meta_key );
 
 		$this->assertEquals( 1, count( $meta ) );
 	}
@@ -139,10 +145,12 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_not_equal_value() {
 
-		$term       = 'Apple';
-		$taxonomy   = 'fruit';
-		$meta_key   = 'grade';
-		$meta_value = 'A1';
+		$term               = 'Apple';
+		$taxonomy           = 'fruit';
+		$meta_key           = 'grade';
+		$meta_value         = 'A1';
+		$another_meta_key   = 'another';
+		$another_meta_value = 'Another';
 
 		register_taxonomy( $taxonomy, 'post' );
 
@@ -150,7 +158,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
 
-		add_term_meta( $term_array['term_id'], 'another', 'Another' );
+		add_term_meta( $term_array['term_id'], $another_meta_key, $another_meta_value );
 
 		// call our method.
 		$delete_options = array(
@@ -165,7 +173,7 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
-		$meta = get_term_meta( $term_array['term_id'], 'another' );
+		$meta = get_term_meta( $term_array['term_id'], $another_meta_key );
 
 		$this->assertEquals( 1, count( $meta ) );
 	}
