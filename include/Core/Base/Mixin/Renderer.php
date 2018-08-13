@@ -92,7 +92,7 @@ abstract class Renderer extends Fetcher {
 		global $wp_roles;
 		?>
 
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="select2"
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-dropdown"
 				multiple="multiple" data-placeholder="<?php _e( 'Select User Role', 'bulk-delete' ); ?>">
 
 			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
@@ -110,6 +110,23 @@ abstract class Renderer extends Fetcher {
 	 */
 	protected function render_post_type_dropdown() {
 		bd_render_post_type_dropdown( $this->field_slug );
+	}
+
+	/**
+	 * Render Taxonomy dropdown.
+	 */
+	protected function render_taxonomy_dropdown() {
+		$taxonomies = get_taxonomies( array(), 'objects' );
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" class="enhanced-taxonomy-list" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
+			<?php foreach ( $taxonomies as $taxonomy ) : ?>
+				<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
+					<?php echo esc_html( $taxonomy->label ); ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
 	}
 
 	/**
@@ -138,6 +155,36 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
+	 * Render String based comparison operators dropdown.
+	 */
+	protected function render_string_comparison_operators() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
+			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+			<option value="starts_with"><?php _e( 'starts with', 'bulk-delete' ); ?></option>
+			<option value="ends_with"><?php _e( 'ends with', 'bulk-delete' ); ?></option>
+			<option value="contains"><?php _e( 'contains', 'bulk-delete' ); ?></option>
+			<option value="not_contains"><?php _e( 'not contains', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render number based comparison operators dropdown.
+	 */
+	protected function render_number_comparison_operators() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
+			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+			<option value="less_than"><?php _e( 'less than', 'bulk-delete' ); ?></option>
+			<option value="greater_than"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+
+	/**
 	 * Render Tags dropdown.
 	 */
 	protected function render_tags_dropdown() {
@@ -159,6 +206,22 @@ abstract class Renderer extends Fetcher {
 			<?php endforeach; ?>
 		</select>
 		<?php
+	}
+
+	/**
+	 * Get the class name for select2 dropdown based on the number of items present.
+	 *
+	 * @param int    $count      The number of items present.
+	 * @param string $class_name Primary class name.
+	 *
+	 * @return string Class name.
+	 */
+	protected function enable_ajax_if_needed_to_dropdown_class_name( $count, $class_name ) {
+		if ( $count >= $this->get_enhanced_select_threshold() ) {
+			$class_name .= '-ajax';
+		}
+
+		return $class_name;
 	}
 
 	/**
@@ -215,6 +278,13 @@ abstract class Renderer extends Fetcher {
 
 		<?php endforeach; ?>
 		<?php
+	}
+
+	/**
+	 * Render the "private post" setting fields.
+	 */
+	protected function render_private_post_settings() {
+		bd_render_private_post_settings( $this->field_slug );
 	}
 
 	/**

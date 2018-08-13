@@ -20,6 +20,9 @@ use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
+use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
+use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByNameModule;
+use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostCountModule;
 use BulkWP\BulkDelete\Core\Users\DeleteUsersPage;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
@@ -310,11 +313,13 @@ final class BulkDelete {
 			$pages_page = $this->get_delete_pages_admin_page();
 			$users_page = $this->get_delete_users_admin_page();
 			$metas_page = $this->get_delete_metas_admin_page();
+			$terms_page = $this->get_delete_terms_admin_page();
 
 			$this->primary_pages[ $posts_page->get_page_slug() ] = $posts_page;
 			$this->primary_pages[ $pages_page->get_page_slug() ] = $pages_page;
 			$this->primary_pages[ $users_page->get_page_slug() ] = $users_page;
 			$this->primary_pages[ $metas_page->get_page_slug() ] = $metas_page;
+			$this->primary_pages[ $terms_page->get_page_slug() ] = $terms_page;
 		}
 
 		/**
@@ -465,6 +470,22 @@ final class BulkDelete {
 		do_action( 'bd_after_modules', $metas_page );
 
 		return $metas_page;
+	}
+
+	/**
+	 * Get Bulk Delete Terms admin page.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Terms\DeleteTermsPage
+	 */
+	private function get_delete_terms_admin_page() {
+		$terms_page = new DeleteTermsPage( $this->get_plugin_file() );
+
+		$terms_page->add_module( new DeleteTermsByNameModule() );
+		$terms_page->add_module( new DeleteTermsByPostCountModule() );
+
+		return $terms_page;
 	}
 
 	/**

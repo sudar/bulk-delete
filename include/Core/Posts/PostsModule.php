@@ -119,7 +119,9 @@ abstract class PostsModule extends BaseModule {
 	 * Render the "private post" setting fields.
 	 */
 	protected function render_private_post_settings() {
-		bd_render_private_post_settings( $this->field_slug );
+		if( $this->are_private_posts_present() ){
+			bd_render_private_post_settings( $this->field_slug );
+		}
 	}
 
 	/**
