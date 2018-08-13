@@ -57,11 +57,18 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 		wp_update_post( $revision_post_2 );
 
 		$delete_options = array(
-			'revisions' => 'revisions',
+			'revisions'    => 'revisions',
+			'force_delete' => true,
 		);
 
 		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 2, $posts_deleted );
+
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
+
+		$post = get_post( $post_id );
+		$this->assertEquals( $post->ID, $post_id );
 	}
 
 	/**
@@ -101,6 +108,9 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
+
+		$post = get_post( $post_id );
+		$this->assertEquals( $post->ID, $post_id );
 	}
 
 	/**
@@ -127,11 +137,20 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$delete_options = array(
-			'revisions' => 'revisions',
+			'revisions'    => 'revisions',
+			'force_delete' => true,
 		);
 
 		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $posts_deleted );
+
+		$trash_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( 0, count( $trash_posts ) );
+
+		foreach ( $post_ids as $post_id ) {
+			$post = get_post( $post_id );
+			$this->assertEquals( $post->ID, $post_id );
+		}
 
 	}
 
@@ -168,6 +187,11 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
+
+		foreach ( $post_ids as $post_id ) {
+			$post = get_post( $post_id );
+			$this->assertEquals( $post->ID, $post_id );
+		}
 
 	}
 
