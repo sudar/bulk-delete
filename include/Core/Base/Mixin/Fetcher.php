@@ -23,17 +23,6 @@ abstract class Fetcher {
 	}
 
 	/**
-	 * Get the list of taxompmies registered in WordPress.
-	 *
-	 * @return A list of taxonomy names
-	 */
-	protected function get_taxonomies() {
-		$taxonomies = get_taxonomies();
-
-		return $taxonomies;
-	}
-
-	/**
 	 * Get the list of post statuses.
 	 *
 	 * This includes all custom post status, but excludes built-in private posts.

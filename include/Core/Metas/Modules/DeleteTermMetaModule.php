@@ -33,23 +33,13 @@ class DeleteTermMetaModule extends MetasModule {
 		?>
 		<!-- Term Meta box start-->
 		<fieldset class="options">
-		<?php
-		$taxonomies = $this->get_taxonomies();
-		?>
 		<h4><?php _e( 'Select the taxonomy whose term meta fields you want to delete', 'bulk-delete' ); ?></h4>
 		<table class="optiontable">
-		<?php
-		foreach ( $taxonomies as $taxonomy ) {
-			?>
 			<tr>
 				<td>
-					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" value = "<?php echo esc_html( $taxonomy ); ?>" type = "radio" class = "smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy">
-					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy"><?php echo esc_html( $taxonomy ); ?> </label>
+					<?php $this->render_taxonomy_dropdown(); ?>
 				</td>
 			</tr>
-			<?php
-		}
-		?>
 		</table>
 
 		<h4><?php _e( 'Choose your term want to delete', 'bulk-delete' ); ?></h4>
@@ -93,9 +83,8 @@ class DeleteTermMetaModule extends MetasModule {
 
 		</fieldset>
 
-		<p>
-			<button type="submit" name="bd_action" value="delete_meta_term" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ); ?>&raquo;</button>
-		</p>
+		<?php $this->render_submit_button(); ?>
+
 		<!-- Term Meta box end-->
 		<?php
 	}
@@ -109,12 +98,13 @@ class DeleteTermMetaModule extends MetasModule {
 	 * @return array User options.
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['term'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term', 'term' ) );
 
-		$options['term_meta']       = bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta', 'term_meta' );
-		$options['term_meta_value'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_value', '' ) );
+		$options['term'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug . '_term', array() ) );
 
-		$options['term_meta_option'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_option', '' ) );
+		$options['term_meta']       = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta', array() ) );
+		$options['term_meta_value'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_value', array() ) );
+
+		$options['term_meta_option'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_option', array() ) );
 
 		return $options;
 	}
@@ -135,8 +125,10 @@ class DeleteTermMetaModule extends MetasModule {
 		} elseif ( 'not_equal' === $options['term_meta_option'] ) {
 			$term_value = get_term_meta( $options['term'], $options['term_meta'], true );
 			if ( $term_value !== $options['term_meta_value'] ) {
-				delete_term_meta( $options['term'], $options['term_meta'] );
-				$count++;
+				$is_delete = delete_term_meta( $options['term'], $options['term_meta'] );
+				if ( $is_delete ) {
+					$count++;
+				}
 			}
 		}
 

@@ -6,7 +6,7 @@
 jQuery( document ).ready(
 	function () {
 
-			jQuery( 'input[name="smbd_meta_term_taxonomy"]' ).change(
+			jQuery( 'select[name="smbd_meta_term_taxonomy"]' ).change(
 				function(){
 					jQuery( '.enhanced-terms-dropdown' ).select2(
 						{
@@ -17,7 +17,7 @@ jQuery( document ).ready(
 								data: function ( params ) {
 									return {
 										q: params.term,
-										taxonomy: jQuery( 'input[name=smbd_meta_term_taxonomy]:checked' ).val(),
+										taxonomy: jQuery( 'select[name=smbd_meta_term_taxonomy]' ).val(),
 										action: 'bd_load_taxonomy_term'
 									};
 								},
@@ -42,6 +42,41 @@ jQuery( document ).ready(
 							width: '300px'
 						}
 					);
+				}
+			);
+
+			jQuery( '.enhanced-terms-dropdown' ).select2(
+				{
+					ajax: {
+						url: ajaxurl,
+						dataType: 'json',
+						delay: 250,
+						data: function ( params ) {
+							return {
+								q: params.term,
+								taxonomy: jQuery( 'select[name=smbd_meta_term_taxonomy]' ).val(),
+								action: 'bd_load_taxonomy_term'
+							};
+						},
+						processResults: function ( data ) {
+							var options = [];
+
+							if ( data ) {
+								jQuery.each(
+									data, function ( index, dataPair ) {
+										options.push( { id: dataPair[ 0 ], text: dataPair[ 1 ] } );
+									}
+								);
+							}
+
+							return {
+								results: options
+							};
+						},
+						cache: true
+					},
+					minimumInputLength: 2, // the minimum of symbols to input before perform a search.
+					width: '300px'
 				}
 			);
 
