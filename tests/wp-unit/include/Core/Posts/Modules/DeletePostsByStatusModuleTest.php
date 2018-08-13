@@ -45,6 +45,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		$draft_posts = $this->get_posts_by_status( 'draft' );
 		$this->assertEquals( 10, count( $draft_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
 			'limit_to'     => -1,
@@ -60,6 +65,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 20, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -81,6 +89,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		$draft_posts = $this->get_posts_by_status( 'draft' );
 		$this->assertEquals( 10, count( $draft_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
 			'limit_to'     => -1,
@@ -96,6 +109,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -110,6 +126,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		$draft_posts = $this->get_posts_by_status( 'draft' );
 		$this->assertEquals( 10, count( $draft_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
 			'limit_to'     => -1,
@@ -125,6 +146,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 10, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -139,6 +163,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		$draft_posts = $this->get_posts_by_status( 'draft' );
 		$this->assertEquals( 10, count( $draft_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
 			'limit_to'     => -1,
@@ -154,6 +183,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -167,6 +199,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$private_posts = $this->get_posts_by_status( 'private' );
 		$this->assertEquals( 10, count( $private_posts ) );
+
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
 
 		$delete_options = array(
 			'post_status'  => array( 'private' ),
@@ -183,6 +220,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 10, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -196,6 +236,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$private_posts = $this->get_posts_by_status( 'private' );
 		$this->assertEquals( 10, count( $private_posts ) );
+
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
 
 		$delete_options = array(
 			'post_status'  => array( 'private' ),
@@ -212,6 +257,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -236,6 +284,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 10, count( $draft_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
 			'limit_to'     => -1,
@@ -253,6 +306,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 20, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -277,6 +333,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 10, count( $draft_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
 			'limit_to'     => -1,
@@ -294,6 +355,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -309,6 +373,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		) );
 
 		$this->assertEquals( 10, count( $draft_posts ) );
+
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
@@ -327,6 +396,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 10, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -342,6 +414,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		) );
 
 		$this->assertEquals( 10, count( $draft_posts ) );
+
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
@@ -360,6 +437,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -384,6 +464,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 10, count( $draft_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
 			'limit_to'     => -1,
@@ -401,6 +486,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 20, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -425,6 +513,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 10, count( $draft_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
 			'limit_to'     => -1,
@@ -442,6 +535,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -457,6 +553,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		) );
 
 		$this->assertEquals( 10, count( $draft_posts ) );
+
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
@@ -475,6 +576,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 10, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -490,6 +594,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		) );
 
 		$this->assertEquals( 10, count( $draft_posts ) );
+
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
@@ -508,6 +617,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 0, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 
@@ -529,6 +641,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( 50, count( $draft_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
 			'limit_to'     => 50,
@@ -545,6 +662,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 50, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -557,6 +677,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		) );
 
 		$this->assertEquals( 100, count( $draft_posts ) );
+
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
@@ -573,6 +698,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$trash_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( 50, count( $trash_posts ) );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -587,6 +715,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		$posts_in_custom_post_status = $this->get_posts_by_status( 'custom_post_status' );
 		$this->assertEquals( 50, count( $posts_in_custom_post_status ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'custom_post_status' ),
 			'limit_to'     => -1,
@@ -596,6 +729,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 50, $posts_deleted );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -618,6 +754,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		$posts_in_custom_status_2 = $this->get_posts_by_status( 'custom_post_status_2' );
 		$this->assertEquals( 25, count( $posts_in_custom_status_2 ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'custom_post_status_1', 'custom_post_status_2' ),
 			'limit_to'     => -1,
@@ -627,6 +768,9 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 50, $posts_deleted );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 
 	/**
@@ -646,6 +790,11 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		) );
 		$this->assertEquals( 25, count( $published_posts ) );
 
+		$this->factory->post->create_many( 10, array(
+			'post_type'   => 'post',
+			'post_status' => 'pending',
+		) );
+
 		$delete_options = array(
 			'post_status'  => array( 'custom', 'publish' ),
 			'limit_to'     => -1,
@@ -655,5 +804,8 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 50, $posts_deleted );
+
+		$pending_posts = $this->get_posts_by_status( 'pending' );
+		$this->assertEquals( 10, count( $pending_posts ) );
 	}
 }
