@@ -72,7 +72,8 @@ abstract class PostsModule extends BaseModule {
 	 * Helper function to build the query params.
 	 *
 	 * @param array $options Delete Options.
-	 * @param array $query Params for WP Query.
+	 * @param array $query   Params for WP Query.
+	 *
 	 * @return array Delete options array
 	 */
 	protected function build_query_options( $options, $query ) {
@@ -80,9 +81,10 @@ abstract class PostsModule extends BaseModule {
 	}
 
 	/**
-	 * Helper function for bd_query which runs query
+	 * Helper function for bd_query which runs query.
 	 *
 	 * @param array $query Params for WP Query.
+	 *
 	 * @return array Deleted Post IDs array
 	 */
 	protected function query( $query ) {
