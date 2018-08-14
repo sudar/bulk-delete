@@ -198,7 +198,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'     => 'bwp_plugin_name',
-						'meta_value'   => '^' . 'bulk', // Strings are concatenated for readability.
+						'meta_value'   => '^' . 'bulk', // phpcs:ignore
 						'meta_compare' => 'REGEXP',
 					),
 				),
@@ -210,7 +210,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'     => 'bwp_plugin_name',
-						'meta_value'   => 'hulk' . '$',// Strings are concatenated for readability.
+						'meta_value'   => 'hulk' . '$', // phpcs:ignore
 						'meta_compare' => 'REGEXP',
 					),
 				),
@@ -229,7 +229,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_with_no_filters_set
 	 */
-	public function test_that_users_can_be_deleted_with_string_meta_value_and_with_no_filters_set($input, $expected_output ) {
+	public function test_that_users_can_be_deleted_with_string_meta_value_and_with_no_filters_set( $input, $expected_output ) {
 		// Update user meta.
 		update_user_meta( $this->subscriber_1, 'bwp_plugin_name', 'bulk_delete' );
 		update_user_meta( $this->subscriber_2, 'bwp_plugin_name', 'my_awesome_plugin' );
@@ -250,8 +250,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_2 ),
-			wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
 
 		$users_with_meta_value_bulk_move = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
@@ -267,8 +266,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_4 ),
-			wp_list_pluck( $users_with_meta_value_the_green_hulk, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_the_green_hulk, 'ID' ) );
 
 		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
 		$count_of_deleted_users = $this->module->delete( $delete_options );
@@ -283,8 +281,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_with_user_registration_filter_set(
-	) {
+	public function provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_with_user_registration_filter_set() {
 		return array(
 			array(
 				array(
@@ -347,7 +344,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'            => 'bwp_plugin_name',
-						'meta_value'          => '^' . 'bulk', // Strings are concatenated for readability.
+						'meta_value'          => '^' . 'bulk', // phpcs:ignore
 						'meta_compare'        => 'REGEXP',
 						'registered_restrict' => true,
 						'registered_days'     => 1,
@@ -362,7 +359,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'            => 'bwp_plugin_name',
-						'meta_value'          => 'hulk' . '$',// Strings are concatenated for readability.
+						'meta_value'          => 'hulk' . '$', // phpcs:ignore
 						'meta_compare'        => 'REGEXP',
 						'registered_restrict' => true,
 						'registered_days'     => 1,
@@ -383,8 +380,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_with_user_registration_filter_set
 	 */
-	public function test_that_users_can_be_deleted_with_string_meta_value_and_with_user_registration_filter_set
-	($input, $expected_output) {
+	public function test_that_users_can_be_deleted_with_string_meta_value_and_with_user_registration_filter_set( $input, $expected_output ) {
 		// Update user meta.
 		update_user_meta( $this->subscriber_1, 'bwp_plugin_name', 'bulk_delete' );
 		update_user_meta( $this->subscriber_2, 'bwp_plugin_name', 'my_awesome_plugin' );
@@ -405,8 +401,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_2 ),
-			wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
 
 		$users_with_meta_value_bulk_move = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
@@ -433,8 +428,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_4 ),
-			wp_list_pluck( $users_with_meta_value_the_green_hulk, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_the_green_hulk, 'ID' ) );
 
 		$delete_options         = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
 		$count_of_deleted_users = $this->module->delete( $delete_options );
@@ -449,9 +443,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function
-	provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_with_posts_filter_set (
-	) {
+	public function provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_with_posts_filter_set() {
 		return array(
 			array(
 				array(
@@ -514,7 +506,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'            => 'bwp_plugin_name',
-						'meta_value'          => '^' . 'bulk', // Strings are concatenated for readability.
+						'meta_value'          => '^' . 'bulk', // phpcs:ignore
 						'meta_compare'        => 'REGEXP',
 						'no_posts'            => true,
 						'no_posts_post_types' => array( 'post' ),
@@ -528,7 +520,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'            => 'bwp_plugin_name',
-						'meta_value'          => 'hulk' . '$',// Strings are concatenated for readability.
+						'meta_value'          => 'hulk' . '$', // phpcs:ignore
 						'meta_compare'        => 'REGEXP',
 						'no_posts'            => true,
 						'no_posts_post_types' => array( 'post' ),
@@ -549,8 +541,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_with_posts_filter_set
 	 */
-	public function test_that_users_can_be_deleted_with_string_meta_value_and_with_posts_filter_set
-	( $input, $expected_output ) {
+	public function test_that_users_can_be_deleted_with_string_meta_value_and_with_posts_filter_set( $input, $expected_output ) {
 		// Update user meta.
 		update_user_meta( $this->subscriber_1, 'bwp_plugin_name', 'bulk_delete' );
 		update_user_meta( $this->subscriber_2, 'bwp_plugin_name', 'my_awesome_plugin' );
@@ -588,8 +579,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_2 ),
-			wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
 
 		$subscriber_2_posts = get_posts( array(
 			'author'    => $this->subscriber_2,
@@ -715,7 +705,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'     => 'bwp_plugin_name',
-						'meta_value'   => '^' . 'bulk', // Strings are concatenated for readability.
+						'meta_value'   => '^' . 'bulk', // phpcs:ignore
 						'meta_compare' => 'REGEXP',
 						'limit_to'     => 2,
 					),
@@ -729,7 +719,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'delete_options' => array(
 						'meta_key'     => 'bwp_plugin_name',
-						'meta_value'   => 'hulk' . '$',// Strings are concatenated for readability.
+						'meta_value'   => 'hulk' . '$', // phpcs:ignore
 						'meta_compare' => 'REGEXP',
 						'limit_to'     => 1,
 					),
@@ -750,8 +740,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_in_batches
 	 */
-	public function test_that_users_can_be_deleted_with_string_meta_value_and_in_batches
-	($input, $expected_output) {
+	public function test_that_users_can_be_deleted_with_string_meta_value_and_in_batches( $input, $expected_output ) {
 		// Update user meta.
 		update_user_meta( $this->subscriber_1, 'bwp_plugin_name', 'bulk_delete' );
 		update_user_meta( $this->subscriber_2, 'bwp_plugin_name', 'my_awesome_plugin' );
@@ -769,8 +758,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_1, $this->subscriber_5, ),
-			wp_list_pluck( $users_with_meta_value_bulk_delete, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_1, $this->subscriber_5 ), wp_list_pluck( $users_with_meta_value_bulk_delete, 'ID' ) );
 
 		$users_with_meta_value_my_awesome_plugin = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
@@ -778,9 +766,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_2, $this->subscriber_6, ),
-			wp_list_pluck( $users_with_meta_value_my_awesome_plugin,
-				'ID' ) );
+		$this->assertEquals( array( $this->subscriber_2, $this->subscriber_6 ), wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
 
 		$users_with_meta_value_bulk_move = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
@@ -788,8 +774,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_3, $this->subscriber_7 ),
-			wp_list_pluck( $users_with_meta_value_bulk_move, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_3, $this->subscriber_7 ), wp_list_pluck( $users_with_meta_value_bulk_move, 'ID' ) );
 
 		$users_with_meta_value_the_green_hulk = get_users( array(
 			'meta_key'     => 'bwp_plugin_name',
@@ -797,10 +782,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_compare' => '=',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_4, $this->subscriber_8 ),
-			wp_list_pluck(
-				$users_with_meta_value_the_green_hulk,
-				'ID' ) );
+		$this->assertEquals( array( $this->subscriber_4, $this->subscriber_8 ), wp_list_pluck( $users_with_meta_value_the_green_hulk, 'ID' ) );
 
 		$delete_options = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
 		// 1st Batch deletion.
@@ -821,8 +803,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_no_filters_set
-	() {
+	public function provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_no_filters_set() {
 		return array(
 			array(
 				array(
@@ -887,10 +868,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_no_filters_set
 	 */
-	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_no_filters_set(
-		$input,
-		$expected_output
-	) {
+	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_no_filters_set( $input, $expected_output ) {
 		// Update user meta.
 		update_user_meta( $this->subscriber_1, 'bwp_integer', '-1' );
 		update_user_meta( $this->subscriber_2, 'bwp_integer', '0' );
@@ -946,8 +924,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_user_registration_filter_set
-	() {
+	public function provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_user_registration_filter_set() {
 		return array(
 			array(
 				array(
@@ -1020,7 +997,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_user_registration_filter_set
 	 */
-	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_with_user_registration_filter_set($input, $expected_output) {
+	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_with_user_registration_filter_set( $input, $expected_output ) {
 		// Update user meta.
 		update_user_meta( $this->subscriber_1, 'bwp_integer', '-1' );
 		update_user_meta( $this->subscriber_2, 'bwp_integer', '0' );
@@ -1089,8 +1066,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @return array Data.
 	 */
-	public function
-	provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_posts_filter_set() {
+	public function provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_posts_filter_set() {
 		return array(
 			array(
 				array(
@@ -1164,8 +1140,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_with_posts_filter_set
 	 */
-	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_with_posts_filter_set
-	($input, $expected_output ) {
+	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_with_posts_filter_set( $input, $expected_output ) {
 		// Update user meta.
 		update_user_meta( $this->subscriber_1, 'bwp_integer', '-1' );
 		update_user_meta( $this->subscriber_2, 'bwp_integer', '0' );
@@ -1330,8 +1305,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_numeric_meta_value_and_in_batches
 	 */
-	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_in_batches
-	($input, $expected_output) {
+	public function test_that_users_can_be_deleted_with_numeric_meta_value_and_in_batches( $input, $expected_output ) {
 		// Update user meta.
 		update_user_meta( $this->subscriber_1, 'bwp_integer', '-1' );
 		update_user_meta( $this->subscriber_2, 'bwp_integer', '0' );
@@ -1345,8 +1319,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'type'         => 'NUMERIC',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_1, ),
-			wp_list_pluck( $users_with_meta_value_negative_1, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_1 ), wp_list_pluck( $users_with_meta_value_negative_1, 'ID' ) );
 
 		$users_with_meta_value_0 = get_users( array(
 			'meta_key'     => 'bwp_integer',
@@ -1355,9 +1328,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'type'         => 'NUMERIC',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_2 ),
-			wp_list_pluck( $users_with_meta_value_0,
-				'ID' ) );
+		$this->assertEquals( array( $this->subscriber_2 ), wp_list_pluck( $users_with_meta_value_0, 'ID' ) );
 
 		$users_with_meta_value_1 = get_users( array(
 			'meta_key'     => 'bwp_integer',
@@ -1366,8 +1337,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'type'         => 'NUMERIC',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_3 ),
-			wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
+		$this->assertEquals( array( $this->subscriber_3 ), wp_list_pluck( $users_with_meta_value_1, 'ID' ) );
 
 		$users_with_meta_value_2 = get_users( array(
 			'meta_key'     => 'bwp_integer',
@@ -1376,10 +1346,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 			'type'         => 'NUMERIC',
 		) );
 
-		$this->assertEquals( array( $this->subscriber_4 ),
-			wp_list_pluck(
-				$users_with_meta_value_2,
-				'ID' ) );
+		$this->assertEquals( array( $this->subscriber_4 ), wp_list_pluck( $users_with_meta_value_2, 'ID' ) );
 
 		$delete_options = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
 		// 1st Batch deletion.
