@@ -38,8 +38,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$post_type          = 'post';
 		$meta_key           = 'test_key';
 		$meta_value         = 'Test Value';
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$another_meta_key   = 'another meta key';
+		$another_meta_value = 'Another Meta Value';
 
 		// Create a post.
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
@@ -85,8 +85,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$post_type          = 'post';
 		$meta_key           = 'test_key';
 		$meta_value         = 'Test Value';
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$another_meta_key   = 'another meta key';
+		$another_meta_value = 'Another Meta Value';
 
 		// Create a post.
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
@@ -140,8 +140,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$post_type          = 'post';
 		$meta_key           = 'test_key';
 		$meta_value         = 'Test Value';
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$another_meta_key   = 'another meta key';
+		$another_meta_value = 'Another Meta Value';
 
 		// Create a post.
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
@@ -185,13 +185,13 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add to test deleting comment meta from more than one comment using meta value as well.
 	 */
-	public function test_that_comment_meta_can_be_deleted_from_multiple_comment_with_meta_value() {
+	public function test_that_comment_meta_can_be_deleted_from_multiple_comments_with_meta_value() {
 
 		$post_type          = 'post';
 		$meta_key           = 'test_key';
 		$meta_value         = 'Test Value';
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$another_meta_key   = 'another meta key';
+		$another_meta_value = 'Another Meta Value';
 
 		// Create a post.
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
@@ -230,13 +230,12 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'date_op'      => '',
 			'days'         => 0,
 			'restrict'     => false,
-			'force_delete' => false,
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 3, $meta_deleted );
 
-		$another_comment_meta = get_comment_meta( $comment_id_1, 'another' );
+		$another_comment_meta = get_comment_meta( $comment_id_1, $another_meta_key );
 		$this->assertEquals( 1, count( $another_comment_meta ) );
 
 	}
@@ -268,8 +267,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => '=',
 				),
 				array(
-					'matched'      => '5',
-					'miss_matched' => '3',
+					'number_of_comment_metas_deleted'      => '5',
+					'number_of_comment_metas_not_deleted' => '3',
 				),
 			),
 
@@ -293,8 +292,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => '!=',
 				),
 				array(
-					'matched'      => '5',
-					'miss_matched' => '3',
+					'number_of_comment_metas_deleted'      => '5',
+					'number_of_comment_metas_not_deleted' => '3',
 				),
 			),
 
@@ -318,8 +317,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => 'LIKE',
 				),
 				array(
-					'matched'      => '5',
-					'miss_matched' => '3',
+					'number_of_comment_metas_deleted'      => '5',
+					'number_of_comment_metas_not_deleted' => '3',
 				),
 			),
 
@@ -343,8 +342,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => 'NOT LIKE',
 				),
 				array(
-					'matched'      => '5',
-					'miss_matched' => '3',
+					'number_of_comment_metas_deleted'      => '5',
+					'number_of_comment_metas_not_deleted' => '3',
 				),
 			),
 
@@ -368,8 +367,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => '=',
 				),
 				array(
-					'matched'      => '5',
-					'miss_matched' => '3',
+					'number_of_comment_metas_deleted'      => '5',
+					'number_of_comment_metas_not_deleted' => '3',
 				),
 			),
 
@@ -393,8 +392,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => '!=',
 				),
 				array(
-					'matched'      => '3',
-					'miss_matched' => '0',
+					'number_of_comment_metas_deleted'      => '3',
+					'number_of_comment_metas_not_deleted' => '0',
 				),
 			),
 
@@ -445,7 +444,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		);
 
 		$comment_metas_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( $expected['matched'], $comment_metas_deleted );
+		$this->assertEquals( $expected['number_of_comment_metas_deleted'], $comment_metas_deleted );
 
 		$args = array(
 			'post_type'  => $post_type,
@@ -455,7 +454,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		$comments = get_comments( $args );
 
-		$this->assertEquals( $expected['miss_matched'], count( $comments ) );
+		$this->assertEquals( $expected['number_of_comment_metas_not_deleted'], count( $comments ) );
 
 	}
 
@@ -468,8 +467,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_key           = 'test_key';
 		$meta_value         = 'Test Value';
 		$day_post           = date( 'Y-m-d H:i:s', strtotime( '-2 day' ) );
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$another_meta_key   = 'another meta key';
+		$another_meta_value = 'Another Meta Value';
 
 		// Create a post.
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
@@ -517,8 +516,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_key           = 'test_key';
 		$meta_value         = 'Test Value';
 		$day_post           = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$another_meta_key   = 'another meta key';
+		$another_meta_value = 'Another Meta Value';
 
 		// Create a post.
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );

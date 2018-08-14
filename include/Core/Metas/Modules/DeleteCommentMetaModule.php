@@ -8,11 +8,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Delete Comment Meta Module.
+ *
+ * @since 6.0.0
  */
 class DeleteCommentMetaModule extends MetasModule {
-	/**
-	 * Initialize and setup variables.
-	 */
+	
 	protected function initialize() {
 		$this->field_slug    = 'comment_meta';
 		$this->meta_box_slug = 'bd-comment-meta';
@@ -25,12 +25,6 @@ class DeleteCommentMetaModule extends MetasModule {
 		);
 	}
 
-	/**
-	 * Register.
-	 *
-	 * @param string $hook_suffix Page Hook Suffix.
-	 * @param string $page_slug   Page slug.
-	 */
 	public function register( $hook_suffix, $page_slug ) {
 		parent::register( $hook_suffix, $page_slug );
 
@@ -106,14 +100,6 @@ class DeleteCommentMetaModule extends MetasModule {
 		<?php
 	}
 
-	/**
-	 * Process user input and create metabox options.
-	 *
-	 * @param array $request Request array.
-	 * @param array $options User options.
-	 *
-	 * @return array User options.
-	 */
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_type'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type', 'post' ) );
 
@@ -130,13 +116,6 @@ class DeleteCommentMetaModule extends MetasModule {
 		return apply_filters( 'bd_delete_comment_meta_options', $options, $request );
 	}
 
-	/**
-	 * Perform the deletion.
-	 *
-	 * @param array $options Array of Delete options.
-	 *
-	 * @return int Number of items that were deleted.
-	 */
 	protected function do_delete( $options ) {
 		$args = array(
 			'post_type' => $options['post_type'],
@@ -176,13 +155,6 @@ class DeleteCommentMetaModule extends MetasModule {
 		return $meta_deleted;
 	}
 
-	/**
-	 * Filter JS Array and add pro hooks.
-	 *
-	 * @param array $js_array JavaScript Array.
-	 *
-	 * @return array Modified JavaScript Array.
-	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
 		$js_array['validators'][ $this->action ] = 'noValidation';
@@ -193,15 +165,8 @@ class DeleteCommentMetaModule extends MetasModule {
 		return $js_array;
 	}
 
-	/**
-	 * Get Success Message.
-	 *
-	 * @param int $items_deleted Number of items that were deleted.
-	 *
-	 * @return string Success message.
-	 */
 	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of posts deleted */
+		/* translators: 1 Number of comment deleted */
 		return _n( 'Deleted comment meta field from %d comment', 'Deleted comment meta field from %d comments', $items_deleted, 'bulk-delete' );
 	}
 
