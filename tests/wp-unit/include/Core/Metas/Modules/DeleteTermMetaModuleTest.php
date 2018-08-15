@@ -34,24 +34,23 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_equal_value() {
 
-		$term               = 'Apple';
-		$taxonomy           = 'category';
-		$meta_key           = 'grade';
-		$meta_value         = 'A1';
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$term                   = 'Apple';
+		$taxonomy               = 'category';
+		$meta_key               = 'grade';
+		$matched_meta_value     = 'A1';
+		$missmatched_meta_value = 'A2';
 
 		$term_array = wp_insert_term( $term, $taxonomy );
 
-		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+		add_term_meta( $term_array['term_id'], $meta_key, $matched_meta_value );
 
-		add_term_meta( $term_array['term_id'], $another_meta_key, $another_meta_value );
+		add_term_meta( $term_array['term_id'], $meta_key, $missmatched_meta_value );
 
 		// call our method.
 		$delete_options = array(
 			'term'             => $term_array['term_id'],
 			'term_meta'        => $meta_key,
-			'term_meta_value'  => $meta_value,
+			'term_meta_value'  => $matched_meta_value,
 			'term_meta_option' => 'equal',
 		);
 
@@ -60,9 +59,10 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
-		$meta = get_term_meta( $term_array['term_id'], $another_meta_key );
+		$meta_value = get_term_meta( $term_array['term_id'], $meta_key, true );
 
-		$this->assertEquals( 1, count( $meta ) );
+		// Assert that post meta is not deleted.
+		$this->assertEquals( $missmatched_meta_value, $meta_value );
 
 	}
 
@@ -71,24 +71,23 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_not_equal_value() {
 
-		$term               = 'Apple';
-		$taxonomy           = 'category';
-		$meta_key           = 'grade';
-		$meta_value         = 'A1';
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$term                   = 'Apple';
+		$taxonomy               = 'category';
+		$meta_key               = 'grade';
+		$matched_meta_value     = 'A1';
+		$missmatched_meta_value = 'A2';
 
 		$term_array = wp_insert_term( $term, $taxonomy );
 
-		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+		add_term_meta( $term_array['term_id'], $meta_key, $matched_meta_value );
 
-		add_term_meta( $term_array['term_id'], $another_meta_key, $another_meta_value );
+		add_term_meta( $term_array['term_id'], $meta_key, $missmatched_meta_value );
 
 		// call our method.
 		$delete_options = array(
 			'term'             => $term_array['term_id'],
 			'term_meta'        => $meta_key,
-			'term_meta_value'  => 'Unknown',
+			'term_meta_value'  => $matched_meta_value,
 			'term_meta_option' => 'not_equal',
 		);
 
@@ -97,9 +96,11 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
-		$meta = get_term_meta( $term_array['term_id'], $another_meta_key );
+		$meta_value = get_term_meta( $term_array['term_id'], $meta_key, true );
 
-		$this->assertEquals( 1, count( $meta ) );
+		// Assert that post meta is not deleted (here matched value should not be deleted).
+		$this->assertEquals( $matched_meta_value, $meta_value );
+
 	}
 
 	/**
@@ -107,26 +108,25 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_equal_value() {
 
-		$term               = 'Apple';
-		$taxonomy           = 'fruit';
-		$meta_key           = 'grade';
-		$meta_value         = 'A1';
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$term                   = 'Apple';
+		$taxonomy               = 'fruit';
+		$meta_key               = 'grade';
+		$matched_meta_value     = 'A1';
+		$missmatched_meta_value = 'A2';
 
-		register_taxonomy( $taxonomy, 'post' );
+		$this->register_post_type_and_taxonomy( 'post', $taxonomy );
 
 		$term_array = wp_insert_term( $term, $taxonomy );
 
-		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+		add_term_meta( $term_array['term_id'], $meta_key, $matched_meta_value );
 
-		add_term_meta( $term_array['term_id'], $another_meta_key, $another_meta_value );
+		add_term_meta( $term_array['term_id'], $meta_key, $missmatched_meta_value );
 
 		// call our method.
 		$delete_options = array(
 			'term'             => $term_array['term_id'],
 			'term_meta'        => $meta_key,
-			'term_meta_value'  => $meta_value,
+			'term_meta_value'  => $matched_meta_value,
 			'term_meta_option' => 'equal',
 		);
 
@@ -135,9 +135,11 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
-		$meta = get_term_meta( $term_array['term_id'], $another_meta_key );
+		$meta_value = get_term_meta( $term_array['term_id'], $meta_key, true );
 
-		$this->assertEquals( 1, count( $meta ) );
+		// Assert that post meta is not deleted.
+		$this->assertEquals( $missmatched_meta_value, $meta_value );
+
 	}
 
 	/**
@@ -145,26 +147,25 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_not_equal_value() {
 
-		$term               = 'Apple';
-		$taxonomy           = 'fruit';
-		$meta_key           = 'grade';
-		$meta_value         = 'A1';
-		$another_meta_key   = 'another';
-		$another_meta_value = 'Another';
+		$term                   = 'Apple';
+		$taxonomy               = 'fruit';
+		$meta_key               = 'grade';
+		$matched_meta_value     = 'A1';
+		$missmatched_meta_value = 'A2';
 
-		register_taxonomy( $taxonomy, 'post' );
+		$this->register_post_type_and_taxonomy( 'post', $taxonomy );
 
 		$term_array = wp_insert_term( $term, $taxonomy );
 
-		add_term_meta( $term_array['term_id'], $meta_key, $meta_value );
+		add_term_meta( $term_array['term_id'], $meta_key, $matched_meta_value );
 
-		add_term_meta( $term_array['term_id'], $another_meta_key, $another_meta_value );
+		add_term_meta( $term_array['term_id'], $meta_key, $missmatched_meta_value );
 
 		// call our method.
 		$delete_options = array(
 			'term'             => $term_array['term_id'],
 			'term_meta'        => $meta_key,
-			'term_meta_value'  => 'Unknown',
+			'term_meta_value'  => $matched_meta_value,
 			'term_meta_option' => 'not_equal',
 		);
 
@@ -173,9 +174,10 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		// Assert that post meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
-		$meta = get_term_meta( $term_array['term_id'], $another_meta_key );
+		$meta_value = get_term_meta( $term_array['term_id'], $meta_key, true );
 
-		$this->assertEquals( 1, count( $meta ) );
+		// Assert that post meta is not deleted.
+		$this->assertEquals( $matched_meta_value, $meta_value );
 	}
 
 

@@ -125,8 +125,10 @@ class DeleteTermMetaModule extends MetasModule {
 			$term_values = get_term_meta( $options['term'], $options['term_meta'] );
 			foreach ( $term_values as $term_value ) {
 				if ( $options['term_meta_value'] !== $term_value ) {
-					delete_term_meta( $options['term'], $options['term_meta'], $term_value );
-					$count++;
+					$is_delete = delete_term_meta( $options['term'], $options['term_meta'], $term_value );
+					if ( $is_delete ) {
+						$count++;
+					}
 				}
 			}
 		}
