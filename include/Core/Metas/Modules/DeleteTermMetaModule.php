@@ -99,12 +99,12 @@ class DeleteTermMetaModule extends MetasModule {
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
 
-		$options['term'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug . '_term', array() ) );
+		$options['term'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term', '' ) );
 
-		$options['term_meta']       = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta', array() ) );
-		$options['term_meta_value'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_value', array() ) );
+		$options['term_meta']       = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta', '' ) );
+		$options['term_meta_value'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_value', '' ) );
 
-		$options['term_meta_option'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_option', array() ) );
+		$options['term_meta_option'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_option', '' ) );
 
 		return $options;
 	}
@@ -123,10 +123,10 @@ class DeleteTermMetaModule extends MetasModule {
 				$count++;
 			}
 		} elseif ( 'not_equal' === $options['term_meta_option'] ) {
-			$term_value = get_term_meta( $options['term'], $options['term_meta'], true );
-			if ( $term_value !== $options['term_meta_value'] ) {
-				$is_delete = delete_term_meta( $options['term'], $options['term_meta'] );
-				if ( $is_delete ) {
+			$term_values = get_term_meta( $options['term'], $options['term_meta'] );
+			foreach ( $term_values as $term_value ) {
+				if ( $options['term_meta_value'] !== $term_value ) {
+					delete_term_meta( $options['term'], $options['term_meta'], $term_value );
 					$count++;
 				}
 			}
