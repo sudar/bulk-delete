@@ -58,7 +58,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => false,
 			'force_delete' => false,
 		);
@@ -108,7 +108,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => false,
 			'force_delete' => true,
 		);
@@ -149,7 +149,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => false,
 			'force_delete' => false,
 		);
@@ -190,7 +190,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => false,
 			'force_delete' => true,
 		);
@@ -231,7 +231,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'private' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => false,
 			'force_delete' => false,
 		);
@@ -272,7 +272,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'private' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => false,
 			'force_delete' => true,
 		);
@@ -325,7 +325,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => true,
 			'force_delete' => false,
 			'date_op'      => 'before',
@@ -380,7 +380,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => true,
 			'force_delete' => true,
 			'date_op'      => 'before',
@@ -425,7 +425,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => true,
 			'force_delete' => false,
 			'date_op'      => 'before',
@@ -470,7 +470,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => true,
 			'force_delete' => true,
 			'date_op'      => 'before',
@@ -525,7 +525,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => true,
 			'force_delete' => false,
 			'date_op'      => 'after',
@@ -580,7 +580,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'publish', 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => true,
 			'force_delete' => true,
 			'date_op'      => 'after',
@@ -625,7 +625,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => true,
 			'force_delete' => false,
 			'date_op'      => 'after',
@@ -670,7 +670,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'draft' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => true,
 			'force_delete' => true,
 			'date_op'      => 'after',
@@ -804,7 +804,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'custom_post_status' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => false,
 			'force_delete' => false,
 		);
@@ -849,7 +849,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'custom_post_status_1', 'custom_post_status_2' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => false,
 			'force_delete' => false,
 		);
@@ -891,7 +891,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array(
 			'post_status'  => array( 'custom', 'publish' ),
-			'limit_to'     => -1,
+			'limit_to'     => 0,
 			'restrict'     => false,
 			'force_delete' => false,
 		);
