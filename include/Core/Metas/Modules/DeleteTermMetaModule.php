@@ -98,7 +98,6 @@ class DeleteTermMetaModule extends MetasModule {
 	 * @return array User options.
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-
 		$options['term'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term', '' ) );
 
 		$options['term_meta']       = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta', '' ) );
