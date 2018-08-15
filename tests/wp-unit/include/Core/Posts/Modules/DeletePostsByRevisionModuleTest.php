@@ -20,9 +20,6 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 	 */
 	protected $module;
 
-	/**
-	 * Setup the module.
-	 */
 	public function setUp() {
 		parent::setUp();
 
