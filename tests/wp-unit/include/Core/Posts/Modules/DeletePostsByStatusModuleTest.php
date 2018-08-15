@@ -293,7 +293,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (older than x days) with two post status (published posts and draft posts).
 	 */
-	public function test_that_published_posts_that_are_older_than_x_days_can_be_trashed() {
+	public function test_that_published_posts_can_be_trashed_that_are_older_than_x_days() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
 
 		$published_posts = $this->factory->post->create_many(
@@ -348,7 +348,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (older than x days) with two post status (published posts and draft posts).
 	 */
-	public function test_that_published_posts_that_are_older_than_x_days_can_be_deleted() {
+	public function test_that_published_posts_can_be_deleted_that_are_older_than_x_days() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
 
 		$published_posts = $this->factory->post->create_many(
@@ -403,7 +403,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (older than x days) with single post status (draft posts).
 	 */
-	public function test_that_draft_posts_that_are_older_than_x_days_can_be_trashed() {
+	public function test_that_draft_posts_can_be_trashed_that_are_older_than_x_days() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
 
 		$draft_posts = $this->factory->post->create_many(
@@ -448,7 +448,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (older than x days) with single post status (draft posts).
 	 */
-	public function test_that_draft_posts_that_are_older_than_x_days_can_be_deleted() {
+	public function test_that_draft_posts_can_be_deleted_that_are_older_than_x_days() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
 
 		$draft_posts = $this->factory->post->create_many(
@@ -493,7 +493,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (within the last x days) with two post status.
 	 */
-	public function test_that_published_posts_that_are_posted_within_the_last_x_days_can_be_trashed() {
+	public function test_that_published_posts_can_be_trashed_that_are_posted_within_the_last_x_days() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
 
 		$published_posts = $this->factory->post->create_many(
@@ -548,7 +548,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (within the last x days) with two post status.
 	 */
-	public function test_that_published_posts_that_are_posted_within_the_last_x_days_can_be_deleted() {
+	public function test_that_published_posts_can_be_deleted_that_are_posted_within_the_last_x_days() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
 
 		$published_posts = $this->factory->post->create_many(
@@ -603,7 +603,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (within the last x days) with single post status.
 	 */
-	public function test_that_draft_posts_that_are_posted_within_the_last_x_days_can_be_trashed() {
+	public function test_that_draft_posts_can_be_trashed_that_are_posted_within_the_last_x_days() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
 
 		$draft_posts = $this->factory->post->create_many(
@@ -648,7 +648,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test date filter (within the last x days) with single post status.
 	 */
-	public function test_that_draft_posts_that_are_posted_within_the_last_x_days_can_be_deleted() {
+	public function test_that_draft_posts_can_be_deleted_that_are_posted_within_the_last_x_days() {
 		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
 
 		$draft_posts = $this->factory->post->create_many(
@@ -784,7 +784,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test delete posts from a single custom post status.
 	 */
-	public function test_that_posts_from_single_custom_post_status() {
+	public function test_that_posts_can_be_trashed_from_single_custom_post_status() {
 		register_post_status( 'custom_post_status' );
 		$this->factory->post->create_many(
 			50, array(
@@ -819,7 +819,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test delete posts from two custom post status.
 	 */
-	public function test_that_posts_from_two_custom_post_status_can_be_trashed() {
+	public function test_that_posts_can_be_trashed_from_two_custom_post_status() {
 		register_post_status( 'custom_post_status_1' );
 		$this->factory->post->create_many(
 			25, array(
@@ -864,7 +864,7 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test delete posts from a one custom post status and one built-in post status.
 	 */
-	public function test_that_posts_from_builtin_status_and_custom_status_can_be_trashed_together() {
+	public function test_that_posts_can_be_trashed_from_builtin_status_and_custom_status_together() {
 		register_post_status( 'custom' );
 		$this->factory->post->create_many(
 			25, array(
