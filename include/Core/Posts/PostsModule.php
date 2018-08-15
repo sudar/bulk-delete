@@ -83,12 +83,28 @@ abstract class PostsModule extends BaseModule {
 	}
 
 	/**
-	 * Perform the deletion.
+	 * Helper function to build the query params.
 	 *
-	 * @param array $options Array of Delete options.
+	 * @param array $options Delete Options.
+	 * @param array $query   Params for WP Query.
 	 *
-	 * @return int Number of items that were deleted.
+	 * @return array Delete options array
 	 */
+	protected function build_query_options( $options, $query ) {
+		return bd_build_query_options( $options, $query );
+	}
+
+	/**
+	 * Helper function for bd_query which runs query.
+	 *
+	 * @param array $query Params for WP Query.
+	 *
+	 * @return array Deleted Post IDs array
+	 */
+	protected function query( $query ) {
+		return bd_query( $query );
+	}
+
 	protected function do_delete( $options ) {
 		$query = $this->build_query( $options );
 
@@ -109,10 +125,9 @@ abstract class PostsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_posts_from_query( $query, $options ) {
-		$query        = bd_build_query_options( $options, $query );
-		$post_ids     = bd_query( $query );
 		$force_delete = isset( $options['force_delete'] ) ? $options['force_delete'] : false;
-
+		$query    = $this->build_query_options( $options, $query );
+		$post_ids = $this->query( $query );
 		return $this->delete_posts_by_id( $post_ids, $force_delete );
 	}
 
