@@ -126,8 +126,9 @@ abstract class PostsModule extends BaseModule {
 	 */
 	protected function delete_posts_from_query( $query, $options ) {
 		$force_delete = isset( $options['force_delete'] ) ? $options['force_delete'] : false;
-		$query    = $this->build_query_options( $options, $query );
-		$post_ids = $this->query( $query );
+		$query        = $this->build_query_options( $options, $query );
+		$post_ids     = $this->query( $query );
+
 		return $this->delete_posts_by_id( $post_ids, $force_delete );
 	}
 
