@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteCommentMetaModule extends MetasModule {
-	
 	protected function initialize() {
 		$this->field_slug    = 'comment_meta';
 		$this->meta_box_slug = 'bd-comment-meta';
