@@ -143,7 +143,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
-		$js_array['validators'][ $this->action ] = 'noValidation';
+		$js_array['validators'][ $this->action ] = 'validateUserMeta';
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteUsersByMetaWarning';
 		$js_array['msg']['deleteUsersByMetaWarning'] = __( 'Are you sure you want to delete all the users from the selected user meta?', 'bulk-delete' );
