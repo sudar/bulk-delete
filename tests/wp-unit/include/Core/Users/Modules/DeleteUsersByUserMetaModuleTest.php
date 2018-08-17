@@ -1733,4 +1733,479 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_2'], $count_of_deleted_users );
 	}
+
+	/**
+	 * Data provider to test `test_that_users_can_be_deleted_with_string_meta_value_and_posts_filter_in_batches` method.
+	 *
+	 * @see DeleteUsersByUserMetaModuleTest::test_that_users_can_be_deleted_with_string_meta_value_and_posts_filter_in_batches() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_posts_filter_in_batches() {
+		return array(
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'bulk_delete',
+						'meta_compare'        => '=',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'limit_to'            => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 1,
+					'count_of_deleted_users_in_batch_2' => 0,
+				),
+			),
+
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'my_awesome_plugin',
+						'meta_compare'        => '!=',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'page' ),
+						'limit_to'            => 3,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 3,
+					'count_of_deleted_users_in_batch_2' => 3,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'bulk',
+						'meta_compare'        => 'LIKE',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'limit_to'            => 2,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 2,
+					'count_of_deleted_users_in_batch_2' => 0,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'hulk',
+						'meta_compare'        => 'NOT LIKE',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'limit_to'            => 2,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 2,
+					'count_of_deleted_users_in_batch_2' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => '^' . 'bulk', // phpcs:ignore
+						'meta_compare'        => 'REGEXP',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'limit_to'            => 2,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 2,
+					'count_of_deleted_users_in_batch_2' => 0,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'hulk' . '$', // phpcs:ignore
+						'meta_compare'        => 'REGEXP',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'limit_to'            => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 1,
+					'count_of_deleted_users_in_batch_2' => 0,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test User deletion with meta value whose type is string and with posts filter set in batches.
+	 *
+	 * @param array $input           Input to the `delete()` method.
+	 * @param bool  $expected_output Expected output of `delete()` method.
+	 *
+	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_posts_filter_in_batches
+	 */
+	public function test_that_users_can_be_deleted_with_string_meta_value_and_posts_filter_in_batches( $input, $expected_output ) {
+		// Update user meta.
+		update_user_meta( $this->subscriber_1, 'bwp_plugin_name', 'bulk_delete' );
+		update_user_meta( $this->subscriber_2, 'bwp_plugin_name', 'my_awesome_plugin' );
+		update_user_meta( $this->subscriber_3, 'bwp_plugin_name', 'bulk_move' );
+		update_user_meta( $this->subscriber_4, 'bwp_plugin_name', 'the_green_hulk' );
+
+		update_user_meta( $this->subscriber_5, 'bwp_plugin_name', 'bulk_delete' );
+		update_user_meta( $this->subscriber_6, 'bwp_plugin_name', 'my_awesome_plugin' );
+		update_user_meta( $this->subscriber_7, 'bwp_plugin_name', 'bulk_move' );
+		update_user_meta( $this->subscriber_8, 'bwp_plugin_name', 'the_green_hulk' );
+
+		$post_1 = $this->factory->post->create( array(
+			'post_title'  => 'Post 1',
+			'post_author' => $this->subscriber_1,
+		) );
+
+		$post_2 = $this->factory->post->create( array(
+			'post_title'  => 'Post 2',
+			'post_author' => $this->subscriber_2,
+		) );
+
+		$post_3 = $this->factory->post->create( array(
+			'post_title'  => 'Post 3',
+			'post_author' => $this->subscriber_7,
+		) );
+
+		$post_4 = $this->factory->post->create( array(
+			'post_title'  => 'Post 4',
+			'post_author' => $this->subscriber_8,
+		) );
+
+		$users_with_meta_value_bulk_delete = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'bulk_delete',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_1, $this->subscriber_5 ), wp_list_pluck( $users_with_meta_value_bulk_delete, 'ID' ) );
+
+		$subscriber_1_posts = get_posts( array(
+			'author'    => $this->subscriber_1,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_1_posts ) );
+
+		$users_with_meta_value_my_awesome_plugin = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'my_awesome_plugin',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_2, $this->subscriber_6 ), wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
+
+		$subscriber_2_posts = get_posts( array(
+			'author'    => $this->subscriber_2,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_2_posts ) );
+
+		$users_with_meta_value_bulk_move = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'bulk_move',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_3, $this->subscriber_7 ), wp_list_pluck( $users_with_meta_value_bulk_move, 'ID' ) );
+
+		$subscriber_3_data = get_userdata( $this->subscriber_3 );
+
+		$this->assertTrue( $subscriber_3_data instanceof \WP_User );
+
+		$todays_date                    = new \DateTime();
+		$subscriber_3_registration_date = new \DateTime( $subscriber_3_data->user_registered );
+		$diff_in_days                   = $todays_date->diff( $subscriber_3_registration_date )->format( '%R%a' );
+
+		$this->assertEquals( '-2', $diff_in_days );
+
+		$subscriber_7_posts = get_posts( array(
+			'author'    => $this->subscriber_7,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_7_posts ) );
+
+		$users_with_meta_value_4 = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'the_green_hulk',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_4, $this->subscriber_8 ), wp_list_pluck( $users_with_meta_value_4, 'ID' ) );
+
+		$subscriber_8_posts = get_posts( array(
+			'author'    => $this->subscriber_8,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_8_posts ) );
+
+		$delete_options = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
+		// 1st Batch deletion.
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_1'], $count_of_deleted_users );
+
+		// 2nd Batch deletion.
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_2'], $count_of_deleted_users );
+	}
+
+	/**
+	 * Data provider to test `test_that_users_can_be_deleted_with_string_meta_value_and_registration_posts_filter_in_batches` method.
+	 *
+	 * @see DeleteUsersByUserMetaModuleTest::test_that_users_can_be_deleted_with_string_meta_value_and_registration_posts_filter_in_batches() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_registration_posts_filter_in_batches() {
+		return array(
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'bulk_delete',
+						'meta_compare'        => '=',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'registered_restrict' => true,
+						'registered_days'     => 5,
+						'limit_to'            => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 1,
+					'count_of_deleted_users_in_batch_2' => 0,
+				),
+			),
+
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'my_awesome_plugin',
+						'meta_compare'        => '!=',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'page' ),
+						'registered_restrict' => true,
+						'registered_days'     => 2,
+						'limit_to'            => 2,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 2,
+					'count_of_deleted_users_in_batch_2' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'bulk',
+						'meta_compare'        => 'LIKE',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'page' ),
+						'registered_restrict' => true,
+						'registered_days'     => 5,
+						'limit_to'            => 2,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 2,
+					'count_of_deleted_users_in_batch_2' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'hulk',
+						'meta_compare'        => 'NOT LIKE',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+						'limit_to'            => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 1,
+					'count_of_deleted_users_in_batch_2' => 0,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => '^' . 'bulk', // phpcs:ignore
+						'meta_compare'        => 'REGEXP',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'registered_restrict' => true,
+						'registered_days'     => 1,
+						'limit_to'            => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 1,
+					'count_of_deleted_users_in_batch_2' => 1,
+				),
+			),
+			array(
+				array(
+					'delete_options' => array(
+						'meta_key'            => 'bwp_plugin_name',
+						'meta_value'          => 'hulk' . '$', // phpcs:ignore
+						'meta_compare'        => 'REGEXP',
+						'no_posts'            => true,
+						'no_posts_post_types' => array( 'post' ),
+						'registered_restrict' => true,
+						'registered_days'     => 3,
+						'limit_to'            => 1,
+					),
+				),
+				array(
+					'count_of_deleted_users_in_batch_1' => 1,
+					'count_of_deleted_users_in_batch_2' => 0,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test User deletion with meta value whose type is string and with posts, registration filter set in batches.
+	 *
+	 * @param array $input           Input to the `delete()` method.
+	 * @param bool  $expected_output Expected output of `delete()` method.
+	 *
+	 * @dataProvider provide_data_to_test_that_users_can_be_deleted_with_string_meta_value_and_registration_posts_filter_in_batches
+	 */
+	public function test_that_users_can_be_deleted_with_string_meta_value_and_registration_posts_filter_in_batches( $input, $expected_output ) {
+		// Update user meta.
+		update_user_meta( $this->subscriber_1, 'bwp_plugin_name', 'bulk_delete' );
+		update_user_meta( $this->subscriber_2, 'bwp_plugin_name', 'my_awesome_plugin' );
+		update_user_meta( $this->subscriber_3, 'bwp_plugin_name', 'bulk_move' );
+		update_user_meta( $this->subscriber_4, 'bwp_plugin_name', 'the_green_hulk' );
+
+		update_user_meta( $this->subscriber_5, 'bwp_plugin_name', 'bulk_delete' );
+		update_user_meta( $this->subscriber_6, 'bwp_plugin_name', 'my_awesome_plugin' );
+		update_user_meta( $this->subscriber_7, 'bwp_plugin_name', 'bulk_move' );
+		update_user_meta( $this->subscriber_8, 'bwp_plugin_name', 'the_green_hulk' );
+
+		$post_1 = $this->factory->post->create( array(
+			'post_title'  => 'Post 1',
+			'post_author' => $this->subscriber_1,
+		) );
+
+		$post_2 = $this->factory->post->create( array(
+			'post_title'  => 'Post 2',
+			'post_author' => $this->subscriber_2,
+		) );
+
+		$post_3 = $this->factory->post->create( array(
+			'post_title'  => 'Post 3',
+			'post_author' => $this->subscriber_7,
+		) );
+
+		$post_4 = $this->factory->post->create( array(
+			'post_title'  => 'Post 4',
+			'post_author' => $this->subscriber_8,
+		) );
+
+		$users_with_meta_value_bulk_delete = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'bulk_delete',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_1, $this->subscriber_5 ), wp_list_pluck( $users_with_meta_value_bulk_delete, 'ID' ) );
+
+		$subscriber_1_posts = get_posts( array(
+			'author'    => $this->subscriber_1,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_1_posts ) );
+
+		$users_with_meta_value_my_awesome_plugin = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'my_awesome_plugin',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_2, $this->subscriber_6 ), wp_list_pluck( $users_with_meta_value_my_awesome_plugin, 'ID' ) );
+
+		$subscriber_2_posts = get_posts( array(
+			'author'    => $this->subscriber_2,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_2_posts ) );
+
+		$users_with_meta_value_bulk_move = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'bulk_move',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_3, $this->subscriber_7 ), wp_list_pluck( $users_with_meta_value_bulk_move, 'ID' ) );
+
+		$subscriber_3_data = get_userdata( $this->subscriber_3 );
+
+		$this->assertTrue( $subscriber_3_data instanceof \WP_User );
+
+		$todays_date                    = new \DateTime();
+		$subscriber_3_registration_date = new \DateTime( $subscriber_3_data->user_registered );
+		$diff_in_days                   = $todays_date->diff( $subscriber_3_registration_date )->format( '%R%a' );
+
+		$this->assertEquals( '-2', $diff_in_days );
+
+		$subscriber_7_posts = get_posts( array(
+			'author'    => $this->subscriber_7,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_7_posts ) );
+
+		$users_with_meta_value_4 = get_users( array(
+			'meta_key'     => 'bwp_plugin_name',
+			'meta_value'   => 'the_green_hulk',
+			'meta_compare' => '=',
+		) );
+
+		$this->assertEquals( array( $this->subscriber_4, $this->subscriber_8 ), wp_list_pluck( $users_with_meta_value_4, 'ID' ) );
+
+		$subscriber_8_posts = get_posts( array(
+			'author'    => $this->subscriber_8,
+			'post_type' => array( 'post' ),
+		) );
+
+		$this->assertEquals( 1, count( $subscriber_8_posts ) );
+
+		$delete_options = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
+
+		// 1st Batch deletion.
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_1'], $count_of_deleted_users );
+
+		// 2nd Batch deletion.
+		$count_of_deleted_users = $this->module->delete( $delete_options );
+
+		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_2'], $count_of_deleted_users );
+	}
 }
