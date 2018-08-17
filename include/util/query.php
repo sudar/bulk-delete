@@ -8,16 +8,16 @@
  *
  * @package    BulkDelete\Util
  */
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly
+defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
  * Process delete options array and build query.
  *
- * @param array $delete_options Delete Options
- * @param array $options        (optional) Options query
+ * @param array $delete_options Delete Options.
+ * @param array $options        (optional) Options query.
  */
 function bd_build_query_options( $delete_options, $options = array() ) {
-	// private posts
+	// private posts.
 	if ( isset( $delete_options['private'] ) ) {
 		if ( $delete_options['private'] ) {
 			$options['post_status'] = 'private';
@@ -28,20 +28,22 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 		}
 	}
 
-	// limit to query
-	if ( $delete_options['limit_to'] > 0 ) {
+	// limit to query.
+	$limit_to = isset( $delete_options['limit_to'] ) ? $delete_options['limit_to'] : false;
+	if ( $limit_to ) {
 		$options['showposts'] = $delete_options['limit_to'];
 	} else {
-		$options['nopaging']  = 'true';
+		$options['nopaging'] = 'true';
 	}
 
-	// post type
+	// post type.
 	if ( isset( $delete_options['post_type'] ) ) {
 		$options['post_type'] = $delete_options['post_type'];
 	}
 
-	// date query
-	if ( $delete_options['restrict'] ) {
+	// date query.
+	$restrict = isset( $delete_options['restrict'] ) ? $delete_options['restrict'] : false;
+	if ( $restrict ) {
 		if ( 'before' === $delete_options['date_op'] || 'after' === $delete_options['date_op'] ) {
 			$options['date_query'] = array(
 				array(
@@ -62,19 +64,19 @@ function bd_build_query_options( $delete_options, $options = array() ) {
  *
  * @since  5.5
  *
- * @param array $options List of options
+ * @param array $options List of options.
  *
  * @return array Result array
  */
 function bd_query( $options ) {
 	$defaults = array(
-		'cache_results'          => false, // don't cache results
-		'update_post_meta_cache' => false, // No need to fetch post meta fields
-		'update_post_term_cache' => false, // No need to fetch taxonomy fields
-		'no_found_rows'          => true,  // No need for pagination
-		'fields'                 => 'ids', // retrieve only ids
+		'cache_results'          => false, // don't cache results.
+		'update_post_meta_cache' => false, // No need to fetch post meta fields.
+		'update_post_term_cache' => false, // No need to fetch taxonomy fields.
+		'no_found_rows'          => true,  // No need for pagination.
+		'fields'                 => 'ids', // retrieve only ids.
 	);
-	$options = wp_parse_args( $options, $defaults );
+	$options  = wp_parse_args( $options, $defaults );
 
 	$wp_query = new WP_Query();
 

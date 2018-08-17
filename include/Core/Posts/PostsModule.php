@@ -22,6 +22,11 @@ abstract class PostsModule extends BaseModule {
 	 */
 	abstract protected function build_query( $options );
 
+	/**
+	 * Item Type. Possible values 'posts', 'pages', 'users' etc.
+	 *
+	 * @var string
+	 */
 	protected $item_type = 'posts';
 
 	/**
@@ -44,6 +49,15 @@ abstract class PostsModule extends BaseModule {
 		return $options;
 	}
 
+	/**
+	 * Filter JS Array and add pro hooks.
+	 *
+	 * @since 5.5
+	 *
+	 * @param array $js_array JavaScript Array.
+	 *
+	 * @return array Modified JavaScript Array
+	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
 		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
@@ -111,18 +125,167 @@ abstract class PostsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_posts_from_query( $query, $options ) {
-		$query    = $this->build_query_options( $options, $query );
-		$post_ids = $this->query( $query );
+		$force_delete = isset( $options['force_delete'] ) ? $options['force_delete'] : false;
+		$query        = $this->build_query_options( $options, $query );
+		$post_ids     = $this->query( $query );
 
-		return $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
+		return $this->delete_posts_by_id( $post_ids, $force_delete );
 	}
 
 	/**
 	 * Render the "private post" setting fields.
 	 */
 	protected function render_private_post_settings() {
-		if( $this->are_private_posts_present() ){
+		if ( $this->are_private_posts_present() ) {
 			bd_render_private_post_settings( $this->field_slug );
+		}
+	}
+
+	/**
+	 * Render Category dropdown.
+	 */
+	protected function render_category_dropdown() {
+		$categories = $this->get_categories();
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_category[]" data-placeholder="<?php _e( 'Select Categories', 'bulk-delete' ); ?>"
+				class="<?php echo sanitize_html_class( $this->enable_ajax_if_needed_to_dropdown_class_name( count( $categories ), 'select2-taxonomy' ) ); ?>"
+				data-taxonomy="category" multiple>
+
+			<option value="all">
+				<?php _e( 'All Categories', 'bulk-delete' ); ?>
+			</option>
+
+			<?php foreach ( $categories as $category ) : ?>
+				<option value="<?php echo absint( $category->cat_ID ); ?>">
+					<?php echo esc_html( $category->cat_name ), ' (', absint( $category->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
+
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render Tags dropdown.
+	 */
+	protected function render_tags_dropdown() {
+		$tags = $this->get_tags();
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" data-placeholder="<?php _e( 'Select Tags', 'bulk-delete' ); ?>"
+				class="<?php echo sanitize_html_class( $this->enable_ajax_if_needed_to_dropdown_class_name( count( $tags ), 'select2-taxonomy' ) ); ?>"
+				data-taxonomy="post_tag" multiple>
+
+			<option value="all">
+				<?php _e( 'All Tags', 'bulk-delete' ); ?>
+			</option>
+
+			<?php foreach ( $tags as $tag ) : ?>
+				<option value="<?php echo absint( $tag->term_id ); ?>">
+					<?php echo esc_html( $tag->name ), ' (', absint( $tag->count ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render Sticky Posts dropdown.
+	 */
+	protected function render_sticky_post_dropdown() {
+		$posts = $this->get_sticky_posts();
+		?>
+		<table class="optiontable">
+			<tr>
+				<td scope="row">
+					<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="All">
+					<label>All</label>
+				</td>
+			</tr>
+			<?php
+			foreach ( $posts as $post ) :
+				$user = get_userdata( $post->post_author );
+				?>
+			<tr>
+				<td scope="row">
+				<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
+				<label><?php echo esc_html( $post->post_title . ' Published by ' . $user->display_name . ' on ' . $post->post_date ); ?></label>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</table>
+		<?php
+	}
+
+	/**
+	 * Get the list of sticky posts.
+	 *
+	 * @return array List of sticky posts.
+	 */
+	protected function get_sticky_posts() {
+		$posts = get_posts( array( 'post__in' => get_option( 'sticky_posts' ) ) );
+
+		return $posts;
+	}
+
+	/**
+	 * Get the list of categories.
+	 *
+	 * @return array List of categories.
+	 */
+	protected function get_categories() {
+		$enhanced_select_threshold = $this->get_enhanced_select_threshold();
+
+		$categories = get_categories(
+			array(
+				'hide_empty' => false,
+				'number'     => $enhanced_select_threshold,
+			)
+		);
+
+		return $categories;
+	}
+
+	/**
+	 * Are tags present in this WordPress installation?
+	 *
+	 * Only one tag is retrieved to check if tags are present for performance reasons.
+	 *
+	 * @return bool True if tags are present, False otherwise.
+	 */
+	protected function are_tags_present() {
+		$tags = $this->get_tags( 1 );
+
+		return ( count( $tags ) > 0 );
+	}
+
+	/**
+	 * Are sticky post present in this WordPress?
+	 *
+	 * Only one post is retrieved to check if stick post are present for performance reasons.
+	 *
+	 * @return bool True if posts are present, False otherwise.
+	 */
+	protected function are_sticky_post_present() {
+		$sticky_post_ids = get_option( 'sticky_posts' );
+
+		if ( ! is_array( $sticky_post_ids ) ) {
+			return false;
+		}
+
+		return ( count( $sticky_post_ids ) > 0 );
+	}
+
+	/**
+	 * Get the list of tags.
+	 *
+	 * @param int $max_count The maximum number of tags to be returned (Optional). Default 0.
+	 *                       If 0 then the maximum number of tags specified in `get_enhanced_select_threshold` will be returned.
+	 */
+	protected function get_tags( $max_count = 0 ) {
+		if ( absint( $max_count ) === 0 ) {
+			$max_count = $this->get_enhanced_select_threshold();
 		}
 	}
 
