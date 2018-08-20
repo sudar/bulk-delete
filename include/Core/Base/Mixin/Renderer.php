@@ -122,7 +122,7 @@ abstract class Renderer extends Fetcher {
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" class="enhanced-taxonomy-list" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
 			<?php foreach ( $taxonomies as $taxonomy ) : ?>
 				<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
-					<?php echo esc_html( $taxonomy->label ); ?>
+					<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
 				</option>
 			<?php endforeach; ?>
 		</select>
