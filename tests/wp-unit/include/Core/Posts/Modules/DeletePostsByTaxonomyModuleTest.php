@@ -20,9 +20,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	 */
 	protected $module;
 
-	/**
-	 * Setup the DeletePostsByTaxonomyModule Module.
-	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -30,9 +27,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Data provider for test_test_post_by_taxonomy
+	 * Data provider for test_deletion_of_posts_by_taxonomy
 	 */
-	public function provide_data_test_test_post_by_taxonomy() {
+	public function provide_data_to_test_deletion_of_posts_by_taxonomy() {
 		return array(
 			// Deleting posts from a single taxonomy term default post type and default taxonomy.
 			array(
@@ -44,13 +41,13 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -85,19 +82,19 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term 2',
 							'term_slug'       => 'another-term-2',
 							'number_of_posts' => 3,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -133,13 +130,13 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -174,19 +171,19 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term 2',
 							'term_slug'       => 'another-term-2',
 							'number_of_posts' => 3,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -222,13 +219,13 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -263,19 +260,19 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term 2',
 							'term_slug'       => 'another-term-2',
 							'number_of_posts' => 3,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -310,13 +307,13 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -351,19 +348,19 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term 2',
 							'term_slug'       => 'another-term-2',
 							'number_of_posts' => 3,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -399,7 +396,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(
+							'post_args'       => array(
 								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-5 day' ) ),
 							),
 						),
@@ -407,7 +404,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -442,7 +439,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 10,
-							'post_array'      => array(
+							'post_args'       => array(
 								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-3 day' ) ),
 							),
 						),
@@ -450,7 +447,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 5,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -485,13 +482,13 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
 							'number_of_posts' => 100,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
 							'number_of_posts' => 50,
-							'post_array'      => array(),
+							'post_args'       => array(),
 						),
 					),
 				),
@@ -519,16 +516,15 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test various test cases for delete posts by taxonomy module.
+	 * Test various test cases for deleting posts by taxonomy.
 	 *
-	 * @dataProvider provide_data_test_test_post_by_taxonomy
+	 * @dataProvider provide_data_to_test_deletion_of_posts_by_taxonomy
 	 *
-	 * @param array $setup Create posts and taxonomies arguments.
+	 * @param array $setup      Create posts and taxonomies arguments.
 	 * @param array $operations User operations.
-	 * @param array $expected Expected output for respective operations.
+	 * @param array $expected   Expected output for respective operations.
 	 */
-	public function test_test_post_by_taxonomy( $setup, $operations, $expected ) {
-
+	public function test_deletion_of_posts_by_taxonomy( $setup, $operations, $expected ) {
 		$post_type = $setup['post_type'];
 		$taxonomy  = $setup['taxonomy'];
 		$terms     = $setup['terms'];
@@ -537,11 +533,12 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 		foreach ( $terms as $term ) {
 			$matched_term_array = wp_insert_term( $term['term'], $taxonomy );
-			for ( $i = 0; $i < $term['number_of_posts']; $i++ ) {
+
+			for ( $i = 0; $i < $term['number_of_posts']; $i ++ ) {
 				$post_args = array(
 					'post_type' => $post_type,
 				);
-				$post_args = array_merge( $post_args, $term['post_array'] );
+				$post_args = array_merge( $post_args, $term['post_args'] );
 				$post      = $this->factory->post->create( $post_args );
 				wp_set_object_terms( $post, $matched_term_array, $taxonomy );
 			}
