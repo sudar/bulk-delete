@@ -30,9 +30,13 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Provide data to test deletion of terms by name.
+	 * Data provider to test `test_that_terms_can_be_deleted_by_post_count_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByPostCountModule::test_that_terms_can_be_deleted_by_post_count_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
 	 */
-	public function provide_data_to_test_that_terms_can_be_deleted_by_post_count() {
+	public function provide_data_to_test_terms_deletion_by_post_count_with_equals_operator() {
 		return array(
 			array(
 				array(
@@ -60,21 +64,22 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				1,
 				array(
 					'Term B',
+					'Term C',
 				),
 			),
 
 			array(
 				array(
 					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
+					'taxonomy'  => 'category',
 					'terms'     => array(
 						array(
 							'term'            => 'Term A',
-							'number_of_posts' => 5,
+							'number_of_posts' => 1,
 						),
 						array(
 							'term'            => 'Term B',
-							'number_of_posts' => 5,
+							'number_of_posts' => 2,
 						),
 						array(
 							'term'            => 'Term C',
@@ -86,35 +91,6 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 					'post_count' => 5,
 					'operator'   => 'equal_to',
 				),
-				2,
-				array(
-					'Term C',
-				),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 5,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 5,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 5,
-						),
-					),
-				),
-				array(
-					'post_count' => 2,
-					'operator'   => 'equal_to',
-				),
 				0,
 				array(
 					'Term A',
@@ -126,305 +102,48 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 2,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 0,
-						),
-					),
-				),
-				array(
-					'post_count' => 3,
-					'operator'   => 'not_equal_to',
-				),
-				2,
-				array(
-					'Term A',
-				),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 0,
-						),
-					),
-				),
-				array(
-					'post_count' => 3,
-					'operator'   => 'not_equal_to',
-				),
-				1,
-				array(
-					'Term A',
-					'Term B',
-				),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 3,
-						),
-					),
-				),
-				array(
-					'post_count' => 3,
-					'operator'   => 'not_equal_to',
-				),
-				0,
-				array(
-					'Term A',
-					'Term B',
-					'Term C',
-				),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 3,
-						),
-					),
-				),
-				array(
-					'post_count' => 0,
-					'operator'   => 'not_equal_to',
-				),
-				3,
-				array(),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 5,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 4,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 3,
-						),
-					),
-				),
-				array(
-					'post_count' => 4,
-					'operator'   => 'less_than',
-				),
-				1,
-				array(
-					'Term A',
-					'Term B',
-				),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 2,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 2,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 3,
-						),
-					),
-				),
-				array(
-					'post_count' => 4,
-					'operator'   => 'less_than',
-				),
-				3,
-				array(),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 3,
-						),
-					),
-				),
-				array(
-					'post_count' => 2,
-					'operator'   => 'less_than',
-				),
-				0,
-				array(
-					'Term A',
-					'Term B',
-					'Term C',
-				),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 5,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 4,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 3,
-						),
-					),
-				),
-				array(
-					'post_count' => 4,
-					'operator'   => 'greater_than',
-				),
-				1,
-				array(
-					'Term B',
-					'Term C',
-				),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 5,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 6,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 3,
-						),
-					),
-				),
-				array(
-					'post_count' => 4,
-					'operator'   => 'greater_than',
-				),
-				2,
-				array(
-					'Term C',
-				),
-			),
-
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						array(
-							'term'            => 'Term A',
-							'number_of_posts' => 2,
-						),
-						array(
-							'term'            => 'Term B',
-							'number_of_posts' => 3,
-						),
-						array(
-							'term'            => 'Term C',
-							'number_of_posts' => 3,
-						),
-					),
-				),
-				array(
-					'post_count' => 4,
-					'operator'   => 'greater_than',
-				),
-				0,
-				array(
-					'Term A',
-					'Term B',
-					'Term C',
-				),
-			),
-
-			array(
-				array(
-					'post_type' => 'custom_post_type',
 					'taxonomy'  => 'custom_taxonomy',
 					'terms'     => array(
 						array(
 							'term'            => 'Term A',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 2,
+						),
+					),
+				),
+				array(
+					'post_count' => 2,
+					'operator'   => 'equal_to',
+				),
+				3,
+				array(),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test `test_that_terms_can_be_deleted_by_post_count_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByPostCountModule::test_that_terms_can_be_deleted_by_post_count_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_terms_deletion_by_post_count_with_not_equals_operator() {
+		return array(
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
 							'number_of_posts' => 5,
 						),
 						array(
@@ -439,11 +158,266 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 5,
-					'operator'   => 'equal_to',
+					'operator'   => 'not_equal_to',
 				),
-				1,
+				2,
 				array(
+					'Term A',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 1,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 0,
+						),
+					),
+				),
+				array(
+					'post_count' => 5,
+					'operator'   => 'not_equal_to',
+				),
+				3,
+				array(),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 2,
+						),
+					),
+				),
+				array(
+					'post_count' => 2,
+					'operator'   => 'not_equal_to',
+				),
+				0,
+				array(
+					'Term A',
 					'Term B',
+					'Term C',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test `test_that_terms_can_be_deleted_by_post_count_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByPostCountModule::test_that_terms_can_be_deleted_by_post_count_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_terms_deletion_by_post_count_with_less_than_operator() {
+		return array(
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 0,
+						),
+					),
+				),
+				array(
+					'post_count' => 5,
+					'operator'   => 'less_than',
+				),
+				2,
+				array(
+					'Term A',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 5,
+						),
+					),
+				),
+				array(
+					'post_count' => 1,
+					'operator'   => 'less_than',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 4,
+						),
+					),
+				),
+				array(
+					'post_count' => 5,
+					'operator'   => 'less_than',
+				),
+				3,
+				array(),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test `test_that_terms_can_be_deleted_by_post_count_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByPostCountModule::test_that_terms_can_be_deleted_by_post_count_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_terms_deletion_by_post_count_with_greater_than_operator() {
+		return array(
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 0,
+						),
+					),
+				),
+				array(
+					'post_count' => 1,
+					'operator'   => 'greater_than',
+				),
+				2,
+				array(
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 2,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 5,
+						),
+					),
+				),
+				array(
+					'post_count' => 5,
+					'operator'   => 'greater_than',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
+					'Term C',
+				),
+			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						array(
+							'term'            => 'Term A',
+							'number_of_posts' => 3,
+						),
+						array(
+							'term'            => 'Term B',
+							'number_of_posts' => 5,
+						),
+						array(
+							'term'            => 'Term C',
+							'number_of_posts' => 2,
+						),
+					),
+				),
+				array(
+					'post_count' => 2,
+					'operator'   => 'greater_than',
+				),
+				2,
+				array(
 					'Term C',
 				),
 			),
@@ -453,7 +427,10 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Add tests to delete term based on post count using various filters.
 	 *
-	 * @dataProvider provide_data_to_test_that_terms_can_be_deleted_by_post_count
+	 * @dataProvider provide_data_to_test_terms_deletion_by_post_count_with_equals_operator
+	 * @dataProvider provide_data_to_test_terms_deletion_by_post_count_with_not_equals_operator
+	 * @dataProvider provide_data_to_test_terms_deletion_by_post_count_with_less_than_operator
+	 * @dataProvider provide_data_to_test_terms_deletion_by_post_count_with_greater_than_operator
 	 *
 	 * @param array $inputs                           Inputs for test cases.
 	 * @param array $user_input                       Options selected by user.
@@ -500,7 +477,6 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 			$this->assertNotEquals( 0, $does_term_exists );
 			$this->assertArrayHasKey( 'term_taxonomy_id', $does_term_exists );
 		}
-
 
 		// Assert that the posts to which the terms were associated were not deleted.
 		foreach ( $post_ids as $post_id ) {
