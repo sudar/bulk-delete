@@ -204,6 +204,14 @@ jQuery(document).ready(function () {
 			return false;
 		}
 	};
+
+	BulkWP.validateUserRole = function() {
+		if (null !== jQuery('#smbd_u_role_roles').val()) {
+			return true;
+		} else {
+			return false;
+		}
+	};	
 });
 
 BulkWP.jetpack = function() {
