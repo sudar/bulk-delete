@@ -142,6 +142,10 @@ jQuery(document).ready(function () {
 		jQuery('#smbd_' + value + '_cron_freq, #smbd_' + value + '_cron_start, #smbd_' + value + '_cron').removeAttr('disabled');
 	} );
 
+	jQuery('button[name="bd_action_2"]').click(function () {
+		var f = jQuery( this ).closest( '#bulk-delete-form' ).serialize();
+		console.log(f);
+	});
 	// Validate user action
 	jQuery('button[name="bd_action"]').click(function () {
 		var currentButton = jQuery(this).val(),

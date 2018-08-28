@@ -177,6 +177,12 @@ function bd_render_submit_button( $action ) {
 	<p class="submit">
 		<button type="submit" name="bd_action" value="<?php echo esc_attr( $action ); ?>" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ); ?>&raquo;</button>
 	</p>
+
+	<p class="submit">
+		<input type="hidden" name="action" value="<?php echo esc_attr( $action ); ?>" />
+		<button type="button" name="bd_action_2" value="<?php echo esc_attr( $action ); ?>" class="button-primary"><?php _e( 'Bulk Delete Cron ', 'bulk-delete' ); ?>&raquo;</button>
+	</p>
+
 <?php
 }
 
