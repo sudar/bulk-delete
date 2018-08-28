@@ -69,6 +69,25 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'Term A',
 				),
 			),
+
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term sample B',
+						'Term Sample C',
+					),
+				),
+				array(
+					'search_term' => 'Term sample C',
+					'operator'    => 'not_equal_to',
+				),
+				3,
+				array(),
+			),
+
 			array(
 				array(
 					'post_type' => 'post',
