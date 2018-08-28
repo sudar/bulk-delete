@@ -232,7 +232,7 @@ abstract class BasePage {
 			<h2><?php echo esc_html( $this->label['page_title'] ); ?></h2>
 			<?php settings_errors(); ?>
 
-			<form method="post">
+			<!-- <form method="post"> -->
 			<?php $this->render_nonce_fields(); ?>
 
 			<div id = "poststuff">
@@ -246,7 +246,7 @@ abstract class BasePage {
 
 				</div> <!-- #post-body -->
 			</div><!-- #poststuff -->
-			</form>
+			<!-- </form> -->
 		</div><!-- .wrap -->
 	<?php
 		$this->render_footer();

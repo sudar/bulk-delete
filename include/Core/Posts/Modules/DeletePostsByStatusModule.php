@@ -30,6 +30,7 @@ class DeletePostsByStatusModule extends PostsModule {
 		$post_statuses = $this->get_post_statuses();
 		$post_count    = wp_count_posts();
 		?>
+		<form id="bulk-delete-form">
 		<h4><?php _e( 'Select the post statuses from which you want to delete posts', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
@@ -78,8 +79,9 @@ class DeletePostsByStatusModule extends PostsModule {
 
 		</fieldset>
 <?php
-		$this->render_submit_button();
-	}
+		$this->render_submit_button(); ?>
+	</form>
+	<?php }
 
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_post_status', array() ) );
