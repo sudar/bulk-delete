@@ -78,17 +78,11 @@ abstract class UsersModule extends BaseModule {
 		$count = 0;
 		$users = $this->query_users( $query );
 
-		$current_user = wp_get_current_user();
-
 		if ( ! function_exists( 'wp_delete_user' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
 		}
 
 		foreach ( $users as $user ) {
-			// Exclude current user.
-			if ( $current_user->ID === $user->ID ) {
-				continue;
-			}
 			if ( ! $this->can_delete_by_registered_date( $options, $user ) ) {
 				continue;
 			}
@@ -121,6 +115,12 @@ abstract class UsersModule extends BaseModule {
 		$defaults = array(
 			'count_total' => false,
 		);
+
+		// Exclude current user.
+		$current_user = wp_get_current_user();
+		if ( $current_user instanceof \WP_User ) {
+			$options['exclude'] = array( $current_user->ID );
+		}
 
 		$options = wp_parse_args( $options, $defaults );
 
