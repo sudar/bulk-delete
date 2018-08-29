@@ -205,12 +205,8 @@ jQuery(document).ready(function () {
 		}
 	};
 
-	BulkWP.validateUserRole = function() {
-		if (null !== jQuery('#smbd_u_role_roles').val()) {
-			return true;
-		} else {
-			return false;
-		}
+	BulkWP.validateUserRole = function(that) {
+		return (null !== jQuery(that).parent().prev().find(".enhanced-role-dropdown").val());
 	};	
 });
 

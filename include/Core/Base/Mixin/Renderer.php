@@ -92,7 +92,7 @@ abstract class Renderer extends Fetcher {
 		global $wp_roles;
 		?>
 
-		<select id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-dropdown"
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-role-dropdown"
 				multiple="multiple" data-placeholder="<?php _e( 'Select User Role', 'bulk-delete' ); ?>">
 
 			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
