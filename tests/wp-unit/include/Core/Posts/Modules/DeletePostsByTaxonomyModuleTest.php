@@ -27,11 +27,11 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Data provider for test_deletion_of_posts_by_taxonomy
+	 * Data provider for test_deletion_of_posts_by_taxonomy and test_move_posts_to_trash_by_taxonomy
 	 */
-	public function provide_data_to_test_deletion_of_posts_by_taxonomy() {
+	public function provide_data_to_test_variations_by_built_in_taxonomy() {
 		return array(
-			// Deleting posts from a single taxonomy term default post type and default taxonomy.
+			// (+ve Case) Deleting posts from a single taxonomy term built-in post type and built-in taxonomy.
 			array(
 				array(
 					'post_type' => 'post',
@@ -58,11 +58,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'test-term',
 					),
 					'filters'    => array(
-						'force_delete' => false,
-						'limit_to'     => 0,
-						'restrict'     => false,
-						'date_op'      => '',
-						'days'         => '',
+						'limit_to' => 0,
+						'restrict' => false,
+						'date_op'  => '',
+						'days'     => '',
 					),
 				),
 				array(
@@ -71,8 +70,46 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 					'published'     => 5,
 				),
 			),
-
-			// Deleting posts from a multiple taxonomy term default post type and default taxonomy.
+			// (-ve) Case: Deleting posts from a single taxonomy term built-in post type and built-in taxonomy.
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 5,
+							'post_args'       => array(),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'page',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+					),
+					'filters'    => array(
+						'limit_to' => 0,
+						'restrict' => false,
+						'date_op'  => '',
+						'days'     => '',
+					),
+				),
+				array(
+					'posts_deleted' => 0,
+					'trashed'       => 0,
+					'published'     => 15,
+				),
+			),
+			// (+ve) Case: Deleting posts from a multiple taxonomy terms, built-in post type and built-in taxonomy.
 			array(
 				array(
 					'post_type' => 'post',
@@ -106,11 +143,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'another-term',
 					),
 					'filters'    => array(
-						'force_delete' => false,
-						'limit_to'     => 0,
-						'restrict'     => false,
-						'date_op'      => '',
-						'days'         => '',
+						'limit_to' => 0,
+						'restrict' => false,
+						'date_op'  => '',
+						'days'     => '',
 					),
 				),
 				array(
@@ -119,7 +155,230 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 					'published'     => 3,
 				),
 			),
+			// (-ve) Case: Deleting posts from a multiple taxonomy terms, built-in post type and built-in taxonomy.
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 5,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term 2',
+							'term_slug'       => 'another-term-2',
+							'number_of_posts' => 3,
+							'post_args'       => array(),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'post_tag',
+					'term_slugs' => array(
+						'test-term',
+						'another-term',
+					),
+					'filters'    => array(
+						'limit_to' => 0,
+						'restrict' => false,
+						'date_op'  => '',
+						'days'     => '',
+					),
+				),
+				array(
+					'posts_deleted' => 0,
+					'trashed'       => 0,
+					'published'     => 18,
+				),
+			),
+			// (+ve) Case: Deleting posts from a single taxonomy term, custom post type and built-in taxonomy.
+			array(
+				array(
+					'post_type' => 'custom_post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 5,
+							'post_args'       => array(),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+					),
+					'filters'    => array(
+						'limit_to' => 0,
+						'restrict' => false,
+						'date_op'  => '',
+						'days'     => '',
+					),
+				),
+				array(
+					'posts_deleted' => 10,
+					'trashed'       => 10,
+					'published'     => 5,
+				),
+			),
+			// (-ve) Case: Deleting posts from a single taxonomy term, custom post type and built-in taxonomy.
+			array(
+				array(
+					'post_type' => 'custom_post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 5,
+							'post_args'       => array(),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test',
+					),
+					'filters'    => array(
+						'limit_to' => 0,
+						'restrict' => false,
+						'date_op'  => '',
+						'days'     => '',
+					),
+				),
+				array(
+					'posts_deleted' => 0,
+					'trashed'       => 0,
+					'published'     => 15,
+				),
+			),
+			// (+ve) Case: Deleting posts from a multiple taxonomy terms, custom post type and built-in taxonomy.
+			array(
+				array(
+					'post_type' => 'custom_post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 5,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term 2',
+							'term_slug'       => 'another-term-2',
+							'number_of_posts' => 3,
+							'post_args'       => array(),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+						'another-term',
+					),
+					'filters'    => array(
+						'limit_to' => 0,
+						'restrict' => false,
+						'date_op'  => '',
+						'days'     => '',
+					),
+				),
+				array(
+					'posts_deleted' => 15,
+					'trashed'       => 15,
+					'published'     => 3,
+				),
+			),
+			// (-ve) Case: Deleting posts from a multiple taxonomy terms, custom post type and built-in taxonomy.
+			array(
+				array(
+					'post_type' => 'custom_post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 5,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term 2',
+							'term_slug'       => 'another-term-2',
+							'number_of_posts' => 3,
+							'post_args'       => array(),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term-1',
+						'2-another-term',
+					),
+					'filters'    => array(
+						'limit_to' => 0,
+						'restrict' => false,
+						'date_op'  => '',
+						'days'     => '',
+					),
+				),
+				array(
+					'posts_deleted' => 0,
+					'trashed'       => 0,
+					'published'     => 18,
+				),
+			),
+		);
+	}
 
+	/**
+	 * Data provider for test_deletion_of_posts_by_taxonomy
+	 */
+	public function provide_data_to_test_deletion_of_posts_by_taxonomy() {
+		return array(
 			// Deleting posts from a single taxonomy term custom post type and custom taxonomy.
 			array(
 				array(
@@ -297,95 +556,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 					'published'     => 3,
 				),
 			),
-			// Deleting posts from a single taxonomy term custom post type and default taxonomy.
-			array(
-				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
-						array(
-							'term'            => 'Test Term',
-							'term_slug'       => 'test-term',
-							'number_of_posts' => 10,
-							'post_args'       => array(),
-						),
-						array(
-							'term'            => 'Another Term',
-							'term_slug'       => 'another-term',
-							'number_of_posts' => 5,
-							'post_args'       => array(),
-						),
-					),
-				),
-				array(
-					'post_type'  => 'custom_post',
-					'taxonomy'   => 'category',
-					'term_slugs' => array(
-						'test-term',
-					),
-					'filters'    => array(
-						'force_delete' => false,
-						'limit_to'     => 0,
-						'restrict'     => false,
-						'date_op'      => '',
-						'days'         => '',
-					),
-				),
-				array(
-					'posts_deleted' => 10,
-					'trashed'       => 10,
-					'published'     => 5,
-				),
-			),
-
-			// Deleting posts from a multiple taxonomy term custom post type and default taxonomy.
-			array(
-				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
-						array(
-							'term'            => 'Test Term',
-							'term_slug'       => 'test-term',
-							'number_of_posts' => 10,
-							'post_args'       => array(),
-						),
-						array(
-							'term'            => 'Another Term',
-							'term_slug'       => 'another-term',
-							'number_of_posts' => 5,
-							'post_args'       => array(),
-						),
-						array(
-							'term'            => 'Another Term 2',
-							'term_slug'       => 'another-term-2',
-							'number_of_posts' => 3,
-							'post_args'       => array(),
-						),
-					),
-				),
-				array(
-					'post_type'  => 'custom_post',
-					'taxonomy'   => 'category',
-					'term_slugs' => array(
-						'test-term',
-						'another-term',
-					),
-					'filters'    => array(
-						'force_delete' => false,
-						'limit_to'     => 0,
-						'restrict'     => false,
-						'date_op'      => '',
-						'days'         => '',
-					),
-				),
-				array(
-					'posts_deleted' => 15,
-					'trashed'       => 15,
-					'published'     => 3,
-				),
-			),
-
 			// Deleting posts that are older than x days.
 			array(
 				array(
@@ -515,16 +685,17 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		);
 	}
 
+
 	/**
 	 * Test various test cases for deleting posts by taxonomy.
 	 *
-	 * @dataProvider provide_data_to_test_deletion_of_posts_by_taxonomy
-	 *
-	 * @param array $setup      Create posts and taxonomies arguments.
-	 * @param array $operations User operations.
-	 * @param array $expected   Expected output for respective operations.
+	 * @param array $setup         Create posts and taxonomies arguments.
+	 * @param array $operations    User operations.
+	 * @param array $expected      Expected output for respective operations.
+	 * @param array $force_delete  Flag for delete/trash.
+	 * @return void
 	 */
-	public function test_deletion_of_posts_by_taxonomy( $setup, $operations, $expected ) {
+	private function delete_or_trash( $setup, $operations, $expected, $force_delete ) {
 		$post_type = $setup['post_type'];
 		$taxonomy  = $setup['taxonomy'];
 		$terms     = $setup['terms'];
@@ -548,6 +719,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			'post_type'          => $operations['post_type'],
 			'selected_taxs'      => $operations['taxonomy'],
 			'selected_tax_terms' => $operations['term_slugs'],
+			'force_delete'       => $force_delete,
 		);
 
 		$delete_options = array_merge( $delete_options, $operations['filters'] );
@@ -555,10 +727,38 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( $expected['posts_deleted'], $posts_deleted );
 
-		$posts_in_trash = $this->get_posts_by_status( 'trash', $post_type );
+	}
+
+	/**
+	 * Test various test cases for deleting posts by taxonomy.
+	 *
+	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy
+	 *
+	 * @param array $setup      Create posts and taxonomies arguments.
+	 * @param array $operations User operations.
+	 * @param array $expected   Expected output for respective operations.
+	 */
+	public function test_deletion_of_posts_by_taxonomy( $setup, $operations, $expected ) {
+		$this->delete_or_trash( $setup, $operations, $expected, true );
+
+		$posts_in_published = $this->get_posts_by_status( 'publish', $setup['post_type'] );
+		$this->assertEquals( $expected['published'], count( $posts_in_published ) );
+	}
+
+	/**
+	 * Test various test cases for moving posts to trash by taxonomy.
+	 *
+	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy
+	 *
+	 * @param array $setup      Create posts and taxonomies arguments.
+	 * @param array $operations User operations.
+	 * @param array $expected   Expected output for respective operations.
+	 */
+	public function test_move_posts_to_trash_by_taxonomy( $setup, $operations, $expected ) {
+		$this->delete_or_trash( $setup, $operations, $expected, false );
+
+		$posts_in_trash = $this->get_posts_by_status( 'trash', $setup['post_type'] );
 		$this->assertEquals( $expected['trashed'], count( $posts_in_trash ) );
 
-		$posts_in_published = $this->get_posts_by_status( 'publish', $post_type );
-		$this->assertEquals( $expected['published'], count( $posts_in_published ) );
 	}
 }
