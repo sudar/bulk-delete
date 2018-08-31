@@ -773,6 +773,440 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			),
 		);
 	}
+
+	/**
+	 * Data provider for test_deletion_of_posts_by_taxonomy and test_move_posts_to_trash_by_taxonomy
+	 */
+	public function provide_data_to_test_variations_by_built_in_taxonomy_with_date_and_batch_filter() {
+		return array(
+			/**
+			 * (+ve) Case: Deleting posts that are older than x days from a single taxonomy term,
+			 * built-in post type and built-in taxonomy in batches.
+			 */
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 75,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-5 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 25,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 50,
+							'post_args'       => array(),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+					),
+					'filters'    => array(
+						'limit_to' => 50,
+						'restrict' => true,
+						'date_op'  => 'before',
+						'days'     => '3',
+					),
+				),
+				array(
+					'posts_deleted' => 50,
+					'trashed'       => 50,
+					'published'     => 100,
+				),
+			),
+			/**
+			 * (-ve) Case: Deleting posts that are older than x days from a single taxonomy term,
+			 * built-in post type and built-in taxonomy in batches.
+			 */
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 75,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-5 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 25,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 50,
+							'post_args'       => array(),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+					),
+					'filters'    => array(
+						'limit_to' => 50,
+						'restrict' => true,
+						'date_op'  => 'before',
+						'days'     => '6',
+					),
+				),
+				array(
+					'posts_deleted' => 0,
+					'trashed'       => 0,
+					'published'     => 150,
+				),
+			),
+			/**
+			 * (+ve) Case: Deleting posts that are posted within x days from a multiple taxonomy terms,
+			 * built-in post type and built-in taxonomy in batches.
+			 */
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 40,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-10 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 20,
+							'post_args'       => array(),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-3 day' ) ),
+							),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+						'another-term',
+					),
+					'filters'    => array(
+						'limit_to' => 50,
+						'restrict' => true,
+						'date_op'  => 'after',
+						'days'     => '6',
+					),
+				),
+				array(
+					'posts_deleted' => 30,
+					'trashed'       => 30,
+					'published'     => 40,
+				),
+			),
+			/**
+			 * (-ve) Case: Deleting posts that are posted within x days from a multiple taxonomy terms,
+			 * built-in post type and built-in taxonomy in batches.
+			 */
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 40,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-5 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 20,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-10 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-3 day' ) ),
+							),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+						'another-term',
+					),
+					'filters'    => array(
+						'limit_to' => 50,
+						'restrict' => true,
+						'date_op'  => 'after',
+						'days'     => '2',
+					),
+				),
+				array(
+					'posts_deleted' => 0,
+					'trashed'       => 0,
+					'published'     => 70,
+				),
+			),
+			/**
+			 * (+ve) Case: Deleting posts that are posted within x days from a single taxonomy term,
+			 * custom post type and built-in taxonomy in batches.
+			 */
+			array(
+				array(
+					'post_type' => 'custom_post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 40,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-5 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 20,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s' ),
+							),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-3 day' ) ),
+							),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+					),
+					'filters'    => array(
+						'limit_to' => 50,
+						'restrict' => true,
+						'date_op'  => 'after',
+						'days'     => '6',
+					),
+				),
+				array(
+					'posts_deleted' => 50,
+					'trashed'       => 50,
+					'published'     => 20,
+				),
+			),
+			/**
+			 * (-ve) Case: Deleting posts that are posted within x days from a single taxonomy term,
+			 * custom post type and built-in taxonomy in batches.
+			 */
+			array(
+				array(
+					'post_type' => 'custom_post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 40,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-5 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 20,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-10 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-3 day' ) ),
+							),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+					),
+					'filters'    => array(
+						'limit_to' => 50,
+						'restrict' => true,
+						'date_op'  => 'after',
+						'days'     => '2',
+					),
+				),
+				array(
+					'posts_deleted' => 0,
+					'trashed'       => 0,
+					'published'     => 70,
+				),
+			),
+			/**
+			 * (+ve) Case: Deleting posts that are older than x days from multiple taxonomy terms,
+			 * custom post type and built-in taxonomy in batches.
+			 */
+			array(
+				array(
+					'post_type' => 'custom_post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 40,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-5 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 20,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-10 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-3 day' ) ),
+							),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+						'another-term',
+					),
+					'filters'    => array(
+						'limit_to' => 50,
+						'restrict' => true,
+						'date_op'  => 'before',
+						'days'     => '2',
+					),
+				),
+				array(
+					'posts_deleted' => 50,
+					'trashed'       => 50,
+					'published'     => 20,
+				),
+			),
+			/**
+			 * (-ve) Case: Deleting posts that are older than x days from multiple taxonomy terms,
+			 * custom post type and built-in taxonomy in batches.
+			 */
+			array(
+				array(
+					'post_type' => 'custom_post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 40,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-5 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Test Term',
+							'term_slug'       => 'test-term',
+							'number_of_posts' => 20,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-10 day' ) ),
+							),
+						),
+						array(
+							'term'            => 'Another Term',
+							'term_slug'       => 'another-term',
+							'number_of_posts' => 10,
+							'post_args'       => array(
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-3 day' ) ),
+							),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'term_slugs' => array(
+						'test-term',
+						'another-term',
+					),
+					'filters'    => array(
+						'limit_to' => 50,
+						'restrict' => true,
+						'date_op'  => 'before',
+						'days'     => '10',
+					),
+				),
+				array(
+					'posts_deleted' => 0,
+					'trashed'       => 0,
+					'published'     => 70,
+				),
+			),
+		);
+	}
 	/**
 	 * Data provider for test_deletion_of_posts_by_taxonomy
 	 */
@@ -955,52 +1389,12 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 					'published'     => 3,
 				),
 			),
-			// Deleting more posts delete them in batches.
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
-						array(
-							'term'            => 'Test Term',
-							'term_slug'       => 'test-term',
-							'number_of_posts' => 100,
-							'post_args'       => array(),
-						),
-						array(
-							'term'            => 'Another Term',
-							'term_slug'       => 'another-term',
-							'number_of_posts' => 50,
-							'post_args'       => array(),
-						),
-					),
-				),
-				array(
-					'post_type'  => 'post',
-					'taxonomy'   => 'category',
-					'term_slugs' => array(
-						'test-term',
-					),
-					'filters'    => array(
-						'force_delete' => false,
-						'limit_to'     => 50,
-						'restrict'     => false,
-						'date_op'      => '',
-						'days'         => '',
-					),
-				),
-				array(
-					'posts_deleted' => 50,
-					'trashed'       => 50,
-					'published'     => 100,
-				),
-			),
 		);
 	}
 
 
 	/**
-	 * Test various test cases for deleting posts by taxonomy.
+	 * Test various test cases for deleting/moving posts to trash by taxonomy.
 	 *
 	 * @param array $setup         Create posts and taxonomies arguments.
 	 * @param array $operations    User operations.
@@ -1051,6 +1445,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_without_filters
 	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_filter
+	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_and_batch_filter
 	 *
 	 * @param array $setup      Create posts and taxonomies arguments.
 	 * @param array $operations User operations.
@@ -1068,6 +1463,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_without_filters
 	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_filter
+	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_and_batch_filter
 	 *
 	 * @param array $setup      Create posts and taxonomies arguments.
 	 * @param array $operations User operations.
