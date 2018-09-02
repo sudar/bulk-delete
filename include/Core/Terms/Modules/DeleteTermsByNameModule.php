@@ -118,17 +118,16 @@ class DeleteTermsByNameModule extends TermsModule {
 	 * @return int[] Term ids.
 	 */
 	protected function get_terms_that_are_not_equal_to( $value, $options ) {
-		$name_like_args = array(
-			'name__like' => $value,
-			'taxonomy'   => $options['taxonomy'],
-		);
+		$term_ids = array();
+		$terms    = $this->get_all_terms( $options['taxonomy'] );
 
-		$query = array(
-			'taxonomy' => $options['taxonomy'],
-			'exclude'  => $this->query_terms( $name_like_args ),
-		);
+		foreach ( $terms as $term ) {
+			if ( $term->name != $value ) {
+				$term_ids[] = $term->term_id;
+			}
+		}
 
-		return $this->query_terms( $query );
+		return $term_ids;
 	}
 
 	/**
