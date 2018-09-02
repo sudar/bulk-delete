@@ -116,10 +116,13 @@ abstract class UsersModule extends BaseModule {
 			'count_total' => false,
 		);
 
-		// Exclude current user.
-		$current_user = wp_get_current_user();
-		if ( $current_user instanceof \WP_User ) {
-			$options['exclude'] = array( $current_user->ID );
+		$current_user_id = get_current_user_id();
+		if ( $current_user_id > 0 ) {
+			if ( isset( $options['exclude'] ) ) {
+				$options['exclude'] = array_merge( $options['exclude'], array( $current_user_id ) );
+			} else {
+				$options['exclude'] = array( $current_user_id );
+			}
 		}
 
 		$options = wp_parse_args( $options, $defaults );
