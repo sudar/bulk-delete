@@ -9,6 +9,10 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  *
  * Tests \BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule
  *
+ * Internal note.
+ * For future tests don't follow the structure in this file (ie) creating lot of fields and reusing them in tests.
+ * Instead use Data Provider..
+ *
  * @since 6.0.0
  */
 class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
@@ -1582,11 +1586,9 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 1,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 1,
 				),
 			),
-
 			array(
 				array(
 					'delete_options' => array(
@@ -1599,8 +1601,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 3,
-					'count_of_deleted_users_in_batch_2' => 1,
+					'total_deleted_users' => 4,
 				),
 			),
 			array(
@@ -1615,8 +1616,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 3,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 3,
 				),
 			),
 			array(
@@ -1631,8 +1631,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 4,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 4,
 				),
 			),
 			array(
@@ -1647,8 +1646,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 2,
-					'count_of_deleted_users_in_batch_2' => 1,
+					'total_deleted_users' => 3,
 				),
 			),
 			array(
@@ -1663,8 +1661,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 1,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 2,
 				),
 			),
 		);
@@ -1723,15 +1720,14 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( array( $this->subscriber_4, $this->subscriber_8 ), wp_list_pluck( $users_with_meta_value_the_green_hulk, 'ID' ) );
 
 		$delete_options = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
-		// 1st Batch deletion.
-		$count_of_deleted_users = $this->module->delete( $delete_options );
 
-		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_1'], $count_of_deleted_users );
+		// 1st Batch deletion.
+		$deleted_users_in_batch_1 = $this->module->delete( $delete_options );
 
 		// 2nd Batch deletion.
-		$count_of_deleted_users = $this->module->delete( $delete_options );
+		$deleted_users_in_batch_2 = $this->module->delete( $delete_options );
 
-		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_2'], $count_of_deleted_users );
+		$this->assertEquals( $expected_output['total_deleted_users'], $deleted_users_in_batch_1 + $deleted_users_in_batch_2 );
 	}
 
 	/**
@@ -1755,8 +1751,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 1,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 1,
 				),
 			),
 
@@ -1772,8 +1767,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 3,
-					'count_of_deleted_users_in_batch_2' => 3,
+					'total_deleted_users' => 6,
 				),
 			),
 			array(
@@ -1788,8 +1782,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 2,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 2,
 				),
 			),
 			array(
@@ -1804,8 +1797,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 2,
-					'count_of_deleted_users_in_batch_2' => 1,
+					'total_deleted_users' => 3,
 				),
 			),
 			array(
@@ -1820,8 +1812,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 2,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 2,
 				),
 			),
 			array(
@@ -1836,8 +1827,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 1,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 1,
 				),
 			),
 		);
@@ -1954,15 +1944,14 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 1, count( $subscriber_8_posts ) );
 
 		$delete_options = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
-		// 1st Batch deletion.
-		$count_of_deleted_users = $this->module->delete( $delete_options );
 
-		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_1'], $count_of_deleted_users );
+		// 1st Batch deletion.
+		$deleted_users_in_batch_1 = $this->module->delete( $delete_options );
 
 		// 2nd Batch deletion.
-		$count_of_deleted_users = $this->module->delete( $delete_options );
+		$deleted_users_in_batch_2 = $this->module->delete( $delete_options );
 
-		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_2'], $count_of_deleted_users );
+		$this->assertEquals( $expected_output['total_deleted_users'], $deleted_users_in_batch_1 + $deleted_users_in_batch_2 );
 	}
 
 	/**
@@ -1988,8 +1977,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 1,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 1,
 				),
 			),
 
@@ -2007,8 +1995,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 2,
-					'count_of_deleted_users_in_batch_2' => 1,
+					'total_deleted_users' => 3,
 				),
 			),
 			array(
@@ -2025,8 +2012,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 2,
-					'count_of_deleted_users_in_batch_2' => 1,
+					'total_deleted_users' => 3,
 				),
 			),
 			array(
@@ -2043,8 +2029,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 1,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 1,
 				),
 			),
 			array(
@@ -2061,8 +2046,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 1,
-					'count_of_deleted_users_in_batch_2' => 1,
+					'total_deleted_users' => 2,
 				),
 			),
 			array(
@@ -2079,8 +2063,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'count_of_deleted_users_in_batch_1' => 1,
-					'count_of_deleted_users_in_batch_2' => 0,
+					'total_deleted_users' => 1,
 				),
 			),
 		);
@@ -2199,13 +2182,11 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 		$delete_options = wp_parse_args( $input['delete_options'], $this->common_filter_defaults );
 
 		// 1st Batch deletion.
-		$count_of_deleted_users = $this->module->delete( $delete_options );
-
-		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_1'], $count_of_deleted_users );
+		$deleted_users_in_batch_1 = $this->module->delete( $delete_options );
 
 		// 2nd Batch deletion.
-		$count_of_deleted_users = $this->module->delete( $delete_options );
+		$deleted_users_in_batch_2 = $this->module->delete( $delete_options );
 
-		$this->assertEquals( $expected_output['count_of_deleted_users_in_batch_2'], $count_of_deleted_users );
+		$this->assertEquals( $expected_output['total_deleted_users'], $deleted_users_in_batch_1 + $deleted_users_in_batch_2 );
 	}
 }
