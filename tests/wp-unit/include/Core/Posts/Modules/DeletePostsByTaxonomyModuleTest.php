@@ -786,7 +786,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	 * Data provider to test posts by built-in taxonomy with date and batch filter
 	 * can be deleted/trashed.
 	 */
-	public function provide_data_to_test_variations_by_built_in_taxonomy_with_date_and_batch_filter() {
+	public function provide_data_to_test_variations_by_built_in_taxonomy_with_date_filter_and_in_batches() {
 		return array(
 			/**
 			 * (+ve) Case: Deleting posts that are older than x days from a single taxonomy term,
@@ -1981,7 +1981,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	 * Data provider to test posts by custom taxonomy with date and batch filter
 	 * can be deleted/trashed.
 	 */
-	public function provide_data_to_test_variations_by_custom_taxonomy_with_date_and_batch_filter() {
+	public function provide_data_to_test_variations_by_custom_taxonomy_with_date_filter_and_in_batches() {
 		return array(
 			/**
 			 * (+ve) Case: Deleting posts that are posted within last x days from a single taxonomy term,
@@ -2423,7 +2423,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	 * @param array $force_delete  Flag for delete/trash.
 	 * @return void
 	 */
-	private function delete_or_trash( $setup, $operations, $expected, $force_delete ) {
+	protected function assert_post_deletion( $setup, $operations, $expected, $force_delete ) {
 		$post_type = $setup['post_type'];
 		$taxonomy  = $setup['taxonomy'];
 		$terms     = $setup['terms'];
@@ -2432,17 +2432,19 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 		foreach ( $terms as $term ) {
 			$matched_term_array = term_exists( $term['term'], $taxonomy );
-			if ( null === $matched_term_array ) {
-				$matched_term_array = wp_insert_term( $term['term'], $taxonomy );
+			if ( ! is_array( $matched_term_array ) ) {
+				wp_insert_term( $term['term'], $taxonomy );
 			}
 
 			for ( $i = 0; $i < $term['number_of_posts']; $i ++ ) {
-				$post_args = array(
+				$post_type_args = array(
 					'post_type' => $post_type,
 				);
-				$post_args = array_merge( $post_args, $term['post_args'] );
-				$post      = $this->factory->post->create( $post_args );
-				wp_set_object_terms( $post, $term['term'], $taxonomy );
+
+				$post_args = array_merge( $post_type_args, $term['post_args'] );
+				$post_id   = $this->factory->post->create( $post_args );
+
+				wp_set_object_terms( $post_id, $term['term'], $taxonomy );
 			}
 		}
 
@@ -2457,7 +2459,6 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 		$posts_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( $expected['posts_deleted'], $posts_deleted );
-
 	}
 
 	/**
@@ -2465,20 +2466,20 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_without_filters
 	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_filter
-	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_and_batch_filter
+	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_filter_and_in_batches
 	 * @dataProvider provide_data_to_test_variations_by_custom_taxonomy_without_filters
 	 * @dataProvider provide_data_to_test_variations_by_custom_taxonomy_with_date_filter
-	 * @dataProvider provide_data_to_test_variations_by_custom_taxonomy_with_date_and_batch_filter
+	 * @dataProvider provide_data_to_test_variations_by_custom_taxonomy_with_date_filter_and_in_batches
 	 *
 	 * @param array $setup      Create posts and taxonomies arguments.
 	 * @param array $operations User operations.
 	 * @param array $expected   Expected output for respective operations.
 	 */
 	public function test_deletion_of_posts_by_taxonomy( $setup, $operations, $expected ) {
-		$this->delete_or_trash( $setup, $operations, $expected, true );
+		$this->assert_post_deletion( $setup, $operations, $expected, true );
 
-		$posts_in_published = $this->get_posts_by_status( 'publish', $setup['post_type'] );
-		$this->assertEquals( $expected['published'], count( $posts_in_published ) );
+		$published_posts = $this->get_posts_by_status( 'publish', $setup['post_type'] );
+		$this->assertEquals( $expected['published'], count( $published_posts ) );
 	}
 
 	/**
@@ -2486,20 +2487,19 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_without_filters
 	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_filter
-	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_and_batch_filter
+	 * @dataProvider provide_data_to_test_variations_by_built_in_taxonomy_with_date_filter_and_in_batches
 	 * @dataProvider provide_data_to_test_variations_by_custom_taxonomy_without_filters
 	 * @dataProvider provide_data_to_test_variations_by_custom_taxonomy_with_date_filter
-	 * @dataProvider provide_data_to_test_variations_by_custom_taxonomy_with_date_and_batch_filter
+	 * @dataProvider provide_data_to_test_variations_by_custom_taxonomy_with_date_filter_and_in_batches
 	 *
 	 * @param array $setup      Create posts and taxonomies arguments.
 	 * @param array $operations User operations.
 	 * @param array $expected   Expected output for respective operations.
 	 */
 	public function test_move_posts_to_trash_by_taxonomy( $setup, $operations, $expected ) {
-		$this->delete_or_trash( $setup, $operations, $expected, false );
+		$this->assert_post_deletion( $setup, $operations, $expected, false );
 
 		$posts_in_trash = $this->get_posts_by_status( 'trash', $setup['post_type'] );
 		$this->assertEquals( $expected['trashed'], count( $posts_in_trash ) );
-
 	}
 }
