@@ -2442,7 +2442,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 				);
 				$post_args = array_merge( $post_args, $term['post_args'] );
 				$post      = $this->factory->post->create( $post_args );
-				wp_set_object_terms( $post, $matched_term_array, $taxonomy );
+				wp_set_object_terms( $post, $term['term'], $taxonomy );
 			}
 		}
 
