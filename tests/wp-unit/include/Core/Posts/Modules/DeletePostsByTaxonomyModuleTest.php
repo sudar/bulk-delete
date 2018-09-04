@@ -1205,7 +1205,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'limit_to' => 50,
 						'restrict' => true,
 						'date_op'  => 'before',
-						'days'     => '10',
+						'days'     => '11',
 					),
 				),
 				array(
