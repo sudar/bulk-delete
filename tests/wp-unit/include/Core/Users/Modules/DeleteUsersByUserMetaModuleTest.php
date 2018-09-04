@@ -1661,7 +1661,7 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'total_deleted_users' => 2,
+					'total_deleted_users' => 1,
 				),
 			),
 		);
