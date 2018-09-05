@@ -204,6 +204,10 @@ jQuery(document).ready(function () {
 			return false;
 		}
 	};
+
+	BulkWP.validateUserRole = function(that) {
+		return (null !== jQuery(that).parent().prev().find(".enhanced-role-dropdown").val());
+	};	
 });
 
 BulkWP.jetpack = function() {
