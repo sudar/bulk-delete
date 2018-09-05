@@ -794,9 +794,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'category',
+					'batch_size' => 3,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -826,16 +827,16 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'test-term',
 					),
 					'filters'    => array(
-						'limit_to' => 50,
+						'limit_to' => 30,
 						'restrict' => true,
 						'date_op'  => 'before',
 						'days'     => '3',
 					),
 				),
 				array(
-					'posts_deleted' => 50,
-					'trashed'       => 50,
-					'published'     => 100,
+					'posts_deleted' => 75,
+					'trashed'       => 75,
+					'published'     => 75,
 				),
 			),
 			/**
@@ -844,9 +845,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'category',
+					'batch_size' => 1,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -894,9 +896,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'category',
+					'batch_size' => 3,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -929,7 +932,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'another-term',
 					),
 					'filters'    => array(
-						'limit_to' => 50,
+						'limit_to' => 10,
 						'restrict' => true,
 						'date_op'  => 'after',
 						'days'     => '6',
@@ -947,9 +950,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'category',
+					'batch_size' => 1,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -1002,9 +1006,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'batch_size' => 3,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -1038,16 +1043,16 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'test-term',
 					),
 					'filters'    => array(
-						'limit_to' => 50,
+						'limit_to' => 20,
 						'restrict' => true,
 						'date_op'  => 'after',
 						'days'     => '6',
 					),
 				),
 				array(
-					'posts_deleted' => 50,
-					'trashed'       => 50,
-					'published'     => 20,
+					'posts_deleted' => 60,
+					'trashed'       => 60,
+					'published'     => 10,
 				),
 			),
 			/**
@@ -1056,9 +1061,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'batch_size' => 1,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -1110,9 +1116,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'batch_size' => 3,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -1124,15 +1131,15 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
-							'number_of_posts' => 20,
+							'number_of_posts' => 10,
 							'post_args'       => array(
-								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-10 day' ) ),
+								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-1 day' ) ),
 							),
 						),
 						array(
 							'term'            => 'Another Term',
 							'term_slug'       => 'another-term',
-							'number_of_posts' => 10,
+							'number_of_posts' => 20,
 							'post_args'       => array(
 								'post_date' => date( 'Y-m-d H:i:s', strtotime( '-3 day' ) ),
 							),
@@ -1147,16 +1154,16 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'another-term',
 					),
 					'filters'    => array(
-						'limit_to' => 50,
+						'limit_to' => 20,
 						'restrict' => true,
 						'date_op'  => 'before',
 						'days'     => '2',
 					),
 				),
 				array(
-					'posts_deleted' => 50,
-					'trashed'       => 50,
-					'published'     => 20,
+					'posts_deleted' => 60,
+					'trashed'       => 60,
+					'published'     => 10,
 				),
 			),
 			/**
@@ -1165,9 +1172,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'category',
-					'terms'     => array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'category',
+					'batch_size' => 1,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -1989,9 +1997,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'custom_taxonomy',
-					'terms'     => array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'custom_taxonomy',
+					'batch_size' => 3,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -2021,16 +2030,16 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'test-term',
 					),
 					'filters'    => array(
-						'limit_to' => 50,
+						'limit_to' => 25,
 						'restrict' => true,
 						'date_op'  => 'after',
 						'days'     => '3',
 					),
 				),
 				array(
-					'posts_deleted' => 50,
-					'trashed'       => 50,
-					'published'     => 70,
+					'posts_deleted' => 75,
+					'trashed'       => 75,
+					'published'     => 45,
 				),
 			),
 			/**
@@ -2039,9 +2048,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'custom_taxonomy',
-					'terms'     => array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'custom_taxonomy',
+					'batch_size' => 1,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -2093,9 +2103,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'custom_taxonomy',
-					'terms'     => array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'custom_taxonomy',
+					'batch_size' => 2,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -2128,7 +2139,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'another-term',
 					),
 					'filters'    => array(
-						'limit_to' => 50,
+						'limit_to' => 20,
 						'restrict' => true,
 						'date_op'  => 'before',
 						'days'     => '2',
@@ -2146,9 +2157,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'custom_taxonomy',
-					'terms'     => array(
+					'post_type'  => 'post',
+					'taxonomy'   => 'custom_taxonomy',
+					'batch_size' => 1,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -2201,9 +2213,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'custom_taxonomy',
-					'terms'     => array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'custom_taxonomy',
+					'batch_size' => 2,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -2237,7 +2250,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'test-term',
 					),
 					'filters'    => array(
-						'limit_to' => 50,
+						'limit_to' => 20,
 						'restrict' => true,
 						'date_op'  => 'before',
 						'days'     => '2',
@@ -2255,9 +2268,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'custom_taxonomy',
-					'terms'     => array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'custom_taxonomy',
+					'batch_size' => 1,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -2309,9 +2323,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'custom_taxonomy',
-					'terms'     => array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'custom_taxonomy',
+					'batch_size' => 2,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -2344,7 +2359,7 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 						'another-term',
 					),
 					'filters'    => array(
-						'limit_to' => 50,
+						'limit_to' => 20,
 						'restrict' => true,
 						'date_op'  => 'after',
 						'days'     => '4',
@@ -2362,9 +2377,10 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 			 */
 			array(
 				array(
-					'post_type' => 'custom_post',
-					'taxonomy'  => 'custom_taxonomy',
-					'terms'     => array(
+					'post_type'  => 'custom_post',
+					'taxonomy'   => 'custom_taxonomy',
+					'batch_size' => 1,
+					'terms'      => array(
 						array(
 							'term'            => 'Test Term',
 							'term_slug'       => 'test-term',
@@ -2417,16 +2433,18 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test various test cases for deleting/moving posts to trash by taxonomy.
 	 *
-	 * @param array $setup         Create posts and taxonomies arguments.
-	 * @param array $operations    User operations.
-	 * @param array $expected      Expected output for respective operations.
-	 * @param array $force_delete  Flag for delete/trash.
+	 * @param array   $setup         Create posts and taxonomies arguments.
+	 * @param array   $operations    User operations.
+	 * @param array   $expected      Expected output for respective operations.
+	 * @param boolean $force_delete  Flag for delete/trash.
 	 * @return void
 	 */
 	protected function assert_post_deletion( $setup, $operations, $expected, $force_delete ) {
-		$post_type = $setup['post_type'];
-		$taxonomy  = $setup['taxonomy'];
-		$terms     = $setup['terms'];
+		$post_type     = $setup['post_type'];
+		$taxonomy      = $setup['taxonomy'];
+		$terms         = $setup['terms'];
+		$posts_deleted = 0;
+		$batch_run     = array_key_exists( 'batch_size', $setup ) ? $setup['batch_size'] : 1;
 
 		$this->register_post_type_and_taxonomy( $post_type, $taxonomy );
 
@@ -2457,7 +2475,9 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 
 		$delete_options = array_merge( $delete_options, $operations['filters'] );
 
-		$posts_deleted = $this->module->delete( $delete_options );
+		for ( $i = 0; $i < $batch_run; $i ++ ) {
+			$posts_deleted += $this->module->delete( $delete_options );
+		}
 		$this->assertEquals( $expected['posts_deleted'], $posts_deleted );
 	}
 
