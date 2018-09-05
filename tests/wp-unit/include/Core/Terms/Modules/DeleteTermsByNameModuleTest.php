@@ -43,6 +43,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 						'Term A',
 						'Term B',
 						'Term C',
+						'term A',
 					),
 				),
 				array(
@@ -53,6 +54,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				array(
 					'Term B',
 					'Term C',
+					'term A',
 				),
 			),
 			array(
@@ -73,6 +75,26 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				array(
 					'Term A',
 					'Term B',
+					'Term C',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term sample B',
+						'Term C',
+					),
+				),
+				array(
+					'search_term' => 'Term sample B',
+					'operator'    => 'equal_to',
+				),
+				1,
+				array(
+					'Term A',
 					'Term C',
 				),
 			),
@@ -163,6 +185,27 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				3,
 				array(),
 			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term sample B',
+						'Term Sample C',
+					),
+				),
+				array(
+					'search_term' => 'Term sample',
+					'operator'    => 'not_equal_to',
+				),
+				0,
+				array(
+					'Term A',
+					'Term sample B',
+					'Term Sample C',
+				),
+			),
 		);
 	}
 
@@ -215,6 +258,25 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'Term A',
 					'sample Term B',
 					'Term C',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term Sample B',
+						'Term Sample C',
+					),
+				),
+				array(
+					'search_term' => 'Term Sample',
+					'operator'    => 'starts_with',
+				),
+				2,
+				array(
+					'Term A',
 				),
 			),
 			array(
@@ -311,6 +373,27 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'Term C Sample',
 				),
 			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'sample Term A',
+						'Term B sample',
+						'Term C Sample',
+					),
+				),
+				array(
+					'search_term' => 'Term',
+					'operator'    => 'ends_with',
+				),
+				0,
+				array(
+					'sample Term A',
+					'Term B sample',
+					'Term C Sample',
+				),
+			),
 		);
 	}
 
@@ -329,7 +412,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'taxonomy'  => 'post_tag',
 					'terms'     => array(
 						'Term A',
-						'Term B',
+						'Term Sample B',
 						'Term C Sample',
 					),
 				),
@@ -337,10 +420,9 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'search_term' => 'Sample',
 					'operator'    => 'contains',
 				),
-				1,
+				2,
 				array(
 					'Term A',
-					'Term B',
 				),
 			),
 			array(
@@ -349,7 +431,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'taxonomy'  => 'link_category',
 					'terms'     => array(
 						'Term A',
-						'Term Sample B',
+						'Term B',
 						'Term C sample',
 					),
 				),
@@ -357,9 +439,10 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'search_term' => 'Sample',
 					'operator'    => 'contains',
 				),
-				1,
+				0,
 				array(
 					'Term A',
+					'Term B',
 					'Term C sample',
 				),
 			),
@@ -380,6 +463,27 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				1,
 				array(
 					'Term A',
+					'Term C Sample',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term B',
+						'Term C Sample',
+					),
+				),
+				array(
+					'search_term' => 'sample',
+					'operator'    => 'contains',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
 					'Term C Sample',
 				),
 			),
@@ -451,6 +555,27 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				2,
 				array(
+					'Term C Sample',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Sample Term A',
+						'Term Sample B',
+						'Term C Sample',
+					),
+				),
+				array(
+					'search_term' => 'Sample',
+					'operator'    => 'not_contains',
+				),
+				0,
+				array(
+					'Sample Term A',
+					'Term Sample B',
 					'Term C Sample',
 				),
 			),
