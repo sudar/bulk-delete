@@ -306,4 +306,17 @@ abstract class UsersModule extends BaseModule {
 
 	<?php
 	}
+
+	/**
+	 * Get unique user meta keys.
+	 *
+	 * @since 5.5
+	 *
+	 * @return array List of unique meta keys.
+	 */
+	protected function get_unique_user_meta_keys() {
+		global $wpdb;
+
+		return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->prefix}usermeta ORDER BY meta_key" );
+	}
 }

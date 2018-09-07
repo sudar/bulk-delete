@@ -46,7 +46,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
         <table class="optiontable">
 		<select name="smbd_u_meta_key" class="enhanced-dropdown">
 <?php
-		$meta_keys = $this->get_unique_meta_keys();
+		$meta_keys = $this->get_unique_user_meta_keys();
 		foreach ( $meta_keys as $meta_key ) {
 			printf( '<option value="%s">%s</option>', $meta_key, $meta_key );
 		}
@@ -152,19 +152,6 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 		$js_array['msg']['enterUserMetaValue']  = __( 'Please enter the value for the user meta field based on which you want to delete users', 'bulk-delete' );
 
 		return $js_array;
-	}
-
-	/**
-	 * Get unique user meta keys.
-	 *
-	 * @since 5.5
-	 *
-	 * @return array List of unique meta keys.
-	 */
-	private function get_unique_meta_keys() {
-		global $wpdb;
-
-		return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->prefix}usermeta ORDER BY meta_key" );
 	}
 
 	protected function get_success_message( $items_deleted ) {
