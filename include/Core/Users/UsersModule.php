@@ -116,6 +116,15 @@ abstract class UsersModule extends BaseModule {
 			'count_total' => false,
 		);
 
+		$current_user_id = get_current_user_id();
+		if ( $current_user_id > 0 ) {
+			if ( isset( $options['exclude'] ) ) {
+				$options['exclude'] = array_merge( $options['exclude'], array( $current_user_id ) );
+			} else {
+				$options['exclude'] = array( $current_user_id );
+			}
+		}
+
 		$options = wp_parse_args( $options, $defaults );
 
 		$wp_user_query = new \WP_User_Query( $options );

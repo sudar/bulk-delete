@@ -92,7 +92,7 @@ abstract class Renderer extends Fetcher {
 		global $wp_roles;
 		?>
 
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-dropdown"
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-role-dropdown"
 				multiple="multiple" data-placeholder="<?php _e( 'Select User Role', 'bulk-delete' ); ?>">
 
 			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
@@ -122,7 +122,7 @@ abstract class Renderer extends Fetcher {
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" class="enhanced-taxonomy-list" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
 			<?php foreach ( $taxonomies as $taxonomy ) : ?>
 				<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
-					<?php echo esc_html( $taxonomy->label ); ?>
+					<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
 				</option>
 			<?php endforeach; ?>
 		</select>
