@@ -246,7 +246,7 @@ abstract class BaseModule extends Renderer {
 	 * Render delete settings.
 	 */
 	protected function render_delete_settings() {
-		bd_render_delete_settings( $this->field_slug );
+		bd_render_delete_settings( $this->field_slug, $this->get_trash_url() );
 	}
 
 	/**
@@ -484,5 +484,16 @@ abstract class BaseModule extends Renderer {
 	 */
 	protected function get_cron_label() {
 		return $this->messages['cron_label'];
+	}
+
+	/**
+	 * Gets the Trash URL by the Item type.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return string The Trash URL by the respective Item type.
+	 */
+	protected function get_trash_url() {
+		return '';
 	}
 }

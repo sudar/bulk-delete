@@ -164,4 +164,11 @@ abstract class PostsModule extends BaseModule {
 
 		return count( $post_ids );
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function get_trash_url() {
+		return admin_url( 'edit.php?post_status=trash&post_type=post' );
+	}
 }
