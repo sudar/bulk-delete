@@ -70,24 +70,6 @@ function bd_render_delete_settings( $slug ) {
 }
 
 /**
- * Render "sticky option" setting fields.
- *
- * @since 6.0
- *
- * @param string $slug The slug to be used in field names.
- */
-function bd_render_sticky_settings( $slug ) {
-?>
-	<tr>
-		<td scope="row" colspan="2">
-			<input name="smbd_<?php echo $slug; ?>_sticky_option" value="hide" type="radio" checked> <?php _e( 'Remove Sticky', 'bulk-delete' ); ?>
-			<input name="smbd_<?php echo $slug; ?>_sticky_option" value="show" type="radio"> <?php _e( 'Delete Post', 'bulk-delete' ); ?>
-		</td>
-	</tr>
-<?php
-}
-
-/**
  * Render the "private post" setting fields.
  *
  * @since 5.5
