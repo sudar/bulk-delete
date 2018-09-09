@@ -178,9 +178,9 @@ abstract class BaseModule extends Renderer {
 	public function render_box() {
 		if ( $this->is_hidden() ) {
 			printf(
-				/* translators: 1 module url */
+				/* translators: 1 Module url */
 				__( 'This section just got enabled. Kindly <a href = "%1$s">refresh</a> the page to fully enable it.', 'bulk-delete' ),
-				'admin.php?page=' . $this->page_slug
+				'admin.php?page=' . esc_attr( $this->page_slug )
 			);
 
 			return;
@@ -447,6 +447,7 @@ abstract class BaseModule extends Renderer {
 	 */
 	protected function get_task_list_link() {
 		return sprintf(
+			/* translators: 1 Cron page url */
 			__( 'See the full list of <a href = "%s">scheduled tasks</a>', 'bulk-delete' ),
 			get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' . \Bulk_Delete::CRON_PAGE_SLUG
 		);
