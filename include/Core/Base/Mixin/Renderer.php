@@ -232,26 +232,36 @@ abstract class Renderer extends Fetcher {
 	/**
 	 * Render Sticky Posts dropdown.
 	 */
-	protected function render_sticky_post_dropdown() {
-		$posts = $this->get_sticky_posts();
+	protected function render_sticky_posts_dropdown() {
+		$sticky_posts = $this->get_sticky_posts();
 		?>
+
 		<table class="optiontable">
-			<tr>
-				<td scope="row">
-					<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="All">
-					<label>All</label>
-				</td>
-			</tr>
-			<?php
-			foreach ( $posts as $post ) :
-				$user = get_userdata( $post->post_author );
-				?>
-			<tr>
-				<td scope="row">
-				<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
-				<label><?php echo esc_html( $post->post_title . ' Published by ' . $user->display_name . ' on ' . $post->post_date ); ?></label>
-				</td>
-			</tr>
+			<?php if ( count( $sticky_posts ) > 1 ) : ?>
+				<tr>
+					<td scope="row">
+						<label>
+							<input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="all" checked>
+							<?php _e( 'All sticky posts', 'bulk-delete' ); ?>
+						</label>
+					</td>
+				</tr>
+			<?php endif; ?>
+
+			<?php foreach ( $sticky_posts as $post ) : ?>
+				<?php $author = get_userdata( $post->post_author ); ?>
+				<tr>
+					<td scope="row">
+						<label>
+							<input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
+							<?php
+								echo esc_html( $post->post_title ), ' - ',
+									__( 'Published on', 'bulk-delete' ), ' ', get_the_date( get_option( 'date_format' ), $post->ID ),
+									__( ' by ', 'bulk-delete' ), esc_html( $author->display_name );
+							?>
+						</label>
+					</td>
+				</tr>
 			<?php endforeach; ?>
 		</table>
 		<?php
@@ -311,12 +321,12 @@ abstract class Renderer extends Fetcher {
 	/**
 	 * Render sticky settings.
 	 */
-	protected function render_sticky_settings() {
+	protected function render_sticky_action_settings() {
 		?>
 		<tr>
 			<td scope="row" colspan="2">
 				<label>
-					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_sticky_action" value="remove" type="radio" checked>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_sticky_action" value="unsticky" type="radio" checked>
 					<?php _e( 'Remove Sticky', 'bulk-delete' ); ?>
 				</label>
 				<label>
