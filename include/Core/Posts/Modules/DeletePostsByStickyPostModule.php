@@ -37,7 +37,7 @@ class DeletePostsByStickyPostModule extends PostsModule {
 				<?php _e( 'There are no sticky post present in this WordPress installation.', 'bulk-delete' ); ?>
 			</h4>
 			<?php return; ?>
-		<?php endif; // phpcs:ignore ?>
+		<?php endif; // phpcs:ignore?>
 
 		<h4><?php _e( 'Select the sticky post that you want to delete', 'bulk-delete' ); ?></h4>
 
@@ -103,6 +103,7 @@ class DeletePostsByStickyPostModule extends PostsModule {
 			}
 
 			$this->did_unsticky_post_instead_of_delete = true;
+
 			return $posts_unsticked;
 		}
 
