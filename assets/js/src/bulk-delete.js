@@ -142,11 +142,11 @@ jQuery(document).ready(function () {
 		jQuery('#smbd_' + value + '_cron_freq, #smbd_' + value + '_cron_start, #smbd_' + value + '_cron').removeAttr('disabled');
 	} );
 
-	// Validate user action
+	// Validate user action.
 	jQuery('button[name="bd_action"]').click(function () {
 		var currentButton = jQuery(this).val(),
-		valid = false,
-		msg_key = "deletePostsWarning",
+			valid = false,
+			msg_key = "deletePostsWarning",
 			error_key = "selectPostOption";
 
 		if (currentButton in BulkWP.validators) {
@@ -159,7 +159,11 @@ jQuery(document).ready(function () {
 
 		if (valid) {
 			if (currentButton in BulkWP.pre_action_msg) {
-				msg_key = BulkWP.pre_action_msg[currentButton];
+				if ( jQuery.isFunction( BulkWP[ BulkWP.pre_action_msg[ currentButton ] ] ) ) {
+					msg_key = BulkWP[ BulkWP.pre_action_msg[ currentButton ] ]( this );
+				} else {
+					msg_key = BulkWP.pre_action_msg[ currentButton ];
+				}
 			}
 
 			return confirm(BulkWP.msg[msg_key]);
@@ -207,7 +211,7 @@ jQuery(document).ready(function () {
 
 	BulkWP.validateUserRole = function(that) {
 		return (null !== jQuery(that).parent().prev().find(".enhanced-role-dropdown").val());
-	};	
+	};
 });
 
 BulkWP.jetpack = function() {

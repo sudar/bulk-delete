@@ -14,11 +14,16 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 abstract class Renderer extends Fetcher {
 	/**
+	 * Slug for the form fields.
+	 *
+	 * @var string
+	 */
+	protected $field_slug;
+
+	/**
 	 * Render Post Types as radio buttons.
 	 */
 	protected function render_post_type_as_radios() {
-		$field_slug = $this->field_slug;
-
 		$post_types = $this->get_post_types();
 		?>
 
@@ -26,7 +31,7 @@ abstract class Renderer extends Fetcher {
 
 			<tr>
 				<td scope="row">
-					<input type="radio" name="<?php echo esc_attr( $field_slug ); ?>_post_type"
+					<input type="radio" name="<?php echo esc_attr( $this->field_slug ); ?>_post_type"
 						value="<?php echo esc_attr( $post_type->name ); ?>"
 						id="smbd_post_type_<?php echo esc_html( $post_type->name ); ?>">
 
@@ -227,26 +232,36 @@ abstract class Renderer extends Fetcher {
 	/**
 	 * Render Sticky Posts dropdown.
 	 */
-	protected function render_sticky_post_dropdown() {
-		$posts = $this->get_sticky_posts();
+	protected function render_sticky_posts_dropdown() {
+		$sticky_posts = $this->get_sticky_posts();
 		?>
+
 		<table class="optiontable">
-			<tr>
-				<td scope="row">
-					<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="All">
-					<label>All</label>
-				</td>
-			</tr>
-			<?php
-			foreach ( $posts as $post ) :
-				$user = get_userdata( $post->post_author );
-				?>
-			<tr>
-				<td scope="row">
-				<input type="checkbox" class="smbd_sticky_post_options" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
-				<label><?php echo esc_html( $post->post_title . ' Published by ' . $user->display_name . ' on ' . $post->post_date ); ?></label>
-				</td>
-			</tr>
+			<?php if ( count( $sticky_posts ) > 1 ) : ?>
+				<tr>
+					<td scope="row">
+						<label>
+							<input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="all" checked>
+							<?php echo __( 'All sticky posts', 'bulk-delete' ), ' (', count( $sticky_posts ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
+						</label>
+					</td>
+				</tr>
+			<?php endif; ?>
+
+			<?php foreach ( $sticky_posts as $post ) : ?>
+				<?php $author = get_userdata( $post->post_author ); ?>
+				<tr>
+					<td scope="row">
+						<label>
+							<input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="<?php echo absint( $post->ID ); ?>">
+							<?php
+								echo esc_html( $post->post_title ), ' - ',
+									__( 'Published on', 'bulk-delete' ), ' ', get_the_date( get_option( 'date_format' ), $post->ID ),
+									__( ' by ', 'bulk-delete' ), esc_html( $author->display_name );
+							?>
+						</label>
+					</td>
+				</tr>
 			<?php endforeach; ?>
 		</table>
 		<?php
@@ -301,5 +316,134 @@ abstract class Renderer extends Fetcher {
 		 * @param int Threshold.
 		 */
 		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
+	}
+
+	/**
+	 * Render sticky settings.
+	 */
+	protected function render_sticky_action_settings() {
+		?>
+		<tr>
+			<td scope="row" colspan="2">
+				<label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_sticky_action" value="unsticky" type="radio" checked>
+					<?php _e( 'Remove Sticky', 'bulk-delete' ); ?>
+				</label>
+				<label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_sticky_action" value="delete" type="radio">
+					<?php _e( 'Delete Post', 'bulk-delete' ); ?>
+				</label>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Render filtering table header.
+	 */
+	protected function render_filtering_table_header() {
+		bd_render_filtering_table_header();
+	}
+
+	/**
+	 * Render restrict settings.
+	 */
+	protected function render_restrict_settings() {
+		bd_render_restrict_settings( $this->field_slug, $this->item_type );
+	}
+
+	/**
+	 * Render delete settings.
+	 */
+	protected function render_delete_settings() {
+		bd_render_delete_settings( $this->field_slug );
+	}
+
+	/**
+	 * Render limit settings.
+	 */
+	protected function render_limit_settings() {
+		bd_render_limit_settings( $this->field_slug, $this->item_type );
+	}
+
+	/**
+	 * Render cron settings based on whether scheduler is present or not.
+	 */
+	protected function render_cron_settings() {
+		$disabled_attr = 'disabled';
+		if ( empty( $this->scheduler_url ) ) {
+			$disabled_attr = '';
+		}
+		?>
+
+		<tr>
+			<td scope="row" colspan="2">
+				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio"
+					checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
+				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="true" type="radio"
+					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" <?php echo esc_attr( $disabled_attr ); ?>> <?php _e( 'Schedule', 'bulk-delete' ); ?>
+				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start"
+					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value="now"
+					type="text" <?php echo esc_attr( $disabled_attr ); ?>><?php _e( 'repeat ', 'bulk-delete' ); ?>
+
+				<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq"
+						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" <?php echo esc_attr( $disabled_attr ); ?>>
+
+					<option value="-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
+					<?php
+					/**
+					 * List of cron schedules.
+					 *
+					 * @since 6.0.0
+					 *
+					 * @param array                                   $cron_schedules List of cron schedules.
+					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module         Module.
+					 */
+					$cron_schedules = apply_filters( 'bd_cron_schedules', wp_get_schedules(), $this );
+					?>
+
+					<?php foreach ( $cron_schedules as $key => $value ) : ?>
+						<option
+							value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value['display'] ); ?></option>
+					<?php endforeach; ?>
+				</select>
+
+				<?php if ( ! empty( $this->scheduler_url ) ) : ?>
+					<?php
+					$pro_class = 'bd-' . str_replace( '_', '-', $this->field_slug ) . '-pro';
+
+					/**
+					 * HTML class of the span that displays the 'Pro only feature' message.
+					 *
+					 * @since 6.0.0
+					 *
+					 * @param string                                  $pro_class  HTML class.
+					 * @param string                                  $field_slug Field Slug of module.
+					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module     Module.
+					 */
+					apply_filters( 'bd_pro_only_feature_class', $pro_class, $this->field_slug, $this )
+					?>
+
+					<span class="<?php echo sanitize_html_class( $pro_class ); ?>" style="color:red">
+						<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a
+							href="<?php echo esc_url( $this->scheduler_url ); ?>">Buy now</a>
+					</span>
+				<?php endif; ?>
+			</td>
+		</tr>
+
+		<tr>
+			<td scope="row" colspan="2">
+				<?php _e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time', 'bulk-delete' ); ?>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
+	 * Render submit button.
+	 */
+	protected function render_submit_button() {
+		bd_render_submit_button( $this->action );
 	}
 }

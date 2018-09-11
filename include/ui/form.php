@@ -61,27 +61,9 @@ function bd_render_restrict_settings( $slug, $item = 'posts' ) {
 function bd_render_delete_settings( $slug ) {
 ?>
 	<tr>
-		<td scope="row" colspan="2" class="<?php if( $slug == 'sticky_post' ){ ?>sticky_force_delete<?php }?>">
+		<td scope="row" colspan="2">
 			<input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio" checked> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
 			<input name="smbd_<?php echo $slug; ?>_force_delete" value="true" type="radio"> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
-		</td>
-	</tr>
-<?php
-}
-
-/**
- * Render "sticky option" setting fields.
- *
- * @since 6.0
- *
- * @param string $slug The slug to be used in field names.
- */
-function bd_render_sticky_settings( $slug ) {
-?>
-	<tr>
-		<td scope="row" colspan="2">
-			<input name="smbd_<?php echo $slug; ?>_sticky_option" value="hide" type="radio" checked> <?php _e( 'Remove Sticky', 'bulk-delete' ); ?>
-			<input name="smbd_<?php echo $slug; ?>_sticky_option" value="show" type="radio"> <?php _e( 'Delete Post', 'bulk-delete' ); ?>
 		</td>
 	</tr>
 <?php
