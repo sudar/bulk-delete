@@ -83,6 +83,12 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 			'number'   => $options['limit_to'],
 		);
 
+		$date_query = $this->get_date_query( $options );
+
+		if ( ! empty( $date_query ) ) {
+			$query['date_query'] = $date_query;
+		}
+
 		return $query;
 	}
 
