@@ -137,6 +137,10 @@ abstract class UsersModule extends BaseModule {
 	/**
 	 * Can the user be deleted based on the 'post count' option?
 	 *
+	 * This doesn't work well in batches.
+	 *
+	 * @link https://github.com/sudar/bulk-delete/issues/511 Github issue.
+	 *
 	 * @since  5.5.2
 	 * @access protected
 	 *
@@ -179,6 +183,10 @@ abstract class UsersModule extends BaseModule {
 
 	/**
 	 * Can the user be deleted based on the 'logged in date' option?
+	 *
+	 * This doesn't work well in batches.
+	 *
+	 * @link https://github.com/sudar/bulk-delete/issues/511 Github issue.
 	 *
 	 * @since  5.5.2
 	 * @access protected
