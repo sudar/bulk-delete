@@ -82,8 +82,10 @@ class DeleteUserMetaModule extends MetasModule {
 
 				<tr>
 					<td>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" value="true" type="checkbox">
-						<?php _e( 'Only delete user meta field from first ', 'bulk-delete' ); ?>
+						<label>
+							<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" value="true" type="checkbox">
+							<?php _e( 'Only delete user meta field from first ', 'bulk-delete' ); ?>
+						</label>
 						<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to"
 									disabled value="0" maxlength="4" size="4">
 						<?php _e( 'users.', 'bulk-delete' ); ?>
@@ -93,9 +95,14 @@ class DeleteUserMetaModule extends MetasModule {
 
 				<tr>
 					<td>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
+						<label>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio" checked="checked"> 
+						<?php _e( 'Delete now', 'bulk-delete' ); ?>
+						</label>
+						<label>
 						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="true" type="radio" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" disabled>
 						<?php _e( 'Schedule', 'bulk-delete' ); ?>
+						</label>
 						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value="now" type="text" disabled>
 						<?php _e( 'repeat ', 'bulk-delete' ); ?>
 						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" disabled>

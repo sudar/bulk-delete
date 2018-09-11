@@ -238,8 +238,10 @@ abstract class UsersModule extends BaseModule {
 ?>
 		<tr>
 			<td scope="row" colspan="2">
-			<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" value="true" type="checkbox">
-				<?php _e( 'Restrict to users who are registered in the site for at least ', 'bulk-delete' );?>
+				<label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" value="true" type="checkbox">
+					<?php _e( 'Restrict to users who are registered in the site for at least ', 'bulk-delete' ); ?>
+				</label>
 				<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days.', 'bulk-delete' );?>
 			</td>
 		</tr>
@@ -253,8 +255,10 @@ abstract class UsersModule extends BaseModule {
 ?>
 		<tr>
 			<td scope="row" colspan="2">
-			<input name="smbd_<?php echo $this->field_slug; ?>_login_restrict" id="smbd_<?php echo $this->field_slug; ?>_login_restrict" value="true" type="checkbox" <?php echo $disabled; ?>>
-				<?php _e( 'Restrict to users who have not logged in the last ', 'bulk-delete' );?>
+				<label>
+					<input name="smbd_<?php echo $this->field_slug; ?>_login_restrict" id="smbd_<?php echo $this->field_slug; ?>_login_restrict" value="true" type="checkbox" <?php echo $disabled; ?>>
+					<?php _e( 'Restrict to users who have not logged in the last ', 'bulk-delete' );?>
+				</label>
 				<input type="number" name="smbd_<?php echo $this->field_slug; ?>_login_days" id="smbd_<?php echo $this->field_slug; ?>_login_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days', 'bulk-delete' );?>.
 		<?php if ( 'disabled' == $disabled ) { ?>
 				<span style = "color:red">
@@ -283,10 +287,11 @@ abstract class UsersModule extends BaseModule {
 		<tr>
 			<td scope="row" colspan="2">
 				<input type="checkbox" value="true"
-				       name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"
-				       id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" class="user_restrict_to_no_posts_filter">
-
-				<?php _e( "Restrict to users who don't have any posts.", 'bulk-delete' ); ?>
+						name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"
+						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" class="user_restrict_to_no_posts_filter">
+				<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts">
+					<?php _e( "Restrict to users who don't have any posts.", 'bulk-delete' ); ?>
+				</label>
 			</td>
 		</tr>
 
