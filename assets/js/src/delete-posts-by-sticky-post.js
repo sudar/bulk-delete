@@ -6,14 +6,18 @@
 /*global BulkWP */
 jQuery( document ).ready( function () {
 	var stickyAction = jQuery( "input[name='smbd_sticky_post_sticky_action']" ),
-		deleteAction = stickyAction.parents( 'tr' ).next();
+		deleteAction = stickyAction.parents( 'tr' ).next(),
+		deleteButton = jQuery( "button[value='delete_posts_by_sticky_post']" );
 
+	deleteButton.html( 'Remove Sticky &raquo;' );
 	deleteAction.hide();
 
 	stickyAction.change( function () {
 		if ( 'delete' === stickyAction.filter( ':checked' ).val() ) {
+			deleteButton.html( 'Bulk Delete &raquo;' );
 			deleteAction.show();
 		} else {
+			deleteButton.html( 'Remove Sticky &raquo;' );
 			deleteAction.hide();
 		}
 	} );
