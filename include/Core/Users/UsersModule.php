@@ -53,6 +53,8 @@ abstract class UsersModule extends BaseModule {
 			return 0;
 		}
 
+		$query = $this->exclude_current_user( $query );
+
 		return $this->delete_users_from_query( $query, $options );
 	}
 
@@ -104,15 +106,6 @@ abstract class UsersModule extends BaseModule {
 		$defaults = array(
 			'count_total' => false,
 		);
-
-		$current_user_id = get_current_user_id();
-		if ( $current_user_id > 0 ) {
-			if ( isset( $options['exclude'] ) ) {
-				$options['exclude'] = array_merge( $options['exclude'], array( $current_user_id ) );
-			} else {
-				$options['exclude'] = array( $current_user_id );
-			}
-		}
 
 		$options = wp_parse_args( $options, $defaults );
 
@@ -299,5 +292,28 @@ abstract class UsersModule extends BaseModule {
 		global $wpdb;
 
 		return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->prefix}usermeta ORDER BY meta_key" );
+	}
+
+	/**
+	 * Exclude current user from being deleted.
+	 *
+	 * @param array $query WP_User_Query args.
+	 *
+	 * @return array Modified query args.
+	 */
+	protected function exclude_current_user( $query ) {
+		$current_user_id = get_current_user_id();
+
+		if ( $current_user_id <= 0 ) {
+			return $query;
+		}
+
+		if ( isset( $query['exclude'] ) ) {
+			$query['exclude'] = array_merge( $query['exclude'], array( $current_user_id ) );
+		} else {
+			$query['exclude'] = array( $current_user_id );
+		}
+
+		return $query;
 	}
 }
