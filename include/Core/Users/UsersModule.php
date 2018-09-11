@@ -140,7 +140,6 @@ abstract class UsersModule extends BaseModule {
 	 * This doesn't work well in batches.
 	 *
 	 * @link https://github.com/sudar/bulk-delete/issues/511 Github issue.
-	 *
 	 * @since  5.5.2
 	 * @access protected
 	 *
@@ -187,7 +186,6 @@ abstract class UsersModule extends BaseModule {
 	 * This doesn't work well in batches.
 	 *
 	 * @link https://github.com/sudar/bulk-delete/issues/511 Github issue.
-	 *
 	 * @since  5.5.2
 	 * @access protected
 	 *
