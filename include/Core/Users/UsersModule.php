@@ -76,10 +76,6 @@ abstract class UsersModule extends BaseModule {
 		}
 
 		foreach ( $users as $user ) {
-			if ( ! $this->can_delete_by_registered_date( $options, $user ) ) {
-				continue;
-			}
-
 			if ( ! $this->can_delete_by_logged_date( $options, $user ) ) {
 				continue;
 			}
@@ -164,29 +160,28 @@ abstract class UsersModule extends BaseModule {
 	}
 
 	/**
-	 * Can the user be deleted based on the 'registered date' option?
+	 * Get the date query part for WP_User_Query.
 	 *
-	 * @since  5.5.3
-	 * @access protected
+	 * Date query corresponds to user registered date.
 	 *
-	 * @param array    $delete_options Delete Options.
-	 * @param \WP_User $user           User object that needs to be deleted.
+	 * @since 6.0.0
 	 *
-	 * @return bool True if the user can be deleted, false otherwise.
+	 * @param array $options Delete options.
+	 *
+	 * @return array Date Query.
 	 */
-	protected function can_delete_by_registered_date( $delete_options, $user ) {
-		if ( $delete_options['registered_restrict'] ) {
-			$registered_days = $delete_options['registered_days'];
-
-			if ( $registered_days > 0 ) {
-				$user_meta = get_userdata( $user->ID );
-				if ( strtotime( $user_meta->user_registered ) > strtotime( '-' . $registered_days . 'days' ) ) {
-					return false;
-				}
-			}
+	protected function get_date_query( $options ) {
+		if ( ! $options['registered_restrict'] ) {
+			return array();
 		}
 
-		return true;
+		if ( $options['registered_days'] <= 0 ) {
+			return array();
+		}
+
+		return array(
+			'before' => $options['registered_days'] . ' days ago',
+		);
 	}
 
 	/**
