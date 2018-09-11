@@ -97,8 +97,12 @@ class DeletePostsByStickyPostModule extends PostsModule {
 		if ( 'unsticky' === $options['sticky_action'] ) {
 			$posts_unsticked = 0;
 
-			foreach ( $options['selected_posts'] as $post ) {
-				unstick_post( $post );
+			if ( in_array( 'all', $options['selected_posts'], true ) ) {
+				$options['selected_posts'] = get_option( 'sticky_posts' );
+			}
+
+			foreach ( $options['selected_posts'] as $post_id ) {
+				unstick_post( $post_id );
 				$posts_unsticked ++;
 			}
 
