@@ -28,13 +28,6 @@ abstract class UsersModule extends BaseModule {
 	 */
 	abstract protected function build_query( $options );
 
-	/**
-	 * Handle common filters.
-	 *
-	 * @param array $request Request array.
-	 *
-	 * @return array User options.
-	 */
 	protected function parse_common_filters( $request ) {
 		$options = array();
 
@@ -60,6 +53,8 @@ abstract class UsersModule extends BaseModule {
 			return 0;
 		}
 
+		$query = $this->exclude_current_user( $query );
+
 		return $this->delete_users_from_query( $query, $options );
 	}
 
@@ -83,10 +78,6 @@ abstract class UsersModule extends BaseModule {
 		}
 
 		foreach ( $users as $user ) {
-			if ( ! $this->can_delete_by_registered_date( $options, $user ) ) {
-				continue;
-			}
-
 			if ( ! $this->can_delete_by_logged_date( $options, $user ) ) {
 				continue;
 			}
@@ -146,6 +137,9 @@ abstract class UsersModule extends BaseModule {
 	/**
 	 * Can the user be deleted based on the 'post count' option?
 	 *
+	 * This doesn't work well in batches.
+	 *
+	 * @link https://github.com/sudar/bulk-delete/issues/511 Github issue.
 	 * @since  5.5.2
 	 * @access protected
 	 *
@@ -162,34 +156,36 @@ abstract class UsersModule extends BaseModule {
 	}
 
 	/**
-	 * Can the user be deleted based on the 'registered date' option?
+	 * Get the date query part for WP_User_Query.
 	 *
-	 * @since  5.5.3
-	 * @access protected
+	 * Date query corresponds to user registered date.
 	 *
-	 * @param array    $delete_options Delete Options.
-	 * @param \WP_User $user           User object that needs to be deleted.
+	 * @since 6.0.0
 	 *
-	 * @return bool True if the user can be deleted, false otherwise.
+	 * @param array $options Delete options.
+	 *
+	 * @return array Date Query.
 	 */
-	protected function can_delete_by_registered_date( $delete_options, $user ) {
-		if ( $delete_options['registered_restrict'] ) {
-			$registered_days = $delete_options['registered_days'];
-
-			if ( $registered_days > 0 ) {
-				$user_meta = get_userdata( $user->ID );
-				if ( strtotime( $user_meta->user_registered ) > strtotime( '-' . $registered_days . 'days' ) ) {
-					return false;
-				}
-			}
+	protected function get_date_query( $options ) {
+		if ( ! $options['registered_restrict'] ) {
+			return array();
 		}
 
-		return true;
+		if ( $options['registered_days'] <= 0 ) {
+			return array();
+		}
+
+		return array(
+			'before' => $options['registered_days'] . ' days ago',
+		);
 	}
 
 	/**
 	 * Can the user be deleted based on the 'logged in date' option?
 	 *
+	 * This doesn't work well in batches.
+	 *
+	 * @link https://github.com/sudar/bulk-delete/issues/511 Github issue.
 	 * @since  5.5.2
 	 * @access protected
 	 *
@@ -229,29 +225,28 @@ abstract class UsersModule extends BaseModule {
 ?>
 		<tr>
 			<td scope="row" colspan="2">
-			<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" value="true" type="checkbox">
-				<?php _e( 'Restrict to users who are registered in the site for at least ', 'bulk-delete' );?>
-				<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days.', 'bulk-delete' );?>
+				<label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" value="true" type="checkbox">
+					<?php _e( 'Restrict to users who are registered in the site for at least ', 'bulk-delete' ); ?>
+				</label>
+				<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days.', 'bulk-delete' ); ?>
 			</td>
 		</tr>
 
-		<?php
-		if ( bd_is_simple_login_log_present() ) {
-			$disabled = '';
-		} else {
-			$disabled = 'disabled';
-		}
-?>
 		<tr>
 			<td scope="row" colspan="2">
-			<input name="smbd_<?php echo $this->field_slug; ?>_login_restrict" id="smbd_<?php echo $this->field_slug; ?>_login_restrict" value="true" type="checkbox" <?php echo $disabled; ?>>
-				<?php _e( 'Restrict to users who have not logged in the last ', 'bulk-delete' );?>
-				<input type="number" name="smbd_<?php echo $this->field_slug; ?>_login_days" id="smbd_<?php echo $this->field_slug; ?>_login_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days', 'bulk-delete' );?>.
-		<?php if ( 'disabled' == $disabled ) { ?>
-				<span style = "color:red">
-					<?php _e( 'Need the free "Simple Login Log" Plugin', 'bulk-delete' ); ?> <a href = "http://wordpress.org/plugins/simple-login-log/">Install now</a>
-				</span>
-		<?php } ?>
+				<label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_login_restrict" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_login_restrict"
+							value="true" type="checkbox" <?php disabled( false, bd_is_simple_login_log_present() ); ?>>
+					<?php _e( 'Restrict to users who have not logged in the last ', 'bulk-delete' ); ?>
+				</label>
+				<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_login_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_login_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days', 'bulk-delete' ); ?>.
+
+				<?php if ( ! bd_is_simple_login_log_present() ) : ?>
+					<span style = "color:red">
+						<?php _e( 'Need the free "Simple Login Log" Plugin', 'bulk-delete' ); ?> <a href = "https://wordpress.org/plugins/simple-login-log/">Install now</a>
+					</span>
+				<?php endif; ?>
 			</td>
 		</tr>
 
@@ -274,10 +269,11 @@ abstract class UsersModule extends BaseModule {
 		<tr>
 			<td scope="row" colspan="2">
 				<input type="checkbox" value="true"
-				       name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"
-				       id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" class="user_restrict_to_no_posts_filter">
-
-				<?php _e( "Restrict to users who don't have any posts.", 'bulk-delete' ); ?>
+						name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts"
+						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts" class="user_restrict_to_no_posts_filter">
+				<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_no_posts">
+					<?php _e( "Restrict to users who don't have any posts.", 'bulk-delete' ); ?>
+				</label>
 			</td>
 		</tr>
 
@@ -296,5 +292,41 @@ abstract class UsersModule extends BaseModule {
 		</tr>
 
 	<?php
+	}
+
+	/**
+	 * Get unique user meta keys.
+	 *
+	 * @since 5.5
+	 *
+	 * @return array List of unique meta keys.
+	 */
+	protected function get_unique_user_meta_keys() {
+		global $wpdb;
+
+		return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->prefix}usermeta ORDER BY meta_key" );
+	}
+
+	/**
+	 * Exclude current user from being deleted.
+	 *
+	 * @param array $query WP_User_Query args.
+	 *
+	 * @return array Modified query args.
+	 */
+	protected function exclude_current_user( $query ) {
+		$current_user_id = get_current_user_id();
+
+		if ( $current_user_id <= 0 ) {
+			return $query;
+		}
+
+		if ( isset( $query['exclude'] ) ) {
+			$query['exclude'] = array_merge( $query['exclude'], array( $current_user_id ) );
+		} else {
+			$query['exclude'] = array( $current_user_id );
+		}
+
+		return $query;
 	}
 }
