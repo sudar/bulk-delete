@@ -242,7 +242,7 @@ abstract class Renderer extends Fetcher {
 					<td scope="row">
 						<label>
 							<input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="all" checked>
-							<?php _e( 'All sticky posts', 'bulk-delete' ); ?>
+							<?php echo __( 'All sticky posts', 'bulk-delete' ), ' (', count( $sticky_posts ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
 						</label>
 					</td>
 				</tr>

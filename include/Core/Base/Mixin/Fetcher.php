@@ -72,9 +72,18 @@ abstract class Fetcher {
 	 * @return array List of sticky posts.
 	 */
 	protected function get_sticky_posts() {
-		$posts = get_posts( array( 'post__in' => get_option( 'sticky_posts' ) ) );
+		$sticky_post_ids = get_option( 'sticky_posts' );
 
-		return $posts;
+		if ( empty( $sticky_post_ids ) ) {
+			return array();
+		}
+
+		return get_posts(
+			array(
+				'numberposts' => count( $sticky_post_ids ),
+				'post__in'    => $sticky_post_ids,
+			)
+		);
 	}
 
 	/**
