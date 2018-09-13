@@ -440,7 +440,7 @@ abstract class Renderer extends Fetcher {
 				$markup = sprintf( __( 'Want to add new a Cron schedule? %s', 'bulk-delete' ), $link );
 
 				$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
-				echo "&nbsp" . bd_generate_help_tooltip( $markup, $content );
+				echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
 				?>
 			</td>
 		</tr>
