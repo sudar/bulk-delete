@@ -49,6 +49,119 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 					'published_posts'           => 25,
 				),
 			),
+			// (+ve Case) For making selected posts non-sticky.
+			array(
+				array(
+					'non_sticky_posts' => 5,
+					'sticky_posts'     => 10,
+				),
+				array(
+					'selected_posts' => array( 'ids' ),
+					'sticky_action'  => 'unsticky',
+				),
+				array(
+					'deleted_or_modified_posts' => 5,
+					'trashed_posts'             => 0,
+					'sticky_posts'              => 5,
+					'published_posts'           => 15,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test sticky posts can be moved to trash.
+	 */
+	public function provide_data_to_test_sticky_posts_can_be_moved_to_trash() {
+		return array(
+			// (+ve Case) All sticky posts can be moved to trash.
+			array(
+				array(
+					'non_sticky_posts' => 10,
+					'sticky_posts'     => 15,
+				),
+				array(
+					'selected_posts' => array( 'all' ),
+					'sticky_action'  => 'delete',
+					'limit_to'       => 0,
+					'restrict'       => false,
+					'force_delete'   => false,
+				),
+				array(
+					'deleted_or_modified_posts' => 15,
+					'trashed_posts'             => 15,
+					'sticky_posts'              => 0,
+					'published_posts'           => 10,
+				),
+			),
+			// (+ve Case) Selected sticky posts can be moved to trash.
+			array(
+				array(
+					'non_sticky_posts' => 5,
+					'sticky_posts'     => 10,
+				),
+				array(
+					'selected_posts' => array( 'ids' ),
+					'sticky_action'  => 'delete',
+					'limit_to'       => 0,
+					'restrict'       => false,
+					'force_delete'   => false,
+				),
+				array(
+					'deleted_or_modified_posts' => 5,
+					'trashed_posts'             => 5,
+					'sticky_posts'              => 5,
+					'published_posts'           => 10,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test sticky posts can be deleted.
+	 */
+	public function provide_data_to_test_sticky_posts_can_be_deleted() {
+		return array(
+			// (+ve Case) All sticky posts can be deleted.
+			array(
+				array(
+					'non_sticky_posts' => 10,
+					'sticky_posts'     => 15,
+				),
+				array(
+					'selected_posts' => array( 'all' ),
+					'sticky_action'  => 'delete',
+					'limit_to'       => 0,
+					'restrict'       => false,
+					'force_delete'   => true,
+				),
+				array(
+					'deleted_or_modified_posts' => 15,
+					'trashed_posts'             => 0,
+					'sticky_posts'              => 0,
+					'published_posts'           => 10,
+				),
+			),
+			// (+ve Case) Selected sticky posts can be deleted.
+			array(
+				array(
+					'non_sticky_posts' => 5,
+					'sticky_posts'     => 10,
+				),
+				array(
+					'selected_posts' => array( 'ids' ),
+					'sticky_action'  => 'delete',
+					'limit_to'       => 0,
+					'restrict'       => false,
+					'force_delete'   => true,
+				),
+				array(
+					'deleted_or_modified_posts' => 5,
+					'trashed_posts'             => 0,
+					'sticky_posts'              => 5,
+					'published_posts'           => 10,
+				),
+			),
 		);
 	}
 
@@ -63,12 +176,14 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 	 * Test various test cases for deleting posts by taxonomy.
 	 *
 	 * @dataProvider provide_data_to_test_remove_sticky
+	 * @dataProvider provide_data_to_test_sticky_posts_can_be_moved_to_trash
+	 * @dataProvider provide_data_to_test_sticky_posts_can_be_deleted
 	 *
 	 * @param array $setup      Create posts using supplied arguments.
 	 * @param array $operations User operations.
 	 * @param array $expected   Expected output for respective operations.
 	 */
-	public function test_posts_can_be_made_nonsticky( $setup, $operations, $expected ) {
+	public function test_posts_can_be_deleted_by_sticky_posts( $setup, $operations, $expected ) {
 		$sticky_posts_count     = $setup['sticky_posts'];
 		$non_sticky_posts_count = $setup['non_sticky_posts'];
 
@@ -89,18 +204,21 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( $non_sticky_posts_count + $sticky_posts_count, count( $all_posts ) );
 
 		$delete_options = $operations;
+		if ( ! in_array( 'all', $operations['selected_posts'], true ) ) {
+			$delete_options['selected_posts'] = array( $post_ids[1], $post_ids[3], $post_ids[5], $post_ids[6], $post_ids[8] );
+		}
 
-		$posts_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( $expected['deleted_or_modified_posts'], $posts_deleted );
-
-		$trashed_posts = $this->get_posts_by_status( 'trash' );
-		$this->assertEquals( $expected['trashed_posts'], count( $trashed_posts ) );
+		$deleted_posts = $this->module->delete( $delete_options );
+		$this->assertEquals( $expected['deleted_or_modified_posts'], $deleted_posts );
 
 		$sticky_posts = $this->get_sticky_posts();
 		$this->assertEquals( $expected['sticky_posts'], count( $sticky_posts ) );
 
-		$all_posts = $this->get_posts_by_status();
-		$this->assertEquals( $expected['published_posts'], count( $all_posts ) );
+		$available_posts = $this->get_posts_by_status();
+		$this->assertEquals( $expected['published_posts'], count( $available_posts ) );
+
+		$trashed_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( $expected['trashed_posts'], count( $trashed_posts ) );
 	}
 
 }
