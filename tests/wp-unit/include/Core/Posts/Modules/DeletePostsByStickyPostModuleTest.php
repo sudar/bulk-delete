@@ -1,0 +1,106 @@
+<?php
+
+namespace BulkWP\BulkDelete\Core\Posts\Modules;
+
+use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
+
+/**
+ * Test Deletion of Posts by StickyPosts.
+ *
+ * Tests \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule
+ *
+ * @since 6.0.0
+ */
+class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
+
+	/**
+	 * The module that is getting tested.
+	 *
+	 * @var \BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule
+	 */
+	protected $module;
+
+	public function setUp() {
+		parent::setUp();
+
+		$this->module = new DeletePostsByStickyPostModule();
+	}
+
+	/**
+	 * Data provider to test posts can be made non-sticky.
+	 */
+	public function provide_data_to_test_remove_sticky() {
+		return array(
+			// (+ve Case) For making all posts non-sticky.
+			array(
+				array(
+					'non_sticky_posts' => 10,
+					'sticky_posts'     => 15,
+				),
+				array(
+					'selected_posts' => array( 'all' ),
+					'sticky_action'  => 'unsticky',
+
+				),
+				array(
+					'deleted_or_modified_posts' => 15,
+					'trashed_posts'             => 0,
+					'sticky_posts'              => 0,
+					'published_posts'           => 25,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Helper Method to be removed later
+	 */
+	protected function get_sticky_posts() {
+		return get_option( 'sticky_posts' );
+	}
+
+	/**
+	 * Test various test cases for deleting posts by taxonomy.
+	 *
+	 * @dataProvider provide_data_to_test_remove_sticky
+	 *
+	 * @param array $setup      Create posts using supplied arguments.
+	 * @param array $operations User operations.
+	 * @param array $expected   Expected output for respective operations.
+	 */
+	public function test_posts_can_be_made_nonsticky( $setup, $operations, $expected ) {
+		$sticky_posts_count     = $setup['sticky_posts'];
+		$non_sticky_posts_count = $setup['non_sticky_posts'];
+
+		$post_ids = $this->factory->post->create_many( $sticky_posts_count, array(
+			'post_status' => 'publish',
+		) );
+		update_option( 'sticky_posts', $post_ids );
+
+		$sticky_posts = $this->get_sticky_posts();
+		$this->assertEquals( $sticky_posts_count, count( $sticky_posts ) );
+
+		$published_posts = $this->factory->post->create_many( $non_sticky_posts_count, array(
+			'post_status' => 'publish',
+		) );
+		$this->assertEquals( $non_sticky_posts_count, count( $published_posts ) );
+
+		$all_posts = $this->get_posts_by_status();
+		$this->assertEquals( $non_sticky_posts_count + $sticky_posts_count, count( $all_posts ) );
+
+		$delete_options = $operations;
+
+		$posts_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( $expected['deleted_or_modified_posts'], $posts_deleted );
+
+		$trashed_posts = $this->get_posts_by_status( 'trash' );
+		$this->assertEquals( $expected['trashed_posts'], count( $trashed_posts ) );
+
+		$sticky_posts = $this->get_sticky_posts();
+		$this->assertEquals( $expected['sticky_posts'], count( $sticky_posts ) );
+
+		$all_posts = $this->get_posts_by_status();
+		$this->assertEquals( $expected['published_posts'], count( $all_posts ) );
+	}
+
+}
