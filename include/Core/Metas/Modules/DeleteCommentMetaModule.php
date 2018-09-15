@@ -146,6 +146,8 @@ class DeleteCommentMetaModule extends MetasModule {
 		$comments     = get_comments( $args );
 
 		foreach ( $comments as $comment ) {
+			// Todo: Don't delete all meta rows if there are duplicate meta keys.
+			// See https://github.com/sudar/bulk-delete/issues/515
 			if ( delete_comment_meta( $comment->comment_ID, $options['meta_key'] ) ) {
 				$meta_deleted ++;
 			}
