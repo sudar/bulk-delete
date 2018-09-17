@@ -38,7 +38,7 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 					'sticky_posts'     => 15,
 				),
 				array(
-					'selected_posts' => array( 'all' ),
+					'selected_posts' => 'all',
 					'sticky_action'  => 'unsticky',
 
 				),
@@ -56,7 +56,7 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 					'sticky_posts'     => 10,
 				),
 				array(
-					'selected_posts' => array( 'ids' ),
+					'selected_posts' => 'selected_posts_ids',
 					'sticky_action'  => 'unsticky',
 				),
 				array(
@@ -81,7 +81,7 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 					'sticky_posts'     => 15,
 				),
 				array(
-					'selected_posts' => array( 'all' ),
+					'selected_posts' => 'all',
 					'sticky_action'  => 'delete',
 					'limit_to'       => 0,
 					'restrict'       => false,
@@ -101,7 +101,7 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 					'sticky_posts'     => 10,
 				),
 				array(
-					'selected_posts' => array( 'ids' ),
+					'selected_posts' => 'selected_posts_ids',
 					'sticky_action'  => 'delete',
 					'limit_to'       => 0,
 					'restrict'       => false,
@@ -129,7 +129,7 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 					'sticky_posts'     => 15,
 				),
 				array(
-					'selected_posts' => array( 'all' ),
+					'selected_posts' => 'all',
 					'sticky_action'  => 'delete',
 					'limit_to'       => 0,
 					'restrict'       => false,
@@ -149,7 +149,7 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 					'sticky_posts'     => 10,
 				),
 				array(
-					'selected_posts' => array( 'ids' ),
+					'selected_posts' => 'selected_posts_ids',
 					'sticky_action'  => 'delete',
 					'limit_to'       => 0,
 					'restrict'       => false,
@@ -204,7 +204,9 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( $non_sticky_posts_count + $sticky_posts_count, count( $all_posts ) );
 
 		$delete_options = $operations;
-		if ( ! in_array( 'all', $operations['selected_posts'], true ) ) {
+		if ( 'all' === $operations['selected_posts'] ) {
+			$delete_options['selected_posts'] = array( 'all' );
+		} else {
 			$delete_options['selected_posts'] = array( $post_ids[1], $post_ids[3], $post_ids[5], $post_ids[6], $post_ids[8] );
 		}
 
@@ -214,7 +216,7 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 		$sticky_posts = $this->get_sticky_posts();
 		$this->assertEquals( $expected['sticky_posts'], count( $sticky_posts ) );
 
-		$available_posts = $this->get_posts_by_status();
+		$available_posts = $this->get_posts_by_status(); // Includes sticky posts.
 		$this->assertEquals( $expected['published_posts'], count( $available_posts ) );
 
 		$trashed_posts = $this->get_posts_by_status( 'trash' );
