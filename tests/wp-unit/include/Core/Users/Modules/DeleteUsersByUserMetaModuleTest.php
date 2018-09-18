@@ -16,7 +16,6 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  * @since 6.0.0
  */
 class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
-
 	/**
 	 * The module that is getting tested.
 	 *
@@ -356,7 +355,6 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 						'meta_compare'        => 'REGEXP',
 						'registered_restrict' => true,
 						'registered_days'     => 1,
-
 					),
 				),
 				array(
@@ -1452,7 +1450,6 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 						'registered_days'     => 4,
 						'no_posts'            => true,
 						'no_posts_post_types' => array( 'attachment' ),
-
 					),
 				),
 				array(
@@ -1561,7 +1558,6 @@ class DeleteUsersByUserMetaModuleTest extends WPCoreUnitTestCase {
 		$count_of_deleted_users = $this->module->delete( $delete_options );
 
 		$this->assertEquals( $expected_output['count_of_deleted_users'], $count_of_deleted_users );
-
 	}
 
 	/**

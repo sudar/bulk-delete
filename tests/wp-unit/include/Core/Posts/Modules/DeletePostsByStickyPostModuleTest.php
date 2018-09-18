@@ -12,7 +12,6 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  * @since 6.0.0
  */
 class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
-
 	/**
 	 * The module that is getting tested.
 	 *
@@ -40,7 +39,6 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 				array(
 					'selected_posts' => 'all',
 					'sticky_action'  => 'unsticky',
-
 				),
 				array(
 					'deleted_or_modified_posts' => 15,

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit bootstrap file for WP Mock
+ * PHPUnit bootstrap file for WP Mock.
  */
 
 // Plugin root.
