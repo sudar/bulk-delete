@@ -166,13 +166,6 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Helper Method to be removed later
-	 */
-	protected function get_sticky_posts() {
-		return get_option( 'sticky_posts' );
-	}
-
-	/**
 	 * Test various test cases for deleting posts by taxonomy.
 	 *
 	 * @dataProvider provide_data_to_test_remove_sticky
@@ -192,7 +185,7 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 		) );
 		update_option( 'sticky_posts', $post_ids );
 
-		$sticky_posts = $this->get_sticky_posts();
+		$sticky_posts = $this->get_sticky_post_ids();
 		$this->assertEquals( $sticky_posts_count, count( $sticky_posts ) );
 
 		$published_posts = $this->factory->post->create_many( $non_sticky_posts_count, array(
@@ -213,7 +206,7 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 		$deleted_posts = $this->module->delete( $delete_options );
 		$this->assertEquals( $expected['deleted_or_modified_posts'], $deleted_posts );
 
-		$sticky_posts = $this->get_sticky_posts();
+		$sticky_posts = $this->get_sticky_post_ids();
 		$this->assertEquals( $expected['sticky_posts'], count( $sticky_posts ) );
 
 		$available_posts = $this->get_posts_by_status(); // Includes sticky posts.
@@ -222,5 +215,4 @@ class DeletePostsByStickyPostModuleTest extends WPCoreUnitTestCase {
 		$trashed_posts = $this->get_posts_by_status( 'trash' );
 		$this->assertEquals( $expected['trashed_posts'], count( $trashed_posts ) );
 	}
-
 }
