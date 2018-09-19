@@ -12,7 +12,6 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  * @since 6.0.0
  */
 class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
-
 	/**
 	 * The module that is getting tested.
 	 *
@@ -689,7 +688,6 @@ class DeletePostsByStatusModuleTest extends WPCoreUnitTestCase {
 		$pending_posts = $this->get_posts_by_status( 'pending' );
 		$this->assertEquals( 10, count( $pending_posts ) );
 	}
-
 
 	/**
 	 * Test batch deletion with two post status.

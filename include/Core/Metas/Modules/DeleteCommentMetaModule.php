@@ -184,16 +184,6 @@ class DeleteCommentMetaModule extends MetasModule {
 			<tr>
 				<td>
 					<?php _e( 'Comment Meta Value ', 'bulk-delete' ); ?>
-					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op">
-						<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
-						<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
-						<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
-						<option value="<="><?php _e( 'less than or equal to', 'bulk-delete' ); ?></option>
-						<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
-						<option value=">="><?php _e( 'greater than or equal to', 'bulk-delete' ); ?></option>
-						<option value="LIKE"><?php _e( 'like', 'bulk-delete' ); ?></option>
-						<option value="NOT LIKE"><?php _e( 'not like', 'bulk-delete' ); ?></option>
-					</select>
 					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type">
 						<option value="CHAR"><?php _e( 'CHAR', 'bulk-delete' ); ?></option>
 						<option value="NUMERIC"><?php _e( 'NUMERIC', 'bulk-delete' ); ?></option>
@@ -205,7 +195,16 @@ class DeleteCommentMetaModule extends MetasModule {
 						<option value="DATETIME"><?php _e( 'DATETIME', 'bulk-delete' ); ?></option>
 						<option value="BINARY"><?php _e( 'BINARY', 'bulk-delete' ); ?></option>
 					</select>
-
+					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op">
+						<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+						<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+						<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
+						<option value="<="><?php _e( 'less than or equal to', 'bulk-delete' ); ?></option>
+						<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
+						<option value=">="><?php _e( 'greater than or equal to', 'bulk-delete' ); ?></option>
+						<option value="LIKE"><?php _e( 'like', 'bulk-delete' ); ?></option>
+						<option value="NOT LIKE"><?php _e( 'not like', 'bulk-delete' ); ?></option>
+					</select>
 					<input type="text" placeholder="<?php _e( 'Meta Value', 'bulk-delete' ); ?>"
 						name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
 						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value">

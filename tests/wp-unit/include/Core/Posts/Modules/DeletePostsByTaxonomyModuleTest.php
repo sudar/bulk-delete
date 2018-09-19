@@ -12,7 +12,6 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  * @since 6.0.0
  */
 class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
-
 	/**
 	 * The module that is getting tested.
 	 *
@@ -2433,10 +2432,11 @@ class DeletePostsByTaxonomyModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test various test cases for deleting/moving posts to trash by taxonomy.
 	 *
-	 * @param array   $setup         Create posts and taxonomies arguments.
-	 * @param array   $operations    User operations.
-	 * @param array   $expected      Expected output for respective operations.
-	 * @param boolean $force_delete  Flag for delete/trash.
+	 * @param array $setup        Create posts and taxonomies arguments.
+	 * @param array $operations   User operations.
+	 * @param array $expected     Expected output for respective operations.
+	 * @param bool  $force_delete Flag for delete/trash.
+	 *
 	 * @return void
 	 */
 	protected function assert_post_deletion( $setup, $operations, $expected, $force_delete ) {

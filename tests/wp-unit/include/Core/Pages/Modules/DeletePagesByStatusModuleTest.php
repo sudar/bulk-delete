@@ -12,7 +12,6 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  * @since 6.0.0
  */
 class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
-
 	/**
 	 * The module that is getting tested.
 	 *
@@ -356,7 +355,7 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test private pages can be trashed
+	 * Test private pages can be trashed.
 	 */
 	public function test_that_private_pages_can_be_trashed() {
 		$this->factory->post->create_many( 10, array(
@@ -385,7 +384,7 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test delete pages of single custom post status
+	 * Test delete pages of single custom post status.
 	 */
 	public function test_that_pages_from_single_custom_post_status_can_be_deleted() {
 		register_post_status( 'custom' );
@@ -437,11 +436,10 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		// Make sure other built-in post status pages are not deleted.
 		$published_pages = $this->get_pages_by_status();
 		$this->assertEquals( 10, count( $published_pages ) );
-
 	}
 
 	/**
-	 * Test pages of single custom post status can be trashed
+	 * Test pages of single custom post status can be trashed.
 	 */
 	public function test_that_pages_from_single_custom_post_status_can_be_trashed() {
 		register_post_status( 'custom' );
@@ -496,7 +494,7 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test delete pages of two custom post statuses
+	 * Test delete pages of two custom post statuses.
 	 */
 	public function test_that_pages_from_two_custom_post_statuses_can_be_deleted() {
 		register_post_status( 'custom_1' );
@@ -560,11 +558,10 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		// Make sure other built-in post status pages are not deleted/moved to trash.
 		$published_pages = $this->get_pages_by_status();
 		$this->assertEquals( 10, count( $published_pages ) );
-
 	}
 
 	/**
-	 * Test pages of two custom post statuses can be trashed
+	 * Test pages of two custom post statuses can be trashed.
 	 */
 	public function test_that_pages_from_two_custom_post_statuses_can_be_trashed() {
 		register_post_status( 'custom_1' );
@@ -628,11 +625,10 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 		// Make sure other built-in post status pages are not deleted/moved to trash.
 		$published_pages = $this->get_pages_by_status();
 		$this->assertEquals( 10, count( $published_pages ) );
-
 	}
 
 	/**
-	 * Test delete pages of one custom post status and one built-in post status
+	 * Test delete pages of one custom post status and one built-in post status.
 	 */
 	public function test_pages_from_custom_and_built_in_post_status_can_be_deleted_together() {
 		register_post_status( 'custom' );
@@ -698,7 +694,7 @@ class DeletePagesByStatusModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test pages of one custom post status and one built-in post status can be trashed
+	 * Test pages of one custom post status and one built-in post status can be trashed.
 	 */
 	public function test_pages_from_custom_and_built_in_post_status_can_be_trashed_together() {
 		register_post_status( 'custom' );
