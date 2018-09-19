@@ -86,7 +86,7 @@ class DeleteCommentMetaModule extends MetasModule {
 					</td>
 				</tr>
 
-				<?php $this->render_restrict_settings(); ?>
+				<?php $this->render_restrict_settings( 'comments' ); ?>
 				<?php $this->render_limit_settings(); ?>
 				<?php $this->render_cron_settings(); ?>
 
