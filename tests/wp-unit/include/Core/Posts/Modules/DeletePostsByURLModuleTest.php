@@ -12,7 +12,6 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  * @since 6.0.0
  */
 class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
-
 	/**
 	 * The module that is getting tested.
 	 *
@@ -27,7 +26,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test to trash post by one valid URL
+	 * Test to trash post by one valid URL.
 	 */
 	public function test_to_trash_one_valid_url() {
 		$post = $this->factory->post->create();
@@ -47,7 +46,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test to remove post by one valid URL
+	 * Test to remove post by one valid URL.
 	 */
 	public function test_to_delete_one_valid_url() {
 		$post = $this->factory->post->create();
@@ -67,7 +66,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test to trash post by one invalid URL
+	 * Test to trash post by one invalid URL.
 	 */
 	public function test_to_trash_one_invalid_url() {
 		$url = 'http://invalidurl.com/';
@@ -85,7 +84,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test to remove post by one invalid URL
+	 * Test to remove post by one invalid URL.
 	 */
 	public function test_to_delete_one_invalid_url() {
 		$url = 'http://invalidurl.com/';
@@ -102,9 +101,8 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, $posts_deleted );
 	}
 
-	
 	/**
-	 * Test to trash post by one valid URL and one invalid URL
+	 * Test to trash post by one valid URL and one invalid URL.
 	 */
 	public function test_to_trash_one_valid_and_one_invalid_url() {
 		$post      = $this->factory->post->create();
@@ -125,7 +123,7 @@ class DeletePostsByURLModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Test to remove post by one valid URL and one invalid URL
+	 * Test to remove post by one valid URL and one invalid URL.
 	 */
 	public function test_to_delete_one_valid_and_one_invalid_url() {
 		$post      = $this->factory->post->create();

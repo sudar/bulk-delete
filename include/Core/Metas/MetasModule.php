@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 abstract class MetasModule extends BaseModule {
 	protected $item_type = 'metas';
 
-	protected function render_restrict_settings() {
-		bd_render_restrict_settings( $this->field_slug, 'posts' );
+	protected function render_restrict_settings( $item = 'posts' ) {
+		bd_render_restrict_settings( $this->field_slug, $item );
 	}
 
 	/**

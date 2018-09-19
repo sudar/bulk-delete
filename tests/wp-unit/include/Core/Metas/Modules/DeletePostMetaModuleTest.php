@@ -12,7 +12,6 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  * @since 6.0.0
  */
 class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
-
 	/**
 	 * The module that is getting tested.
 	 *
@@ -43,7 +42,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'post_type'    => 'post', 
+			'post_type'    => 'post',
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
@@ -78,7 +77,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'post_type'    => 'post', 
+			'post_type'    => 'post',
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
@@ -109,7 +108,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'post_type'    => 'custom', 
+			'post_type'    => 'custom',
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
@@ -142,7 +141,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'post_type'    => 'custom', 
+			'post_type'    => 'custom',
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
@@ -174,7 +173,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'post_type'    => 'post', 
+			'post_type'    => 'post',
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
@@ -206,7 +205,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'post_type'    => 'post', 
+			'post_type'    => 'post',
 			'limit_to'     => -1,
 			'restrict'     => false,
 			'force_delete' => false,
@@ -236,7 +235,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'post_type'    => 'post', 
+			'post_type'    => 'post',
 			'limit_to'     => 10,
 			'restrict'     => false,
 			'force_delete' => false,
@@ -247,7 +246,7 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
-		
+
 		$this->assertEquals( 10, $meta_deleted );
 	}
 }

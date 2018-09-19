@@ -209,7 +209,6 @@ class BaseModuleTest extends WPCoreUnitTestCase {
 	 * @return array Data.
 	 */
 	public function provide_data_to_test_scheduling() {
-
 		$frequencies = array( '-1', 'hourly', 'twicedaily', 'daily' );
 
 		$now = date( 'Y-m-d H:i:s' );
