@@ -368,8 +368,10 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render cron settings based on whether scheduler is present or not.
+	 *
+	 * @param bool $is_scheduler_enabled Displays Scheduler helper text when TRUE.
 	 */
-	protected function render_cron_settings() {
+	protected function render_cron_settings( $is_scheduler_enabled = false ) {
 		$disabled_attr = 'disabled';
 		if ( empty( $this->scheduler_url ) ) {
 			$disabled_attr = '';
@@ -432,18 +434,20 @@ abstract class Renderer extends Fetcher {
 			</td>
 		</tr>
 
-		<tr>
-			<td scope="row" colspan="2">
-				<?php
-				_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time', 'bulk-delete' );
-				$link   = '<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/">' . __( 'Click here', 'bulk-delete' ) . '</a>';
-				$markup = sprintf( __( 'Want to add new a Cron schedule? %s', 'bulk-delete' ), $link );
+		<?php if ( $is_scheduler_enabled ) : ?>
+			<tr>
+				<td scope="row" colspan="2">
+					<?php
+					_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time', 'bulk-delete' );
+					$link   = '<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/">' . __( 'Click here', 'bulk-delete' ) . '</a>';
+					$markup = sprintf( __( 'Want to add new a Cron schedule? %s', 'bulk-delete' ), $link );
 
-				$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
-				echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
-				?>
-			</td>
-		</tr>
+					$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
+					echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
+					?>
+				</td>
+			</tr>
+		<?php endif; ?>
 		<?php
 	}
 
