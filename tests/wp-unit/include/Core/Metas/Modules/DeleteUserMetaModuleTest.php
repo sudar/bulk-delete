@@ -29,231 +29,243 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Add to test single user meta from admin user role.
+	 * Provide data to the `test_that_user_meta_can_be_deleted_from_a_single_user_by_role` function.
+	 *
+	 * @see test_that_user_meta_can_be_deleted_from_a_single_user_by_role
+	 *
+	 * @return array Data.
 	 */
-	public function test_that_meta_fields_can_be_delete_from_a_single_user_in_admin_role() {
+	public function provide_data_to_test_that_user_meta_can_be_deleted_from_a_single_user_by_role() {
+		return array(
+			array(
+				'administrator',
+			),
+			array(
+				'author',
+			),
+			array(
+				'subscriber',
+			),
+		);
+	}
+
+	/**
+	 * Test deleting meta from a single user.
+	 *
+	 * @param string $user_role User role.
+	 *
+	 * @dataProvider provide_data_to_test_that_user_meta_can_be_deleted_from_a_single_user_by_role
+	 */
+	public function test_that_user_meta_can_be_deleted_from_a_single_user_by_role( $user_role ) {
+		$matched_meta_key      = 'matched_key';
+		$matched_meta_value    = 'Matched Value';
+		$mismatched_meta_key   = 'Mismatched_key';
+		$mismatched_meta_value = 'Mismatched value';
+
 		// Create a user with admin role.
-		$user                   = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$matched_meta_key       = 'matched_key';
-		$matched_meta_value     = 'Matched Value';
-		$missmatched_meta_key   = 'missmatched_key';
-		$missmatched_meta_value = 'Missmatched value';
-
-		add_user_meta( $user, $matched_meta_key, $matched_meta_value );
-
-		add_user_meta( $user, $missmatched_meta_key, $missmatched_meta_value );
+		$user_id = $this->factory->user->create( array( 'role' => $user_role ) );
+		add_user_meta( $user_id, $matched_meta_key, $matched_meta_value );
+		add_user_meta( $user_id, $mismatched_meta_key, $mismatched_meta_value );
 
 		// call our method.
 		$delete_options = array(
-			'selected_roles' => array( 'administrator' ),
+			'selected_roles' => array( $user_role ),
 			'meta_key'       => $matched_meta_key,
 			'use_value'      => false,
 			'limit_to'       => 0,
 		);
 
-		$meta_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 1, $meta_deleted );
+		$metas_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 1, $metas_deleted );
 
-		$user_meta = get_user_meta( $user, $matched_meta_key, true );
-		$this->assertEquals( '', $user_meta );
-
-		$exist_user_meta = get_user_meta( $user, $missmatched_meta_key, true );
-		$this->assertEquals( $missmatched_meta_value, $exist_user_meta );
+		$this->assertFalse( metadata_exists( 'user', $user_id, $matched_meta_key ) );
+		$this->assertTrue( metadata_exists( 'user', $user_id, $mismatched_meta_key ) );
 	}
 
 	/**
-	 * Add to test single user meta from subscriber user role.
+	 * Test deleting meta from a single user with duplicate meta keys.
+	 *
+	 * Todo: Currently this doesn't work.
+	 *
+	 * @see          https://github.com/sudar/bulk-delete/issues/515 for details.
+	 *
+	 * @param string $user_role User role.
+	 *
+	 * @dataProvider provide_data_to_test_that_user_meta_can_be_deleted_from_a_single_user_by_role
 	 */
-	public function test_that_meta_fields_can_be_delete_from_a_single_user_in_subscriber_role() {
-		// Create a user with subscriber role .
-		$user                   = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-		$matched_meta_key       = 'matched_key';
-		$matched_meta_value     = 'Matched Value';
-		$missmatched_meta_key   = 'missmatched_key';
-		$missmatched_meta_value = 'Missmatched value';
+	public function test_that_user_meta_can_be_deleted_from_a_single_user_by_role_with_duplicate_meta_keys( $user_role ) {
+		$this->markTestSkipped(
+			'User metas with the same meta key with multiple values is not fully supported yet'
+		);
 
-		add_user_meta( $user, $matched_meta_key, $matched_meta_value );
+		$matched_meta_key      = 'matched_key';
+		$matched_meta_value_1  = 'Matched Value';
+		$matched_meta_value_2  = 'Matched Value';
+		$matched_meta_value_3  = 'Matched Value';
+		$mismatched_meta_key   = 'mismatched_key';
+		$mismatched_meta_value = 'Mismatched value';
 
-		add_user_meta( $user, $missmatched_meta_key, $missmatched_meta_value );
+		$user_id = $this->factory->user->create( array( 'role' => $user_role ) );
+		add_user_meta( $user_id, $matched_meta_key, $matched_meta_value_1 );
+		add_user_meta( $user_id, $matched_meta_key, $matched_meta_value_2 );
+		add_user_meta( $user_id, $matched_meta_key, $matched_meta_value_3 );
+
+		add_user_meta( $user_id, $mismatched_meta_key, $mismatched_meta_value );
 
 		// call our method.
 		$delete_options = array(
-			'selected_roles' => array( 'subscriber' ),
+			'selected_roles' => array( $user_role ),
 			'meta_key'       => $matched_meta_key,
 			'use_value'      => false,
 			'limit_to'       => 0,
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 1, $meta_deleted );
+		$this->assertEquals( 3, $meta_deleted );
 
-		$user_meta = get_user_meta( $user, $matched_meta_key, true );
-		$this->assertEquals( '', $user_meta );
-
-		$exist_user_meta = get_user_meta( $user, $missmatched_meta_key, true );
-		$this->assertEquals( $missmatched_meta_value, $exist_user_meta );
+		$this->assertFalse( metadata_exists( 'user', $user_id, $matched_meta_key ) );
+		$this->assertTrue( metadata_exists( 'user', $user_id, $mismatched_meta_key ) );
 	}
 
 	/**
-	 * Add to test multiple user meta from admin user role.
+	 * Add tests to delete user meta in batches.
+	 *
+	 * Todo: Handle cases where the metas to be deleted may not be in the front.
 	 */
-	public function test_that_meta_fields_can_be_delete_from_multiple_users_in_admin_role() {
-		// Create a user with admin role.
-		$user                   = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$matched_meta_key       = 'matched_key';
-		$matched_meta_value_1   = 'Matched Value';
-		$matched_meta_value_2   = 'Matched Value';
-		$matched_meta_value_3   = 'Matched Value';
-		$missmatched_meta_key   = 'missmatched_key';
-		$missmatched_meta_value = 'Missmatched value';
+	public function test_that_user_meta_can_be_deleted_in_batches() {
+		$matched_meta_key      = 'matched_key';
+		$matched_meta_value    = 'Matched Value';
+		$mismatched_meta_key   = 'Mismatched_key';
+		$mismatched_meta_value = 'Mismatched value';
 
-		add_user_meta( $user, $matched_meta_key, $matched_meta_value_1 );
-		add_user_meta( $user, $matched_meta_key, $matched_meta_value_2 );
-		add_user_meta( $user, $matched_meta_key, $matched_meta_value_3 );
+		$total_users = 50;
+		$batch_size  = 10;
 
-		add_user_meta( $user, $missmatched_meta_key, $missmatched_meta_value );
-
-		// call our method .
-		$delete_options = array(
-			'selected_roles' => array( 'administrator' ),
-			'meta_key'       => $matched_meta_key,
-			'use_value'      => false,
-			'limit_to'       => 0,
-		);
-
-		$meta_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 1, $meta_deleted );
-
-		$user_meta = get_user_meta( $user, $matched_meta_key, true );
-		$this->assertEquals( '', $user_meta );
-
-		$exist_user_meta = get_user_meta( $user, $missmatched_meta_key, true );
-		$this->assertEquals( $missmatched_meta_value, $exist_user_meta );
-	}
-
-	/**
-	 * Add to test multiple user meta from subscriber user role.
-	 */
-	public function test_that_meta_fields_can_be_delete_from_multiple_users_in_subscriber_role() {
-		// Create a user with admin role.
-		$user                   = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-		$matched_meta_key       = 'matched_key';
-		$matched_meta_value_1   = 'Matched Value';
-		$matched_meta_value_2   = 'Matched Value';
-		$matched_meta_value_3   = 'Matched Value';
-		$missmatched_meta_key   = 'missmatched_key';
-		$missmatched_meta_value = 'Missmatched value';
-
-		add_user_meta( $user, $matched_meta_key, $matched_meta_value_1 );
-		add_user_meta( $user, $matched_meta_key, $matched_meta_value_2 );
-		add_user_meta( $user, $matched_meta_key, $matched_meta_value_3 );
-
-		add_user_meta( $user, $missmatched_meta_key, $missmatched_meta_value );
-
-		// call our method .
-		$delete_options = array(
-			'selected_roles' => array( 'subscriber' ),
-			'meta_key'       => $matched_meta_key,
-			'use_value'      => false,
-			'limit_to'       => 0,
-		);
-
-		$meta_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 1, $meta_deleted );
-
-		$user_meta = get_user_meta( $user, $matched_meta_key, true );
-		$this->assertEquals( '', $user_meta );
-
-		$exist_user_meta = get_user_meta( $user, $missmatched_meta_key, true );
-		$this->assertEquals( $missmatched_meta_value, $exist_user_meta );
-	}
-
-	/**
-	 * Add to test delete user meta in batches.
-	 */
-	public function test_that_delete_usermeta_in_batches() {
-		// Create a user with subscriber role .
-		$users                  = $this->factory->user->create_many( 20, array( 'role' => 'subscriber' ) );
-		$matched_meta_key       = 'matched_key';
-		$matched_meta_value     = 'Matched Value';
-		$missmatched_meta_key   = 'missmatched_key';
-		$missmatched_meta_value = 'Missmatched value';
-
-		foreach ( $users as $user ) {
-			add_user_meta( $user, $matched_meta_key, $matched_meta_value );
-			add_user_meta( $user, $missmatched_meta_key, $missmatched_meta_value );
+		$matched_user_ids = $this->factory->user->create_many( $total_users / 2, array( 'role' => 'subscriber' ) );
+		foreach ( $matched_user_ids as $user_id ) {
+			add_user_meta( $user_id, $matched_meta_key, $matched_meta_value );
 		}
 
-		// call our method .
-		$delete_options = array(
-			'selected_roles' => array( 'subscriber' ),
-			'meta_key'       => $matched_meta_key,
-			'use_value'      => false,
-			'limit_to'       => 10,
-		);
+		$mismatched_user_ids = $this->factory->user->create_many( $total_users / 2, array( 'role' => 'subscriber' ) );
+		foreach ( $mismatched_user_ids as $user_id ) {
+			add_user_meta( $user_id, $mismatched_meta_key, $mismatched_meta_value );
+		}
 
-		$meta_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 10, $meta_deleted );
+		$metas_deleted = 0;
+		for ( $i = 0; $i < $total_users / $batch_size; $i ++ ) {
+			// call our method .
+			$delete_options = array(
+				'selected_roles' => array( 'subscriber' ),
+				'meta_key'       => $matched_meta_key,
+				'use_value'      => false,
+				'limit_to'       => $batch_size,
+			);
 
-		foreach ( $users as $user ) {
-			$exist_user_meta = get_user_meta( $user, $missmatched_meta_key, true );
-			$this->assertEquals( $missmatched_meta_value, $exist_user_meta );
+			$metas_deleted += $this->module->delete( $delete_options );
+		}
+
+		$this->assertEquals( $total_users / 2, $metas_deleted );
+
+		foreach ( $matched_user_ids as $user_id ) {
+			$this->assertFalse( metadata_exists( 'user', $user_id, $matched_meta_key ) );
+		}
+
+		foreach ( $mismatched_user_ids as $user_id ) {
+			$this->assertTrue( metadata_exists( 'user', $user_id, $mismatched_meta_key ) );
 		}
 	}
 
 	/**
-	 * Test deletion of user metas from more than one users in a single role.
+	 * Provide data to the `test_that_user_meta_can_be_deleted_from_a_single_user_by_role` function.
+	 *
+	 * @see test_that_meta_fields_can_be_delete_from_multiple_users_in_single_role
+	 *
+	 * @return array Data.
 	 */
-	public function test_that_meta_fields_can_be_delete_from_multiple_users_in_single_role() {
-		// Create a user with subscriber role .
-		$users                  = $this->factory->user->create_many( 10, array( 'role' => 'administrator' ) );
-		$matched_meta_key       = 'matched_key';
-		$matched_meta_value     = 'Matched Value';
-		$missmatched_meta_key   = 'missmatched_key';
-		$missmatched_meta_value = 'Missmatched value';
+	public function provide_data_to_test_that_meta_fields_can_be_delete_from_multiple_users_in_single_role() {
+		return array(
+			array(
+				array(
+					'role'  => 'administrator',
+					'count' => 10,
+				),
+			),
+			array(
+				array(
+					'role'  => 'author',
+					'count' => 10,
+				),
+			),
+			array(
+				array(
+					'role'  => 'subscriber',
+					'count' => 10,
+				),
+			),
+		);
+	}
 
-		foreach ( $users as $user ) {
-			add_user_meta( $user, $matched_meta_key, $matched_meta_value );
-			add_user_meta( $user, $missmatched_meta_key, $missmatched_meta_value );
+	/**
+	 * Test deleting meta from multiple user in a single user role.
+	 *
+	 * @param array $setup Setup data.
+	 *
+	 * @dataProvider provide_data_to_test_that_meta_fields_can_be_delete_from_multiple_users_in_single_role
+	 */
+	public function test_that_meta_fields_can_be_delete_from_multiple_users_in_single_role( $setup ) {
+		$matched_meta_key      = 'matched_key';
+		$matched_meta_value    = 'Matched Value';
+		$mismatched_meta_key   = 'Mismatched_key';
+		$mismatched_meta_value = 'Mismatched value';
+
+		$matched_user_ids = $this->factory->user->create_many( $setup['count'] / 2, array( 'role' => $setup['role'] ) );
+		foreach ( $matched_user_ids as $user_id ) {
+			add_user_meta( $user_id, $matched_meta_key, $matched_meta_value );
+		}
+
+		$mismatched_user_ids = $this->factory->user->create_many( $setup['count'] / 2, array( 'role' => $setup['role'] ) );
+		foreach ( $mismatched_user_ids as $user_id ) {
+			add_user_meta( $user_id, $mismatched_meta_key, $mismatched_meta_value );
 		}
 
 		// call our method .
 		$delete_options = array(
-			'selected_roles' => array( 'administrator' ),
+			'selected_roles' => array( $setup['role'] ),
 			'meta_key'       => $matched_meta_key,
 			'use_value'      => false,
 			'limit_to'       => 0,
 		);
 
-		$meta_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 10, $meta_deleted );
+		$metas_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( $setup['count'] / 2, $metas_deleted );
 
-		$user_meta = get_user_meta( $user, $matched_meta_key, true );
-		$this->assertEquals( '', $user_meta );
+		foreach ( $matched_user_ids as $user_id ) {
+			$this->assertFalse( metadata_exists( 'user', $user_id, $matched_meta_key ) );
+		}
 
-		foreach ( $users as $user ) {
-			$exist_user_meta = get_user_meta( $user, $missmatched_meta_key, true );
-			$this->assertEquals( $missmatched_meta_value, $exist_user_meta );
+		foreach ( $mismatched_user_ids as $user_id ) {
+			$this->assertTrue( metadata_exists( 'user', $user_id, $mismatched_meta_key ) );
 		}
 	}
 
 	/**
 	 * Test deletion of user metas from more than role, with easy role having one user.
 	 */
-	public function test_that_meta_fields_can_be_delete_from_multiple_users_in_multiple_role() {
-		$matched_meta_key       = 'matched_key';
-		$matched_meta_value     = 'Matched Value';
-		$missmatched_meta_key   = 'missmatched_key';
-		$missmatched_meta_value = 'Missmatched value';
+	public function test_that_meta_fields_can_be_delete_from_single_users_in_multiple_role() {
+		$matched_meta_key      = 'matched_key';
+		$matched_meta_value    = 'Matched Value';
+		$mismatched_meta_key   = 'Mismatched_key';
+		$mismatched_meta_value = 'Mismatched value';
+
+		$user_ids = array();
 
 		// Create a users in various user roles with meta data.
 		$roles = array( 'administrator', 'editor', 'author', 'contributor', 'subscriber' );
-		$users = array();
 		foreach ( $roles as $role ) {
-			$user = $this->factory->user->create( array( 'role' => $role ) );
-			add_user_meta( $user, $matched_meta_key, $matched_meta_value );
-			add_user_meta( $user, $missmatched_meta_key, $missmatched_meta_value );
-			$users[] = $user;
+			$user_id = $this->factory->user->create( array( 'role' => $role ) );
+			add_user_meta( $user_id, $matched_meta_key, $matched_meta_value );
+			add_user_meta( $user_id, $mismatched_meta_key, $mismatched_meta_value );
+			$user_ids[] = $user_id;
 		}
 
 		// call our method .
@@ -267,33 +279,31 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 5, $meta_deleted );
 
-		foreach ( $users as $user ) {
-			$user_meta = get_user_meta( $user, $matched_meta_key, true );
-			$this->assertEquals( '', $user_meta );
-
-			$exist_user_meta = get_user_meta( $user, $missmatched_meta_key, true );
-			$this->assertEquals( $missmatched_meta_value, $exist_user_meta );
+		foreach ( $user_ids as $user_id ) {
+			$this->assertFalse( metadata_exists( 'user', $user_id, $matched_meta_key ) );
+			$this->assertTrue( metadata_exists( 'user', $user_id, $mismatched_meta_key ) );
 		}
 	}
 
 	/**
 	 * Test deletion of user metas from more than role, with easy role having more than one user.
 	 */
-	public function test_that_meta_fields_can_be_delete_from_multiple_users_in_each_multiple_role() {
-		$matched_meta_key       = 'matched_key';
-		$matched_meta_value     = 'Matched Value';
-		$missmatched_meta_key   = 'missmatched_key';
-		$missmatched_meta_value = 'Missmatched value';
+	public function test_that_meta_fields_can_be_delete_from_multiple_users_in_multiple_role() {
+		$matched_meta_key      = 'matched_key';
+		$matched_meta_value    = 'Matched Value';
+		$mismatched_meta_key   = 'Mismatched_key';
+		$mismatched_meta_value = 'Mismatched value';
 
-		// Create a users in various user roles with meta data.
+		$user_ids = array();
+
+		// Create two users in various user roles with meta data.
 		$roles = array( 'administrator', 'editor', 'author', 'contributor', 'subscriber' );
-		$users = array();
 		foreach ( $roles as $role ) {
-			for ( $j = 0; $j < 2; $j++ ) {
-				$user = $this->factory->user->create( array( 'role' => $role ) );
-				add_user_meta( $user, $matched_meta_key, $matched_meta_value );
-				add_user_meta( $user, $missmatched_meta_key, $missmatched_meta_value );
-				$users[] = $user;
+			for ( $j = 0; $j < 2; $j ++ ) {
+				$user_id = $this->factory->user->create( array( 'role' => $role ) );
+				add_user_meta( $user_id, $matched_meta_key, $matched_meta_value );
+				add_user_meta( $user_id, $mismatched_meta_key, $mismatched_meta_value );
+				$user_ids[] = $user_id;
 			}
 		}
 
@@ -308,25 +318,22 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 10, $meta_deleted );
 
-		foreach ( $users as $user ) {
-			$user_meta = get_user_meta( $user, $matched_meta_key, true );
-			$this->assertEquals( '', $user_meta );
-
-			$exist_user_meta = get_user_meta( $user, $missmatched_meta_key, true );
-			$this->assertEquals( $missmatched_meta_value, $exist_user_meta );
+		foreach ( $user_ids as $user_id ) {
+			$this->assertFalse( metadata_exists( 'user', $user_id, $matched_meta_key ) );
+			$this->assertTrue( metadata_exists( 'user', $user_id, $mismatched_meta_key ) );
 		}
 	}
 
 	/**
 	 * Test deletion of user metas from one role, which has no users. Nothing should be deleted.
 	 */
-	public function test_that_meta_fields_can_be_deleted_from_user_role_does_not_have_users() {
+	public function test_that_nothing_gets_deleted_when_a_role_has_no_users() {
 		$matched_meta_key   = 'matched_key';
 		$matched_meta_value = 'Matched Value';
 
 		// Create a users with meta value.
-		$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-		add_user_meta( $user, $matched_meta_key, $matched_meta_value );
+		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		add_user_meta( $user_id, $matched_meta_key, $matched_meta_value );
 
 		// call our method .
 		$delete_options = array(
@@ -339,31 +346,31 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 0, $meta_deleted );
 
-		$exist_user_meta = get_user_meta( $user, $matched_meta_key, true );
-		$this->assertEquals( $matched_meta_value, $exist_user_meta );
+		$this->assertTrue( metadata_exists( 'user', $user_id, $matched_meta_key ) );
 	}
 
 	/**
 	 * Test deletion of user metas from more than one role, where each role has no users. Nothing should be deleted.
 	 */
-	public function test_that_meta_fields_can_be_deleted_from_multiple_user_role_does_not_have_users() {
+	public function test_that_nothing_gets_deleted_when_used_with_multiple_roles_each_having_no_users() {
 		$matched_meta_key   = 'matched_key';
 		$matched_meta_value = 'Matched Value';
 
-		// Create a users in various user roles with meta data.
-		$matched_roles     = array( 'subscriber' );
-		$missmatched_roles = array( 'administrator', 'editor', 'author', 'contributor' );
-		$users             = array();
+		$matched_roles    = array( 'subscriber' );
+		$mismatched_roles = array( 'administrator', 'editor', 'author', 'contributor' );
 
-		for ( $j = 0; $j < 2; $j++ ) {
-			$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-			add_user_meta( $user, $matched_meta_key, $matched_meta_value );
-			$users[] = $user;
+		$user_ids = array();
+		foreach ( $mismatched_roles as $role ) {
+			for ( $j = 0; $j < 2; $j ++ ) {
+				$user_id = $this->factory->user->create( array( 'role' => $role ) );
+				add_user_meta( $user_id, $matched_meta_key, $matched_meta_value );
+				$user_ids[] = $user_id;
+			}
 		}
 
 		// call our method.
 		$delete_options = array(
-			'selected_roles' => $missmatched_roles,
+			'selected_roles' => $matched_roles,
 			'meta_key'       => $matched_meta_key,
 			'use_value'      => false,
 			'limit_to'       => 0,
@@ -372,82 +379,8 @@ class DeleteUserMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 0, $meta_deleted );
 
-		foreach ( $users as $user ) {
-			$user_meta = get_user_meta( $user, $matched_meta_key, true );
-			$this->assertEquals( $matched_meta_value, $user_meta );
+		foreach ( $user_ids as $user_id ) {
+			$this->assertTrue( metadata_exists( 'user', $user_id, $matched_meta_key ) );
 		}
-	}
-
-	/**
-	 * Test deletion of user metas from more than one role, where one role doesn't have any users and other role has users. Nothing should be deleted.
-	 */
-	public function test_that_delete_multiple_users_metas_fields_can_be_deleted_from_multiple_user_role_no_users_and_have_users() {
-		$meta_key   = 'matched_key';
-		$meta_value = 'Matched Value';
-
-		// Create a users in various user roles with meta data.
-		$role_array_with_users    = array( 'subscriber', 'administrator' );
-		$role_array_without_users = array( 'editor', 'author', 'contributor' );
-		$users                    = array();
-
-		foreach ( $role_array_with_users as $role ) {
-			for ( $j = 0; $j < 2; $j++ ) {
-				$user = $this->factory->user->create( array( 'role' => $role ) );
-				add_user_meta( $user, $meta_key, $meta_value );
-				$users[] = $user;
-			}
-		}
-
-		// call our method.
-		$delete_options = array(
-			'selected_roles' => $role_array_without_users,
-			'meta_key'       => $meta_key,
-			'use_value'      => false,
-			'limit_to'       => 0,
-		);
-		$meta_deleted   = $this->module->delete( $delete_options );
-		$this->assertEquals( 0, $meta_deleted );
-
-		// call our method.
-		$delete_options = array(
-			'selected_roles' => $role_array_with_users,
-			'meta_key'       => $meta_key,
-			'use_value'      => false,
-			'limit_to'       => 0,
-		);
-
-		$meta_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 4, $meta_deleted );
-	}
-
-	/**
-	 * Test deletion of user metas with both meta key and value.
-	 */
-	public function test_that_meta_fields_can_be_deleted_from_meta_keys_and_meta_values() {
-		$meta_key               = 'matched_key';
-		$matched_meta_value     = 'Matched Value';
-		$missmatched_meta_value = 'Missmatched value';
-
-		// Create a user with subscriber role.
-		$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
-		add_user_meta( $user, $meta_key, $matched_meta_value );
-		add_user_meta( $user, $meta_key, $missmatched_meta_value );
-
-		// call our method.
-		$delete_options = array(
-			'selected_roles' => array( 'subscriber' ),
-			'meta_key'       => $meta_key,
-			'meta_value'     => $matched_meta_value,
-			'use_value'      => true,
-			'limit_to'       => 0,
-			'meta_op'        => '=',
-			'type'           => 'CHAR',
-			'value'          => $matched_meta_value,
-		);
-		$meta_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 1, $meta_deleted );
-
-		$exist_user_meta = get_user_meta( $user, $meta_key, true );
-		$this->assertEquals( $missmatched_meta_value, $exist_user_meta );
 	}
 }
