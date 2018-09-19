@@ -40,7 +40,7 @@ function bd_render_restrict_settings( $slug, $item = 'posts' ) {
 			<input name="smbd_<?php echo $slug; ?>_restrict" id="smbd_<?php echo $slug; ?>_restrict" value="true" type="checkbox">
 		</td>
 		<td>
-			<?php printf( __( 'Only restrict to %s which are ', 'bulk-delete' ), $item );?>
+			<label for="smbd_<?php echo $slug; ?>_restrict"><?php printf( __( 'Only restrict to %s which are ', 'bulk-delete' ), $item ); ?></label>
 			<select name="smbd_<?php echo $slug; ?>_op" id="smbd_<?php echo $slug; ?>_op" disabled>
 				<option value="before"><?php _e( 'older than', 'bulk-delete' );?></option>
 				<option value="after"><?php _e( 'posted within last', 'bulk-delete' );?></option>
@@ -61,27 +61,9 @@ function bd_render_restrict_settings( $slug, $item = 'posts' ) {
 function bd_render_delete_settings( $slug ) {
 ?>
 	<tr>
-		<td scope="row" colspan="2" class="<?php if( $slug == 'sticky_post' ){ ?>sticky_force_delete<?php }?>">
-			<input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio" checked> <?php _e( 'Move to Trash', 'bulk-delete' ); ?>
-			<input name="smbd_<?php echo $slug; ?>_force_delete" value="true" type="radio"> <?php _e( 'Delete permanently', 'bulk-delete' ); ?>
-		</td>
-	</tr>
-<?php
-}
-
-/**
- * Render "sticky option" setting fields.
- *
- * @since 6.0
- *
- * @param string $slug The slug to be used in field names.
- */
-function bd_render_sticky_settings( $slug ) {
-?>
-	<tr>
 		<td scope="row" colspan="2">
-			<input name="smbd_<?php echo $slug; ?>_sticky_option" value="hide" type="radio" checked> <?php _e( 'Remove Sticky', 'bulk-delete' ); ?>
-			<input name="smbd_<?php echo $slug; ?>_sticky_option" value="show" type="radio"> <?php _e( 'Delete Post', 'bulk-delete' ); ?>
+			<label><input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio" checked><?php _e( 'Move to Trash', 'bulk-delete' ); ?></label>
+			<label><input name="smbd_<?php echo $slug; ?>_force_delete" value="true" type="radio"><?php _e( 'Delete permanently', 'bulk-delete' ); ?></label>
 		</td>
 	</tr>
 <?php
@@ -98,8 +80,8 @@ function bd_render_private_post_settings( $slug ) {
 		?>
 	<tr>
 		<td scope="row" colspan="2">
-			<input name="smbd_<?php echo $slug; ?>_private" value="false" type="radio" checked> <?php _e( 'Public posts', 'bulk-delete' ); ?>
-			<input name="smbd_<?php echo $slug; ?>_private" value="true" type="radio"> <?php _e( 'Private Posts', 'bulk-delete' ); ?>
+			<label><input name="smbd_<?php echo $slug; ?>_private" value="false" type="radio" checked> <?php _e( 'Public posts', 'bulk-delete' ); ?></label>
+			<label><input name="smbd_<?php echo $slug; ?>_private" value="true" type="radio"> <?php _e( 'Private Posts', 'bulk-delete' ); ?></label>
 		</td>
 	</tr>
 		<?php
@@ -120,7 +102,7 @@ function bd_render_limit_settings( $slug, $item = 'posts' ) {
 			<input name="smbd_<?php echo $slug; ?>_limit" id="smbd_<?php echo $slug; ?>_limit" value="true" type="checkbox">
 		</td>
 		<td>
-			<?php _e( 'Only delete first ', 'bulk-delete' );?>
+			<label for="smbd_<?php echo $slug; ?>_limit"><?php _e( 'Only delete first ', 'bulk-delete' ); ?></label>
 			<input type="number" name="smbd_<?php echo $slug; ?>_limit_to" id="smbd_<?php echo $slug; ?>_limit_to" class="screen-per-page" disabled value="0" min="0"> <?php echo $item;?>.
 			<?php printf( __( 'Use this option if there are more than 1000 %s and the script times out.', 'bulk-delete' ), $item ); ?>
 		</td>
@@ -141,8 +123,8 @@ function bd_render_cron_settings( $slug, $addon_url ) {
 ?>
 	<tr>
 		<td scope="row" colspan="2">
-			<input name="smbd_<?php echo $slug; ?>_cron" value="false" type="radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?>
-			<input name="smbd_<?php echo $slug; ?>_cron" value="true" type="radio" id="smbd_<?php echo $slug; ?>_cron" disabled > <?php _e( 'Schedule', 'bulk-delete' ); ?>
+			<label><input name="smbd_<?php echo $slug; ?>_cron" value="false" type="radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?></label>
+			<label><input name="smbd_<?php echo $slug; ?>_cron" value="true" type="radio" id="smbd_<?php echo $slug; ?>_cron" disabled > <?php _e( 'Schedule', 'bulk-delete' ); ?></label>
 			<input name="smbd_<?php echo $slug; ?>_cron_start" id="smbd_<?php echo $slug; ?>_cron_start" value="now" type="text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
 			<select name="smbd_<?php echo $slug; ?>_cron_freq" id="smbd_<?php echo $slug; ?>_cron_freq" disabled>
 				<option value="-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>

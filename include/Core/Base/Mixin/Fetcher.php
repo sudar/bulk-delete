@@ -72,9 +72,18 @@ abstract class Fetcher {
 	 * @return array List of sticky posts.
 	 */
 	protected function get_sticky_posts() {
-		$posts = get_posts( array( 'post__in' => get_option( 'sticky_posts' ) ) );
+		$sticky_post_ids = get_option( 'sticky_posts' );
 
-		return $posts;
+		if ( empty( $sticky_post_ids ) ) {
+			return array();
+		}
+
+		return get_posts(
+			array(
+				'numberposts' => count( $sticky_post_ids ),
+				'post__in'    => $sticky_post_ids,
+			)
+		);
 	}
 
 	/**
@@ -132,13 +141,11 @@ abstract class Fetcher {
 	}
 
 	/**
-	 * Are sticky post present in this WordPress?
+	 * Are sticky post present in this WordPress installation?
 	 *
-	 * Only one post is retrieved to check if stick post are present for performance reasons.
-	 *
-	 * @return bool True if posts are present, False otherwise.
+	 * @return bool True if sticky posts are present, False otherwise.
 	 */
-	protected function are_sticky_post_present() {
+	protected function are_sticky_posts_present() {
 		$sticky_post_ids = get_option( 'sticky_posts' );
 
 		if ( ! is_array( $sticky_post_ids ) ) {

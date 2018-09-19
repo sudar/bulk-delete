@@ -12,7 +12,6 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  * @since 6.0.0
  */
 class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
-
 	/**
 	 * The module that is getting tested.
 	 *
@@ -21,7 +20,7 @@ class DeletePostsByTagModuleTest extends WPCoreUnitTestCase {
 	protected $module;
 
 	/**
-	 * Base move class setup
+	 * Base move class setup.
 	 */
 	public function setUp() {
 		parent::setUp();
