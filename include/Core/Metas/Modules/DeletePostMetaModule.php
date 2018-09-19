@@ -100,7 +100,9 @@ class DeletePostMetaModule extends MetasModule {
 
 				<?php $this->render_restrict_settings(); ?>
 				<?php $this->render_limit_settings(); ?>
-				<?php $this->render_cron_settings(); ?>
+				<?php $scheduler_plugin = 'bulk-delete-post-meta/bulk-delete-post-meta.php';
+				?>
+				<?php $this->render_cron_settings( is_plugin_active( $scheduler_plugin ) ); ?>
 
 			</table>
 		</fieldset>
