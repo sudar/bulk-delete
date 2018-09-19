@@ -135,9 +135,9 @@ class DeleteUserMetaModule extends MetasModule {
 
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['selected_roles'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_roles' ) );
-
-		$options['use_value'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_use_value', false );
-		$options['meta_key']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_key', '' ) );
+		$options['use_value']      = sanitize_text_field( bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_use_value', false ) );
+		$options['meta_key']       = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_key', '' ) );
+		$options['meta_value']     = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_value', '' ) );
 
 		/**
 		 * Delete user-meta delete options filter.
@@ -164,6 +164,7 @@ class DeleteUserMetaModule extends MetasModule {
 		}
 
 		if ( $use_value ) {
+			$meta_value         = $options['meta_value'];
 			$args['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $options );
 		} else {
 			$args['meta_key'] = $meta_key;
@@ -172,8 +173,14 @@ class DeleteUserMetaModule extends MetasModule {
 		$users = get_users( $args );
 
 		foreach ( $users as $user ) {
-			if ( delete_user_meta( $user->ID, $meta_key ) ) {
-				$count++;
+			if ( $use_value ) {
+				if ( delete_user_meta( $user->ID, $meta_key, $meta_value ) ) {
+					$count++;
+				}
+			} else {
+				if ( delete_user_meta( $user->ID, $meta_key ) ) {
+					$count++;
+				}
 			}
 		}
 
