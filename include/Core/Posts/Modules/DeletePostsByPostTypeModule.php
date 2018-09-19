@@ -42,7 +42,9 @@ class DeletePostsByPostTypeModule extends PostsModule {
 				$this->render_restrict_settings();
 				$this->render_delete_settings();
 				$this->render_limit_settings();
-				$this->render_cron_settings();
+
+				$scheduler_plugin = 'bulk-delete-scheduler-for-deleting-posts-by-post-type/bulk-delete-scheduler-for-deleting-posts-by-post-type.php';
+				$this->render_cron_settings( is_plugin_active( $scheduler_plugin ) );
 				?>
 
 			</table>
