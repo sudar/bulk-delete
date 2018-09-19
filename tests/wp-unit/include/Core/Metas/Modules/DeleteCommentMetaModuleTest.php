@@ -257,22 +257,23 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Data provider to `test_that_meta_from_multiple_comments_can_be_deleted` method.
+	 * Provide data to `test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_different_operations` method.
 	 *
 	 * @return array Data.
 	 */
-	public function provide_data_to_test_that_meta_from_multiple_comments_can_be_deleted() {
+	public function provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_different_operations() {
 		return array(
 			array(
 				array(
+					'post_type'          => 'post',
 					'number_of_comments' => 5,
-					'matched'      => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 'Matched Value',
+					'matched'            => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 'Matched Value',
 					),
-					'miss_matched' => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 'Miss Matched Value',
+					'miss_matched'       => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 'Miss Matched Value',
 					),
 				),
 				array(
@@ -282,21 +283,22 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => '=',
 				),
 				array(
-					'number_of_comment_metas_deleted'     => '5',
-					'explicit_meta_data' => 'Miss Matched Value',
+					'number_of_comment_metas_deleted' => '5',
+					'explicit_meta_data'              => 'Miss Matched Value',
 				),
 			),
 
 			array(
 				array(
+					'post_type'          => 'post',
 					'number_of_comments' => 5,
-					'matched'      => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 'Matched Value',
+					'matched'            => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 'Matched Value',
 					),
-					'miss_matched' => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 'Miss Matched Value',
+					'miss_matched'       => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 'Miss Matched Value',
 					),
 				),
 				array(
@@ -306,21 +308,22 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => '!=',
 				),
 				array(
-					'number_of_comment_metas_deleted'     => '5',
-					'explicit_meta_data' => 'Matched Value',
+					'number_of_comment_metas_deleted' => '5',
+					'explicit_meta_data'              => 'Matched Value',
 				),
 			),
 
 			array(
 				array(
+					'post_type'          => 'post',
 					'number_of_comments' => 5,
-					'matched'      => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 'Matched Value',
+					'matched'            => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 'Matched Value',
 					),
-					'miss_matched' => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 'Miss Matched Value',
+					'miss_matched'       => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 'Miss Matched Value',
 					),
 				),
 				array(
@@ -330,21 +333,22 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => 'LIKE',
 				),
 				array(
-					'number_of_comment_metas_deleted'     => '5',
-					'explicit_meta_data' => 'Miss Matched Value',
+					'number_of_comment_metas_deleted' => '5',
+					'explicit_meta_data'              => 'Miss Matched Value',
 				),
 			),
 
 			array(
 				array(
+					'post_type'          => 'post',
 					'number_of_comments' => 5,
-					'matched'      => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 'Matched Value',
+					'matched'            => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 'Matched Value',
 					),
-					'miss_matched' => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 'Miss Matched Value',
+					'miss_matched'       => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 'Miss Matched Value',
 					),
 				),
 				array(
@@ -354,21 +358,22 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => 'NOT LIKE',
 				),
 				array(
-					'number_of_comment_metas_deleted'     => '5',
-					'explicit_meta_data' => 'Matched Value',
+					'number_of_comment_metas_deleted' => '5',
+					'explicit_meta_data'              => 'Matched Value',
 				),
 			),
 
 			array(
 				array(
+					'post_type'          => 'post',
 					'number_of_comments' => 5,
-					'matched'      => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 10,
+					'matched'            => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 10,
 					),
-					'miss_matched' => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 20,
+					'miss_matched'       => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 20,
 					),
 				),
 				array(
@@ -378,21 +383,22 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => '=',
 				),
 				array(
-					'number_of_comment_metas_deleted'     => '5',
-					'explicit_meta_data' => 20,
+					'number_of_comment_metas_deleted' => '5',
+					'explicit_meta_data'              => 20,
 				),
 			),
 
 			array(
 				array(
+					'post_type'          => 'post',
 					'number_of_comments' => 5,
-					'matched'      => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 10,
+					'matched'            => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 10,
 					),
-					'miss_matched' => array(
-						'meta_key'           => 'test_key',
-						'meta_value'         => 20,
+					'miss_matched'       => array(
+						'meta_key'   => 'test_key',
+						'meta_value' => 20,
 					),
 				),
 				array(
@@ -402,30 +408,37 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => '!=',
 				),
 				array(
-					'number_of_comment_metas_deleted'     => '5',
-					'explicit_meta_data' => 10,
+					'number_of_comment_metas_deleted' => '5',
+					'explicit_meta_data'              => 10,
 				),
 			),
-
 		);
 	}
 
 	/**
-	 * Test deletion of comment meta from more than one comment using meta value as well with different operations.
+	 * Test deletion of comment meta from more than one comment using meta value with different operations.
+	 *
+	 * TODO: This test is currently skipped because duplicate meta keys is not fully supported yet.
+	 *
+	 * @see https://github.com/sudar/bulk-delete/issues/515 for details.
 	 *
 	 * @param array $setup create posts, comments and meta params.
 	 * @param array $operation Possible operations.
 	 * @param array $expected expected output.
 	 *
-	 * @dataProvider provide_data_to_test_that_meta_from_multiple_comments_can_be_deleted
+	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_different_operations
 	 */
-	public function test_that_comment_meta_from_multiple_comments( $setup, $operation, $expected ) {
-		$post_type = 'post';
+	public function test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_different_operations( $setup, $operation, $expected ) {
+		$this->markTestSkipped(
+			'Comments with the same meta key with multiple values is not fully supported yet'
+		);
+
+		$this->register_post_type( $setup['post_type'] );
 
 		// Create a post.
 		$post_id = $this->factory->post->create(
 			array(
-				'post_type' => $post_type,
+				'post_type' => $setup['post_type'],
 			)
 		);
 
@@ -437,15 +450,12 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		for ( $i = 0; $i < $setup['number_of_comments']; $i++ ) {
 			$comment_ids[ $i ] = $this->factory->comment->create( $comment_data );
 
-			// Matched
 			add_comment_meta( $comment_ids[ $i ], $setup['matched']['meta_key'], $setup['matched']['meta_value'] );
-
-			// Miss Matched
 			add_comment_meta( $comment_ids[ $i ], $setup['miss_matched']['meta_key'], $setup['miss_matched']['meta_value'] );
 		}
 
 		$delete_options = array(
-			'post_type'  => $post_type,
+			'post_type'  => $setup['post_type'],
 			'use_value'  => true,
 			'meta_key'   => $operation['meta_key'],
 			'meta_value' => $operation['meta_value'],
@@ -462,37 +472,35 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		for ( $i = 0; $i < $setup['number_of_comments']; $i++ ) {
 			// Todo: Don't delete all meta rows if there are duplicate meta keys.
-			// See https://github.com/sudar/bulk-delete/issues/515
+			// See https://github.com/sudar/bulk-delete/issues/515 for details.
 			$this->assertFalse( metadata_exists( 'comment', $comment_ids[ $i ], $setup['matched']['meta_key'] ) );
 			$this->assertTrue( metadata_exists( 'comment', $comment_ids[ $i ], $setup['miss_matched']['meta_key'] ) );
 		}
 	}
 
 	/**
-	 * Add to test deleting comment meta older than x days.
+	 * Test deleting comment meta from comments that are older than x days.
 	 */
-	public function test_that_comment_meta_can_be_deleted_from_posts_older_than_x_days() {
+	public function test_that_comment_meta_can_be_deleted_from_comments_older_than_x_days() {
+		$post_type    = 'post';
+		$meta_key     = 'test_key';
+		$meta_value   = 'Test Value';
+		$comment_date = date( 'Y-m-d H:i:s', strtotime( '-2 day' ) );
 
-		$post_type          = 'post';
-		$meta_key           = 'test_key';
-		$meta_value         = 'Test Value';
-		$post_date           = date( 'Y-m-d H:i:s', strtotime( '-2 day' ) );
+		$post_id = $this->factory->post->create( array(
+			'post_type' => $post_type,
+		) );
 
-		// Create Matched post.
-		$post = $this->factory->post->create( array( 'post_type' => $post_type, 'post_date' => $post_date ) );
-		$comment_data = array(
-			'comment_post_ID' => $post,
-		);
-		$matched_comment_id = $this->factory->comment->create( $comment_data );
+		$matched_comment_id = $this->factory->comment->create( array(
+			'comment_post_ID' => $post_id,
+			'comment_date'    => $comment_date,
+		) );
 		add_comment_meta( $matched_comment_id, $meta_key, $meta_value );
 
-		// Create Missmatched post.
-		$post = $this->factory->post->create( array( 'post_type' => $post_type ) );
-		$comment_data = array(
-			'comment_post_ID' => $post,
-		);
-		$missmatched_comment_id = $this->factory->comment->create( $comment_data );
-		add_comment_meta( $missmatched_comment_id, $meta_key, $meta_value );
+		$miss_matched_comment_id = $this->factory->comment->create( array(
+			'comment_post_ID' => $post_id,
+		) );
+		add_comment_meta( $miss_matched_comment_id, $meta_key, $meta_value );
 
 		// call our method.
 		$delete_options = array(
@@ -508,35 +516,36 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 1, $meta_deleted );
 
+		$this->assertFalse( metadata_exists( 'comment', $matched_comment_id, $meta_key ) );
+		$this->assertTrue( metadata_exists( 'comment', $miss_matched_comment_id, $meta_key ) );
 	}
 
 	/**
-	 * Add to test deleting comment meta older than x days.
+	 * Test deleting comment meta from comments that are newer than x days.
 	 */
-	public function test_that_comment_meta_can_be_deleted_from_posts_newer_than_x_days() {
-
-		$post_type          = 'post';
-		$meta_key           = 'test_key';
-		$meta_value         = 'Test Value';
-		$day_post           = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
-		$another_meta_key   = 'another meta key';
-		$another_meta_value = 'Another Meta Value';
+	public function test_that_comment_meta_can_be_deleted_from_comments_newer_than_x_days() {
+		$post_type    = 'post';
+		$meta_key     = 'test_key';
+		$meta_value   = 'Test Value';
+		$comment_date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
 
 		// Create a post.
-		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
+		$post_id = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
 
-		$comment_data = array(
-			'comment_post_ID' => $post,
+		// Create a comment with comment date older than 5 days.
+		$comment_1_id = $this->factory->comment->create( array(
+			'comment_post_ID' => $post_id,
 			'comment_content' => 'Test Comment',
-			'comment_date'    => $day_post,
-		);
+			'comment_date'    => $comment_date,
+		) );
+		add_comment_meta( $comment_1_id, $meta_key, $meta_value );
 
-		// Create a comment.
-		$comment_id = $this->factory->comment->create( $comment_data );
-
-		add_comment_meta( $comment_id, $meta_key, $meta_value );
-
-		add_comment_meta( $comment_id, $another_meta_key, $another_meta_value );
+		// Create a comment with current date as comment date.
+		$comment_2_id = $this->factory->comment->create( array(
+			'comment_post_ID' => $post_id,
+			'comment_content' => 'Test Comment',
+		) );
+		add_comment_meta( $comment_2_id, $meta_key, $meta_value );
 
 		// call our method.
 		$delete_options = array(
@@ -545,29 +554,31 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_key'  => $meta_key,
 			'limit_to'  => 0,
 			'date_op'   => 'after',
-			'days'      => '5',
+			'days'      => '3',
 			'restrict'  => true,
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( 1, $meta_deleted );
 
-		$comment_meta = get_comment_meta( $comment_id, $meta_key );
-		$this->assertEquals( 0, count( $comment_meta ) );
-
-		$another_comment_meta = get_comment_meta( $comment_id, $another_meta_key );
-		$this->assertEquals( 1, count( $another_comment_meta ) );
-
+		$this->assertTrue( metadata_exists( 'comment', $comment_1_id, $meta_key ) );
+		$this->assertFalse( metadata_exists( 'comment', $comment_2_id, $meta_key ) );
 	}
 
 	/**
-	 * Add to test deleting comment meta in batches.
+	 * Test that comment meta can be deleted in batches.
+	 *
+	 * Todo: Handle cases where the metas to be deleted may not be in the front.
 	 */
 	public function test_that_comment_meta_can_be_deleted_in_batches() {
+		$post_type          = 'post';
+		$meta_key           = 'test_key';
+		$meta_value         = 'Test Value';
+		$another_meta_key   = 'test_key_2';
+		$another_meta_value = 'Test Value 2';
 
-		$post_type  = 'post';
-		$meta_key   = 'test_key';
-		$meta_value = 'Test Value';
+		$total_comments = 100;
+		$batch_size     = 20;
 
 		// Create a post.
 		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
@@ -577,26 +588,35 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'comment_content' => 'Test Comment',
 		);
 
-		// Create 100 comments.
-		for ( $i = 1; $i <= 100; $i++ ) {
+		for ( $i = 0; $i < ( $total_comments / 2 ); $i ++ ) {
 			$comment_id = $this->factory->comment->create( $comment_data );
 
 			add_comment_meta( $comment_id, $meta_key, $meta_value );
 		}
 
+		for ( $i = 0; $i < ( $total_comments / 2 ); $i ++ ) {
+			$comment_id = $this->factory->comment->create( $comment_data );
+
+			add_comment_meta( $comment_id, $another_meta_key, $another_meta_value );
+		}
+
+		$metas_deleted = 0;
+
 		// call our method.
-		$delete_options = array(
-			'post_type' => $post_type,
-			'use_value' => false,
-			'meta_key'  => $meta_key,
-			'limit_to'  => 50,
-			'date_op'   => '',
-			'days'      => '',
-			'restrict'  => false,
-		);
+		for ( $i = 0; $i < ( $total_comments / $batch_size ); $i ++ ) {
+			$delete_options = array(
+				'post_type' => $post_type,
+				'use_value' => false,
+				'meta_key'  => $meta_key,
+				'limit_to'  => $batch_size,
+				'date_op'   => '',
+				'days'      => '',
+				'restrict'  => false,
+			);
 
-		$meta_deleted = $this->module->delete( $delete_options );
-		$this->assertEquals( 50, $meta_deleted );
+			$metas_deleted += $this->module->delete( $delete_options );
+		}
 
+		$this->assertEquals( $total_comments / 2, $metas_deleted );
 	}
 }
