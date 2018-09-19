@@ -12,7 +12,6 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  * @since 6.0.0
  */
 class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
-
 	/**
 	 * The module that is getting tested.
 	 *
@@ -33,7 +32,6 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	 * Add to test delete default taxonomy term meta with equal value.
 	 */
 	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_equal_value() {
-
 		$term                   = 'Apple';
 		$taxonomy               = 'category';
 		$meta_key               = 'grade';
@@ -63,14 +61,12 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// Assert that post meta is not deleted.
 		$this->assertEquals( $missmatched_meta_value, $meta_value );
-
 	}
 
 	/**
 	 * Add to test delete default taxonomy term meta with not equal value.
 	 */
 	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_not_equal_value() {
-
 		$term                   = 'Apple';
 		$taxonomy               = 'category';
 		$meta_key               = 'grade';
@@ -100,14 +96,12 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// Assert that post meta is not deleted (here matched value should not be deleted).
 		$this->assertEquals( $matched_meta_value, $meta_value );
-
 	}
 
 	/**
 	 * Add to test delete custom taxonomy term meta with equal value.
 	 */
 	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_equal_value() {
-
 		$term                   = 'Apple';
 		$taxonomy               = 'fruit';
 		$meta_key               = 'grade';
@@ -139,14 +133,12 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// Assert that post meta is not deleted.
 		$this->assertEquals( $missmatched_meta_value, $meta_value );
-
 	}
 
 	/**
 	 * Add to test delete custom taxonomy term meta with not equal value.
 	 */
 	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_not_equal_value() {
-
 		$term                   = 'Apple';
 		$taxonomy               = 'fruit';
 		$meta_key               = 'grade';
@@ -179,6 +171,4 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 		// Assert that post meta is not deleted.
 		$this->assertEquals( $matched_meta_value, $meta_value );
 	}
-
-
 }
