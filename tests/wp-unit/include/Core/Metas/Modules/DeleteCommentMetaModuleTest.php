@@ -422,9 +422,9 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @see https://github.com/sudar/bulk-delete/issues/515 for details.
 	 *
-	 * @param array $setup create posts, comments and meta params.
+	 * @param array $setup     create posts, comments and meta params.
 	 * @param array $operation Possible operations.
-	 * @param array $expected expected output.
+	 * @param array $expected  expected output.
 	 *
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_different_operations
 	 */
