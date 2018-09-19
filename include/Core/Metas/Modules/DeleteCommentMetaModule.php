@@ -7,7 +7,7 @@ use BulkWP\BulkDelete\Core\Metas\MetasModule;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Comment Meta.
+ * Delete Comment Meta Module.
  *
  * @since 6.0.0
  */
@@ -33,6 +33,9 @@ class DeleteCommentMetaModule extends MetasModule {
 		add_filter( 'bd_delete_comment_meta_query', array( $this, 'change_meta_query' ), 10, 2 );
 	}
 
+	/**
+	 * Render the Delete Comment Meta box.
+	 */
 	public function render() {
 		?>
 		<!-- Comment Meta box start-->
@@ -53,8 +56,7 @@ class DeleteCommentMetaModule extends MetasModule {
 
 				<tr>
 					<td>
-						<input type="radio" value="true" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"
-							id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value">
+						<input type="radio" value="true" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value">
 
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on comment meta key name and value', 'bulk-delete' ); ?></label>
 					</td>
@@ -63,9 +65,7 @@ class DeleteCommentMetaModule extends MetasModule {
 				<tr>
 					<td>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key"><?php _e( 'Comment Meta Key ', 'bulk-delete' ); ?></label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key"
-						       id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key"
-						       placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
 					</td>
 				</tr>
 			</table>
@@ -146,6 +146,8 @@ class DeleteCommentMetaModule extends MetasModule {
 		$comments     = get_comments( $args );
 
 		foreach ( $comments as $comment ) {
+			// Todo: Don't delete all meta rows if there are duplicate meta keys.
+			// See https://github.com/sudar/bulk-delete/issues/515 for details.
 			if ( delete_comment_meta( $comment->comment_ID, $options['meta_key'] ) ) {
 				$meta_deleted ++;
 			}
@@ -165,7 +167,7 @@ class DeleteCommentMetaModule extends MetasModule {
 	}
 
 	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of posts deleted */
+		/* translators: 1 Number of comment deleted */
 		return _n( 'Deleted comment meta field from %d comment', 'Deleted comment meta field from %d comments', $items_deleted, 'bulk-delete' );
 	}
 
