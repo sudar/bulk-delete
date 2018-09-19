@@ -119,11 +119,23 @@ class DeleteUserMetaModule extends MetasModule {
 					</td>
 				</tr>
 
-				<tr>
-					<td>
-						<?php _e( 'Enter time in Y-m-d H:i:s format or enter now to use current time', 'bulk-delete' ); ?>
-					</td>
-				</tr>
+				<?php
+				$scheduler_plugin = 'bulk-delete-scheduler-for-deleting-users-by-user-meta/bulk-delete-scheduler-for-deleting-users-by-user-meta.php';
+				?>
+				<?php if ( is_plugin_active( $scheduler_plugin ) ) : ?>
+					<tr>
+						<td scope="row" colspan="2">
+							<?php
+							_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time', 'bulk-delete' );
+							$link   = '<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/">' . __( 'Click here', 'bulk-delete' ) . '</a>';
+							$markup = sprintf( __( 'Want to add new a Cron schedule? %s', 'bulk-delete' ), $link );
+
+							$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
+							echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
+							?>
+						</td>
+					</tr>
+				<?php endif; ?>
 
 			</table>
 		</fieldset>
