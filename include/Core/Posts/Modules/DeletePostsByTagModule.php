@@ -59,9 +59,7 @@ class DeletePostsByTagModule extends PostsModule {
 				$this->render_delete_settings();
 				$this->render_private_post_settings();
 				$this->render_limit_settings();
-
-				$scheduler_plugin = 'bulk-delete-scheduler-for-deleting-posts-by-tag/bulk-delete-scheduler-for-deleting-posts-by-tag.php';
-				$this->render_cron_settings( is_plugin_active( $scheduler_plugin ) );
+				$this->render_cron_settings();
 				?>
 			</table>
 		</fieldset>

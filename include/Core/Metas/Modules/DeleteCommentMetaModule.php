@@ -89,8 +89,7 @@ class DeleteCommentMetaModule extends MetasModule {
 				<?php $this->render_restrict_settings( 'comments' ); ?>
 				<?php $this->render_limit_settings(); ?>
 				<?php
-				// Scheduler is part of the Core plugin and hence TRUE always.
-				$this->render_cron_settings( true );
+				$this->render_cron_settings();
 				?>
 
 			</table>

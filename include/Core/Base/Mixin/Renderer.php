@@ -434,20 +434,18 @@ abstract class Renderer extends Fetcher {
 			</td>
 		</tr>
 
-		<?php if ( $is_scheduler_enabled ) : ?>
-			<tr>
-				<td scope="row" colspan="2">
-					<?php
-					_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time', 'bulk-delete' );
-					$link   = '<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/">' . __( 'Click here', 'bulk-delete' ) . '</a>';
-					$markup = sprintf( __( 'Want to add new a Cron schedule? %s', 'bulk-delete' ), $link );
+		<tr>
+			<td scope="row" colspan="2">
+				<?php
+				_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time.', 'bulk-delete' );
+				$link   = '<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/">' . __( 'Click here', 'bulk-delete' ) . '</a>';
+				$markup = sprintf( __( 'Want to add new a Cron schedule? %s', 'bulk-delete' ), $link );
 
-					$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
-					echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
-					?>
-				</td>
-			</tr>
-		<?php endif; ?>
+				$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
+				echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
+				?>
+			</td>
+		</tr>
 		<?php
 	}
 
