@@ -71,8 +71,10 @@ jQuery(document).ready(function () {
 	function toggle_registered_restrict(el) {
 		if (jQuery("#smbd" + el + "_registered_restrict").is(":checked")) {
 			jQuery("#smbd" + el + "_registered_days").removeAttr('disabled');
+			jQuery("#smbd" + el + "_op").removeAttr('disabled');
 		} else {
 			jQuery("#smbd" + el + "_registered_days").attr('disabled', 'true');
+			jQuery("#smbd" + el + "_op").attr('disabled', 'true');
 		}
 	}
 
