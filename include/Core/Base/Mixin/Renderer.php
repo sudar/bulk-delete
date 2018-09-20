@@ -368,10 +368,8 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render cron settings based on whether scheduler is present or not.
-	 *
-	 * @param bool $is_scheduler_enabled Displays Scheduler helper text when TRUE.
 	 */
-	protected function render_cron_settings( $is_scheduler_enabled = false ) {
+	protected function render_cron_settings() {
 		$disabled_attr = 'disabled';
 		if ( empty( $this->scheduler_url ) ) {
 			$disabled_attr = '';
