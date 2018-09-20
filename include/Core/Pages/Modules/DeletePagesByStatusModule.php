@@ -58,9 +58,7 @@ class DeletePagesByStatusModule extends PagesModule {
 				$this->render_restrict_settings();
 				$this->render_delete_settings();
 				$this->render_limit_settings();
-
-				$scheduler_plugin = 'bulk-delete-scheduler-for-deleting-pages-by-status/bulk-delete-scheduler-for-deleting-pages-by-status.php';
-				$this->render_cron_settings( is_plugin_active( $scheduler_plugin ) );
+				$this->render_cron_settings();
 				?>
 			</table>
 		</fieldset>
