@@ -66,11 +66,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 
 		// Create users and assign to specified role.
 		for ( $i = 0; $i < 2; $i++ ) {
-			$args     = array(
-				'user_login' => 'user_test',
-				'user_pass'  => 'ZXC987abc',
-			);
-			$user_ids = $this->factory->user->create_many( $no_of_users[ $i ], $args );
+			$user_ids = $this->factory->user->create_many( $no_of_users[ $i ] );
 
 			foreach ( $user_ids as $user_id ) {
 				$this->assign_role_by_user_id( $user_id, $user_roles[ $i ] );
@@ -78,22 +74,22 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$administrators = get_users( array( 'role' => 'administrator' ) );
-		$this->assertEquals( $no_of_users[0], count( $administrators ) );
+		$this->assertEquals( $no_of_users[0] + 1, count( $administrators ) );
 
 		$subscribers = get_users( array( 'role' => 'subscriber' ) );
 		$this->assertEquals( $no_of_users[1], count( $subscribers ) );
 
 		// call our method.
 		$delete_options = $user_operations;
-		$delted_users   = $this->module->delete( $delete_options );
+		$deleted_users  = $this->module->delete( $delete_options );
 
-		$this->assertEquals( $expected['deleted_users'], count( $delted_users ) );
+		$this->assertEquals( $expected['deleted_users'], $deleted_users );
 
 		// Assert that user role has no user.
 		$subscribers = get_users( array( 'role' => 'subscriber' ) );
 		$this->assertEquals( 0, count( $subscribers ) );
 
 		$administrators = get_users( array( 'role' => 'administrator' ) );
-		$this->assertEquals( $expected['available_users'], count( $administrators ) );
+		$this->assertEquals( $expected['available_users'] + 1, count( $administrators ) );
 	}
 }

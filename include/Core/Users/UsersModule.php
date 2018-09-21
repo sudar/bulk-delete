@@ -176,7 +176,13 @@ abstract class UsersModule extends BaseModule {
 			return array();
 		}
 
-		if ( isset( $options['registered_date_op'] ) && ( 'before' === $options['registered_date_op'] || 'after' === $options['registered_date_op'] ) ) {
+		if ( ! isset( $options['registered_date_op'] ) ) {
+			return array(
+				'before' => $options['registered_days'] . ' days ago',
+			);
+		}
+
+		if ( 'before' === $options['registered_date_op'] || 'after' === $options['registered_date_op'] ) {
 			return array(
 				$options['registered_date_op'] => $options['registered_days'] . ' days ago',
 			);
