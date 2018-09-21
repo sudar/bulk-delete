@@ -26,11 +26,11 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Data provider to test delete users.
+	 * Data provider to test delete users without filter.
 	 */
 	public function provide_data_to_test_delete_users() {
 		return array(
-			// (-ve Case) Delete Users with no specified role without any filter.
+			// (-ve Case) Delete Users with no specified role.
 			array(
 				array(
 					'user_roles'  => array( 'editor', 'subscriber' ),
@@ -45,10 +45,10 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 0,
-					'available_users' => 15,
+					'available_users' => 16,
 				),
 			),
-			// (+ve Case) Delete Users with specified role without any filter.
+			// (+ve Case) Delete Users with a specified role.
 			array(
 				array(
 					'user_roles'  => array( 'editor', 'subscriber' ),
@@ -63,10 +63,10 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 10,
-					'available_users' => 5,
+					'available_users' => 6,
 				),
 			),
-			// (-ve Case) Delete Users with specified role without any filter.
+			// (-ve Case) Delete Users with a specified role.
 			array(
 				array(
 					'user_roles'  => array( 'editor', 'subscriber' ),
@@ -81,7 +81,61 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 0,
-					'available_users' => 15,
+					'available_users' => 16,
+				),
+			),
+			// (-ve Case) Delete Users from multiple roles.
+			array(
+				array(
+					'user_roles'  => array( 'editor', 'subscriber' ),
+					'no_of_users' => array( 5, 10 ),
+				),
+				array(
+					'selected_roles'      => array( 'author', 'contributor' ),
+					'limit_to'            => 0,
+					'registered_restrict' => false,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 0,
+					'available_users' => 16,
+				),
+			),
+			// (+ve Case) Delete Users from multiple roles( one role has x users and other role has no users).
+			array(
+				array(
+					'user_roles'  => array( 'editor', 'subscriber' ),
+					'no_of_users' => array( 5, 10 ),
+				),
+				array(
+					'selected_roles'      => array( 'author', 'editor' ),
+					'limit_to'            => 0,
+					'registered_restrict' => false,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 5,
+					'available_users' => 11,
+				),
+			),
+			// (+ve Case) Delete Users from multiple roles( both roles have x users ).
+			array(
+				array(
+					'user_roles'  => array( 'editor', 'subscriber', 'author' ),
+					'no_of_users' => array( 5, 10, 3 ),
+				),
+				array(
+					'selected_roles'      => array( 'subscriber', 'editor' ),
+					'limit_to'            => 0,
+					'registered_restrict' => false,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 15,
+					'available_users' => 4,
 				),
 			),
 		);
@@ -101,6 +155,11 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 		$user_roles  = $setup['user_roles'];
 		$size        = count( $user_roles );
 
+		$user = get_users();
+		wp_set_current_user( $user[0]->ID );
+		wp_set_auth_cookie( $user[0]->ID );
+		do_action( 'wp_login', $user[0]->user_login );
+
 		// Create users and assign to specified role.
 		for ( $i = 0; $i < $size; $i++ ) {
 			$user_ids = $this->factory->user->create_many( $no_of_users[ $i ] );
@@ -111,6 +170,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 
 			$users = get_users( array( 'role' => $user_roles[ $i ] ) );
 			$this->assertEquals( $no_of_users[ $i ], count( $users ) );
+
 		}
 
 		// call our method.
@@ -124,6 +184,6 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 0, count( $selected_role_users ) );
 
 		$available_users = get_users();
-		$this->assertEquals( $expected['available_users'] + 1, count( $available_users ) );
+		$this->assertEquals( $expected['available_users'], count( $available_users ) );
 	}
 }
