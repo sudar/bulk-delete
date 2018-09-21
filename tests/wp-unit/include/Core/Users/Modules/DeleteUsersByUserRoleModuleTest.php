@@ -30,15 +30,33 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function provide_data_to_test_delete_users() {
 		return array(
-			// (+ve Case) For making all posts non-sticky.
+			// (-ve Case) Delete Users with no specified role without any filter.
 			array(
 				array(
-					'user_roles'  => array( 'administrator', 'subscriber' ),
+					'user_roles'  => array( 'editor', 'subscriber' ),
+					'no_of_users' => array( 5, 10 ),
+				),
+				array(
+					'selected_roles'      => array(),
+					'limit_to'            => 0,
+					'registered_restrict' => false,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 0,
+					'available_users' => 15,
+				),
+			),
+			// (+ve Case) Delete Users with specified role without any filter.
+			array(
+				array(
+					'user_roles'  => array( 'editor', 'subscriber' ),
 					'no_of_users' => array( 5, 10 ),
 				),
 				array(
 					'selected_roles'      => array( 'subscriber' ),
-					'limit_to'            => false,
+					'limit_to'            => 0,
 					'registered_restrict' => false,
 					'login_restrict'      => false,
 					'no_posts'            => false,
@@ -46,6 +64,24 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				array(
 					'deleted_users'   => 10,
 					'available_users' => 5,
+				),
+			),
+			// (-ve Case) Delete Users with specified role without any filter.
+			array(
+				array(
+					'user_roles'  => array( 'editor', 'subscriber' ),
+					'no_of_users' => array( 5, 10 ),
+				),
+				array(
+					'selected_roles'      => array( 'author' ),
+					'limit_to'            => 0,
+					'registered_restrict' => false,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 0,
+					'available_users' => 15,
 				),
 			),
 		);
@@ -63,21 +99,19 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 	public function test_delete_users_by_role_without_filters( $setup, $user_operations, $expected ) {
 		$no_of_users = $setup['no_of_users'];
 		$user_roles  = $setup['user_roles'];
+		$size        = count( $user_roles );
 
 		// Create users and assign to specified role.
-		for ( $i = 0; $i < 2; $i++ ) {
+		for ( $i = 0; $i < $size; $i++ ) {
 			$user_ids = $this->factory->user->create_many( $no_of_users[ $i ] );
 
 			foreach ( $user_ids as $user_id ) {
 				$this->assign_role_by_user_id( $user_id, $user_roles[ $i ] );
 			}
+
+			$users = get_users( array( 'role' => $user_roles[ $i ] ) );
+			$this->assertEquals( $no_of_users[ $i ], count( $users ) );
 		}
-
-		$administrators = get_users( array( 'role' => 'administrator' ) );
-		$this->assertEquals( $no_of_users[0] + 1, count( $administrators ) );
-
-		$subscribers = get_users( array( 'role' => 'subscriber' ) );
-		$this->assertEquals( $no_of_users[1], count( $subscribers ) );
 
 		// call our method.
 		$delete_options = $user_operations;
@@ -86,10 +120,10 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( $expected['deleted_users'], $deleted_users );
 
 		// Assert that user role has no user.
-		$subscribers = get_users( array( 'role' => 'subscriber' ) );
-		$this->assertEquals( 0, count( $subscribers ) );
+		$selected_role_users = get_users( array( 'role' => $user_operations['selected_roles'] ) );
+		$this->assertEquals( 0, count( $selected_role_users ) );
 
-		$administrators = get_users( array( 'role' => 'administrator' ) );
-		$this->assertEquals( $expected['available_users'] + 1, count( $administrators ) );
+		$available_users = get_users();
+		$this->assertEquals( $expected['available_users'] + 1, count( $available_users ) );
 	}
 }
