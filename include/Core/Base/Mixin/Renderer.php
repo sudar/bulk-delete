@@ -426,7 +426,7 @@ abstract class Renderer extends Fetcher {
 
 					<span class="<?php echo sanitize_html_class( $pro_class ); ?>" style="color:red">
 						<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a
-								href="<?php echo esc_url( $this->scheduler_url ); ?>">Buy now</a>
+							href="<?php echo esc_url( $this->scheduler_url ); ?>">Buy now</a>
 					</span>
 				<?php endif; ?>
 			</td>
