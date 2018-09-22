@@ -7,21 +7,20 @@ use BulkWP\Tests\WPMock\WPMockTestCase;
  * Test BulkDelete class.
  */
 class BulkDeleteTest extends WPMockTestCase {
-
-	protected $test_files = [
+	protected $test_files = array(
 		'include/Core/BulkDelete.php',
 		'include/Core/Controller.php',
 		'include/Core/Addon/Upseller.php',
-	];
+	);
 
-	function test_it_is_singleton() {
+	public function test_it_is_singleton() {
 		$a = BulkDelete::get_instance();
 		$b = BulkDelete::get_instance();
 
 		$this->assertSame( $a, $b );
 	}
 
-	function test_if_cone_is_not_supported() {
+	public function test_if_cone_is_not_supported() {
 		\WP_Mock::userFunction( '_doing_it_wrong', array(
 			'times' => 1,
 		) );
@@ -32,7 +31,7 @@ class BulkDeleteTest extends WPMockTestCase {
 		$this->assertConditionsMet();
 	}
 
-	function test_if_wakeup_is_not_supported() {
+	public function test_if_wakeup_is_not_supported() {
 		\WP_Mock::userFunction( '_doing_it_wrong', array(
 			'times' => 1,
 		) );
@@ -43,7 +42,7 @@ class BulkDeleteTest extends WPMockTestCase {
 		$this->assertConditionsMet();
 	}
 
-	function test_load_action() {
+	public function test_load_action() {
 		$plugin_file = 'path/to/some/file';
 		\WP_Mock::expectAction( 'bd_loaded', $plugin_file );
 
@@ -54,10 +53,10 @@ class BulkDeleteTest extends WPMockTestCase {
 		$this->assertConditionsMet();
 	}
 
-	function test_translation_is_loaded() {
+	public function test_translation_is_loaded() {
 		\WP_Mock::userFunction( 'load_plugin_textdomain', array(
 			'times' => 1,
-			'args' => array( 'bulk-delete', false, \WP_Mock\Functions::type( 'string' ) )
+			'args'  => array( 'bulk-delete', false, \WP_Mock\Functions::type( 'string' ) ),
 		) );
 
 		$bulk_delete = BulkDelete::get_instance();

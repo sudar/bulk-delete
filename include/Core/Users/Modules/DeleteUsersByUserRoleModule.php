@@ -38,7 +38,7 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 	 * @since 5.5
 	 */
 	public function render() {
-	?>
+		?>
 		<h4><?php _e( 'Select the user roles from which you want to delete users', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
@@ -56,7 +56,7 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 				?>
 			</table>
 		</fieldset>
-	<?php
+		<?php
 		$this->render_submit_button();
 	}
 
@@ -83,6 +83,12 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 			'number'   => $options['limit_to'],
 		);
 
+		$date_query = $this->get_date_query( $options );
+
+		if ( ! empty( $date_query ) ) {
+			$query['date_query'] = $date_query;
+		}
+
 		return $query;
 	}
 
@@ -96,7 +102,8 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 	 * @return array Modified JavaScript Array
 	 */
 	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][] = '_' . $this->field_slug;
+		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
+		$js_array['validators'][ $this->action ] = 'validateUserRole';
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteUsersWarning';
 		$js_array['msg']['deleteUsersWarning']       = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );

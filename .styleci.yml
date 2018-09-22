@@ -78,7 +78,5 @@ enabled:
 finder:
   not-path:
     - "libraries"
-  exclude:
-    - "tests"
   name:
     - "*.php"
