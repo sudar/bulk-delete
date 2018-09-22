@@ -18,8 +18,8 @@ class DeleteTermsByNameModule extends TermsModule {
 		$this->meta_box_slug = 'bd_delete_terms_by_name';
 		$this->action        = 'delete_terms_by_name';
 		$this->messages      = array(
-			'box_label'  => __( 'Delete Terms by Name', 'bulk-delete' ),
-			'scheduled'  => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
+			'box_label' => __( 'Delete Terms by Name', 'bulk-delete' ),
+			'scheduled' => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
 		);
 	}
 
