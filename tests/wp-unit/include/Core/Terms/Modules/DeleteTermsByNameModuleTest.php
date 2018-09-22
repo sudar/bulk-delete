@@ -25,7 +25,6 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 		$this->module = new DeleteTermsByNameModule();
 	}
 
-
 	/**
 	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
 	 *
@@ -43,7 +42,6 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 						'Term A',
 						'Term B',
 						'Term C',
-						'term A',
 					),
 				),
 				array(
@@ -54,7 +52,6 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				array(
 					'Term B',
 					'Term C',
-					'term A',
 				),
 			),
 			array(
@@ -139,14 +136,13 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 						'Term A',
 						'Term B',
 						'Term C',
-						'term A',
 					),
 				),
 				array(
 					'search_term' => 'Term A',
 					'operator'    => 'not_equal_to',
 				),
-				3,
+				2,
 				array(
 					'Term A',
 				),
@@ -179,10 +175,10 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'search_term' => 'Term sample C',
+					'search_term' => 'Term Sample C',
 					'operator'    => 'not_equal_to',
 				),
-				3,
+				2,
 				array(),
 			),
 			array(
@@ -192,19 +188,15 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'terms'     => array(
 						'Term A',
 						'Term sample B',
-						'Term Sample C',
+						'Term sample C',
 					),
 				),
 				array(
 					'search_term' => 'Term sample',
 					'operator'    => 'not_equal_to',
 				),
-				0,
-				array(
-					'Term A',
-					'Term sample B',
-					'Term Sample C',
-				),
+				3,
+				array(),
 			),
 		);
 	}
@@ -226,7 +218,6 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 						'Term A',
 						'Term B',
 						'Another Term C',
-						'term D',
 					),
 				),
 				array(
@@ -236,7 +227,6 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				2,
 				array(
 					'Another Term C',
-					'term D',
 				),
 			),
 			array(
