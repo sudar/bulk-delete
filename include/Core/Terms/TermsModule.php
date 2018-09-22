@@ -22,11 +22,6 @@ abstract class TermsModule extends BaseModule {
 	 */
 	abstract protected function get_term_ids_to_delete( $options );
 
-	/**
-	 * Item type.
-	 *
-	 * @var string Item Type. Possible values 'posts', 'pages', 'users', 'terms' etc.
-	 */
 	protected $item_type = 'terms';
 
 	/**
@@ -107,9 +102,10 @@ abstract class TermsModule extends BaseModule {
 	 */
 	protected function query_terms( $query ) {
 		$defaults = array(
-			'fields'     => 'ids', // retrieve only ids.
-			'hide_empty' => false,
-			'count'      => false,
+			'fields'                 => 'ids', // retrieve only ids.
+			'hide_empty'             => false,
+			'count'                  => false,
+			'update_term_meta_cache' => false,
 		);
 
 		$query = wp_parse_args( $query, $defaults );

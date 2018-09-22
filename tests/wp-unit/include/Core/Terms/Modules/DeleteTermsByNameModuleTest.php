@@ -26,9 +26,13 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Provide data to test deletion of terms by name.
+	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
 	 */
-	public function provide_data_to_test_that_terms_can_be_deleted_by_name() {
+	public function provide_data_to_test_deletion_of_terms_with_equals_operator() {
 		return array(
 			array(
 				array(
@@ -53,6 +57,80 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						'Term A',
+						'Term B',
+						'Term C',
+					),
+				),
+				array(
+					'search_term' => 'Term',
+					'operator'    => 'equal_to',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
+					'Term C',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term sample B',
+						'Term C',
+					),
+				),
+				array(
+					'search_term' => 'Term sample B',
+					'operator'    => 'equal_to',
+				),
+				1,
+				array(
+					'Term A',
+					'Term C',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term sample B',
+						'Term C',
+					),
+				),
+				array(
+					'search_term' => 'sample',
+					'operator'    => 'equal_to',
+				),
+				0,
+				array(
+					'Term A',
+					'Term sample B',
+					'Term C',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_deletion_of_terms_with_not_equals_operator() {
+		return array(
+			array(
+				array(
+					'post_type' => 'post',
 					'taxonomy'  => 'post_tag',
 					'terms'     => array(
 						'Term A',
@@ -69,6 +147,69 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'Term A',
 				),
 			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						'Term A',
+						'Term B',
+						'Term C',
+					),
+				),
+				array(
+					'search_term' => 'Term',
+					'operator'    => 'not_equal_to',
+				),
+				3,
+				array(),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term sample B',
+						'Term Sample C',
+					),
+				),
+				array(
+					'search_term' => 'Term Sample C',
+					'operator'    => 'not_equal_to',
+				),
+				2,
+				array(),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term sample B',
+						'Term sample C',
+					),
+				),
+				array(
+					'search_term' => 'Term sample',
+					'operator'    => 'not_equal_to',
+				),
+				3,
+				array(),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_deletion_of_terms_with_starts_with_operator() {
+		return array(
 			array(
 				array(
 					'post_type' => 'post',
@@ -91,140 +232,209 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
+					'taxonomy'  => 'category',
 					'terms'     => array(
 						'Term A',
-						'Term B',
+						'sample Term B',
 						'Term C',
 					),
 				),
 				array(
-					'search_term' => 'Another',
+					'search_term' => 'Sample',
+					'operator'    => 'starts_with',
+				),
+				0,
+				array(
+					'Term A',
+					'sample Term B',
+					'Term C',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term Sample B',
+						'Term Sample C',
+					),
+				),
+				array(
+					'search_term' => 'Term Sample',
+					'operator'    => 'starts_with',
+				),
+				2,
+				array(
+					'Term A',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term B',
+						'Term Sample C',
+					),
+				),
+				array(
+					'search_term' => 'Term sample',
 					'operator'    => 'starts_with',
 				),
 				0,
 				array(
 					'Term A',
 					'Term B',
-					'Term C',
+					'Term Sample C',
 				),
 			),
+		);
+	}
+
+	/**
+	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_deletion_of_terms_with_ends_with_operator() {
+		return array(
 			array(
 				array(
 					'post_type' => 'post',
 					'taxonomy'  => 'post_tag',
 					'terms'     => array(
-						'A Term',
-						'B Term',
-						'Term C',
+						'Sample Term A',
+						'Term Sample B',
+						'Term C Sample',
 					),
 				),
 				array(
-					'search_term' => 'Term',
+					'search_term' => 'Sample',
 					'operator'    => 'ends_with',
-				),
-				2,
-				array(
-					'Term C',
-				),
-			),
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						'Term A',
-						'Term B',
-						'Term C',
-					),
-				),
-				array(
-					'search_term' => 'Term',
-					'operator'    => 'ends_with',
-				),
-				0,
-				array(
-					'Term A',
-					'Term B',
-					'Term C',
-				),
-			),
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						'Term sample A',
-						'Term sample B',
-						'Term C',
-					),
-				),
-				array(
-					'search_term' => 'sample',
-					'operator'    => 'contains',
-				),
-				2,
-				array(
-					'Term C',
-				),
-			),
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						'Term A',
-						'Term B',
-						'Term C',
-					),
-				),
-				array(
-					'search_term' => 'sample',
-					'operator'    => 'contains',
-				),
-				0,
-				array(
-					'Term A',
-					'Term B',
-					'Term C',
-				),
-			),
-			array(
-				array(
-					'post_type' => 'post',
-					'taxonomy'  => 'post_tag',
-					'terms'     => array(
-						'Term sample A',
-						'Term sample B',
-						'Term C',
-					),
-				),
-				array(
-					'search_term' => 'sample',
-					'operator'    => 'not_contains',
 				),
 				1,
 				array(
-					'Term sample A',
-					'Term sample B',
+					'Sample Term A',
+					'Term Sample B',
 				),
 			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'category',
+					'terms'     => array(
+						'Sample Term A',
+						'Term Sample B',
+						'Term C sample',
+					),
+				),
+				array(
+					'search_term' => 'Sample',
+					'operator'    => 'ends_with',
+				),
+				0,
+				array(
+					'Sample Term A',
+					'Term Sample B',
+					'Term C sample',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'sample Term A',
+						'Term B sample',
+						'Term C Sample',
+					),
+				),
+				array(
+					'search_term' => 'sample',
+					'operator'    => 'ends_with',
+				),
+				1,
+				array(
+					'sample Term A',
+					'Term C Sample',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'sample Term A',
+						'Term B sample',
+						'Term C Sample',
+					),
+				),
+				array(
+					'search_term' => 'Term',
+					'operator'    => 'ends_with',
+				),
+				0,
+				array(
+					'sample Term A',
+					'Term B sample',
+					'Term C Sample',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_deletion_of_terms_with_contains_operator() {
+		return array(
 			array(
 				array(
 					'post_type' => 'post',
 					'taxonomy'  => 'post_tag',
 					'terms'     => array(
 						'Term A',
-						'Term B',
-						'Term C',
+						'Term Sample B',
+						'Term C Sample',
 					),
 				),
 				array(
-					'search_term' => 'sample',
-					'operator'    => 'not_contains',
+					'search_term' => 'Sample',
+					'operator'    => 'contains',
 				),
-				3,
-				array(),
+				2,
+				array(
+					'Term A',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'link_category',
+					'terms'     => array(
+						'Term A',
+						'Term B',
+						'Term C sample',
+					),
+				),
+				array(
+					'search_term' => 'Sample',
+					'operator'    => 'contains',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
+					'Term C sample',
+				),
 			),
 			array(
 				array(
@@ -233,16 +443,130 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'terms'     => array(
 						'Term A',
 						'Term sample B',
-						'Term C',
+						'Term C Sample',
 					),
 				),
 				array(
 					'search_term' => 'sample',
+					'operator'    => 'contains',
+				),
+				1,
+				array(
+					'Term A',
+					'Term C Sample',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term B',
+						'Term C Sample',
+					),
+				),
+				array(
+					'search_term' => 'sample',
+					'operator'    => 'contains',
+				),
+				0,
+				array(
+					'Term A',
+					'Term B',
+					'Term C Sample',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 *
+	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_deletion_of_terms_with_not_contains_operator() {
+		return array(
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'post_tag',
+					'terms'     => array(
+						'Term A',
+						'Term B',
+						'Term C Sample',
+					),
+				),
+				array(
+					'search_term' => 'Sample',
 					'operator'    => 'not_contains',
 				),
 				2,
 				array(
-					'term_not_deleted' => 'Term sample B',
+					'Term C Sample',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'nav_menu',
+					'terms'     => array(
+						'Term A Sample',
+						'Term Sample B',
+						'Sample Term C',
+					),
+				),
+				array(
+					'search_term' => 'Sample',
+					'operator'    => 'not_contains',
+				),
+				0,
+				array(
+					'Term A Sample',
+					'Term Sample B',
+					'Sample Term C',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Term A',
+						'Term sample B',
+						'Term C Sample',
+					),
+				),
+				array(
+					'search_term' => 'Sample',
+					'operator'    => 'not_contains',
+				),
+				2,
+				array(
+					'Term C Sample',
+				),
+			),
+			array(
+				array(
+					'post_type' => 'post',
+					'taxonomy'  => 'custom_taxonomy',
+					'terms'     => array(
+						'Sample Term A',
+						'Term Sample B',
+						'Term C Sample',
+					),
+				),
+				array(
+					'search_term' => 'Sample',
+					'operator'    => 'not_contains',
+				),
+				0,
+				array(
+					'Sample Term A',
+					'Term Sample B',
+					'Term C Sample',
 				),
 			),
 		);
@@ -251,7 +575,12 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test deletion of terms by name.
 	 *
-	 * @dataProvider provide_data_to_test_that_terms_can_be_deleted_by_name
+	 * @dataProvider provide_data_to_test_deletion_of_terms_with_equals_operator
+	 * @dataProvider provide_data_to_test_deletion_of_terms_with_not_equals_operator
+	 * @dataProvider provide_data_to_test_deletion_of_terms_with_starts_with_operator
+	 * @dataProvider provide_data_to_test_deletion_of_terms_with_ends_with_operator
+	 * @dataProvider provide_data_to_test_deletion_of_terms_with_contains_operator
+	 * @dataProvider provide_data_to_test_deletion_of_terms_with_not_contains_operator
 	 *
 	 * @param array $inputs                           Inputs for test cases.
 	 * @param array $user_input                       Options selected by user.
