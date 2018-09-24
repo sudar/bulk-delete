@@ -432,7 +432,7 @@ abstract class Renderer extends Fetcher {
 			</td>
 		</tr>
 
-		<tr class="<?php if ( ! empty( $pro_class ) ) { echo sanitize_html_class( $pro_class ); } ?>" style="display: none;">
+		<tr class="<?php echo sanitize_html_class( $pro_class ); ?>" style="display: none;">
 			<td scope="row" colspan="2">
 				<?php
 				_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time.', 'bulk-delete' );
