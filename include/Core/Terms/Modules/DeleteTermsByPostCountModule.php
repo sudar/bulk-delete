@@ -35,7 +35,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 
 			<?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?>
 			<?php $this->render_number_comparison_operators(); ?>
-			<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="<?php _e( 'Post count', 'bulk-delete' ); ?>">
+			<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="<?php _e( 'Post count', 'bulk-delete' ); ?>" min="0">
 		</fieldset>
 
 		<?php
@@ -55,7 +55,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['operator']   = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' ) );
-		$options['post_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_count' ) );
+		$options['post_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug ) );
 
 		return $options;
 	}
