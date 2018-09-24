@@ -35,7 +35,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 
 			<?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?>
 			<?php $this->render_number_comparison_operators(); ?>
-			<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_count" placeholder="<?php _e( 'Post count', 'bulk-delete' ); ?>">
+			<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="<?php _e( 'Post count', 'bulk-delete' ); ?>">
 		</fieldset>
 
 		<?php
@@ -43,9 +43,9 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	}
 
 	public function filter_js_array( $js_array ) {
-		$js_array['validators'][ $this->action ] = 'validatePostTypeSelect2';
-		$js_array['error_msg'][ $this->action ]  = 'selectPostType';
-		$js_array['msg']['selectPostType']       = __( 'Please select at least one post type', 'bulk-delete' );
+		$js_array['validators'][ $this->action ] = 'validatePostCount';
+		$js_array['error_msg'][ $this->action ]  = 'validPostCount';
+		$js_array['msg']['validPostCount']       = __( 'Please enter valid post count(Greater than or Equal to zero)', 'bulk-delete' );
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteTermsWarning';
 		$js_array['msg']['deleteTermsWarning']       = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );
