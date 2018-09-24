@@ -65,7 +65,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'search_term' => 'Term',
+					'search_term' => '',
 					'operator'    => 'equal_to',
 				),
 				0,
