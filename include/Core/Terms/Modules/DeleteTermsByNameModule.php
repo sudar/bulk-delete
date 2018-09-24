@@ -18,8 +18,8 @@ class DeleteTermsByNameModule extends TermsModule {
 		$this->meta_box_slug = 'bd_delete_terms_by_name';
 		$this->action        = 'delete_terms_by_name';
 		$this->messages      = array(
-			'box_label'  => __( 'Delete Terms by Name', 'bulk-delete' ),
-			'scheduled'  => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
+			'box_label' => __( 'Delete Terms by Name', 'bulk-delete' ),
+			'scheduled' => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
 		);
 	}
 
@@ -102,8 +102,8 @@ class DeleteTermsByNameModule extends TermsModule {
 	 */
 	protected function get_terms_that_are_equal_to( $value, $options ) {
 		$query = array(
-			'taxonomy'   => $options['taxonomy'],
-			'name__like' => $value,
+			'taxonomy' => $options['taxonomy'],
+			'name'     => $value,
 		);
 
 		return $this->query_terms( $query );
@@ -119,8 +119,8 @@ class DeleteTermsByNameModule extends TermsModule {
 	 */
 	protected function get_terms_that_are_not_equal_to( $value, $options ) {
 		$name_like_args = array(
-			'name__like' => $value,
-			'taxonomy'   => $options['taxonomy'],
+			'name'     => $value,
+			'taxonomy' => $options['taxonomy'],
 		);
 
 		$query = array(
