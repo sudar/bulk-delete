@@ -141,6 +141,13 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 		);
 	}
 
+	public function set_up_logged_in_user() {
+		$user = get_users();
+		wp_set_current_user( $user[0]->ID );
+		wp_set_auth_cookie( $user[0]->ID );
+		do_action( 'wp_login', $user[0]->user_login );
+	}
+
 	/**
 	 * Test basic case of delete users by role.
 	 *
@@ -155,10 +162,9 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 		$user_roles  = $setup['user_roles'];
 		$size        = count( $user_roles );
 
-		$user = get_users();
-		wp_set_current_user( $user[0]->ID );
-		wp_set_auth_cookie( $user[0]->ID );
-		do_action( 'wp_login', $user[0]->user_login );
+		if ( array_key_exists( 'logged_in_user', $setup ) ) {
+			set_up_logged_in_user();
+		}
 
 		// Create users and assign to specified role.
 		for ( $i = 0; $i < $size; $i++ ) {
@@ -179,9 +185,11 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( $expected['deleted_users'], $deleted_users );
 
-		// Assert that user role has no user.
-		$selected_role_users = get_users( array( 'role' => $user_operations['selected_roles'] ) );
-		$this->assertEquals( 0, count( $selected_role_users ) );
+		// Assert that user role has no user if selected roles is not empty.
+		if ( ! empty( $user_operations['selected_roles'] ) ) {
+			$selected_role_users = get_users( array( 'role' => $user_operations['selected_roles'] ) );
+			$this->assertEquals( 0, count( $selected_role_users ) );
+		}
 
 		$available_users = get_users();
 		$this->assertEquals( $expected['available_users'], count( $available_users ) );
