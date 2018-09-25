@@ -35,7 +35,11 @@ class DeleteTermsByPostCountModule extends TermsModule {
 
 			<?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?>
 			<?php $this->render_number_comparison_operators(); ?>
-			<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="<?php _e( 'Post count', 'bulk-delete' ); ?>" min="0">
+			<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="<?php $markup = _e( 'Post count', 'bulk-delete' ); ?>" min="0">
+			<?php
+			$content = __( 'Post count is the number of posts that are assigned to a term.', 'bulk-delete' );
+			echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
+			?>
 		</fieldset>
 
 		<?php
@@ -45,7 +49,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	public function filter_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validatePostCount';
 		$js_array['error_msg'][ $this->action ]  = 'validPostCount';
-		$js_array['msg']['validPostCount']       = __( 'Please enter valid post count(Greater than or Equal to zero)', 'bulk-delete' );
+		$js_array['msg']['validPostCount']       = __( 'Please enter the post count based on which terms should be deleted. A valid post count will be greater than or equal to zero', 'bulk-delete' );
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteTermsWarning';
 		$js_array['msg']['deleteTermsWarning']       = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );

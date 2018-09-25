@@ -216,14 +216,6 @@ jQuery(document).ready(function () {
 	BulkWP.validateUserRole = function(that) {
 		return (null !== jQuery(that).parent().prev().find(".enhanced-role-dropdown").val());
 	};
-
-	BulkWP.validateTermName = function() {
-		return (jQuery('input[name="smbd_terms_by_name_value"]').val() !== '');
-	};
-
-	BulkWP.validatePostCount = function() {
-		return (jQuery('input[name="smbd_terms_by_post_count"]').val() !== '');
-	};	
 });
 
 BulkWP.jetpack = function() {
