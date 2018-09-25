@@ -62,32 +62,34 @@ class DeleteTermsByNameModule extends TermsModule {
 		$term_ids = array();
 		$value    = $options['value'];
 		$operator = $options['operator'];
-		if ( '' !== $value ) {
-			switch ( $operator ) {
-				case 'equal_to':
-					$term_ids = $this->get_terms_that_are_equal_to( $value, $options );
-					break;
+		if ( empty( $value ) ) {
+			return $term_ids;
+		}
 
-				case 'not_equal_to':
-					$term_ids = $this->get_terms_that_are_not_equal_to( $value, $options );
-					break;
+		switch ( $operator ) {
+			case 'equal_to':
+				$term_ids = $this->get_terms_that_are_equal_to( $value, $options );
+				break;
 
-				case 'starts_with':
-					$term_ids = $this->get_terms_that_starts_with( $value, $options );
-					break;
+			case 'not_equal_to':
+				$term_ids = $this->get_terms_that_are_not_equal_to( $value, $options );
+				break;
 
-				case 'ends_with':
-					$term_ids = $this->get_terms_that_ends_with( $value, $options );
-					break;
+			case 'starts_with':
+				$term_ids = $this->get_terms_that_starts_with( $value, $options );
+				break;
 
-				case 'contains':
-					$term_ids = $this->get_terms_that_contains( $value, $options );
-					break;
+			case 'ends_with':
+				$term_ids = $this->get_terms_that_ends_with( $value, $options );
+				break;
 
-				case 'not_contains':
-					$term_ids = $this->get_terms_that_not_contains( $value, $options );
-					break;
-			}
+			case 'contains':
+				$term_ids = $this->get_terms_that_contains( $value, $options );
+				break;
+
+			case 'not_contains':
+				$term_ids = $this->get_terms_that_not_contains( $value, $options );
+				break;
 		}
 
 		return $term_ids;
