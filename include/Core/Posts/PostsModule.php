@@ -52,9 +52,9 @@ abstract class PostsModule extends BaseModule {
 		$js_array['error_msg']['delete_posts_by_category']  = 'selectCategory';
 		$js_array['msg']['selectCategory']                  = __( 'Please select at least one category', 'bulk-delete' );
 
-		$js_array['validators']['delete_posts_by_tag']     = 'validateSelect2';
-		$js_array['error_msg']['delete_posts_by_category'] = 'selectTag';
-		$js_array['msg']['selectTag']                      = __( 'Please select at least one tag', 'bulk-delete' );
+		$js_array['validators']['delete_posts_by_tag'] = 'validateSelect2';
+		$js_array['error_msg']['delete_posts_by_tag']  = 'selectTag';
+		$js_array['msg']['selectTag']                  = __( 'Please select at least one tag', 'bulk-delete' );
 
 		$js_array['validators']['delete_posts_by_url'] = 'validateUrl';
 		$js_array['error_msg']['delete_posts_by_url']  = 'enterUrl';

@@ -12,7 +12,7 @@
  * Validation for Post Type select2.
  */
 BulkWP.validatePostTypeSelect2 = function(that) {
-	if (null !== jQuery(that).parent().prev().children().find(".select2-post[multiple]").val()) {
+	if (null !== jQuery(that).parent().prev().children().find(".enhanced-post-types-with-status[multiple]").val()) {
 		return true;
 	} else {
 		return false;
