@@ -141,6 +141,10 @@ jQuery(document).ready(function () {
 
 	jQuery.each( BulkWP.pro_iterators, function ( index, value) {
 		jQuery('.bd-' + value.replace( '_', '-' ) + '-pro').hide();
+
+		// `<tr>` displays the documentation link when the pro add-on is installed.
+		jQuery('tr.bd-' + value.replace( '_', '-' ) + '-pro').show();
+
 		jQuery('#smbd_' + value + '_cron_freq, #smbd_' + value + '_cron_start, #smbd_' + value + '_cron').removeAttr('disabled');
 	} );
 
@@ -188,7 +192,7 @@ jQuery(document).ready(function () {
 	};
 
 	BulkWP.validateSelect2 = function(that) {
-		if (null !== jQuery(that).parent().prev().children().find(".select2[multiple]").val()) {
+		if (null !== jQuery(that).parent().prev().children().find(".select2-taxonomy[multiple]").val()) {
 			return true;
 		} else {
 			return false;
