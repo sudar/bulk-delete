@@ -196,24 +196,4 @@ jQuery(document).ready(function () {
 			return false;
 		}
 	};
-
-	BulkWP.validateUrl = function(that) {
-		if (jQuery(that).parent().prev().children('table').find("textarea").val() !== '') {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	BulkWP.validateUserMeta = function() {
-		if (jQuery('#smbd_u_meta_value').val() !== '') {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	BulkWP.validateUserRole = function(that) {
-		return (null !== jQuery(that).parent().prev().find(".enhanced-role-dropdown").val());
-	};
 });
