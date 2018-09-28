@@ -78,6 +78,11 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 	 * @return array Query.
 	 */
 	protected function build_query( $options ) {
+		// No role is selected.
+		if ( empty( $options['selected_roles'] ) ) {
+			return array();
+		}
+
 		$query = array(
 			'role__in' => $options['selected_roles'],
 			'number'   => $options['limit_to'],
