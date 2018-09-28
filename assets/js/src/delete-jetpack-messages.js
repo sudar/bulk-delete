@@ -6,6 +6,11 @@
  */
 
 /*global jQuery, BulkWP*/
+jQuery(document).ready(function () {
+	// Start Jetpack.
+	BulkWP.jetpack();
+});
+
 BulkWP.jetpack = function() {
 	jQuery('.bd-feedback-pro').hide();
 

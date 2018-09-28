@@ -8,11 +8,6 @@
 
 /*global BulkWP, postboxes, pagenow */
 jQuery(document).ready(function () {
-	// Start Jetpack.
-	BulkWP.jetpack();
-
-	BulkWP.enableHelpTooltips( jQuery( '.bd-help' ) );
-
 	jQuery( '.user_restrict_to_no_posts_filter' ).change( function() {
 		var $this = jQuery(this),
 			filterEnabled = $this.is( ':checked' ),

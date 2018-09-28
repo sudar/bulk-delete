@@ -6,6 +6,10 @@
  */
 
 /*global jQuery, BulkWP*/
+jQuery(document).ready(function () {
+	BulkWP.enableHelpTooltips( jQuery( '.bd-help' ) );
+});
+
 BulkWP.enableHelpTooltips = function ( $selector ) {
 	$selector.tooltip({
 		content: function() {
