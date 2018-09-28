@@ -62,6 +62,9 @@ class DeleteTermsByNameModule extends TermsModule {
 		$term_ids = array();
 		$value    = $options['value'];
 		$operator = $options['operator'];
+		if ( empty( $value ) ) {
+			return $term_ids;
+		}
 
 		switch ( $operator ) {
 			case 'equal_to':
