@@ -33,8 +33,16 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 			// (-ve Case) Delete Users with no specified role.
 			array(
 				array(
-					'user_roles'  => array( 'editor', 'subscriber' ),
-					'no_of_users' => array( 5, 10 ),
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
 				),
 				array(
 					'selected_roles'      => array(),
@@ -51,8 +59,16 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 			// (+ve Case) Delete Users with a specified role.
 			array(
 				array(
-					'user_roles'  => array( 'editor', 'subscriber' ),
-					'no_of_users' => array( 5, 10 ),
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
 				),
 				array(
 					'selected_roles'      => array( 'subscriber' ),
@@ -69,8 +85,16 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 			// (-ve Case) Delete Users with a specified role.
 			array(
 				array(
-					'user_roles'  => array( 'editor', 'subscriber' ),
-					'no_of_users' => array( 5, 10 ),
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
 				),
 				array(
 					'selected_roles'      => array( 'author' ),
@@ -87,8 +111,16 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 			// (-ve Case) Delete Users from multiple roles.
 			array(
 				array(
-					'user_roles'  => array( 'editor', 'subscriber' ),
-					'no_of_users' => array( 5, 10 ),
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
 				),
 				array(
 					'selected_roles'      => array( 'author', 'contributor' ),
@@ -105,8 +137,16 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 			// (+ve Case) Delete Users from multiple roles( one role has x users and other role has no users).
 			array(
 				array(
-					'user_roles'  => array( 'editor', 'subscriber' ),
-					'no_of_users' => array( 5, 10 ),
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
 				),
 				array(
 					'selected_roles'      => array( 'author', 'editor' ),
@@ -123,8 +163,21 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 			// (+ve Case) Delete Users from multiple roles( both roles have x users ).
 			array(
 				array(
-					'user_roles'  => array( 'editor', 'subscriber', 'author' ),
-					'no_of_users' => array( 5, 10, 3 ),
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'author',
+						'no_of_users'     => 3,
+						'registered_date' => date( 'Y-m-d' ),
+					),
 				),
 				array(
 					'selected_roles'      => array( 'subscriber', 'editor' ),
@@ -141,6 +194,118 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 		);
 	}
 
+	/**
+	 * Data provider to test delete users with user registration filter.
+	 */
+	public function provide_data_to_test_delete_users_with_registration_filter() {
+		return array(
+			// (+ve Case) Delete Users with specified role and before filter(old format).
+			array(
+				array(
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d', strtotime( '-5 day' ) ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 3,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+				),
+				array(
+					'selected_roles'      => array( 'editor' ),
+					'limit_to'            => 0,
+					'registered_restrict' => true,
+					'registered_days'     => 2,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 5,
+					'available_users' => 14,
+				),
+			),
+			// (+ve Case) Delete Users with specified role and after filter.
+			array(
+				array(
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d', strtotime( '-5 day' ) ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d', strtotime( '-3 day' ) ),
+					),
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 3,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+				),
+				array(
+					'selected_roles'      => array( 'editor', 'subscriber' ),
+					'limit_to'            => 0,
+					'registered_restrict' => true,
+					'registered_date_op'  => 'after',
+					'registered_days'     => 2,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 3,
+					'available_users' => 16,
+				),
+			),
+			// (+ve Case) Delete Users with specified role and before filter.
+			array(
+				array(
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d', strtotime( '-5 day' ) ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d', strtotime( '-3 day' ) ),
+					),
+					array(
+						'role'            => 'editor',
+						'no_of_users'     => 3,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+				),
+				array(
+					'selected_roles'      => array( 'editor', 'subscriber' ),
+					'limit_to'            => 0,
+					'registered_restrict' => true,
+					'registered_date_op'  => 'before',
+					'registered_days'     => 2,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 15,
+					'available_users' => 4,
+				),
+			),
+		);
+	}
+
+	// To be moved to plugin test tools.
+	/**
+	 * Sets up default user with administrator role as a logged in user.
+	 *
+	 * @return void
+	 */
 	public function set_up_logged_in_user() {
 		$user = get_users();
 		wp_set_current_user( $user[0]->ID );
@@ -152,15 +317,14 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 	 * Test basic case of delete users by role.
 	 *
 	 * @dataProvider provide_data_to_test_delete_users
+	 * @dataProvider provide_data_to_test_delete_users_with_registration_filter
 	 *
 	 * @param array $setup           Create posts using supplied arguments.
 	 * @param array $user_operations User operations.
 	 * @param array $expected        Expected output for respective operations.
 	 */
 	public function test_delete_users_by_role_without_filters( $setup, $user_operations, $expected ) {
-		$no_of_users = $setup['no_of_users'];
-		$user_roles  = $setup['user_roles'];
-		$size        = count( $user_roles );
+		$size = count( $setup );
 
 		if ( array_key_exists( 'logged_in_user', $setup ) ) {
 			set_up_logged_in_user();
@@ -168,15 +332,12 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 
 		// Create users and assign to specified role.
 		for ( $i = 0; $i < $size; $i++ ) {
-			$user_ids = $this->factory->user->create_many( $no_of_users[ $i ] );
+			$args     = array( 'user_registered' => $setup[ $i ]['registered_date'] );
+			$user_ids = $this->factory->user->create_many( $setup[ $i ]['no_of_users'], $args );
 
 			foreach ( $user_ids as $user_id ) {
-				$this->assign_role_by_user_id( $user_id, $user_roles[ $i ] );
+				$this->assign_role_by_user_id( $user_id, $setup[ $i ]['role'] );
 			}
-
-			$users = get_users( array( 'role' => $user_roles[ $i ] ) );
-			$this->assertEquals( $no_of_users[ $i ], count( $users ) );
-
 		}
 
 		// call our method.
@@ -184,12 +345,6 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 		$deleted_users  = $this->module->delete( $delete_options );
 
 		$this->assertEquals( $expected['deleted_users'], $deleted_users );
-
-		// Assert that user role has no user if selected roles is not empty.
-		if ( ! empty( $user_operations['selected_roles'] ) ) {
-			$selected_role_users = get_users( array( 'role' => $user_operations['selected_roles'] ) );
-			$this->assertEquals( 0, count( $selected_role_users ) );
-		}
 
 		$available_users = get_users();
 		$this->assertEquals( $expected['available_users'], count( $available_users ) );
