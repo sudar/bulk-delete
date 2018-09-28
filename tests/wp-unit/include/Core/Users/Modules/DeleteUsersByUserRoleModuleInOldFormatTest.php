@@ -11,7 +11,7 @@ use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
  *
  * @since 6.0.0
  */
-class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
+class DeleteUsersByUserRoleModuleInOldFormatTest extends WPCoreUnitTestCase {
 	/**
 	 * The module that is getting tested.
 	 *
