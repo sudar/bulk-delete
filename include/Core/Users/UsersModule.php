@@ -35,6 +35,7 @@ abstract class UsersModule extends BaseModule {
 		$options['login_days']     = absint( bd_array_get( $request, "smbd_{$this->field_slug}_login_days", 0 ) );
 
 		$options['registered_restrict'] = bd_array_get_bool( $request, "smbd_{$this->field_slug}_registered_restrict", false );
+		$options['registered_date_op']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
 		$options['registered_days']     = absint( bd_array_get( $request, "smbd_{$this->field_slug}_registered_days", 0 ) );
 
 		$options['no_posts']            = bd_array_get_bool( $request, "smbd_{$this->field_slug}_no_posts", false );
@@ -175,9 +176,19 @@ abstract class UsersModule extends BaseModule {
 			return array();
 		}
 
-		return array(
-			'before' => $options['registered_days'] . ' days ago',
-		);
+		if ( ! isset( $options['registered_date_op'] ) ) {
+			return array(
+				'before' => $options['registered_days'] . ' days ago',
+			);
+		}
+
+		if ( 'before' === $options['registered_date_op'] || 'after' === $options['registered_date_op'] ) {
+			return array(
+				$options['registered_date_op'] => $options['registered_days'] . ' days ago',
+			);
+		}
+
+		return array();
 	}
 
 	/**
@@ -222,17 +233,20 @@ abstract class UsersModule extends BaseModule {
 	 * @since 5.5
 	 */
 	protected function render_user_login_restrict_settings() {
-?>
+		?>
 		<tr>
 			<td scope="row" colspan="2">
-				<label>
+				<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict">
 					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_restrict" value="true" type="checkbox">
-					<?php _e( 'Restrict to users who are registered in the site for at least ', 'bulk-delete' ); ?>
+					<?php _e( 'Restrict to users who are registered in the site ', 'bulk-delete' ); ?>
 				</label>
-				<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" class="screen-per-page" value="0" min="0" disabled> <?php _e( 'days.', 'bulk-delete' ); ?>
+				<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_op" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_op" disabled>
+					<option value="before"><?php _e( 'for at least', 'bulk-delete' ); ?></option>
+					<option value="after"><?php _e( 'in the last', 'bulk-delete' ); ?></option>
+				</select>
+				<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" class="screen-per-page" disabled value="0" min="0"><?php _e( ' days.', 'bulk-delete' ); ?>
 			</td>
 		</tr>
-
 		<tr>
 			<td scope="row" colspan="2">
 				<label>
