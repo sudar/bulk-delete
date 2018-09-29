@@ -43,7 +43,9 @@ class DeleteTermsByNameModule extends TermsModule {
 	}
 
 	public function filter_js_array( $js_array ) {
-		$js_array['validators'][ $this->action ] = 'noValidation';
+		$js_array['validators'][ $this->action ] = 'validateTermName';
+		$js_array['error_msg'][ $this->action ]  = 'enterTermName';
+		$js_array['msg']['enterTermName']        = __( 'Please enter the term name that should be deleted', 'bulk-delete' );
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteTermsWarning';
 		$js_array['msg']['deleteTermsWarning']       = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );
