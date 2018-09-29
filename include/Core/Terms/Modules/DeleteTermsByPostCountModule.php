@@ -35,7 +35,12 @@ class DeleteTermsByPostCountModule extends TermsModule {
 
 			<?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?>
 			<?php $this->render_number_comparison_operators(); ?>
-			<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_count" placeholder="<?php _e( 'Post count', 'bulk-delete' ); ?>">
+			<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="Post count" min="0">
+			<?php
+			$markup  = '';
+			$content = __( 'Post count is the number of posts that are assigned to a term.', 'bulk-delete' );
+			echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
+			?>
 		</fieldset>
 
 		<?php
@@ -43,9 +48,9 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	}
 
 	public function filter_js_array( $js_array ) {
-		$js_array['validators'][ $this->action ] = 'validatePostTypeSelect2';
-		$js_array['error_msg'][ $this->action ]  = 'selectPostType';
-		$js_array['msg']['selectPostType']       = __( 'Please select at least one post type', 'bulk-delete' );
+		$js_array['validators'][ $this->action ] = 'validatePostCount';
+		$js_array['error_msg'][ $this->action ]  = 'validPostCount';
+		$js_array['msg']['validPostCount']       = __( 'Please enter the post count based on which terms should be deleted. A valid post count will be greater than or equal to zero', 'bulk-delete' );
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteTermsWarning';
 		$js_array['msg']['deleteTermsWarning']       = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );
@@ -55,7 +60,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['operator']   = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' ) );
-		$options['post_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_count' ) );
+		$options['post_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug ) );
 
 		return $options;
 	}
