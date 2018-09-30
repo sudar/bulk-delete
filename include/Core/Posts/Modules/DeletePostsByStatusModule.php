@@ -81,6 +81,19 @@ class DeletePostsByStatusModule extends PostsModule {
 		$this->render_submit_button();
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	public function filter_js_array( $js_array ) {
+		$js_array['dt_iterators'][] = '_' . $this->field_slug;
+
+		$js_array['error_msg'][ $this->action ]      = 'selectPostStatus';
+		$js_array['pre_action_msg'][ $this->action ] = 'postStatusWarning';
+
+		$js_array['msg']['selectPostStatus']  = __( 'Please select at least one post status from which posts should be deleted', 'bulk-delete' );
+		$js_array['msg']['postStatusWarning'] = __( 'Are you sure you want to delete all the posts from the selected post status?', 'bulk-delete' );
+
+		return $js_array;
+	}
+
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_post_status', array() ) );
 
@@ -121,6 +134,6 @@ class DeletePostsByStatusModule extends PostsModule {
 
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d post from the selected post status', 'Deleted %d posts fro selected post status', $items_deleted, 'bulk-delete' );
 	}
 }
