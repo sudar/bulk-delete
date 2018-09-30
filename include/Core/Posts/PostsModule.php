@@ -63,7 +63,6 @@ abstract class PostsModule extends BaseModule {
 		$js_array['dt_iterators'][] = '_cats';
 		$js_array['dt_iterators'][] = '_tags';
 		$js_array['dt_iterators'][] = '_taxs';
-		$js_array['dt_iterators'][] = '_post_status';
 
 		return $js_array;
 	}
