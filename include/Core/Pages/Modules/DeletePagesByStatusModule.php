@@ -31,7 +31,7 @@ class DeletePagesByStatusModule extends PagesModule {
 		$pages_count    = wp_count_posts( 'page' );
 		?>
 		<!-- Pages start-->
-		<h4><?php _e( 'Select the status from which you want to delete pages', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the post statuses from which you want to delete pages', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
 			<table class="optiontable">
@@ -66,6 +66,19 @@ class DeletePagesByStatusModule extends PagesModule {
 		$this->render_submit_button();
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	public function filter_js_array( $js_array ) {
+		$js_array['dt_iterators'][] = '_' . $this->field_slug;
+
+		$js_array['error_msg'][ $this->action ]      = 'selectPagePostStatus';
+		$js_array['pre_action_msg'][ $this->action ] = 'pagePostStatusWarning';
+
+		$js_array['msg']['selectPagePostStatus']  = __( 'Please select at least one post status from which pages should be deleted', 'bulk-delete' );
+		$js_array['msg']['pagePostStatusWarning'] = __( 'Are you sure you want to delete all the pages from the selected post status?', 'bulk-delete' );
+
+		return $js_array;
+	}
+
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_page_status', array() ) );
 
@@ -87,6 +100,6 @@ class DeletePagesByStatusModule extends PagesModule {
 
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d page with the selected page status', 'Deleted %d pages with the selected page status', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d page from the selected post status', 'Deleted %d pages from the selected post status', $items_deleted, 'bulk-delete' );
 	}
 }
