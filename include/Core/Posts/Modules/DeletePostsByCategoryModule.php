@@ -43,7 +43,7 @@ class DeletePostsByCategoryModule extends PostsModule {
 				<?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type.', 'bulk-delete' ); ?>
 			</p>
 
-			<table class="form-table">
+			<table class="optiontable">
 				<tr>
 					<td scope="row">
 						<?php $this->render_category_dropdown(); ?>

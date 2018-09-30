@@ -44,7 +44,7 @@ class DeletePostsByTagModule extends PostsModule {
 
 		<!-- Tags start-->
 		<fieldset class="options">
-			<table class="form-table">
+			<table class="optiontable">
 				<tr>
 					<td scope="row" colspan="2">
 						<?php $this->render_tags_dropdown(); ?>
