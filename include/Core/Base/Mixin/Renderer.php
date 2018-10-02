@@ -346,6 +346,13 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
+	 * Render attachment settings.
+	 */
+	protected function render_attachment_settings() {
+		do_action( 'bd_render_attachment_settings', $this->field_slug, $this->item_type );
+	}
+
+	/**
 	 * Render restrict settings.
 	 */
 	protected function render_restrict_settings() {
