@@ -21,6 +21,32 @@ abstract class Renderer extends Fetcher {
 	protected $field_slug;
 
 	/**
+	 * Render post status including custom post status.
+	 *
+	 * @param string $post_type The post type for which the post status should be displayed.
+	 */
+	protected function render_post_status( $post_type = 'post' ) {
+		$post_statuses = $this->get_post_statuses();
+		$post_count    = wp_count_posts( $post_type );
+
+		foreach ( $post_statuses as $post_status ) : ?>
+			<tr>
+				<td>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
+						value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
+
+					<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
+						<?php echo esc_html( $post_status->label ), ' '; ?>
+						<?php if ( property_exists( $post_count, $post_status->name ) ) : ?>
+							(<?php echo absint( $post_count->{ $post_status->name } ) . ' ', __( 'Posts', 'bulk-delete' ); ?>)
+						<?php endif; ?>
+					</label>
+				</td>
+			</tr>
+		<?php endforeach;
+	}
+
+	/**
 	 * Render Post Types as radio buttons.
 	 */
 	protected function render_post_type_as_radios() {

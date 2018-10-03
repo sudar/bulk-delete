@@ -27,57 +27,28 @@ class DeletePostsByStatusModule extends PostsModule {
 	}
 
 	public function render() {
-		$post_statuses = $this->get_post_statuses();
-		$post_count    = wp_count_posts();
 		?>
 		<h4><?php _e( 'Select the post statuses from which you want to delete posts', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
-		<table class="optiontable">
 
-			<?php foreach ( $post_statuses as $post_status ) : ?>
-				<tr>
-					<td>
-						<input name="smbd_post_status[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
-							value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
+			<table class="optiontable">
+				<?php $this->render_post_status(); ?>
+			</table>
 
-						<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
-							<?php echo esc_html( $post_status->label ), ' '; ?>
-							<?php if ( property_exists( $post_count, $post_status->name ) ) : ?>
-								(<?php echo absint( $post_count->{ $post_status->name } ) . ' ', __( 'Posts', 'bulk-delete' ); ?>)
-							<?php endif; ?>
-						</label>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-
-			<?php $sticky_post_count = count( get_option( 'sticky_posts' ) ); ?>
-
-			<tr>
-				<td>
-					<input name="smbd_sticky" id="smbd_sticky" value="on" type="checkbox">
-					<label for="smbd_sticky">
-						<?php echo __( 'All Sticky Posts', 'bulk-delete' ), ' '; ?>
-						(<?php echo absint( $sticky_post_count ), ' ', __( 'Posts', 'bulk-delete' ); ?>)
-						<?php echo '<strong>', __( 'Note', 'bulk-delete' ), '</strong>: ', __( 'The date filter will not work for sticky posts', 'bulk-delete' ); ?>
-					</label>
-				</td>
-			</tr>
-
-		</table>
-
-		<table class="optiontable">
-			<?php
-			$this->render_filtering_table_header();
-			$this->render_restrict_settings();
-			$this->render_delete_settings();
-			$this->render_limit_settings();
-			$this->render_cron_settings();
-			?>
-		</table>
+			<table class="optiontable">
+				<?php
+				$this->render_filtering_table_header();
+				$this->render_restrict_settings();
+				$this->render_delete_settings();
+				$this->render_limit_settings();
+				$this->render_cron_settings();
+				?>
+			</table>
 
 		</fieldset>
-<?php
+
+		<?php
 		$this->render_submit_button();
 	}
 
@@ -95,28 +66,9 @@ class DeletePostsByStatusModule extends PostsModule {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_post_status', array() ) );
-
-		$options['delete-sticky-posts'] = bd_array_get_bool( $request, 'smbd_sticky', false );
+		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug, array() ) );
 
 		return $options;
-	}
-
-	/**
-	 * Delete Sticky post in addition to posts by status.
-	 *
-	 * @param array $options Delete options.
-	 *
-	 * @return int Number of posts deleted.
-	 */
-	public function delete( $options ) {
-		$posts_deleted = parent::delete( $options );
-
-		if ( isset( $options['delete-sticky-posts'] ) ) {
-			$posts_deleted += $this->delete_sticky_posts( $options['force_delete'] );
-		}
-
-		return $posts_deleted;
 	}
 
 	protected function build_query( $options ) {
@@ -125,8 +77,7 @@ class DeletePostsByStatusModule extends PostsModule {
 		}
 
 		$query = array(
-			'post_status'  => $options['post_status'],
-			'post__not_in' => get_option( 'sticky_posts' ),
+			'post_status' => $options['post_status'],
 		);
 
 		return $query;
