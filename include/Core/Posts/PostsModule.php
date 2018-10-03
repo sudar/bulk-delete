@@ -34,7 +34,6 @@ abstract class PostsModule extends BaseModule {
 	protected function parse_common_filters( $request ) {
 		$options = array();
 
-		$options['attachment']   = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_attachment', false );
 		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
 		$options['limit_to']     = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
 		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
@@ -114,7 +113,19 @@ abstract class PostsModule extends BaseModule {
 		$query    = $this->build_query_options( $options, $query );
 		$post_ids = $this->query( $query );
 
-		return $this->delete_posts_by_id( $post_ids, $options['force_delete'], $options['attachment'] );
+		$delete_post_count = $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
+
+		/**
+		 * Triggered after the posts are deleted.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $post_ids List of post ids that were deleted.
+		 * @param array $options Delete Options.
+		 */
+		do_action( 'bd_after_deleting_posts', $post_ids, $options );
+
+		return $delete_post_count;
 	}
 
 	/**
@@ -152,7 +163,7 @@ abstract class PostsModule extends BaseModule {
 	 *
 	 * @return int Number of posts deleted.
 	 */
-	protected function delete_posts_by_id( $post_ids, $force_delete, $delete_attachment = false ) {
+	protected function delete_posts_by_id( $post_ids, $force_delete ) {
 		foreach ( $post_ids as $post_id ) {
 			// `$force_delete` parameter to `wp_delete_post` won't work for custom post types.
 			// See https://core.trac.wordpress.org/ticket/43672
@@ -161,17 +172,6 @@ abstract class PostsModule extends BaseModule {
 			} else {
 				wp_trash_post( $post_id );
 			}
-		}
-
-		if ( $delete_attachment ) {
-			/**
-			* Filter deletes attachments.
-			*
-			* @since 6.1.0
-			*
-			* @param array $post_ids Post IDs for which attachments need to be deleted.
-			*/
-			$deleted_attachments_count = apply_filters( 'bd_delete_attachment', $post_ids );
 		}
 
 		return count( $post_ids );
