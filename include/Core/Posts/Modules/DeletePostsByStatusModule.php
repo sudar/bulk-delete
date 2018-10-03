@@ -27,83 +27,48 @@ class DeletePostsByStatusModule extends PostsModule {
 	}
 
 	public function render() {
-		$post_statuses = $this->get_post_statuses();
-		$post_count    = wp_count_posts();
 		?>
 		<h4><?php _e( 'Select the post statuses from which you want to delete posts', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
-		<table class="optiontable">
 
-			<?php foreach ( $post_statuses as $post_status ) : ?>
-				<tr>
-					<td>
-						<input name="smbd_post_status[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
-							value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
+			<table class="optiontable">
+				<?php $this->render_post_status(); ?>
+			</table>
 
-						<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
-							<?php echo esc_html( $post_status->label ), ' '; ?>
-							<?php if ( property_exists( $post_count, $post_status->name ) ) : ?>
-								(<?php echo absint( $post_count->{ $post_status->name } ) . ' ', __( 'Posts', 'bulk-delete' ); ?>)
-							<?php endif; ?>
-						</label>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-
-			<?php $sticky_post_count = count( get_option( 'sticky_posts' ) ); ?>
-
-			<tr>
-				<td>
-					<input name="smbd_sticky" id="smbd_sticky" value="on" type="checkbox">
-					<label for="smbd_sticky">
-						<?php echo __( 'All Sticky Posts', 'bulk-delete' ), ' '; ?>
-						(<?php echo absint( $sticky_post_count ), ' ', __( 'Posts', 'bulk-delete' ); ?>)
-						<?php echo '<strong>', __( 'Note', 'bulk-delete' ), '</strong>: ', __( 'The date filter will not work for sticky posts', 'bulk-delete' ); ?>
-					</label>
-				</td>
-			</tr>
-
-		</table>
-
-		<table class="optiontable">
-			<?php
-			$this->render_filtering_table_header();
-			$this->render_restrict_settings();
-			$this->render_delete_settings();
-			$this->render_limit_settings();
-			$this->render_cron_settings();
-			?>
-		</table>
+			<table class="optiontable">
+				<?php
+				$this->render_filtering_table_header();
+				$this->render_restrict_settings();
+				$this->render_delete_settings();
+				$this->render_limit_settings();
+				$this->render_cron_settings();
+				?>
+			</table>
 
 		</fieldset>
-<?php
+
+		<?php
 		$this->render_submit_button();
 	}
 
-	protected function convert_user_input_to_options( $request, $options ) {
-		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_post_status', array() ) );
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	public function filter_js_array( $js_array ) {
+		$js_array['dt_iterators'][] = '_' . $this->field_slug;
 
-		$options['delete-sticky-posts'] = bd_array_get_bool( $request, 'smbd_sticky', false );
+		$js_array['error_msg'][ $this->action ]      = 'selectPostStatus';
+		$js_array['pre_action_msg'][ $this->action ] = 'postStatusWarning';
 
-		return $options;
+		$js_array['msg']['selectPostStatus']  = __( 'Please select at least one post status from which posts should be deleted', 'bulk-delete' );
+		$js_array['msg']['postStatusWarning'] = __( 'Are you sure you want to delete all the posts from the selected post status?', 'bulk-delete' );
+
+		return $js_array;
 	}
 
-	/**
-	 * Delete Sticky post in addition to posts by status.
-	 *
-	 * @param array $options Delete options.
-	 *
-	 * @return int Number of posts deleted.
-	 */
-	public function delete( $options ) {
-		$posts_deleted = parent::delete( $options );
+	protected function convert_user_input_to_options( $request, $options ) {
+		$options['post_status'] = array_map( 'sanitize_text_field', bd_array_get( $request, 'smbd_' . $this->field_slug, array() ) );
 
-		if ( isset( $options['delete-sticky-posts'] ) ) {
-			$posts_deleted += $this->delete_sticky_posts( $options['force_delete'] );
-		}
-
-		return $posts_deleted;
+		return $options;
 	}
 
 	protected function build_query( $options ) {
@@ -112,8 +77,7 @@ class DeletePostsByStatusModule extends PostsModule {
 		}
 
 		$query = array(
-			'post_status'  => $options['post_status'],
-			'post__not_in' => get_option( 'sticky_posts' ),
+			'post_status' => $options['post_status'],
 		);
 
 		return $query;
@@ -121,6 +85,6 @@ class DeletePostsByStatusModule extends PostsModule {
 
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d post from the selected post status', 'Deleted %d posts fro selected post status', $items_deleted, 'bulk-delete' );
 	}
 }
