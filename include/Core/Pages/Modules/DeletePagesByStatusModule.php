@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 class DeletePagesByStatusModule extends PagesModule {
 	protected function initialize() {
 		$this->item_type     = 'pages';
-		$this->field_slug    = 'pages';
+		$this->field_slug    = 'page_status';
 		$this->meta_box_slug = 'bd_pages_by_status';
 		$this->action        = 'delete_pages_by_status';
 		$this->cron_hook     = 'do-bulk-delete-pages-by-status';
@@ -27,29 +27,13 @@ class DeletePagesByStatusModule extends PagesModule {
 	}
 
 	public function render() {
-		$post_statuses  = $this->get_post_statuses();
-		$pages_count    = wp_count_posts( 'page' );
 		?>
 		<!-- Pages start-->
 		<h4><?php _e( 'Select the post statuses from which you want to delete pages', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
 			<table class="optiontable">
-				<?php foreach ( $post_statuses as $post_status ) : ?>
-				<tr>
-					<td>
-						<input name="smbd_page_status[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
-							value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
-
-						<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
-							<?php echo esc_html( $post_status->label ), ' '; ?>
-							<?php if ( property_exists( $pages_count, $post_status->name ) ) : ?>
-								(<?php echo absint( $pages_count->{ $post_status->name } ) . ' ', __( 'Posts', 'bulk-delete' ); ?>)
-							<?php endif; ?>
-						</label>
-					</td>
-				</tr>
-			<?php endforeach; ?>
+				<?php $this->render_post_status( 'page' ); ?>
 			</table>
 
 			<table class="optiontable">
@@ -62,6 +46,7 @@ class DeletePagesByStatusModule extends PagesModule {
 				?>
 			</table>
 		</fieldset>
+
 		<?php
 		$this->render_submit_button();
 	}
