@@ -375,7 +375,14 @@ abstract class Renderer extends Fetcher {
 	 * Render attachment settings.
 	 */
 	protected function render_attachment_settings() {
-		do_action( 'bd_render_attachment_settings', $this->field_slug, $this->item_type );
+		/**
+		 * This action is primarily for adding delete attachment settings.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule The delete module.
+		 */
+		do_action( 'bd_render_attachment_settings', $this );
 	}
 
 	/**

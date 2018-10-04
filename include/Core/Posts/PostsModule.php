@@ -118,7 +118,7 @@ abstract class PostsModule extends BaseModule {
 		/**
 		 * Triggered after the posts are deleted.
 		 *
-		 * @since 6.0.0
+		 * @since 1.3.0
 		 *
 		 * @param array $post_ids List of post ids that were deleted.
 		 * @param array $options Delete Options.
@@ -159,7 +159,6 @@ abstract class PostsModule extends BaseModule {
 	 *
 	 * @param int[] $post_ids          List of post ids to delete.
 	 * @param bool  $force_delete      True to force delete posts, False otherwise.
-	 * @param bool  $delete_attachment True to delete attachments, False otherwise.
 	 *
 	 * @return int Number of posts deleted.
 	 */

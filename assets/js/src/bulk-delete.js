@@ -73,6 +73,17 @@ jQuery(document).ready(function () {
 		}
 	}
 
+	/**
+	 * Toggle delete attachments
+	 */
+	function toggle_delete_attachments(el) {
+		if ( "true" === jQuery('input[name="smbd' + el + '_force_delete"]:checked').val()) {
+			jQuery("#smbd" + el + "_attachment").removeAttr('disabled');
+		} else {
+			jQuery("#smbd" + el + "_attachment").attr('disabled', 'true');
+		}
+	}	
+
     /**
      * Toggle Post type dropdown.
      */
@@ -127,6 +138,10 @@ jQuery(document).ready(function () {
 
 		jQuery('#smbd' + value + '_registered_restrict').change(function () {
 			toggle_registered_restrict(value);
+		});
+
+		jQuery('input[name="smbd' + value + '_force_delete"').change(function () {
+			toggle_delete_attachments(value);
 		});
 
 		jQuery( '#smbd' + value + '_no_posts' ).change( function () {
