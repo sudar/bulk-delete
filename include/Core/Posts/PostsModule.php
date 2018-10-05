@@ -173,8 +173,8 @@ abstract class PostsModule extends BaseModule {
 	/**
 	 * Delete posts by ids.
 	 *
-	 * @param int[] $post_ids          List of post ids to delete.
-	 * @param bool  $force_delete      True to force delete posts, False otherwise.
+	 * @param int[] $post_ids     List of post ids to delete.
+	 * @param bool  $force_delete True to force delete posts, False otherwise.
 	 *
 	 * @return int Number of posts deleted.
 	 */
