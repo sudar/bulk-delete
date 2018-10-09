@@ -7,20 +7,34 @@
 jQuery( document ).ready( function () {
 	var stickyAction = jQuery( "input[name='smbd_sticky_post_sticky_action']" ),
 		deleteAction = stickyAction.parents( 'tr' ).next(),
+		deleteActionRadio = deleteAction.find('[type="radio"]'),
+		deleteAttachmentAction = deleteAction.next(),
+		deleteAttachmentCheckBox = deleteAttachmentAction.find('[type="checkbox"]'),
 		deleteButton = jQuery( "button[value='delete_posts_by_sticky_post']" );
 
 	deleteButton.html( 'Remove Sticky &raquo;' );
 	deleteAction.hide();
+	deleteAttachmentAction.hide();
 
 	stickyAction.change( function () {
 		if ( 'delete' === stickyAction.filter( ':checked' ).val() ) {
 			deleteButton.html( 'Bulk Delete &raquo;' );
 			deleteAction.show();
+			deleteAttachmentAction.show();
 		} else {
 			deleteButton.html( 'Remove Sticky &raquo;' );
 			deleteAction.hide();
+			deleteAttachmentAction.hide();
 		}
 	} );
+
+	deleteActionRadio.change( function () {
+		if( "true" === deleteActionRadio.filter(':checked').val() ){
+			deleteAttachmentCheckBox.removeAttr('disabled');
+		} else {
+			deleteAttachmentCheckBox.attr('disabled', 'true');
+		}
+	});
 } );
 
 /**
