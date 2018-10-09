@@ -119,8 +119,8 @@ abstract class PostsModule extends BaseModule {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param array $post_ids       List of post ids that are going to be deleted.
-		 * @param array $options        List of Delete Options.
+		 * @param array $post_ids List of post ids that are going to be deleted.
+		 * @param array $options  List of Delete Options.
 		 */
 		do_action( 'bd_before_deleting_posts', $post_ids, $options );
 
@@ -131,7 +131,7 @@ abstract class PostsModule extends BaseModule {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param array $options        Delete Options.
+		 * @param array $options Delete Options.
 		 */
 		do_action( 'bd_after_deleting_posts', $options );
 
