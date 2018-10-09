@@ -112,33 +112,28 @@ abstract class PostsModule extends BaseModule {
 	protected function delete_posts_from_query( $query, $options ) {
 		$query          = $this->build_query_options( $options, $query );
 		$post_ids       = $this->query( $query );
-		$attachment_ids = array();
 
 		/**
 		 * Triggered before the posts deletion, to get IDs of attachments associated with
 		 * posts that are going to be deleted.
 		 *
-		 * @since 1.3.0
+		 * @since 6.0.0
 		 *
-		 * @param array $attachment_ids List of attachment ids associated with the $post_ids.
 		 * @param array $post_ids       List of post ids that are going to be deleted.
 		 * @param array $options        List of Delete Options.
 		 */
-		$attachment_ids = apply_filters( 'bd_before_deleting_posts', $attachment_ids, $post_ids, $options );
+		do_action( 'bd_before_deleting_posts', $post_ids, $options );
 
 		$delete_post_count = $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
 
 		/**
 		 * Triggered after the posts are deleted.
 		 *
-		 * @since 1.3.0
+		 * @since 6.0.0
 		 *
-		 * @param array $attachment_ids List of attachment ids that have to be deleted.
 		 * @param array $options        Delete Options.
 		 */
-		if ( ! empty( $attachment_ids ) ) {
-			do_action( 'bd_after_deleting_posts', $attachment_ids, $options );
-		}
+		do_action( 'bd_after_deleting_posts', $options );
 
 		return $delete_post_count;
 	}

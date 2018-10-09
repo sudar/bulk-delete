@@ -55,7 +55,6 @@ class DeletePostsByStickyPostModule extends PostsModule {
 				$this->render_filtering_table_header();
 				$this->render_sticky_action_settings();
 				$this->render_delete_settings();
-				$this->render_attachment_settings();
 				?>
 			</table>
 		</fieldset>

@@ -372,20 +372,6 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
-	 * Render attachment settings.
-	 */
-	protected function render_attachment_settings() {
-		/**
-		 * This action is primarily for adding delete attachment settings.
-		 *
-		 * @since 1.3.0
-		 *
-		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule The delete module.
-		 */
-		do_action( 'bd_render_attachment_settings', $this );
-	}
-
-	/**
 	 * Render restrict settings.
 	 */
 	protected function render_restrict_settings() {
@@ -397,6 +383,14 @@ abstract class Renderer extends Fetcher {
 	 */
 	protected function render_delete_settings() {
 		bd_render_delete_settings( $this->field_slug );
+		/**
+		 * This action is primarily for adding delete attachment settings.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule The delete module.
+		 */
+		do_action( 'bd_render_attachment_settings', $this );
 	}
 
 	/**

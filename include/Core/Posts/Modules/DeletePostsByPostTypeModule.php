@@ -41,7 +41,6 @@ class DeletePostsByPostTypeModule extends PostsModule {
 				$this->render_filtering_table_header();
 				$this->render_restrict_settings();
 				$this->render_delete_settings();
-				$this->render_attachment_settings();
 				$this->render_limit_settings();
 				$this->render_cron_settings();
 				?>
