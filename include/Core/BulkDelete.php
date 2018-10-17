@@ -19,6 +19,7 @@ use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCommentsModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
 use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByNameModule;
@@ -348,6 +349,7 @@ final class BulkDelete {
 		$posts_page->add_module( new DeletePostsByURLModule() );
 		$posts_page->add_module( new DeletePostsByRevisionModule() );
 		$posts_page->add_module( new DeletePostsByStickyPostModule() );
+		$posts_page->add_module( new DeletePostsByCommentsModule() );
 
 		/**
 		 * After the modules are registered in the delete posts page.

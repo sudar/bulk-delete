@@ -7,9 +7,9 @@ use BulkWP\BulkDelete\Core\Posts\PostsModule;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Posts by Tag Module.
+ * Delete Posts by Comments Module.
  *
- * @since 6.0.0
+ * @since 6.1.0
  */
 class DeletePostsByCommentsModule extends PostsModule {
 	/**
@@ -30,18 +30,30 @@ class DeletePostsByCommentsModule extends PostsModule {
 	}
 
 	/**
-	 * Render Delete posts by tag box.
+	 * Render Delete posts by comments box.
 	 */
 	public function render() {
 		?>
-		<h4><?php _e( 'Select the no of comments that posts should have', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Delete Posts based on the number of comments', 'bulk-delete' ); ?></h4>
 
-		<!-- Tags start-->
+		<!-- Comments start-->
 		<fieldset class="options">
 			<table class="optiontable">
 				<tr>
 					<td scope="row" colspan="2">
-						<?php $this->render_tags_dropdown(); ?>
+						<?php _e( 'Delete posts that have comments', 'bulk-delete' ); ?>
+					</td>
+					<td>
+						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_op" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_op">
+							<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+							<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+							<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
+							<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
+						</select>
+					</td>
+					<td>
+						<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_value"
+						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_value" placeholder="Comments Count" min="0" class="comments_count_num">
 					</td>
 				</tr>
 			</table>
@@ -57,12 +69,12 @@ class DeletePostsByCommentsModule extends PostsModule {
 				?>
 			</table>
 		</fieldset>
-<?php
+		<?php
 		$this->render_submit_button();
 	}
 
 	/**
-	 * Process delete posts user inputs by tag.
+	 * Process delete posts user inputs by comments count.
 	 *
 	 * @param array $request Request array.
 	 * @param array $options Options for deleting posts.
@@ -70,8 +82,8 @@ class DeletePostsByCommentsModule extends PostsModule {
 	 * @return array $options  Inputs from user for posts that were need to delete
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['selected_tags'] = bd_array_get( $request, 'smbd_tags', array() );
-		$options['private']       = bd_array_get( $request, 'smbd_tags_private', false );
+		$options['operator']      = bd_array_get( $request, 'smbd_' . $this->field_slug . '_count_op' );
+		$options['comment_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_count_value' ) );
 
 		return $options;
 	}
@@ -79,13 +91,23 @@ class DeletePostsByCommentsModule extends PostsModule {
 	protected function build_query( $options ) {
 		$query = array();
 
-		if ( in_array( 'all', $options['selected_tags'], true ) ) {
-			$query['tag__not__in'] = array( 0 );
-		} else {
-			$query['tag__in'] = $options['selected_tags'];
-		}
+		$query['comment_count'] = array(
+			'compare' => $options['operator'],
+			'value'   => $options['comment_count'],
+		);
 
 		return $query;
+	}
+
+	public function filter_js_array( $js_array ) {
+		$js_array['validators'][ $this->action ] = 'validateCommentsCount';
+		$js_array['error_msg'][ $this->action ]  = 'validCommentsCount';
+		$js_array['msg']['validCommentsCount']   = __( 'Please enter the comments count based on which posts should be deleted. A valid comment count will be greater than or equal to zero', 'bulk-delete' );
+
+		$js_array['pre_action_msg'][ $this->action ] = 'deletePostsWarning';
+		$js_array['msg']['deletePostsWarning']       = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
+
+		return $js_array;
 	}
 
 	/**
@@ -97,6 +119,6 @@ class DeletePostsByCommentsModule extends PostsModule {
 	 */
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted %d post with the selected post tag', 'Deleted %d posts with the selected post tag', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d post with the selected comments count', 'Deleted %d posts with the selected comments count', $items_deleted, 'bulk-delete' );
 	}
 }
