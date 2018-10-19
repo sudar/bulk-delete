@@ -74,12 +74,12 @@ class DeletePostsByCommentsModule extends PostsModule {
 	}
 
 	/**
-	 * Process delete posts user inputs by comments count.
+	 * Process delete posts, user inputs by comments count.
 	 *
 	 * @param array $request Request array.
 	 * @param array $options Options for deleting posts.
 	 *
-	 * @return array $options  Inputs from user for posts that were need to delete
+	 * @return array $options Inputs from user for posts that were need to be deleted.
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['operator']      = bd_array_get( $request, 'smbd_' . $this->field_slug . '_count_op' );
@@ -88,6 +88,13 @@ class DeletePostsByCommentsModule extends PostsModule {
 		return $options;
 	}
 
+	/**
+	 * Build the Query from user input.
+	 *
+	 * @param array $options User Input.
+	 *
+	 * @return array $query Query Params.
+	 */
 	protected function build_query( $options ) {
 		$query = array();
 
@@ -99,6 +106,13 @@ class DeletePostsByCommentsModule extends PostsModule {
 		return $query;
 	}
 
+	/**
+	 * Filter JS Array and add validation hooks.
+	 *
+	 * @param array $js_array JavaScript Array.
+	 *
+	 * @return array Modified JavaScript Array.
+	 */
 	public function filter_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validateCommentsCount';
 		$js_array['error_msg'][ $this->action ]  = 'validCommentsCount';

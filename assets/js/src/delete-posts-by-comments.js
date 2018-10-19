@@ -7,5 +7,5 @@
 
 /*global jQuery, BulkWP*/
 BulkWP.validateCommentsCount = function(that) {
-    return (null !== jQuery(that).parent().prev().children().find(".comments_count_num").val());
+    return ("" !== jQuery(that).parent().prev().children().find(":input.comments_count_num").val());
 };
