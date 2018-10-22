@@ -30,13 +30,13 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function provide_data_to_test_posts_deletion_by_comments_count_with_equals_operator() {
 		return array(
-			// (+ve Case) Deletes all posts for the given comment count with equals operator.
+			// (+ve Case) Deletes all/few posts for the given comment count with equals operator.
 			array(
 				array(
 					array(
 						'posts'       => 15,
 						'comments'    => 5,
-						'post_status' => 'publish',
+						'post_status' => 'private',
 					),
 					array(
 						'posts'       => 10,
@@ -57,7 +57,7 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'available_posts' => 10,
 				),
 			),
-			// (-ve Case) Deletes no/few posts for the given comment count with equals operator.
+			// (-ve Case) Deletes no posts for the given comment count with equals operator.
 			array(
 				array(
 					array(
@@ -73,15 +73,15 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'operator'      => '=',
-					'comment_count' => 5,
+					'comment_count' => 3,
 					'limit_to'      => 0,
 					'restrict'      => false,
 					'force_delete'  => true,
 				),
 				array(
-					'deleted_posts'   => 10,
+					'deleted_posts'   => 0,
 					'trashed_posts'   => 0,
-					'available_posts' => 15,
+					'available_posts' => 25,
 				),
 			),
 		);
@@ -92,18 +92,23 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function provide_data_to_test_posts_deletion_by_comments_count_with_not_equals_operator() {
 		return array(
-			// (+ve Case) Deletes all posts for the given comment count with not equals operator.
+			// (+ve Case) Deletes all/few posts for the given comment count with not equals operator.
 			array(
 				array(
 					array(
-						'posts'       => 15,
-						'comments'    => 10,
+						'posts'       => 5,
+						'comments'    => 5,
 						'post_status' => 'publish',
 					),
 					array(
 						'posts'       => 10,
 						'comments'    => 4,
 						'post_status' => 'publish',
+					),
+					array(
+						'posts'       => 5,
+						'comments'    => 3,
+						'post_status' => 'private',
 					),
 				),
 				array(
@@ -114,12 +119,12 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'force_delete'  => true,
 				),
 				array(
-					'deleted_posts'   => 25,
+					'deleted_posts'   => 15,
 					'trashed_posts'   => 0,
-					'available_posts' => 0,
+					'available_posts' => 5,
 				),
 			),
-			// (-ve Case) Deletes no/few posts for the given comment count with not equals operator.
+			// (-ve Case) Deletes no posts for the given comment count with not equals operator.
 			array(
 				array(
 					array(
@@ -129,7 +134,7 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					),
 					array(
 						'posts'       => 10,
-						'comments'    => 3,
+						'comments'    => 5,
 						'post_status' => 'draft',
 					),
 				),
@@ -141,9 +146,9 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'force_delete'  => true,
 				),
 				array(
-					'deleted_posts'   => 10,
+					'deleted_posts'   => 0,
 					'trashed_posts'   => 0,
-					'available_posts' => 15,
+					'available_posts' => 25,
 				),
 			),
 		);
@@ -154,7 +159,7 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function provide_data_to_test_posts_deletion_by_comments_count_with_greater_than_operator() {
 		return array(
-			// (+ve Case) Deletes all posts for the given comment count with greater than operator.
+			// (+ve Case) Deletes all/few posts for the given comment count with greater than operator.
 			array(
 				array(
 					array(
@@ -164,7 +169,7 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					),
 					array(
 						'posts'       => 10,
-						'comments'    => 4,
+						'comments'    => 3,
 						'post_status' => 'publish',
 					),
 				),
@@ -176,12 +181,12 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'force_delete'  => true,
 				),
 				array(
-					'deleted_posts'   => 25,
+					'deleted_posts'   => 15,
 					'trashed_posts'   => 0,
-					'available_posts' => 0,
+					'available_posts' => 10,
 				),
 			),
-			// (-ve Case) Deletes no/few posts for the given comment count with greater than operator.
+			// (-ve Case) Deletes no posts for the given comment count with greater than operator.
 			array(
 				array(
 					array(
@@ -216,7 +221,7 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function provide_data_to_test_posts_deletion_by_comments_count_with_less_than_operator() {
 		return array(
-			// (+ve Case) Deletes all posts for the given comment count with less than operator.
+			// (+ve Case) Deletes all/few posts for the given comment count with less than operator.
 			array(
 				array(
 					array(
@@ -232,18 +237,18 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'operator'      => '<',
-					'comment_count' => 11,
+					'comment_count' => 5,
 					'limit_to'      => 0,
 					'restrict'      => false,
 					'force_delete'  => true,
 				),
 				array(
-					'deleted_posts'   => 25,
+					'deleted_posts'   => 10,
 					'trashed_posts'   => 0,
-					'available_posts' => 0,
+					'available_posts' => 15,
 				),
 			),
-			// (-ve Case) Deletes no/few posts for the given comment count with less than operator.
+			// (-ve Case) Deletes no posts for the given comment count with less than operator.
 			array(
 				array(
 					array(
@@ -253,7 +258,7 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					),
 					array(
 						'posts'       => 10,
-						'comments'    => 3,
+						'comments'    => 7,
 						'post_status' => 'publish',
 					),
 				),
@@ -265,9 +270,9 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'force_delete'  => true,
 				),
 				array(
-					'deleted_posts'   => 10,
+					'deleted_posts'   => 0,
 					'trashed_posts'   => 0,
-					'available_posts' => 15,
+					'available_posts' => 25,
 				),
 			),
 		);
@@ -286,14 +291,12 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 	 * @param array $expected   Expected output for respective operations.
 	 */
 	public function test_posts_can_be_deleted_by_posts_count( $setup, $operations, $expected ) {
-		$size = count( $setup );
-
-		for ( $i = 0; $i < $size; $i++ ) {
-			$post_ids = $this->factory->post->create_many( $setup[ $i ]['posts'], array(
-				'post_status' => $setup[ $i ]['post_status'],
+		foreach ( $setup as $element ) {
+			$post_ids = $this->factory->post->create_many( $element['posts'], array(
+				'post_status' => $element['post_status'],
 			) );
 			foreach ( $post_ids as $post_id ) {
-				$comment_ids = $this->factory->comment->create_post_comments( $post_id, $setup[ $i ]['comments'] );
+				$this->factory->comment->create_post_comments( $post_id, $element['comments'] );
 			}
 		}
 
