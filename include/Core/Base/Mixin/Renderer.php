@@ -294,10 +294,10 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
-	 * Renders exclude sticky posts checkbox
+	 * Renders exclude sticky posts checkbox.
 	 */
 	protected function render_exclude_sticky_settings() {
-		if ( $this->are_sticky_posts_present() ) : // phpcs:ignore ?>
+		if ( $this->are_sticky_posts_present() ) : // phpcs:ignore?>
 		<tr>
 			<td scope="row">
 				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_exclude_sticky" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_exclude_sticky" value="true" type="checkbox">
