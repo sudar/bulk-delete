@@ -34,14 +34,12 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					array(
-						'posts'       => 15,
-						'comments'    => 5,
-						'post_status' => 'private',
+						'posts'    => 15,
+						'comments' => 5,
 					),
 					array(
-						'posts'       => 10,
-						'comments'    => 6,
-						'post_status' => 'publish',
+						'posts'    => 10,
+						'comments' => 6,
 					),
 				),
 				array(
@@ -49,11 +47,11 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'comment_count' => 5,
 					'limit_to'      => 0,
 					'restrict'      => false,
-					'force_delete'  => true,
+					'force_delete'  => false,
 				),
 				array(
 					'deleted_posts'   => 15,
-					'trashed_posts'   => 0,
+					'trashed_posts'   => 15,
 					'available_posts' => 10,
 				),
 			),
@@ -61,14 +59,12 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					array(
-						'posts'       => 15,
-						'comments'    => 6,
-						'post_status' => 'publish',
+						'posts'    => 15,
+						'comments' => 6,
 					),
 					array(
-						'posts'       => 10,
-						'comments'    => 5,
-						'post_status' => 'private',
+						'posts'    => 10,
+						'comments' => 5,
 					),
 				),
 				array(
@@ -96,19 +92,16 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					array(
-						'posts'       => 5,
-						'comments'    => 5,
-						'post_status' => 'publish',
+						'posts'    => 5,
+						'comments' => 5,
 					),
 					array(
-						'posts'       => 10,
-						'comments'    => 4,
-						'post_status' => 'publish',
+						'posts'    => 10,
+						'comments' => 4,
 					),
 					array(
-						'posts'       => 5,
-						'comments'    => 3,
-						'post_status' => 'private',
+						'posts'    => 5,
+						'comments' => 0,
 					),
 				),
 				array(
@@ -128,14 +121,12 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					array(
-						'posts'       => 15,
-						'comments'    => 5,
-						'post_status' => 'publish',
+						'posts'    => 15,
+						'comments' => 5,
 					),
 					array(
-						'posts'       => 10,
-						'comments'    => 5,
-						'post_status' => 'draft',
+						'posts'    => 10,
+						'comments' => 5,
 					),
 				),
 				array(
@@ -163,14 +154,12 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					array(
-						'posts'       => 15,
-						'comments'    => 10,
-						'post_status' => 'publish',
+						'posts'    => 15,
+						'comments' => 10,
 					),
 					array(
-						'posts'       => 10,
-						'comments'    => 3,
-						'post_status' => 'publish',
+						'posts'    => 10,
+						'comments' => 3,
 					),
 				),
 				array(
@@ -178,11 +167,11 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'comment_count' => 3,
 					'limit_to'      => 0,
 					'restrict'      => false,
-					'force_delete'  => true,
+					'force_delete'  => false,
 				),
 				array(
 					'deleted_posts'   => 15,
-					'trashed_posts'   => 0,
+					'trashed_posts'   => 15,
 					'available_posts' => 10,
 				),
 			),
@@ -190,14 +179,12 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 			array(
 				array(
 					array(
-						'posts'       => 15,
-						'comments'    => 5,
-						'post_status' => 'publish',
+						'posts'    => 15,
+						'comments' => 5,
 					),
 					array(
-						'posts'       => 10,
-						'comments'    => 3,
-						'post_status' => 'publish',
+						'posts'    => 10,
+						'comments' => 3,
 					),
 				),
 				array(
@@ -293,7 +280,7 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 	public function test_posts_can_be_deleted_by_posts_count( $setup, $operations, $expected ) {
 		foreach ( $setup as $element ) {
 			$post_ids = $this->factory->post->create_many( $element['posts'], array(
-				'post_status' => $element['post_status'],
+				'post_status' => 'publish',
 			) );
 			foreach ( $post_ids as $post_id ) {
 				$this->factory->comment->create_post_comments( $post_id, $element['comments'] );
@@ -309,8 +296,6 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( $expected['trashed_posts'], count( $trashed_posts ) );
 
 		$published_posts = $this->get_posts_by_status();
-		$private_posts   = $this->get_posts_by_status( 'private' );
-		$draft_posts     = $this->get_posts_by_status( 'draft' );
-		$this->assertEquals( $expected['available_posts'], count( $published_posts ) + count( $private_posts ) + count( $draft_posts ) );
+		$this->assertEquals( $expected['available_posts'], count( $published_posts ) );
 	}
 }
