@@ -232,6 +232,17 @@ abstract class BaseModule extends Renderer {
 		$options      = $this->convert_user_input_to_options( $request, $options );
 		$cron_options = $this->parse_cron_filters( $request );
 
+		/**
+		 * Filter the processed delete options.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $options Processed options.
+		 * @param array $request Request array.
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule The delete module.
+		 */
+		$options = apply_filters( 'bd_processed_delete_options', $options, $request, $this );
+
 		if ( $this->is_scheduled( $cron_options ) ) {
 			$msg = $this->schedule_deletion( $cron_options, $options );
 		} else {
