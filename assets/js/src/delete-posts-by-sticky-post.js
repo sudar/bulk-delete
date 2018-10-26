@@ -38,7 +38,7 @@ jQuery( document ).ready( function () {
 	});
 
 	jQuery("input[value='all']").change( function () {
-		if( "all" === stickyPostCheckbox.filter(':checked').val() ) {
+		if( jQuery(this).is(':checked') ) {
 			uncheckAndDisableOtherCheckboxes();
 		} else {
 			enableCheckboxes();
