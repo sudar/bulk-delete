@@ -40,6 +40,7 @@ class DeletePostsByStatusModule extends PostsModule {
 				<?php
 				$this->render_filtering_table_header();
 				$this->render_restrict_settings();
+				$this->render_exclude_sticky_settings();
 				$this->render_delete_settings();
 				$this->render_limit_settings();
 				$this->render_cron_settings();

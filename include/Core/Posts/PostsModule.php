@@ -34,9 +34,10 @@ abstract class PostsModule extends BaseModule {
 	protected function parse_common_filters( $request ) {
 		$options = array();
 
-		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
-		$options['limit_to']     = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
-		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
+		$options['restrict']       = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
+		$options['limit_to']       = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
+		$options['exclude_sticky'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_exclude_sticky', false );
+		$options['force_delete']   = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
 
 		$options['date_op'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
 		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
