@@ -40,6 +40,7 @@ class DeletePostsByPostTypeModule extends PostsModule {
 				$this->render_post_type_with_status();
 				$this->render_filtering_table_header();
 				$this->render_restrict_settings();
+				$this->render_exclude_sticky_settings();
 				$this->render_delete_settings();
 				$this->render_limit_settings();
 				$this->render_cron_settings();

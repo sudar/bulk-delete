@@ -38,6 +38,11 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 		$options['post_type'] = $delete_options['post_type'];
 	}
 
+	// exclude sticky posts.
+	if ( isset( $delete_options['exclude_sticky'] ) && ( true === $delete_options['exclude_sticky'] ) ) {
+		$options['post__not_in'] = get_option( 'sticky_posts' );
+	}
+
 	// date query.
 	if ( $delete_options['restrict'] ) {
 		if ( 'before' === $delete_options['date_op'] || 'after' === $delete_options['date_op'] ) {

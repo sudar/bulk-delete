@@ -10,6 +10,7 @@ jQuery( document ).ready( function () {
 		deleteActionRadio = deleteAction.find('[type="radio"]'),
 		deleteAttachmentAction = deleteAction.next(),
 		deleteAttachmentCheckBox = deleteAttachmentAction.find('[type="checkbox"]'),
+		stickyPostCheckbox = jQuery( "input[name='smbd_sticky_post[]']" ),
 		deleteButton = jQuery( "button[value='delete_posts_by_sticky_post']" );
 
 	deleteButton.html( 'Remove Sticky &raquo;' );
@@ -35,6 +36,29 @@ jQuery( document ).ready( function () {
 			deleteAttachmentCheckBox.attr('disabled', 'true');
 		}
 	});
+
+	jQuery("input[value='all']").change( function () {
+		if( jQuery(this).is(':checked') ) {
+			uncheckAndDisableOtherCheckboxes();
+		} else {
+			enableCheckboxes();
+		}
+	});
+
+	function uncheckAndDisableOtherCheckboxes() {
+		stickyPostCheckbox.each( function() {
+			if ( 'all' !== jQuery(this).val() ){
+				jQuery(this).prop('checked', false);
+				jQuery(this).attr('disabled', 'true');
+			}
+		});
+	}
+
+	function enableCheckboxes() {
+		stickyPostCheckbox.each( function() {
+			jQuery(this).removeAttr('disabled');
+		});
+	}
 } );
 
 /**
