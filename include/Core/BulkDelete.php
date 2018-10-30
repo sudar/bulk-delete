@@ -346,10 +346,10 @@ final class BulkDelete {
 		$posts_page->add_module( new DeletePostsByTagModule() );
 		$posts_page->add_module( new DeletePostsByTaxonomyModule() );
 		$posts_page->add_module( new DeletePostsByPostTypeModule() );
+		$posts_page->add_module( new DeletePostsByCommentsModule() );
 		$posts_page->add_module( new DeletePostsByURLModule() );
 		$posts_page->add_module( new DeletePostsByRevisionModule() );
 		$posts_page->add_module( new DeletePostsByStickyPostModule() );
-		$posts_page->add_module( new DeletePostsByCommentsModule() );
 
 		/**
 		 * After the modules are registered in the delete posts page.
