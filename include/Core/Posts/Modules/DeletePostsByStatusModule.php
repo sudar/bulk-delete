@@ -86,6 +86,6 @@ class DeletePostsByStatusModule extends PostsModule {
 
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d post from the selected post status', 'Deleted %d posts fro selected post status', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d post from the selected post status', 'Deleted %d posts from selected post status', $items_deleted, 'bulk-delete' );
 	}
 }
