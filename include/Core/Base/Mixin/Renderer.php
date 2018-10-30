@@ -117,6 +117,23 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
+	 * Render content settings.
+	 */
+	protected function render_content_settings() {
+		?>
+		<tr>
+			<td scope="row" colspan="2">
+				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_content" value="false" type="radio"
+					checked="checked"> <?php _e( 'Also delete all posts of the users', 'bulk-delete' ); ?></label>
+				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_content" value="true" type="radio"
+					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_content"> <?php _e( 'Re-assign the posts to', 'bulk-delete' ); ?></label>
+				<?php wp_dropdown_users( array( 'name' => 'smbd_' . esc_attr( $this->field_slug ) . '_reassign_user_id', 'class' => 'reassign_user') ); ?> 
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
 	 * Render user role dropdown.
 	 */
 	protected function render_user_role_dropdown() {
