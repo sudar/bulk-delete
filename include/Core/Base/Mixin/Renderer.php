@@ -267,7 +267,7 @@ abstract class Renderer extends Fetcher {
 				<tr>
 					<td scope="row">
 						<label>
-							<input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="all" checked>
+							<input type="checkbox" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" value="all">
 							<?php echo __( 'All sticky posts', 'bulk-delete' ), ' (', count( $sticky_posts ), ' ', __( 'Posts', 'bulk-delete' ), ')'; ?>
 						</label>
 					</td>
@@ -290,6 +290,23 @@ abstract class Renderer extends Fetcher {
 				</tr>
 			<?php endforeach; ?>
 		</table>
+		<?php
+	}
+
+	/**
+	 * Renders exclude sticky posts checkbox.
+	 */
+	protected function render_exclude_sticky_settings() {
+		if ( $this->are_sticky_posts_present() ) : // phpcs:ignore?>
+		<tr>
+			<td scope="row">
+				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_exclude_sticky" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_exclude_sticky" value="true" type="checkbox">
+			</td>
+			<td>
+				<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_exclude_sticky"><?php _e( 'Exclude sticky posts', 'bulk-delete' ); ?></label>
+			</td>
+		</tr>
+		<?php endif; // phpcs:ignore?>
 		<?php
 	}
 
@@ -383,6 +400,14 @@ abstract class Renderer extends Fetcher {
 	 */
 	protected function render_delete_settings() {
 		bd_render_delete_settings( $this->field_slug );
+		/**
+		 * This action is primarily for adding delete attachment settings.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule The delete module.
+		 */
+		do_action( 'bd_render_attachment_settings', $this );
 	}
 
 	/**

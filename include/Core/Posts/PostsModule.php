@@ -34,9 +34,10 @@ abstract class PostsModule extends BaseModule {
 	protected function parse_common_filters( $request ) {
 		$options = array();
 
-		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
-		$options['limit_to']     = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
-		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
+		$options['restrict']       = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
+		$options['limit_to']       = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
+		$options['exclude_sticky'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_exclude_sticky', false );
+		$options['force_delete']   = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
 
 		$options['date_op'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
 		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
@@ -110,10 +111,32 @@ abstract class PostsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_posts_from_query( $query, $options ) {
-		$query    = $this->build_query_options( $options, $query );
-		$post_ids = $this->query( $query );
+		$query          = $this->build_query_options( $options, $query );
+		$post_ids       = $this->query( $query );
 
-		return $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
+		/**
+		 * Triggered before the posts deletion, to get IDs of attachments associated with
+		 * posts that are going to be deleted.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $post_ids List of post ids that are going to be deleted.
+		 * @param array $options  List of Delete Options.
+		 */
+		do_action( 'bd_before_deleting_posts', $post_ids, $options );
+
+		$delete_post_count = $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
+
+		/**
+		 * Triggered after the posts are deleted.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $options Delete Options.
+		 */
+		do_action( 'bd_after_deleting_posts', $options );
+
+		return $delete_post_count;
 	}
 
 	/**
