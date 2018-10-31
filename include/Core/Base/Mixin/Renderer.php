@@ -124,10 +124,10 @@ abstract class Renderer extends Fetcher {
 		<tr>
 			<td scope="row" colspan="2">
 				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_content" value="false" type="radio"
-					checked="checked"> <?php _e( 'Also delete all posts of the users', 'bulk-delete' ); ?></label>
+					checked="checked" class="delete-content"> <?php _e( 'Also delete all posts of the users', 'bulk-delete' ); ?></label>
 				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_content" value="true" type="radio"
-					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_content"> <?php _e( 'Re-assign the posts to', 'bulk-delete' ); ?></label>
-				<?php wp_dropdown_users( array( 'name' => 'smbd_' . esc_attr( $this->field_slug ) . '_reassign_user_id', 'class' => 'reassign_user') ); ?> 
+					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_content" class="delete-content"> <?php _e( 'Re-assign the posts to', 'bulk-delete' ); ?></label>
+				<?php wp_dropdown_users( array( 'name' => 'smbd_' . esc_attr( $this->field_slug ) . '_reassign_user_id', 'class' => 'reassign-user') ); ?> 
 			</td>
 		</tr>
 		<?php

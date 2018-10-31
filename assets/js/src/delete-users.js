@@ -7,18 +7,16 @@
 
 /*global jQuery, BulkWP*/
 jQuery( document ).ready( function () {
-    var reassignSelectBox = jQuery(".reassign_user");
-    var contentDeleteRadio;
-    reassignSelectBox.each( function() {
-        contentDeleteRadio = jQuery(this).parents('tr').find('[type="radio"]');
-    });
-    
-    reassignSelectBox.each( function() {
+    var reassignSelectBoxes = jQuery(".reassign-user");
+    var contentDeleteRadios = jQuery(".delete-content");
+
+    reassignSelectBoxes.each( function() {
         jQuery(this).attr('disabled', 'true');
     });
 
-    contentDeleteRadio.change( function () {
-        if( "true" === contentDeleteRadio.filter(':checked').val() ){
+    contentDeleteRadios.change( function () {
+        var reassignSelectBox = jQuery(this).parents('tr').find('.reassign-user');
+        if( "true" === jQuery(this).val() ){
             reassignSelectBox.removeAttr('disabled');
 		} else {
             reassignSelectBox.attr('disabled', 'true');
