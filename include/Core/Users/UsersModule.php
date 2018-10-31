@@ -89,7 +89,12 @@ abstract class UsersModule extends BaseModule {
 				continue;
 			}
 
-			$deleted = $options['reassign_user'] ? wp_delete_user( $user->ID, $options['reassign_user_id'] ) : wp_delete_user( $user->ID );
+			if ( isset( $options['reassign_user'] ) ) {
+				$deleted = $options['reassign_user'] ? wp_delete_user( $user->ID, $options['reassign_user_id'] ) : wp_delete_user( $user->ID );
+			} else {
+				$deleted = wp_delete_user( $user->ID );
+			}
+
 			if ( $deleted ) {
 				$count ++;
 			}
