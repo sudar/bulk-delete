@@ -41,7 +41,7 @@ abstract class UsersModule extends BaseModule {
 		$options['no_posts']            = bd_array_get_bool( $request, "smbd_{$this->field_slug}_no_posts", false );
 		$options['no_posts_post_types'] = bd_array_get( $request, "smbd_{$this->field_slug}_no_post_post_types", array() );
 
-		$options['reassign_user']    = bd_array_get_bool( $request, "smbd_{$this->field_slug}_content", false );
+		$options['reassign_user']    = bd_array_get_bool( $request, "smbd_{$this->field_slug}_post_reassign", false );
 		$options['reassign_user_id'] = absint( bd_array_get( $request, "smbd_{$this->field_slug}_reassign_user_id", 0 ) );
 		$options['limit_to']         = absint( bd_array_get( $request, "smbd_{$this->field_slug}_limit_to", 0 ) );
 
@@ -89,8 +89,8 @@ abstract class UsersModule extends BaseModule {
 				continue;
 			}
 
-			if ( isset( $options['reassign_user'] ) ) {
-				$deleted = $options['reassign_user'] ? wp_delete_user( $user->ID, $options['reassign_user_id'] ) : wp_delete_user( $user->ID );
+			if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
+				$deleted = wp_delete_user( $user->ID, $options['reassign_user_id'] );
 			} else {
 				$deleted = wp_delete_user( $user->ID );
 			}

@@ -8,7 +8,7 @@
 /*global jQuery, BulkWP*/
 jQuery( document ).ready( function () {
     var reassignSelectBoxes = jQuery(".reassign-user");
-    var contentDeleteRadios = jQuery(".delete-content");
+    var contentDeleteRadios = jQuery(".post-reassign");
 
     reassignSelectBoxes.each( function() {
         jQuery(this).attr('disabled', 'true');
@@ -18,11 +18,10 @@ jQuery( document ).ready( function () {
         var reassignSelectBox = jQuery(this).parents('tr').find('.reassign-user');
         if( "true" === jQuery(this).val() ){
             reassignSelectBox.removeAttr('disabled');
-		} else {
+        } else {
             reassignSelectBox.attr('disabled', 'true');
 		}
 	});
-
 });
 
 BulkWP.validateUserMeta = function() {
