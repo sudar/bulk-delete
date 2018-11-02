@@ -89,13 +89,13 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	 */
 	protected function should_delete_term_based_on_post_count( $term_post_count, $operator, $compared_to ) {
 		switch ( $operator ) {
-			case 'equal_to':
+			case '=':
 				return $term_post_count === $compared_to;
-			case 'not_equal_to':
+			case '!=':
 				return $term_post_count !== $compared_to;
-			case 'less_than':
+			case '<':
 				return $term_post_count < $compared_to;
-			case 'greater_than':
+			case '>':
 				return $term_post_count > $compared_to;
 		}
 	}

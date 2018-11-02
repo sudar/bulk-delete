@@ -231,10 +231,10 @@ abstract class Renderer extends Fetcher {
 	protected function render_number_comparison_operators() {
 		?>
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
-			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
-			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
-			<option value="less_than"><?php _e( 'less than', 'bulk-delete' ); ?></option>
-			<option value="greater_than"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
+			<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+			<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+			<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
+			<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
 		</select>
 		<?php
 	}
