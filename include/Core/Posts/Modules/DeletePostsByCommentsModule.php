@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Delete Posts by Comments Module.
  *
- * @since 6.1.0
+ * @since 6.0.0
  */
 class DeletePostsByCommentsModule extends PostsModule {
 	/**
@@ -44,12 +44,7 @@ class DeletePostsByCommentsModule extends PostsModule {
 						<?php _e( 'Delete posts that have comments', 'bulk-delete' ); ?>
 					</td>
 					<td>
-						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_op" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_op">
-							<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
-							<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
-							<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
-							<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
-						</select>
+						<?php $this->render_number_comparison_operators(); ?>
 					</td>
 					<td>
 						<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_value"
@@ -82,7 +77,7 @@ class DeletePostsByCommentsModule extends PostsModule {
 	 * @return array $options Inputs from user for posts that were need to be deleted.
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['operator']      = bd_array_get( $request, 'smbd_' . $this->field_slug . '_count_op' );
+		$options['operator']      = bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' );
 		$options['comment_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_count_value' ) );
 
 		return $options;
