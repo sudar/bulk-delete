@@ -216,6 +216,42 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
+	 * Render data types dropdown.
+	 */
+	protected function render_data_types_dropdown() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
+			<option value="numeric"><?php _e( 'Number', 'bulk-delete' ); ?></option>
+			<option value="string"><?php _e( 'Character', 'bulk-delete' ); ?></option>
+			<option value="date"><?php _e( 'Date', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+
+
+	/**
+	 * Render numeric comparison operators dropdown.
+	 */
+	protected function render_numeric_comparison_operators() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
+			<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
+			<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
+			<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
+			<option value="<="><?php _e( 'less than or equal to', 'bulk-delete' ); ?></option>
+			<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
+			<option value=">="><?php _e( 'greater than or equal to', 'bulk-delete' ); ?></option>
+			<option value="IN"><?php _e( 'In', 'bulk-delete' ); ?></option>
+			<option value="NOT IN"><?php _e( 'Not In', 'bulk-delete' ); ?></option>
+			<option value="BETWEEN"><?php _e( 'Between', 'bulk-delete' ); ?></option>
+			<option value="NOT BETWEEN"><?php _e( 'Not Between', 'bulk-delete' ); ?></option>
+			<option value="EXISTS"><?php _e( 'Exists', 'bulk-delete' ); ?></option>
+			<option value="NOT EXISTS"><?php _e( 'Not Exists', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+
+	/**
 	 * Render Tags dropdown.
 	 */
 	protected function render_tags_dropdown() {
