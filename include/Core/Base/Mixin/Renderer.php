@@ -220,7 +220,7 @@ abstract class Renderer extends Fetcher {
 	 */
 	protected function render_data_types_dropdown() {
 		?>
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type">
 			<option value="numeric"><?php _e( 'Number', 'bulk-delete' ); ?></option>
 			<option value="string"><?php _e( 'Character', 'bulk-delete' ); ?></option>
 			<option value="date"><?php _e( 'Date', 'bulk-delete' ); ?></option>
@@ -231,22 +231,64 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render numeric comparison operators dropdown.
+	 *
+	 * @param array $operators List of Operators needed.
 	 */
-	protected function render_numeric_comparison_operators() {
+	protected function render_numeric_operators_dropdown( $operators = array( 'all' ) ) {
+		$all_numeric_operators = array(
+			'='           => 'equal to',
+			'!='          => 'not equal to',
+			'<'           => 'less than',
+			'<='          => 'less than or equal to',
+			'>'           => 'greater than',
+			'>='          => 'greater than or equal to',
+			'IN'          => 'In',
+			'NOT IN'      => 'Not In',
+			'BETWEEN'     => 'Between',
+			'NOT BETWEEN' => 'Not Between',
+			'EXISTS'      => 'Exists',
+			'NOT EXISTS'  => 'Not Exists',
+		);
+		if ( in_array( 'all', $operators, true ) ) {
+			$operators = array_keys( $all_numeric_operators );
+		}
 		?>
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
-			<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
-			<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
-			<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
-			<option value="<="><?php _e( 'less than or equal to', 'bulk-delete' ); ?></option>
-			<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
-			<option value=">="><?php _e( 'greater than or equal to', 'bulk-delete' ); ?></option>
-			<option value="IN"><?php _e( 'In', 'bulk-delete' ); ?></option>
-			<option value="NOT IN"><?php _e( 'Not In', 'bulk-delete' ); ?></option>
-			<option value="BETWEEN"><?php _e( 'Between', 'bulk-delete' ); ?></option>
-			<option value="NOT BETWEEN"><?php _e( 'Not Between', 'bulk-delete' ); ?></option>
-			<option value="EXISTS"><?php _e( 'Exists', 'bulk-delete' ); ?></option>
-			<option value="NOT EXISTS"><?php _e( 'Not Exists', 'bulk-delete' ); ?></option>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class="numeric">
+		<?php
+		foreach ( $operators as $operator ) {
+			echo '<option value="' . $operator . '">' . __( $all_numeric_operators[ $operator ], 'bulk-delete' ) . '</option>';
+		}
+		?>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render string comparison operators dropdown.
+	 *
+	 * @param array $operators List of Operators needed.
+	 */
+	protected function render_string_operators_dropdown( $operators = array( 'all' ) ) {
+		$all_string_operators = array(
+			'='          => 'equal to',
+			'!='         => 'not equal to',
+			'IN'         => 'In',
+			'NOT IN'     => 'Not In',
+			'LIKE'       => 'Like',
+			'NOT LIKE'   => 'Not Like',
+			'EXISTS'     => 'Exists',
+			'NOT EXISTS' => 'Not Exists',
+		);
+		if ( in_array( 'all', $operators, true ) ) {
+			$operators = array_keys( $all_string_operators );
+		}
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class="string">
+		<?php
+		foreach ( $operators as $operator ) {
+			echo '<option value="' . $operator . '">' . __( $all_string_operators[ $operator ], 'bulk-delete' ) . '</option>';
+		}
+		?>
 		</select>
 		<?php
 	}

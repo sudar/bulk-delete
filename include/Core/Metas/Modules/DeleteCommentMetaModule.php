@@ -184,27 +184,9 @@ class DeleteCommentMetaModule extends MetasModule {
 			<tr>
 				<td>
 					<?php _e( 'Comment Meta Value ', 'bulk-delete' ); ?>
-					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type">
-						<option value="CHAR"><?php _e( 'CHAR', 'bulk-delete' ); ?></option>
-						<option value="NUMERIC"><?php _e( 'NUMERIC', 'bulk-delete' ); ?></option>
-						<option value="DECIMAL"><?php _e( 'DECIMAL', 'bulk-delete' ); ?></option>
-						<option value="SIGNED"><?php _e( 'SIGNED', 'bulk-delete' ); ?></option>
-						<option value="UNSIGNED"><?php _e( 'UNSIGNED', 'bulk-delete' ); ?></option>
-						<option value="DATE"><?php _e( 'DATE', 'bulk-delete' ); ?></option>
-						<option value="TIME"><?php _e( 'TIME', 'bulk-delete' ); ?></option>
-						<option value="DATETIME"><?php _e( 'DATETIME', 'bulk-delete' ); ?></option>
-						<option value="BINARY"><?php _e( 'BINARY', 'bulk-delete' ); ?></option>
-					</select>
-					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op">
-						<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
-						<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
-						<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
-						<option value="<="><?php _e( 'less than or equal to', 'bulk-delete' ); ?></option>
-						<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
-						<option value=">="><?php _e( 'greater than or equal to', 'bulk-delete' ); ?></option>
-						<option value="LIKE"><?php _e( 'like', 'bulk-delete' ); ?></option>
-						<option value="NOT LIKE"><?php _e( 'not like', 'bulk-delete' ); ?></option>
-					</select>
+					<?php $this->render_data_types_dropdown(); ?>
+					<?php $this->render_numeric_operators_dropdown(); ?>	
+					<?php $this->render_string_operators_dropdown(); ?>
 					<input type="text" placeholder="<?php _e( 'Meta Value', 'bulk-delete' ); ?>"
 						name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
 						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value">
@@ -228,7 +210,7 @@ class DeleteCommentMetaModule extends MetasModule {
 	 */
 	public function process_filtering_options( $delete_options, $post ) {
 		if ( 'true' == bd_array_get( $post, 'smbd_' . $this->field_slug . '_use_value', 'false' ) ) {
-			$delete_options['meta_op']    = bd_array_get( $post, 'smbd_' . $this->field_slug . '_meta_op', '=' );
+			$delete_options['meta_op']    = bd_array_get( $post, 'smbd_' . $this->field_slug . '_operator', '=' );
 			$delete_options['meta_type']  = bd_array_get( $post, 'smbd_' . $this->field_slug . '_type', 'CHAR' );
 			$delete_options['meta_value'] = bd_array_get( $post, 'smbd_' . $this->field_slug . '_value', '' );
 		}
