@@ -174,6 +174,20 @@ abstract class PostsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_posts_by_id( $post_ids, $force_delete ) {
+		/**
+		 * Filter to add exclude ids before deleting posts.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $excluded_ids Post IDs to be excluded.
+		 */
+		$excluded_post_ids = array();
+		$excluded_post_ids = apply_filters( 'bd_delete_excluded_post_ids', $excluded_post_ids );
+
+		if ( ! empty( $excluded_post_ids ) ) {
+			$post_ids = array_diff( $post_ids, $excluded_post_ids );
+		}
+
 		foreach ( $post_ids as $post_id ) {
 			// `$force_delete` parameter to `wp_delete_post` won't work for custom post types.
 			// See https://core.trac.wordpress.org/ticket/43672

@@ -54,6 +54,20 @@ abstract class UsersModule extends BaseModule {
 			return 0;
 		}
 
+		/**
+		 * Filter to add exclude ids before deleting users.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $excluded_ids User IDs to be excluded during deletion.
+		 */
+		$excluded_user_ids = array();
+		$excluded_user_ids = apply_filters( 'bd_delete_excluded_user_ids', $excluded_user_ids );
+
+		if ( ! empty( $excluded_user_ids ) ) {
+			$query['exclude'] = $excluded_user_ids;
+		}
+
 		$query = $this->exclude_current_user( $query );
 
 		return $this->delete_users_from_query( $query, $options );
