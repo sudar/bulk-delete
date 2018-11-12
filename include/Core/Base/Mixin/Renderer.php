@@ -220,7 +220,7 @@ abstract class Renderer extends Fetcher {
 	 */
 	protected function render_data_types_dropdown() {
 		?>
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type">
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type" class="meta-type">
 			<option value="numeric"><?php _e( 'Number', 'bulk-delete' ); ?></option>
 			<option value="string"><?php _e( 'Character', 'bulk-delete' ); ?></option>
 			<option value="date"><?php _e( 'Date', 'bulk-delete' ); ?></option>

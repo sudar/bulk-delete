@@ -16,7 +16,7 @@ jQuery( document ).ready( function () {
 		}
 	} );
 	
-	jQuery( 'select[name="smbd_comment_meta_type"]' ).change( function () {
+	jQuery( "select.meta-type" ).change( function () {
 		if ('string' === jQuery(this).val()) {
 			jQuery("select.numeric").hide();
 			jQuery("select.string").show();
