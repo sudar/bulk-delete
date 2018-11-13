@@ -140,7 +140,7 @@ jQuery(document).ready(function () {
 			toggle_registered_restrict(value);
 		});
 
-		jQuery('input[name="smbd' + value + '_force_delete"').change(function () {
+		jQuery('input[name="smbd' + value + '_force_delete"]').change(function () {
 			toggle_delete_attachments(value);
 		});
 
