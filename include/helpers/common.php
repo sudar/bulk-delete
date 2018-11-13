@@ -105,6 +105,32 @@ function bd_contains( $haystack, $needle ) {
 }
 
 /**
+ * Get the short class name of an object.
+ *
+ * Short class name is the name of the class without namespace.
+ *
+ * @since 6.0.0
+ *
+ * @param object|string $class_name_or_object Object or Class name.
+ *
+ * @return string Short class name.
+ */
+function bd_get_short_class_name( $class_name_or_object ) {
+	$class_name = $class_name_or_object;
+
+	if ( is_object( $class_name_or_object ) ) {
+		$class_name = get_class( $class_name_or_object );
+	}
+
+	$pos = strrpos( $class_name, '\\' );
+	if ( false === $pos ) {
+		return $class_name;
+	}
+
+	return substr( $class_name, $pos + 1 );
+}
+
+/**
  * Get GMT Offseted time in Unix Timestamp format.
  *
  * @since 6.0.0
