@@ -7,6 +7,7 @@
 
 /*global jQuery, document*/
 jQuery( document ).ready( function () {
+	jQuery("select.string").attr( 'disabled', 'true');
 	jQuery("select.string").hide();
 	jQuery( 'input[name="smbd_comment_meta_use_value"]' ).change( function () {
 		if ( 'true' === jQuery( this ).val() ) {
@@ -18,10 +19,14 @@ jQuery( document ).ready( function () {
 	
 	jQuery( "select.meta-type" ).change( function () {
 		if ('string' === jQuery(this).val()) {
+			jQuery("select.numeric").attr( 'disabled', 'true' );
 			jQuery("select.numeric").hide();
+			jQuery("select.string").removeAttr( 'disabled' );
 			jQuery("select.string").show();
 		} else {
+			jQuery("select.string").attr( 'disabled', 'true');
 			jQuery("select.string").hide();
+			jQuery("select.numeric").removeAttr( 'disabled' );
 			jQuery("select.numeric").show();
 		}
 	} );

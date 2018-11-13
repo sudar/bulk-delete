@@ -231,10 +231,24 @@ class DeleteCommentMetaModule extends MetasModule {
 	 * @return array Modified meta query.
 	 */
 	public function change_meta_query( $meta_query, $delete_options ) {
+		switch ( $delete_options['meta_op'] ) {
+			case 'IN':
+				$meta_value = explode( ',', $delete_options['meta_value'] );
+				break;
+			case 'BETWEEN':
+				$meta_value = explode( ',', $delete_options['meta_value'], 3 );
+				// TO DO if user gives less than 2 values?
+				if ( count( $meta_value ) > 2 ) {
+					array_pop( $meta_value );
+				}
+				break;
+			default:
+				$meta_value = $delete_options['meta_value'];
+		}
 		$meta_query = array(
 			array(
 				'key'     => $delete_options['meta_key'],
-				'value'   => $delete_options['meta_value'],
+				'value'   => $meta_value,
 				'compare' => $delete_options['meta_op'],
 				'type'    => $delete_options['meta_type'],
 			),
