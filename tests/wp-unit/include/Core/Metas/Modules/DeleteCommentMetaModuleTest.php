@@ -412,7 +412,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					array(
 						'post_type'          => 'post',
 						'number_of_comments' => 2,
-						'miss_matched'       => array(
+						'matched'            => array(
 							'meta_key'   => 'test_key',
 							'meta_value' => '10c',
 						),
@@ -426,7 +426,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'   => 'IN',
 				),
 				array(
-					'number_of_comment_metas_deleted' => 8,
+					'number_of_comment_metas_deleted' => 10,
 				),
 			),
 			array(
@@ -600,8 +600,138 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'post_type'  => 'post',
 					'meta_key'   => 'test_key',
 					'meta_type'  => 'DATE',
-					'meta_value' => date( 'Y-m-d', strtotime( '-3 day' ) ) . ',' . date( 'Y-m-d', strtotime( '+1 day' ) ),
+					'meta_value' => date( 'Y-m-d', strtotime( '-3 day' ) ) . ',' . date( 'Y-m-d', strtotime( '+1 day' ) ) . ',' . date( 'Y-m-d', strtotime( '+5 day' ) ),
 					'operator'   => 'BETWEEN',
+				),
+				array(
+					'number_of_comment_metas_deleted' => 7,
+				),
+			),
+			array(
+				array(
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 5,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-5 day' ) ),
+						),
+						'miss_matched'       => array(
+							'meta_key'   => 'another_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 3,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '+2 day' ) ),
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 2,
+						'miss_matched'       => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-2 day' ) ),
+						),
+					),
+				),
+				array(
+					'post_type'  => 'post',
+					'meta_key'   => 'test_key',
+					'meta_type'  => 'DATE',
+					'meta_value' => date( 'Y-m-d', strtotime( '-3 day' ) ) . ',' . date( 'Y-m-d', strtotime( '+1 day' ) ),
+					'operator'   => 'NOT BETWEEN',
+				),
+				array(
+					'number_of_comment_metas_deleted' => 8,
+				),
+			),
+		);
+	}
+
+	/**
+	 *  Data Provider for EXISTS and NOT EXISTS operator with numeric and date types respectively.
+	 *
+	 * @return array Data
+	 */
+	public function provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_exists_and_not_exists_operator() {
+		return array(
+			array(
+				array(
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 5,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => 8,
+						),
+						'miss_matched'       => array(
+							'meta_key'   => 'another_key',
+							'meta_value' => 5,
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 3,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => 6,
+						),
+						'miss_matched'       => array(
+							'meta_key'   => 'one_more_key',
+							'meta_value' => 7,
+						),
+					),
+				),
+				array(
+					'post_type' => 'post',
+					'meta_key'  => 'test_key',
+					'meta_type' => 'NUMERIC',
+					'operator'  => 'EXISTS',
+				),
+				array(
+					'number_of_comment_metas_deleted' => 8,
+				),
+			),
+			array(
+				array(
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 5,
+						'miss_matched'       => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d' ),
+						),
+						'matched'            => array(
+							'meta_key'   => 'another_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 3,
+						'miss_matched'       => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '+2 day' ) ),
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 2,
+						'miss_matched'       => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-2 day' ) ),
+						),
+					),
+				),
+				array(
+					'post_type' => 'post',
+					'meta_key'  => 'test_key',
+					'meta_type' => 'DATE',
+					'operator'  => 'NOT EXISTS',
 				),
 				array(
 					'number_of_comment_metas_deleted' => 7,
@@ -624,6 +754,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_equals_operator
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_in_operator
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_between_operator
+	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_exists_and_not_exists_operator
 	 */
 	public function test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_different_operations( $setup, $operation, $expected ) {
 		/*$this->markTestSkipped(
@@ -659,17 +790,19 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$delete_options = array(
-			'post_type'  => $operation['post_type'],
-			'use_value'  => true,
-			'meta_key'   => $operation['meta_key'],
-			'meta_value' => $operation['meta_value'],
-			'meta_type'  => $operation['meta_type'],
-			'meta_op'    => $operation['operator'],
-			'limit_to'   => 0,
-			'date_op'    => '',
-			'days'       => '',
-			'restrict'   => false,
+			'post_type' => $operation['post_type'],
+			'use_value' => true,
+			'meta_key'  => $operation['meta_key'],
+			'meta_type' => $operation['meta_type'],
+			'meta_op'   => $operation['operator'],
+			'limit_to'  => 0,
+			'date_op'   => '',
+			'days'      => '',
+			'restrict'  => false,
 		);
+		if ( array_key_exists( 'meta_value', $operation ) ) {
+			$delete_options['meta_value'] = $operation['meta_value'];
+		}
 
 		$comment_metas_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( $expected['number_of_comment_metas_deleted'], $comment_metas_deleted );

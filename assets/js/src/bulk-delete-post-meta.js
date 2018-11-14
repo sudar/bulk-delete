@@ -30,4 +30,15 @@ jQuery( document ).ready( function () {
 			jQuery("select.numeric").show();
 		}
 	} );
+
+	jQuery( "select.numeric").change( function() {
+		var metaValueTextBox = jQuery(this).parents('tr').find(':text');
+		if ( -1 !== ['EXISTS', 'NOT EXISTS'].indexOf( jQuery(this).val() ) ){
+			metaValueTextBox.attr('disabled', 'true');
+			metaValueTextBox.hide();
+		} else {
+			metaValueTextBox.removeAttr('disabled');
+			metaValueTextBox.show();
+		}
+	} );
 } );

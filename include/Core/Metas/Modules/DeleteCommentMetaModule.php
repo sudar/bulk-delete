@@ -137,7 +137,11 @@ class DeleteCommentMetaModule extends MetasModule {
 		}
 
 		if ( $options['use_value'] ) {
-			$args['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $options );
+			if ( ! in_array( $options['meta_op'], array( 'EXISTS', 'NOT EXISTS' ), true ) ) {
+				$args['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $options );
+			} else {
+				$args['meta_compare'] = $options['meta_op'];
+			}
 		} else {
 			$args['meta_key'] = $options['meta_key'];
 		}
@@ -236,11 +240,11 @@ class DeleteCommentMetaModule extends MetasModule {
 				$meta_value = explode( ',', $delete_options['meta_value'] );
 				break;
 			case 'BETWEEN':
-				$meta_value = explode( ',', $delete_options['meta_value'], 3 );
-				// TO DO if user gives less than 2 values?
+				$meta_value = explode( ',', $delete_options['meta_value'] );
+				/* TO DO if user gives less than 2 values?
 				if ( count( $meta_value ) > 2 ) {
 					array_pop( $meta_value );
-				}
+				} */
 				break;
 			default:
 				$meta_value = $delete_options['meta_value'];
