@@ -249,9 +249,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertFalse( metadata_exists( 'comment', $comment_id_1, $meta_key ) );
 		// Todo: Don't delete all meta rows if there are duplicate meta keys.
-		// See https://github.com/sudar/bulk-delete/issues/515
+		// See https://github.com/sudar/bulk-delete/issues/515.
 		// $this->assertTrue( metadata_exists( 'comment', $comment_id_1, $another_meta_value ) );
-
 		$this->assertFalse( metadata_exists( 'comment', $comment_id_2, $meta_key ) );
 		$this->assertFalse( metadata_exists( 'comment', $comment_id_3, $meta_key ) );
 	}
@@ -734,7 +733,89 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'  => 'NOT EXISTS',
 				),
 				array(
-					'number_of_comment_metas_deleted' => 7,
+					'number_of_comment_metas_deleted' => 5,
+				),
+			),
+		);
+	}
+
+	/**
+	 * Provide data to test LIKE and NOT LIKE operators with string.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_like_and_not_like_operator() {
+		return array(
+			array(
+				array(
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 5,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => 'Test Value Me',
+						),
+						'miss_matched'       => array(
+							'meta_key'   => 'another_key',
+							'meta_value' => 'Matched Value',
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 3,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => 'Matched Value',
+						),
+						'miss_matched'       => array(
+							'meta_key'   => 'one_more_key',
+							'meta_value' => 'Value',
+						),
+					),
+				),
+				array(
+					'post_type'  => 'post',
+					'meta_key'   => 'test_key',
+					'meta_type'  => 'CHAR',
+					'meta_value' => 'Value',
+					'operator'   => 'LIKE',
+				),
+				array(
+					'number_of_comment_metas_deleted' => 8,
+				),
+			),
+			array(
+				array(
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 5,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => 'Test Me',
+						),
+						'miss_matched'       => array(
+							'meta_key'   => 'another_key',
+							'meta_value' => 'Matched Value',
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 3,
+						'miss_matched'       => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => 'Matched value',
+						),
+					),
+				),
+				array(
+					'post_type'  => 'post',
+					'meta_key'   => 'test_key',
+					'meta_type'  => 'CHAR',
+					'meta_value' => 'Value',
+					'operator'   => 'NOT LIKE',
+				),
+				array(
+					'number_of_comment_metas_deleted' => 5,
 				),
 			),
 		);
@@ -755,11 +836,9 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_in_operator
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_between_operator
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_exists_and_not_exists_operator
+	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_like_and_not_like_operator
 	 */
 	public function test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_different_operations( $setup, $operation, $expected ) {
-		/*$this->markTestSkipped(
-			'Comments with the same meta key with multiple values is not fully supported yet'
-		);*/
 		$size = count( $setup );
 		foreach ( $setup as $element ) {
 			$this->register_post_type( $element['post_type'] );

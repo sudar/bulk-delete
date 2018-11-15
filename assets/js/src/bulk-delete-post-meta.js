@@ -31,14 +31,14 @@ jQuery( document ).ready( function () {
 		}
 	} );
 
-	jQuery( "select.numeric").change( function() {
+	jQuery( "select.numeric, select.string").change( function() {
 		var metaValueTextBox = jQuery(this).parents('tr').find(':text');
-		if ( -1 !== ['EXISTS', 'NOT EXISTS'].indexOf( jQuery(this).val() ) ){
-			metaValueTextBox.attr('disabled', 'true');
-			metaValueTextBox.hide();
-		} else {
+		if ( -1 === ['EXISTS', 'NOT EXISTS'].indexOf( jQuery(this).val() ) ){
 			metaValueTextBox.removeAttr('disabled');
 			metaValueTextBox.show();
+		} else {
+			metaValueTextBox.attr('disabled', 'true');
+			metaValueTextBox.hide();
 		}
 	} );
 } );

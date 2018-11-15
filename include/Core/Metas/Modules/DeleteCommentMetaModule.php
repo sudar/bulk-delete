@@ -241,10 +241,6 @@ class DeleteCommentMetaModule extends MetasModule {
 				break;
 			case 'BETWEEN':
 				$meta_value = explode( ',', $delete_options['meta_value'] );
-				/* TO DO if user gives less than 2 values?
-				if ( count( $meta_value ) > 2 ) {
-					array_pop( $meta_value );
-				} */
 				break;
 			default:
 				$meta_value = $delete_options['meta_value'];
