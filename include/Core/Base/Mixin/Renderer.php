@@ -228,7 +228,6 @@ abstract class Renderer extends Fetcher {
 		<?php
 	}
 
-
 	/**
 	 * Render numeric comparison operators dropdown.
 	 *
