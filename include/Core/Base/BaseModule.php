@@ -381,4 +381,15 @@ abstract class BaseModule extends Renderer {
 	protected function get_cron_label() {
 		return $this->messages['cron_label'];
 	}
+
+	/**
+	 * Get the name of the module.
+	 *
+	 * This is used as the key to identify the module from page.
+	 *
+	 * @return string Module name.
+	 */
+	public function get_name() {
+		return bd_get_short_class_name( $this );
+	}
 }

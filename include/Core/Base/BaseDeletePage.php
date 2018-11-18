@@ -45,7 +45,24 @@ abstract class BaseDeletePage extends BasePage {
 			return;
 		}
 
-		$this->modules[] = $module;
+		$this->modules[ $module->get_name() ] = $module;
+	}
+
+	/**
+	 * Get module object instance by module class name.
+	 *
+	 * @param string $module_class_name Module class name.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Base\BaseModule|null Module object instance or null if no match found.
+	 */
+	public function get_module( $module_class_name ) {
+		$short_class_name = bd_get_short_class_name( $module_class_name );
+
+		if ( isset( $this->modules[ $short_class_name ] ) ) {
+			return $this->modules[ $short_class_name ];
+		}
+
+		return null;
 	}
 
 	protected function register_hooks() {
