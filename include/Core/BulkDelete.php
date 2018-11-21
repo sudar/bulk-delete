@@ -115,7 +115,7 @@ final class BulkDelete {
 	/**
 	 * Plugin version.
 	 */
-	const VERSION = '5.6.1';
+	const VERSION = '6.0.0';
 
 	/**
 	 * Set the BulkDelete constructor as private.
@@ -579,12 +579,12 @@ final class BulkDelete {
 	}
 
 	/**
-	 * Getter for Autoloader.
+	 * Register Add-on Namespace.
 	 *
-	 * @return \BulkWP\BulkDelete\BulkDeleteAutoloader
+	 * @param \BulkWP\BulkDelete\Core\Addon\AddonInfo $addon_info Add-on Info.
 	 */
-	public function get_loader() {
-		return $this->loader;
+	public function register_addon_namespace( $addon_info ) {
+		$this->loader->add_namespace( 'BulkWP\BulkDelete', $addon_info->get_addon_directory() . 'includes' );
 	}
 
 	/**
@@ -594,5 +594,40 @@ final class BulkDelete {
 	 */
 	public function set_loader( $loader ) {
 		$this->loader = $loader;
+	}
+
+	/**
+	 * Get the module object instance by page slug and module class name.
+	 *
+	 * @param string $page_slug         Page Slug.
+	 * @param string $module_class_name Module class name.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Base\BaseModule|null Module object instance or null if no match found.
+	 */
+	public function get_module( $page_slug, $module_class_name ) {
+		$page = $this->get_page( $page_slug );
+
+		if ( is_null( $page ) ) {
+			return null;
+		}
+
+		return $page->get_module( $module_class_name );
+	}
+
+	/**
+	 * Get the page object instance by page slug.
+	 *
+	 * @param string $page_slug Page slug.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Base\BaseDeletePage|null Page object instance or null if no match found.
+	 */
+	public function get_page( $page_slug ) {
+		$pages = $this->get_primary_pages();
+
+		if ( ! isset( $pages[ $page_slug ] ) ) {
+			return null;
+		}
+
+		return $pages[ $page_slug ];
 	}
 }

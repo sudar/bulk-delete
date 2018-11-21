@@ -26,7 +26,7 @@ class Upseller {
 		$upsell_addon_details = $this->get_upsell_addon_details_for_page( $page );
 
 		foreach ( $upsell_addon_details as $upsell_addon_detail ) {
-			$page->add_module( new UpsellModule( new AddonInfo( $upsell_addon_detail ) ) );
+			$page->add_module( new UpsellModule( new AddonUpsellInfo( $upsell_addon_detail ) ) );
 		}
 	}
 
@@ -60,7 +60,7 @@ class Upseller {
 	 * @return array List of upsell add-on details.
 	 */
 	protected function get_post_upsell_addons() {
-		$addon_details = array(
+		$addon_upsell_details = array(
 			array(
 				'name'           => 'Bulk Delete Posts by Custom Field',
 				'description'    => 'This addon adds the ability to delete posts based on custom field. This will be really useful, if your plugin or theme uses custom fields to store additional information about a post.',
@@ -131,10 +131,10 @@ class Upseller {
 		 *
 		 * @since 6.0.0
 		 *
-		 * @param array  $addon_details Add-on details.
-		 * @param string $item_type     Item type.
+		 * @param array  $addon_upsell_details Add-on details.
+		 * @param string $item_type            Item type.
 		 */
-		return apply_filters( 'bd_upsell_addons', $addon_details, 'posts' );
+		return apply_filters( 'bd_upsell_addons', $addon_upsell_details, 'posts' );
 	}
 
 	/**

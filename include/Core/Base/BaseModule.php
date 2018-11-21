@@ -378,7 +378,18 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @return string Human readable label for schedule job.
 	 */
-	protected function get_cron_label() {
+	public function get_cron_label() {
 		return $this->messages['cron_label'];
+	}
+
+	/**
+	 * Get the name of the module.
+	 *
+	 * This is used as the key to identify the module from page.
+	 *
+	 * @return string Module name.
+	 */
+	public function get_name() {
+		return bd_get_short_class_name( $this );
 	}
 }

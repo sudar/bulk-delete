@@ -73,10 +73,10 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		// Compatibility. Will be removed once compatibility is addressed.
 		'BD_Meta_Box_Module'                       => $plugin_dir . 'include/base/class-bd-meta-box-module.php', // Used in Bulk Delete Attachments Addon - v1.2.
 		'BD_Page'                                  => $plugin_dir . 'include/base/class-bd-page.php', // Used in Bulk Delete Attachments Addon - v1.2.
-		'BD_Addon'                                 => $plugin_dir . 'include/addons/base/class-bd-addon.php', // Used in Bulk Delete Attachments Addon - v1.2.
-		'BD_Base_Addon'                            => $plugin_dir . 'include/addons/base/class-bd-base-addon.php', // Used in Bulk Delete Attachments Addon - v1.2.
-		'BD_Scheduler_Addon'                       => $plugin_dir . 'include/addons/base/class-bd-scheduler-addon.php', // Used in Scheduler for Deleting Attachments and Users by Meta Addon.
 
+		'BD_Addon'                                 => $plugin_dir . 'include/deprecated/class-bd-addon.php', // Used in Bulk Delete Attachments Addon - v1.2.
+		'BD_Base_Addon'                            => $plugin_dir . 'include/deprecated/class-bd-base-addon.php', // Used in Bulk Delete Attachments Addon - v1.2.
+		'BD_Scheduler_Addon'                       => $plugin_dir . 'include/deprecated/class-bd-scheduler-addon.php', // Used in Scheduler for Deleting Attachments and Users by Meta Addon.
 		'Bulk_Delete_Users_By_User_Meta'           => $plugin_dir . 'include/deprecated/Bulk_Delete_Users_By_User_Meta.php', // Used in Scheduler for Deleting Users by User Meta Addon - v1.0.
 
 		// Deprecated classes.
@@ -113,6 +113,7 @@ function bd_get_custom_include_files() {
 		'include/compatibility/woocommerce.php',
 		'include/compatibility/advanced-custom-fields-pro.php',
 		'include/helpers/common.php',
+		'include/helpers/addon.php',
 		'include/ui/form.php',
 		'include/ui/admin-ui.php',
 		'include/util/query.php',
