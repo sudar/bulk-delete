@@ -16,6 +16,8 @@ class AddonInfo {
 	protected $name;
 	protected $code;
 	protected $version;
+	protected $author = 'Sudar Muthu';
+	protected $root_file;
 
 	/**
 	 * Construct AddonInfo from an array.
@@ -31,6 +33,8 @@ class AddonInfo {
 			'name',
 			'code',
 			'version',
+			'author',
+			'root_file',
 		);
 
 		foreach ( $keys as $key ) {
@@ -42,5 +46,25 @@ class AddonInfo {
 
 	public function get_name() {
 		return $this->name;
+	}
+
+	public function get_code() {
+		return $this->code;
+	}
+
+	public function get_version() {
+		return $this->version;
+	}
+
+	public function get_author() {
+		return $this->author;
+	}
+
+	public function get_root_file() {
+		return $this->root_file;
+	}
+
+	public function get_addon_directory() {
+		return plugin_dir_path( $this->root_file );
 	}
 }
