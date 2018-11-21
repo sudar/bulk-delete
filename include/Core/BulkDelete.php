@@ -579,12 +579,12 @@ final class BulkDelete {
 	}
 
 	/**
-	 * Getter for Autoloader.
+	 * Register Add-on Namespace.
 	 *
-	 * @return \BulkWP\BulkDelete\BulkDeleteAutoloader
+	 * @param \BulkWP\BulkDelete\Core\Addon\AddonInfo $addon_info Add-on Info.
 	 */
-	public function get_loader() {
-		return $this->loader;
+	public function register_addon_namespace( $addon_info ) {
+		$this->loader->add_namespace( 'BulkWP\BulkDelete', $addon_info->get_addon_directory() . 'includes' );
 	}
 
 	/**
