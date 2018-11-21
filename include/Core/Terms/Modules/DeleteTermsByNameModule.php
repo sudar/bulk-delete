@@ -42,7 +42,7 @@ class DeleteTermsByNameModule extends TermsModule {
 		$this->render_submit_button();
 	}
 
-	public function filter_js_array( $js_array ) {
+	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validateTermName';
 		$js_array['error_msg'][ $this->action ]  = 'enterTermName';
 		$js_array['msg']['enterTermName']        = __( 'Please enter the term name that should be deleted', 'bulk-delete' );

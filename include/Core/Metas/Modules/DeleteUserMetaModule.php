@@ -96,7 +96,7 @@ class DeleteUserMetaModule extends MetasModule {
 				<tr>
 					<td>
 						<label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio" checked="checked"> 
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio" checked="checked">
 						<?php _e( 'Delete now', 'bulk-delete' ); ?>
 						</label>
 						<label>
@@ -194,8 +194,7 @@ class DeleteUserMetaModule extends MetasModule {
 		return $count;
 	}
 
-	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]                 = '_' . $this->field_slug;
+	protected function append_to_js_array( $js_array ) {
 		$js_array['validators']['delete_user_meta'] = 'noValidation';
 
 		$js_array['pre_action_msg']['delete_user_meta'] = 'deleteUMWarning';

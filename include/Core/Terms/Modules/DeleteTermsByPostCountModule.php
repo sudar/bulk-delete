@@ -47,7 +47,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 		$this->render_submit_button();
 	}
 
-	public function filter_js_array( $js_array ) {
+	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validatePostCount';
 		$js_array['error_msg'][ $this->action ]  = 'validPostCount';
 		$js_array['msg']['validPostCount']       = __( 'Please enter the post count based on which terms should be deleted. A valid post count will be greater than or equal to zero', 'bulk-delete' );

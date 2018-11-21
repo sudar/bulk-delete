@@ -68,6 +68,14 @@ class DeletePostsByTagModule extends PostsModule {
 		$this->render_submit_button();
 	}
 
+	protected function append_to_js_array( $js_array ) {
+		$js_array['validators'][ $this->action ] = 'validateSelect2';
+		$js_array['error_msg'][ $this->action ]  = 'selectTag';
+		$js_array['msg']['selectTag']            = __( 'Please select at least one tag', 'bulk-delete' );
+
+		return $js_array;
+	}
+
 	/**
 	 * Process delete posts user inputs by tag.
 	 *
