@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class BaseAddon {
-
 	/**
 	 * Details of the Add-on.
 	 *
