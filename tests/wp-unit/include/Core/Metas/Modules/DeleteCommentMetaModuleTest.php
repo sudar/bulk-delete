@@ -372,40 +372,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'number_of_comment_metas_deleted' => 5,
 				),
 			),
-			array(
-				array(
-					array(
-						'post_type'          => 'post',
-						'number_of_comments' => 5,
-						'matched'            => array(
-							'meta_key'   => 'test_key',
-							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
-						),
-						'miss_matched'       => array(
-							'meta_key'   => 'another_key',
-							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
-						),
-					),
-					array(
-						'post_type'          => 'post',
-						'number_of_comments' => 3,
-						'miss_matched'       => array(
-							'meta_key'   => 'test_key',
-							'meta_value' => date( 'Y-m-d', strtotime( '1 day' ) ),
-						),
-					),
-				),
-				array(
-					'post_type'     => 'post',
-					'meta_key'      => 'test_key',
-					'meta_type'     => 'DATE',
-					'relative_date' => 'tomorrow',
-					'operator'      => '<',
-				),
-				array(
-					'number_of_comment_metas_deleted' => 5,
-				),
-			),
 		);
 	}
 
@@ -856,6 +822,87 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
+	 *  Data Provider for DATE datatype with relative date, custom date and different date formats.
+	 *
+	 * @return array Data
+	 */
+	public function provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_date() {
+		return array(
+			// Date type with relative date.
+			array(
+				array(
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 5,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
+						),
+						'miss_matched'       => array(
+							'meta_key'   => 'another_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 3,
+						'miss_matched'       => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '1 day' ) ),
+						),
+					),
+				),
+				array(
+					'post_type'     => 'post',
+					'meta_key'      => 'test_key',
+					'meta_type'     => 'DATE',
+					'relative_date' => 'tomorrow',
+					'operator'      => '<',
+				),
+				array(
+					'number_of_comment_metas_deleted' => 5,
+				),
+			),
+			// Date type with date format.
+			array(
+				array(
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 5,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'd-m-Y', strtotime( '-1 day' ) ),
+						),
+						'miss_matched'       => array(
+							'meta_key'   => 'another_key',
+							'meta_value' => date( 'd-m-Y', strtotime( '-1 day' ) ),
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 3,
+						'miss_matched'       => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'd-m-Y', strtotime( '1 day' ) ),
+						),
+					),
+				),
+				array(
+					'post_type'   => 'post',
+					'meta_key'    => 'test_key',
+					'meta_type'   => 'DATE',
+					'meta_value'  => date( 'Y-m-d', strtotime( '1 day' ) ),
+					'date_format' => '%d-%m-%Y',
+					'operator'    => '=',
+				),
+				array(
+					'number_of_comment_metas_deleted' => 5,
+				),
+			),
+		);
+	}
+
+	/**
 	 * Test deletion of comment meta from more than one comment using meta value with different operations.
 	 *
 	 * TODO: This test is currently skipped because duplicate meta keys is not fully supported yet.
@@ -871,6 +918,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_between_operator
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_exists_and_not_exists_operator
 	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_like_and_not_like_operator
+	 * @dataProvider provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_date
 	 */
 	public function test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_different_operations( $setup, $operation, $expected ) {
 		$size = count( $setup );
@@ -903,24 +951,24 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$delete_options = array(
-			'post_type'     => $operation['post_type'],
-			'use_value'     => true,
-			'meta_key'      => $operation['meta_key'],
-			'meta_type'     => $operation['meta_type'],
-			'meta_op'       => $operation['operator'],
-			'relative_date' => '',
-			'date_unit'     => '',
-			'date_type'     => '',
-			'limit_to'      => 0,
-			'date_op'       => '',
-			'days'          => '',
-			'restrict'      => false,
+			'post_type' => $operation['post_type'],
+			'use_value' => true,
+			'meta_key'  => $operation['meta_key'],
+			'meta_type' => $operation['meta_type'],
+			'meta_op'   => $operation['operator'],
+			'limit_to'  => 0,
+			'date_op'   => '',
+			'days'      => '',
+			'restrict'  => false,
 		);
 		if ( array_key_exists( 'meta_value', $operation ) ) {
 			$delete_options['meta_value'] = $operation['meta_value'];
 		}
 		if ( array_key_exists( 'relative_date', $operation ) ) {
 			$delete_options['relative_date'] = $operation['relative_date'];
+		}
+		if ( array_key_exists( 'date_format', $operation ) ) {
+			$delete_options['date_format'] = $operation['date_format'];
 		}
 
 		$comment_metas_deleted = $this->module->delete( $delete_options );
@@ -949,19 +997,25 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$meta_value   = 'Test Value';
 		$comment_date = date( 'Y-m-d H:i:s', strtotime( '-2 day' ) );
 
-		$post_id = $this->factory->post->create( array(
-			'post_type' => $post_type,
-		) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_type' => $post_type,
+			)
+		);
 
-		$matched_comment_id = $this->factory->comment->create( array(
-			'comment_post_ID' => $post_id,
-			'comment_date'    => $comment_date,
-		) );
+		$matched_comment_id = $this->factory->comment->create(
+			array(
+				'comment_post_ID' => $post_id,
+				'comment_date'    => $comment_date,
+			)
+		);
 		add_comment_meta( $matched_comment_id, $meta_key, $meta_value );
 
-		$miss_matched_comment_id = $this->factory->comment->create( array(
-			'comment_post_ID' => $post_id,
-		) );
+		$miss_matched_comment_id = $this->factory->comment->create(
+			array(
+				'comment_post_ID' => $post_id,
+			)
+		);
 		add_comment_meta( $miss_matched_comment_id, $meta_key, $meta_value );
 
 		// call our method.
@@ -995,18 +1049,22 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$post_id = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
 
 		// Create a comment with comment date older than 5 days.
-		$comment_1_id = $this->factory->comment->create( array(
-			'comment_post_ID' => $post_id,
-			'comment_content' => 'Test Comment',
-			'comment_date'    => $comment_date,
-		) );
+		$comment_1_id = $this->factory->comment->create(
+			array(
+				'comment_post_ID' => $post_id,
+				'comment_content' => 'Test Comment',
+				'comment_date'    => $comment_date,
+			)
+		);
 		add_comment_meta( $comment_1_id, $meta_key, $meta_value );
 
 		// Create a comment with current date as comment date.
-		$comment_2_id = $this->factory->comment->create( array(
-			'comment_post_ID' => $post_id,
-			'comment_content' => 'Test Comment',
-		) );
+		$comment_2_id = $this->factory->comment->create(
+			array(
+				'comment_post_ID' => $post_id,
+				'comment_content' => 'Test Comment',
+			)
+		);
 		add_comment_meta( $comment_2_id, $meta_key, $meta_value );
 
 		// call our method.

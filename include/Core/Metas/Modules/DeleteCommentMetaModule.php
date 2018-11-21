@@ -192,8 +192,8 @@ class DeleteCommentMetaModule extends MetasModule {
 					<?php $this->render_data_types_dropdown(); ?>
 					<?php $this->render_numeric_operators_dropdown(); ?>	
 					<?php $this->render_string_operators_dropdown(); ?>
-					<label for="smbd_cf_value"><?php _e( 'Value ', 'bulk-delete' ); ?></label>
-					<span id="smbd_cf_date_fields">
+					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"><?php _e( 'Value ', 'bulk-delete' ); ?></label>
+					<span id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_fields">
 						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_value" class="date-picker" placeholder="<?php esc_attr_e( 'Enter the date', 'bulk-delete' ); ?>">
 						<?php _e( 'Or', 'bulk-delete' ); ?>
 						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date">
