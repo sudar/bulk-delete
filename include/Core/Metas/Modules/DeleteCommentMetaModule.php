@@ -137,10 +137,11 @@ class DeleteCommentMetaModule extends MetasModule {
 		}
 
 		if ( $options['use_value'] ) {
-			if ( ! in_array( $options['meta_op'], array( 'EXISTS', 'NOT EXISTS' ), true ) ) {
-				$args['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $options );
-			} else {
+			if ( in_array( $options['meta_op'], array( 'EXISTS', 'NOT EXISTS' ), true ) ) {
 				$args['meta_compare'] = $options['meta_op'];
+				$args['meta_key']     = $options['meta_key'];
+			} else {
+				$args['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $options );
 			}
 		} else {
 			$args['meta_key'] = $options['meta_key'];
@@ -191,9 +192,47 @@ class DeleteCommentMetaModule extends MetasModule {
 					<?php $this->render_data_types_dropdown(); ?>
 					<?php $this->render_numeric_operators_dropdown(); ?>	
 					<?php $this->render_string_operators_dropdown(); ?>
+					<label for="smbd_cf_value"><?php _e( 'Value ', 'bulk-delete' ); ?></label>
+					<span id="smbd_cf_date_fields">
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_value" class="date-picker" placeholder="<?php esc_attr_e( 'Enter the date', 'bulk-delete' ); ?>">
+						<?php _e( 'Or', 'bulk-delete' ); ?>
+						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date">
+							<option value=""><?php _e( 'Select Relative date', 'bulk-delete' ); ?></option>
+							<option value="yesterday"><?php _e( 'Yesterday', 'bulk-delete' ); ?></option>
+							<option value="today"><?php _e( 'Today', 'bulk-delete' ); ?></option>
+							<option value="tomorrow"><?php _e( 'Tomorrow', 'bulk-delete' ); ?></option>
+							<option value="custom"><?php _e( 'Custom', 'bulk-delete' ); ?></option>
+						</select>
+						<?php echo apply_filters( 'bd_help_tooltip', '', __( 'You can select a date or enter a date which is relative to today.', 'bulk-delete' ) ); ?>
+					</span>
+					<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" style="width: 5%;">
+					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type">
+						<option value="day"><?php _e( 'Day', 'bulk-delete' ); ?></option>
+						<option value="week"><?php _e( 'Week', 'bulk-delete' ); ?></option>
+						<option value="month"><?php _e( 'Month', 'bulk-delete' ); ?></option>
+						<option value="year"><?php _e( 'Year', 'bulk-delete' ); ?></option>
+					</select>
 					<input type="text" placeholder="<?php _e( 'Meta Value', 'bulk-delete' ); ?>"
 						name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
 						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value">
+				</td>
+			</tr>
+			<tr id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format_box">
+				<td colspan="2">
+					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format">
+						<?php _e( 'Meta value date format', 'bulk-delete' ); ?>
+					</label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format" placeholder="%Y-%m-%d">
+					<?php echo apply_filters( 'bd_help_tooltip', '', __( "If you leave date format blank, then '%Y-%m-%d', will be assumed.", 'bulk-delete' ) ); ?>
+					<p>
+						<?php
+						printf(
+							/* translators: 1 Mysql Format specifier url.  */
+							__( 'If you are storing the date in a format other than <em>YYYY-MM-DD</em> then enter the date format using <a href="%s" target="_blank" rel="noopener noreferrer">Mysql format specifiers</a>.', 'bulk-delete' ),
+							'https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format'
+						);
+						?>
+					</p>
 				</td>
 			</tr>
 		</table>
@@ -214,9 +253,13 @@ class DeleteCommentMetaModule extends MetasModule {
 	 */
 	public function process_filtering_options( $delete_options, $post ) {
 		if ( 'true' == bd_array_get( $post, 'smbd_' . $this->field_slug . '_use_value', 'false' ) ) {
-			$delete_options['meta_op']    = bd_array_get( $post, 'smbd_' . $this->field_slug . '_operator', '=' );
-			$delete_options['meta_type']  = bd_array_get( $post, 'smbd_' . $this->field_slug . '_type', 'CHAR' );
-			$delete_options['meta_value'] = bd_array_get( $post, 'smbd_' . $this->field_slug . '_value', '' );
+			$delete_options['meta_op']       = bd_array_get( $post, 'smbd_' . $this->field_slug . '_operator', '=' );
+			$delete_options['meta_type']     = bd_array_get( $post, 'smbd_' . $this->field_slug . '_type', 'CHAR' );
+			$delete_options['meta_value']    = bd_array_get( $post, 'smbd_' . $this->field_slug . '_value', '' );
+			$delete_options['relative_date'] = bd_array_get( $post, 'smbd_' . $this->field_slug . '_relative_date', '' );
+			$delete_options['date_unit']     = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_unit', '' );
+			$delete_options['date_type']     = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_type', '' );
+			$delete_options['date_format']   = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_format' );
 		}
 
 		return $delete_options;
@@ -235,6 +278,11 @@ class DeleteCommentMetaModule extends MetasModule {
 	 * @return array Modified meta query.
 	 */
 	public function change_meta_query( $meta_query, $delete_options ) {
+		if ( 'DATE' === $delete_options['meta_type'] ) {
+			$bd_date_handler = new \Bulk_Delete_Date_Handler();
+			$delete_options  = $bd_date_handler->get_query( $delete_options );
+			return $delete_options;
+		}
 		switch ( $delete_options['meta_op'] ) {
 			case 'IN':
 				$meta_value = explode( ',', $delete_options['meta_value'] );

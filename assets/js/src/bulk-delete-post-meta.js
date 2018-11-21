@@ -9,6 +9,10 @@
 jQuery( document ).ready( function () {
 	jQuery("select.string").attr( 'disabled', 'true');
 	jQuery("select.string").hide();
+	jQuery( '.date-picker' ).datepicker( {
+		dateFormat: "yy-mm-dd"
+	} );
+
 	jQuery( 'input[name="smbd_comment_meta_use_value"]' ).change( function () {
 		if ( 'true' === jQuery( this ).val() ) {
 			jQuery( '#smbd_comment_meta_filters' ).show();

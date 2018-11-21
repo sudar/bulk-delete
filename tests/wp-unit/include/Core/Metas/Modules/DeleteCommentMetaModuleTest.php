@@ -372,6 +372,40 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'number_of_comment_metas_deleted' => 5,
 				),
 			),
+			array(
+				array(
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 5,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
+						),
+						'miss_matched'       => array(
+							'meta_key'   => 'another_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 3,
+						'miss_matched'       => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '1 day' ) ),
+						),
+					),
+				),
+				array(
+					'post_type'     => 'post',
+					'meta_key'      => 'test_key',
+					'meta_type'     => 'DATE',
+					'relative_date' => 'tomorrow',
+					'operator'      => '<',
+				),
+				array(
+					'number_of_comment_metas_deleted' => 5,
+				),
+			),
 		);
 	}
 
@@ -869,18 +903,24 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$delete_options = array(
-			'post_type' => $operation['post_type'],
-			'use_value' => true,
-			'meta_key'  => $operation['meta_key'],
-			'meta_type' => $operation['meta_type'],
-			'meta_op'   => $operation['operator'],
-			'limit_to'  => 0,
-			'date_op'   => '',
-			'days'      => '',
-			'restrict'  => false,
+			'post_type'     => $operation['post_type'],
+			'use_value'     => true,
+			'meta_key'      => $operation['meta_key'],
+			'meta_type'     => $operation['meta_type'],
+			'meta_op'       => $operation['operator'],
+			'relative_date' => '',
+			'date_unit'     => '',
+			'date_type'     => '',
+			'limit_to'      => 0,
+			'date_op'       => '',
+			'days'          => '',
+			'restrict'      => false,
 		);
 		if ( array_key_exists( 'meta_value', $operation ) ) {
 			$delete_options['meta_value'] = $operation['meta_value'];
+		}
+		if ( array_key_exists( 'relative_date', $operation ) ) {
+			$delete_options['relative_date'] = $operation['relative_date'];
 		}
 
 		$comment_metas_deleted = $this->module->delete( $delete_options );

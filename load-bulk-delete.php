@@ -68,6 +68,7 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'BD_Settings_Page'                         => $plugin_dir . 'include/settings/class-bd-settings-page.php',
 		'BD_Settings'                              => $plugin_dir . 'include/settings/class-bd-settings.php',
 		'BD_System_Info_page'                      => $plugin_dir . 'include/system-info/class-bd-system-info-page.php',
+		'Bulk_Delete_Date_Handler'                 => $plugin_dir . 'include/util/class-bulk-delete-date-handler.php',
 
 		// Compatibility. Will be removed once compatibility is addressed.
 		'BD_Meta_Box_Module'                       => $plugin_dir . 'include/base/class-bd-meta-box-module.php', // Used in Bulk Delete Attachments Addon - v1.2.
