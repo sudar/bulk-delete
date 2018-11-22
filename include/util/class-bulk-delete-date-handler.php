@@ -56,10 +56,7 @@ class Bulk_Delete_Date_Handler {
 				case '<=':
 					$delete_options['meta_value'] = date( 'c', strtotime( '-' . $interval_unit . ' ' . $interval_type ) );
 					break;
-				case '>':
-				case '>=':
-				case '=':
-				case '!=':
+				default:
 					$delete_options['meta_value'] = date( 'c', strtotime( $interval_unit . ' ' . $interval_type ) );
 					break;
 			}

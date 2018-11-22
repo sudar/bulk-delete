@@ -231,9 +231,10 @@ abstract class Renderer extends Fetcher {
 	/**
 	 * Render numeric comparison operators dropdown.
 	 *
-	 * @param array $operators List of Operators needed.
+	 * @param string $class     Class to be applied.
+	 * @param array  $operators List of Operators needed.
 	 */
-	protected function render_numeric_operators_dropdown( $operators = array( 'all' ) ) {
+	protected function render_numeric_operators_dropdown( $class = 'numeric', $operators = array( 'all' ) ) {
 		$all_numeric_operators = array(
 			'='           => 'equal to',
 			'!='          => 'not equal to',
@@ -252,7 +253,7 @@ abstract class Renderer extends Fetcher {
 			$operators = array_keys( $all_numeric_operators );
 		}
 		?>
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class="numeric">
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class= "<?php echo esc_attr( $class ); ?>">
 		<?php
 		foreach ( $operators as $operator ) {
 			echo '<option value="' . $operator . '">' . __( $all_numeric_operators[ $operator ], 'bulk-delete' ) . '</option>';
@@ -265,9 +266,10 @@ abstract class Renderer extends Fetcher {
 	/**
 	 * Render string comparison operators dropdown.
 	 *
-	 * @param array $operators List of Operators needed.
+	 * @param string $class     Class to be applied.
+	 * @param array  $operators List of Operators needed.
 	 */
-	protected function render_string_operators_dropdown( $operators = array( 'all' ) ) {
+	protected function render_string_operators_dropdown( $class = 'string', $operators = array( 'all' ) ) {
 		$all_string_operators = array(
 			'='          => 'equal to',
 			'!='         => 'not equal to',
@@ -282,7 +284,7 @@ abstract class Renderer extends Fetcher {
 			$operators = array_keys( $all_string_operators );
 		}
 		?>
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class="string">
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class="<?php echo esc_attr( $class ); ?>">
 		<?php
 		foreach ( $operators as $operator ) {
 			echo '<option value="' . $operator . '">' . __( $all_string_operators[ $operator ], 'bulk-delete' ) . '</option>';

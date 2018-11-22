@@ -192,11 +192,16 @@ class DeleteCommentMetaModule extends MetasModule {
 					<?php $this->render_data_types_dropdown(); ?>
 					<?php $this->render_numeric_operators_dropdown(); ?>	
 					<?php $this->render_string_operators_dropdown(); ?>
-					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"><?php _e( 'Value ', 'bulk-delete' ); ?></label>
-					<span id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_fields">
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_value" class="date-picker" placeholder="<?php esc_attr_e( 'Enter the date', 'bulk-delete' ); ?>">
+					<?php
+						$operators = array( '=', '!=', '>', '<=', '>', '>=', 'EXISTS', 'NOT EXISTS' );
+						$class     = 'date';
+					?>
+					<?php $this->render_numeric_operators_dropdown( $class, $operators ); ?>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
+						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value">
+					<span class="date-fields">
 						<?php _e( 'Or', 'bulk-delete' ); ?>
-						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date">
+						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" class="relative-date-fields">
 							<option value=""><?php _e( 'Select Relative date', 'bulk-delete' ); ?></option>
 							<option value="yesterday"><?php _e( 'Yesterday', 'bulk-delete' ); ?></option>
 							<option value="today"><?php _e( 'Today', 'bulk-delete' ); ?></option>
@@ -205,19 +210,18 @@ class DeleteCommentMetaModule extends MetasModule {
 						</select>
 						<?php echo apply_filters( 'bd_help_tooltip', '', __( 'You can select a date or enter a date which is relative to today.', 'bulk-delete' ) ); ?>
 					</span>
-					<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" style="width: 5%;">
-					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type">
-						<option value="day"><?php _e( 'Day', 'bulk-delete' ); ?></option>
-						<option value="week"><?php _e( 'Week', 'bulk-delete' ); ?></option>
-						<option value="month"><?php _e( 'Month', 'bulk-delete' ); ?></option>
-						<option value="year"><?php _e( 'Year', 'bulk-delete' ); ?></option>
-					</select>
-					<input type="text" placeholder="<?php _e( 'Meta Value', 'bulk-delete' ); ?>"
-						name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
-						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value">
+					<span class="custom-date-fields">
+						<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" style="width: 5%;">
+						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type">
+							<option value="day"><?php _e( 'Day', 'bulk-delete' ); ?></option>
+							<option value="week"><?php _e( 'Week', 'bulk-delete' ); ?></option>
+							<option value="month"><?php _e( 'Month', 'bulk-delete' ); ?></option>
+							<option value="year"><?php _e( 'Year', 'bulk-delete' ); ?></option>
+						</select>
+					</span>
 				</td>
 			</tr>
-			<tr id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format_box">
+			<tr class="date-format-fields">
 				<td colspan="2">
 					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format">
 						<?php _e( 'Meta value date format', 'bulk-delete' ); ?>

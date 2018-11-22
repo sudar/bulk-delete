@@ -863,40 +863,37 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'number_of_comment_metas_deleted' => 5,
 				),
 			),
-			// Date type with date format.
+			// Date type with date unit and type.
 			array(
 				array(
 					array(
 						'post_type'          => 'post',
 						'number_of_comments' => 5,
-						'matched'            => array(
-							'meta_key'   => 'test_key',
-							'meta_value' => date( 'd-m-Y', strtotime( '-1 day' ) ),
-						),
 						'miss_matched'       => array(
-							'meta_key'   => 'another_key',
-							'meta_value' => date( 'd-m-Y', strtotime( '-1 day' ) ),
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
 						),
 					),
 					array(
 						'post_type'          => 'post',
 						'number_of_comments' => 3,
-						'miss_matched'       => array(
+						'matched'            => array(
 							'meta_key'   => 'test_key',
-							'meta_value' => date( 'd-m-Y', strtotime( '1 day' ) ),
+							'meta_value' => date( 'Y-m-d', strtotime( '10 day' ) ),
 						),
 					),
 				),
 				array(
-					'post_type'   => 'post',
-					'meta_key'    => 'test_key',
-					'meta_type'   => 'DATE',
-					'meta_value'  => date( 'Y-m-d', strtotime( '1 day' ) ),
-					'date_format' => '%d-%m-%Y',
-					'operator'    => '=',
+					'post_type'     => 'post',
+					'meta_key'      => 'test_key',
+					'meta_type'     => 'DATE',
+					'relative_date' => 'custom',
+					'date_unit'     => '10',
+					'date_type'     => 'day',
+					'operator'      => '=',
 				),
 				array(
-					'number_of_comment_metas_deleted' => 5,
+					'number_of_comment_metas_deleted' => 3,
 				),
 			),
 		);
@@ -969,6 +966,12 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 		if ( array_key_exists( 'date_format', $operation ) ) {
 			$delete_options['date_format'] = $operation['date_format'];
+		}
+		if ( array_key_exists( 'date_unit', $operation ) ) {
+			$delete_options['date_unit'] = $operation['date_unit'];
+		}
+		if ( array_key_exists( 'date_type', $operation ) ) {
+			$delete_options['date_type'] = $operation['date_type'];
 		}
 
 		$comment_metas_deleted = $this->module->delete( $delete_options );
