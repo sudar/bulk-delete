@@ -137,12 +137,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		}
 
 		if ( $options['use_value'] ) {
-			if ( in_array( $options['meta_op'], array( 'EXISTS', 'NOT EXISTS' ), true ) ) {
-				$args['meta_compare'] = $options['meta_op'];
-				$args['meta_key']     = $options['meta_key'];
-			} else {
-				$args['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $options );
-			}
+			$args['meta_query'] = apply_filters( 'bd_delete_comment_meta_query', array(), $options );
 		} else {
 			$args['meta_key'] = $options['meta_key'];
 		}
@@ -282,10 +277,19 @@ class DeleteCommentMetaModule extends MetasModule {
 	 * @return array Modified meta query.
 	 */
 	public function change_meta_query( $meta_query, $delete_options ) {
+		$query_vars = array(
+			'key'     => $delete_options['meta_key'],
+			'compare' => $delete_options['meta_op'],
+			'type'    => $delete_options['meta_type'],
+		);
+		if ( in_array( $delete_options['meta_op'], array( 'EXISTS', 'NOT EXISTS' ), true ) ) {
+			$meta_query = array( $query_vars );
+			return $meta_query;
+		}
 		if ( 'DATE' === $delete_options['meta_type'] ) {
 			$bd_date_handler = new \Bulk_Delete_Date_Handler();
-			$delete_options  = $bd_date_handler->get_query( $delete_options );
-			return $delete_options;
+			$meta_query      = $bd_date_handler->get_query( $delete_options );
+			return $meta_query;
 		}
 		switch ( $delete_options['meta_op'] ) {
 			case 'IN':
@@ -297,15 +301,9 @@ class DeleteCommentMetaModule extends MetasModule {
 			default:
 				$meta_value = $delete_options['meta_value'];
 		}
-		$meta_query = array(
-			array(
-				'key'     => $delete_options['meta_key'],
-				'value'   => $meta_value,
-				'compare' => $delete_options['meta_op'],
-				'type'    => $delete_options['meta_type'],
-			),
-		);
 
+		$query_vars['value'] = $meta_value;
+		$meta_query          = array( $query_vars );
 		return $meta_query;
 	}
 

@@ -652,7 +652,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 *  Data Provider for EXISTS and NOT EXISTS operator with numeric and date types respectively.
+	 *  Data Provider for EXISTS and NOT EXISTS operator with numeric type.
 	 *
 	 * @return array Data
 	 */
@@ -702,11 +702,11 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 						'number_of_comments' => 5,
 						'miss_matched'       => array(
 							'meta_key'   => 'test_key',
-							'meta_value' => date( 'Y-m-d' ),
+							'meta_value' => 20,
 						),
 						'matched'            => array(
 							'meta_key'   => 'another_key',
-							'meta_value' => date( 'Y-m-d', strtotime( '-1 day' ) ),
+							'meta_value' => 10,
 						),
 					),
 					array(
@@ -714,7 +714,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 						'number_of_comments' => 3,
 						'miss_matched'       => array(
 							'meta_key'   => 'test_key',
-							'meta_value' => date( 'Y-m-d', strtotime( '+2 day' ) ),
+							'meta_value' => 30,
 						),
 					),
 					array(
@@ -722,14 +722,14 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 						'number_of_comments' => 2,
 						'miss_matched'       => array(
 							'meta_key'   => 'test_key',
-							'meta_value' => date( 'Y-m-d', strtotime( '-2 day' ) ),
+							'meta_value' => 40,
 						),
 					),
 				),
 				array(
 					'post_type' => 'post',
 					'meta_key'  => 'test_key',
-					'meta_type' => 'DATE',
+					'meta_type' => 'NUMERIC',
 					'operator'  => 'NOT EXISTS',
 				),
 				array(
@@ -856,8 +856,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'post_type'     => 'post',
 					'meta_key'      => 'test_key',
 					'meta_type'     => 'DATE',
-					'relative_date' => 'tomorrow',
-					'operator'      => '<',
+					'relative_date' => 'yesterday',
+					'operator'      => '=',
 				),
 				array(
 					'number_of_comment_metas_deleted' => 5,
@@ -888,9 +888,43 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'meta_key'      => 'test_key',
 					'meta_type'     => 'DATE',
 					'relative_date' => 'custom',
-					'date_unit'     => '10',
+					'date_unit'     => '9',
 					'date_type'     => 'day',
-					'operator'      => '=',
+					'operator'      => '>=',
+				),
+				array(
+					'number_of_comment_metas_deleted' => 3,
+				),
+			),
+			// Date type with date unit and type and date format.
+			array(
+				array(
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 5,
+						'miss_matched'       => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'd-m-Y', strtotime( '-1 day' ) ),
+						),
+					),
+					array(
+						'post_type'          => 'post',
+						'number_of_comments' => 3,
+						'matched'            => array(
+							'meta_key'   => 'test_key',
+							'meta_value' => date( 'd-m-Y', strtotime( '10 day' ) ),
+						),
+					),
+				),
+				array(
+					'post_type'     => 'post',
+					'meta_key'      => 'test_key',
+					'meta_type'     => 'DATE',
+					'relative_date' => 'custom',
+					'date_unit'     => '9',
+					'date_type'     => 'day',
+					'date_format'   => '%d-%m-%Y',
+					'operator'      => '>=',
 				),
 				array(
 					'number_of_comment_metas_deleted' => 3,

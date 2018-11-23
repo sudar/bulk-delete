@@ -54,11 +54,10 @@ class Bulk_Delete_Date_Handler {
 			switch ( $delete_options['meta_op'] ) {
 				case '<':
 				case '<=':
-					$delete_options['meta_value'] = date( 'c', strtotime( '-' . $interval_unit . ' ' . $interval_type ) );
+					$delete_options['meta_value'] = date( 'Y-m-d', strtotime( '-' . $interval_unit . ' ' . $interval_type ) );
 					break;
 				default:
-					$delete_options['meta_value'] = date( 'c', strtotime( $interval_unit . ' ' . $interval_type ) );
-					break;
+					$delete_options['meta_value'] = date( 'Y-m-d', strtotime( $interval_unit . ' ' . $interval_type ) );
 			}
 		}
 
@@ -145,7 +144,6 @@ class Bulk_Delete_Date_Handler {
 				$this->input_value_date_format
 			);
 		}
-
 		return $query;
 	}
 
