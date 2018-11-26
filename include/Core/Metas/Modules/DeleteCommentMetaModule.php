@@ -49,14 +49,14 @@ class DeleteCommentMetaModule extends MetasModule {
 			<table class="optiontable">
 				<tr>
 					<td>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="false" type="radio" checked>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" class="use-value" value="false" type="radio" checked>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on comment meta key name only', 'bulk-delete' ); ?></label>
 					</td>
 				</tr>
 
 				<tr>
 					<td>
-						<input type="radio" value="true" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value">
+						<input type="radio" class="use-value" value="true" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value">
 
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on comment meta key name and value', 'bulk-delete' ); ?></label>
 					</td>
@@ -65,7 +65,7 @@ class DeleteCommentMetaModule extends MetasModule {
 				<tr>
 					<td>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key"><?php _e( 'Comment Meta Key ', 'bulk-delete' ); ?></label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" class="meta-key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
 					</td>
 				</tr>
 			</table>
@@ -158,7 +158,8 @@ class DeleteCommentMetaModule extends MetasModule {
 
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
-		$js_array['validators'][ $this->action ] = 'noValidation';
+		$js_array['error_msg'][ $this->action ]  = 'validateMetaKey';
+		$js_array['msg']['validateMetaKey']      = __( 'Please enter Meta key', 'bulk-delete' );
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteCMWarning';
 		$js_array['msg']['deleteCMWarning']          = __( 'Are you sure you want to delete all the comment meta fields that match the selected filters?', 'bulk-delete' );
@@ -180,7 +181,7 @@ class DeleteCommentMetaModule extends MetasModule {
 	 */
 	public function add_filtering_options() {
 		?>
-		<table class="optiontable" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_filters" style="display:none;">
+		<table class="optiontable" style="display:none;">
 			<tr>
 				<td>
 					<?php _e( 'Comment Meta Value ', 'bulk-delete' ); ?>
