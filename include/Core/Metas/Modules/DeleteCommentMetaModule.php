@@ -158,8 +158,9 @@ class DeleteCommentMetaModule extends MetasModule {
 
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
-		$js_array['error_msg'][ $this->action ]  = 'validateMetaKey';
-		$js_array['msg']['validateMetaKey']      = __( 'Please enter Meta key', 'bulk-delete' );
+		$js_array['validators'][ $this->action ] = 'validateMetaKey';
+		$js_array['error_msg'][ $this->action ]  = 'validMetaKey';
+		$js_array['msg']['validMetaKey']         = __( 'Please enter Meta key', 'bulk-delete' );
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteCMWarning';
 		$js_array['msg']['deleteCMWarning']          = __( 'Are you sure you want to delete all the comment meta fields that match the selected filters?', 'bulk-delete' );
