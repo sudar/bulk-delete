@@ -3,6 +3,7 @@
  * Class that encapsulates the logic for handling date format specified by the user.
  *
  * @package Bulk Delete
+ *
  * @author Sudar
  *
  * @since 6.0
@@ -30,15 +31,16 @@ class Bulk_Delete_Date_Handler {
 	 */
 	protected $input_value_date_format;
 
-
 	/**
 	 * Creates query object after processing date with specified date format.
 	 *
 	 * @param array $delete_options Delete Options.
+	 *
 	 * @return \WP_Query $query Query object.
 	 */
 	public function get_query( $delete_options ) {
 		$query = $this->process_date_fields( $delete_options );
+
 		return $query;
 	}
 
@@ -88,6 +90,7 @@ class Bulk_Delete_Date_Handler {
 
 			$this->load();
 		}
+
 		return $options;
 	}
 
@@ -101,7 +104,7 @@ class Bulk_Delete_Date_Handler {
 	}
 
 	/**
-	 * Parse the query object
+	 * Parse the query object.
 	 *
 	 * @since  0.3
 	 *
@@ -145,11 +148,12 @@ class Bulk_Delete_Date_Handler {
 				$this->input_value_date_format
 			);
 		}
+
 		return $query;
 	}
 
 	/**
-	 * Remove the filter
+	 * Remove the filter.
 	 *
 	 * @since 0.3
 	 * @access public
