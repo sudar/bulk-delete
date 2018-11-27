@@ -24,34 +24,54 @@ jQuery( document ).ready( function () {
 			nextRowParent = currentRowParent.next(),
 			numDateOpDropdowns = currentRowParent.find("select.numeric, select.date"),
 			strDateOpDropdowns = currentRowParent.find("select.string, select.date"),
-			numStrOpDropdwons  = currentRowParent.find("select.string, select.numeric"),
+			numStrOpDropdowns  = currentRowParent.find("select.string, select.numeric"),
+			strOpDropdown = currentRowParent.find("select.string"),
+			NumOpDropdown = currentRowParent.find("select.numeric"),
+			dateOpDropdown = currentRowParent.find("select.date"),
 			dateFieldsSpans  = currentRowParent.find('span.date-fields'),
-			dateFields  = dateFieldsSpans.find('select, input'),
-			metaValueTextBox = currentRowParent.find(':text');
+			dateFields  = dateFieldsSpans.find('select'),
+			dateCustomFields = currentRowParent.find('span.custom-date-fields'),
+			metaValueTextBox = currentRowParent.find('.date-picker');
 
 		if ('string' === jQuery(this).val()) {
-			numDateOpDropdowns.attr( 'disabled', 'true' );
-			numDateOpDropdowns.hide();
-			currentRowParent.find("select.string").removeAttr( 'disabled' );
-			currentRowParent.find("select.string").show();
-			disableAllDateFields(dateFields, nextRowParent);
-			hideAllDateFields(dateFieldsSpans, nextRowParent);
+			disableElements(numDateOpDropdowns);
+			hideElements(numDateOpDropdowns);
+			disableElements(dateFields);
+			disableElements(nextRowParent);
+			hideElements(dateFieldsSpans);
+			hideElements(dateCustomFields);
+			hideElements(nextRowParent);
+			resetElements(strOpDropdown);
+			enableElements(strOpDropdown);
+			showElements(strOpDropdown);
+			showElements(metaValueTextBox);
 			metaValueTextBox.datepicker('destroy');
 		} else if ('numeric' === jQuery(this).val()) {
-			strDateOpDropdowns.attr( 'disabled', 'true');
-			strDateOpDropdowns.hide();
-			currentRowParent.find("select.numeric").removeAttr( 'disabled' );
-			currentRowParent.find("select.numeric").show();
-			disableAllDateFields(dateFields, nextRowParent);
-			hideAllDateFields(dateFieldsSpans, nextRowParent);
+			disableElements(strDateOpDropdowns);
+			hideElements(strDateOpDropdowns);
+			disableElements(dateFields);
+			disableElements(nextRowParent);
+			hideElements(dateFieldsSpans);
+			hideElements(dateCustomFields);
+			hideElements(nextRowParent);
+			resetElements(NumOpDropdown);
+			enableElements(NumOpDropdown);
+			showElements(NumOpDropdown);
+			showElements(metaValueTextBox);
 			metaValueTextBox.datepicker('destroy');
 		} else if( 'date' === jQuery(this).val() ) {
-			numStrOpDropdwons.attr( 'disabled', 'true');
-			numStrOpDropdwons.hide();
-			currentRowParent.find("select.date").removeAttr( 'disabled' );
-			currentRowParent.find("select.date").show();
-			enableAllDateFields(dateFields, nextRowParent);
-			showAllDateFields(dateFieldsSpans, nextRowParent);
+			disableElements(numStrOpDropdowns);
+			hideElements(numStrOpDropdowns);
+			hideElements(dateCustomFields);
+			resetElements(dateOpDropdown);
+			enableElements(dateOpDropdown);
+			showElements(dateOpDropdown);
+			resetElements(dateFields);
+			enableElements(dateFields);			
+			enableElements(nextRowParent);
+			showElements(dateFieldsSpans);
+			showElements(nextRowParent);
+			showElements(metaValueTextBox);
 			metaValueTextBox.datepicker( {
 				dateFormat: "yy-mm-dd"
 			} );
@@ -59,8 +79,10 @@ jQuery( document ).ready( function () {
 	} );
 
 	jQuery( "select.relative-date-fields").change( function() {
-		var currentCustomFields = jQuery(this).parents('tr').find("span.custom-date-fields");
+		var currentCustomFields = jQuery(this).parents('tr').find("span.custom-date-fields"),
+			currentCustomSelect = currentCustomFields.find('select');
 		if( 'custom' === jQuery(this).val() ) {
+			resetElements(currentCustomSelect);
 			currentCustomFields.show();
 		} else {
 			currentCustomFields.hide();
@@ -70,42 +92,50 @@ jQuery( document ).ready( function () {
 	jQuery( "select.numeric, select.string, select.date").change( function() {
 		var currentRowParent        = jQuery(this).parents('tr'),
 		    dateFormatTextBoxRow    = currentRowParent.next(),
-			metaValueTextBox = currentRowParent.find(':text'),
-			dateFieldsSpans  = currentRowParent.find('span.date-fields, span.custom-date-fields'),
-			dateFields  = dateFieldsSpans.find('select, input');
+			metaValueTextBox        = currentRowParent.find(':text'),
+			dateFieldsSpans         = currentRowParent.find('span.date-fields'),
+			dateFields              = dateFieldsSpans.find('select'),
+			dateCustomFieldsSpans   = currentRowParent.find('span.custom-date-fields');
 		if ( -1 === ['EXISTS', 'NOT EXISTS'].indexOf( jQuery(this).val() ) ){
-			metaValueTextBox.removeAttr('disabled');
-			metaValueTextBox.show();
+			enableElements(metaValueTextBox);
+			showElements(metaValueTextBox);
+			hideElements(dateCustomFieldsSpans);
 			if ( 'date' === currentRowParent.find('select.meta-type').val() ) {
-				enableAllDateFields(dateFields, dateFormatTextBoxRow);
-				showAllDateFields(dateFieldsSpans, dateFormatTextBoxRow);
+				resetElements(dateFields);
+				enableElements(dateFields);
+				showElements(dateFieldsSpans);
+				enableElements(dateFormatTextBoxRow);
+				showElements(dateFormatTextBoxRow);
 			}
 		} else {
-			metaValueTextBox.attr('disabled', 'true');
-			metaValueTextBox.hide();
-			disableAllDateFields(dateFields, dateFormatTextBoxRow);
-			hideAllDateFields(dateFieldsSpans, dateFormatTextBoxRow);
+			disableElements(metaValueTextBox);
+			hideElements(metaValueTextBox);
+			disableElements(dateFields);
+			hideElements(dateFieldsSpans);
+			hideElements(dateCustomFieldsSpans);
+			disableElements(dateFormatTextBoxRow);
+			hideElements(dateFormatTextBoxRow);
 		}
 	} );
 
-	function enableAllDateFields(elements, row){
-		elements.removeAttr('disabled');
-		row.find(':text').removeAttr('disabled');
-	}
-
-	function disableAllDateFields(elements, row){
+	function disableElements(elements) {
 		elements.attr('disabled', 'true');
-		row.find(':text').attr('disabled', 'true');
 	}
 
-	function showAllDateFields(elements, row){
+	function enableElements(elements) {
+		elements.removeAttr('disabled');
+	}
+
+	function showElements(elements) {
 		elements.show();
-		row.show();
 	}
 
-	function hideAllDateFields(elements, row){
+	function hideElements(elements) {
 		elements.hide();
-		row.hide();
+	}
+
+	function resetElements(elements) {
+		elements.prop('selectedIndex', 0);
 	}
 } );
 

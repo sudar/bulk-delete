@@ -137,7 +137,8 @@ class Bulk_Delete_Date_Handler {
 		if ( 'DATE' === $input[0]['type'] && 'post' === $type && 'wp_posts' === $primary_table && 'ID' === $primary_column ) {
 			$meta_table = _get_meta_table( $type );
 
-			$query['where'] = $wpdb->prepare( " AND ( $meta_table.meta_key = %s AND STR_TO_DATE($meta_table.meta_value, %s) {$input[0]['compare']} STR_TO_DATE(%s, %s) ) ",
+			$query['where'] = $wpdb->prepare(
+				" AND ( $meta_table.meta_key = %s AND STR_TO_DATE($meta_table.meta_value, %s) {$input[0]['compare']} STR_TO_DATE(%s, %s) ) ",
 				$input[0]['key'],
 				$this->meta_value_date_format,
 				$input[0]['value'],
