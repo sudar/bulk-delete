@@ -551,7 +551,7 @@ abstract class Renderer extends Fetcher {
 					 * @param string                                  $field_slug Field Slug of module.
 					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module     Module.
 					 */
-					apply_filters( 'bd_pro_only_feature_class', $pro_class, $this->field_slug, $this )
+					$pro_class = apply_filters( 'bd_pro_only_feature_class', $pro_class, $this->field_slug, $this )
 					?>
 
 					<span class="<?php echo sanitize_html_class( $pro_class ); ?>" style="color:red">
@@ -566,11 +566,12 @@ abstract class Renderer extends Fetcher {
 			<td scope="row" colspan="2">
 				<?php
 				_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time.', 'bulk-delete' );
-				$link   = '<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/">' . __( 'Click here', 'bulk-delete' ) . '</a>';
-				$markup = sprintf( __( 'Want to add new a Cron schedule? %s', 'bulk-delete' ), $link );
+
+				$markup = __( 'Want to add new a Cron schedule?', 'bulk-delete' ) . '&nbsp' .
+					'<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/" target="_blank" rel="noopener">' . __( 'Find out how', 'bulk-delete' ) . '</a>';
 
 				$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
-				echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
+				echo '&nbsp', bd_generate_help_tooltip( $markup, $content );
 				?>
 			</td>
 		</tr>

@@ -52,9 +52,7 @@ class DeletePagesByStatusModule extends PagesModule {
 	}
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
-	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][] = '_' . $this->field_slug;
-
+	protected function append_to_js_array( $js_array ) {
 		$js_array['error_msg'][ $this->action ]      = 'selectPagePostStatus';
 		$js_array['pre_action_msg'][ $this->action ] = 'pagePostStatusWarning';
 

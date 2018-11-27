@@ -101,20 +101,13 @@ class DeletePostsByCommentsModule extends PostsModule {
 		return $query;
 	}
 
-	/**
-	 * Filter JS Array and add validation hooks.
-	 *
-	 * @param array $js_array JavaScript Array.
-	 *
-	 * @return array Modified JavaScript Array.
-	 */
-	public function filter_js_array( $js_array ) {
+	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validateCommentsCount';
 		$js_array['error_msg'][ $this->action ]  = 'validCommentsCount';
 		$js_array['msg']['validCommentsCount']   = __( 'Please enter the comments count based on which posts should be deleted. A valid comment count will be greater than or equal to zero', 'bulk-delete' );
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deletePostsWarning';
-		$js_array['msg']['deletePostsWarning']       = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
+		$js_array['msg']['deletePostsWarning']       = __( 'Are you sure you want to delete all the posts based on the selected comment count?', 'bulk-delete' );
 
 		return $js_array;
 	}

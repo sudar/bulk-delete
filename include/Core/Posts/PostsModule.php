@@ -45,29 +45,6 @@ abstract class PostsModule extends BaseModule {
 		return $options;
 	}
 
-	public function filter_js_array( $js_array ) {
-		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
-		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
-
-		$js_array['validators']['delete_posts_by_category'] = 'validateSelect2';
-		$js_array['error_msg']['delete_posts_by_category']  = 'selectCategory';
-		$js_array['msg']['selectCategory']                  = __( 'Please select at least one category', 'bulk-delete' );
-
-		$js_array['validators']['delete_posts_by_tag'] = 'validateSelect2';
-		$js_array['error_msg']['delete_posts_by_tag']  = 'selectTag';
-		$js_array['msg']['selectTag']                  = __( 'Please select at least one tag', 'bulk-delete' );
-
-		$js_array['validators']['delete_posts_by_url'] = 'validateUrl';
-		$js_array['error_msg']['delete_posts_by_url']  = 'enterUrl';
-		$js_array['msg']['enterUrl']                   = __( 'Please enter at least one post url', 'bulk-delete' );
-
-		$js_array['dt_iterators'][] = '_cats';
-		$js_array['dt_iterators'][] = '_tags';
-		$js_array['dt_iterators'][] = '_taxs';
-
-		return $js_array;
-	}
-
 	/**
 	 * Helper function to build the query params.
 	 *
