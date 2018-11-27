@@ -286,11 +286,13 @@ class DeleteCommentMetaModule extends MetasModule {
 		);
 		if ( in_array( $delete_options['meta_op'], array( 'EXISTS', 'NOT EXISTS' ), true ) ) {
 			$meta_query = array( $query_vars );
+
 			return $meta_query;
 		}
 		if ( 'DATE' === $delete_options['meta_type'] ) {
 			$bd_date_handler = new \Bulk_Delete_Date_Handler();
 			$meta_query      = $bd_date_handler->get_query( $delete_options );
+
 			return $meta_query;
 		}
 		switch ( $delete_options['meta_op'] ) {
@@ -306,6 +308,7 @@ class DeleteCommentMetaModule extends MetasModule {
 
 		$query_vars['value'] = $meta_value;
 		$meta_query          = array( $query_vars );
+
 		return $meta_query;
 	}
 
