@@ -21,7 +21,7 @@ jQuery( document ).ready( function () {
 	
 	jQuery( "select.meta-type" ).change( function () {
 		var currentRowParent = jQuery(this).parents('tr'),
-			nextRowParent = currentRowParent.next(),
+			dateFormatTextBoxRow = currentRowParent.next(),
 			numDateOpDropdowns = currentRowParent.find("select.numeric, select.date"),
 			strDateOpDropdowns = currentRowParent.find("select.string, select.date"),
 			numStrOpDropdowns  = currentRowParent.find("select.string, select.numeric"),
@@ -37,26 +37,28 @@ jQuery( document ).ready( function () {
 			disableElements(numDateOpDropdowns);
 			hideElements(numDateOpDropdowns);
 			disableElements(dateFields);
-			disableElements(nextRowParent);
 			hideElements(dateFieldsSpans);
+			disableElements(dateFormatTextBoxRow);
+			hideElements(dateFormatTextBoxRow);
 			hideElements(dateCustomFields);
-			hideElements(nextRowParent);
 			resetElements(strOpDropdown);
 			enableElements(strOpDropdown);
 			showElements(strOpDropdown);
+			resetElements(metaValueTextBox);
 			showElements(metaValueTextBox);
 			metaValueTextBox.datepicker('destroy');
 		} else if ('numeric' === jQuery(this).val()) {
 			disableElements(strDateOpDropdowns);
 			hideElements(strDateOpDropdowns);
 			disableElements(dateFields);
-			disableElements(nextRowParent);
 			hideElements(dateFieldsSpans);
+			disableElements(dateFormatTextBoxRow);
+			hideElements(dateFormatTextBoxRow);
 			hideElements(dateCustomFields);
-			hideElements(nextRowParent);
 			resetElements(NumOpDropdown);
 			enableElements(NumOpDropdown);
 			showElements(NumOpDropdown);
+			resetElements(metaValueTextBox);
 			showElements(metaValueTextBox);
 			metaValueTextBox.datepicker('destroy');
 		} else if( 'date' === jQuery(this).val() ) {
@@ -68,9 +70,10 @@ jQuery( document ).ready( function () {
 			showElements(dateOpDropdown);
 			resetElements(dateFields);
 			enableElements(dateFields);			
-			enableElements(nextRowParent);
 			showElements(dateFieldsSpans);
-			showElements(nextRowParent);
+			enableElements(dateFormatTextBoxRow);
+			showElements(dateFormatTextBoxRow);
+			resetElements(metaValueTextBox);
 			showElements(metaValueTextBox);
 			metaValueTextBox.datepicker( {
 				dateFormat: "yy-mm-dd"
@@ -79,26 +82,31 @@ jQuery( document ).ready( function () {
 	} );
 
 	jQuery( "select.relative-date-fields").change( function() {
-		var currentCustomFields = jQuery(this).parents('tr').find("span.custom-date-fields"),
-			currentCustomSelect = currentCustomFields.find('select');
+		var currentCustomFieldsSpan = jQuery(this).parents('tr').find("span.custom-date-fields"),
+			currentCustomFields = currentCustomFieldsSpan.find('select, input');
 		if( 'custom' === jQuery(this).val() ) {
-			resetElements(currentCustomSelect);
-			currentCustomFields.show();
+			resetElements(currentCustomFields);
+			enableElements(currentCustomFields);
+			currentCustomFieldsSpan.show();
 		} else {
-			currentCustomFields.hide();
+			disableElements(currentCustomFields);
+			currentCustomFieldsSpan.hide();
 		}
 	} );
 
 	jQuery( "select.numeric, select.string, select.date").change( function() {
-		var currentRowParent        = jQuery(this).parents('tr'),
-		    dateFormatTextBoxRow    = currentRowParent.next(),
-			metaValueTextBox        = currentRowParent.find(':text'),
-			dateFieldsSpans         = currentRowParent.find('span.date-fields'),
-			dateFields              = dateFieldsSpans.find('select'),
-			dateCustomFieldsSpans   = currentRowParent.find('span.custom-date-fields');
+		var currentRowParent      = jQuery(this).parents('tr'),
+		    dateFormatTextBoxRow  = currentRowParent.next(),
+			metaValueTextBox      = currentRowParent.find(':text'),
+			dateFieldsSpans       = currentRowParent.find('span.date-fields'),
+			dateFields            = dateFieldsSpans.find('select'),
+			dateCustomFieldsSpans = currentRowParent.find('span.custom-date-fields'),
+			dateCustomFields      = dateCustomFieldsSpans.find('select, input');
 		if ( -1 === ['EXISTS', 'NOT EXISTS'].indexOf( jQuery(this).val() ) ){
+			resetElements(metaValueTextBox);
 			enableElements(metaValueTextBox);
 			showElements(metaValueTextBox);
+			disableElements(dateCustomFields);
 			hideElements(dateCustomFieldsSpans);
 			if ( 'date' === currentRowParent.find('select.meta-type').val() ) {
 				resetElements(dateFields);
@@ -112,6 +120,7 @@ jQuery( document ).ready( function () {
 			hideElements(metaValueTextBox);
 			disableElements(dateFields);
 			hideElements(dateFieldsSpans);
+			disableElements(dateCustomFields);
 			hideElements(dateCustomFieldsSpans);
 			disableElements(dateFormatTextBoxRow);
 			hideElements(dateFormatTextBoxRow);
@@ -135,7 +144,13 @@ jQuery( document ).ready( function () {
 	}
 
 	function resetElements(elements) {
-		elements.prop('selectedIndex', 0);
+		elements.each( function() {
+			if(jQuery(this).is('input')) {
+				jQuery(this).val('');
+			} else if(jQuery(this).is('select')) {
+				jQuery(this).prop('selectedIndex', 0);
+			}
+		});
 	}
 } );
 
