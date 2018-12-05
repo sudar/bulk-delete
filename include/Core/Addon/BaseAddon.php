@@ -34,6 +34,15 @@ abstract class BaseAddon {
 	abstract protected function initialize();
 
 	/**
+	 * Register the add-on.
+	 *
+	 * This method will be called in the `bd_loaded` hook.
+	 *
+	 * @return void
+	 */
+	abstract public function register();
+
+	/**
 	 * Create a new instance of the add-on.
 	 *
 	 * @param \BulkWP\BulkDelete\Core\Addon\AddonInfo $addon_info Add-on Details.
