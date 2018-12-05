@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @link https://github.com/sudar/wp-system-info
  */
 class BulkDeleteSystemInfo extends SystemInfo {
-
 	/**
 	 * Setup hooks and filters.
 	 */
