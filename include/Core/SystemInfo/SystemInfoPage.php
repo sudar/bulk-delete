@@ -1,6 +1,5 @@
 <?php namespace BulkWP\BulkDelete\Core\SystemInfo;
 
-use BulkWP\BulkDelete\Core\SystemInfo\BulkDeleteSystemInfo;
 use BulkWP\BulkDelete\Core\Base\BasePage;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
