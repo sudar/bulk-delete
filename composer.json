@@ -1,5 +1,5 @@
 {
-    "name": "sudar/bulk-delete",
+    "name": "bulk-wp/bulk-delete",
     "description": "Bulk Delete WordPress plugin",
     "license": "GPL-2.0-or-later",
     "type": "wordpress-plugin",
@@ -10,8 +10,16 @@
         {
           "type": "vcs",
           "url" : "https://github.com/sudar/wp-plugin-test-tools"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/sudar/wp-system-info"
         }
     ],
+    "require": {
+        "php": ">=5.3",
+        "sudar/wp-system-info": "dev-master"
+    },
     "require-dev": {
         "codacy/coverage": "dev-master",
         "squizlabs/php_codesniffer": "<4.0",

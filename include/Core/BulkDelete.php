@@ -21,6 +21,7 @@ use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
+use BulkWP\BulkDelete\Core\SystemInfo\SystemInfoPage;
 use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByNameModule;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostCountModule;
@@ -289,8 +290,6 @@ final class BulkDelete {
 			array( 'BD_License', 'display_addon_page' )
 		);
 
-		\BD_System_Info_page::factory();
-
 		/**
 		 * Runs just after adding all menu items to Bulk WP main menu.
 		 *
@@ -504,15 +503,30 @@ final class BulkDelete {
 	}
 
 	/**
+	 * Get the System Info page.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return \BulkWP\BulkDelete\Core\SystemInfo\SystemInfoPage
+	 */
+	private function get_system_info_page() {
+		$system_info_page = new SystemInfoPage( $this->get_plugin_file() );
+
+		return $system_info_page;
+	}
+
+	/**
 	 * Get the list of secondary pages.
 	 *
 	 * @return BasePage[] Secondary Pages.
 	 */
 	private function get_secondary_pages() {
 		if ( empty( $this->secondary_pages ) ) {
-			$cron_list_page = $this->get_cron_list_admin_page();
+			$cron_list_page   = $this->get_cron_list_admin_page();
+			$system_info_page = $this->get_system_info_page();
 
-			$this->secondary_pages[ $cron_list_page->get_page_slug() ] = $cron_list_page;
+			$this->secondary_pages[ $cron_list_page->get_page_slug() ]   = $cron_list_page;
+			$this->secondary_pages[ $system_info_page->get_page_slug() ] = $system_info_page;
 		}
 
 		/**
