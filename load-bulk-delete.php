@@ -29,6 +29,7 @@ function bulk_delete_load( $plugin_file ) {
 	$loader->set_custom_mapping( bd_get_custom_class_map( $plugin_dir ) );
 
 	$loader->add_namespace( 'BulkWP\\BulkDelete\\', $plugin_dir . 'include' );
+	$loader->add_namespace( 'Sudar\\WPSystemInfo', $plugin_dir . 'vendor/sudar/wp-system-info/src/' );
 
 	$custom_include_files = bd_get_custom_include_files();
 	foreach ( $custom_include_files as $custom_include_file ) {
@@ -67,7 +68,6 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'Bulk_Delete_Jetpack_Contact_Form_Message' => $plugin_dir . 'include/misc/class-bulk-delete-jetpack-contact-form-messages.php',
 		'BD_Settings_Page'                         => $plugin_dir . 'include/settings/class-bd-settings-page.php',
 		'BD_Settings'                              => $plugin_dir . 'include/settings/class-bd-settings.php',
-		'BD_System_Info_page'                      => $plugin_dir . 'include/system-info/class-bd-system-info-page.php',
 
 		// Compatibility. Will be removed once compatibility is addressed.
 		'BD_Meta_Box_Module'                       => $plugin_dir . 'include/base/class-bd-meta-box-module.php', // Used in Bulk Delete Attachments Addon - v1.2.

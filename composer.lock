@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "391d57247cfbf56a712f7fbf2570bffa",
+    "content-hash": "6d9da26e6b2cfaaec3761cef30b717af",
     "packages": [
         {
             "name": "sudar/wp-system-info",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sudar/wp-system-info.git",
-                "reference": "374cddaff2c994b8f51d16a98ac8fe18d7285ff4"
+                "reference": "c70100b6521cbd9fec7c7af35f88f6312d47fe10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sudar/wp-system-info/zipball/374cddaff2c994b8f51d16a98ac8fe18d7285ff4",
-                "reference": "374cddaff2c994b8f51d16a98ac8fe18d7285ff4",
+                "url": "https://api.github.com/repos/sudar/wp-system-info/zipball/c70100b6521cbd9fec7c7af35f88f6312d47fe10",
+                "reference": "c70100b6521cbd9fec7c7af35f88f6312d47fe10",
                 "shasum": ""
             },
             "require": {
@@ -43,7 +43,7 @@
                 "issues": "https://github.com/sudar/wp-system-info/issues",
                 "source": "https://github.com/sudar/wp-system-info/tree/master"
             },
-            "time": "2018-11-16T06:36:11+00:00"
+            "time": "2018-12-06T04:57:18+00:00"
         }
     ],
     "packages-dev": [

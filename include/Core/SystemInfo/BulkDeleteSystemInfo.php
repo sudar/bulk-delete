@@ -2,17 +2,18 @@
 
 namespace BulkWP\BulkDelete\Core\SystemInfo;
 
+use BulkWP\BulkDelete\Core\BulkDelete;
 use Sudar\WPSystemInfo\SystemInfo;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Email Log System Info.
+ * Bulk Delete System Info.
  *
  * Uses the WPSystemInfo library.
  *
- * @since 2.3.0
- * @link https://github.com/sudar/wp-system-info
+ * @since 6.0.0
+ * @link  https://github.com/sudar/wp-system-info
  */
 class BulkDeleteSystemInfo extends SystemInfo {
 	/**
@@ -29,26 +30,63 @@ class BulkDeleteSystemInfo extends SystemInfo {
 	 * phpcs:disable
 	 */
 	public function print_bulk_delete_details() {
-	?>
--- Bulk Delete Configuration --
-Bulk Delete Version: <?php echo Bulk_Delete::VERSION . "\n"; ?>
+		echo '-- Bulk Delete Configuration --', "\n";
+		echo 'Bulk Delete Version:      ', BulkDelete::VERSION, "\n";
 
-<?php
+		$this->print_license_details();
+		$this->print_schedule_jobs();
 	}
 	// phpcs:enable
 
 	/**
-	 * Change the default config.
-	 *
-	 * @return array Modified config.
+	 * Print License details.
 	 */
-	protected function get_default_config() {
-		$config = parent::get_default_config();
+	protected function print_license_details() {
+		$keys = \BD_License::get_licenses();
+		if ( ! empty( $keys ) ) {
+			echo 'BULKWP-LICENSE:          ', "\n";
 
-		$config['show_posts']      = false;
-		$config['show_taxonomies'] = false;
-		$config['show_users']      = false;
+			foreach ( $keys as $key ) {
+				echo $key['addon-name'];
+				echo ' | ';
+				echo $key['license'];
+				echo ' | ';
+				echo $key['expires'];
+				echo ' | ';
+				echo $key['validity'];
+				echo ' | ';
+				echo $key['addon-code'];
+			}
+		}
+	}
 
-		return $config;
+	/**
+	 * Print all schedule jobs.
+	 */
+	protected function print_schedule_jobs() {
+		$cron = _get_cron_array();
+
+		if ( ! empty( $cron ) ) {
+			echo "\n", 'SCHEDULED JOBS:          ', "\n";
+
+			$date_format = _x( 'M j, Y @ G:i', 'Cron table date format', 'bulk-delete' );
+
+			foreach ( $cron as $timestamp => $cronhooks ) {
+				foreach ( (array) $cronhooks as $hook => $events ) {
+					if ( 'do-bulk-delete-' === substr( $hook, 0, 15 ) ) {
+						foreach ( (array) $events as $key => $event ) {
+							echo date_i18n( $date_format, $timestamp + ( get_option( 'gmt_offset' ) * 60 * 60 ) ) . ' (' . $timestamp . ')';
+							echo ' | ';
+							echo $event['schedule'];
+							echo ' | ';
+							echo $hook;
+							echo "\n";
+						}
+					}
+				}
+			}
+
+			echo "\n";
+		}
 	}
 }

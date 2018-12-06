@@ -12,12 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class SystemInfoPage extends BasePage {
-	const PAGE_SLUG = 'bulk-delete-system-info';
-
-	/**
-	 * Capability to Manage system info.
-	 */
-	const CAPABILITY = 'manage_options';
 
 	/**
 	 * SystemInfo class.
@@ -26,79 +20,89 @@ class SystemInfoPage extends BasePage {
 	 */
 	protected $system_info;
 
-	public function load() {
-		parent::load();
+	/**
+	 * Action.
+	 *
+	 * Use for nonce verification.
+	 *
+	 * @var string
+	 */
+	protected $action = 'download-system-info';
 
-		add_action( 'bd-download-system-info', array( $this, 'download_system_info' ) );
+	protected function initialize() {
+		$this->page_slug  = 'bulk-delete-system-info';
+		$this->capability = 'manage_options';
+		$this->actions[]  = $this->action;
+
+		$this->label = array(
+			'page_title' => __( 'Bulk Delete - System Info', 'bulk-delete' ),
+			'menu_title' => __( 'System Info', 'bulk-delete' ),
+		);
+	}
+
+	public function register() {
+		parent::register();
+
+		add_action( 'bd_' . $this->action, array( $this, 'download_system_info' ) );
 
 		$this->system_info = new BulkDeleteSystemInfo( 'bulk-delete' );
 		$this->system_info->load();
 	}
 
-	public function register_page() {
-		$this->page = add_submenu_page(
-			LogListPage::PAGE_SLUG,
-			__( 'System Info', 'bulk-delete' ),
-			__( 'System Info', 'bulk-delete' ),
-			self::CAPABILITY,
-			self::PAGE_SLUG,
-			array( $this, 'render_page' )
-		);
-
-		add_action( "load-{$this->page}", array( $this, 'render_help_tab' ) );
-
-		/**
-		 * Fires before loading Sytem Info page.
-		 *
-		 * @since 2.3.0
-		 *
-		 * @param string $page Page slug.
-		 */
-		do_action( 'bd_load_system_info_page', $this->page );
-	}
-
-	/**
-	 * Render the page.
-	 */
-	public function render_page() {
+	protected function render_header() {
 		?>
+		<div class="updated">
+			<p>
+				<strong>
+					<?php _e( 'Please include this information when posting support requests.', 'bulk-delete' ); ?>
+				</strong>
+			</p>
+		</div>
 
-		<form method="post">
-			<div class="updated">
+		<?php if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) : ?>
+			<div class="notice notice-warning">
 				<p>
 					<strong>
-						<?php _e( 'Please include this information when posting support requests.', 'bulk-delete' ); ?>
+						<?php
+						printf(
+							/* translators: 1 Codex URL */
+							__( 'SAVEQUERIES is <a href="%s" target="_blank">enabled</a>. This puts additional load on the memory and will restrict the number of items that can be deleted.', 'bulk-delete' ),
+							'https://codex.wordpress.org/Editing_wp-config.php#Save_queries_for_analysis'
+						);
+						?>
 					</strong>
 				</p>
 			</div>
+		<?php endif; ?>
 
-			<?php if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) : ?>
-				<div class="notice notice-warning">
-					<p><strong>
-						<?php printf( __( 'DISABLE_WP_CRON is <a href="%s" rel="noopener" target="_blank">enabled</a>. This prevents scheduler from running.', 'bulk-delete' ), 'https://codex.wordpress.org/Editing_wp-config.php#Disable_Cron_and_Cron_Timeout' ); ?>
-					</strong></p>
-				</div>
-			<?php endif; ?>
-
-			<div class="wrap">
-				<h1><?php _e( 'Bulk Delete - System Info', 'bulk-delete' ); ?></h1>
-
-				<?php
-					$this->system_info->render();
-				?>
-
-				<p class="submit">
-					<input type="hidden" name="bd-action" value="bd-download-system-info">
-					<?php
-						wp_nonce_field( 'bd-download-system-info', 'bd-download-system-info_nonce', false );
-						submit_button( __( 'Download System Info File', 'bulk-delete' ), 'primary', 'bd-download-system-info', false );
-					?>
+		<?php if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) : ?>
+			<div class="notice notice-warning">
+				<p>
+					<strong>
+						<?php
+						printf(
+							/* translators: 1 Codex URL. */
+							__( 'DISABLE_WP_CRON is <a href="%s" rel="noopener" target="_blank">enabled</a>. Scheduled deletion will not work if WP Cron is disabled. Please disable it to enable scheduled deletion.', 'bulk-delete' ),
+							'https://codex.wordpress.org/Editing_wp-config.php#Disable_Cron_and_Cron_Timeout'
+						);
+						?>
+					</strong>
 				</p>
 			</div>
-		</form>
-
+		<?php endif; ?>
 		<?php
-		$this->render_page_footer();
+	}
+
+	public function render_body() {
+		$this->system_info->render();
+		?>
+			<p class="submit">
+				<input type="hidden" name="bd_action" value="<?php echo esc_attr( $this->action ); ?>">
+				<?php
+					submit_button( __( 'Download System Info File', 'bulk-delete' ), 'primary', 'bd-download-system-info', false );
+				?>
+			</p>
+		<?php
 	}
 
 	/**
