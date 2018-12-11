@@ -202,10 +202,6 @@ jQuery(document).ready(function () {
 	};
 
 	BulkWP.validateSelect2 = function(that) {
-		if (null !== jQuery(that).parent().prev().children().find(".select2-taxonomy[multiple]").val()) {
-			return true;
-		} else {
-			return false;
-		}
+		return ( -1 === [null, ''].indexOf( jQuery(that).parent().prev().children().find(".select2-taxonomy").val() ) );
 	};
 });

@@ -412,9 +412,14 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render limit settings.
+	 *
+	 * @param string $item_type Item Type to be displayed in label.
 	 */
-	protected function render_limit_settings() {
-		bd_render_limit_settings( $this->field_slug, $this->item_type );
+	protected function render_limit_settings( $item_type = '' ) {
+		if ( empty( $item_type ) ) {
+			$item_type = $this->item_type;
+		}
+		bd_render_limit_settings( $this->field_slug, $item_type );
 	}
 
 	/**
