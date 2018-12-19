@@ -200,11 +200,11 @@ abstract class BaseDeletePage extends BasePage {
 		}
 
 		/**
-		 * Triggered after all post modules are registered.
+		 * Triggered after all modules are registered.
 		 *
 		 * @since 6.0.0
 		 */
-		do_action( 'bd_add_meta_box_for_posts' );
+		do_action( "bd_add_meta_box_for_{$this->get_item_type()}" );
 	}
 
 	/**

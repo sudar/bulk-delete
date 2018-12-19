@@ -45,8 +45,8 @@ abstract class FeatureAddon extends BaseAddon {
 			add_filter( 'bd_primary_pages', array( $this, 'register_pages' ) );
 		}
 
-		foreach ( array_keys( $this->modules ) as $item_type ) {
-			add_action( "bd_after_{$item_type}_modules", array( $this, 'register_modules_in_page' ) );
+		foreach ( array_keys( $this->modules ) as $page_slug ) {
+			add_action( "bd_after_modules_{$page_slug}", array( $this, 'register_modules_in_page' ) );
 		}
 
 		foreach ( $this->schedulers as $scheduler ) {
@@ -70,7 +70,7 @@ abstract class FeatureAddon extends BaseAddon {
 			 *
 			 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage $page The page in which the modules are registered.
 			 */
-			do_action( "bd_after_{$page->get_item_type()}_modules", $page );
+			do_action( "bd_after_modules_{$page->get_page_slug()}", $page );
 
 			/**
 			 * After the modules are registered in a delete page.
@@ -93,7 +93,7 @@ abstract class FeatureAddon extends BaseAddon {
 	 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage $page Page.
 	 */
 	public function register_modules_in_page( $page ) {
-		$modules = $this->modules[ $page->get_item_type() ];
+		$modules = $this->modules[ $page->get_page_slug() ];
 
 		foreach ( $modules as $module ) {
 			$page->add_module( $module );
