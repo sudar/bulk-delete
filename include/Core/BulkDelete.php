@@ -320,16 +320,18 @@ final class BulkDelete {
 			$this->primary_pages[ $users_page->get_page_slug() ] = $users_page;
 			$this->primary_pages[ $metas_page->get_page_slug() ] = $metas_page;
 			$this->primary_pages[ $terms_page->get_page_slug() ] = $terms_page;
+
+			/**
+			 * List of primary admin pages.
+			 *
+			 * @since 6.0.0
+			 *
+			 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Admin pages.
+			 */
+			$this->primary_pages = apply_filters( 'bd_primary_pages', $this->primary_pages );
 		}
 
-		/**
-		 * List of primary admin pages.
-		 *
-		 * @since 6.0.0
-		 *
-		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Admin pages.
-		 */
-		return apply_filters( 'bd_primary_pages', $this->primary_pages );
+		return $this->primary_pages;
 	}
 
 	/**
@@ -357,7 +359,7 @@ final class BulkDelete {
 		 *
 		 * @param DeletePostsPage $posts_page The page in which the modules are registered.
 		 */
-		do_action( "bd_after_{$posts_page->get_item_type()}_modules", $posts_page );
+		do_action( "bd_after_modules_{$posts_page->get_page_slug()}", $posts_page );
 
 		/**
 		 * After the modules are registered in a delete page.
@@ -390,7 +392,7 @@ final class BulkDelete {
 		 *
 		 * @param DeletePagesPage $pages_page The page in which the modules are registered.
 		 */
-		do_action( "bd_after_{$pages_page->get_item_type()}_modules", $pages_page );
+		do_action( "bd_after_modules_{$pages_page->get_page_slug()}", $pages_page );
 
 		/**
 		 * After the modules are registered in a delete page.
@@ -424,7 +426,7 @@ final class BulkDelete {
 		 *
 		 * @param DeleteUsersPage $users_page The page in which the modules are registered.
 		 */
-		do_action( "bd_after_{$users_page->get_item_type()}_modules", $users_page );
+		do_action( "bd_after_modules_{$users_page->get_page_slug()}", $users_page );
 
 		/**
 		 * After the modules are registered in a delete page.
@@ -459,7 +461,7 @@ final class BulkDelete {
 		 *
 		 * @param DeleteMetasPage $metas_page The page in which the modules are registered.
 		 */
-		do_action( "bd_after_{$metas_page->get_item_type()}_modules", $metas_page );
+		do_action( "bd_after_modules_{$metas_page->get_page_slug()}", $metas_page );
 
 		/**
 		 * After the modules are registered in a delete page.
@@ -485,6 +487,24 @@ final class BulkDelete {
 
 		$terms_page->add_module( new DeleteTermsByNameModule() );
 		$terms_page->add_module( new DeleteTermsByPostCountModule() );
+
+		/**
+		 * After the modules are registered in the delete terms page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param DeleteTermsPage $terms_page The page in which the modules are registered.
+		 */
+		do_action( "bd_after_modules_{$terms_page->get_page_slug()}", $terms_page );
+
+		/**
+		 * After the modules are registered in a delete page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param BasePage $terms_page The page in which the modules are registered.
+		 */
+		do_action( 'bd_after_modules', $terms_page );
 
 		return $terms_page;
 	}
