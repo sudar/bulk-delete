@@ -3,6 +3,7 @@
 namespace BulkWP\BulkDelete\Core\Addon;
 
 use BD_License_Handler;
+use BulkWP\BulkDelete\Core\BulkDelete;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -61,6 +62,15 @@ abstract class BaseAddon {
 	 */
 	public function get_info() {
 		return $this->addon_info;
+	}
+
+	/**
+	 * Get reference to the main Bulk Delete object.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\BulkDelete BulkDelete object.
+	 */
+	public function get_bd() {
+		return BulkDelete::get_instance();
 	}
 
 	/**

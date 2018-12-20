@@ -67,4 +67,8 @@ class AddonInfo {
 	public function get_addon_directory() {
 		return plugin_dir_path( $this->root_file );
 	}
+
+	public function get_addon_directory_url() {
+		return plugin_dir_url( $this->root_file );
+	}
 }
