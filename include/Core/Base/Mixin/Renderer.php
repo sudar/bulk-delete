@@ -216,6 +216,83 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
+	 * Render data types dropdown.
+	 */
+	protected function render_data_types_dropdown() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type" class="meta-type">
+			<option value="numeric"><?php _e( 'Number', 'bulk-delete' ); ?></option>
+			<option value="string"><?php _e( 'Character', 'bulk-delete' ); ?></option>
+			<option value="date"><?php _e( 'Date', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+	/**
+	 * Render numeric comparison operators dropdown.
+	 *
+	 * @param string $class     Class to be applied.
+	 * @param array  $operators List of Operators needed.
+	 */
+	protected function render_numeric_operators_dropdown( $class = 'numeric', $operators = array( 'all' ) ) {
+		$all_numeric_operators = array(
+			'='           => 'equal to',
+			'!='          => 'not equal to',
+			'<'           => 'less than',
+			'<='          => 'less than or equal to',
+			'>'           => 'greater than',
+			'>='          => 'greater than or equal to',
+			'IN'          => 'In',
+			'NOT IN'      => 'Not In',
+			'BETWEEN'     => 'Between',
+			'NOT BETWEEN' => 'Not Between',
+			'EXISTS'      => 'Exists',
+			'NOT EXISTS'  => 'Not Exists',
+		);
+		if ( in_array( 'all', $operators, true ) ) {
+			$operators = array_keys( $all_numeric_operators );
+		}
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class= "<?php echo esc_attr( $class ); ?>">
+		<?php
+		foreach ( $operators as $operator ) {
+			echo '<option value="' . $operator . '">' . __( $all_numeric_operators[ $operator ], 'bulk-delete' ) . '</option>';
+		}
+		?>
+		</select>
+		<?php
+	}
+	/**
+	 * Render string comparison operators dropdown.
+	 *
+	 * @param string $class     Class to be applied.
+	 * @param array  $operators List of Operators needed.
+	 */
+	protected function render_string_operators_dropdown( $class = 'string', $operators = array( 'all' ) ) {
+		$all_string_operators = array(
+			'='          => 'equal to',
+			'!='         => 'not equal to',
+			'IN'         => 'In',
+			'NOT IN'     => 'Not In',
+			'LIKE'       => 'Like',
+			'NOT LIKE'   => 'Not Like',
+			'EXISTS'     => 'Exists',
+			'NOT EXISTS' => 'Not Exists',
+		);
+		if ( in_array( 'all', $operators, true ) ) {
+			$operators = array_keys( $all_string_operators );
+		}
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class="<?php echo esc_attr( $class ); ?>">
+		<?php
+		foreach ( $operators as $operator ) {
+			echo '<option value="' . $operator . '">' . __( $all_string_operators[ $operator ], 'bulk-delete' ) . '</option>';
+		}
+		?>
+		</select>
+		<?php
+	}
+
+	/**
 	 * Render Tags dropdown.
 	 */
 	protected function render_tags_dropdown() {
