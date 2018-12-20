@@ -55,6 +55,15 @@ abstract class BaseAddon {
 	}
 
 	/**
+	 * Get details about the add-on.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Addon\AddonInfo Add-on Info.
+	 */
+	public function get_info() {
+		return $this->addon_info;
+	}
+
+	/**
 	 * Setup License Handler.
 	 *
 	 * TODO: Need this to be refactored.

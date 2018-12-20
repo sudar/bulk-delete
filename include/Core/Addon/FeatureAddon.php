@@ -18,7 +18,7 @@ abstract class FeatureAddon extends BaseAddon {
 	/**
 	 * List of pages that are registered by this add-on.
 	 *
-	 * @var \BulkWP\BulkDelete\Core\Base\BaseDeletePage[]
+	 * @var \BulkWP\BulkDelete\Core\Base\BaseAddonPage[]
 	 */
 	protected $pages = array();
 
@@ -41,6 +41,10 @@ abstract class FeatureAddon extends BaseAddon {
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	public function register() {
+		foreach ( $this->pages as $page ) {
+			$page->for_addon( $this->addon_info );
+		}
+
 		if ( ! empty( $this->pages ) ) {
 			add_filter( 'bd_primary_pages', array( $this, 'register_pages' ) );
 		}
