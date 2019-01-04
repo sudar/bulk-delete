@@ -118,9 +118,13 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render user role dropdown.
+	 *
+	 * @param bool $show_users_with_no_roles Should users with no user roles be shown? Default false.
 	 */
-	protected function render_user_role_dropdown() {
+	protected function render_user_role_dropdown( $show_users_with_no_roles = false ) {
 		global $wp_roles;
+
+		$users_count = count_users();
 		?>
 
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-role-dropdown"
@@ -128,9 +132,17 @@ abstract class Renderer extends Fetcher {
 
 			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
 				<option value="<?php echo esc_attr( $role ); ?>">
-					<?php echo esc_html( $role_details['name'] ), ' (', absint( $this->get_user_count_by_role( $role ) ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
+					<?php echo esc_html( $role_details['name'] ), ' (', absint( $this->get_user_count_by_role( $role, $users_count ) ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
 				</option>
 			<?php endforeach; ?>
+
+			<?php if ( $show_users_with_no_roles ) : ?>
+				<?php if ( isset( $users_count['avail_roles']['none'] ) && $users_count['avail_roles']['none'] > 0 ) : ?>
+					<option value="none">
+						<?php echo __( 'No role', 'bulk-delete' ), ' (', absint( $users_count['avail_roles']['none'] ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
+					</option>
+				<?php endif; ?>
+			<?php endif; ?>
 		</select>
 
 		<?php

@@ -43,7 +43,7 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 
 		<fieldset class="options">
 			<table class="optiontable">
-				<?php $this->render_user_role_dropdown(); ?>
+				<?php $this->render_user_role_dropdown( true ); ?>
 			</table>
 
 			<table class="optiontable">
