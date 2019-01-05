@@ -234,6 +234,10 @@ final class BulkDelete {
 	 */
 	public function on_init() {
 		$this->load_textdomain();
+
+		if ( is_admin() || defined( 'DOING_CRON' ) || isset( $_GET['doing_wp_cron'] ) ) {
+			$this->load_primary_pages();
+		}
 	}
 
 	/**
@@ -309,29 +313,38 @@ final class BulkDelete {
 	 */
 	public function get_primary_pages() {
 		if ( empty( $this->primary_pages ) ) {
-			$posts_page = $this->get_delete_posts_admin_page();
-			$pages_page = $this->get_delete_pages_admin_page();
-			$users_page = $this->get_delete_users_admin_page();
-			$metas_page = $this->get_delete_metas_admin_page();
-			$terms_page = $this->get_delete_terms_admin_page();
-
-			$this->primary_pages[ $posts_page->get_page_slug() ] = $posts_page;
-			$this->primary_pages[ $pages_page->get_page_slug() ] = $pages_page;
-			$this->primary_pages[ $users_page->get_page_slug() ] = $users_page;
-			$this->primary_pages[ $metas_page->get_page_slug() ] = $metas_page;
-			$this->primary_pages[ $terms_page->get_page_slug() ] = $terms_page;
-
-			/**
-			 * List of primary admin pages.
-			 *
-			 * @since 6.0.0
-			 *
-			 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Admin pages.
-			 */
-			$this->primary_pages = apply_filters( 'bd_primary_pages', $this->primary_pages );
+			$this->load_primary_pages();
 		}
 
 		return $this->primary_pages;
+	}
+
+	/**
+	 * Load Primary admin pages.
+	 *
+	 * The pages need to be loaded in `init` hook, since the association between page and modules is needed in cron requests.
+	 */
+	private function load_primary_pages() {
+		$posts_page = $this->get_delete_posts_admin_page();
+		$pages_page = $this->get_delete_pages_admin_page();
+		$users_page = $this->get_delete_users_admin_page();
+		$metas_page = $this->get_delete_metas_admin_page();
+		$terms_page = $this->get_delete_terms_admin_page();
+
+		$this->primary_pages[ $posts_page->get_page_slug() ] = $posts_page;
+		$this->primary_pages[ $pages_page->get_page_slug() ] = $pages_page;
+		$this->primary_pages[ $users_page->get_page_slug() ] = $users_page;
+		$this->primary_pages[ $metas_page->get_page_slug() ] = $metas_page;
+		$this->primary_pages[ $terms_page->get_page_slug() ] = $terms_page;
+
+		/**
+		 * List of primary admin pages.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Admin pages.
+		 */
+		$this->primary_pages = apply_filters( 'bd_primary_pages', $this->primary_pages );
 	}
 
 	/**

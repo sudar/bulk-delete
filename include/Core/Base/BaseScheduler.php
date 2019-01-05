@@ -57,7 +57,7 @@ abstract class BaseScheduler {
 	public function register() {
 		add_filter( 'bd_javascript_array', array( $this, 'filter_js_array' ) );
 
-		add_action( 'bd_after_primary_menus', array( $this, 'setup_cron' ) );
+		$this->setup_cron();
 	}
 
 	/**
