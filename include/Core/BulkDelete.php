@@ -98,7 +98,7 @@ final class BulkDelete {
 	/**
 	 * List of Primary Admin pages.
 	 *
-	 * @var BasePage[]
+	 * @var \BulkWP\BulkDelete\Core\Base\BaseDeletePage[]
 	 *
 	 * @since 6.0.0
 	 */
