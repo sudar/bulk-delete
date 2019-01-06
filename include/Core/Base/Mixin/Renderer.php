@@ -581,7 +581,7 @@ abstract class Renderer extends Fetcher {
 
 		<tr
 		<?php if ( ! empty( $pro_class ) ) : ?>
-			class="<?php echo sanitize_html_class( $pro_class ); ?>" style="display: none;">
+			class="<?php echo sanitize_html_class( $pro_class ); ?>" style="display: none;"
 		<?php endif; ?>
 		>
 
