@@ -100,7 +100,7 @@ add_filter( 'bd_page_actions', 'bd_enable_nonce_check_for_old_post_addons', 10, 
  *
  * @since 6.0.0
  *
- * @param string $pro_class Pro CSS class.
+ * @param string $pro_class  Pro CSS class.
  * @param string $field_slug Field slug.
  *
  * @return string Modified pro class.
