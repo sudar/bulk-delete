@@ -579,11 +579,11 @@ abstract class Renderer extends Fetcher {
 			</td>
 		</tr>
 
-		<?php if ( empty( $pro_class ) ) : ?>
-			<tr>
-		<?php else : ?>
-			<tr class="<?php echo sanitize_html_class( $pro_class ); ?>" style="display: none;">
+		<tr
+		<?php if ( ! empty( $pro_class ) ) : ?>
+			class="<?php echo sanitize_html_class( $pro_class ); ?>" style="display: none;">
 		<?php endif; ?>
+		>
 
 			<td scope="row" colspan="2">
 				<?php
