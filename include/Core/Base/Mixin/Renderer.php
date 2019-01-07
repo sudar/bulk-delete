@@ -280,15 +280,18 @@ abstract class Renderer extends Fetcher {
 	 * @param array  $operators List of Operators needed.
 	 */
 	protected function render_string_operators_dropdown( $class = 'string', $operators = array( 'all' ) ) {
+		// STARTS_WITH and ENDS_WITH operators needs a handler as SQL does not support these operators in queries.
 		$all_string_operators = array(
-			'='          => 'equal to',
-			'!='         => 'not equal to',
-			'IN'         => 'In',
-			'NOT IN'     => 'Not In',
-			'LIKE'       => 'Like',
-			'NOT LIKE'   => 'Not Like',
-			'EXISTS'     => 'Exists',
-			'NOT EXISTS' => 'Not Exists',
+			'='           => 'Equal To',
+			'!='          => 'Not Equal To',
+			'IN'          => 'In',
+			'NOT IN'      => 'Not In',
+			'LIKE'        => 'Contains',
+			'NOT LIKE'    => 'Not Contains',
+			'EXISTS'      => 'Exists',
+			'NOT EXISTS'  => 'Not Exists',
+			'STARTS_WITH' => 'Starts With',
+			'ENDS_WITH'   => 'Ends With',
 		);
 		if ( in_array( 'all', $operators, true ) ) {
 			$operators = array_keys( $all_string_operators );
