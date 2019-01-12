@@ -61,9 +61,93 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['selected_roles'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_roles', array() );
+		$selected_roles = bd_array_get( $request, 'smbd_' . $this->field_slug . '_roles', array() );
+
+		$key = array_search( 'none', $selected_roles, true );
+		if ( false !== $key ) {
+			unset( $selected_roles[ $key ] );
+			$options['delete_users_with_no_role'] = true;
+		}
+
+		$options['selected_roles'] = $selected_roles;
 
 		return $options;
+	}
+
+	/**
+	 * Handle both users with roles and without roles.
+	 *
+	 * {@inheritdoc}
+	 *
+	 * @param array $options Array of Delete options.
+	 *
+	 * @return int Number of items that were deleted.
+	 */
+	protected function do_delete( $options ) {
+		$users_with_roles_deleted = parent::do_delete( $options );
+
+		if ( ! isset( $options['delete_users_with_no_role'] ) ) {
+			return $users_with_roles_deleted;
+		}
+
+		return $users_with_roles_deleted + $this->delete_users_with_no_roles( $options );
+	}
+
+	/**
+	 * Delete users with no roles.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $options User options.
+	 *
+	 * @return int Number of users that were deleted.
+	 */
+	protected function delete_users_with_no_roles( $options ) {
+		$query = $this->build_query_for_deleting_users_with_no_roles( $options );
+
+		if ( empty( $query ) ) {
+			// Short circuit deletion, if nothing needs to be deleted.
+			return 0;
+		}
+
+		$query = $this->exclude_users_from_deletion( $query );
+		$query = $this->exclude_current_user( $query );
+
+		return $this->delete_users_from_query( $query, $options );
+	}
+
+	/**
+	 * Build query params for WP_User_Query by using delete options for deleting users with no roles.
+	 *
+	 * Return an empty query array to short-circuit deletion.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $options Delete options.
+	 *
+	 * @return array Query.
+	 */
+	protected function build_query_for_deleting_users_with_no_roles( $options ) {
+		// Users with no role is not selected.
+		if ( ! isset( $options['delete_users_with_no_role'] ) || ! $options['delete_users_with_no_role'] ) {
+			return array();
+		}
+
+		$roles      = get_editable_roles();
+		$role_names = array_keys( $roles );
+
+		$query = array(
+			'role__not_in' => $role_names,
+			'number'       => $options['limit_to'],
+		);
+
+		$date_query = $this->get_date_query( $options );
+
+		if ( ! empty( $date_query ) ) {
+			$query['date_query'] = $date_query;
+		}
+
+		return $query;
 	}
 
 	/**

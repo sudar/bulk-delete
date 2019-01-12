@@ -367,11 +367,78 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
+	 * Provide data for testing deletion of users without any role.
+	 *
+	 * @see test_delete_users_by_role
+	 *
+	 * @return array Test data.
+	 */
+	public function provide_data_for_testing_users_with_no_role() {
+		return array(
+			// Delete Users with no user role alone.
+			array(
+				array(
+					array(
+						'role'            => '',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+				),
+				array(
+					'selected_roles'            => array(),
+					'delete_users_with_no_role' => true,
+					'limit_to'                  => 0,
+					'registered_restrict'       => false,
+					'login_restrict'            => false,
+					'no_posts'                  => false,
+				),
+				array(
+					'deleted_users'   => 5,
+					'available_users' => 11, // Including 1 default admin user.
+				),
+			),
+			// Delete Users with no user role along with other users.
+			array(
+				array(
+					array(
+						'role'            => '',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+				),
+				array(
+					'selected_roles'            => array( 'subscriber' ),
+					'delete_users_with_no_role' => true,
+					'limit_to'                  => 0,
+					'registered_restrict'       => false,
+					'login_restrict'            => false,
+					'no_posts'                  => false,
+				),
+				array(
+					'deleted_users'   => 15,
+					'available_users' => 1, // Including 1 default admin user.
+				),
+			),
+		);
+	}
+
+	/**
 	 * Test basic case of delete users by role.
 	 *
 	 * @dataProvider provide_data_to_test_delete_users
 	 * @dataProvider provide_data_to_test_delete_users_with_registration_filter
 	 * @dataProvider provide_data_to_test_exclusion_of_logged_in_users
+	 * @dataProvider provide_data_for_testing_users_with_no_role
 	 *
 	 * @param array $setup           Create posts using supplied arguments.
 	 * @param array $user_operations User operations.

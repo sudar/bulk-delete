@@ -54,23 +54,7 @@ abstract class UsersModule extends BaseModule {
 			return 0;
 		}
 
-		/**
-		 * Filter the list of user ids that will be excluded from deletion.
-		 *
-		 * @since 6.0.0
-		 *
-		 * @param array $excluded_ids User IDs to be excluded during deletion.
-		 */
-		$excluded_user_ids = apply_filters( 'bd_excluded_user_ids', array() );
-
-		if ( is_array( $excluded_user_ids ) && ! empty( $excluded_user_ids ) ) {
-			if ( isset( $query['exclude'] ) ) {
-				$query['exclude'] = array_merge( $query['exclude'], $excluded_user_ids );
-			} else {
-				$query['exclude'] = $excluded_user_ids;
-			}
-		}
-
+		$query = $this->exclude_users_from_deletion( $query );
 		$query = $this->exclude_current_user( $query );
 
 		return $this->delete_users_from_query( $query, $options );
@@ -356,6 +340,36 @@ abstract class UsersModule extends BaseModule {
 			$query['exclude'] = array_merge( $query['exclude'], array( $current_user_id ) );
 		} else {
 			$query['exclude'] = array( $current_user_id );
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Exclude users from deletion.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $query Pre-built query.
+	 *
+	 * @return array Modified query.
+	 */
+	protected function exclude_users_from_deletion( array $query ) {
+		/**
+		 * Filter the list of user ids that will be excluded from deletion.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $excluded_ids User IDs to be excluded during deletion.
+		 */
+		$excluded_user_ids = apply_filters( 'bd_excluded_user_ids', array() );
+
+		if ( is_array( $excluded_user_ids ) && ! empty( $excluded_user_ids ) ) {
+			if ( isset( $query['exclude'] ) ) {
+				$query['exclude'] = array_merge( $query['exclude'], $excluded_user_ids );
+			} else {
+				$query['exclude'] = $excluded_user_ids;
+			}
 		}
 
 		return $query;
