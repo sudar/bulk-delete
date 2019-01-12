@@ -130,8 +130,9 @@ abstract class Renderer extends Fetcher {
 				<?php
 				wp_dropdown_users(
 					array(
-						'name'  => 'smbd_' . esc_attr( $this->field_slug ) . '_reassign_user_id',
-						'class' => 'reassign-user',
+						'name'             => 'smbd_' . esc_attr( $this->field_slug ) . '_reassign_user_id',
+						'class'            => 'reassign-user',
+						'show_option_none' => __( 'Select User', 'bulk-delete' ),
 					)
 				);
 				?>

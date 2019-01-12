@@ -10,6 +10,12 @@ jQuery( document ).ready( function () {
 	var reassignSelectBoxes = jQuery( ".reassign-user" ),
 		contentDeleteRadios = jQuery( ".post-reassign" );
 
+	reassignSelectBoxes.select2(
+		{
+			width: '200px'
+		}
+	);
+
 	reassignSelectBoxes.each( function () {
 		jQuery( this ).attr( 'disabled', 'true' );
 	} );
