@@ -300,6 +300,13 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 		);
 	}
 
+	/**
+	 * Data provider to test exclusion of logged in users.
+	 *
+	 * @see test_delete_users_by_role
+	 *
+	 * @return array Data array.
+	 */
 	public function provide_data_to_test_exclusion_of_logged_in_users() {
 		return array(
 			// (+ve Case) Delete Users with a specified role. User from the admin user role is logged in.
@@ -370,7 +377,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 	 * @param array $user_operations User operations.
 	 * @param array $expected        Expected output for respective operations.
 	 */
-	public function test_delete_users_by_role_without_filters( $setup, $user_operations, $expected ) {
+	public function test_delete_users_by_role( $setup, $user_operations, $expected ) {
 		$size = count( $setup );
 
 		// Create users and assign to specified role.
