@@ -3,6 +3,7 @@
  * Base class for all Base Addons.
  *
  * @since   5.5
+ * @deprecated 6.0.0 Use \BulkWP\BulkDelete\Core\Addon\BaseAddon instead.
  *
  * @author  Sudar
  *

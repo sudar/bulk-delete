@@ -53,12 +53,10 @@ class DeletePostsByPostTypeModule extends PostsModule {
 		$this->render_submit_button();
 	}
 
-	public function filter_js_array( $js_array ) {
+	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validatePostTypeSelect2';
 		$js_array['error_msg'][ $this->action ]  = 'selectPostType';
 		$js_array['msg']['selectPostType']       = __( 'Please select at least one post type', 'bulk-delete' );
-
-		$js_array['dt_iterators'][] = '_' . $this->field_slug;
 
 		return $js_array;
 	}

@@ -14,12 +14,10 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class AddonInfo {
 	protected $name;
-	protected $description;
-	protected $slug;
-	protected $url;
-	protected $buy_url;
-	protected $upsell_title;
-	protected $upsell_message;
+	protected $code;
+	protected $version;
+	protected $author = 'Sudar Muthu';
+	protected $root_file;
 
 	/**
 	 * Construct AddonInfo from an array.
@@ -33,12 +31,10 @@ class AddonInfo {
 
 		$keys = array(
 			'name',
-			'description',
-			'slug',
-			'url',
-			'buy_url',
-			'upsell_title',
-			'upsell_message',
+			'code',
+			'version',
+			'author',
+			'root_file',
 		);
 
 		foreach ( $keys as $key ) {
@@ -52,61 +48,27 @@ class AddonInfo {
 		return $this->name;
 	}
 
-	public function get_description() {
-		return $this->description;
+	public function get_code() {
+		return $this->code;
 	}
 
-	public function get_slug() {
-		return $this->slug;
+	public function get_version() {
+		return $this->version;
 	}
 
-	public function get_url() {
-		return $this->url;
+	public function get_author() {
+		return $this->author;
 	}
 
-	/**
-	 * Get the url where users can buy the add-on.
-	 *
-	 * This url might include GA campaign parameters.
-	 * Addon url is used if buy url is not explicitly set.
-	 *
-	 * @return string Url from where the add-on could be bought or just url if it not set.
-	 */
-	public function get_buy_url() {
-		if ( empty( $this->buy_url ) ) {
-			return $this->url;
-		}
-
-		return $this->buy_url;
+	public function get_root_file() {
+		return $this->root_file;
 	}
 
-	/**
-	 * Get upsell title for the addon.
-	 *
-	 * Name is used if title is not explicitly set.
-	 *
-	 * @return string Upsell title for addon or Name if it not set.
-	 */
-	public function get_upsell_title() {
-		if ( empty( $this->upsell_title ) ) {
-			return $this->name;
-		}
-
-		return $this->upsell_title;
+	public function get_addon_directory() {
+		return plugin_dir_path( $this->root_file );
 	}
 
-	/**
-	 * Get upsell message for the addon.
-	 *
-	 * Description is used if title is not explicitly set.
-	 *
-	 * @return string Upsell description for addon or Description if it not set.
-	 */
-	public function get_upsell_message() {
-		if ( empty( $this->upsell_message ) ) {
-			return $this->description;
-		}
-
-		return $this->upsell_message;
+	public function get_addon_directory_url() {
+		return plugin_dir_url( $this->root_file );
 	}
 }

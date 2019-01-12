@@ -156,8 +156,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		return $meta_deleted;
 	}
 
-	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
+	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'noValidation';
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteCMWarning';

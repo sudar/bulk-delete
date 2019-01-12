@@ -45,7 +45,24 @@ abstract class BaseDeletePage extends BasePage {
 			return;
 		}
 
-		$this->modules[] = $module;
+		$this->modules[ $module->get_name() ] = $module;
+	}
+
+	/**
+	 * Get module object instance by module class name.
+	 *
+	 * @param string $module_class_name Module class name.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Base\BaseModule|null Module object instance or null if no match found.
+	 */
+	public function get_module( $module_class_name ) {
+		$short_class_name = bd_get_short_class_name( $module_class_name );
+
+		if ( isset( $this->modules[ $short_class_name ] ) ) {
+			return $this->modules[ $short_class_name ];
+		}
+
+		return null;
 	}
 
 	protected function register_hooks() {
@@ -66,9 +83,12 @@ abstract class BaseDeletePage extends BasePage {
 		 *
 		 * This action is primarily for registering or deregistering additional scripts or styles.
 		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage The current page.
+		 *
 		 * @since 5.5.1
+		 * @since 6.0.0 Added $page parameter.
 		 */
-		do_action( 'bd_before_admin_enqueue_scripts' );
+		do_action( 'bd_before_admin_enqueue_scripts', $this );
 
 		wp_enqueue_script(
 			'jquery-ui-timepicker-addon',
@@ -118,9 +138,12 @@ abstract class BaseDeletePage extends BasePage {
 		 *
 		 * This action is primarily for registering additional scripts or styles.
 		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage The current page.
+		 *
 		 * @since 5.5.1
+		 * @since 6.0.0 Added $page parameter.
 		 */
-		do_action( 'bd_after_admin_enqueue_scripts' );
+		do_action( 'bd_after_admin_enqueue_scripts', $this );
 	}
 
 	/**
@@ -183,11 +206,11 @@ abstract class BaseDeletePage extends BasePage {
 		}
 
 		/**
-		 * Triggered after all post modules are registered.
+		 * Triggered after all modules are registered.
 		 *
 		 * @since 6.0.0
 		 */
-		do_action( 'bd_add_meta_box_for_posts' );
+		do_action( "bd_add_meta_box_for_{$this->get_item_type()}" );
 	}
 
 	/**

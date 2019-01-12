@@ -79,7 +79,7 @@ abstract class Renderer extends Fetcher {
 		?>
 		<tr>
 			<td scope="row" colspan="2">
-				<select class="enhanced-post-types-with-status" multiple="multiple" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]">
+				<select class="enhanced-post-types-with-status" multiple="multiple" data-placeholder="Select Post Type" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]">
 				<?php foreach ( $post_types_by_status as $post_type => $all_status ) : ?>
 					<optgroup label="<?php echo esc_html( $post_type ); ?>">
 					<?php foreach ( $all_status as $status_key => $status_value ) : ?>
@@ -142,19 +142,30 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render user role dropdown.
+	 *
+	 * @param bool $show_users_with_no_roles Should users with no user roles be shown? Default false.
 	 */
-	protected function render_user_role_dropdown() {
-		global $wp_roles;
+	protected function render_user_role_dropdown( $show_users_with_no_roles = false ) {
+		$roles       = get_editable_roles();
+		$users_count = count_users();
 		?>
 
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-role-dropdown"
 				multiple="multiple" data-placeholder="<?php _e( 'Select User Role', 'bulk-delete' ); ?>">
 
-			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
+			<?php foreach ( $roles as $role => $role_details ) : ?>
 				<option value="<?php echo esc_attr( $role ); ?>">
-					<?php echo esc_html( $role_details['name'] ), ' (', absint( $this->get_user_count_by_role( $role ) ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
+					<?php echo esc_html( $role_details['name'] ), ' (', absint( $this->get_user_count_by_role( $role, $users_count ) ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
 				</option>
 			<?php endforeach; ?>
+
+			<?php if ( $show_users_with_no_roles ) : ?>
+				<?php if ( isset( $users_count['avail_roles']['none'] ) && $users_count['avail_roles']['none'] > 0 ) : ?>
+					<option value="none">
+						<?php echo __( 'No role', 'bulk-delete' ), ' (', absint( $users_count['avail_roles']['none'] ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
+					</option>
+				<?php endif; ?>
+			<?php endif; ?>
 		</select>
 
 		<?php
@@ -235,6 +246,86 @@ abstract class Renderer extends Fetcher {
 			<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
 			<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
 			<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+
+	/**
+	 * Render data types dropdown.
+	 */
+	protected function render_data_types_dropdown() {
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type" class="meta-type">
+			<option value="numeric"><?php _e( 'Number', 'bulk-delete' ); ?></option>
+			<option value="string"><?php _e( 'Character', 'bulk-delete' ); ?></option>
+			<option value="date"><?php _e( 'Date', 'bulk-delete' ); ?></option>
+		</select>
+		<?php
+	}
+	/**
+	 * Render numeric comparison operators dropdown.
+	 *
+	 * @param string $class     Class to be applied.
+	 * @param array  $operators List of Operators needed.
+	 */
+	protected function render_numeric_operators_dropdown( $class = 'numeric', $operators = array( 'all' ) ) {
+		$all_numeric_operators = array(
+			'='           => 'equal to',
+			'!='          => 'not equal to',
+			'<'           => 'less than',
+			'<='          => 'less than or equal to',
+			'>'           => 'greater than',
+			'>='          => 'greater than or equal to',
+			'IN'          => 'In',
+			'NOT IN'      => 'Not In',
+			'BETWEEN'     => 'Between',
+			'NOT BETWEEN' => 'Not Between',
+			'EXISTS'      => 'Exists',
+			'NOT EXISTS'  => 'Not Exists',
+		);
+		if ( in_array( 'all', $operators, true ) ) {
+			$operators = array_keys( $all_numeric_operators );
+		}
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class= "<?php echo esc_attr( $class ); ?>">
+		<?php
+		foreach ( $operators as $operator ) {
+			echo '<option value="' . $operator . '">' . __( $all_numeric_operators[ $operator ], 'bulk-delete' ) . '</option>';
+		}
+		?>
+		</select>
+		<?php
+	}
+	/**
+	 * Render string comparison operators dropdown.
+	 *
+	 * @param string $class     Class to be applied.
+	 * @param array  $operators List of Operators needed.
+	 */
+	protected function render_string_operators_dropdown( $class = 'string', $operators = array( 'all' ) ) {
+		// STARTS_WITH and ENDS_WITH operators needs a handler as SQL does not support these operators in queries.
+		$all_string_operators = array(
+			'='           => 'Equal To',
+			'!='          => 'Not Equal To',
+			'IN'          => 'In',
+			'NOT IN'      => 'Not In',
+			'LIKE'        => 'Contains',
+			'NOT LIKE'    => 'Not Contains',
+			'EXISTS'      => 'Exists',
+			'NOT EXISTS'  => 'Not Exists',
+			'STARTS_WITH' => 'Starts With',
+			'ENDS_WITH'   => 'Ends With',
+		);
+		if ( in_array( 'all', $operators, true ) ) {
+			$operators = array_keys( $all_string_operators );
+		}
+		?>
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class="<?php echo esc_attr( $class ); ?>">
+		<?php
+		foreach ( $operators as $operator ) {
+			echo '<option value="' . $operator . '">' . __( $all_string_operators[ $operator ], 'bulk-delete' ) . '</option>';
+		}
+		?>
 		</select>
 		<?php
 	}
@@ -436,15 +527,22 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render limit settings.
+	 *
+	 * @param string $item_type Item Type to be displayed in label.
 	 */
-	protected function render_limit_settings() {
-		bd_render_limit_settings( $this->field_slug, $this->item_type );
+	protected function render_limit_settings( $item_type = '' ) {
+		if ( empty( $item_type ) ) {
+			$item_type = $this->item_type;
+		}
+		bd_render_limit_settings( $this->field_slug, $item_type );
 	}
 
 	/**
 	 * Render cron settings based on whether scheduler is present or not.
 	 */
 	protected function render_cron_settings() {
+		$pro_class = '';
+
 		$disabled_attr = 'disabled';
 		if ( empty( $this->scheduler_url ) ) {
 			$disabled_attr = '';
@@ -496,7 +594,7 @@ abstract class Renderer extends Fetcher {
 					 * @param string                                  $field_slug Field Slug of module.
 					 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $module     Module.
 					 */
-					apply_filters( 'bd_pro_only_feature_class', $pro_class, $this->field_slug, $this )
+					$pro_class = apply_filters( 'bd_pro_only_feature_class', $pro_class, $this->field_slug, $this )
 					?>
 
 					<span class="<?php echo sanitize_html_class( $pro_class ); ?>" style="color:red">
@@ -507,15 +605,21 @@ abstract class Renderer extends Fetcher {
 			</td>
 		</tr>
 
-		<tr class="<?php echo sanitize_html_class( $pro_class ); ?>" style="display: none;">
+		<tr
+		<?php if ( ! empty( $pro_class ) ) : ?>
+			class="<?php echo sanitize_html_class( $pro_class ); ?>" style="display: none;"
+		<?php endif; ?>
+		>
+
 			<td scope="row" colspan="2">
 				<?php
 				_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time.', 'bulk-delete' );
-				$link   = '<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/">' . __( 'Click here', 'bulk-delete' ) . '</a>';
-				$markup = sprintf( __( 'Want to add new a Cron schedule? %s', 'bulk-delete' ), $link );
+
+				$markup = __( 'Want to add new a Cron schedule?', 'bulk-delete' ) . '&nbsp' .
+					'<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/" target="_blank" rel="noopener">' . __( 'Find out how', 'bulk-delete' ) . '</a>';
 
 				$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
-				echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
+				echo '&nbsp', bd_generate_help_tooltip( $markup, $content );
 				?>
 			</td>
 		</tr>

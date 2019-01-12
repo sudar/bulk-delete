@@ -45,29 +45,6 @@ abstract class PostsModule extends BaseModule {
 		return $options;
 	}
 
-	public function filter_js_array( $js_array ) {
-		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
-		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
-
-		$js_array['validators']['delete_posts_by_category'] = 'validateSelect2';
-		$js_array['error_msg']['delete_posts_by_category']  = 'selectCategory';
-		$js_array['msg']['selectCategory']                  = __( 'Please select at least one category', 'bulk-delete' );
-
-		$js_array['validators']['delete_posts_by_tag'] = 'validateSelect2';
-		$js_array['error_msg']['delete_posts_by_tag']  = 'selectTag';
-		$js_array['msg']['selectTag']                  = __( 'Please select at least one tag', 'bulk-delete' );
-
-		$js_array['validators']['delete_posts_by_url'] = 'validateUrl';
-		$js_array['error_msg']['delete_posts_by_url']  = 'enterUrl';
-		$js_array['msg']['enterUrl']                   = __( 'Please enter at least one post url', 'bulk-delete' );
-
-		$js_array['dt_iterators'][] = '_cats';
-		$js_array['dt_iterators'][] = '_tags';
-		$js_array['dt_iterators'][] = '_taxs';
-
-		return $js_array;
-	}
-
 	/**
 	 * Helper function to build the query params.
 	 *
@@ -174,6 +151,19 @@ abstract class PostsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_posts_by_id( $post_ids, $force_delete ) {
+		/**
+		 * Filter the list of post ids that will be excluded from deletion.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $excluded_ids Post IDs to be excluded.
+		 */
+		$excluded_post_ids = apply_filters( 'bd_excluded_post_ids', array() );
+
+		if ( is_array( $excluded_post_ids ) && ! empty( $excluded_post_ids ) ) {
+			$post_ids = array_diff( $post_ids, $excluded_post_ids );
+		}
+
 		foreach ( $post_ids as $post_id ) {
 			// `$force_delete` parameter to `wp_delete_post` won't work for custom post types.
 			// See https://core.trac.wordpress.org/ticket/43672

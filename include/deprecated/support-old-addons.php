@@ -94,3 +94,45 @@ function bd_enable_nonce_check_for_old_post_addons( $actions, $page ) {
 	return $actions;
 }
 add_filter( 'bd_page_actions', 'bd_enable_nonce_check_for_old_post_addons', 10, 2 );
+
+/**
+ * Enable support for v0.6 or older version of Bulk Delete Scheduler for Deleting Pages by Status add-on.
+ *
+ * @since 6.0.0
+ *
+ * @param string $pro_class  Pro CSS class.
+ * @param string $field_slug Field slug.
+ *
+ * @return string Modified pro class.
+ */
+function bd_change_pro_class_for_old_deleting_pages_by_status_addon( $pro_class, $field_slug ) {
+	if ( 'page_status' !== $field_slug ) {
+		return $pro_class;
+	}
+
+	if ( ! class_exists( 'BD_Scheduler_For_Deleting_Pages_By_Status' ) ) {
+		return $pro_class;
+	}
+
+	return 'bd-pages-pro';
+}
+add_filter( 'bd_pro_only_feature_class', 'bd_change_pro_class_for_old_deleting_pages_by_status_addon', 10, 2 );
+
+/**
+ * Modify Pro iterators for old add-ons.
+ *
+ * @since 6.0.0
+ *
+ * @param array $js_array JS Array.
+ *
+ * @return array Modified JS array.
+ */
+function bd_change_pro_iterators_for_old_addons( $js_array ) {
+	// v0.6 or older of Bulk Delete Scheduler for Deleting Pages by Status add-on.
+	if ( class_exists( 'BD_Scheduler_For_Deleting_Pages_By_Status' ) ) {
+		$js_array['pro_iterators'][] = 'page_status';
+	}
+
+	return $js_array;
+}
+add_filter( 'bd_javascript_array', 'bd_change_pro_iterators_for_old_addons' );

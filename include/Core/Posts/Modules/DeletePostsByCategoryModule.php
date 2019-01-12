@@ -68,6 +68,14 @@ class DeletePostsByCategoryModule extends PostsModule {
 		$this->render_submit_button();
 	}
 
+	protected function append_to_js_array( $js_array ) {
+		$js_array['validators']['delete_posts_by_category'] = 'validateSelect2';
+		$js_array['error_msg']['delete_posts_by_category']  = 'selectCategory';
+		$js_array['msg']['selectCategory']                  = __( 'Please select at least one category', 'bulk-delete' );
+
+		return $js_array;
+	}
+
 	/**
 	 * Process delete posts user inputs by category.
 	 *

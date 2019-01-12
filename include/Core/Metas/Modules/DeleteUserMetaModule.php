@@ -96,7 +96,7 @@ class DeleteUserMetaModule extends MetasModule {
 				<tr>
 					<td>
 						<label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio" checked="checked"> 
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio" checked="checked">
 						<?php _e( 'Delete now', 'bulk-delete' ); ?>
 						</label>
 						<label>
@@ -123,11 +123,12 @@ class DeleteUserMetaModule extends MetasModule {
 					<td scope="row" colspan="2">
 						<?php
 						_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time', 'bulk-delete' );
-						$link   = '<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/">' . __( 'Click here', 'bulk-delete' ) . '</a>';
-						$markup = sprintf( __( 'Want to add new a Cron schedule? %s', 'bulk-delete' ), $link );
+
+						$markup = __( 'Want to add new a Cron schedule?', 'bulk-delete' ) . '&nbsp' .
+							'<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/" target="_blank" rel="noopener">' . __( 'Find out how', 'bulk-delete' ) . '</a>';
 
 						$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
-						echo '&nbsp' . bd_generate_help_tooltip( $markup, $content );
+						echo '&nbsp', bd_generate_help_tooltip( $markup, $content );
 						?>
 					</td>
 				</tr>
@@ -194,8 +195,7 @@ class DeleteUserMetaModule extends MetasModule {
 		return $count;
 	}
 
-	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]                 = '_' . $this->field_slug;
+	protected function append_to_js_array( $js_array ) {
 		$js_array['validators']['delete_user_meta'] = 'noValidation';
 
 		$js_array['pre_action_msg']['delete_user_meta'] = 'deleteUMWarning';

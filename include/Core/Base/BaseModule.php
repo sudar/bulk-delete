@@ -211,13 +211,33 @@ abstract class BaseModule extends Renderer {
 	/**
 	 * Filter the js array.
 	 *
-	 * This function will be overridden by the child classes.
+	 * Use `append_to_js_array` function to append any module specific js options.
+	 *
+	 * @see $this->append_to_js_array
 	 *
 	 * @param array $js_array JavaScript Array.
 	 *
 	 * @return array Modified JavaScript Array
 	 */
 	public function filter_js_array( $js_array ) {
+		$js_array['dt_iterators'][] = '_' . $this->field_slug;
+
+		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
+		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
+
+		return $this->append_to_js_array( $js_array );
+	}
+
+	/**
+	 * Append any module specific options to JS array.
+	 *
+	 * This function will be overridden by the child classes.
+	 *
+	 * @param array $js_array JavaScript Array.
+	 *
+	 * @return array Modified JavaScript Array
+	 */
+	protected function append_to_js_array( $js_array ) {
 		return $js_array;
 	}
 
@@ -378,7 +398,18 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @return string Human readable label for schedule job.
 	 */
-	protected function get_cron_label() {
+	public function get_cron_label() {
 		return $this->messages['cron_label'];
+	}
+
+	/**
+	 * Get the name of the module.
+	 *
+	 * This is used as the key to identify the module from page.
+	 *
+	 * @return string Module name.
+	 */
+	public function get_name() {
+		return bd_get_short_class_name( $this );
 	}
 }

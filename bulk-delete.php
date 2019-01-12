@@ -4,7 +4,7 @@
  * Plugin Script: bulk-delete.php
  * Plugin URI: https://bulkwp.com
  * Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
- * Version: 5.6.1
+ * Version: 6.0.0
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Author: Sudar
@@ -37,7 +37,7 @@ require_once 'include/deprecated/old-bulk-delete.php';
 
 if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 	/**
-	 * Version 6.0.0 of the Email Log plugin dropped support for PHP 5.2.
+	 * Version 6.0.0 of the Bulk Delete plugin dropped support for PHP 5.2.
 	 * If you are still struck with PHP 5.2 and can't update, then use v5.6.1 of the plugin.
 	 * But note that some add-ons may not work.
 	 *
