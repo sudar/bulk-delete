@@ -360,20 +360,6 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Log-in a specific user.
-	 *
-	 * @param int $user_id User ID.
-	 */
-	protected function login_user( $user_id ) {
-		$user = get_user_by( 'id', $user_id );
-
-		wp_set_current_user( $user_id );
-		wp_set_auth_cookie( $user_id );
-
-		do_action( 'wp_login', $user->user_login );
-	}
-
-	/**
 	 * Test basic case of delete users by role.
 	 *
 	 * @dataProvider provide_data_to_test_delete_users

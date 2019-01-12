@@ -2238,12 +2238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sudar/wp-plugin-test-tools.git",
-                "reference": "085b5f91b4039459586e9eddc0c92a7c038a366b"
+                "reference": "68b030e1ae4f1575b7c70fbb061880bbf85fabc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sudar/wp-plugin-test-tools/zipball/085b5f91b4039459586e9eddc0c92a7c038a366b",
-                "reference": "085b5f91b4039459586e9eddc0c92a7c038a366b",
+                "url": "https://api.github.com/repos/sudar/wp-plugin-test-tools/zipball/68b030e1ae4f1575b7c70fbb061880bbf85fabc5",
+                "reference": "68b030e1ae4f1575b7c70fbb061880bbf85fabc5",
                 "shasum": ""
             },
             "type": "library",
@@ -2266,7 +2266,7 @@
                 "issues": "https://github.com/sudar/wp-plugin-test-tools/issues",
                 "source": "https://github.com/sudar/wp-plugin-test-tools/tree/master"
             },
-            "time": "2018-09-19T04:20:09+00:00"
+            "time": "2019-01-12T03:43:16+00:00"
         },
         {
             "name": "symfony/console",
