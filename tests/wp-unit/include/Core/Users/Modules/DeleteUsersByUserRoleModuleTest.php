@@ -53,7 +53,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 0,
-					'available_users' => 16,
+					'available_users' => 16, // Including 1 default admin user.
 				),
 			),
 			// (+ve Case) Delete Users with a specified role.
@@ -79,7 +79,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 10,
-					'available_users' => 6,
+					'available_users' => 6, // Including 1 default admin user.
 				),
 			),
 			// (-ve Case) Delete Users with a specified role.
@@ -105,7 +105,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 0,
-					'available_users' => 16,
+					'available_users' => 16, // Including 1 default admin user.
 				),
 			),
 			// (-ve Case) Delete Users from multiple roles.
@@ -131,7 +131,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 0,
-					'available_users' => 16,
+					'available_users' => 16, // Including 1 default admin user.
 				),
 			),
 			// (+ve Case) Delete Users from multiple roles( one role has x users and other role has no users).
@@ -157,7 +157,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 5,
-					'available_users' => 11,
+					'available_users' => 11, // Including 1 default admin user.
 				),
 			),
 			// (+ve Case) Delete Users from multiple roles( both roles have x users ).
@@ -188,7 +188,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 15,
-					'available_users' => 4,
+					'available_users' => 4, // Including 1 default admin user.
 				),
 			),
 		);
@@ -228,7 +228,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 5,
-					'available_users' => 14,
+					'available_users' => 14, // Including 1 default admin user.
 				),
 			),
 			// (+ve Case) Delete Users with specified role and after filter.
@@ -261,7 +261,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 3,
-					'available_users' => 16,
+					'available_users' => 16, // Including 1 default admin user.
 				),
 			),
 			// (+ve Case) Delete Users with specified role and before filter.
@@ -294,23 +294,83 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'deleted_users'   => 15,
-					'available_users' => 4,
+					'available_users' => 4, // Including 1 default admin user.
 				),
 			),
 		);
 	}
 
-	// To be moved to plugin test tools.
+	public function provide_data_to_test_exclusion_of_logged_in_users() {
+		return array(
+			// (+ve Case) Delete Users with a specified role. User from the admin user role is logged in.
+			array(
+				array(
+					array(
+						'role'                            => 'administrator',
+						'no_of_users'                     => 5,
+						'registered_date'                 => date( 'Y-m-d' ),
+						'user_in_this_group_is_logged_in' => true,
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+				),
+				array(
+					'selected_roles'      => array( 'administrator' ),
+					'limit_to'            => 0,
+					'registered_restrict' => false,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 5, // Including 1 default admin user.
+					'available_users' => 11,
+				),
+			),
+			// (+ve Case) Delete Users with a specified role. User from the user role that is getting deleted is logged in.
+			array(
+				array(
+					array(
+						'role'                            => 'editor',
+						'no_of_users'                     => 5,
+						'registered_date'                 => date( 'Y-m-d' ),
+						'user_in_this_group_is_logged_in' => true,
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+					),
+				),
+				array(
+					'selected_roles'      => array( 'editor' ),
+					'limit_to'            => 0,
+					'registered_restrict' => false,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 4,
+					'available_users' => 12, // Including 1 default admin user.
+				),
+			),
+		);
+	}
+
 	/**
-	 * Sets up default user with administrator role as a logged in user.
+	 * Log-in a specific user.
 	 *
-	 * @return void
+	 * @param int $user_id User ID.
 	 */
-	public function set_up_logged_in_user() {
-		$user = get_users();
-		wp_set_current_user( $user[0]->ID );
-		wp_set_auth_cookie( $user[0]->ID );
-		do_action( 'wp_login', $user[0]->user_login );
+	protected function login_user( $user_id ) {
+		$user = get_user_by( 'id', $user_id );
+
+		wp_set_current_user( $user_id );
+		wp_set_auth_cookie( $user_id );
+
+		do_action( 'wp_login', $user->user_login );
 	}
 
 	/**
@@ -318,6 +378,7 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * @dataProvider provide_data_to_test_delete_users
 	 * @dataProvider provide_data_to_test_delete_users_with_registration_filter
+	 * @dataProvider provide_data_to_test_exclusion_of_logged_in_users
 	 *
 	 * @param array $setup           Create posts using supplied arguments.
 	 * @param array $user_operations User operations.
@@ -326,10 +387,6 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 	public function test_delete_users_by_role_without_filters( $setup, $user_operations, $expected ) {
 		$size = count( $setup );
 
-		if ( array_key_exists( 'logged_in_user', $setup ) ) {
-			set_up_logged_in_user();
-		}
-
 		// Create users and assign to specified role.
 		for ( $i = 0; $i < $size; $i++ ) {
 			$args     = array( 'user_registered' => $setup[ $i ]['registered_date'] );
@@ -337,6 +394,10 @@ class DeleteUsersByUserRoleModuleTest extends WPCoreUnitTestCase {
 
 			foreach ( $user_ids as $user_id ) {
 				$this->assign_role_by_user_id( $user_id, $setup[ $i ]['role'] );
+			}
+
+			if ( array_key_exists( 'user_in_this_group_is_logged_in', $setup [ $i ] ) ) {
+				$this->login_user( $user_ids[0] );
 			}
 		}
 
