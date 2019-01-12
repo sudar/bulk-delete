@@ -122,15 +122,14 @@ abstract class Renderer extends Fetcher {
 	 * @param bool $show_users_with_no_roles Should users with no user roles be shown? Default false.
 	 */
 	protected function render_user_role_dropdown( $show_users_with_no_roles = false ) {
-		global $wp_roles;
-
+		$roles       = get_editable_roles();
 		$users_count = count_users();
 		?>
 
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_roles[]" class="enhanced-role-dropdown"
 				multiple="multiple" data-placeholder="<?php _e( 'Select User Role', 'bulk-delete' ); ?>">
 
-			<?php foreach ( $wp_roles->roles as $role => $role_details ) : ?>
+			<?php foreach ( $roles as $role => $role_details ) : ?>
 				<option value="<?php echo esc_attr( $role ); ?>">
 					<?php echo esc_html( $role_details['name'] ), ' (', absint( $this->get_user_count_by_role( $role, $users_count ) ), ' ', __( 'Users', 'bulk-delete' ), ')'; ?>
 				</option>
