@@ -88,6 +88,18 @@ abstract class UsersModule extends BaseModule {
 				continue;
 			}
 
+			/**
+			* Filter the user.
+			*
+			* @since 6.0.0
+			*
+			* @param array $options Processed options.
+			* @param array $user    User Object.
+			*/
+			if ( apply_filters( 'bd_exclude_edd_customers', $options, $user ) ) {
+				continue;
+			}
+
 			$deleted = wp_delete_user( $user->ID );
 			if ( $deleted ) {
 				$count ++;
