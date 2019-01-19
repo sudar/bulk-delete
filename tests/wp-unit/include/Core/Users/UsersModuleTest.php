@@ -44,8 +44,11 @@ class UsersModuleTest extends WPCoreUnitTestCase {
 		$deleted_users_count = $this->invoke_protected_method( $stub, 'delete_users_from_query', array( $query, $options ) );
 		$this->assertEquals( 1, $deleted_users_count );
 
-		$deleted_user_exists = get_user_by( 'id', $deleted_user_id );
-		$this->assertEquals( false, $deleted_user_exists, 'Deleted user exists' );
+		if ( ! is_multisite() ) {
+			// TODO: Handle this for multisite.
+			$deleted_user_exists = get_user_by( 'id', $deleted_user_id );
+			$this->assertEquals( false, $deleted_user_exists, 'Deleted user exists' );
+		}
 
 		$reassign_user_exists = get_user_by( 'id', $reassign_user_id );
 		$this->assertInstanceOf( '\WP_User', $reassign_user_exists, 'Reassign user got deleted' );
