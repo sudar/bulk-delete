@@ -108,6 +108,7 @@ class CronListPage extends BasePage {
 		$cron_items  = array();
 		$cron        = _get_cron_array();
 		$date_format = _x( 'M j, Y @ G:i', 'Cron table date format', 'bulk-delete' );
+		$schedules   = wp_get_schedules();
 		$i           = 1;
 
 		foreach ( $cron as $timestamp => $cronhooks ) {
@@ -118,10 +119,15 @@ class CronListPage extends BasePage {
 					foreach ( (array) $events as $key => $event ) {
 						$cron_item['timestamp'] = $timestamp;
 						$cron_item['due']       = date_i18n( $date_format, $timestamp + ( get_option( 'gmt_offset' ) * 60 * 60 ) );
-						$cron_item['schedule']  = $event['schedule'];
 						$cron_item['type']      = $hook;
 						$cron_item['args']      = $event['args'];
 						$cron_item['id']        = $i;
+
+						if ( isset( $schedules[ $event['schedule'] ] ) ) {
+							$cron_item['schedule'] = $schedules[ $event['schedule'] ]['display'];
+						} else {
+							$cron_item['schedule'] = $event['schedule'];
+						}
 					}
 
 					$cron_items[ $i ] = $cron_item;
