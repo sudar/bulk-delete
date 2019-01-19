@@ -2,6 +2,8 @@
 
 namespace BulkWP\BulkDelete\Core\Base;
 
+use BulkWP\BulkDelete\Core\BulkDelete;
+
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
@@ -76,8 +78,6 @@ abstract class BaseDeletePage extends BasePage {
 	 * Enqueue Scripts and Styles.
 	 */
 	public function enqueue_assets() {
-		global $wp_scripts;
-
 		/**
 		 * Runs just before enqueuing scripts and styles in all Bulk WP admin pages.
 		 *
@@ -90,6 +90,8 @@ abstract class BaseDeletePage extends BasePage {
 		 */
 		do_action( 'bd_before_admin_enqueue_scripts', $this );
 
+		wp_enqueue_style( 'jquery-ui-smoothness', $this->get_plugin_dir_url() . 'assets/css/jquery-ui-smoothness.min.css', array(), '1.12.1' );
+
 		wp_enqueue_script(
 			'jquery-ui-timepicker-addon',
 			$this->get_plugin_dir_url() . 'assets/js/jquery-ui-timepicker-addon.min.js',
@@ -97,7 +99,7 @@ abstract class BaseDeletePage extends BasePage {
 			'1.6.3',
 			true
 		);
-		wp_enqueue_style( 'jquery-ui-timepicker', $this->get_plugin_dir_url() . 'assets/css/jquery-ui-timepicker-addon.min.css', array(), '1.6.3' );
+		wp_enqueue_style( 'jquery-ui-timepicker', $this->get_plugin_dir_url() . 'assets/css/jquery-ui-timepicker-addon.min.css', array( 'jquery-ui-smoothness' ), '1.6.3' );
 
 		wp_enqueue_script( 'select2', $this->get_plugin_dir_url() . 'assets/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
 		wp_enqueue_style( 'select2', $this->get_plugin_dir_url() . 'assets/css/select2.min.css', array(), '4.0.5' );
@@ -107,14 +109,15 @@ abstract class BaseDeletePage extends BasePage {
 			'bulk-delete',
 			$this->get_plugin_dir_url() . 'assets/js/bulk-delete' . $postfix . '.js',
 			array( 'jquery-ui-timepicker-addon', 'jquery-ui-tooltip', 'postbox' ),
-			\Bulk_Delete::VERSION,
+			BulkDelete::VERSION,
 			true
 		);
-		wp_enqueue_style( 'bulk-delete', $this->get_plugin_dir_url() . 'assets/css/bulk-delete' . $postfix . '.css', array( 'select2' ), \Bulk_Delete::VERSION );
-
-		$ui  = $wp_scripts->query( 'jquery-ui-core' );
-		$url = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
-		wp_enqueue_style( 'jquery-ui-smoothness', $url, array(), $ui->ver );
+		wp_enqueue_style(
+			'bulk-delete',
+			$this->get_plugin_dir_url() . 'assets/css/bulk-delete' . $postfix . '.css',
+			array( 'jquery-ui-smoothness', 'jquery-ui-timepicker', 'select2' ),
+			BulkDelete::VERSION
+		);
 
 		/**
 		 * Filter JavaScript array.
