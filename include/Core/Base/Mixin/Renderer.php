@@ -558,7 +558,7 @@ abstract class Renderer extends Fetcher {
 					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" <?php echo esc_attr( $disabled_attr ); ?>> <?php _e( 'Schedule', 'bulk-delete' ); ?></label>
 				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start"
 					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value="now"
-					type="text" <?php echo esc_attr( $disabled_attr ); ?>><?php _e( 'repeat ', 'bulk-delete' ); ?>
+					type="text" <?php echo esc_attr( $disabled_attr ); ?> autocomplete="off"><?php _e( 'repeat ', 'bulk-delete' ); ?>
 
 				<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq"
 						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" <?php echo esc_attr( $disabled_attr ); ?>>

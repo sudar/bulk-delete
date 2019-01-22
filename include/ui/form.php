@@ -125,7 +125,7 @@ function bd_render_cron_settings( $slug, $addon_url ) {
 		<td scope="row" colspan="2">
 			<label><input name="smbd_<?php echo $slug; ?>_cron" value="false" type="radio" checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?></label>
 			<label><input name="smbd_<?php echo $slug; ?>_cron" value="true" type="radio" id="smbd_<?php echo $slug; ?>_cron" disabled > <?php _e( 'Schedule', 'bulk-delete' ); ?></label>
-			<input name="smbd_<?php echo $slug; ?>_cron_start" id="smbd_<?php echo $slug; ?>_cron_start" value="now" type="text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
+			<input name="smbd_<?php echo $slug; ?>_cron_start" id="smbd_<?php echo $slug; ?>_cron_start" value="now" type="text" disabled autocomplete="off"><?php _e( 'repeat ', 'bulk-delete' );?>
 			<select name="smbd_<?php echo $slug; ?>_cron_freq" id="smbd_<?php echo $slug; ?>_cron_freq" disabled>
 				<option value="-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
 <?php
