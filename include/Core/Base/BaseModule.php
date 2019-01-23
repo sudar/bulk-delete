@@ -346,6 +346,8 @@ abstract class BaseModule extends Renderer {
 	 * @return string Message.
 	 */
 	protected function schedule_deletion( $cron_options, $options ) {
+		$options['cron_label'] = $cron_options['cron_label'];
+
 		if ( '-1' === $cron_options['frequency'] ) {
 			wp_schedule_single_event( $cron_options['start_time'], $this->cron_hook, array( $options ) );
 		} else {

@@ -7,7 +7,7 @@
 	convertWarningsToExceptions="true"
 	>
 	<testsuites>
-		<testsuite>
+		<testsuite name="Mock Tests">
 			<directory suffix="Test.php">./tests/wp-mock/</directory>
 		</testsuite>
 	</testsuites>

@@ -117,6 +117,31 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
+	 * Render post reassign settings.
+	 */
+	protected function render_post_reassign_settings() {
+		?>
+		<tr>
+			<td scope="row" colspan="2">
+				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" value="false" type="radio"
+					checked="checked" class="post-reassign"> <?php _e( 'Also delete all posts of the users', 'bulk-delete' ); ?></label>
+				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" value="true" type="radio"
+					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" class="post-reassign"> <?php _e( 'Re-assign the posts to', 'bulk-delete' ); ?></label>
+				<?php
+				wp_dropdown_users(
+					array(
+						'name'             => 'smbd_' . esc_attr( $this->field_slug ) . '_reassign_user_id',
+						'class'            => 'reassign-user',
+						'show_option_none' => __( 'Select User', 'bulk-delete' ),
+					)
+				);
+				?>
+			</td>
+		</tr>
+		<?php
+	}
+
+	/**
 	 * Render user role dropdown.
 	 *
 	 * @param bool $show_users_with_no_roles Should users with no user roles be shown? Default false.
@@ -533,7 +558,7 @@ abstract class Renderer extends Fetcher {
 					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" <?php echo esc_attr( $disabled_attr ); ?>> <?php _e( 'Schedule', 'bulk-delete' ); ?></label>
 				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start"
 					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value="now"
-					type="text" <?php echo esc_attr( $disabled_attr ); ?>><?php _e( 'repeat ', 'bulk-delete' ); ?>
+					type="text" <?php echo esc_attr( $disabled_attr ); ?> autocomplete="off"><?php _e( 'repeat ', 'bulk-delete' ); ?>
 
 				<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq"
 						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" <?php echo esc_attr( $disabled_attr ); ?>>

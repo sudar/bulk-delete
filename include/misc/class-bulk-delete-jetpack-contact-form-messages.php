@@ -154,7 +154,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
                     	<input name="smbd_feedback_cron" value = "true" type = "radio" id = "smbd_feedback_cron" disabled >
 						<?php _e( 'Schedule', 'bulk-delete' ); ?>
 					</label>
-                    <input name="smbd_feedback_cron_start" id = "smbd_feedback_cron_start" value = "now" type = "text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
+                    <input name="smbd_feedback_cron_start" id = "smbd_feedback_cron_start" value = "now" type = "text" disabled autocomplete ="off" ><?php _e( 'repeat ', 'bulk-delete' );?>
                     <select name = "smbd_feedback_cron_freq" id = "smbd_feedback_cron_freq" disabled>
                         <option value = "-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
 <?php
