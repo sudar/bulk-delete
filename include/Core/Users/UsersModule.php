@@ -90,6 +90,20 @@ abstract class UsersModule extends BaseModule {
 				continue;
 			}
 
+			/**
+			 * Filter the user.
+			 *
+			 * @since 6.0.0
+			 *
+			 * @param bool  true                                    Can Delete User.
+			 * @param array $user    User Object.
+			 * @param array $options Processed options.
+			 * @param array \BulkWP\BulkDelete\Core\Base\BaseModule Module that is triggering deletion.
+			 */
+			if ( ! apply_filters( 'bd_can_delete_user', true, $user, $options, $this ) ) {
+				continue;
+			}
+
 			if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
 				$deleted = wp_delete_user( $user->ID, $options['reassign_user_id'] );
 			} else {
