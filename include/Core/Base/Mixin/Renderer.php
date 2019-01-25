@@ -277,12 +277,12 @@ abstract class Renderer extends Fetcher {
 			'<='          => 'less than or equal to',
 			'>'           => 'greater than',
 			'>='          => 'greater than or equal to',
-			'IN'          => 'In',
-			'NOT IN'      => 'Not In',
-			'BETWEEN'     => 'Between',
-			'NOT BETWEEN' => 'Not Between',
-			'EXISTS'      => 'Exists',
-			'NOT EXISTS'  => 'Not Exists',
+			'IN'          => 'in',
+			'NOT IN'      => 'not in',
+			'BETWEEN'     => 'between',
+			'NOT BETWEEN' => 'not between',
+			'EXISTS'      => 'exists',
+			'NOT EXISTS'  => 'not exists',
 		);
 		if ( in_array( 'all', $operators, true ) ) {
 			$operators = array_keys( $all_numeric_operators );
@@ -306,16 +306,16 @@ abstract class Renderer extends Fetcher {
 	protected function render_string_operators_dropdown( $class = 'string', $operators = array( 'all' ) ) {
 		// STARTS_WITH and ENDS_WITH operators needs a handler as SQL does not support these operators in queries.
 		$all_string_operators = array(
-			'='           => 'Equal To',
-			'!='          => 'Not Equal To',
-			'IN'          => 'In',
-			'NOT IN'      => 'Not In',
-			'LIKE'        => 'Contains',
-			'NOT LIKE'    => 'Not Contains',
-			'EXISTS'      => 'Exists',
-			'NOT EXISTS'  => 'Not Exists',
-			'STARTS_WITH' => 'Starts With',
-			'ENDS_WITH'   => 'Ends With',
+			'='           => 'equal to',
+			'!='          => 'not equal to',
+			'IN'          => 'in',
+			'NOT IN'      => 'not in',
+			'LIKE'        => 'contains',
+			'NOT LIKE'    => 'not contains',
+			'EXISTS'      => 'exists',
+			'NOT EXISTS'  => 'not exists',
+			'STARTS_WITH' => 'starts with',
+			'ENDS_WITH'   => 'ends with',
 		);
 		if ( in_array( 'all', $operators, true ) ) {
 			$operators = array_keys( $all_string_operators );
