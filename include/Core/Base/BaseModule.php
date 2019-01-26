@@ -71,8 +71,14 @@ abstract class BaseModule extends Renderer {
 	 * @var array
 	 */
 	protected $messages = array(
-		'box_label'  => '',
-		'cron_label' => '',
+		'box_label'         => '',
+		'cron_label'        => '',
+		'validation_error'  => '',
+		'confirm_deletion'  => '',
+		'scheduled'         => '',
+		'nothing_to_delete' => '',
+		'deleted_one'       => '',
+		'deleted_multiple'  => '',
 	);
 
 	/**
@@ -116,15 +122,6 @@ abstract class BaseModule extends Renderer {
 	 * @return int Number of items that were deleted.
 	 */
 	abstract protected function do_delete( $options );
-
-	/**
-	 * Get Success Message.
-	 *
-	 * @param int $items_deleted Number of items that were deleted.
-	 *
-	 * @return string Success message.
-	 */
-	abstract protected function get_success_message( $items_deleted );
 
 	/**
 	 * Create new instances of Modules.
@@ -222,8 +219,19 @@ abstract class BaseModule extends Renderer {
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][] = '_' . $this->field_slug;
 
-		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
-		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
+		$js_array['pre_action_msg'][ $this->action ] = $this->action . '_confirm';
+		$js_array['error_msg'][ $this->action ]      = $this->action . '_error';
+
+		$js_array['msg'][ $this->action . '_confirm' ] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
+		$js_array['msg'][ $this->action . '_error' ]   = __( 'Please select posts from at least one option', 'bulk-delete' );
+
+		if ( ! empty( $this->messages['confirm_deletion'] ) ) {
+			$js_array['msg'][ $this->action . '_confirm' ] = $this->messages['confirm_deletion'];
+		}
+
+		if ( ! empty( $this->messages['validation_error'] ) ) {
+			$js_array['msg'][ $this->action . '_error' ] = $this->messages['validation_error'];
+		}
 
 		return $this->append_to_js_array( $js_array );
 	}
@@ -297,6 +305,23 @@ abstract class BaseModule extends Renderer {
 		$options = apply_filters( 'bd_delete_options', $options, $this );
 
 		return $this->do_delete( $options );
+	}
+
+	/**
+	 * Get Success Message.
+	 *
+	 * @param int $items_deleted Number of items that were deleted.
+	 *
+	 * @return string Success message.
+	 */
+	protected function get_success_message( $items_deleted ) {
+		if ( 0 === $items_deleted ) {
+			if ( ! empty( $this->messages['nothing_to_delete'] ) ) {
+				return $this->messages['nothing_to_delete'];
+			}
+		}
+
+		return _n( $this->messages['deleted_one'], $this->messages['deleted_multiple'], $items_deleted, 'bulk-delete' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural
 	}
 
 	/**
