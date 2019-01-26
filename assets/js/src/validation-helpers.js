@@ -14,3 +14,15 @@
 BulkWP.noValidation = function() {
 	return true;
 };
+
+/**
+ * Validate enhanced dropdowns.
+ *
+ * @param that Reference to the button.
+ * @returns {boolean} True if validation succeeds, False otherwise.
+ */
+BulkWP.validateEnhancedDropdown = function ( that ) {
+	var value = jQuery( that ).parent().prev().children().find( ".enhanced-dropdown" ).val();
+
+	return ( value !== null && value !== '-1' );
+};
