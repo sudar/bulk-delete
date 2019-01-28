@@ -91,14 +91,14 @@ abstract class UsersModule extends BaseModule {
 			}
 
 			/**
-			 * Filter the user.
+			 * Can a user be deleted.
 			 *
 			 * @since 6.0.0
 			 *
-			 * @param bool  true                                    Can Delete User.
-			 * @param array $user    User Object.
-			 * @param array $options Processed options.
-			 * @param array \BulkWP\BulkDelete\Core\Base\BaseModule Module that is triggering deletion.
+			 * @param bool                                             Can Delete the User. (Default true)
+			 * @param \WP_User                                $user    User Object of the user who is about to be deleted.
+			 * @param array                                   $options Delete options.
+			 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $this    Module that is triggering deletion.
 			 */
 			if ( ! apply_filters( 'bd_can_delete_user', true, $user, $options, $this ) ) {
 				continue;

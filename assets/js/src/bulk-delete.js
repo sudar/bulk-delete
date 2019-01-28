@@ -82,7 +82,7 @@ jQuery(document).ready(function () {
 		} else {
 			jQuery("#smbd" + el + "_attachment").attr('disabled', 'true');
 		}
-	}	
+	}
 
     /**
      * Toggle Post type dropdown.
@@ -193,13 +193,6 @@ jQuery(document).ready(function () {
 
 		return false;
 	});
-
-	/**
-	 * Validation functions
-	 */
-	BulkWP.noValidation = function() {
-		return true;
-	};
 
 	BulkWP.validateSelect2 = function(that) {
 		if (null !== jQuery(that).parent().prev().children().find(".select2-taxonomy[multiple]").val()) {
