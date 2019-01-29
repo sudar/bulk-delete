@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bfc7cdd62e83d0d68eddc4267f7ce091",
+    "content-hash": "d87989416c37fd82e848a7ac7c32465d",
     "packages": [
         {
             "name": "sudar/wp-system-info",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sudar/wp-system-info.git",
-                "reference": "c70100b6521cbd9fec7c7af35f88f6312d47fe10"
+                "reference": "e8668cbc3b383c1994a7c398fec1f1c4ab19c622"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sudar/wp-system-info/zipball/c70100b6521cbd9fec7c7af35f88f6312d47fe10",
-                "reference": "c70100b6521cbd9fec7c7af35f88f6312d47fe10",
+                "url": "https://api.github.com/repos/sudar/wp-system-info/zipball/e8668cbc3b383c1994a7c398fec1f1c4ab19c622",
+                "reference": "e8668cbc3b383c1994a7c398fec1f1c4ab19c622",
                 "shasum": ""
             },
             "require": {
@@ -41,9 +41,9 @@
             "description": "A WordPress library that adds System Info to WordPress plugins",
             "support": {
                 "issues": "https://github.com/sudar/wp-system-info/issues",
-                "source": "https://github.com/sudar/wp-system-info/tree/master"
+                "source": "https://github.com/sudar/wp-system-info/tree/1.0.0"
             },
-            "time": "2018-12-06T04:57:18+00:00"
+            "time": "2019-01-29T01:03:18+00:00"
         }
     ],
     "packages-dev": [
@@ -1740,16 +1740,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "febd209a219cea7b56ad799b30ebbea34b71eb8f"
+                "reference": "4a43e9af57b4afa663077b9bc85255dbc6e8a2bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/febd209a219cea7b56ad799b30ebbea34b71eb8f",
-                "reference": "febd209a219cea7b56ad799b30ebbea34b71eb8f",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/4a43e9af57b4afa663077b9bc85255dbc6e8a2bd",
+                "reference": "4a43e9af57b4afa663077b9bc85255dbc6e8a2bd",
                 "shasum": ""
             },
             "require": {
@@ -1786,7 +1786,7 @@
                 "environment",
                 "hhvm"
             ],
-            "time": "2018-11-25T09:31:21+00:00"
+            "time": "2019-01-28T15:26:03+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -2853,7 +2853,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "sudar/wp-system-info": 20,
         "codacy/coverage": 20,
         "sudar/wp-plugin-test-tools": 20
     },

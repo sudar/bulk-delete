@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": ">=5.3",
-        "sudar/wp-system-info": "dev-master"
+        "sudar/wp-system-info": "^1.0.0"
     },
     "require-dev": {
         "codacy/coverage": "dev-master",
