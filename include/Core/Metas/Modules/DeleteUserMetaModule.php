@@ -16,6 +16,7 @@ class DeleteUserMetaModule extends MetasModule {
 		$this->meta_box_slug = 'bd-user-meta';
 		$this->action        = 'delete_user_meta';
 		$this->cron_hook     = 'do-bulk-delete-user-meta';
+		$this->scheduler_url = 'http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u';
 		$this->messages      = array(
 			'box_label'  => __( 'Bulk Delete User Meta', 'bulk-delete' ),
 			'scheduled'  => __( 'User meta fields from the users with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
@@ -75,64 +76,13 @@ class DeleteUserMetaModule extends MetasModule {
 		?>
 			<table class="optiontable">
 				<tr>
-					<td>
+					<td colspan="2">
 						<h4><?php _e( 'Choose your deletion options', 'bulk-delete' ); ?></h4>
 					</td>
 				</tr>
 
-				<tr>
-					<td>
-						<label>
-							<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit" value="true" type="checkbox">
-							<?php _e( 'Only delete user meta field from first ', 'bulk-delete' ); ?>
-						</label>
-						<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_limit_to"
-									disabled value="0" maxlength="4" size="4">
-						<?php _e( 'users.', 'bulk-delete' ); ?>
-						<?php _e( 'Use this option if there are more than 1000 users and the script times out.', 'bulk-delete' ); ?>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio" checked="checked">
-						<?php _e( 'Delete now', 'bulk-delete' ); ?>
-						</label>
-						<label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="true" type="radio" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" disabled>
-						<?php _e( 'Schedule', 'bulk-delete' ); ?>
-						</label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value="now" type="text" autocomplete="off" disabled>
-						<?php _e( 'repeat ', 'bulk-delete' ); ?>
-						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_freq" disabled>
-							<option value="-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
-							<?php foreach ( wp_get_schedules() as $key => $value ) : ?>
-								<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value['display'] ); ?></option>
-							<?php endforeach; ?>
-						</select>
-
-						<span class="bd-um-pro" style="color:red">
-							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?>
-							<a href = "http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u">Buy now</a>
-						</span>
-					</td>
-				</tr>
-
-				<tr>
-					<td scope="row" colspan="2">
-						<?php
-						_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time', 'bulk-delete' );
-
-						$markup = __( 'Want to add new a Cron schedule?', 'bulk-delete' ) . '&nbsp' .
-							'<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/" target="_blank" rel="noopener">' . __( 'Find out how', 'bulk-delete' ) . '</a>';
-
-						$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
-						echo '&nbsp', bd_generate_help_tooltip( $markup, $content );
-						?>
-					</td>
-				</tr>
-
+				<?php $this->render_limit_settings(); ?>
+				<?php $this->render_cron_settings(); ?>
 			</table>
 		</fieldset>
 
