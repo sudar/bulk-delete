@@ -11,4 +11,7 @@ else
     mkdir -p vendor/sudar/
     cd vendor/sudar
     git clone https://github.com/sudar/wp-plugin-test-tools.git
+    cd ../
+    echo "require_once sudar/wp-plugin-test-tools/src/Tests/WPCore/bootstrap.php" >> autoload.php
+    echo "require_once sudar/wp-plugin-test-tools/src/Tests/WPCore/WPCoreUnitTestCase.php" >> autoload.php
 fi
