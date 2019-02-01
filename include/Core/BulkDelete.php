@@ -311,7 +311,7 @@ final class BulkDelete {
 	 *
 	 * @return \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Primary Admin pages.
 	 */
-	public function get_primary_pages() {
+	private function get_primary_pages() {
 		if ( empty( $this->primary_pages ) ) {
 			$this->load_primary_pages();
 		}
