@@ -18,3 +18,5 @@ fi
 rm autoload.php
 echo "require_once dirname( __FILE__ ) . '/sudar/wp-plugin-test-tools/src/Tests/WPCore/bootstrap.php'" >> autoload.php
 echo "require_once dirname( __FILE__ ) . '/sudar/wp-plugin-test-tools/src/Tests/WPCore/WPCoreUnitTestCase.php'" >> autoload.php
+
+cat autoload.php

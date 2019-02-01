@@ -46,8 +46,6 @@ install:
     if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
       # Run npm install only for PHP 7.0 since we are going to test grunt and other npm related things only in PHP 7.0
       npm install
-
-      exit 0
     fi
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
