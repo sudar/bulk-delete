@@ -43,16 +43,16 @@ matrix:
 
 install:
   - |
-    if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
-      # Run npm install only for PHP 7.0 since we are going to test grunt and other npm related things only in PHP 7.0
-      npm install
-    fi
-  - |
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
       bash bin/install-wp-test-tools.sh
     else
-      # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x or PHP 7.0
-      composer install
+      if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
+        # Run npm install only for PHP 7.0 since we are going to test grunt and other npm related things only in PHP 7.0
+        npm install
+      else
+        # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x or PHP 7.0
+        composer install
+      fi
     fi
 
 before_script:
