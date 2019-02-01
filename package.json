@@ -47,7 +47,9 @@
     "test:merge-coverage": "vendor/bin/phpcov merge code-coverage/",
     "test:html-coverage": "npm run test:coverage && npm run test:merge-coverage -- --html code-coverage/html/",
     "test:cover-coverage": "npm run test:coverage && npm run test:merge-coverage -- --clover=code-coverage/bulk-delete.clover",
-    "phpcs": "vendor/bin/phpcs -p *.php include/ --standard=PHPCompatibility --runtime-set testVersion 5.3-"
+    "phpcs:main-php-file": "vendor/bin/phpcs -p bulk-delete.php --ignore=vendor --standard=PHPCompatibilityWP --runtime-set testVersion 5.2-",
+    "phpcs:other-php-files": "vendor/bin/phpcs -p .  --ignore=vendor --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.3-",
+    "phpcs": "npm run phpcs:main-php-file && npm run phpcs:other-php-files"
   },
   "private": true
 }
