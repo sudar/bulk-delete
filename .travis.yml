@@ -19,13 +19,13 @@ cache:
 
 matrix:
   include:
-    # Run trunk in nightly and PHP 7.2
+    # Run trunk in nightly and PHP 7.3
     - php: nightly
       env: WP_VERSION=trunk
     - php: 7.3
       env: WP_VERSION=trunk
     - php: 7.2
-      env: WP_VERSION=trunk
+      env: WP_VERSION=latest
     - php: 7.1
       env: WP_VERSION=latest
     - php: 7.0
@@ -37,7 +37,7 @@ matrix:
       dist: precise
   allow_failures:
     - php: nightly
-    - php: 7.3
+    - php: 7.3 # Since tests are run with code coverage.
     - php: 5.3
   fast_finish: true
 
@@ -70,10 +70,11 @@ before_script:
     fi
   - |
     if [[ $TRAVIS_PHP_VERSION != 7.0 ]]; then
-      if [[ ! -z "$WP_VERSION" ]] ; then
-        bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+    fi
+  - |
+    if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
         composer global require "phpunit/phpunit=4.8.*|5.7.*"
-      fi
     fi
 
 script:
@@ -102,13 +103,19 @@ script:
       exit 0
     fi
 
+    if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+      # Check php syntax
+      npm run phpcs
+
+      npm run test
+
+      exit 0
+    fi
+
     if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
       # Validate that grunt works
       grunt vendor
       grunt
-
-      # Check php syntax
-      npm run phpcs
 
       exit 0
     fi

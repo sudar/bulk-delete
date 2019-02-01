@@ -7,11 +7,14 @@
 if [ -d 'vendor/sudar/wp-plugin-test-tools/' ]; then
     cd vendor/sudar/wp-plugin-test-tools/
     git pull origin master
+    cd ../../
 else
     mkdir -p vendor/sudar/
     cd vendor/sudar
     git clone https://github.com/sudar/wp-plugin-test-tools.git
     cd ../
-    echo "require_once sudar/wp-plugin-test-tools/src/Tests/WPCore/bootstrap.php" >> autoload.php
-    echo "require_once sudar/wp-plugin-test-tools/src/Tests/WPCore/WPCoreUnitTestCase.php" >> autoload.php
 fi
+
+rm autoload.php
+echo "require_once dirname( __FILE__ ) . '/sudar/wp-plugin-test-tools/src/Tests/WPCore/bootstrap.php'" >> autoload.php
+echo "require_once dirname( __FILE__ ) . '/sudar/wp-plugin-test-tools/src/Tests/WPCore/WPCoreUnitTestCase.php'" >> autoload.php
