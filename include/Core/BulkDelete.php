@@ -149,11 +149,16 @@ final class BulkDelete {
 
 	/**
 	 * Load the plugin if it is not loaded.
+	 * The plugin will be loaded only it is an admin request or a cron request.
 	 *
 	 * This function will be invoked in the `plugins_loaded` hook.
 	 */
 	public function load() {
 		if ( $this->loaded ) {
+			return;
+		}
+
+		if ( ! $this->is_admin_or_cron() ) {
 			return;
 		}
 
@@ -170,6 +175,8 @@ final class BulkDelete {
 		 * @param string Plugin main file.
 		 */
 		do_action( 'bd_loaded', $this->get_plugin_file() );
+
+		$this->load_primary_pages();
 	}
 
 	/**
@@ -234,10 +241,6 @@ final class BulkDelete {
 	 */
 	public function on_init() {
 		$this->load_textdomain();
-
-		if ( is_admin() || defined( 'DOING_CRON' ) || isset( $_GET['doing_wp_cron'] ) ) {
-			$this->load_primary_pages();
-		}
 	}
 
 	/**
@@ -311,7 +314,7 @@ final class BulkDelete {
 	 *
 	 * @return \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Primary Admin pages.
 	 */
-	public function get_primary_pages() {
+	private function get_primary_pages() {
 		if ( empty( $this->primary_pages ) ) {
 			$this->load_primary_pages();
 		}
@@ -676,5 +679,14 @@ final class BulkDelete {
 		}
 
 		return $pages[ $page_slug ];
+	}
+
+	/**
+	 * Is the current request an admin or cron request?
+	 *
+	 * @return bool True, if yes, False otherwise.
+	 */
+	private function is_admin_or_cron() {
+		return is_admin() || defined( 'DOING_CRON' ) || isset( $_GET['doing_wp_cron'] );
 	}
 }

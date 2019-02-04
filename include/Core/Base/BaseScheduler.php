@@ -55,9 +55,9 @@ abstract class BaseScheduler {
 	 * Setups the hooks and filters.
 	 */
 	public function register() {
-		add_filter( 'bd_javascript_array', array( $this, 'filter_js_array' ) );
+		add_action( 'init', array( $this, 'setup_cron' ) );
 
-		$this->setup_cron();
+		add_filter( 'bd_javascript_array', array( $this, 'filter_js_array' ) );
 	}
 
 	/**
@@ -65,10 +65,6 @@ abstract class BaseScheduler {
 	 */
 	public function setup_cron() {
 		$this->setup_module();
-
-		if ( is_null( $this->module ) ) {
-			return;
-		}
 
 		$cron_hook = $this->module->get_cron_hook();
 		if ( ! empty( $cron_hook ) ) {
@@ -104,10 +100,6 @@ abstract class BaseScheduler {
 	 * @param array $delete_options Delete options.
 	 */
 	public function do_delete( $delete_options ) {
-		if ( is_null( $this->module ) ) {
-			return;
-		}
-
 		/**
 		 * Triggered before the scheduler is run.
 		 *

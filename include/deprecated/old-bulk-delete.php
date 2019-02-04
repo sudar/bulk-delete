@@ -160,8 +160,11 @@ final class Bulk_Delete {
 	public function add_script() {
 		$bd = BulkDelete::get_instance();
 
-		$primary_pages = $bd->get_primary_pages();
-		$post_page     = $primary_pages[ self::POSTS_PAGE_SLUG ];
+		$post_page = $bd->get_page( self::POSTS_PAGE_SLUG );
+
+		if ( is_null( $post_page ) ) {
+			return;
+		}
 
 		$post_page->enqueue_assets();
 	}
