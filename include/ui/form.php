@@ -170,14 +170,40 @@ function bd_render_submit_button( $action ) {
  * @return \WP_Post_Type[] List of post type objects.
  */
 function bd_get_post_types() {
-	$custom_types = get_post_types( array( '_builtin' => false ), 'objects' );
+	$custom_types = bd_get_custom_post_types();
 
+	$builtin_types = bd_get_builtin_public_post_types();
+
+	return array_merge( $builtin_types, $custom_types );
+}
+
+/**
+ * Get the list of built-in public post types.
+ *
+ * @since 6.0.0
+ *
+ * @return \WP_Post_Type[] List of public built-in post types.
+ */
+function bd_get_builtin_public_post_types() {
 	$builtin_types = array(
 		'post' => get_post_type_object( 'post' ),
 		'page' => get_post_type_object( 'page' ),
 	);
 
-	return array_merge( $builtin_types, $custom_types );
+	return $builtin_types;
+}
+
+/**
+ * Get the list of custom post types.
+ *
+ * @since 6.0.0
+ *
+ * @return \WP_Post_Type[] List of custom post types.
+ */
+function bd_get_custom_post_types() {
+	$custom_types = get_post_types( array( '_builtin' => false ), 'objects' );
+
+	return $custom_types;
 }
 
 /**
@@ -186,16 +212,28 @@ function bd_get_post_types() {
  * @param string $field_slug Field slug.
  */
 function bd_render_post_type_dropdown( $field_slug ) {
-	$types = bd_get_post_types();
+	$builtin_post_types = bd_get_builtin_public_post_types();
+	$custom_post_types  = bd_get_custom_post_types();
 	?>
+
 	<tr>
-		<td scope="row" >
+		<td scope="row">
 			<select class="enhanced-dropdown" name="smbd_<?php echo esc_attr( $field_slug ); ?>_post_type">
-				<?php foreach ( $types as $type ) : ?>
-					<option value="<?php echo esc_attr( $type->name ); ?>">
-						<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
-					</option>
-				<?php endforeach; ?>
+				<optgroup label="<?php echo esc_attr( 'Built-in Post Types', 'bulk-delete' ); ?>">
+					<?php foreach ( $builtin_post_types as $type ) : ?>
+						<option value="<?php echo esc_attr( $type->name ); ?>">
+							<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
+						</option>
+					<?php endforeach; ?>
+				</optgroup>
+
+				<optgroup label="<?php echo esc_attr( 'Custom Post Types', 'bulk-delete' ); ?>">
+					<?php foreach ( $custom_post_types as $type ) : ?>
+						<option value="<?php echo esc_attr( $type->name ); ?>">
+							<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
+						</option>
+					<?php endforeach; ?>
+				</optgroup>
 			</select>
 		</td>
 	</tr>
