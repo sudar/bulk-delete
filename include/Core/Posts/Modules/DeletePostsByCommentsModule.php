@@ -20,8 +20,8 @@ class DeletePostsByCommentsModule extends PostsModule {
 		$this->field_slug    = 'comments';
 		$this->meta_box_slug = 'bd_by_comments';
 		$this->action        = 'delete_posts_by_comments';
-		$this->cron_hook     = 'do-bulk-delete-comments';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-comments/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-st';
+		$this->cron_hook     = 'do-bulk-delete-posts-by-comments';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-posts-by-comments/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bds-p-c';
 		$this->messages      = array(
 			'box_label'  => __( 'By Comment count', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
