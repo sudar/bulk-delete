@@ -43,7 +43,7 @@ function bd_load_deprecated_post_modules( $page ) {
 	$user_role_module = new DeletePostsByUserRoleModule();
 	$user_role_module->load_if_needed( $page );
 }
-add_action( 'bd_after_posts_modules', 'bd_load_deprecated_post_modules' );
+add_action( 'bd_after_modules_bulk-delete-posts', 'bd_load_deprecated_post_modules' );
 
 /**
  * Load deprecated page modules.
@@ -60,7 +60,7 @@ function bd_load_deprecated_page_modules( $page ) {
 	$trash_module->set_item_type( 'pages' );
 	$trash_module->load_if_needed( $page );
 }
-add_action( 'bd_after_pages_modules', 'bd_load_deprecated_page_modules' );
+add_action( 'bd_after_modules_bulk-delete-pages', 'bd_load_deprecated_page_modules' );
 
 /**
  * Enable nonce checks for old post add-ons.
