@@ -219,7 +219,7 @@ function bd_render_post_type_dropdown( $field_slug ) {
 	<tr>
 		<td scope="row">
 			<select class="enhanced-dropdown" name="smbd_<?php echo esc_attr( $field_slug ); ?>_post_type">
-				<optgroup label="<?php echo esc_attr( 'Built-in Post Types', 'bulk-delete' ); ?>">
+				<optgroup label="<?php esc_attr_e( 'Built-in Post Types', 'bulk-delete' ); ?>">
 					<?php foreach ( $builtin_post_types as $type ) : ?>
 						<option value="<?php echo esc_attr( $type->name ); ?>">
 							<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
@@ -227,7 +227,7 @@ function bd_render_post_type_dropdown( $field_slug ) {
 					<?php endforeach; ?>
 				</optgroup>
 
-				<optgroup label="<?php echo esc_attr( 'Custom Post Types', 'bulk-delete' ); ?>">
+				<optgroup label="<?php esc_attr_e( 'Custom Post Types', 'bulk-delete' ); ?>">
 					<?php foreach ( $custom_post_types as $type ) : ?>
 						<option value="<?php echo esc_attr( $type->name ); ?>">
 							<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
