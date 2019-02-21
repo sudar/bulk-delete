@@ -7,7 +7,6 @@
  *
  * @since 6.0.0
  */
-
 use BulkWP\BulkDelete\BulkDeleteAutoloader;
 use BulkWP\BulkDelete\Core\BulkDelete;
 
