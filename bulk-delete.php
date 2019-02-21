@@ -33,7 +33,7 @@
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 // Include the stub of the old `Bulk_Delete` class, so that old add-ons don't generate a fatal error.
-require_once 'include/deprecated/old-bulk-delete.php';
+require_once 'include/Deprecated/old-bulk-delete.php';
 
 if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 	/**
