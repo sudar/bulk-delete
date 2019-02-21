@@ -7,6 +7,7 @@
  *
  * @since 6.0.0
  */
+
 use BulkWP\BulkDelete\BulkDeleteAutoloader;
 use BulkWP\BulkDelete\Core\BulkDelete;
 
@@ -93,6 +94,7 @@ function bd_get_custom_class_map( $plugin_dir ) {
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByDuplicateTitleModule' => $plugin_dir . 'include/deprecated/addons/DeletePostsByDuplicateTitleModule.php',
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByAttachmentModule'     => $plugin_dir . 'include/deprecated/addons/DeletePostsByAttachmentModule.php',
 		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByUserRoleModule'       => $plugin_dir . 'include/deprecated/addons/DeletePostsByUserRoleModule.php',
+		'BulkWP\\BulkDelete\\Deprecated\\Addons\\DeletePostsByUserModule'           => $plugin_dir . 'include/deprecated/addons/DeletePostsByUserModule.php',
 	);
 }
 

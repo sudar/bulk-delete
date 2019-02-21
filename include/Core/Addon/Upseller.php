@@ -98,10 +98,10 @@ class Upseller {
 				'upsell_message' => '<strong>Bulk Delete Posts by Content</strong> add-on allows you to delete posts based on its post content.',
 			),
 			array(
-				'name'           => 'Bulk Delete Posts by User Role',
+				'name'           => 'Bulk Delete Posts by User',
 				'description'    => 'This addon adds the ability to delete posts based on the author who created the post.',
-				'slug'           => 'bulk-delete-posts-by-user-role',
-				'url'            => 'https://bulkwp.com/addons/bulk-delete-posts-by-user-role/',
+				'slug'           => 'bulk-delete-posts-by-user',
+				'url'            => 'https://bulkwp.com/addons/bulk-delete-posts-by-user/',
 				'buy_url'        => '',
 				'upsell_title'   => 'Want to delete Posts based on the user who created it?',
 				'upsell_message' => '<strong>Bulk Delete Posts by User</strong> add-on allows you to delete posts based on user who created the post.',
