@@ -10,6 +10,7 @@
  */
 use BulkWP\BulkDelete\Deprecated\Addons\DeleteFromTrashModule;
 use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByAttachmentModule;
+use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByContentModule;
 use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByCustomFieldModule;
 use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByDuplicateTitleModule;
 use BulkWP\BulkDelete\Deprecated\Addons\DeletePostsByTitleModule;
@@ -41,6 +42,9 @@ function bd_load_deprecated_post_modules( $page ) {
 
 	$duplicate_title_module = new DeletePostsByDuplicateTitleModule();
 	$duplicate_title_module->load_if_needed( $page );
+
+	$content_module = new DeletePostsByContentModule();
+	$content_module->load_if_needed( $page );
 
 	$attachment_module = new DeletePostsByAttachmentModule();
 	$attachment_module->load_if_needed( $page );
