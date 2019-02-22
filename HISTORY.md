@@ -1,6 +1,27 @@
 ## Changelog ##
 
-### v6.0.0 - (In Development) ###
+### 2019-02-22 - v6.0.0 (10th Anniversary release) ###
+
+#### New Features ####
+
+- Added the ability to delete taxonomy terms based on name.
+- Added the ability to delete taxonomy terms based on post count.
+- Added the ability to delete posts based on comment count.
+- Added the ability to delete users who don't belong to any role (no role).
+- Added the ability to reassign posts of a user who is going to be deleted to another user before deletion.
+- Added the ability to unstick sticky posts.
+- Added support for custom post status.
+- Added the ability to delete comment meta based on both meta key and value.
+- Complete rewrite of the way deletion is handled to improve performance.
+
+#### Enhancements ####
+
+- Load all 3rd party library js and css locally and not from CDN. The plugin can work fully in offline mode.
+- Introduced a filter to exclude certain posts or users from getting deleted.
+- Display schedule label instead of slug in scheduled jobs list table.
+- Lot of UI/UX improvements.
+- Fully compatible with from PHP 5.3 to 7.3.
+- Fully compatible with Gutenberg.
 
 ### 2018-01-29 - v5.6.1 ###
 
@@ -22,7 +43,7 @@
 
 ### Old Releases ###
 
-We have made more than 50 releases. You can read the changelog of all the old releases at https://bulkwp.com/bulk-delete-changelog/
+We have made more than 50 releases in the last 10 years. You can read the changelog of all the old releases at https://bulkwp.com/bulk-delete-changelog/
 
 ## Upgrade Notice ##
 
