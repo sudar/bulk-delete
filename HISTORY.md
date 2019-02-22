@@ -47,6 +47,9 @@ We have made more than 50 releases in the last 10 years. You can read the change
 
 ## Upgrade Notice ##
 
+### 6.0.0 ###
+Added the ability to delete taxonomy terms and lot of new features.
+
 ### 5.6.1 ###
 Added the ability to delete users based on partial user meta values.
 

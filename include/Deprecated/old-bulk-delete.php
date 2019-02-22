@@ -39,7 +39,7 @@ final class Bulk_Delete {
 	private $plugin_file;
 
 	// Deprecated constants. They are defined here for backward compatibility.
-	const VERSION = '5.6.1';
+	const VERSION = '6.0.0';
 
 	const JS_HANDLE = 'bulk-delete';
 
