@@ -24,6 +24,7 @@ This Plugin supports the following bulk delete options for deleting posts
 - Delete posts by tag
 - Delete posts by custom taxonomy
 - Delete posts by custom post type
+- Delete posts by comment count
 - Delete posts by url
 - Delete posts by custom field (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-custom-field/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-cf))
 - Delete posts by title (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ti))
