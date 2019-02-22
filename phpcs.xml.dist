@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<ruleset name="Bulk Delete">
+	<description>Bulk Delete coding standard</description>
+
+	<!-- Show progress and sniff codes in all reports -->
+	<arg value="ps"/>
+
+	<file>./</file>
+
+ 	<!-- Non code directories -->
+	<exclude-pattern>code-coverage/*</exclude-pattern>
+	<exclude-pattern>dist/*</exclude-pattern>
+	<exclude-pattern>docs/*</exclude-pattern>
+ 	<exclude-pattern>node_modules/*</exclude-pattern>
+ 	<exclude-pattern>vendor/*</exclude-pattern>
+ 	<exclude-pattern>Gruntfile.js</exclude-pattern>
+
+ 	<!-- 3rd Party provided libraries -->
+	<exclude-pattern>include/libraries/*</exclude-pattern>
+
+ 	<!-- Compiled and Vendor-provided assets -->
+ 	<exclude-pattern>assets/css/vendor/*</exclude-pattern>
+ 	<exclude-pattern>assets/css/*.min.css</exclude-pattern>
+
+ 	<exclude-pattern>assets/js/vendor/*</exclude-pattern>
+ 	<exclude-pattern>assets/js/*.min.js</exclude-pattern>
+
+	<!-- PHP Compatibility -->
+	<config name="testVersion" value="5.3-"/>
+	<rule ref="PHPCompatibilityWP">
+	</rule>
+
+	<!--Code-->
+	<rule ref="WordPress-Extra">
+		<!-- Exclude suggestion to use esc_html__() instead of _e() -->
+		<exclude name="WordPress.Security.EscapeOutput.UnsafePrintingFunction"/>
+
+		<!-- Allow File names with psr-2 structure -->
+		<exclude name="Generic.Files.LowercasedFilename.NotFound"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+
+	<!--Docs-->
+	<rule ref="WordPress-Docs">
+		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
+		<exclude name="Squiz.Commenting.FileComment.Missing"/>
+	</rule>
+
+	<!-- Properties -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="bulk-delete" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array" value="bd,BD,BulkWP,BulkDelete,Bulk_Delete" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.GlobalVariablesOverride">
+		<properties>
+			<property name="custom_test_class_whitelist" type="array" value="WPCoreUnitTestCase" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>tests/*</exclude-pattern>
+		<properties>
+			<property name="strict_class_file_names" value="false" />
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.Security.EscapeOutput">
+		<properties>
+			<property name="customAutoEscapedFunctions" type="array" value="__" />
+		</properties>
+	</rule>
+</ruleset>

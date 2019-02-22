@@ -40,26 +40,6 @@ function bd_modify_admin_footer() {
 }
 
 /**
- * Adds setting links in plugin listing page.
- * Based on http://striderweb.com/nerdaphernalia/2008/06/wp-use-action-links/.
- *
- * @param array  $links List of current links
- * @param string $file  Plugin filename
- *
- * @return array $links Modified list of links
- */
-function bd_add_plugin_action_links( $links, $file ) {
-	$this_plugin = plugin_basename( Bulk_Delete::$PLUGIN_FILE );
-
-	if ( $file == $this_plugin ) {
-		$delete_posts_link = '<a href="admin.php?page=' . Bulk_Delete::POSTS_PAGE_SLUG . '">' . __( 'Bulk Delete Posts', 'bulk-delete' ) . '</a>';
-		array_unshift( $links, $delete_posts_link ); // before other links
-	}
-
-	return $links;
-}
-
-/**
  * Add additional links in the Plugin listing page.
  * Based on http://zourbuth.com/archives/751/creating-additional-wordpress-plugin-links-row-meta/.
  *
@@ -88,5 +68,4 @@ add_action( 'bd_admin_footer_addon_page', 'bd_modify_admin_footer' );
 add_action( 'bd_admin_footer_info_page' , 'bd_modify_admin_footer' );
 
 // Change plugin listing page
-add_filter( 'plugin_action_links', 'bd_add_plugin_action_links', 10, 2 );
 add_filter( 'plugin_row_meta', 'bd_add_links_in_plugin_listing', 10, 2 );

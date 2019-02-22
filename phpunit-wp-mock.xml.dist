@@ -1,0 +1,21 @@
+<phpunit
+	bootstrap="tests/wp-mock/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	>
+	<testsuites>
+		<testsuite name="Mock Tests">
+			<directory suffix="Test.php">./tests/wp-mock/</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+        <whitelist>
+            <directory suffix=".php">include</directory>
+            <file>bulk-delete.php</file>
+        </whitelist>
+    </filter>
+</phpunit>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<phpunit
+	bootstrap="tests/wp-unit/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	>
+	<testsuites>
+		<testsuite>
+			<directory suffix="Test.php">./tests/wp-unit/</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist>
+			<file>bulk-delete.php</file>
+			<directory suffix=".php">include</directory>
+			<exclude>
+				<directory suffix=".php">include/libraries</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+</phpunit>

@@ -59,7 +59,7 @@ module.exports = function( grunt ) {
 						' * Licensed GPLv2+' +
 						' */\n',
 					mangle: {
-						except: ['jQuery']
+						reserved: ['jQuery', 'BulkWP']
 					}
 				},
 				files: {
@@ -106,53 +106,48 @@ module.exports = function( grunt ) {
 		copy: {
 			timepicker: {
 				files: [{
-					src : 'assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
+					src : 'node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
 					dest: 'assets/js/jquery-ui-timepicker-addon.min.js'
 				},
 				{
-					src : 'assets/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css',
+					src : 'node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css',
 					dest: 'assets/css/jquery-ui-timepicker-addon.min.css'
 				}]
 			},
 			select2: {
 				files: [{
-					src : 'assets/vendor/select2/dist/js/select2.min.js',
+					src : 'node_modules/select2/dist/js/select2.min.js',
 					dest: 'assets/js/select2.min.js'
 				},
 				{
-					src : 'assets/vendor/select2/dist/css/select2.min.css',
+					src : 'node_modules/select2/dist/css/select2.min.css',
 					dest: 'assets/css/select2.min.css'
 				}]
+			},
+			jquery_ui: {
+				files: [
+					{
+						src : 'node_modules/jquery-ui-built-themes/smoothness/jquery-ui.min.css',
+						dest: 'assets/css/jquery-ui-smoothness.min.css'
+					}
+				]
 			},
 			dist: {
 				files : [
 					{
 						expand: true,
 						src: [
-							'**',
-							'!dist/**',
-							'!AUTHORS.md',
-							'!docs/**',
-							'!assets-wp-repo/**',
-							'!code-coverage/**',
-							'!codeception.yml',
-							'!node_modules/**',
-							'!assets/vendor/**',
-							'!assets/js/src/**',
+							'assets/**',
 							'!assets/css/src/**',
-							'!Gruntfile.js',
-							'!bower.json',
-							'!package.json',
-							'!composer.json',
-							'!composer.lock',
-							'!phpcs.xml',
-							'!phpdoc.dist.xml',
-							'!phpunit.xml.dist',
-							'!bin/**',
-							'!tests/**',
-							'!.idea/**',
-							'!tags',
-							'!vendor/**'
+							'!assets/js/src/**',
+							'!assets/vendor/**',
+							'include/**',
+							'languages/**',
+							'vendor/sudar/wp-system-info/**',
+							'bulk-delete.php',
+							'HISTORY.md',
+							'load-bulk-delete.php',
+							'README.md'
 						],
 						dest: 'dist/'
 					}
@@ -164,7 +159,7 @@ module.exports = function( grunt ) {
 	require('time-grunt')(grunt);
 
 	grunt.registerTask('default', ['jshint:browser', 'concat', 'uglify', 'cssmin']);
-	grunt.registerTask('vendor', ['copy:timepicker', 'copy:select2']);
+	grunt.registerTask('vendor', ['copy:timepicker', 'copy:select2', 'copy:jquery_ui']);
 	grunt.registerTask('build', [ 'default', 'vendor', 'clean', 'copy:dist']);
 
 	grunt.util.linefeed = '\n';

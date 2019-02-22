@@ -2,7 +2,7 @@
   "name": "bulk-delete",
   "title": "Bulk Delete",
   "description": "Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, users and meta fields in bulk based on different conditions and filters.",
-  "version": "5.6.1",
+  "version": "6.0.0",
   "homepage": "https://bulkwp.com",
   "license": "GPLv2+",
   "author": {
@@ -18,17 +18,38 @@
     "type": "git",
     "url": "https://github.com/sudar/bulk-delete.git"
   },
+  "dependencies": {
+    "jquery-ui-timepicker-addon": "1.6.3",
+    "jquery-ui-built-themes": "1.12.1",
+    "select2": "4.0.5"
+  },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-concat": "^0.5.1",
-    "grunt-contrib-copy": "^0.8.0",
-    "grunt-contrib-cssmin": "^0.12.3",
-    "grunt-contrib-jshint": "^0.11.2",
-    "grunt-contrib-uglify": "^0.9.1",
-    "grunt-contrib-watch": "^0.6.1",
-    "matchdep": "^0.3.0",
-    "time-grunt": "^1.2.0"
+    "grunt": "^1.0.3",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-uglify": "^3.4.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "matchdep": "^2.0.0",
+    "time-grunt": "^1.4.0"
+  },
+  "scripts": {
+    "phpunit": "vendor/bin/phpunit",
+    "unit": "npm run phpunit -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
+    "unit:coverage": "npm run unit -- --coverage-php code-coverage/unit.cov",
+    "test:mock": "npm run phpunit -- --configuration phpunit-wp-mock.xml.dist",
+    "mock": "npm run test:mock -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
+    "mock:coverage": "npm run mock -- --coverage-php code-coverage/mock.cov",
+    "test": "npm run mock && npm run unit",
+    "test:coverage": "mkdir code-coverage && npm run mock:coverage && npm run unit:coverage",
+    "test:merge-coverage": "vendor/bin/phpcov merge code-coverage/",
+    "test:html-coverage": "npm run test:coverage && npm run test:merge-coverage -- --html code-coverage/html/",
+    "test:cover-coverage": "npm run test:coverage && npm run test:merge-coverage -- --clover=code-coverage/bulk-delete.clover",
+    "phpcs:main-php-file": "vendor/bin/phpcs -p bulk-delete.php --ignore=vendor --standard=PHPCompatibilityWP --runtime-set testVersion 5.2-",
+    "phpcs:other-php-files": "vendor/bin/phpcs -p .  --ignore=vendor --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.3-",
+    "phpcs": "npm run phpcs:main-php-file && npm run phpcs:other-php-files"
   },
   "private": true
 }

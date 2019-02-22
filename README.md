@@ -1,10 +1,10 @@
 # Bulk Delete #
-**Contributors:** sudar  
-**Tags:** mass, bulk, delete, post, draft, revision, page, user, meta fields  
-**Requires at least:** 4.0  
-**Tested up to:** 4.9  
-**Stable tag:** 5.6.1  
-[![Build Status](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![StyleCI](https://styleci.io/repos/7251206/shield?branch=master)](https://styleci.io/repos/7251206) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://wordpress.org/about/license/)
+**Contributors:** bulkwp, sudar  
+**Tags:** mass, bulk, delete, post, user, meta fields, draft
+**Requires at least:** 4.4  
+**Tested up to:** 5.1  
+**Stable tag:** 6.0.0  
+[![Plugin Version](https://img.shields.io/wordpress/plugin/v/bulk-delete.svg)]() [![Total Downloads](https://img.shields.io/wordpress/plugin/dt/bulk-delete.svg)]() [![Plugin Rating](https://img.shields.io/wordpress/plugin/r/bulk-delete.svg)]() [![WordPress Compatibility](https://img.shields.io/wordpress/v/bulk-delete.svg)]() [![Build Status](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![StyleCI](https://styleci.io/repos/7251206/shield?branch=master)](https://styleci.io/repos/7251206) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://wordpress.org/about/license/)
 
 Bulk delete posts, pages, users, attachments and meta fields based on different conditions and filters.
 
@@ -24,6 +24,7 @@ This Plugin supports the following bulk delete options for deleting posts
 - Delete posts by tag
 - Delete posts by custom taxonomy
 - Delete posts by custom post type
+- Delete posts by comment count
 - Delete posts by url
 - Delete posts by custom field (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-custom-field/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-cf))
 - Delete posts by title (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ti))
@@ -130,6 +131,10 @@ The following are the popular pro addons that are available for purchase. The fu
 - **Delete User Meta Fields Pro** - Adds the ability to delete user meta fields based on value and to schedule automatic deletion. [More details](http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-m-u).
 - **Delete attachment** - Adds the ability to delete attachments [More details](http://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at).
 - **Delete Jetpack Contact Form Messages Pro** - Adds the ability to delete Jetpack Contact Form Messages based on filters and to schedule automatic deletion. [More details](http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-jcm).
+
+### PHP Support
+
+Fully compatible with PHP v5.3 to v7.3
 
 ### Development
 

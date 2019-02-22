@@ -6,18 +6,8 @@
  * @author: Sudar <http://sudarmuthu.com>
  */
 
-/*global BulkWP, postboxes, pagenow*/
+/*global BulkWP, postboxes, pagenow */
 jQuery(document).ready(function () {
-	/**
-	 * Enable select2
-	 */
-	jQuery( '.select2' ).select2();
-
-	// Start Jetpack.
-	BulkWP.jetpack();
-
-	BulkWP.enableHelpTooltips( jQuery( '.bd-help' ) );
-
 	jQuery( '.user_restrict_to_no_posts_filter' ).change( function() {
 		var $this = jQuery(this),
 			filterEnabled = $this.is( ':checked' ),
@@ -76,8 +66,21 @@ jQuery(document).ready(function () {
 	function toggle_registered_restrict(el) {
 		if (jQuery("#smbd" + el + "_registered_restrict").is(":checked")) {
 			jQuery("#smbd" + el + "_registered_days").removeAttr('disabled');
+			jQuery("#smbd" + el + "_op").removeAttr('disabled');
 		} else {
 			jQuery("#smbd" + el + "_registered_days").attr('disabled', 'true');
+			jQuery("#smbd" + el + "_op").attr('disabled', 'true');
+		}
+	}
+
+	/**
+	 * Toggle delete attachments
+	 */
+	function toggle_delete_attachments(el) {
+		if ( "true" === jQuery('input[name="smbd' + el + '_force_delete"]:checked').val()) {
+			jQuery("#smbd" + el + "_attachment").removeAttr('disabled');
+		} else {
+			jQuery("#smbd" + el + "_attachment").attr('disabled', 'true');
 		}
 	}
 
@@ -117,6 +120,7 @@ jQuery(document).ready(function () {
 	jQuery.each(BulkWP.dt_iterators, function (index, value) {
 		// invoke the date time picker
 		jQuery('#smbd' + value + '_cron_start').datetimepicker({
+			dateFormat: 'yy-mm-dd',
 			timeFormat: 'HH:mm:ss'
 		});
 
@@ -136,6 +140,10 @@ jQuery(document).ready(function () {
 			toggle_registered_restrict(value);
 		});
 
+		jQuery('input[name="smbd' + value + '_force_delete"]').change(function () {
+			toggle_delete_attachments(value);
+		});
+
 		jQuery( '#smbd' + value + '_no_posts' ).change( function () {
 			toggle_post_type_dropdown( value );
 		});
@@ -143,14 +151,18 @@ jQuery(document).ready(function () {
 
 	jQuery.each( BulkWP.pro_iterators, function ( index, value) {
 		jQuery('.bd-' + value.replace( '_', '-' ) + '-pro').hide();
+
+		// `<tr>` displays the documentation link when the pro add-on is installed.
+		jQuery('tr.bd-' + value.replace( '_', '-' ) + '-pro').show();
+
 		jQuery('#smbd_' + value + '_cron_freq, #smbd_' + value + '_cron_start, #smbd_' + value + '_cron').removeAttr('disabled');
 	} );
 
-	// Validate user action
+	// Validate user action.
 	jQuery('button[name="bd_action"]').click(function () {
 		var currentButton = jQuery(this).val(),
-		valid = false,
-		msg_key = "deletePostsWarning",
+			valid = false,
+			msg_key = "deletePostsWarning",
 			error_key = "selectPostOption";
 
 		if (currentButton in BulkWP.validators) {
@@ -163,7 +175,11 @@ jQuery(document).ready(function () {
 
 		if (valid) {
 			if (currentButton in BulkWP.pre_action_msg) {
-				msg_key = BulkWP.pre_action_msg[currentButton];
+				if ( jQuery.isFunction( BulkWP[ BulkWP.pre_action_msg[ currentButton ] ] ) ) {
+					msg_key = BulkWP[ BulkWP.pre_action_msg[ currentButton ] ]( this );
+				} else {
+					msg_key = BulkWP.pre_action_msg[ currentButton ];
+				}
 			}
 
 			return confirm(BulkWP.msg[msg_key]);
@@ -178,83 +194,11 @@ jQuery(document).ready(function () {
 		return false;
 	});
 
-	/**
-	 * Validation functions
-	 */
-	BulkWP.noValidation = function() {
-		return true;
-	};
-
 	BulkWP.validateSelect2 = function(that) {
-		if (null !== jQuery(that).parent().prev().children().find(".select2[multiple]").val()) {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	BulkWP.validateUrl = function(that) {
-		if (jQuery(that).parent().prev().children('table').find("textarea").val() !== '') {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	BulkWP.validateUserMeta = function() {
-		if (jQuery('#smbd_u_meta_value').val() !== '') {
+		if (null !== jQuery(that).parent().prev().children().find(".select2-taxonomy[multiple]").val()) {
 			return true;
 		} else {
 			return false;
 		}
 	};
 });
-
-BulkWP.jetpack = function() {
-	jQuery('.bd-feedback-pro').hide();
-
-	jQuery('#smbd_feedback_cron_freq, #smbd_feedback_cron_start, #smbd_feedback_cron').removeAttr('disabled');
-	jQuery('#smbd_feedback_use_filter').removeAttr('disabled');
-
-	// enable filters
-	jQuery('input[name="smbd_feedback_use_filter"]').change(function() {
-		if('true' === jQuery(this).val()) {
-			// using filters
-			jQuery('#jetpack-filters').show();
-		} else {
-			jQuery('#jetpack-filters').hide();
-		}
-	});
-
-	// enable individual filters
-	jQuery.each(['name', 'email', 'ip'], function (index, value) {
-		jQuery('#smbd_feedback_author_' + value + '_filter').change(function() {
-			if(jQuery(this).is(':checked')) {
-				jQuery('#smbd_feedback_author_' + value + '_op').removeAttr('disabled');
-				jQuery('#smbd_feedback_author_' + value + '_value').removeAttr('disabled');
-			} else {
-				jQuery('#smbd_feedback_author_' + value + '_op').attr('disabled', 'true');
-				jQuery('#smbd_feedback_author_' + value + '_value').attr('disabled', 'true');
-			}
-		});
-	});
-};
-
-BulkWP.enableHelpTooltips = function ( $selector ) {
-	$selector.tooltip({
-		content: function() {
-			return jQuery(this).prop('title');
-		},
-		position: {
-			my: 'center top',
-			at: 'center bottom+10',
-			collision: 'flipfit'
-		},
-		hide: {
-			duration: 200
-		},
-		show: {
-			duration: 200
-		}
-	});
-};
