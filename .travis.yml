@@ -68,7 +68,7 @@ before_script:
     fi
   - |
     if [[ $TRAVIS_PHP_VERSION != 7.0 ]]; then
-      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+      bash vendor/sudar/wp-plugin-test-tools/bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
     fi
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
