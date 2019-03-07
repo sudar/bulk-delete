@@ -1,5 +1,6 @@
 # Folders #
 ######################
+/code-coverage/
 /dist/
 /docs/
 /.sass-cache/
