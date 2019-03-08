@@ -88,8 +88,19 @@ abstract class PostsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_posts_from_query( $query, $options ) {
-		$query    = $this->build_query_options( $options, $query );
-		$post_ids = $this->query( $query );
+		$query = $this->build_query_options( $options, $query );
+		$posts = $this->query( $query );
+
+		/**
+		 * List of posts to be deleted.
+		 *
+		 * @since 6.0.1
+		 *
+		 * @param array      $posts   List of posts to be deleted. It could be just post_ds.
+		 * @param array      $options Delete options.
+		 * @param BaseModule $this    Module that is triggering deletion.
+		 */
+		$post_ids = apply_filters( 'bd_posts_to_be_deleted', $posts, $options, $this );
 
 		/**
 		 * Triggered before the posts are deleted.
