@@ -73,20 +73,41 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render Post type with status and post count checkboxes.
+	 *
+	 * @since 6.0.1 Added $multiple param.
+	 *
+	 * @param bool $multiple_select Whether multiple select should be supported. Default true.
 	 */
-	protected function render_post_type_with_status() {
+	protected function render_post_type_with_status( $multiple_select = true ) {
 		$post_types_by_status = $this->get_post_types_by_status();
+
+		$name = 'smbd_' . $this->field_slug;
+		if ( $multiple_select ) {
+			$name .= '[]';
+		}
 		?>
+
 		<tr>
 			<td scope="row" colspan="2">
-				<select class="enhanced-post-types-with-status" multiple="multiple" data-placeholder="Select Post Type" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]">
+				<select data-placeholder="<?php esc_attr_e( 'Select Post Type', 'bulk-delete' ); ?>"
+					name="<?php echo esc_attr( $name ); ?> "class="enhanced-post-types-with-status"
+					<?php if ( $multiple_select ) : ?>
+						multiple
+					<?php endif; ?>
+				>
+
 				<?php foreach ( $post_types_by_status as $post_type => $all_status ) : ?>
 					<optgroup label="<?php echo esc_html( $post_type ); ?>">
+
 					<?php foreach ( $all_status as $status_key => $status_value ) : ?>
-						<option value="<?php echo esc_attr( $status_key ); ?>"><?php echo esc_html( $status_value ); ?></option>
+						<option value="<?php echo esc_attr( $status_key ); ?>">
+							<?php echo esc_html( $status_value ); ?>
+						</option>
 					<?php endforeach; ?>
+
 					</optgroup>
 				<?php endforeach; ?>
+
 				</select>
 			</td>
 		</tr>
