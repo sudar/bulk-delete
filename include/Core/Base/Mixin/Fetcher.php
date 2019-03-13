@@ -201,4 +201,22 @@ abstract class Fetcher {
 
 		return $roles[ $role ];
 	}
+
+	/**
+	 * Get the threshold after which enhanced select should be used.
+	 *
+	 * @since 6.0.1 moved to Fetcher from Renderer.
+	 *
+	 * @return int Threshold.
+	 */
+	protected function get_enhanced_select_threshold() {
+		/**
+		 * Filter the enhanced select threshold.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param int Threshold.
+		 */
+		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
+	}
 }

@@ -483,22 +483,6 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
-	 * Get the threshold after which enhanced select should be used.
-	 *
-	 * @return int Threshold.
-	 */
-	protected function get_enhanced_select_threshold() {
-		/**
-		 * Filter the enhanced select threshold.
-		 *
-		 * @since 6.0.0
-		 *
-		 * @param int Threshold.
-		 */
-		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
-	}
-
-	/**
 	 * Render sticky settings.
 	 */
 	protected function render_sticky_action_settings() {
