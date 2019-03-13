@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @param string $addon_class   Add-on class name.
  * @param array  $addon_details Add-on Details.
  *
- * @return \BulkWP\BulkDelete\Addon\BulkDeleteAddon Instance of the add-on.
+ * @return \BulkWP\BulkDelete\Addon\BaseAddon Instance of the add-on.
  */
 function load_bulk_delete_addon( $addon_class, $addon_details ) {
 	$addon_info = new \BulkWP\BulkDelete\Core\Addon\AddonInfo( $addon_details );
