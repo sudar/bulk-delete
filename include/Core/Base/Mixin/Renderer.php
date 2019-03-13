@@ -90,7 +90,7 @@ abstract class Renderer extends Fetcher {
 		<tr>
 			<td scope="row" colspan="2">
 				<select data-placeholder="<?php esc_attr_e( 'Select Post Type', 'bulk-delete' ); ?>"
-					name="<?php echo esc_attr( $name ); ?> "class="enhanced-post-types-with-status"
+					name="<?php echo esc_attr( $name ); ?>" class="enhanced-post-types-with-status"
 					<?php if ( $multiple_select ) : ?>
 						multiple
 					<?php endif; ?>
