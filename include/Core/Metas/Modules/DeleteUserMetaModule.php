@@ -122,7 +122,6 @@ class DeleteUserMetaModule extends MetasModule {
 		}
 
 		if ( $use_value ) {
-			$meta_value         = $options['meta_value'];
 			$args['meta_query'] = apply_filters( 'bd_delete_user_meta_query', array(), $options );
 		} else {
 			$args['meta_key'] = $meta_key;
@@ -132,7 +131,7 @@ class DeleteUserMetaModule extends MetasModule {
 
 		foreach ( $users as $user ) {
 			if ( $use_value ) {
-				if ( delete_user_meta( $user->ID, $meta_key, $meta_value ) ) {
+				if ( delete_user_meta( $user->ID, $meta_key, $options['meta_value'] ) ) {
 					$count++;
 				}
 			} else {
