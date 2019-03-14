@@ -23,6 +23,17 @@ abstract class FeatureAddon extends BaseAddon {
 	protected $pages = array();
 
 	/**
+	 * List of assets that should be loaded for pages.
+	 *
+	 * Typically this is used only for built-in pages. Custom pages might load assets themselves.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @var array
+	 */
+	protected $page_assets = array();
+
+	/**
 	 * List of modules that are registered by this add-on.
 	 *
 	 * This is an associate array, where the key is the item type and value is the array of modules.
@@ -47,6 +58,10 @@ abstract class FeatureAddon extends BaseAddon {
 
 		if ( ! empty( $this->pages ) ) {
 			add_filter( 'bd_primary_pages', array( $this, 'register_pages' ) );
+		}
+
+		foreach ( array_keys( $this->page_assets ) as $page_slug ) {
+			add_action( "bd_after_enqueue_page_assets_for_{$page_slug}", array( $this, 'register_page_assets' ) );
 		}
 
 		foreach ( array_keys( $this->modules ) as $page_slug ) {
@@ -89,6 +104,71 @@ abstract class FeatureAddon extends BaseAddon {
 		}
 
 		return $primary_pages;
+	}
+
+	/**
+	 * Register page assets.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage $page Page.
+	 */
+	public function register_page_assets( $page ) {
+		$assets = $this->page_assets[ $page->get_page_slug() ];
+
+		foreach ( $assets as $asset ) {
+			$this->enqueue_asset( $asset );
+		}
+	}
+
+	/**
+	 * Enqueue page assets.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @param array $asset Asset details.
+	 */
+	protected function enqueue_asset( $asset ) {
+		if ( 'script' === $asset['type'] ) {
+			$this->enqueue_script( $asset );
+		}
+
+		if ( 'style' === $asset['type'] ) {
+			$this->enqueue_style( $asset );
+		}
+	}
+
+	/**
+	 * Enqueue Script.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @param array $asset Asset details.
+	 */
+	protected function enqueue_script( $asset ) {
+		wp_enqueue_script(
+			$asset['handle'],
+			$asset['file'],
+			$asset['dependencies'],
+			$this->addon_info->get_version(),
+			true
+		);
+	}
+
+	/**
+	 * Enqueue Style.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @param array $asset Asset details.
+	 */
+	protected function enqueue_style( $asset ) {
+		wp_enqueue_style(
+			$asset['handle'],
+			$asset['file'],
+			$asset['dependencies'],
+			$this->addon_info->get_version()
+		);
 	}
 
 	/**
