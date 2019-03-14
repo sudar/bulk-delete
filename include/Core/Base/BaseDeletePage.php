@@ -90,6 +90,17 @@ abstract class BaseDeletePage extends BasePage {
 		 */
 		do_action( 'bd_before_admin_enqueue_scripts', $this );
 
+		/**
+		 * Runs just before enqueuing scripts and styles in a Bulk WP admin pages.
+		 *
+		 * This action is primarily for registering or deregistering additional scripts or styles.
+		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage The current page.
+		 *
+		 * @since 6.0.1
+		 */
+		do_action( "bd_before_enqueue_page_assets_for_{$this->get_page_slug()}", $this );
+
 		wp_enqueue_style( 'jquery-ui-smoothness', $this->get_plugin_dir_url() . 'assets/css/jquery-ui-smoothness.min.css', array(), '1.12.1' );
 
 		wp_enqueue_script(
@@ -147,6 +158,17 @@ abstract class BaseDeletePage extends BasePage {
 		 * @since 6.0.0 Added $page parameter.
 		 */
 		do_action( 'bd_after_admin_enqueue_scripts', $this );
+
+		/**
+		 * Runs just after enqueuing scripts and styles in a Bulk WP admin pages.
+		 *
+		 * This action is primarily for registering or deregistering additional scripts or styles.
+		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage The current page.
+		 *
+		 * @since 6.0.1
+		 */
+		do_action( "bd_after_enqueue_page_assets_for_{$this->get_page_slug()}", $this );
 	}
 
 	/**
