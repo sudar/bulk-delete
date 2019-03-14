@@ -11,7 +11,7 @@ namespace BulkWP\BulkDelete\Core\Base;
  */
 abstract class BaseQueryOverrider {
 	/**
-	 * Parse the query object
+	 * Parse the query object.
 	 *
 	 * @param \WP_Query $query Query object.
 	 */
