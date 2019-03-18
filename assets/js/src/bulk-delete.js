@@ -161,6 +161,7 @@ jQuery(document).ready(function () {
 	// Validate user action.
 	jQuery('button[name="bd_action"]').click(function () {
 		var currentButton = jQuery(this).val(),
+			cronSelected = jQuery(this).parent().prev().find('input:radio.cron:checked').val(),
 			valid = false,
 			msg_key = "deletePostsWarning",
 			error_key = "selectPostOption";
@@ -181,8 +182,12 @@ jQuery(document).ready(function () {
 					msg_key = BulkWP.pre_action_msg[ currentButton ];
 				}
 			}
-
-			return confirm(BulkWP.msg[msg_key]);
+			// Toggles confirmation message based on `Delete now/Schedule` is chosen.
+			var confirmMessage = BulkWP.msg[msg_key];
+			if( "true" === cronSelected ) {
+				return confirm(confirmMessage.replace("delete", 'schedule deletion for'));
+			}
+			return confirm(confirmMessage);
 		} else {
 			if (currentButton in BulkWP.error_msg) {
 				error_key = BulkWP.error_msg[currentButton];
