@@ -207,7 +207,7 @@ abstract class Renderer extends Fetcher {
 		$builtin_taxonomies = get_taxonomies( array( '_builtin' => true ), 'objects' );
 		$custom_taxonomies  = get_taxonomies( array( '_builtin' => false ), 'objects' );
 		?>
-			<select class="enhanced-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
+			<select class="enhanced-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy">
 				<optgroup label="<?php esc_attr_e( 'Built-in Taxonomies', 'bulk-delete' ); ?>">
 					<?php foreach ( $builtin_taxonomies as $taxonomy ) : ?>
 						<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
