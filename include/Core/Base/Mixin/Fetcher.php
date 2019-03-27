@@ -60,7 +60,7 @@ abstract class Fetcher {
 				}
 
 				$post_type_key               = $post_type->labels->singular_name . ' (' . $post_type_name . ')';
-				$post_type_with_status_key   = $post_type_name . '-' . $post_status_name;
+				$post_type_with_status_key   = $post_type_name . '|' . $post_status_name;
 				$post_type_with_status_label = $post_status->label . ' (' . $count_posts->{$post_status_name} . ' ' . __( 'Posts', 'bulk-delete' ) . ')';
 
 				$post_types_by_status[ $post_type_key ][ $post_type_with_status_key ] = $post_type_with_status_label;
