@@ -101,10 +101,6 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	/**
 	 * Test deletion of post meta with custom post status.
 	 *
-	 * TODO: This test is currently skipped because duplicate meta keys is not fully supported yet.
-	 *
-	 * @see https://github.com/sudar/bulk-delete/issues/515 for details.
-	 *
 	 * @param array $setup     create posts and meta params.
 	 * @param array $operation Possible operations.
 	 * @param array $expected  expected output.
