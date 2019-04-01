@@ -558,9 +558,9 @@ abstract class Renderer extends Fetcher {
 		<tr>
 			<td scope="row" colspan="2">
 				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio"
-					checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?></label>
+					checked="checked" class="cron"> <?php _e( 'Delete now', 'bulk-delete' ); ?></label>
 				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="true" type="radio"
-					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" <?php echo esc_attr( $disabled_attr ); ?>> <?php _e( 'Schedule', 'bulk-delete' ); ?></label>
+					class="cron" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" <?php echo esc_attr( $disabled_attr ); ?>> <?php _e( 'Schedule', 'bulk-delete' ); ?></label>
 				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start"
 					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value="now"
 					type="text" <?php echo esc_attr( $disabled_attr ); ?> autocomplete="off"><?php _e( 'repeat ', 'bulk-delete' ); ?>
