@@ -204,16 +204,26 @@ abstract class Renderer extends Fetcher {
 	 * Render Taxonomy dropdown.
 	 */
 	protected function render_taxonomy_dropdown() {
-		$taxonomies = get_taxonomies( array(), 'objects' );
+		$builtin_taxonomies = get_taxonomies( array( '_builtin' => true ), 'objects' );
+		$custom_taxonomies  = get_taxonomies( array( '_builtin' => false ), 'objects' );
 		?>
+			<select class="enhanced-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy">
+				<optgroup label="<?php esc_attr_e( 'Built-in Taxonomies', 'bulk-delete' ); ?>">
+					<?php foreach ( $builtin_taxonomies as $taxonomy ) : ?>
+						<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
+							<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
+						</option>
+					<?php endforeach; ?>
+				</optgroup>
 
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" class="enhanced-taxonomy-list" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
-			<?php foreach ( $taxonomies as $taxonomy ) : ?>
-				<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
-					<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
-				</option>
-			<?php endforeach; ?>
-		</select>
+				<optgroup label="<?php esc_attr_e( 'Custom Taxonomies', 'bulk-delete' ); ?>">
+					<?php foreach ( $custom_taxonomies as $taxonomy ) : ?>
+						<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
+							<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
+						</option>
+					<?php endforeach; ?>
+				</optgroup>
+			</select>
 		<?php
 	}
 
@@ -605,7 +615,7 @@ abstract class Renderer extends Fetcher {
 
 					<span class="<?php echo sanitize_html_class( $pro_class ); ?>" style="color:red">
 						<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a
-							href="<?php echo esc_url( $this->scheduler_url ); ?>">Buy now</a>
+							href="<?php echo esc_url( $this->scheduler_url ); ?>" target="_blank">Buy now</a>
 					</span>
 				<?php endif; ?>
 			</td>
