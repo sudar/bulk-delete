@@ -651,7 +651,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'limit_to'  => 0,
 					'restrict'  => false,
 					'date_op'   => '',
-					'days'      => '',
+					'days'      => 0,
 				),
 				array(
 					'number_of_comment_metas_deleted' => 5,
@@ -682,7 +682,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'limit_to'  => 0,
 					'restrict'  => false,
 					'date_op'   => '',
-					'days'      => '',
+					'days'      => 0,
 				),
 				array(
 					'number_of_comment_metas_deleted' => 3,
