@@ -7,7 +7,7 @@
 /*global BulkWP*/
 // Toggles submit button text.
 jQuery( document ).ready( function () {
-	var	cronRadio = jQuery("input:radio.cron");
+	var	cronRadio = jQuery("input:radio.delete-type");
 	cronRadio.change( function() {
 		var submitButton = jQuery(this).parents('fieldset').next().find('button[name="bd_action"]');
 		if ( "true" === jQuery(this).val() ) {
