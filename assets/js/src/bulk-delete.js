@@ -161,8 +161,9 @@ jQuery(document).ready(function () {
 	// Validate user action.
 	jQuery('button[name="bd_action"]').click(function () {
 		var currentButton = jQuery(this).val(),
-			cronSelected = jQuery(this).parent().prev().find('input:radio.cron:checked').val(),
+			cronSelected = jQuery(this).parent().prev().find('input:radio.delete-type:checked').val(),
 			valid = false,
+			msg_keys = "",
 			msg_key = "deletePostsWarning",
 			error_key = "selectPostOption";
 
@@ -179,15 +180,17 @@ jQuery(document).ready(function () {
 				if ( jQuery.isFunction( BulkWP[ BulkWP.pre_action_msg[ currentButton ] ] ) ) {
 					msg_key = BulkWP[ BulkWP.pre_action_msg[ currentButton ] ]( this );
 				} else {
-					msg_key = BulkWP.pre_action_msg[ currentButton ];
+					msg_keys = msg_key = BulkWP.pre_action_msg[ currentButton ];
 				}
 			}
-			// Toggles confirmation message based on `Delete now/Schedule` is chosen.
-			var confirmMessage = BulkWP.msg[msg_key];
-			if( "true" === cronSelected ) {
-				return confirm(confirmMessage.replace("delete", 'schedule deletion for'));
+			if( msg_keys instanceof Array ) {
+				msg_key = msg_keys[0];
 			}
-			return confirm(confirmMessage);
+			// Toggles confirmation message based on `Delete now/Schedule` is chosen.
+			if( "true" === cronSelected && (msg_keys[1] in BulkWP.msg) ) {
+				msg_key = msg_keys[1];
+			}
+			return confirm(BulkWP.msg[msg_key]);
 		} else {
 			if (currentButton in BulkWP.error_msg) {
 				error_key = BulkWP.error_msg[currentButton];

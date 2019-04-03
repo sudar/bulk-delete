@@ -20,15 +20,16 @@ class DeletePostsByPostTypeModule extends PostsModule {
 		$this->cron_hook     = 'do-bulk-delete-post-type';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-spt';
 		$this->messages      = array(
-			'box_label'        => __( 'By Post Type', 'bulk-delete' ),
-			'scheduled'        => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
-			'cron_label'       => __( 'Delete Post By Post Type', 'bulk-delete' ),
-			'confirm_deletion' => __( 'Are you sure you want to delete the posts from the selected post type?', 'bulk-delete' ),
-			'validation_error' => __( 'Please select at least one post type', 'bulk-delete' ),
+			'box_label'         => __( 'By Post Type', 'bulk-delete' ),
+			'scheduled'         => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Post By Post Type', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete the posts from the selected post type?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for the posts from the selected post type?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please select at least one post type', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
-			'deleted_one'      => __( 'Deleted %d post from the selected post type', 'bulk-delete' ),
+			'deleted_one'       => __( 'Deleted %d post from the selected post type', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
-			'deleted_multiple' => __( 'Deleted %d posts from the selected post type', 'bulk-delete' ),
+			'deleted_multiple'  => __( 'Deleted %d posts from the selected post type', 'bulk-delete' ),
 		);
 	}
 

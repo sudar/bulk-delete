@@ -20,15 +20,16 @@ class DeletePostsByStatusModule extends PostsModule {
 		$this->cron_hook     = 'do-bulk-delete-post-status';
 		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sps';
 		$this->messages      = array(
-			'box_label'        => __( 'By Post Status', 'bulk-delete' ),
-			'scheduled'        => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
-			'cron_label'       => __( 'Delete Post By Status', 'bulk-delete' ),
-			'validation_error' => __( 'Please select at least one post status from which posts should be deleted', 'bulk-delete' ),
-			'confirm_deletion' => __( 'Are you sure you want to delete all the posts from the selected post status?', 'bulk-delete' ),
+			'box_label'         => __( 'By Post Status', 'bulk-delete' ),
+			'scheduled'         => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Post By Status', 'bulk-delete' ),
+			'validation_error'  => __( 'Please select at least one post status from which posts should be deleted', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the posts from the selected post status?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the posts from the selected post status?', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
-			'deleted_one'      => __( 'Deleted %d post from the selected post status', 'bulk-delete' ),
+			'deleted_one'       => __( 'Deleted %d post from the selected post status', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
-			'deleted_multiple' => __( 'Deleted %d posts from the selected post status', 'bulk-delete' ),
+			'deleted_multiple'  => __( 'Deleted %d posts from the selected post status', 'bulk-delete' ),
 		);
 	}
 
