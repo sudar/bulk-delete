@@ -185,10 +185,10 @@ jQuery(document).ready(function () {
 			}
 			if( msg_keys instanceof Array ) {
 				msg_key = msg_keys[0];
-			}
-			// Toggles confirmation message based on `Delete now/Schedule` is chosen.
-			if( "true" === cronSelected && (msg_keys[1] in BulkWP.msg) ) {
-				msg_key = msg_keys[1];
+				// Toggles confirmation message based on `Delete now/Schedule` is chosen.
+				if( "true" === cronSelected && (msg_keys[1] in BulkWP.msg) ) {
+					msg_key = msg_keys[1];
+				}
 			}
 			return confirm(BulkWP.msg[msg_key]);
 		} else {
