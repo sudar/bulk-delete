@@ -161,7 +161,7 @@ jQuery(document).ready(function () {
 	// Validate user action.
 	jQuery('button[name="bd_action"]').click(function () {
 		var currentButton = jQuery(this).val(),
-			cronSelected = jQuery(this).parent().prev().find('input:radio.delete-type:checked').val(),
+			cronSelected = jQuery(this).parent().prev().find('input:radio.deletion-type:checked').val(),
 			valid = false,
 			msg_keys = "",
 			msg_key = "deletePostsWarning",
