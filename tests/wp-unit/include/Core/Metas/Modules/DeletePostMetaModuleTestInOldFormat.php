@@ -48,8 +48,6 @@ class DeletePostMetaModuleTestInOldFormat extends WPCoreUnitTestCase {
 			'force_delete' => false,
 			'use_value'    => 'use_key',
 			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
@@ -83,8 +81,6 @@ class DeletePostMetaModuleTestInOldFormat extends WPCoreUnitTestCase {
 			'force_delete' => false,
 			'use_value'    => 'use_key',
 			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
@@ -114,8 +110,6 @@ class DeletePostMetaModuleTestInOldFormat extends WPCoreUnitTestCase {
 			'force_delete' => false,
 			'use_value'    => 'use_key',
 			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
@@ -147,8 +141,6 @@ class DeletePostMetaModuleTestInOldFormat extends WPCoreUnitTestCase {
 			'force_delete' => false,
 			'use_value'    => 'use_key',
 			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
@@ -179,8 +171,6 @@ class DeletePostMetaModuleTestInOldFormat extends WPCoreUnitTestCase {
 			'force_delete' => false,
 			'use_value'    => 'use_key',
 			'meta_key'     => 'time',
-			'date_op'      => 'before',
-			'days'         => '3',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
@@ -211,8 +201,6 @@ class DeletePostMetaModuleTestInOldFormat extends WPCoreUnitTestCase {
 			'force_delete' => false,
 			'use_value'    => 'use_key',
 			'meta_key'     => 'time',
-			'date_op'      => 'after',
-			'days'         => '5',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
@@ -241,8 +229,6 @@ class DeletePostMetaModuleTestInOldFormat extends WPCoreUnitTestCase {
 			'force_delete' => false,
 			'use_value'    => 'use_key',
 			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );

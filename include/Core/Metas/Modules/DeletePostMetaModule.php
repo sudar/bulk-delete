@@ -141,14 +141,11 @@ class DeletePostMetaModule extends MetasModule {
 			$args['nopaging'] = 'true';
 		}
 
-		$op   = $options['date_op'];
-		$days = $options['days'];
-
 		if ( $options['restrict'] ) {
 			$args['date_query'] = array(
 				array(
-					'column' => 'post_date',
-					$op      => "{$days} day ago",
+					'column'            => 'post_date',
+					$options['date_op'] => "{$options['days']} day ago",
 				),
 			);
 		}

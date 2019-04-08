@@ -68,8 +68,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'use_value' => false,
 			'meta_key'  => $meta_key,
 			'limit_to'  => 0,
-			'date_op'   => '',
-			'days'      => '',
 			'restrict'  => false,
 		);
 
@@ -124,8 +122,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'use_value' => false,
 			'meta_key'  => $meta_key,
 			'limit_to'  => 0,
-			'date_op'   => '',
-			'days'      => '',
 			'restrict'  => false,
 		);
 
@@ -179,8 +175,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_op'    => '=',
 			'meta_type'  => 'CHAR',
 			'limit_to'   => 0,
-			'date_op'    => '',
-			'days'       => '',
 			'restrict'   => false,
 		);
 
@@ -239,8 +233,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_op'    => '=',
 			'meta_type'  => 'CHAR',
 			'limit_to'   => 0,
-			'date_op'    => '',
-			'days'       => 0,
 			'restrict'   => false,
 		);
 
@@ -420,7 +412,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * TODO: This test is currently skipped because duplicate meta keys is not fully supported yet.
 	 *
-	 * @see https://github.com/sudar/bulk-delete/issues/515 for details.
+	 * @see          https://github.com/sudar/bulk-delete/issues/515 for details.
 	 *
 	 * @param array $setup     create posts, comments and meta params.
 	 * @param array $operation Possible operations.
@@ -447,7 +439,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		);
 
 		$comment_ids = array();
-		for ( $i = 0; $i < $setup['number_of_comments']; $i++ ) {
+		for ( $i = 0; $i < $setup['number_of_comments']; $i ++ ) {
 			$comment_ids[ $i ] = $this->factory->comment->create( $comment_data );
 
 			add_comment_meta( $comment_ids[ $i ], $setup['matched']['meta_key'], $setup['matched']['meta_value'] );
@@ -462,15 +454,13 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_type'  => $operation['meta_type'],
 			'meta_op'    => $operation['operator'],
 			'limit_to'   => 0,
-			'date_op'    => '',
-			'days'       => '',
 			'restrict'   => false,
 		);
 
 		$comment_metas_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( $expected['number_of_comment_metas_deleted'], $comment_metas_deleted );
 
-		for ( $i = 0; $i < $setup['number_of_comments']; $i++ ) {
+		for ( $i = 0; $i < $setup['number_of_comments']; $i ++ ) {
 			// Todo: Don't delete all meta rows if there are duplicate meta keys.
 			// See https://github.com/sudar/bulk-delete/issues/515 for details.
 			$this->assertFalse( metadata_exists( 'comment', $comment_ids[ $i ], $setup['matched']['meta_key'] ) );
@@ -609,8 +599,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 				'use_value' => false,
 				'meta_key'  => $meta_key,
 				'limit_to'  => $batch_size,
-				'date_op'   => '',
-				'days'      => '',
 				'restrict'  => false,
 			);
 
@@ -650,8 +638,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'use_value' => false,
 					'limit_to'  => 0,
 					'restrict'  => false,
-					'date_op'   => '',
-					'days'      => 0,
 				),
 				array(
 					'number_of_comment_metas_deleted' => 5,
@@ -681,8 +667,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'use_value' => false,
 					'limit_to'  => 0,
 					'restrict'  => false,
-					'date_op'   => '',
-					'days'      => 0,
 				),
 				array(
 					'number_of_comment_metas_deleted' => 3,

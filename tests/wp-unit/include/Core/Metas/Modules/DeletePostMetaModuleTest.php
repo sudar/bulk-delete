@@ -58,8 +58,6 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 					'use_value' => 'use_key',
 					'limit_to'  => 0,
 					'restrict'  => false,
-					'date_op'   => '',
-					'days'      => 0,
 				),
 				array(
 					'number_of_post_metas_deleted' => 10,
@@ -89,8 +87,6 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 					'use_value' => 'use_key',
 					'limit_to'  => 0,
 					'restrict'  => false,
-					'date_op'   => '',
-					'days'      => 0,
 				),
 				array(
 					'number_of_post_metas_deleted' => 5,

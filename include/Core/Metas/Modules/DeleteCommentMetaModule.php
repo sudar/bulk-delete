@@ -126,14 +126,11 @@ class DeleteCommentMetaModule extends MetasModule {
 			$args['number'] = $options['limit_to'];
 		}
 
-		$op   = $options['date_op'];
-		$days = $options['days'];
-
 		if ( $options['restrict'] ) {
 			$args['date_query'] = array(
 				array(
-					'column' => 'comment_date',
-					$op      => "{$days} day ago",
+					'column'            => 'comment_date',
+					$options['date_op'] => "{$options['days']} day ago",
 				),
 			);
 		}
