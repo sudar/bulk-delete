@@ -220,17 +220,19 @@ abstract class BaseModule extends Renderer {
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][] = '_' . $this->field_slug;
 
-		$js_array['pre_action_msg'][ $this->action ] = array( $this->action . '_confirm', $this->action . '_confirm_scheduled' );
+		$js_array['pre_delete_msg'][ $this->action ] = $this->action . '_confirm_deletion';
 		$js_array['error_msg'][ $this->action ]      = $this->action . '_error';
 
-		$js_array['msg'][ $this->action . '_confirm' ] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
-		$js_array['msg'][ $this->action . '_error' ]   = __( 'Please select posts from at least one option', 'bulk-delete' );
+		$js_array['msg'][ $this->action . '_confirm_deletion' ] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
+		$js_array['msg'][ $this->action . '_error' ]            = __( 'Please select posts from at least one option', 'bulk-delete' );
 
 		if ( ! empty( $this->messages['confirm_deletion'] ) ) {
-			$js_array['msg'][ $this->action . '_confirm' ] = $this->messages['confirm_deletion'];
+			$js_array['msg'][ $this->action . '_confirm_deletion' ] = $this->messages['confirm_deletion'];
 		}
 
 		if ( ! empty( $this->messages['confirm_scheduled'] ) ) {
+			$js_array['pre_schedule_msg'][ $this->action ] = $this->action . '_confirm_scheduled';
+
 			$js_array['msg'][ $this->action . '_confirm_scheduled' ] = $this->messages['confirm_scheduled'];
 		}
 

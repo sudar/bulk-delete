@@ -137,14 +137,19 @@ abstract class BaseDeletePage extends BasePage {
 		 *
 		 * @since 5.4
 		 */
-		$translation_array = apply_filters( 'bd_javascript_array', array(
-			'msg'            => array(),
-			'validators'     => array(),
-			'dt_iterators'   => array(),
-			'pre_action_msg' => array(),
-			'error_msg'      => array(),
-			'pro_iterators'  => array(),
-		) );
+		$translation_array = apply_filters(
+			'bd_javascript_array',
+			array(
+				'msg'              => array(),
+				'validators'       => array(),
+				'dt_iterators'     => array(),
+				'pre_action_msg'   => array(), // deprecated since 6.0.1.
+				'pre_delete_msg'   => array(),
+				'pre_schedule_msg' => array(),
+				'error_msg'        => array(),
+				'pro_iterators'    => array(),
+			)
+		);
 		wp_localize_script( 'bulk-delete', 'BulkWP', $translation_array ); // TODO: Change JavaScript variable to BulkWP.BulkDelete.
 
 		/**
