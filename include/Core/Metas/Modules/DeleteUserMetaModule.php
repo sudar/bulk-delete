@@ -16,7 +16,7 @@ class DeleteUserMetaModule extends MetasModule {
 		$this->meta_box_slug = 'bd-user-meta';
 		$this->action        = 'delete_user_meta';
 		$this->cron_hook     = 'do-bulk-delete-user-meta';
-		$this->scheduler_url = 'http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u';
+		$this->scheduler_url = 'https://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u';
 		$this->messages      = array(
 			'box_label'  => __( 'Bulk Delete User Meta', 'bulk-delete' ),
 			'scheduled'  => __( 'User meta fields from the users with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
@@ -53,7 +53,7 @@ class DeleteUserMetaModule extends MetasModule {
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on user meta key name and value', 'bulk-delete' ); ?></label>
 						<span class="bd-um-pro" style="color:red; vertical-align: middle;">
 							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?>
-							<a href="http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u" target="_blank">Buy now</a>
+							<a href="https://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u" target="_blank">Buy now</a>
 						</span>
 					</td>
 				</tr>

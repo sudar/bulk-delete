@@ -1,7 +1,7 @@
 /**
  * JavaScript for Bulk Delete Plugin
  *
- * http://bulkwp.com
+ * https://bulkwp.com
  *
  * @author: Sudar <http://sudarmuthu.com>
  */

@@ -18,7 +18,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		$this->meta_box_slug = 'bd_posts_by_taxonomy';
 		$this->action        = 'bd_delete_posts_by_taxonomy';
 		$this->cron_hook     = 'do-bulk-delete-taxonomy';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-stx';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-stx';
 		$this->messages      = array(
 			'box_label'  => __( 'By Taxonomy', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),

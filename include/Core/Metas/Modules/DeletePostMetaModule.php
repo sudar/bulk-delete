@@ -16,7 +16,7 @@ class DeletePostMetaModule extends MetasModule {
 		$this->meta_box_slug = 'bd-post-meta';
 		$this->action        = 'delete_post_meta';
 		$this->cron_hook     = 'do-bulk-delete-post-meta';
-		$this->scheduler_url = 'http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p';
+		$this->scheduler_url = 'https://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p';
 		$this->messages      = array(
 			'box_label'  => __( 'Bulk Delete Post Meta', 'bulk-delete' ),
 			'scheduled'  => __( 'Post meta fields from the posts with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
@@ -53,7 +53,7 @@ class DeletePostMetaModule extends MetasModule {
 						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smdb_<?php echo esc_attr( $this->field_slug ); ?>_use_key_compare" value="use_key_compare" type="radio" disabled>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name prefix or postfix', 'bulk-delete' ); ?></label>
 						<span class="bd-pm-pro" style="color:red; vertical-align: middle;">
-							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
+							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "https://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
 						</span>
 					</td>
 				</tr>
@@ -63,7 +63,7 @@ class DeletePostMetaModule extends MetasModule {
 						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="use_value" type="radio" disabled>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on post meta key name and value', 'bulk-delete' ); ?></label>
 						<span class="bd-pm-pro" style="color:red; vertical-align: middle;">
-							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
+							<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "https://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p" target="_blank">Buy now</a>
 						</span>
 					</td>
 				</tr>

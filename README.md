@@ -26,14 +26,14 @@ This Plugin supports the following bulk delete options for deleting posts
 - Delete posts by custom post type
 - Delete posts by comment count
 - Delete posts by url
-- Delete posts by custom field (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-custom-field/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-cf))
-- Delete posts by title (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ti))
-- Delete posts by duplicate title (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dti))
+- Delete posts by custom field (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-posts-by-custom-field/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-cf))
+- Delete posts by title (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ti))
+- Delete posts by duplicate title (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dti))
 - Delete all draft posts
 - Delete all pending posts
 - Delete all private posts
 - Delete all scheduled posts
-- Delete all posts from trash (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-th))
+- Delete all posts from trash (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-th))
 
 All the above options support the following filters
 
@@ -43,18 +43,18 @@ All the above options support the following filters
 - Only private posts
 - Restrict to first N posts
 - Delete permanently or just move to trash
-- Schedule deletion of posts automatically (Available as a [Pro addon](http://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro))
+- Schedule deletion of posts automatically (Available as a [Pro addon](https://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro))
 
 #### Deleting posts by content
 
-- Delete posts by content (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-content/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-co))
-- Delete duplicate posts by title (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dti))
-- Delete posts based on whether it contains attachment or not (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-attachment/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-at))
+- Delete posts by content (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-posts-by-content/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-co))
+- Delete duplicate posts by title (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dti))
+- Delete posts based on whether it contains attachment or not (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-posts-by-attachment/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-at))
 
 #### Deleting posts by user
 
-- Delete posts by user role (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-user-role/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ur))
-- Delete posts by user (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-posts-by-user/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-u))
+- Delete posts by user role (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-posts-by-user-role/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ur))
+- Delete posts by user (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-posts-by-user/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-u))
 
 #### Deleting pages
 
@@ -63,7 +63,7 @@ All the above options support the following filters
 - Delete all pending pages
 - Delete all private pages
 - Delete all scheduled pages
-- Delete all pages from trash (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-th))
+- Delete all pages from trash (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-th))
 
 Like posts, all the above options support the following filters as well
 
@@ -73,7 +73,7 @@ Like posts, all the above options support the following filters as well
 - Only private pages
 - Restrict to first N pages
 - Delete permanently or just move to trash
-- Schedule deletion of pages automatically (Available as a [Pro addon](http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-sp))
+- Schedule deletion of pages automatically (Available as a [Pro addon](https://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-sp))
 
 #### Deleting post revisions
 
@@ -94,7 +94,7 @@ Like posts, all the above options support the following filters as well
 
 #### Deleting Attachments
 
-- Delete Attachments (Available as a [Pro addon](http://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at))
+- Delete Attachments (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at))
 
 #### Deleting content from other plugins
 - Delete Jetpack Contact Form Messages
@@ -107,30 +107,30 @@ If you looking for just moving posts, instead of deleting, then use [Bulk Move P
 
 ### Pro Addons
 
-The following are the popular pro addons that are available for purchase. The full list of [pro addons](http://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro) is available at the plugin site.
+The following are the popular pro addons that are available for purchase. The full list of [pro addons](https://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro) is available at the plugin site.
 
-- **Delete posts by custom field** - Adds the ability to delete posts based on custom field. [More details](http://bulkwp.com/addons/bulk-delete-posts-by-custom-field/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-cf).
-- **Delete posts by content** - Adds the ability to delete posts based on content. [More details](http://bulkwp.com/addons/bulk-delete-posts-by-content/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-co).
-- **Delete posts by attachment** - Adds the ability to delete posts based on attachment [More details](http://bulkwp.com/addons/bulk-delete-posts-by-attachment/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-at).
-- **Delete posts by title** - Adds the ability to delete posts based on title. [More details](http://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ti).
-- **Delete posts by duplicate title** - Adds the ability to delete posts based on duplicate title. [More details](http://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dti).
-- **Delete posts by user role** - Adds the ability to delete posts based on user role. [More details](http://bulkwp.com/addons/bulk-delete-posts-by-user-role/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ur).
-- **Delete posts by user** - Adds the ability to delete posts based on user. [More details](http://bulkwp.com/addons/bulk-delete-posts-by-user/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-u).
-- **Delete from trash** - Adds the ability to delete posts and pages from trash. [More details](http://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dh).
-- **Scheduler Email** - Sends email whenever a Bulk WP Scheduler runs. [More details](http://bulkwp.com/addons/scheduler-email/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-se).
-- **Scheduler for deleting posts Category** - Adds the ability to schedule auto delete of posts based on category. [More details](http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-sc).
-- **Scheduler for deleting posts Tag** - Adds the ability to schedule auto delete of posts based on tag. [More details](http://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-st).
-- **Scheduler for deleting posts by Custom Taxonomy** - Adds the ability to schedule auto delete of posts based on custom taxonomy. [More details](http://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-stx).
-- **Scheduler for deleting posts by Custom post type** - Adds the ability to schedule auto delete of posts based on custom post type. [More details](http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-cpt).
-- **Scheduler for deleting posts by Post Status** - Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc. [More details](http://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-sps).
-- **Scheduler for deleting pages by status** - Adds the ability to schedule auto delete of pages based on status. [More details](http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-sp).
-- **Scheduler for deleting users by User Role** - Adds the ability to schedule auto delete of users based on user role. [More details](http://bulkwp.com/addons/scheduler-for-deleting-users-by-role/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-u-ur).
-- **Scheduler for deleting users by User Meta** - Adds the ability to schedule auto delete of users based on user meta. [More details](http://bulkwp.com/addons/scheduler-for-deleting-users-by-meta/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bds-u-ma).
-- **Delete Post Meta Fields Pro** - Adds the ability to delete post meta fields based on value and to schedule automatic deletion. [More details](http://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-m-p).
-- **Delete Comment Meta Fields Pro** - Adds the ability to delete comment meta fields based on value and to schedule automatic deletion. [More details](http://bulkwp.com/addons/bulk-delete-comment-meta/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-m-c).
-- **Delete User Meta Fields Pro** - Adds the ability to delete user meta fields based on value and to schedule automatic deletion. [More details](http://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-m-u).
-- **Delete attachment** - Adds the ability to delete attachments [More details](http://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at).
-- **Delete Jetpack Contact Form Messages Pro** - Adds the ability to delete Jetpack Contact Form Messages based on filters and to schedule automatic deletion. [More details](http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-jcm).
+- **Delete posts by custom field** - Adds the ability to delete posts based on custom field. [More details](https://bulkwp.com/addons/bulk-delete-posts-by-custom-field/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-cf).
+- **Delete posts by content** - Adds the ability to delete posts based on content. [More details](https://bulkwp.com/addons/bulk-delete-posts-by-content/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-co).
+- **Delete posts by attachment** - Adds the ability to delete posts based on attachment [More details](https://bulkwp.com/addons/bulk-delete-posts-by-attachment/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-at).
+- **Delete posts by title** - Adds the ability to delete posts based on title. [More details](https://bulkwp.com/addons/bulk-delete-posts-by-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ti).
+- **Delete posts by duplicate title** - Adds the ability to delete posts based on duplicate title. [More details](https://bulkwp.com/addons/bulk-delete-posts-by-duplicate-title/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dti).
+- **Delete posts by user role** - Adds the ability to delete posts based on user role. [More details](https://bulkwp.com/addons/bulk-delete-posts-by-user-role/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-ur).
+- **Delete posts by user** - Adds the ability to delete posts based on user. [More details](https://bulkwp.com/addons/bulk-delete-posts-by-user/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-p-u).
+- **Delete from trash** - Adds the ability to delete posts and pages from trash. [More details](https://bulkwp.com/addons/bulk-delete-from-trash/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-dh).
+- **Scheduler Email** - Sends email whenever a Bulk WP Scheduler runs. [More details](https://bulkwp.com/addons/scheduler-email/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-se).
+- **Scheduler for deleting posts Category** - Adds the ability to schedule auto delete of posts based on category. [More details](https://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-sc).
+- **Scheduler for deleting posts Tag** - Adds the ability to schedule auto delete of posts based on tag. [More details](https://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-st).
+- **Scheduler for deleting posts by Custom Taxonomy** - Adds the ability to schedule auto delete of posts based on custom taxonomy. [More details](https://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-stx).
+- **Scheduler for deleting posts by Custom post type** - Adds the ability to schedule auto delete of posts based on custom post type. [More details](https://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-cpt).
+- **Scheduler for deleting posts by Post Status** - Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc. [More details](https://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-sps).
+- **Scheduler for deleting pages by status** - Adds the ability to schedule auto delete of pages based on status. [More details](https://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-sp).
+- **Scheduler for deleting users by User Role** - Adds the ability to schedule auto delete of users based on user role. [More details](https://bulkwp.com/addons/scheduler-for-deleting-users-by-role/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-u-ur).
+- **Scheduler for deleting users by User Meta** - Adds the ability to schedule auto delete of users based on user meta. [More details](https://bulkwp.com/addons/scheduler-for-deleting-users-by-meta/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bds-u-ma).
+- **Delete Post Meta Fields Pro** - Adds the ability to delete post meta fields based on value and to schedule automatic deletion. [More details](https://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-m-p).
+- **Delete Comment Meta Fields Pro** - Adds the ability to delete comment meta fields based on value and to schedule automatic deletion. [More details](https://bulkwp.com/addons/bulk-delete-comment-meta/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-m-c).
+- **Delete User Meta Fields Pro** - Adds the ability to delete user meta fields based on value and to schedule automatic deletion. [More details](https://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-m-u).
+- **Delete attachment** - Adds the ability to delete attachments [More details](https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at).
+- **Delete Jetpack Contact Form Messages Pro** - Adds the ability to delete Jetpack Contact Form Messages based on filters and to schedule automatic deletion. [More details](https://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-jcm).
 
 ### PHP Support
 
@@ -153,7 +153,7 @@ If you are looking for ideas, then you can start with one of TODO items from the
 - Checkout other [WordPress Plugins][5] that I have written
 - If anything else, then contact us in [twitter][3].
 
- [1]: http://bulkwp.com/support
+ [1]: https://bulkwp.com/support
  [2]: http://sudarmuthu.com/wordpress/bulk-move
  [3]: http://twitter.com/bulkwp
  [5]: http://sudarmuthu.com/wordpress
@@ -228,11 +228,11 @@ If you find any Plugin with which Bulk Delete doesn't work, then let me know and
 
 ### Is it possible to schedule deletion of posts? ###
 
-The ability to schedule deletion of posts is available as a [pro addon](http://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro).
+The ability to schedule deletion of posts is available as a [pro addon](https://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro).
 
 ### I have a question about the pro addons, how should I contact you? ###
 
-You can contact us by posting about it in our [support forum](http://bulkwp.com/support/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=support).
+You can contact us by posting about it in our [support forum](https://bulkwp.com/support/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=support).
 
 ## Screenshots ##
 
@@ -286,7 +286,7 @@ The above screenshot shows the different pages that are available in the plugin.
 
 ![](assets-wp-repo/screenshot-13.png)
 
-The above screenshot shows how you can schedule auto delete of posts. Note that this feature is available only when you buy [pro addons](http://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro).
+The above screenshot shows how you can schedule auto delete of posts. Note that this feature is available only when you buy [pro addons](https://bulkwp.com/addons/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=pro).
 
 ## Readme Generator ##
 

@@ -18,7 +18,7 @@ class DeletePostsByPostTypeModule extends PostsModule {
 		$this->meta_box_slug = 'bd_posts_by_types';
 		$this->action        = 'delete_posts_by_post_type';
 		$this->cron_hook     = 'do-bulk-delete-post-type';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-spt';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-spt';
 		$this->messages      = array(
 			'box_label'         => __( 'By Post Type', 'bulk-delete' ),
 			'scheduled'         => __( 'Posts from the selected post type and post status are scheduled for deletion', 'bulk-delete' ),
