@@ -37,4 +37,22 @@ abstract class MetasModule extends BaseModule {
 
 		return $options;
 	}
+
+	/**
+	 * Get the Post type and status args.
+	 *
+	 * @param string $post_type_and_status Post type and status.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @return array Args.
+	 */
+	protected function get_post_type_and_status_args( $post_type_and_status ) {
+		$type_status = $this->split_post_type_and_status( $post_type_and_status );
+
+		return array(
+			'post_type'   => $type_status['type'],
+			'post_status' => $type_status['status'],
+		);
+	}
 }

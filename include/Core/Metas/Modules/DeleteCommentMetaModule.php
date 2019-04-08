@@ -116,11 +116,7 @@ class DeleteCommentMetaModule extends MetasModule {
 	}
 
 	protected function do_delete( $options ) {
-		$type_status = $this->split_post_type_and_status( $options['post_type'] );
-		$args        = array(
-			'post_type'   => $type_status['type'],
-			'post_status' => $type_status['status'],
-		);
+		$args = $this->get_post_type_and_status_args( $options['post_type'] );
 
 		if ( $options['limit_to'] > 0 ) {
 			$args['number'] = $options['limit_to'];

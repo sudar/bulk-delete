@@ -128,12 +128,7 @@ class DeletePostMetaModule extends MetasModule {
 	}
 
 	protected function do_delete( $options ) {
-		$count       = 0;
-		$type_status = $this->split_post_type_and_status( $options['post_type'] );
-		$args        = array(
-			'post_type'   => $type_status['type'],
-			'post_status' => $type_status['status'],
-		);
+		$args = $this->get_post_type_and_status_args( $options['post_type'] );
 
 		if ( $options['limit_to'] > 0 ) {
 			$args['number'] = $options['limit_to'];
@@ -156,6 +151,8 @@ class DeletePostMetaModule extends MetasModule {
 			$options['meta_query'] = apply_filters( 'bd_delete_post_meta_query', array(), $options );
 		}
 
+		$metas_deleted = 0;
+
 		$post_ids = bd_query( $args );
 		foreach ( $post_ids as $post_id ) {
 			if ( isset( $options['meta_key'] ) && is_array( $options['meta_key'] ) ) {
@@ -165,18 +162,18 @@ class DeletePostMetaModule extends MetasModule {
 						if ( $is_post_id_counted ) {
 							continue;
 						}
-						$count++;
+						$metas_deleted++;
 						$is_post_id_counted = true;
 					}
 				}
 			} else {
 				if ( delete_post_meta( $post_id, $options['meta_key'] ) ) {
-					$count++;
+					$metas_deleted++;
 				}
 			}
 		}
 
-		return $count;
+		return $metas_deleted;
 	}
 
 	protected function append_to_js_array( $js_array ) {
@@ -192,4 +189,5 @@ class DeletePostMetaModule extends MetasModule {
 		/* translators: 1 Number of posts deleted */
 		return _n( 'Deleted post meta field from %d post', 'Deleted post meta field from %d posts', $items_deleted, 'bulk-delete' );
 	}
+
 }
