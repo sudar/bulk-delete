@@ -158,12 +158,33 @@ jQuery(document).ready(function () {
 		jQuery('#smbd_' + value + '_cron_freq, #smbd_' + value + '_cron_start, #smbd_' + value + '_cron').removeAttr('disabled');
 	} );
 
+	/**
+	 * If the given string is a function, then run it and return result, otherwise return the string.
+	 *
+	 * @param mayBeFunction
+	 * @param that
+	 *
+	 * @returns string
+	 */
+	function resolveFunction( mayBeFunction, that ) {
+		if ( jQuery.isFunction( mayBeFunction ) ) {
+			return BulkWP[ mayBeFunction ]( that );
+		}
+
+		return mayBeFunction;
+	}
+
 	// Validate user action.
 	jQuery('button[name="bd_action"]').click(function () {
 		var currentButton = jQuery(this).val(),
+			deletionScheduled = false,
 			valid = false,
-			msg_key = "deletePostsWarning",
-			error_key = "selectPostOption";
+			messageKey = "deletePostsWarning",
+			errorKey = "selectPostOption";
+
+		if ( "true" === jQuery( this ).parent().prev().find( 'input:radio.schedule-deletion:checked' ).val() ) {
+			deletionScheduled = true;
+		}
 
 		if (currentButton in BulkWP.validators) {
 			valid = BulkWP[BulkWP.validators[currentButton]](this);
@@ -173,25 +194,31 @@ jQuery(document).ready(function () {
 			}
 		}
 
-		if (valid) {
-			if (currentButton in BulkWP.pre_action_msg) {
-				if ( jQuery.isFunction( BulkWP[ BulkWP.pre_action_msg[ currentButton ] ] ) ) {
-					msg_key = BulkWP[ BulkWP.pre_action_msg[ currentButton ] ]( this );
-				} else {
-					msg_key = BulkWP.pre_action_msg[ currentButton ];
-				}
+		if ( ! valid ) {
+			if ( currentButton in BulkWP.error_msg ) {
+				errorKey = BulkWP.error_msg[ currentButton ];
 			}
 
-			return confirm(BulkWP.msg[msg_key]);
-		} else {
-			if (currentButton in BulkWP.error_msg) {
-				error_key = BulkWP.error_msg[currentButton];
-			}
-
-			alert(BulkWP.msg[error_key]);
+			alert( BulkWP.msg[ errorKey ] );
+			return false;
 		}
 
-		return false;
+		if ( currentButton in BulkWP.pre_delete_msg ) {
+			messageKey = resolveFunction( BulkWP.pre_delete_msg[ currentButton ], this );
+		}
+
+		// pre_action_msg is deprecated. This will be eventually removed.
+		if ( currentButton in BulkWP.pre_action_msg ) {
+			messageKey = resolveFunction( BulkWP.pre_action_msg[ currentButton ], this );
+		}
+
+		if ( deletionScheduled ) {
+			if ( currentButton in BulkWP.pre_schedule_msg ) {
+				messageKey = resolveFunction( BulkWP.pre_schedule_msg[ currentButton ], this );
+			}
+		}
+
+		return confirm( BulkWP.msg[ messageKey ] );
 	});
 
 	BulkWP.validateSelect2 = function(that) {
