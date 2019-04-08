@@ -26,6 +26,19 @@ jQuery(document).ready(function () {
 	postboxes.add_postbox_toggles(pagenow);
 
 	/**
+	 * Change submit button text if scheduling deletion.
+	 */
+	jQuery( "input:radio.schedule-deletion" ).change( function () {
+		var submitButton = jQuery( this ).parents( 'fieldset' ).next().find( 'button[name="bd_action"]' );
+
+		if ( "true" === jQuery( this ).val() ) {
+			submitButton.html( 'Schedule Bulk Delete &raquo;' );
+		} else {
+			submitButton.html( 'Bulk Delete &raquo;' );
+		}
+	} );
+
+	/**
 	 * Toggle the date restrict fields
 	 */
 	function toggle_date_restrict(el) {
@@ -220,12 +233,4 @@ jQuery(document).ready(function () {
 
 		return confirm( BulkWP.msg[ messageKey ] );
 	});
-
-	BulkWP.validateSelect2 = function(that) {
-		if (null !== jQuery(that).parent().prev().children().find(".select2-taxonomy[multiple]").val()) {
-			return true;
-		} else {
-			return false;
-		}
-	};
 });

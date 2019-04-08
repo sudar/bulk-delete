@@ -5,19 +5,6 @@
  */
 
 /*global BulkWP*/
-// Toggles submit button text.
-jQuery( document ).ready( function () {
-	var	cronRadio = jQuery("input:radio.schedule-deletion");
-	cronRadio.change( function() {
-		var submitButton = jQuery(this).parents('fieldset').next().find('button[name="bd_action"]');
-		if ( "true" === jQuery(this).val() ) {
-			submitButton.html( 'Schedule Bulk Delete &raquo;' );
-		} else {
-			submitButton.html( 'Bulk Delete &raquo;' );
-		}
-
-	});
-});
 
 /**
  * No need to validate anything.
@@ -38,6 +25,14 @@ BulkWP.validateEnhancedDropdown = function ( that ) {
 	var value = jQuery( that ).parent().prev().children().find( ".enhanced-dropdown" ).val();
 
 	return ( value !== null && value !== '-1' );
+};
+
+BulkWP.validateSelect2 = function(that) {
+	if ( null !== jQuery( that ).parent().prev().children().find( ".select2-taxonomy[multiple]" ).val() ) {
+		return true;
+	} else {
+		return false;
+	}
 };
 
 /**
