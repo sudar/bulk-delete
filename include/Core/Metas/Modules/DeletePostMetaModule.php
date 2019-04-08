@@ -189,5 +189,4 @@ class DeletePostMetaModule extends MetasModule {
 		/* translators: 1 Number of posts deleted */
 		return _n( 'Deleted post meta field from %d post', 'Deleted post meta field from %d posts', $items_deleted, 'bulk-delete' );
 	}
-
 }
