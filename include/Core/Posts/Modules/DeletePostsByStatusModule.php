@@ -25,7 +25,7 @@ class DeletePostsByStatusModule extends PostsModule {
 			'cron_label'        => __( 'Delete Post By Status', 'bulk-delete' ),
 			'validation_error'  => __( 'Please select at least one post status from which posts should be deleted', 'bulk-delete' ),
 			'confirm_deletion'  => __( 'Are you sure you want to delete all the posts from the selected post status?', 'bulk-delete' ),
-			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the posts from the selected post status?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion of all the posts from the selected post status?', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
 			'deleted_one'       => __( 'Deleted %d post from the selected post status', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
