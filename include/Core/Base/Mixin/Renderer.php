@@ -644,7 +644,7 @@ abstract class Renderer extends Fetcher {
 				_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time.', 'bulk-delete' );
 
 				$markup = __( 'Want to add new a Cron schedule?', 'bulk-delete' ) . '&nbsp' .
-					'<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/" target="_blank" rel="noopener">' . __( 'Find out how', 'bulk-delete' ) . '</a>';
+					'<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/?utm_campaign=Docs&utm_medium=wpadmin&utm_source=tooltip&utm_content=cron-schedule" target="_blank" rel="noopener">' . __( 'Find out how', 'bulk-delete' ) . '</a>';
 
 				$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
 				echo '&nbsp', bd_generate_help_tooltip( $markup, $content );
