@@ -129,7 +129,14 @@ module.exports = function( grunt ) {
 					{
 						src : 'node_modules/jquery-ui-built-themes/smoothness/jquery-ui.min.css',
 						dest: 'assets/css/jquery-ui-smoothness.min.css'
-					}
+					},
+					{
+						expand: true,
+						src: ['node_modules/jquery-ui-built-themes/smoothness/images/*'],
+						dest: 'assets/css/images/',
+						flatten: true,
+						filter: 'isFile'
+					},
 				]
 			},
 			dist: {
