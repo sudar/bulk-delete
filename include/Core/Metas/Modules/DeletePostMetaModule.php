@@ -36,7 +36,7 @@ class DeletePostMetaModule extends MetasModule {
 			<h4><?php _e( 'Select the post type whose post meta fields you want to delete', 'bulk-delete' ); ?></h4>
 
 			<table class="optiontable">
-				<?php $this->render_post_type_dropdown(); ?>
+				<?php $this->render_post_type_with_status( false ); ?>
 			</table>
 
 			<h4><?php _e( 'Choose your post meta field settings', 'bulk-delete' ); ?></h4>
@@ -112,7 +112,7 @@ class DeletePostMetaModule extends MetasModule {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['post_type'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type', 'post' ) );
+		$options['post_type'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug ) );
 
 		$options['use_value'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_use_value', 'use_key' );
 		$options['meta_key']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_key', '' ) );
@@ -128,9 +128,11 @@ class DeletePostMetaModule extends MetasModule {
 	}
 
 	protected function do_delete( $options ) {
-		$count = 0;
-		$args  = array(
-			'post_type' => $options['post_type'],
+		$count       = 0;
+		$type_status = $this->split_post_type_and_status( $options['post_type'] );
+		$args        = array(
+			'post_type'   => $type_status['type'],
+			'post_status' => $type_status['status'],
 		);
 
 		if ( $options['limit_to'] > 0 ) {

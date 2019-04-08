@@ -619,4 +619,119 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 
 		$this->assertEquals( $total_comments / 2, $metas_deleted );
 	}
+
+	/**
+	 * Provide data to test deletion of comment meta with custom post status.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_comment_meta_deletion_with_custom_post_status() {
+		return array(
+			// (+ve) case: Built-in post type and custom post status.
+			array(
+				array(
+					'post_type'   => 'post',
+					'post_status' => 'wc-completed',
+					'no_of_posts' => 5,
+					'metas'       => array(
+						array(
+							'key'   => 'test_key',
+							'value' => 'Matched Value',
+						),
+						array(
+							'key'   => 'another_key',
+							'value' => 'Another Value',
+						),
+					),
+				),
+				array(
+					'meta_key'  => 'test_key',
+					'post_type' => 'post|wc-completed',
+					'use_value' => false,
+					'limit_to'  => 0,
+					'restrict'  => false,
+					'date_op'   => '',
+					'days'      => 0,
+				),
+				array(
+					'number_of_comment_metas_deleted' => 5,
+					'left_over_comment_meta'          => 'another_key',
+				),
+			),
+			// (+ve) case: Custom post type and custom post status.
+			array(
+				array(
+					'post_type'   => 'product',
+					'post_status' => 'wc-completed',
+					'no_of_posts' => 3,
+					'metas'       => array(
+						array(
+							'key'   => 'test_key',
+							'value' => 'Matched Value',
+						),
+						array(
+							'key'   => 'another_key',
+							'value' => 'Another Value',
+						),
+					),
+				),
+				array(
+					'meta_key'  => 'test_key',
+					'post_type' => 'product|wc-completed',
+					'use_value' => false,
+					'limit_to'  => 0,
+					'restrict'  => false,
+					'date_op'   => '',
+					'days'      => 0,
+				),
+				array(
+					'number_of_comment_metas_deleted' => 3,
+					'left_over_comment_meta'          => 'another_key',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test deletion of comment meta with custom post status.
+	 *
+	 * @param array $setup     create posts, comments and meta params.
+	 * @param array $operation Possible operations.
+	 * @param array $expected  expected output.
+	 *
+	 * @dataProvider provide_data_to_test_comment_meta_deletion_with_custom_post_status
+	 */
+	public function test_comment_meta_deletion_with_custom_post_status( $setup, $operation, $expected ) {
+		$this->register_post_type( $setup['post_type'] );
+		register_post_status( $setup['post_status'] );
+		$metas = $setup['metas'];
+
+		// Create posts.
+		$post_ids = $this->factory->post->create_many(
+			$setup['no_of_posts'],
+			array(
+				'post_type'   => $setup['post_type'],
+				'post_status' => $setup['post_status'],
+			)
+		);
+
+		foreach ( $post_ids as $post_id ) {
+			$comment_data = array(
+				'comment_post_ID' => $post_id,
+				'comment_content' => 'Test Comment',
+			);
+			$comment_id   = $this->factory->comment->create( $comment_data );
+			foreach ( $metas as $meta ) {
+				add_comment_meta( $comment_id, $meta['key'], $meta['value'] );
+			}
+		}
+
+		$delete_options = $operation;
+
+		$comment_metas_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( $expected['number_of_comment_metas_deleted'], $comment_metas_deleted );
+
+		$this->assertTrue( metadata_exists( 'comment', $comment_id, $expected['left_over_comment_meta'] ) );
+		$this->assertFalse( metadata_exists( 'comment', $comment_id, $operation['meta_key'] ) );
+	}
 }

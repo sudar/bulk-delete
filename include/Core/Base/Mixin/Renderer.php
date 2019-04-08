@@ -124,7 +124,11 @@ abstract class Renderer extends Fetcher {
 	protected function split_post_type_and_status( $str ) {
 		$type_status = array();
 
-		$str_arr = explode( '-', $str );
+		if ( strpos( $str, '|' ) === false ) {
+			$str_arr = explode( '-', $str );
+		} else {
+			$str_arr = explode( '|', $str );
+		}
 
 		if ( count( $str_arr ) > 1 ) {
 			$type_status['status'] = end( $str_arr );
