@@ -446,4 +446,15 @@ abstract class BaseModule extends Renderer {
 	public function get_name() {
 		return bd_get_short_class_name( $this );
 	}
+
+	/**
+	 * Get the page slug of the module.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @return string Page slug.
+	 */
+	public function get_page_slug() {
+		return $this->page_slug;
+	}
 }
