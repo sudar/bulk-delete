@@ -109,11 +109,8 @@ class Controller {
 	 * @since 5.5.4
 	 */
 	public function increase_timeout() {
-		// phpcs:ignore PHPCompatibility.PHP.DeprecatedIniDirectives.safe_modeDeprecatedRemoved
-		if ( ! ini_get( 'safe_mode' ) ) {
-			// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
-			@set_time_limit( 0 );
-		}
+		// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
+		@set_time_limit( 0 );
 	}
 
 	/**

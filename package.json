@@ -2,7 +2,7 @@
   "name": "bulk-delete",
   "title": "Bulk Delete",
   "description": "Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, users and meta fields in bulk based on different conditions and filters.",
-  "version": "5.6.1",
+  "version": "6.0.1",
   "homepage": "https://bulkwp.com",
   "license": "GPLv2+",
   "author": {
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "jquery-ui-timepicker-addon": "1.6.3",
+    "jquery-ui-built-themes": "1.12.1",
     "select2": "4.0.5"
   },
   "devDependencies": {
@@ -29,7 +30,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^2.2.1",
     "grunt-contrib-jshint": "^1.1.0",
-    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-contrib-uglify": "^3.4.0",
     "grunt-contrib-watch": "^1.1.0",
     "matchdep": "^2.0.0",
     "time-grunt": "^1.4.0"
@@ -46,7 +47,9 @@
     "test:merge-coverage": "vendor/bin/phpcov merge code-coverage/",
     "test:html-coverage": "npm run test:coverage && npm run test:merge-coverage -- --html code-coverage/html/",
     "test:cover-coverage": "npm run test:coverage && npm run test:merge-coverage -- --clover=code-coverage/bulk-delete.clover",
-    "phpcs": "vendor/bin/phpcs -p *.php include/ --standard=PHPCompatibility --runtime-set testVersion 5.3-"
+    "phpcs:main-php-file": "vendor/bin/phpcs -p bulk-delete.php --ignore=vendor --standard=PHPCompatibilityWP --runtime-set testVersion 5.2-",
+    "phpcs:other-php-files": "vendor/bin/phpcs -p .  --ignore=vendor --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.3-",
+    "phpcs": "npm run phpcs:main-php-file && npm run phpcs:other-php-files"
   },
   "private": true
 }

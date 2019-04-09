@@ -5,11 +5,11 @@ namespace BulkWP\BulkDelete\Core\Metas\Modules;
 use BulkWP\Tests\WPCore\WPCoreUnitTestCase;
 
 /**
- * Test Delete Post Meta Module.
+ * Test Deletion of Post Meta.
  *
  * Tests \BulkWP\BulkDelete\Core\Metas\Modules\DeletePostMetaModule
  *
- * @since 6.0.0
+ * @since 6.0.1
  */
 class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	/**
@@ -19,6 +19,9 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	protected $module;
 
+	/**
+	 * Setup the test case.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -26,227 +29,110 @@ class DeletePostMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Add to test single post meta from the default post type.
+	 * Provide data to test deletion of post meta with custom post status.
+	 *
+	 * @return array Data.
 	 */
-	public function test_that_single_post_meta_can_be_deleted_from_default_post_type() {
-		// Create a post
-		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
-
-		// Assign meta value to the post
-		add_post_meta( $post, 'time', '10/10/2018' );
-
-		$post_meta = get_post_meta( $post, 'time' );
-
-		// Assert that post meta have posts
-		$this->assertEquals( 1, count( $post_meta ) );
-
-		// call our method.
-		$delete_options = array(
-			'post_type'    => 'post',
-			'limit_to'     => -1,
-			'restrict'     => false,
-			'force_delete' => false,
-			'use_value'    => 'use_key',
-			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
+	public function provide_data_to_test_post_meta_deletion_with_custom_post_status() {
+		return array(
+			// (+ve) case: Built-in post type and custom post status.
+			array(
+				array(
+					'post_type'   => 'post',
+					'post_status' => 'wc-completed',
+					'no_of_posts' => 10,
+					'metas'       => array(
+						array(
+							'key'   => 'test_key',
+							'value' => 'Matched Value',
+						),
+						array(
+							'key'   => 'another_key',
+							'value' => 'Another Value',
+						),
+					),
+				),
+				array(
+					'meta_key'  => 'test_key',
+					'post_type' => 'post|wc-completed',
+					'use_value' => 'use_key',
+					'limit_to'  => 0,
+					'restrict'  => false,
+				),
+				array(
+					'number_of_post_metas_deleted' => 10,
+					'left_over_meta_data'          => 'another_key',
+				),
+			),
+			// (+ve) case: Custom post type and custom post status.
+			array(
+				array(
+					'post_type'   => 'product',
+					'post_status' => 'wc-completed',
+					'no_of_posts' => 5,
+					'metas'       => array(
+						array(
+							'key'   => 'test_key',
+							'value' => 'Matched Value',
+						),
+						array(
+							'key'   => 'another_key',
+							'value' => 'Another Value',
+						),
+					),
+				),
+				array(
+					'meta_key'  => 'test_key',
+					'post_type' => 'product|wc-completed',
+					'use_value' => 'use_key',
+					'limit_to'  => 0,
+					'restrict'  => false,
+				),
+				array(
+					'number_of_post_metas_deleted' => 5,
+					'left_over_meta_data'          => 'another_key',
+				),
+			),
 		);
-
-		$meta_deleted = $this->module->delete( $delete_options );
-
-		$post_meta = get_post_meta( $post, 'time' );
-
-		// Assert that post meta does not have posts
-		$this->assertEquals( 0, count( $post_meta ) );
 	}
 
 	/**
-	 * Add to test more than one post meta from the default post type.
+	 * Test deletion of post meta with custom post status.
+	 *
+	 * @param array $setup     create posts and meta params.
+	 * @param array $operation Possible operations.
+	 * @param array $expected  expected output.
+	 *
+	 * @dataProvider provide_data_to_test_post_meta_deletion_with_custom_post_status
 	 */
-	public function test_that_more_than_one_post_meta_can_be_deleted_from_default_post_type() {
-		// Create a post
-		$post = $this->factory->post->create( array( 'post_title' => 'Test Post' ) );
+	public function test_post_meta_deletion_with_custom_post_status( $setup, $operation, $expected ) {
+		$this->register_post_type( $setup['post_type'] );
+		register_post_status( $setup['post_status'] );
+		$metas = $setup['metas'];
 
-		// Assign meta value to the post
-		add_post_meta( $post, 'time', '10/10/2018' );
-		add_post_meta( $post, 'time', '11/11/2018' );
-		add_post_meta( $post, 'time', '12/12/2018' );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 3, count( $post_meta ) );
-
-		// call our method.
-		$delete_options = array(
-			'post_type'    => 'post',
-			'limit_to'     => -1,
-			'restrict'     => false,
-			'force_delete' => false,
-			'use_value'    => 'use_key',
-			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
+		// Create posts.
+		$post_ids = $this->factory->post->create_many(
+			$setup['no_of_posts'],
+			array(
+				'post_type'   => $setup['post_type'],
+				'post_status' => $setup['post_status'],
+			)
 		);
 
-		$meta_deleted = $this->module->delete( $delete_options );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 0, count( $post_meta ) );
-	}
-
-	/**
-	 * Add to test single post meta from the custom post type.
-	 */
-	public function test_that_single_post_meta_can_be_deleted_from_custom_post_type() {
-		// Create a post with custom post type
-		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_type' => 'custom' ) );
-
-		// Assign meta value to the post
-		add_post_meta( $post, 'time', '10/10/2018' );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 1, count( $post_meta ) );
-
-		// call our method.
-		$delete_options = array(
-			'post_type'    => 'custom',
-			'limit_to'     => -1,
-			'restrict'     => false,
-			'force_delete' => false,
-			'use_value'    => 'use_key',
-			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
-		);
-
-		$meta_deleted = $this->module->delete( $delete_options );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 0, count( $post_meta ) );
-	}
-
-	/**
-	 * Add to test more than one post meta from the custom post type.
-	 */
-	public function test_that_more_than_one_post_meta_can_de_deleted_from_custom_post_type() {
-		// Create a post with custom post type
-		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_type' => 'custom' ) );
-
-		// Assign meta value to the post
-		add_post_meta( $post, 'time', '10/10/2018' );
-		add_post_meta( $post, 'time', '11/11/2018' );
-		add_post_meta( $post, 'time', '12/12/2018' );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 3, count( $post_meta ) );
-
-		// call our method.
-		$delete_options = array(
-			'post_type'    => 'custom',
-			'limit_to'     => -1,
-			'restrict'     => false,
-			'force_delete' => false,
-			'use_value'    => 'use_key',
-			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
-		);
-
-		$meta_deleted = $this->module->delete( $delete_options );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 0, count( $post_meta ) );
-	}
-
-	/**
-	 * Add to test post meta delete from post published date.
-	 */
-	public function test_that_post_meta_deletion_be_restricted_by_post_older_than() {
-		// Create a post with past date
-		$date = date( 'Y-m-d H:i:s', strtotime( '-5 day' ) );
-		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_date' => $date ) );
-
-		// Assign meta value to the post
-		add_post_meta( $post, 'time', '10/10/2018' );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 1, count( $post_meta ) );
-
-		// call our method.
-		$delete_options = array(
-			'post_type'    => 'post',
-			'limit_to'     => -1,
-			'restrict'     => false,
-			'force_delete' => false,
-			'use_value'    => 'use_key',
-			'meta_key'     => 'time',
-			'date_op'      => 'before',
-			'days'         => '3',
-		);
-
-		$meta_deleted = $this->module->delete( $delete_options );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 0, count( $post_meta ) );
-	}
-
-	/**
-	 * Add to test post meta delete from previous published with in x date.
-	 */
-	public function test_that_post_meta_deletion_be_restricted_by_posts_within_the_last_x_days() {
-		// Create a post with past date
-		$date = date( 'Y-m-d H:i:s', strtotime( '-3 day' ) );
-		$post = $this->factory->post->create( array( 'post_title' => 'Test Post', 'post_date' => $date ) );
-
-		// Assign meta value to the post
-		add_post_meta( $post, 'time', '10/10/2018' );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 1, count( $post_meta ) );
-
-		// call our method.
-		$delete_options = array(
-			'post_type'    => 'post',
-			'limit_to'     => -1,
-			'restrict'     => false,
-			'force_delete' => false,
-			'use_value'    => 'use_key',
-			'meta_key'     => 'time',
-			'date_op'      => 'after',
-			'days'         => '5',
-		);
-
-		$meta_deleted = $this->module->delete( $delete_options );
-
-		$post_meta = get_post_meta( $post, 'time' );
-		$this->assertEquals( 0, count( $post_meta ) );
-	}
-
-	/**
-	 * Add to test delete post meta in batches.
-	 */
-	public function test_that_post_meta_can_be_deleted_in_batches() {
-		$posts = $this->factory->post->create_many( 20, array(
-			'post_type'   => 'post',
-		) );
-		foreach($posts as $post ){
-			// Assign meta value to the post
-			add_post_meta( $post, 'time', '10/10/2018' );
+		foreach ( $post_ids as $post_id ) {
+			foreach ( $metas as $meta ) {
+				add_post_meta( $post_id, $meta['key'], $meta['value'] );
+			}
 		}
 
-		// call our method.
-		$delete_options = array(
-			'post_type'    => 'post',
-			'limit_to'     => 10,
-			'restrict'     => false,
-			'force_delete' => false,
-			'use_value'    => 'use_key',
-			'meta_key'     => 'time',
-			'date_op'      => '',
-			'days'         => '',
-		);
+		$delete_options = $operation;
 
-		$meta_deleted = $this->module->delete( $delete_options );
+		$post_metas_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( $expected['number_of_post_metas_deleted'], $post_metas_deleted );
 
-		$this->assertEquals( 10, $meta_deleted );
+		foreach ( $post_ids as $post_id ) {
+			$this->assertTrue( metadata_exists( 'post', $post_id, $expected['left_over_meta_data'] ) );
+			$this->assertFalse( metadata_exists( 'post', $post_id, $operation['meta_key'] ) );
+		}
 	}
 }

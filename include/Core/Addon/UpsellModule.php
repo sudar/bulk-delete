@@ -20,30 +20,39 @@ class UpsellModule extends BaseModule {
 	/**
 	 * Details about the add-on.
 	 *
-	 * @var \BulkWP\BulkDelete\Core\Addon\AddonInfo
+	 * @var \BulkWP\BulkDelete\Core\Addon\AddonUpsellInfo
 	 */
-	protected $addon_info;
+	protected $addon_upsell_info;
 
 	/**
 	 * Create the UpsellModule using add-on info.
 	 *
-	 * @param \BulkWP\BulkDelete\Core\Addon\AddonInfo $addon_info Addon Info.
+	 * @param \BulkWP\BulkDelete\Core\Addon\AddonUpsellInfo $addon_upsell_info Addon Upsell Info.
 	 */
-	public function __construct( $addon_info ) {
-		$this->addon_info = $addon_info;
+	public function __construct( $addon_upsell_info ) {
+		$this->addon_upsell_info = $addon_upsell_info;
 
-		$this->meta_box_slug = $this->addon_info->get_slug();
+		$this->meta_box_slug = $this->addon_upsell_info->get_slug();
 		$this->messages      = array(
-			'box_label' => $addon_info->get_upsell_title(),
+			'box_label' => $addon_upsell_info->get_upsell_title(),
 		);
+	}
+
+	/**
+	 * Upsell modules will use the name of the Add-on as their name.
+	 *
+	 * @return string Upsell Module name.
+	 */
+	public function get_name() {
+		return str_replace( ' ', '', $this->addon_upsell_info->get_name() );
 	}
 
 	public function render() {
 		?>
 
 		<p>
-			<?php echo $this->addon_info->get_upsell_message(); ?>
-			<a href="<?php echo esc_url( $this->addon_info->get_buy_url() ); ?>"><?php _e( 'Buy Now', 'bulk-delete' ); ?></a>
+			<?php echo $this->addon_upsell_info->get_upsell_message(); ?>
+			<a href="<?php echo esc_url( $this->addon_upsell_info->get_buy_url() ); ?>" target="_blank"><?php _e( 'Buy Now', 'bulk-delete' ); ?></a>
 		</p>
 
 		<?php

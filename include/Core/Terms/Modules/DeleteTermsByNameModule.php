@@ -18,8 +18,8 @@ class DeleteTermsByNameModule extends TermsModule {
 		$this->meta_box_slug = 'bd_delete_terms_by_name';
 		$this->action        = 'delete_terms_by_name';
 		$this->messages      = array(
-			'box_label'  => __( 'Delete Terms by Name', 'bulk-delete' ),
-			'scheduled'  => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
+			'box_label' => __( 'Delete Terms by Name', 'bulk-delete' ),
+			'scheduled' => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
 		);
 	}
 
@@ -42,8 +42,10 @@ class DeleteTermsByNameModule extends TermsModule {
 		$this->render_submit_button();
 	}
 
-	public function filter_js_array( $js_array ) {
-		$js_array['validators'][ $this->action ] = 'noValidation';
+	protected function append_to_js_array( $js_array ) {
+		$js_array['validators'][ $this->action ] = 'validateTermName';
+		$js_array['error_msg'][ $this->action ]  = 'enterTermName';
+		$js_array['msg']['enterTermName']        = __( 'Please enter the term name that should be deleted', 'bulk-delete' );
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteTermsWarning';
 		$js_array['msg']['deleteTermsWarning']       = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );
@@ -62,6 +64,9 @@ class DeleteTermsByNameModule extends TermsModule {
 		$term_ids = array();
 		$value    = $options['value'];
 		$operator = $options['operator'];
+		if ( empty( $value ) ) {
+			return $term_ids;
+		}
 
 		switch ( $operator ) {
 			case 'equal_to':
@@ -102,8 +107,8 @@ class DeleteTermsByNameModule extends TermsModule {
 	 */
 	protected function get_terms_that_are_equal_to( $value, $options ) {
 		$query = array(
-			'taxonomy'   => $options['taxonomy'],
-			'name__like' => $value,
+			'taxonomy' => $options['taxonomy'],
+			'name'     => $value,
 		);
 
 		return $this->query_terms( $query );
@@ -119,8 +124,8 @@ class DeleteTermsByNameModule extends TermsModule {
 	 */
 	protected function get_terms_that_are_not_equal_to( $value, $options ) {
 		$name_like_args = array(
-			'name__like' => $value,
-			'taxonomy'   => $options['taxonomy'],
+			'name'     => $value,
+			'taxonomy' => $options['taxonomy'],
 		);
 
 		$query = array(

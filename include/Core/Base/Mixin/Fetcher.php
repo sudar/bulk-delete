@@ -59,7 +59,11 @@ abstract class Fetcher {
 					continue;
 				}
 
-				$post_types_by_status[ $post_type->labels->singular_name ][ "$post_type_name-$post_status_name" ] = $post_status->label . ' (' . $count_posts->{$post_status_name} . ' ' . __( 'Posts', 'bulk-delete' ) . ')';
+				$post_type_key               = $post_type->labels->singular_name . ' (' . $post_type_name . ')';
+				$post_type_with_status_key   = $post_type_name . '|' . $post_status_name;
+				$post_type_with_status_label = $post_status->label . ' (' . $count_posts->{$post_status_name} . ' ' . __( 'Posts', 'bulk-delete' ) . ')';
+
+				$post_types_by_status[ $post_type_key ][ $post_type_with_status_key ] = $post_type_with_status_label;
 			}
 		}
 
@@ -175,12 +179,19 @@ abstract class Fetcher {
 	/**
 	 * Get the number of users present in a role.
 	 *
-	 * @param string $role Role slug.
+	 * `count_users` function is very expensive. So this function takes an optional parameter to cache it.
+	 *
+	 * @see count_users
+	 *
+	 * @param string     $role        Role slug.
+	 * @param array|null $users_count Result of the `count_users` function. Default null.
 	 *
 	 * @return int Number of users in that role.
 	 */
-	protected function get_user_count_by_role( $role ) {
-		$users_count = count_users();
+	protected function get_user_count_by_role( $role, $users_count = null ) {
+		if ( is_null( $users_count ) || ! is_array( $users_count ) ) {
+			$users_count = count_users();
+		}
 
 		$roles = $users_count['avail_roles'];
 
@@ -189,5 +200,23 @@ abstract class Fetcher {
 		}
 
 		return $roles[ $role ];
+	}
+
+	/**
+	 * Get the threshold after which enhanced select should be used.
+	 *
+	 * @since 6.0.1 moved to Fetcher from Renderer.
+	 *
+	 * @return int Threshold.
+	 */
+	protected function get_enhanced_select_threshold() {
+		/**
+		 * Filter the enhanced select threshold.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param int Threshold.
+		 */
+		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
 	}
 }

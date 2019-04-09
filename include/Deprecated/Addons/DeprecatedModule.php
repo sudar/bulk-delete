@@ -46,17 +46,19 @@ abstract class DeprecatedModule extends BaseModule {
 	/**
 	 * Hide the upsell message if the add-on is active.
 	 *
+	 * @since 6.0.1 Use $page_slug instead of $item_type.
+	 *
 	 * @param array  $addon_details Addon Details.
-	 * @param string $item_type     Item type.
+	 * @param string $page_slug     Page slug.
 	 *
 	 * @return array Modified list of Addon Details.
 	 */
-	public function hide_upsell_module( $addon_details, $item_type ) {
+	public function hide_upsell_module( $addon_details, $page_slug ) {
 		if ( ! class_exists( $this->addon_class_name ) ) {
 			return $addon_details;
 		}
 
-		if ( $this->item_type !== $item_type ) {
+		if ( $this->page_slug !== $page_slug ) {
 			return $addon_details;
 		}
 

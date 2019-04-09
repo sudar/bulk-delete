@@ -3,6 +3,7 @@
  * Base class for all Scheduler Addons.
  *
  * @since   5.5
+ * @deprecated 6.0.0 Use \BulkWP\BulkDelete\Core\Addon\SchedulerAddon instead.
  *
  * @author  Sudar
  *

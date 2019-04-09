@@ -45,6 +45,17 @@ class DeletePostsByURLModule extends PostsModule {
 		$this->render_submit_button();
 	}
 
+	public function filter_js_array( $js_array ) {
+		$js_array['validators'][ $this->action ]     = 'validateUrl';
+		$js_array['error_msg'][ $this->action ]      = 'enterUrl';
+		$js_array['pre_action_msg'][ $this->action ] = 'deletePostsByURLWarning';
+
+		$js_array['msg']['enterUrl']                = __( 'Please enter at least one post url', 'bulk-delete' );
+		$js_array['msg']['deletePostsByURLWarning'] = __( 'Are you sure you want to delete all the posts based on the entered url?', 'bulk-delete' );
+
+		return $js_array;
+	}
+
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_specific_force_delete', false );
 

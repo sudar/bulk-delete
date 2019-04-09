@@ -15,10 +15,4 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 abstract class PagesModule extends PostsModule {
 	protected $item_type = 'pages';
-
-	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][] = '_pages';
-
-		return $js_array;
-	}
 }

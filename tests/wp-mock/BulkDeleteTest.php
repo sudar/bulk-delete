@@ -42,17 +42,6 @@ class BulkDeleteTest extends WPMockTestCase {
 		$this->assertConditionsMet();
 	}
 
-	public function test_load_action() {
-		$plugin_file = 'path/to/some/file';
-		\WP_Mock::expectAction( 'bd_loaded', $plugin_file );
-
-		$bulk_delete = BulkDelete::get_instance();
-		$bulk_delete->set_plugin_file( $plugin_file );
-		$bulk_delete->load();
-
-		$this->assertConditionsMet();
-	}
-
 	public function test_translation_is_loaded() {
 		\WP_Mock::userFunction( 'load_plugin_textdomain', array(
 			'times' => 1,

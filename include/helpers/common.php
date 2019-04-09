@@ -105,6 +105,32 @@ function bd_contains( $haystack, $needle ) {
 }
 
 /**
+ * Get the short class name of an object.
+ *
+ * Short class name is the name of the class without namespace.
+ *
+ * @since 6.0.0
+ *
+ * @param object|string $class_name_or_object Object or Class name.
+ *
+ * @return string Short class name.
+ */
+function bd_get_short_class_name( $class_name_or_object ) {
+	$class_name = $class_name_or_object;
+
+	if ( is_object( $class_name_or_object ) ) {
+		$class_name = get_class( $class_name_or_object );
+	}
+
+	$pos = strrpos( $class_name, '\\' );
+	if ( false === $pos ) {
+		return $class_name;
+	}
+
+	return substr( $class_name, $pos + 1 );
+}
+
+/**
  * Get GMT Offseted time in Unix Timestamp format.
  *
  * @since 6.0.0
@@ -148,129 +174,4 @@ function bd_get_allowed_mime_types() {
 	}
 
 	return $processed_mime_types;
-}
-
-/**
- * Get current theme name.
- *
- * @since 5.5.4
- *
- * @return string Current theme name.
- */
-function bd_get_current_theme_name() {
-	if ( get_bloginfo( 'version' ) < '3.4' ) {
-		$theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
-
-		return $theme_data['Name'] . ' ' . $theme_data['Version'];
-	} else {
-		$theme_data = wp_get_theme();
-
-		return $theme_data->Name . ' ' . $theme_data->Version;
-	}
-}
-
-/**
- * Try to identity the hosting provider.
- *
- * @since 5.5.4
- *
- * @return string Web host name if identified, empty string otherwise.
- */
-function bd_identify_host() {
-	$host = '';
-	if ( defined( 'WPE_APIKEY' ) ) {
-		$host = 'WP Engine';
-	} elseif ( defined( 'PAGELYBIN' ) ) {
-		$host = 'Pagely';
-	}
-
-	return $host;
-}
-
-/**
- * Print plugins that are currently active.
- *
- * @since 5.5.4
- */
-function bd_print_current_plugins() {
-	$plugins        = get_plugins();
-	$active_plugins = get_option( 'active_plugins', array() );
-
-	foreach ( $plugins as $plugin_path => $plugin ) {
-		// If the plugin isn't active, don't show it.
-		if ( ! in_array( $plugin_path, $active_plugins ) ) {
-			continue;
-		}
-
-		echo $plugin['Name'] . ': ' . $plugin['Version'] . "\n";
-	}
-}
-
-/**
- * Print network active plugins.
- *
- * @since 5.5.4
- */
-function bd_print_network_active_plugins() {
-	$plugins        = wp_get_active_network_plugins();
-	$active_plugins = get_site_option( 'active_sitewide_plugins', array() );
-
-	foreach ( $plugins as $plugin_path ) {
-		$plugin_base = plugin_basename( $plugin_path );
-
-		// If the plugin isn't active, don't show it.
-		if ( ! array_key_exists( $plugin_base, $active_plugins ) ) {
-			continue;
-		}
-
-		$plugin = get_plugin_data( $plugin_path );
-
-		echo $plugin['Name'] . ' :' . $plugin['Version'] . "\n";
-	}
-}
-
-/**
- * Print scheduled jobs.
- *
- * @since 6.0
- */
-function bd_print_scheduled_jobs() {
-	$cron        = _get_cron_array();
-	$date_format = _x( 'M j, Y @ G:i', 'Cron table date format', 'bulk-delete' );
-
-	foreach ( $cron as $timestamp => $cronhooks ) {
-		foreach ( (array) $cronhooks as $hook => $events ) {
-			if ( 'do-bulk-delete-' === substr( $hook, 0, 15 ) ) {
-				foreach ( (array) $events as $key => $event ) {
-					echo date_i18n( $date_format, $timestamp + ( get_option( 'gmt_offset' ) * 60 * 60 ) ) . ' (' . $timestamp . ')';
-					echo ' | ';
-					echo $event['schedule'];
-					echo ' | ';
-					echo $hook;
-					echo "\n";
-				}
-			}
-		}
-	}
-}
-
-/**
- * Print License Info.
- *
- * @since 6.0
- *
- * @param mixed $keys
- */
-function bd_print_license_info( $keys ) {
-	foreach ( $keys as $key ) {
-		echo $key['addon-name'];
-		echo ' | ';
-		echo $key['license'];
-		echo ' | ';
-		echo $key['expires'];
-		echo ' | ';
-		echo $key['validity'];
-		echo ' | ';
-		echo $key['addon-code'];
-	}
 }

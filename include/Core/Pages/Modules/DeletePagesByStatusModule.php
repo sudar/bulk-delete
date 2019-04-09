@@ -14,11 +14,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 class DeletePagesByStatusModule extends PagesModule {
 	protected function initialize() {
 		$this->item_type     = 'pages';
-		$this->field_slug    = 'pages';
+		$this->field_slug    = 'page_status';
 		$this->meta_box_slug = 'bd_pages_by_status';
 		$this->action        = 'delete_pages_by_status';
 		$this->cron_hook     = 'do-bulk-delete-pages-by-status';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sp';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-pages-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sp';
 		$this->messages      = array(
 			'box_label'  => __( 'By Page Status', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected pages are scheduled for deletion', 'bulk-delete' ),
@@ -27,29 +27,13 @@ class DeletePagesByStatusModule extends PagesModule {
 	}
 
 	public function render() {
-		$post_statuses  = $this->get_post_statuses();
-		$pages_count    = wp_count_posts( 'page' );
 		?>
 		<!-- Pages start-->
-		<h4><?php _e( 'Select the status from which you want to delete pages', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the post statuses from which you want to delete pages', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
 			<table class="optiontable">
-				<?php foreach ( $post_statuses as $post_status ) : ?>
-				<tr>
-					<td>
-						<input name="smbd_page_status[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
-							value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
-
-						<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
-							<?php echo esc_html( $post_status->label ), ' '; ?>
-							<?php if ( property_exists( $pages_count, $post_status->name ) ) : ?>
-								(<?php echo absint( $pages_count->{ $post_status->name } ) . ' ', __( 'Posts', 'bulk-delete' ); ?>)
-							<?php endif; ?>
-						</label>
-					</td>
-				</tr>
-			<?php endforeach; ?>
+				<?php $this->render_post_status( 'page' ); ?>
 			</table>
 
 			<table class="optiontable">
@@ -62,8 +46,20 @@ class DeletePagesByStatusModule extends PagesModule {
 				?>
 			</table>
 		</fieldset>
+
 		<?php
 		$this->render_submit_button();
+	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function append_to_js_array( $js_array ) {
+		$js_array['error_msg'][ $this->action ]      = 'selectPagePostStatus';
+		$js_array['pre_action_msg'][ $this->action ] = 'pagePostStatusWarning';
+
+		$js_array['msg']['selectPagePostStatus']  = __( 'Please select at least one post status from which pages should be deleted', 'bulk-delete' );
+		$js_array['msg']['pagePostStatusWarning'] = __( 'Are you sure you want to delete all the pages from the selected post status?', 'bulk-delete' );
+
+		return $js_array;
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
@@ -87,6 +83,6 @@ class DeletePagesByStatusModule extends PagesModule {
 
 	protected function get_success_message( $items_deleted ) {
 		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d page with the selected page status', 'Deleted %d pages with the selected page status', $items_deleted, 'bulk-delete' );
+		return _n( 'Deleted %d page from the selected post status', 'Deleted %d pages from the selected post status', $items_deleted, 'bulk-delete' );
 	}
 }

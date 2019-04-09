@@ -58,7 +58,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 5,
-					'operator'   => 'equal_to',
+					'operator'   => '=',
 				),
 				1,
 				array(
@@ -88,7 +88,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 5,
-					'operator'   => 'equal_to',
+					'operator'   => '=',
 				),
 				0,
 				array(
@@ -119,7 +119,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 2,
-					'operator'   => 'equal_to',
+					'operator'   => '=',
 				),
 				3,
 				array(),
@@ -157,7 +157,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 5,
-					'operator'   => 'not_equal_to',
+					'operator'   => '!=',
 				),
 				2,
 				array(
@@ -186,7 +186,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 5,
-					'operator'   => 'not_equal_to',
+					'operator'   => '!=',
 				),
 				3,
 				array(),
@@ -213,7 +213,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 2,
-					'operator'   => 'not_equal_to',
+					'operator'   => '!=',
 				),
 				0,
 				array(
@@ -255,7 +255,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 5,
-					'operator'   => 'less_than',
+					'operator'   => '<',
 				),
 				2,
 				array(
@@ -284,7 +284,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 1,
-					'operator'   => 'less_than',
+					'operator'   => '<',
 				),
 				0,
 				array(
@@ -315,7 +315,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 5,
-					'operator'   => 'less_than',
+					'operator'   => '<',
 				),
 				3,
 				array(),
@@ -353,7 +353,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 1,
-					'operator'   => 'greater_than',
+					'operator'   => '>',
 				),
 				2,
 				array(
@@ -382,7 +382,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 5,
-					'operator'   => 'greater_than',
+					'operator'   => '>',
 				),
 				0,
 				array(
@@ -413,7 +413,7 @@ class DeleteTermsByPostCountModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'post_count' => 2,
-					'operator'   => 'greater_than',
+					'operator'   => '>',
 				),
 				2,
 				array(

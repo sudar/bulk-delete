@@ -18,11 +18,18 @@ class DeletePostsByPostTypeModule extends PostsModule {
 		$this->meta_box_slug = 'bd_posts_by_types';
 		$this->action        = 'delete_posts_by_post_type';
 		$this->cron_hook     = 'do-bulk-delete-post-type';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-spt';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-spt';
 		$this->messages      = array(
-			'box_label'  => __( 'By Post Type', 'bulk-delete' ),
-			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
-			'cron_label' => __( 'Delete Post By Post Type', 'bulk-delete' ),
+			'box_label'         => __( 'By Post Type', 'bulk-delete' ),
+			'scheduled'         => __( 'Posts from the selected post type and post status are scheduled for deletion', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Post By Post Type', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the posts from the selected post type and post status?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule the deletion of all the posts from the selected post type and post status?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please select at least one post type from which you want to delete posts', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_one'       => __( 'Deleted %d post from the selected post type and post status', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_multiple'  => __( 'Deleted %d posts from the selected post type and post status', 'bulk-delete' ),
 		);
 	}
 
@@ -40,6 +47,7 @@ class DeletePostsByPostTypeModule extends PostsModule {
 				$this->render_post_type_with_status();
 				$this->render_filtering_table_header();
 				$this->render_restrict_settings();
+				$this->render_exclude_sticky_settings();
 				$this->render_delete_settings();
 				$this->render_limit_settings();
 				$this->render_cron_settings();
@@ -52,12 +60,8 @@ class DeletePostsByPostTypeModule extends PostsModule {
 		$this->render_submit_button();
 	}
 
-	public function filter_js_array( $js_array ) {
+	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validatePostTypeSelect2';
-		$js_array['error_msg'][ $this->action ]  = 'selectPostType';
-		$js_array['msg']['selectPostType']       = __( 'Please select at least one post type', 'bulk-delete' );
-
-		$js_array['dt_iterators'][] = '_' . $this->field_slug;
 
 		return $js_array;
 	}
@@ -112,10 +116,5 @@ class DeletePostsByPostTypeModule extends PostsModule {
 		);
 
 		return $query;
-	}
-
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d post with the selected post type', 'Deleted %d posts with the selected post type', $items_deleted, 'bulk-delete' );
 	}
 }

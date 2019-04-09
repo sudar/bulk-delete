@@ -2,6 +2,8 @@
 
 namespace BulkWP\BulkDelete\Core\Base;
 
+use BulkWP\BulkDelete\Core\BulkDelete;
+
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
@@ -45,7 +47,24 @@ abstract class BaseDeletePage extends BasePage {
 			return;
 		}
 
-		$this->modules[] = $module;
+		$this->modules[ $module->get_name() ] = $module;
+	}
+
+	/**
+	 * Get module object instance by module class name.
+	 *
+	 * @param string $module_class_name Module class name.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Base\BaseModule|null Module object instance or null if no match found.
+	 */
+	public function get_module( $module_class_name ) {
+		$short_class_name = bd_get_short_class_name( $module_class_name );
+
+		if ( isset( $this->modules[ $short_class_name ] ) ) {
+			return $this->modules[ $short_class_name ];
+		}
+
+		return null;
 	}
 
 	protected function register_hooks() {
@@ -59,16 +78,30 @@ abstract class BaseDeletePage extends BasePage {
 	 * Enqueue Scripts and Styles.
 	 */
 	public function enqueue_assets() {
-		global $wp_scripts;
-
 		/**
 		 * Runs just before enqueuing scripts and styles in all Bulk WP admin pages.
 		 *
 		 * This action is primarily for registering or deregistering additional scripts or styles.
 		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage The current page.
+		 *
 		 * @since 5.5.1
+		 * @since 6.0.0 Added $page parameter.
 		 */
-		do_action( 'bd_before_admin_enqueue_scripts' );
+		do_action( 'bd_before_admin_enqueue_scripts', $this );
+
+		/**
+		 * Runs just before enqueuing scripts and styles in a Bulk WP admin pages.
+		 *
+		 * This action is primarily for registering or deregistering additional scripts or styles.
+		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage The current page.
+		 *
+		 * @since 6.0.1
+		 */
+		do_action( "bd_before_enqueue_page_assets_for_{$this->get_page_slug()}", $this );
+
+		wp_enqueue_style( 'jquery-ui-smoothness', $this->get_plugin_dir_url() . 'assets/css/jquery-ui-smoothness.min.css', array(), '1.12.1' );
 
 		wp_enqueue_script(
 			'jquery-ui-timepicker-addon',
@@ -77,7 +110,7 @@ abstract class BaseDeletePage extends BasePage {
 			'1.6.3',
 			true
 		);
-		wp_enqueue_style( 'jquery-ui-timepicker', $this->get_plugin_dir_url() . 'assets/css/jquery-ui-timepicker-addon.min.css', array(), '1.6.3' );
+		wp_enqueue_style( 'jquery-ui-timepicker', $this->get_plugin_dir_url() . 'assets/css/jquery-ui-timepicker-addon.min.css', array( 'jquery-ui-smoothness' ), '1.6.3' );
 
 		wp_enqueue_script( 'select2', $this->get_plugin_dir_url() . 'assets/js/select2.min.js', array( 'jquery' ), '4.0.5', true );
 		wp_enqueue_style( 'select2', $this->get_plugin_dir_url() . 'assets/css/select2.min.css', array(), '4.0.5' );
@@ -87,14 +120,15 @@ abstract class BaseDeletePage extends BasePage {
 			'bulk-delete',
 			$this->get_plugin_dir_url() . 'assets/js/bulk-delete' . $postfix . '.js',
 			array( 'jquery-ui-timepicker-addon', 'jquery-ui-tooltip', 'postbox' ),
-			\Bulk_Delete::VERSION,
+			BulkDelete::VERSION,
 			true
 		);
-		wp_enqueue_style( 'bulk-delete', $this->get_plugin_dir_url() . 'assets/css/bulk-delete' . $postfix . '.css', array( 'select2' ), \Bulk_Delete::VERSION );
-
-		$ui  = $wp_scripts->query( 'jquery-ui-core' );
-		$url = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
-		wp_enqueue_style( 'jquery-ui-smoothness', $url, array(), $ui->ver );
+		wp_enqueue_style(
+			'bulk-delete',
+			$this->get_plugin_dir_url() . 'assets/css/bulk-delete' . $postfix . '.css',
+			array( 'jquery-ui-smoothness', 'jquery-ui-timepicker', 'select2' ),
+			BulkDelete::VERSION
+		);
 
 		/**
 		 * Filter JavaScript array.
@@ -103,14 +137,19 @@ abstract class BaseDeletePage extends BasePage {
 		 *
 		 * @since 5.4
 		 */
-		$translation_array = apply_filters( 'bd_javascript_array', array(
-			'msg'            => array(),
-			'validators'     => array(),
-			'dt_iterators'   => array(),
-			'pre_action_msg' => array(),
-			'error_msg'      => array(),
-			'pro_iterators'  => array(),
-		) );
+		$translation_array = apply_filters(
+			'bd_javascript_array',
+			array(
+				'msg'              => array(),
+				'validators'       => array(),
+				'dt_iterators'     => array(),
+				'pre_action_msg'   => array(), // deprecated since 6.0.1.
+				'pre_delete_msg'   => array(),
+				'pre_schedule_msg' => array(),
+				'error_msg'        => array(),
+				'pro_iterators'    => array(),
+			)
+		);
 		wp_localize_script( 'bulk-delete', 'BulkWP', $translation_array ); // TODO: Change JavaScript variable to BulkWP.BulkDelete.
 
 		/**
@@ -118,9 +157,23 @@ abstract class BaseDeletePage extends BasePage {
 		 *
 		 * This action is primarily for registering additional scripts or styles.
 		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage The current page.
+		 *
 		 * @since 5.5.1
+		 * @since 6.0.0 Added $page parameter.
 		 */
-		do_action( 'bd_after_admin_enqueue_scripts' );
+		do_action( 'bd_after_admin_enqueue_scripts', $this );
+
+		/**
+		 * Runs just after enqueuing scripts and styles in a Bulk WP admin pages.
+		 *
+		 * This action is primarily for registering or deregistering additional scripts or styles.
+		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage The current page.
+		 *
+		 * @since 6.0.1
+		 */
+		do_action( "bd_after_enqueue_page_assets_for_{$this->get_page_slug()}", $this );
 	}
 
 	/**
@@ -183,11 +236,11 @@ abstract class BaseDeletePage extends BasePage {
 		}
 
 		/**
-		 * Triggered after all post modules are registered.
+		 * Triggered after all modules are registered.
 		 *
 		 * @since 6.0.0
 		 */
-		do_action( 'bd_add_meta_box_for_posts' );
+		do_action( "bd_add_meta_box_for_{$this->get_item_type()}" );
 	}
 
 	/**

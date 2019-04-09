@@ -80,7 +80,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
                     </td>
                     <td>
                         <label for="smbd_feedback"><?php _e( 'Delete Messages based on filters', 'bulk-delete' ); ?></label>
-                        <span class = "bd-feedback-pro" style = "color:red; vertical-align: middle;"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-jcm" target="_blank">Buy now</a></span>
+                        <span class = "bd-feedback-pro" style = "color:red; vertical-align: middle;"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "https://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-jcm" target="_blank">Buy now</a></span>
                     </td>
                 </tr>
             </table>
@@ -154,7 +154,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
                     	<input name="smbd_feedback_cron" value = "true" type = "radio" id = "smbd_feedback_cron" disabled >
 						<?php _e( 'Schedule', 'bulk-delete' ); ?>
 					</label>
-                    <input name="smbd_feedback_cron_start" id = "smbd_feedback_cron_start" value = "now" type = "text" disabled><?php _e( 'repeat ', 'bulk-delete' );?>
+                    <input name="smbd_feedback_cron_start" id = "smbd_feedback_cron_start" value = "now" type = "text" disabled autocomplete ="off" ><?php _e( 'repeat ', 'bulk-delete' );?>
                     <select name = "smbd_feedback_cron_freq" id = "smbd_feedback_cron_freq" disabled>
                         <option value = "-1"><?php _e( "Don't repeat", 'bulk-delete' ); ?></option>
 <?php
@@ -166,7 +166,7 @@ class Bulk_Delete_Jetpack_Contact_Form_Message {
 			}
 ?>
                     </select>
-                    <span class = "bd-feedback-pro" style = "color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "http://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-jcm" target="_blank">Buy now</a></span>
+                    <span class = "bd-feedback-pro" style = "color:red"><?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a href = "https://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-jcm" target="_blank">Buy now</a></span>
                 </td>
             </tr>
 

@@ -19,11 +19,13 @@ cache:
 
 matrix:
   include:
-    # Run trunk in nightly and PHP 7.2
+    # Run trunk in nightly and PHP 7.3
     - php: nightly
       env: WP_VERSION=trunk
-    - php: 7.2
+    - php: 7.3
       env: WP_VERSION=trunk
+    - php: 7.2
+      env: WP_VERSION=latest
     - php: 7.1
       env: WP_VERSION=latest
     - php: 7.0
@@ -35,31 +37,29 @@ matrix:
       dist: precise
   allow_failures:
     - php: nightly
-    - php: 7.2
+    - php: 7.3 # Since tests are run with code coverage.
     - php: 5.3
   fast_finish: true
 
 install:
   - |
-    if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
-      # Run npm install only for PHP 7.0 since we are going to test grunt and other npm related things only in PHP 7.0
-      npm install
-
-      exit 0
-    fi
-  - |
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
       bash bin/install-wp-test-tools.sh
     else
-      # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x or PHP 7.0
-      composer install
+      if [[ $TRAVIS_PHP_VERSION == 7.0 ]]; then
+        # Run npm install only for PHP 7.0 since we are going to test grunt and other npm related things only in PHP 7.0
+        npm install
+      else
+        # Run composer install only for PHP 7.1 or above. The dependencies are not compatible with PHP 5.x or PHP 7.0
+        composer install
+      fi
     fi
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - |
-    if [[ $TRAVIS_PHP_VERSION != 7.2 ]]; then
-      # Disable x-debug to increase performance. x-debug is enabled only for PHP 7.2 to run code-coverage reports.
+    if [[ $TRAVIS_PHP_VERSION != 7.3 ]]; then
+      # Disable x-debug to increase performance. x-debug is enabled only for PHP 7.3 to run code-coverage reports.
       if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
         phpenv config-rm xdebug.ini
       else
@@ -68,16 +68,17 @@ before_script:
     fi
   - |
     if [[ $TRAVIS_PHP_VERSION != 7.0 ]]; then
-      if [[ ! -z "$WP_VERSION" ]] ; then
-        bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+      bash vendor/sudar/wp-plugin-test-tools/bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+    fi
+  - |
+    if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
         composer global require "phpunit/phpunit=4.8.*|5.7.*"
-      fi
     fi
 
 script:
   - |
-    if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
-      # Run code coverage for PHP 7.2 alone
+    if [[ $TRAVIS_PHP_VERSION == 7.3 ]]; then
+      # Run code coverage for PHP 7.3 alone
       npm run test:cover-coverage
 
       # Ideally this should be in `after_script`. Since `fast_finish` is used `after_script` will not be called.
@@ -91,9 +92,18 @@ script:
       exit 0
     fi
 
-    if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+    if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
       # Validate composer.json file
       composer validate --no-check-all --strict
+
+      npm run test
+
+      exit 0
+    fi
+
+    if [[ $TRAVIS_PHP_VERSION == 7.1 ]]; then
+      # Check php syntax
+      npm run phpcs
 
       npm run test
 
@@ -104,9 +114,6 @@ script:
       # Validate that grunt works
       grunt vendor
       grunt
-
-      # Check php syntax
-      npm run phpcs
 
       exit 0
     fi

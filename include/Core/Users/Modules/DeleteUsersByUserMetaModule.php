@@ -79,6 +79,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 				$this->render_user_login_restrict_settings();
 				$this->render_user_with_no_posts_settings();
 				$this->render_limit_settings();
+				$this->render_post_reassign_settings();
 				$this->render_cron_settings();
 				?>
 			</table>
@@ -140,17 +141,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 		return $query;
 	}
 
-	/**
-	 * Filter JS Array and add validation hooks.
-	 *
-	 * @since 5.5
-	 *
-	 * @param array $js_array JavaScript Array.
-	 *
-	 * @return array Modified JavaScript Array
-	 */
-	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]              = '_' . $this->field_slug;
+	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'noValidation';
 
 		$js_array['pre_action_msg'][ $this->action ] = 'deleteUsersByMetaWarning';

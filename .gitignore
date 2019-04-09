@@ -1,5 +1,6 @@
 # Folders #
 ######################
+/code-coverage/
 /dist/
 /docs/
 /.sass-cache/
@@ -8,6 +9,7 @@
 /assets/vendor/
 /assets/js/*.js
 /assets/css/*.css
+/assets/css/images/
 /assets/**/*.map
 
 # IDE #

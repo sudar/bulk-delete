@@ -1,18 +1,13 @@
 /**
  * JavaScript for Bulk Delete Plugin
  *
- * http://bulkwp.com
+ * https://bulkwp.com
  *
  * @author: Sudar <http://sudarmuthu.com>
  */
 
 /*global BulkWP, postboxes, pagenow */
 jQuery(document).ready(function () {
-	// Start Jetpack.
-	BulkWP.jetpack();
-
-	BulkWP.enableHelpTooltips( jQuery( '.bd-help' ) );
-
 	jQuery( '.user_restrict_to_no_posts_filter' ).change( function() {
 		var $this = jQuery(this),
 			filterEnabled = $this.is( ':checked' ),
@@ -29,6 +24,19 @@ jQuery(document).ready(function () {
 	 * Enable Postbox handling
 	 */
 	postboxes.add_postbox_toggles(pagenow);
+
+	/**
+	 * Change submit button text if scheduling deletion.
+	 */
+	jQuery( "input:radio.schedule-deletion" ).change( function () {
+		var submitButton = jQuery( this ).parents( 'fieldset' ).next().find( 'button[name="bd_action"]' );
+
+		if ( "true" === jQuery( this ).val() ) {
+			submitButton.html( 'Schedule Bulk Delete &raquo;' );
+		} else {
+			submitButton.html( 'Bulk Delete &raquo;' );
+		}
+	} );
 
 	/**
 	 * Toggle the date restrict fields
@@ -71,8 +79,21 @@ jQuery(document).ready(function () {
 	function toggle_registered_restrict(el) {
 		if (jQuery("#smbd" + el + "_registered_restrict").is(":checked")) {
 			jQuery("#smbd" + el + "_registered_days").removeAttr('disabled');
+			jQuery("#smbd" + el + "_op").removeAttr('disabled');
 		} else {
 			jQuery("#smbd" + el + "_registered_days").attr('disabled', 'true');
+			jQuery("#smbd" + el + "_op").attr('disabled', 'true');
+		}
+	}
+
+	/**
+	 * Toggle delete attachments
+	 */
+	function toggle_delete_attachments(el) {
+		if ( "true" === jQuery('input[name="smbd' + el + '_force_delete"]:checked').val()) {
+			jQuery("#smbd" + el + "_attachment").removeAttr('disabled');
+		} else {
+			jQuery("#smbd" + el + "_attachment").attr('disabled', 'true');
 		}
 	}
 
@@ -132,6 +153,10 @@ jQuery(document).ready(function () {
 			toggle_registered_restrict(value);
 		});
 
+		jQuery('input[name="smbd' + value + '_force_delete"]').change(function () {
+			toggle_delete_attachments(value);
+		});
+
 		jQuery( '#smbd' + value + '_no_posts' ).change( function () {
 			toggle_post_type_dropdown( value );
 		});
@@ -139,15 +164,40 @@ jQuery(document).ready(function () {
 
 	jQuery.each( BulkWP.pro_iterators, function ( index, value) {
 		jQuery('.bd-' + value.replace( '_', '-' ) + '-pro').hide();
+
+		// `<tr>` displays the documentation link when the pro add-on is installed.
+		jQuery('tr.bd-' + value.replace( '_', '-' ) + '-pro').show();
+
 		jQuery('#smbd_' + value + '_cron_freq, #smbd_' + value + '_cron_start, #smbd_' + value + '_cron').removeAttr('disabled');
 	} );
+
+	/**
+	 * If the given string is a function, then run it and return result, otherwise return the string.
+	 *
+	 * @param mayBeFunction
+	 * @param that
+	 *
+	 * @returns string
+	 */
+	function resolveFunction( mayBeFunction, that ) {
+		if ( jQuery.isFunction( mayBeFunction ) ) {
+			return BulkWP[ mayBeFunction ]( that );
+		}
+
+		return mayBeFunction;
+	}
 
 	// Validate user action.
 	jQuery('button[name="bd_action"]').click(function () {
 		var currentButton = jQuery(this).val(),
+			deletionScheduled = false,
 			valid = false,
-			msg_key = "deletePostsWarning",
-			error_key = "selectPostOption";
+			messageKey = "deletePostsWarning",
+			errorKey = "selectPostOption";
+
+		if ( "true" === jQuery( this ).parent().prev().find( 'input:radio.schedule-deletion:checked' ).val() ) {
+			deletionScheduled = true;
+		}
 
 		if (currentButton in BulkWP.validators) {
 			valid = BulkWP[BulkWP.validators[currentButton]](this);
@@ -157,108 +207,30 @@ jQuery(document).ready(function () {
 			}
 		}
 
-		if (valid) {
-			if (currentButton in BulkWP.pre_action_msg) {
-				if ( jQuery.isFunction( BulkWP[ BulkWP.pre_action_msg[ currentButton ] ] ) ) {
-					msg_key = BulkWP[ BulkWP.pre_action_msg[ currentButton ] ]( this );
-				} else {
-					msg_key = BulkWP.pre_action_msg[ currentButton ];
-				}
+		if ( ! valid ) {
+			if ( currentButton in BulkWP.error_msg ) {
+				errorKey = BulkWP.error_msg[ currentButton ];
 			}
 
-			return confirm(BulkWP.msg[msg_key]);
-		} else {
-			if (currentButton in BulkWP.error_msg) {
-				error_key = BulkWP.error_msg[currentButton];
-			}
-
-			alert(BulkWP.msg[error_key]);
+			alert( BulkWP.msg[ errorKey ] );
+			return false;
 		}
 
-		return false;
+		if ( currentButton in BulkWP.pre_delete_msg ) {
+			messageKey = resolveFunction( BulkWP.pre_delete_msg[ currentButton ], this );
+		}
+
+		// pre_action_msg is deprecated. This will be eventually removed.
+		if ( currentButton in BulkWP.pre_action_msg ) {
+			messageKey = resolveFunction( BulkWP.pre_action_msg[ currentButton ], this );
+		}
+
+		if ( deletionScheduled ) {
+			if ( currentButton in BulkWP.pre_schedule_msg ) {
+				messageKey = resolveFunction( BulkWP.pre_schedule_msg[ currentButton ], this );
+			}
+		}
+
+		return confirm( BulkWP.msg[ messageKey ] );
 	});
-
-	/**
-	 * Validation functions
-	 */
-	BulkWP.noValidation = function() {
-		return true;
-	};
-
-	BulkWP.validateSelect2 = function(that) {
-		if (null !== jQuery(that).parent().prev().children().find(".select2[multiple]").val()) {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	BulkWP.validateUrl = function(that) {
-		if (jQuery(that).parent().prev().children('table').find("textarea").val() !== '') {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	BulkWP.validateUserMeta = function() {
-		if (jQuery('#smbd_u_meta_value').val() !== '') {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	BulkWP.validateUserRole = function(that) {
-		return (null !== jQuery(that).parent().prev().find(".enhanced-role-dropdown").val());
-	};
 });
-
-BulkWP.jetpack = function() {
-	jQuery('.bd-feedback-pro').hide();
-
-	jQuery('#smbd_feedback_cron_freq, #smbd_feedback_cron_start, #smbd_feedback_cron').removeAttr('disabled');
-	jQuery('#smbd_feedback_use_filter').removeAttr('disabled');
-
-	// enable filters
-	jQuery('input[name="smbd_feedback_use_filter"]').change(function() {
-		if('true' === jQuery(this).val()) {
-			// using filters
-			jQuery('#jetpack-filters').show();
-		} else {
-			jQuery('#jetpack-filters').hide();
-		}
-	});
-
-	// enable individual filters
-	jQuery.each(['name', 'email', 'ip'], function (index, value) {
-		jQuery('#smbd_feedback_author_' + value + '_filter').change(function() {
-			if(jQuery(this).is(':checked')) {
-				jQuery('#smbd_feedback_author_' + value + '_op').removeAttr('disabled');
-				jQuery('#smbd_feedback_author_' + value + '_value').removeAttr('disabled');
-			} else {
-				jQuery('#smbd_feedback_author_' + value + '_op').attr('disabled', 'true');
-				jQuery('#smbd_feedback_author_' + value + '_value').attr('disabled', 'true');
-			}
-		});
-	});
-};
-
-BulkWP.enableHelpTooltips = function ( $selector ) {
-	$selector.tooltip({
-		content: function() {
-			return jQuery(this).prop('title');
-		},
-		position: {
-			my: 'center top',
-			at: 'center bottom+10',
-			collision: 'flipfit'
-		},
-		hide: {
-			duration: 200
-		},
-		show: {
-			duration: 200
-		}
-	});
-};

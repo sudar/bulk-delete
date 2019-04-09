@@ -34,38 +34,15 @@ abstract class PostsModule extends BaseModule {
 	protected function parse_common_filters( $request ) {
 		$options = array();
 
-		$options['restrict']     = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
-		$options['limit_to']     = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
-		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
+		$options['restrict']       = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_restrict', false );
+		$options['limit_to']       = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_limit_to', 0 ) );
+		$options['exclude_sticky'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_exclude_sticky', false );
+		$options['force_delete']   = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
 
 		$options['date_op'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
 		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
 
 		return $options;
-	}
-
-	public function filter_js_array( $js_array ) {
-		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
-		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
-
-		$js_array['validators']['delete_posts_by_category'] = 'validateSelect2';
-		$js_array['error_msg']['delete_posts_by_category']  = 'selectCategory';
-		$js_array['msg']['selectCategory']                  = __( 'Please select at least one category', 'bulk-delete' );
-
-		$js_array['validators']['delete_posts_by_tag']     = 'validateSelect2';
-		$js_array['error_msg']['delete_posts_by_category'] = 'selectTag';
-		$js_array['msg']['selectTag']                      = __( 'Please select at least one tag', 'bulk-delete' );
-
-		$js_array['validators']['delete_posts_by_url'] = 'validateUrl';
-		$js_array['error_msg']['delete_posts_by_url']  = 'enterUrl';
-		$js_array['msg']['enterUrl']                   = __( 'Please enter at least one post url', 'bulk-delete' );
-
-		$js_array['dt_iterators'][] = '_cats';
-		$js_array['dt_iterators'][] = '_tags';
-		$js_array['dt_iterators'][] = '_taxs';
-		$js_array['dt_iterators'][] = '_post_status';
-
-		return $js_array;
 	}
 
 	/**
@@ -111,17 +88,49 @@ abstract class PostsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_posts_from_query( $query, $options ) {
-		$query    = $this->build_query_options( $options, $query );
-		$post_ids = $this->query( $query );
+		$query = $this->build_query_options( $options, $query );
+		$posts = $this->query( $query );
 
-		return $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
+		/**
+		 * List of posts to be deleted.
+		 *
+		 * @since 6.0.1
+		 *
+		 * @param array      $posts   List of posts to be deleted. It could be just post_ds.
+		 * @param array      $options Delete options.
+		 * @param BaseModule $this    Module that is triggering deletion.
+		 */
+		$post_ids = apply_filters( 'bd_posts_to_be_deleted', $posts, $options, $this );
+
+		/**
+		 * Triggered before the posts are deleted.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $post_ids List of post ids that are going to be deleted.
+		 * @param array $options  List of Delete Options.
+		 */
+		do_action( 'bd_before_deleting_posts', $post_ids, $options );
+
+		$delete_post_count = $this->delete_posts_by_id( $post_ids, $options['force_delete'] );
+
+		/**
+		 * Triggered after the posts are deleted.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $options Delete Options.
+		 */
+		do_action( 'bd_after_deleting_posts', $options );
+
+		return $delete_post_count;
 	}
 
 	/**
 	 * Render the "private post" setting fields.
 	 */
 	protected function render_private_post_settings() {
-		if( $this->are_private_posts_present() ){
+		if ( $this->are_private_posts_present() ) {
 			bd_render_private_post_settings( $this->field_slug );
 		}
 	}
@@ -152,6 +161,19 @@ abstract class PostsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_posts_by_id( $post_ids, $force_delete ) {
+		/**
+		 * Filter the list of post ids that will be excluded from deletion.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $excluded_ids Post IDs to be excluded.
+		 */
+		$excluded_post_ids = apply_filters( 'bd_excluded_post_ids', array() );
+
+		if ( is_array( $excluded_post_ids ) && ! empty( $excluded_post_ids ) ) {
+			$post_ids = array_diff( $post_ids, $excluded_post_ids );
+		}
+
 		foreach ( $post_ids as $post_id ) {
 			// `$force_delete` parameter to `wp_delete_post` won't work for custom post types.
 			// See https://core.trac.wordpress.org/ticket/43672

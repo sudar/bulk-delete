@@ -18,7 +18,7 @@ class DeletePostsByCategoryModule extends PostsModule {
 		$this->meta_box_slug = 'bd_by_category';
 		$this->action        = 'delete_posts_by_category';
 		$this->cron_hook     = 'do-bulk-delete-cat';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sc';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sc';
 		$this->messages      = array(
 			'box_label'  => __( 'By Post Category', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
@@ -43,7 +43,7 @@ class DeletePostsByCategoryModule extends PostsModule {
 				<?php _e( 'Note: The post count below for each category is the total number of posts in that category, irrespective of post type.', 'bulk-delete' ); ?>
 			</p>
 
-			<table class="form-table">
+			<table class="optiontable">
 				<tr>
 					<td scope="row">
 						<?php $this->render_category_dropdown(); ?>
@@ -55,6 +55,7 @@ class DeletePostsByCategoryModule extends PostsModule {
 				<?php
 				$this->render_filtering_table_header();
 				$this->render_restrict_settings();
+				$this->render_exclude_sticky_settings();
 				$this->render_delete_settings();
 				$this->render_private_post_settings();
 				$this->render_limit_settings();
@@ -65,6 +66,14 @@ class DeletePostsByCategoryModule extends PostsModule {
 		</fieldset>
 		<?php
 		$this->render_submit_button();
+	}
+
+	protected function append_to_js_array( $js_array ) {
+		$js_array['validators']['delete_posts_by_category'] = 'validateSelect2';
+		$js_array['error_msg']['delete_posts_by_category']  = 'selectCategory';
+		$js_array['msg']['selectCategory']                  = __( 'Please select at least one category', 'bulk-delete' );
+
+		return $js_array;
 	}
 
 	/**
