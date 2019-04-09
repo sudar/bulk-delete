@@ -71,6 +71,8 @@ abstract class FeatureAddon extends BaseAddon {
 		foreach ( $this->schedulers as $scheduler ) {
 			$scheduler->register();
 		}
+
+		add_filter( 'bd_upsell_addons', array( $this, 'hide_upseller_modules' ) );
 	}
 
 	/**
@@ -182,5 +184,30 @@ abstract class FeatureAddon extends BaseAddon {
 		foreach ( $modules as $module ) {
 			$page->add_module( $module );
 		}
+	}
+
+	/**
+	 * Hide Upseller messages for the modules provided by this add-on.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @param array $modules Modules.
+	 *
+	 * @return array Modified list of modules.
+	 */
+	public function hide_upseller_modules( $modules ) {
+		$addon_slug = $this->get_info()->get_addon_slug();
+
+		$modified_module_list = array();
+
+		foreach ( $modules as $module ) {
+			if ( $module['slug'] === $addon_slug ) {
+				continue;
+			}
+
+			$modified_module_list[] = $module;
+		}
+
+		return $modified_module_list;
 	}
 }
