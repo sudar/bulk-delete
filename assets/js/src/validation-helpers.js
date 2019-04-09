@@ -26,3 +26,21 @@ BulkWP.validateEnhancedDropdown = function ( that ) {
 
 	return ( value !== null && value !== '-1' );
 };
+
+BulkWP.validateSelect2 = function(that) {
+	if ( null !== jQuery( that ).parent().prev().children().find( ".select2-taxonomy[multiple]" ).val() ) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+/**
+ * Validate textboxes.
+ *
+ * @param that Reference to the button.
+ * @returns {boolean} True if validation succeeds, False otherwise.
+ */
+BulkWP.validateTextbox = function(that) {
+	return ( "" !== jQuery(that).parent().prev().children().find(":input[type=number], :text").val() );
+};

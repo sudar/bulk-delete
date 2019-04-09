@@ -29,16 +29,40 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from single post type.
 	 */
 	public function test_delete_posts_from_single_post_type() {
-		$this->factory->post->create_many( 10, array(
-			'post_type' => 'post',
-		) );
+		$this->factory->post->create_many(
+			10,
+			array( 'post_type' => 'post' )
+		);
 
 		$published_posts = $this->get_posts_by_post_type();
 		$this->assertEquals( 10, count( $published_posts ) );
 
 		$delete_options = array(
 			'selected_types' => array( 'post' ),
-			'limit_to'       => - 1,
+			'limit_to'       => -1,
+			'restrict'       => false,
+			'force_delete'   => false,
+		);
+
+		$posts_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( 10, $posts_deleted );
+	}
+
+	/**
+	 * Add tests to deleting posts from single post type.
+	 */
+	public function test_delete_posts_from_single_post_type_and_status() {
+		$this->factory->post->create_many(
+			10,
+			array( 'post_type' => 'post' )
+		);
+
+		$published_posts = $this->get_posts_by_post_type();
+		$this->assertEquals( 10, count( $published_posts ) );
+
+		$delete_options = array(
+			'selected_types' => array( 'post-publish' ),
+			'limit_to'       => -1,
 			'restrict'       => false,
 			'force_delete'   => false,
 		);
@@ -51,22 +75,24 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from two post types.
 	 */
 	public function test_delete_posts_from_two_post_types() {
-		$this->factory->post->create_many( 10, array(
-			'post_type' => 'post',
-		) );
+		$this->factory->post->create_many(
+			10,
+			array( 'post_type' => 'post' )
+		);
 
 		$published_posts = $this->get_posts_by_post_type();
 		$this->assertEquals( 10, count( $published_posts ) );
 
-		$this->factory->post->create_many( 10, array(
-			'post_type' => 'page',
-		) );
+		$this->factory->post->create_many(
+			10,
+			array( 'post_type' => 'page' )
+		);
 
 		$published_pages = $this->get_posts_by_post_type( 'page' );
 		$this->assertEquals( 10, count( $published_pages ) );
 
 		$delete_options = array(
-			'selected_types' => array( 'post', 'page' ),
+			'selected_types' => array( 'post-publish', 'page-publish' ),
 			'limit_to'       => - 1,
 			'restrict'       => false,
 			'force_delete'   => false,
@@ -80,14 +106,14 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from single custom post type.
 	 */
 	public function test_delete_posts_from_single_custom_post_type() {
-		register_post_type( 'custom_cpt' );
+		$this->register_post_type( 'custom_cpt' );
 		$this->factory->post->create_many( 10, array( 'post_type' => 'custom_cpt' ) );
 
 		$custom_posts = $this->get_posts_by_post_type( 'custom_cpt' );
 		$this->assertEquals( 10, count( $custom_posts ) );
 
 		$delete_options = array(
-			'selected_types' => array( 'custom_cpt' ),
+			'selected_types' => array( 'custom_cpt-publish' ),
 			'limit_to'       => -1,
 			'restrict'       => false,
 			'force_delete'   => false,
@@ -101,21 +127,21 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from two custom post types.
 	 */
 	public function test_delete_posts_from_two_custom_post_types() {
-		register_post_type( 'custom_cpt_1' );
+		$this->register_post_type( 'custom_cpt_1' );
 		$this->factory->post->create_many( 10, array( 'post_type' => 'custom_cpt_1' ) );
 
 		$custom_cpt_1_posts = $this->get_posts_by_post_type( 'custom_cpt_1' );
 		$this->assertEquals( 10, count( $custom_cpt_1_posts ) );
 
-		register_post_type( 'custom_cpt_2' );
+		$this->register_post_type( 'custom_cpt_2' );
 		$this->factory->post->create_many( 10, array( 'post_type' => 'custom_cpt_2' ) );
 
 		$custom_cpt_2_posts = $this->get_posts_by_post_type( 'custom_cpt_2' );
 		$this->assertEquals( 10, count( $custom_cpt_2_posts ) );
 
 		$delete_options = array(
-			'selected_types' => array( 'custom_cpt_1', 'custom_cpt_2' ),
-			'limit_to'       => - 1,
+			'selected_types' => array( 'custom_cpt_1-publish', 'custom_cpt_2-publish' ),
+			'limit_to'       => -1,
 			'restrict'       => false,
 			'force_delete'   => false,
 		);
@@ -128,7 +154,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from one custom post type and one default post type.
 	 */
 	public function test_delete_posts_from_two_various_post_types() {
-		register_post_type( 'custom_cpt' );
+		$this->register_post_type( 'custom_cpt' );
 		$this->factory->post->create_many( 10, array( 'post_type' => 'custom_cpt' ) );
 
 		$custom_posts = $this->get_posts_by_post_type( 'custom_cpt' );
@@ -140,7 +166,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $published_posts ) );
 
 		$delete_options = array(
-			'selected_types' => array( 'custom_cpt', 'post' ),
+			'selected_types' => array( 'custom_cpt-publish', 'post-publish' ),
 			'limit_to'       => -1,
 			'restrict'       => false,
 			'force_delete'   => false,
@@ -154,7 +180,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 	 * Add tests to deleting posts from one custom post type and one default post type.
 	 */
 	public function test_force_delete_of_posts_from_two_post_types() {
-		register_post_type( 'custom_cpt' );
+		$this->register_post_type( 'custom_cpt' );
 		$this->factory->post->create_many( 10, array( 'post_type' => 'custom_cpt' ) );
 
 		$custom_posts = $this->get_posts_by_post_type( 'custom_cpt' );
@@ -166,7 +192,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $published_posts ) );
 
 		$delete_options = array(
-			'selected_types' => array( 'custom_cpt', 'post' ),
+			'selected_types' => array( 'custom_cpt-publish', 'post-publish' ),
 			'limit_to'       => -1,
 			'restrict'       => false,
 			'force_delete'   => true,
@@ -193,7 +219,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $published_posts ) );
 
 		$delete_options = array(
-			'selected_types' => array( 'post' ),
+			'selected_types' => array( 'post-publish' ),
 			'limit_to'       => -1,
 			'restrict'       => false,
 			'force_delete'   => false,
@@ -222,7 +248,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 10, count( $published_posts ) );
 
 		$delete_options = array(
-			'selected_types' => array( 'post' ),
+			'selected_types' => array( 'post-publish' ),
 			'limit_to'       => -1,
 			'restrict'       => false,
 			'force_delete'   => false,
@@ -245,7 +271,7 @@ class DeletePostsByPostTypeModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 100, count( $published_posts ) );
 
 		$delete_options = array(
-			'selected_types' => array( 'post' ),
+			'selected_types' => array( 'post-publish' ),
 			'limit_to'       => 50,
 			'restrict'       => false,
 			'force_delete'   => false,

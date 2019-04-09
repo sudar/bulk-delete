@@ -59,7 +59,11 @@ abstract class Fetcher {
 					continue;
 				}
 
-				$post_types_by_status[ $post_type->labels->singular_name ][ "$post_type_name-$post_status_name" ] = $post_status->label . ' (' . $count_posts->{$post_status_name} . ' ' . __( 'Posts', 'bulk-delete' ) . ')';
+				$post_type_key               = $post_type->labels->singular_name . ' (' . $post_type_name . ')';
+				$post_type_with_status_key   = $post_type_name . '|' . $post_status_name;
+				$post_type_with_status_label = $post_status->label . ' (' . $count_posts->{$post_status_name} . ' ' . __( 'Posts', 'bulk-delete' ) . ')';
+
+				$post_types_by_status[ $post_type_key ][ $post_type_with_status_key ] = $post_type_with_status_label;
 			}
 		}
 
@@ -196,5 +200,23 @@ abstract class Fetcher {
 		}
 
 		return $roles[ $role ];
+	}
+
+	/**
+	 * Get the threshold after which enhanced select should be used.
+	 *
+	 * @since 6.0.1 moved to Fetcher from Renderer.
+	 *
+	 * @return int Threshold.
+	 */
+	protected function get_enhanced_select_threshold() {
+		/**
+		 * Filter the enhanced select threshold.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param int Threshold.
+		 */
+		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
 	}
 }

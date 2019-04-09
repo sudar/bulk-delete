@@ -31,10 +31,10 @@ class Bulk_Delete_Help_Screen {
 		// Add help sidebar
 		get_current_screen()->set_help_sidebar(
 			'<p><strong>' . __( 'More information', 'bulk-delete' ) . '</strong></p>' .
-			'<p><a href = "http://bulkwp.com/support/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=helptab">' . __( 'Support Forums', 'bulk-delete' ) . '</a></p>' .
-			'<p><a href = "http://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=helptab">' . __( 'Buy pro addons', 'bulk-delete' ) . '</a></p>' .
-			'<p><a href = "http://sudarmuthu.com/blog">' . __( "Plugin author's blog", 'bulk-delete' ) . '</a></p>' .
-			'<p><a href = "http://sudarmuthu.com/wordpress/">' . __( "Other Plugin's by Author", 'bulk-delete' ) . '</a></p>'
+			'<p><a href = "https://bulkwp.com/support/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=helptab">' . __( 'Support Forums', 'bulk-delete' ) . '</a></p>' .
+			'<p><a href = "https://bulkwp.com/addons/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=helptab">' . __( 'Buy pro addons', 'bulk-delete' ) . '</a></p>' .
+			'<p><a href = "https://sudarmuthu.com/blog">' . __( "Plugin author's blog", 'bulk-delete' ) . '</a></p>' .
+			'<p><a href = "https://sudarmuthu.com/wordpress/">' . __( "Other Plugin's by Author", 'bulk-delete' ) . '</a></p>'
 		);
 	}
 

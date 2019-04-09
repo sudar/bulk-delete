@@ -21,7 +21,7 @@ class DeletePostsByTagModule extends PostsModule {
 		$this->meta_box_slug = 'bd_by_tag';
 		$this->action        = 'delete_posts_by_tag';
 		$this->cron_hook     = 'do-bulk-delete-tag';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-st';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-st';
 		$this->messages      = array(
 			'box_label'  => __( 'By Post Tag', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),

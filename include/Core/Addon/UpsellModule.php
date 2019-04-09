@@ -52,7 +52,7 @@ class UpsellModule extends BaseModule {
 
 		<p>
 			<?php echo $this->addon_upsell_info->get_upsell_message(); ?>
-			<a href="<?php echo esc_url( $this->addon_upsell_info->get_buy_url() ); ?>"><?php _e( 'Buy Now', 'bulk-delete' ); ?></a>
+			<a href="<?php echo esc_url( $this->addon_upsell_info->get_buy_url() ); ?>" target="_blank"><?php _e( 'Buy Now', 'bulk-delete' ); ?></a>
 		</p>
 
 		<?php

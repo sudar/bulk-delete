@@ -23,9 +23,16 @@ class DeletePostsByCommentsModule extends PostsModule {
 		$this->cron_hook     = 'do-bulk-delete-posts-by-comments';
 		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-posts-by-comments/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bds-p-c';
 		$this->messages      = array(
-			'box_label'  => __( 'By Comment count', 'bulk-delete' ),
-			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
-			'cron_label' => __( 'Delete Post By Comments', 'bulk-delete' ),
+			'box_label'         => __( 'By Comment count', 'bulk-delete' ),
+			'scheduled'         => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Post By Comments', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the posts based on the selected comment count setting?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule the deletion of all the posts based on the selected comment count setting?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please enter the comments count based on which posts should be deleted. A valid comment count will be greater than or equal to zero', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_one'       => __( 'Deleted %d post from the selected post type and post status', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_multiple'  => __( 'Deleted %d posts from the selected post type and post status', 'bulk-delete' ),
 		);
 	}
 
@@ -103,11 +110,6 @@ class DeletePostsByCommentsModule extends PostsModule {
 
 	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validateCommentsCount';
-		$js_array['error_msg'][ $this->action ]  = 'validCommentsCount';
-		$js_array['msg']['validCommentsCount']   = __( 'Please enter the comments count based on which posts should be deleted. A valid comment count will be greater than or equal to zero', 'bulk-delete' );
-
-		$js_array['pre_action_msg'][ $this->action ] = 'deletePostsWarning';
-		$js_array['msg']['deletePostsWarning']       = __( 'Are you sure you want to delete all the posts based on the selected comment count?', 'bulk-delete' );
 
 		return $js_array;
 	}

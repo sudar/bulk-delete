@@ -73,20 +73,41 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render Post type with status and post count checkboxes.
+	 *
+	 * @since 6.0.1 Added $multiple param.
+	 *
+	 * @param bool $multiple_select Whether multiple select should be supported. Default true.
 	 */
-	protected function render_post_type_with_status() {
+	protected function render_post_type_with_status( $multiple_select = true ) {
 		$post_types_by_status = $this->get_post_types_by_status();
+
+		$name = 'smbd_' . $this->field_slug;
+		if ( $multiple_select ) {
+			$name .= '[]';
+		}
 		?>
+
 		<tr>
 			<td scope="row" colspan="2">
-				<select class="enhanced-post-types-with-status" multiple="multiple" data-placeholder="Select Post Type" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]">
+				<select data-placeholder="<?php esc_attr_e( 'Select Post Type', 'bulk-delete' ); ?>"
+					name="<?php echo esc_attr( $name ); ?>" class="enhanced-post-types-with-status"
+					<?php if ( $multiple_select ) : ?>
+						multiple
+					<?php endif; ?>
+				>
+
 				<?php foreach ( $post_types_by_status as $post_type => $all_status ) : ?>
 					<optgroup label="<?php echo esc_html( $post_type ); ?>">
+
 					<?php foreach ( $all_status as $status_key => $status_value ) : ?>
-						<option value="<?php echo esc_attr( $status_key ); ?>"><?php echo esc_html( $status_value ); ?></option>
+						<option value="<?php echo esc_attr( $status_key ); ?>">
+							<?php echo esc_html( $status_value ); ?>
+						</option>
 					<?php endforeach; ?>
+
 					</optgroup>
 				<?php endforeach; ?>
+
 				</select>
 			</td>
 		</tr>
@@ -103,7 +124,11 @@ abstract class Renderer extends Fetcher {
 	protected function split_post_type_and_status( $str ) {
 		$type_status = array();
 
-		$str_arr = explode( '-', $str );
+		if ( strpos( $str, '|' ) === false ) {
+			$str_arr = explode( '-', $str );
+		} else {
+			$str_arr = explode( '|', $str );
+		}
 
 		if ( count( $str_arr ) > 1 ) {
 			$type_status['status'] = end( $str_arr );
@@ -183,16 +208,26 @@ abstract class Renderer extends Fetcher {
 	 * Render Taxonomy dropdown.
 	 */
 	protected function render_taxonomy_dropdown() {
-		$taxonomies = get_taxonomies( array(), 'objects' );
+		$builtin_taxonomies = get_taxonomies( array( '_builtin' => true ), 'objects' );
+		$custom_taxonomies  = get_taxonomies( array( '_builtin' => false ), 'objects' );
 		?>
+			<select class="enhanced-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy">
+				<optgroup label="<?php esc_attr_e( 'Built-in Taxonomies', 'bulk-delete' ); ?>">
+					<?php foreach ( $builtin_taxonomies as $taxonomy ) : ?>
+						<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
+							<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
+						</option>
+					<?php endforeach; ?>
+				</optgroup>
 
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_taxonomy" class="enhanced-taxonomy-list" data-placeholder="<?php _e( 'Select Taxonomy', 'bulk-delete' ); ?>">
-			<?php foreach ( $taxonomies as $taxonomy ) : ?>
-				<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
-					<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
-				</option>
-			<?php endforeach; ?>
-		</select>
+				<optgroup label="<?php esc_attr_e( 'Custom Taxonomies', 'bulk-delete' ); ?>">
+					<?php foreach ( $custom_taxonomies as $taxonomy ) : ?>
+						<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
+							<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
+						</option>
+					<?php endforeach; ?>
+				</optgroup>
+			</select>
 		<?php
 	}
 
@@ -462,22 +497,6 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
-	 * Get the threshold after which enhanced select should be used.
-	 *
-	 * @return int Threshold.
-	 */
-	protected function get_enhanced_select_threshold() {
-		/**
-		 * Filter the enhanced select threshold.
-		 *
-		 * @since 6.0.0
-		 *
-		 * @param int Threshold.
-		 */
-		return apply_filters( 'bd_enhanced_select_threshold', 1000 );
-	}
-
-	/**
 	 * Render sticky settings.
 	 */
 	protected function render_sticky_action_settings() {
@@ -552,10 +571,18 @@ abstract class Renderer extends Fetcher {
 
 		<tr>
 			<td scope="row" colspan="2">
-				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio"
-					checked="checked"> <?php _e( 'Delete now', 'bulk-delete' ); ?></label>
-				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="true" type="radio"
-					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" <?php echo esc_attr( $disabled_attr ); ?>> <?php _e( 'Schedule', 'bulk-delete' ); ?></label>
+				<label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio"
+					checked="checked" class="schedule-deletion">
+					<?php _e( 'Delete now', 'bulk-delete' ); ?>
+				</label>
+
+				<label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="true" type="radio"
+					class="schedule-deletion" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" <?php echo esc_attr( $disabled_attr ); ?>>
+					<?php _e( 'Schedule', 'bulk-delete' ); ?>
+				</label>
+
 				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start"
 					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron_start" value="now"
 					type="text" <?php echo esc_attr( $disabled_attr ); ?> autocomplete="off"><?php _e( 'repeat ', 'bulk-delete' ); ?>
@@ -600,7 +627,7 @@ abstract class Renderer extends Fetcher {
 
 					<span class="<?php echo sanitize_html_class( $pro_class ); ?>" style="color:red">
 						<?php _e( 'Only available in Pro Addon', 'bulk-delete' ); ?> <a
-							href="<?php echo esc_url( $this->scheduler_url ); ?>">Buy now</a>
+							href="<?php echo esc_url( $this->scheduler_url ); ?>" target="_blank">Buy now</a>
 					</span>
 				<?php endif; ?>
 			</td>
@@ -617,7 +644,7 @@ abstract class Renderer extends Fetcher {
 				_e( 'Enter time in <strong>Y-m-d H:i:s</strong> format or enter <strong>now</strong> to use current time.', 'bulk-delete' );
 
 				$markup = __( 'Want to add new a Cron schedule?', 'bulk-delete' ) . '&nbsp' .
-					'<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/" target="_blank" rel="noopener">' . __( 'Find out how', 'bulk-delete' ) . '</a>';
+					'<a href="https://bulkwp.com/docs/add-a-new-cron-schedule/?utm_campaign=Docs&utm_medium=wpadmin&utm_source=tooltip&utm_content=cron-schedule" target="_blank" rel="noopener">' . __( 'Find out how', 'bulk-delete' ) . '</a>';
 
 				$content = __( 'Learn how to add your desired Cron schedule.', 'bulk-delete' );
 				echo '&nbsp', bd_generate_help_tooltip( $markup, $content );
