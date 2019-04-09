@@ -1,5 +1,10 @@
 ## Changelog ##
 
+### 2019-04-10 - v6.0.2 ###
+
+Enhancements
+- Show Bulk WP menu to only administrators.
+
 ### 2019-04-09 - v6.0.1 ###
 
 New Features
