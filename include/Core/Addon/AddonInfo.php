@@ -64,7 +64,24 @@ class AddonInfo {
 		return $this->root_file;
 	}
 
+	/**
+	 * Return add-on slug.
+	 *
+	 * Add-on slug is the name of the root file without file extension.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @return string Add-on slug.
+	 */
+	public function get_addon_slug() {
+		return basename( $this->root_file, '.php' );
+	}
+
 	public function get_addon_directory() {
 		return plugin_dir_path( $this->root_file );
+	}
+
+	public function get_addon_directory_url() {
+		return plugin_dir_url( $this->root_file );
 	}
 }

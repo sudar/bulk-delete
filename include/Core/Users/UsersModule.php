@@ -41,7 +41,9 @@ abstract class UsersModule extends BaseModule {
 		$options['no_posts']            = bd_array_get_bool( $request, "smbd_{$this->field_slug}_no_posts", false );
 		$options['no_posts_post_types'] = bd_array_get( $request, "smbd_{$this->field_slug}_no_post_post_types", array() );
 
-		$options['limit_to'] = absint( bd_array_get( $request, "smbd_{$this->field_slug}_limit_to", 0 ) );
+		$options['reassign_user']    = bd_array_get_bool( $request, "smbd_{$this->field_slug}_post_reassign", false );
+		$options['reassign_user_id'] = absint( bd_array_get( $request, "smbd_{$this->field_slug}_reassign_user_id", 0 ) );
+		$options['limit_to']         = absint( bd_array_get( $request, "smbd_{$this->field_slug}_limit_to", 0 ) );
 
 		return $options;
 	}
@@ -54,23 +56,7 @@ abstract class UsersModule extends BaseModule {
 			return 0;
 		}
 
-		/**
-		 * Filter the list of user ids that will be excluded from deletion.
-		 *
-		 * @since 6.0.0
-		 *
-		 * @param array $excluded_ids User IDs to be excluded during deletion.
-		 */
-		$excluded_user_ids = apply_filters( 'bd_excluded_user_ids', array() );
-
-		if ( is_array( $excluded_user_ids ) && ! empty( $excluded_user_ids ) ) {
-			if ( isset( $query['exclude'] ) ) {
-				$query['exclude'] = array_merge( $query['exclude'], $excluded_user_ids );
-			} else {
-				$query['exclude'] = $excluded_user_ids;
-			}
-		}
-
+		$query = $this->exclude_users_from_deletion( $query );
 		$query = $this->exclude_current_user( $query );
 
 		return $this->delete_users_from_query( $query, $options );
@@ -104,7 +90,26 @@ abstract class UsersModule extends BaseModule {
 				continue;
 			}
 
-			$deleted = wp_delete_user( $user->ID );
+			/**
+			 * Can a user be deleted.
+			 *
+			 * @since 6.0.0
+			 *
+			 * @param bool                                             Can Delete the User. (Default true)
+			 * @param \WP_User                                $user    User Object of the user who is about to be deleted.
+			 * @param array                                   $options Delete options.
+			 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $this    Module that is triggering deletion.
+			 */
+			if ( ! apply_filters( 'bd_can_delete_user', true, $user, $options, $this ) ) {
+				continue;
+			}
+
+			if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
+				$deleted = wp_delete_user( $user->ID, $options['reassign_user_id'] );
+			} else {
+				$deleted = wp_delete_user( $user->ID );
+			}
+
 			if ( $deleted ) {
 				$count ++;
 			}
@@ -356,6 +361,36 @@ abstract class UsersModule extends BaseModule {
 			$query['exclude'] = array_merge( $query['exclude'], array( $current_user_id ) );
 		} else {
 			$query['exclude'] = array( $current_user_id );
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Exclude users from deletion.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $query Pre-built query.
+	 *
+	 * @return array Modified query.
+	 */
+	protected function exclude_users_from_deletion( array $query ) {
+		/**
+		 * Filter the list of user ids that will be excluded from deletion.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $excluded_ids User IDs to be excluded during deletion.
+		 */
+		$excluded_user_ids = apply_filters( 'bd_excluded_user_ids', array() );
+
+		if ( is_array( $excluded_user_ids ) && ! empty( $excluded_user_ids ) ) {
+			if ( isset( $query['exclude'] ) ) {
+				$query['exclude'] = array_merge( $query['exclude'], $excluded_user_ids );
+			} else {
+				$query['exclude'] = $excluded_user_ids;
+			}
 		}
 
 		return $query;

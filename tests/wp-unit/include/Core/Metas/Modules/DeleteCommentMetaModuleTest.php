@@ -68,8 +68,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'use_value' => false,
 			'meta_key'  => $meta_key,
 			'limit_to'  => 0,
-			'date_op'   => '',
-			'days'      => '',
 			'restrict'  => false,
 		);
 
@@ -124,8 +122,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'use_value' => false,
 			'meta_key'  => $meta_key,
 			'limit_to'  => 0,
-			'date_op'   => '',
-			'days'      => '',
 			'restrict'  => false,
 		);
 
@@ -179,8 +175,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_op'    => '=',
 			'meta_type'  => 'CHAR',
 			'limit_to'   => 0,
-			'date_op'    => '',
-			'days'       => '',
 			'restrict'   => false,
 		);
 
@@ -239,8 +233,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'meta_op'    => '=',
 			'meta_type'  => 'CHAR',
 			'limit_to'   => 0,
-			'date_op'    => '',
-			'days'       => 0,
 			'restrict'   => false,
 		);
 
@@ -938,7 +930,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 *
 	 * TODO: This test is currently skipped because duplicate meta keys is not fully supported yet.
 	 *
-	 * @see https://github.com/sudar/bulk-delete/issues/515 for details.
+	 * @see          https://github.com/sudar/bulk-delete/issues/515 for details.
 	 *
 	 * @param array $setup     create posts, comments and meta params.
 	 * @param array $operation Possible operations.
@@ -963,9 +955,9 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 				)
 			);
 
-			$comment_data = array(
-				'comment_post_ID' => $post_id,
-			);
+		$comment_ids = array();
+		for ( $i = 0; $i < $setup['number_of_comments']; $i ++ ) {
+			$comment_ids[ $i ] = $this->factory->comment->create( $comment_data );
 
 			$comment_ids = array();
 			for ( $i = 0; $i < $element['number_of_comments']; $i++ ) {
@@ -982,15 +974,14 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$delete_options = array(
-			'post_type' => $operation['post_type'],
-			'use_value' => true,
-			'meta_key'  => $operation['meta_key'],
-			'meta_type' => $operation['meta_type'],
-			'meta_op'   => $operation['operator'],
-			'limit_to'  => 0,
-			'date_op'   => '',
-			'days'      => '',
-			'restrict'  => false,
+			'post_type'  => $setup['post_type'],
+			'use_value'  => true,
+			'meta_key'   => $operation['meta_key'],
+			'meta_value' => $operation['meta_value'],
+			'meta_type'  => $operation['meta_type'],
+			'meta_op'    => $operation['operator'],
+			'limit_to'   => 0,
+			'restrict'   => false,
 		);
 		if ( array_key_exists( 'meta_value', $operation ) ) {
 			$delete_options['meta_value'] = $operation['meta_value'];
@@ -1011,17 +1002,11 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$comment_metas_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( $expected['number_of_comment_metas_deleted'], $comment_metas_deleted );
 
-		for ( $j = 0; $j < $size; $j++ ) {
-			for ( $i = 0; $i < $setup[ $j ]['number_of_comments']; $i++ ) {
-				// Todo: Don't delete all meta rows if there are duplicate meta keys.
-				// See https://github.com/sudar/bulk-delete/issues/515 for details.
-				if ( array_key_exists( 'matched', $setup[ $j ] ) ) {
-					$this->assertFalse( metadata_exists( 'comment', $all_comment_ids[ $j ][ $i ], $setup[ $j ]['matched']['meta_key'] ) );
-				}
-				if ( array_key_exists( 'miss_matched', $setup[ $j ] ) ) {
-					$this->assertTrue( metadata_exists( 'comment', $all_comment_ids[ $j ][ $i ], $setup[ $j ]['miss_matched']['meta_key'] ) );
-				}
-			}
+		for ( $i = 0; $i < $setup['number_of_comments']; $i ++ ) {
+			// Todo: Don't delete all meta rows if there are duplicate meta keys.
+			// See https://github.com/sudar/bulk-delete/issues/515 for details.
+			$this->assertFalse( metadata_exists( 'comment', $comment_ids[ $i ], $setup['matched']['meta_key'] ) );
+			$this->assertTrue( metadata_exists( 'comment', $comment_ids[ $i ], $setup['miss_matched']['meta_key'] ) );
 		}
 	}
 
@@ -1166,8 +1151,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 				'use_value' => false,
 				'meta_key'  => $meta_key,
 				'limit_to'  => $batch_size,
-				'date_op'   => '',
-				'days'      => '',
 				'restrict'  => false,
 			);
 
@@ -1175,5 +1158,116 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$this->assertEquals( $total_comments / 2, $metas_deleted );
+	}
+
+	/**
+	 * Provide data to test deletion of comment meta with custom post status.
+	 *
+	 * @return array Data.
+	 */
+	public function provide_data_to_test_comment_meta_deletion_with_custom_post_status() {
+		return array(
+			// (+ve) case: Built-in post type and custom post status.
+			array(
+				array(
+					'post_type'   => 'post',
+					'post_status' => 'wc-completed',
+					'no_of_posts' => 5,
+					'metas'       => array(
+						array(
+							'key'   => 'test_key',
+							'value' => 'Matched Value',
+						),
+						array(
+							'key'   => 'another_key',
+							'value' => 'Another Value',
+						),
+					),
+				),
+				array(
+					'meta_key'  => 'test_key',
+					'post_type' => 'post|wc-completed',
+					'use_value' => false,
+					'limit_to'  => 0,
+					'restrict'  => false,
+				),
+				array(
+					'number_of_comment_metas_deleted' => 5,
+					'left_over_comment_meta'          => 'another_key',
+				),
+			),
+			// (+ve) case: Custom post type and custom post status.
+			array(
+				array(
+					'post_type'   => 'product',
+					'post_status' => 'wc-completed',
+					'no_of_posts' => 3,
+					'metas'       => array(
+						array(
+							'key'   => 'test_key',
+							'value' => 'Matched Value',
+						),
+						array(
+							'key'   => 'another_key',
+							'value' => 'Another Value',
+						),
+					),
+				),
+				array(
+					'meta_key'  => 'test_key',
+					'post_type' => 'product|wc-completed',
+					'use_value' => false,
+					'limit_to'  => 0,
+					'restrict'  => false,
+				),
+				array(
+					'number_of_comment_metas_deleted' => 3,
+					'left_over_comment_meta'          => 'another_key',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test deletion of comment meta with custom post status.
+	 *
+	 * @param array $setup     create posts, comments and meta params.
+	 * @param array $operation Possible operations.
+	 * @param array $expected  expected output.
+	 *
+	 * @dataProvider provide_data_to_test_comment_meta_deletion_with_custom_post_status
+	 */
+	public function test_comment_meta_deletion_with_custom_post_status( $setup, $operation, $expected ) {
+		$this->register_post_type( $setup['post_type'] );
+		register_post_status( $setup['post_status'] );
+		$metas = $setup['metas'];
+
+		// Create posts.
+		$post_ids = $this->factory->post->create_many(
+			$setup['no_of_posts'],
+			array(
+				'post_type'   => $setup['post_type'],
+				'post_status' => $setup['post_status'],
+			)
+		);
+
+		foreach ( $post_ids as $post_id ) {
+			$comment_data = array(
+				'comment_post_ID' => $post_id,
+				'comment_content' => 'Test Comment',
+			);
+			$comment_id   = $this->factory->comment->create( $comment_data );
+			foreach ( $metas as $meta ) {
+				add_comment_meta( $comment_id, $meta['key'], $meta['value'] );
+			}
+		}
+
+		$delete_options = $operation;
+
+		$comment_metas_deleted = $this->module->delete( $delete_options );
+		$this->assertEquals( $expected['number_of_comment_metas_deleted'], $comment_metas_deleted );
+
+		$this->assertTrue( metadata_exists( 'comment', $comment_id, $expected['left_over_comment_meta'] ) );
+		$this->assertFalse( metadata_exists( 'comment', $comment_id, $operation['meta_key'] ) );
 	}
 }

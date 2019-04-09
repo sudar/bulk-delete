@@ -4,7 +4,7 @@
  * Plugin Script: bulk-delete.php
  * Plugin URI: https://bulkwp.com
  * Description: Bulk delete users and posts from selected categories, tags, post types, custom taxonomies or by post status like drafts, scheduled posts, revisions etc.
- * Version: 6.0.0
+ * Version: 6.0.1
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Author: Sudar
@@ -33,7 +33,7 @@
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 // Include the stub of the old `Bulk_Delete` class, so that old add-ons don't generate a fatal error.
-require_once 'include/deprecated/old-bulk-delete.php';
+require_once 'include/Deprecated/old-bulk-delete.php';
 
 if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 	/**

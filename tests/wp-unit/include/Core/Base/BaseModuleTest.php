@@ -171,7 +171,8 @@ class BaseModuleTest extends WPCoreUnitTestCase {
 		$message   = array( 'scheduled' => 'Scheduled Message' );
 		$cron_hook = 'bd_some_cron_hook';
 		$options   = array(
-			'key1' => 'value1',
+			'key1'       => 'value1',
+			'cron_label' => $cron_options['cron_label'],
 		);
 
 		$stub = $this->getMockForAbstractClass( $this->class_name );
@@ -234,6 +235,7 @@ class BaseModuleTest extends WPCoreUnitTestCase {
 					array(
 						'frequency'  => $frequency,
 						'start_time' => $gmt_start_time,
+						'cron_label' => 'Module Cron Label',
 					),
 				);
 			}

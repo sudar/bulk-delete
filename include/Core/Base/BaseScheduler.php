@@ -15,11 +15,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 abstract class BaseScheduler {
 	/**
-	 * The item type that will be deleted by the Scheduler.
+	 * The page slug of the module for which this is the Scheduler.
 	 *
 	 * @var string
 	 */
-	protected $item_type;
+	protected $page_slug;
 
 	/**
 	 * The class name of the module to which this is the scheduler.
@@ -47,16 +47,6 @@ abstract class BaseScheduler {
 	 */
 	public function __construct() {
 		$this->initialize();
-		$this->setup_module();
-	}
-
-	/**
-	 * Setup module from class name.
-	 */
-	protected function setup_module() {
-		$bd = BulkDelete::get_instance();
-
-		$this->module = $bd->get_module( 'bulk-delete-' . $this->item_type, $this->module_class_name );
 	}
 
 	/**
@@ -65,16 +55,30 @@ abstract class BaseScheduler {
 	 * Setups the hooks and filters.
 	 */
 	public function register() {
-		add_filter( 'bd_javascript_array', array( $this, 'filter_js_array' ) );
+		add_action( 'init', array( $this, 'setup_cron' ) );
 
-		if ( is_null( $this->module ) ) {
-			return;
-		}
+		add_filter( 'bd_javascript_array', array( $this, 'filter_js_array' ) );
+	}
+
+	/**
+	 * Setup cron job.
+	 */
+	public function setup_cron() {
+		$this->setup_module();
 
 		$cron_hook = $this->module->get_cron_hook();
 		if ( ! empty( $cron_hook ) ) {
 			add_action( $cron_hook, array( $this, 'do_delete' ) );
 		}
+	}
+
+	/**
+	 * Setup module from class name.
+	 */
+	protected function setup_module() {
+		$bd = BulkDelete::get_instance();
+
+		$this->module = $bd->get_module( $this->page_slug, $this->module_class_name );
 	}
 
 	/**
@@ -96,10 +100,6 @@ abstract class BaseScheduler {
 	 * @param array $delete_options Delete options.
 	 */
 	public function do_delete( $delete_options ) {
-		if ( is_null( $this->module ) ) {
-			return;
-		}
-
 		/**
 		 * Triggered before the scheduler is run.
 		 *

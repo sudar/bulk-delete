@@ -21,6 +21,7 @@ use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTagModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByURLModule;
+use BulkWP\BulkDelete\Core\SystemInfo\SystemInfoPage;
 use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByNameModule;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostCountModule;
@@ -97,7 +98,7 @@ final class BulkDelete {
 	/**
 	 * List of Primary Admin pages.
 	 *
-	 * @var BasePage[]
+	 * @var \BulkWP\BulkDelete\Core\Base\BaseDeletePage[]
 	 *
 	 * @since 6.0.0
 	 */
@@ -115,7 +116,7 @@ final class BulkDelete {
 	/**
 	 * Plugin version.
 	 */
-	const VERSION = '6.0.0';
+	const VERSION = '6.0.1';
 
 	/**
 	 * Set the BulkDelete constructor as private.
@@ -148,11 +149,16 @@ final class BulkDelete {
 
 	/**
 	 * Load the plugin if it is not loaded.
+	 * The plugin will be loaded only it is an admin request or a cron request.
 	 *
 	 * This function will be invoked in the `plugins_loaded` hook.
 	 */
 	public function load() {
 		if ( $this->loaded ) {
+			return;
+		}
+
+		if ( ! $this->is_admin_or_cron() ) {
 			return;
 		}
 
@@ -169,6 +175,8 @@ final class BulkDelete {
 		 * @param string Plugin main file.
 		 */
 		do_action( 'bd_loaded', $this->get_plugin_file() );
+
+		$this->load_primary_pages();
 	}
 
 	/**
@@ -289,8 +297,6 @@ final class BulkDelete {
 			array( 'BD_License', 'display_addon_page' )
 		);
 
-		\BD_System_Info_page::factory();
-
 		/**
 		 * Runs just after adding all menu items to Bulk WP main menu.
 		 *
@@ -308,20 +314,31 @@ final class BulkDelete {
 	 *
 	 * @return \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Primary Admin pages.
 	 */
-	public function get_primary_pages() {
+	private function get_primary_pages() {
 		if ( empty( $this->primary_pages ) ) {
-			$posts_page = $this->get_delete_posts_admin_page();
-			$pages_page = $this->get_delete_pages_admin_page();
-			$users_page = $this->get_delete_users_admin_page();
-			$metas_page = $this->get_delete_metas_admin_page();
-			$terms_page = $this->get_delete_terms_admin_page();
-
-			$this->primary_pages[ $posts_page->get_page_slug() ] = $posts_page;
-			$this->primary_pages[ $pages_page->get_page_slug() ] = $pages_page;
-			$this->primary_pages[ $users_page->get_page_slug() ] = $users_page;
-			$this->primary_pages[ $metas_page->get_page_slug() ] = $metas_page;
-			$this->primary_pages[ $terms_page->get_page_slug() ] = $terms_page;
+			$this->load_primary_pages();
 		}
+
+		return $this->primary_pages;
+	}
+
+	/**
+	 * Load Primary admin pages.
+	 *
+	 * The pages need to be loaded in `init` hook, since the association between page and modules is needed in cron requests.
+	 */
+	private function load_primary_pages() {
+		$posts_page = $this->get_delete_posts_admin_page();
+		$pages_page = $this->get_delete_pages_admin_page();
+		$users_page = $this->get_delete_users_admin_page();
+		$metas_page = $this->get_delete_metas_admin_page();
+		$terms_page = $this->get_delete_terms_admin_page();
+
+		$this->primary_pages[ $posts_page->get_page_slug() ] = $posts_page;
+		$this->primary_pages[ $pages_page->get_page_slug() ] = $pages_page;
+		$this->primary_pages[ $users_page->get_page_slug() ] = $users_page;
+		$this->primary_pages[ $metas_page->get_page_slug() ] = $metas_page;
+		$this->primary_pages[ $terms_page->get_page_slug() ] = $terms_page;
 
 		/**
 		 * List of primary admin pages.
@@ -330,7 +347,7 @@ final class BulkDelete {
 		 *
 		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Admin pages.
 		 */
-		return apply_filters( 'bd_primary_pages', $this->primary_pages );
+		$this->primary_pages = apply_filters( 'bd_primary_pages', $this->primary_pages );
 	}
 
 	/**
@@ -358,7 +375,7 @@ final class BulkDelete {
 		 *
 		 * @param DeletePostsPage $posts_page The page in which the modules are registered.
 		 */
-		do_action( "bd_after_{$posts_page->get_item_type()}_modules", $posts_page );
+		do_action( "bd_after_modules_{$posts_page->get_page_slug()}", $posts_page );
 
 		/**
 		 * After the modules are registered in a delete page.
@@ -391,7 +408,7 @@ final class BulkDelete {
 		 *
 		 * @param DeletePagesPage $pages_page The page in which the modules are registered.
 		 */
-		do_action( "bd_after_{$pages_page->get_item_type()}_modules", $pages_page );
+		do_action( "bd_after_modules_{$pages_page->get_page_slug()}", $pages_page );
 
 		/**
 		 * After the modules are registered in a delete page.
@@ -425,7 +442,7 @@ final class BulkDelete {
 		 *
 		 * @param DeleteUsersPage $users_page The page in which the modules are registered.
 		 */
-		do_action( "bd_after_{$users_page->get_item_type()}_modules", $users_page );
+		do_action( "bd_after_modules_{$users_page->get_page_slug()}", $users_page );
 
 		/**
 		 * After the modules are registered in a delete page.
@@ -460,7 +477,7 @@ final class BulkDelete {
 		 *
 		 * @param DeleteMetasPage $metas_page The page in which the modules are registered.
 		 */
-		do_action( "bd_after_{$metas_page->get_item_type()}_modules", $metas_page );
+		do_action( "bd_after_modules_{$metas_page->get_page_slug()}", $metas_page );
 
 		/**
 		 * After the modules are registered in a delete page.
@@ -487,6 +504,24 @@ final class BulkDelete {
 		$terms_page->add_module( new DeleteTermsByNameModule() );
 		$terms_page->add_module( new DeleteTermsByPostCountModule() );
 
+		/**
+		 * After the modules are registered in the delete terms page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param DeleteTermsPage $terms_page The page in which the modules are registered.
+		 */
+		do_action( "bd_after_modules_{$terms_page->get_page_slug()}", $terms_page );
+
+		/**
+		 * After the modules are registered in a delete page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param BasePage $terms_page The page in which the modules are registered.
+		 */
+		do_action( 'bd_after_modules', $terms_page );
+
 		return $terms_page;
 	}
 
@@ -504,15 +539,30 @@ final class BulkDelete {
 	}
 
 	/**
+	 * Get the System Info page.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return \BulkWP\BulkDelete\Core\SystemInfo\SystemInfoPage
+	 */
+	private function get_system_info_page() {
+		$system_info_page = new SystemInfoPage( $this->get_plugin_file() );
+
+		return $system_info_page;
+	}
+
+	/**
 	 * Get the list of secondary pages.
 	 *
 	 * @return BasePage[] Secondary Pages.
 	 */
 	private function get_secondary_pages() {
 		if ( empty( $this->secondary_pages ) ) {
-			$cron_list_page = $this->get_cron_list_admin_page();
+			$cron_list_page   = $this->get_cron_list_admin_page();
+			$system_info_page = $this->get_system_info_page();
 
-			$this->secondary_pages[ $cron_list_page->get_page_slug() ] = $cron_list_page;
+			$this->secondary_pages[ $cron_list_page->get_page_slug() ]   = $cron_list_page;
+			$this->secondary_pages[ $system_info_page->get_page_slug() ] = $system_info_page;
 		}
 
 		/**
@@ -629,5 +679,14 @@ final class BulkDelete {
 		}
 
 		return $pages[ $page_slug ];
+	}
+
+	/**
+	 * Is the current request an admin or cron request?
+	 *
+	 * @return bool True, if yes, False otherwise.
+	 */
+	private function is_admin_or_cron() {
+		return is_admin() || defined( 'DOING_CRON' ) || isset( $_GET['doing_wp_cron'] );
 	}
 }

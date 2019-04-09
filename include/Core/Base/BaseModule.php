@@ -71,8 +71,15 @@ abstract class BaseModule extends Renderer {
 	 * @var array
 	 */
 	protected $messages = array(
-		'box_label'  => '',
-		'cron_label' => '',
+		'box_label'         => '',
+		'cron_label'        => '',
+		'validation_error'  => '',
+		'confirm_deletion'  => '',
+		'confirm_scheduled' => '',
+		'scheduled'         => '',
+		'nothing_to_delete' => '',
+		'deleted_one'       => '',
+		'deleted_multiple'  => '',
 	);
 
 	/**
@@ -116,15 +123,6 @@ abstract class BaseModule extends Renderer {
 	 * @return int Number of items that were deleted.
 	 */
 	abstract protected function do_delete( $options );
-
-	/**
-	 * Get Success Message.
-	 *
-	 * @param int $items_deleted Number of items that were deleted.
-	 *
-	 * @return string Success message.
-	 */
-	abstract protected function get_success_message( $items_deleted );
 
 	/**
 	 * Create new instances of Modules.
@@ -222,8 +220,25 @@ abstract class BaseModule extends Renderer {
 	public function filter_js_array( $js_array ) {
 		$js_array['dt_iterators'][] = '_' . $this->field_slug;
 
-		$js_array['msg']['deletePostsWarning'] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
-		$js_array['msg']['selectPostOption']   = __( 'Please select posts from at least one option', 'bulk-delete' );
+		$js_array['pre_delete_msg'][ $this->action ] = $this->action . '_confirm_deletion';
+		$js_array['error_msg'][ $this->action ]      = $this->action . '_error';
+
+		$js_array['msg'][ $this->action . '_confirm_deletion' ] = __( 'Are you sure you want to delete all the posts based on the selected option?', 'bulk-delete' );
+		$js_array['msg'][ $this->action . '_error' ]            = __( 'Please select posts from at least one option', 'bulk-delete' );
+
+		if ( ! empty( $this->messages['confirm_deletion'] ) ) {
+			$js_array['msg'][ $this->action . '_confirm_deletion' ] = $this->messages['confirm_deletion'];
+		}
+
+		if ( ! empty( $this->messages['confirm_scheduled'] ) ) {
+			$js_array['pre_schedule_msg'][ $this->action ] = $this->action . '_confirm_scheduled';
+
+			$js_array['msg'][ $this->action . '_confirm_scheduled' ] = $this->messages['confirm_scheduled'];
+		}
+
+		if ( ! empty( $this->messages['validation_error'] ) ) {
+			$js_array['msg'][ $this->action . '_error' ] = $this->messages['validation_error'];
+		}
 
 		return $this->append_to_js_array( $js_array );
 	}
@@ -300,6 +315,23 @@ abstract class BaseModule extends Renderer {
 	}
 
 	/**
+	 * Get Success Message.
+	 *
+	 * @param int $items_deleted Number of items that were deleted.
+	 *
+	 * @return string Success message.
+	 */
+	protected function get_success_message( $items_deleted ) {
+		if ( 0 === $items_deleted ) {
+			if ( ! empty( $this->messages['nothing_to_delete'] ) ) {
+				return $this->messages['nothing_to_delete'];
+			}
+		}
+
+		return _n( $this->messages['deleted_one'], $this->messages['deleted_multiple'], $items_deleted, 'bulk-delete' ); // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle, WordPress.WP.I18n.NonSingularStringLiteralPlural
+	}
+
+	/**
 	 * Getter for cron_hook.
 	 *
 	 * @return string Cron Hook name.
@@ -346,6 +378,8 @@ abstract class BaseModule extends Renderer {
 	 * @return string Message.
 	 */
 	protected function schedule_deletion( $cron_options, $options ) {
+		$options['cron_label'] = $cron_options['cron_label'];
+
 		if ( '-1' === $cron_options['frequency'] ) {
 			wp_schedule_single_event( $cron_options['start_time'], $this->cron_hook, array( $options ) );
 		} else {
@@ -411,5 +445,16 @@ abstract class BaseModule extends Renderer {
 	 */
 	public function get_name() {
 		return bd_get_short_class_name( $this );
+	}
+
+	/**
+	 * Get the page slug of the module.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @return string Page slug.
+	 */
+	public function get_page_slug() {
+		return $this->page_slug;
 	}
 }

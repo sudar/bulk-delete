@@ -18,7 +18,7 @@ class DeletePostsByCategoryModule extends PostsModule {
 		$this->meta_box_slug = 'bd_by_category';
 		$this->action        = 'delete_posts_by_category';
 		$this->cron_hook     = 'do-bulk-delete-cat';
-		$this->scheduler_url = 'http://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sc';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sc';
 		$this->messages      = array(
 			'box_label'  => __( 'By Post Category', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),

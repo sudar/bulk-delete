@@ -40,10 +40,13 @@ class CronListTable extends \WP_List_Table {
 		if ( 'top' === $which ) {
 			echo '<p>';
 			_e( 'This is the list of jobs that are currently scheduled for auto deleting posts in Bulk Delete Plugin.', 'bulk-delete' );
-			echo ' <strong>';
-			_e( 'Note: ', 'bulk-delete' );
-			echo '</strong>';
-			_e( 'Scheduling auto post or user deletion is available only when you buy pro addons.', 'bulk-delete' );
+			$total_items = count( $this->items );
+			if ( 0 === $total_items ) {
+				echo ' <strong>';
+				_e( 'Note: ', 'bulk-delete' );
+				echo '</strong>';
+				_e( 'Scheduling auto post or user deletion is available only when you buy pro addons.', 'bulk-delete' );
+			}
 			echo '</p>';
 		}
 	}

@@ -42,7 +42,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		<fieldset class="options">
 			<h4><?php _e( 'Select the post type whose comment meta fields you want to delete', 'bulk-delete' ); ?></h4>
 			<table class="optiontable">
-				<?php $this->render_post_type_dropdown(); ?>
+				<?php $this->render_post_type_with_status( false ); ?>
 			</table>
 
 			<h4><?php _e( 'Choose your comment meta field settings', 'bulk-delete' ); ?></h4>
@@ -100,7 +100,7 @@ class DeleteCommentMetaModule extends MetasModule {
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['post_type'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type', 'post' ) );
+		$options['post_type'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug ) );
 
 		$options['use_value'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_use_value', false );
 		$options['meta_key']  = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug . '_meta_key', '' ) );
@@ -116,22 +116,17 @@ class DeleteCommentMetaModule extends MetasModule {
 	}
 
 	protected function do_delete( $options ) {
-		$args = array(
-			'post_type' => $options['post_type'],
-		);
+		$args = $this->get_post_type_and_status_args( $options['post_type'] );
 
 		if ( $options['limit_to'] > 0 ) {
 			$args['number'] = $options['limit_to'];
 		}
 
-		$op   = $options['date_op'];
-		$days = $options['days'];
-
 		if ( $options['restrict'] ) {
 			$args['date_query'] = array(
 				array(
-					'column' => 'comment_date',
-					$op      => "{$days} day ago",
+					'column'            => 'comment_date',
+					$options['date_op'] => "{$options['days']} day ago",
 				),
 			);
 		}
