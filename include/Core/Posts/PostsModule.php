@@ -185,7 +185,7 @@ abstract class PostsModule extends BaseModule {
 	 *
 	 * @since 6.0.2
 	 *
-	 * @param int[]|\WP_Post[] $posts  List of posts to be deleted. It could be just post_ids.
+	 * @param int[]|\WP_Post[] $posts   List of posts to be deleted. It could be just post_ids.
 	 * @param array            $options Delete options.
 	 *
 	 * @return int[] List of post ids that should be deleted.
