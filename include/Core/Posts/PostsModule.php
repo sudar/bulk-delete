@@ -91,16 +91,7 @@ abstract class PostsModule extends BaseModule {
 		$query = $this->build_query_options( $options, $query );
 		$posts = $this->query( $query );
 
-		/**
-		 * List of posts to be deleted.
-		 *
-		 * @since 6.0.1
-		 *
-		 * @param array      $posts   List of posts to be deleted. It could be just post_ds.
-		 * @param array      $options Delete options.
-		 * @param BaseModule $this    Module that is triggering deletion.
-		 */
-		$post_ids = apply_filters( 'bd_posts_to_be_deleted', $posts, $options, $this );
+		$post_ids = $this->prepare_posts_for_deletion( $posts, $options );
 
 		/**
 		 * Triggered before the posts are deleted.
@@ -185,5 +176,31 @@ abstract class PostsModule extends BaseModule {
 		}
 
 		return count( $post_ids );
+	}
+
+	/**
+	 * Prepare posts for deletion.
+	 *
+	 * Individual modules can override this method to exclude posts from getting deleted.
+	 *
+	 * @since 6.0.2
+	 *
+	 * @param int[]|\WP_Post[] $posts  List of posts to be deleted. It could be just post_ids.
+	 * @param array            $options Delete options.
+	 *
+	 * @return int[] List of post ids that should be deleted.
+	 */
+	protected function prepare_posts_for_deletion( array $posts, array $options ) {
+		$post_ids = array();
+
+		foreach ( $posts as $post ) {
+			if ( $post instanceof \WP_Post ) {
+				$post_ids[] = $post->ID;
+			} else {
+				$post_ids[] = $post;
+			}
+		}
+
+		return $post_ids;
 	}
 }
