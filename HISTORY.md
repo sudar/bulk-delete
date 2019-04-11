@@ -4,6 +4,7 @@
 
 Enhancements
 - Show Bulk WP menu to only administrators.
+- Make Delete Comment Meta scheduler more reliable.
 - Tweak the message that is shown when a cron job is manually run.
 
 ### 2019-04-09 - v6.0.1 ###
