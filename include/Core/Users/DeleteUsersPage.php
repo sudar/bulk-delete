@@ -21,9 +21,8 @@ class DeleteUsersPage extends BaseDeletePage {
 	 * @since 5.5
 	 */
 	protected function initialize() {
-		$this->page_slug  = 'bulk-delete-users';
-		$this->item_type  = 'users';
-		$this->capability = 'delete_users';
+		$this->page_slug = 'bulk-delete-users';
+		$this->item_type = 'users';
 
 		$this->label = array(
 			'page_title' => __( 'Bulk Delete Users', 'bulk-delete' ),

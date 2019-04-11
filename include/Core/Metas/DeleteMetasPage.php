@@ -18,9 +18,8 @@ class DeleteMetasPage extends BaseDeletePage {
 	 * Initialize and setup variables.
 	 */
 	protected function initialize() {
-		$this->page_slug  = 'bulk-delete-metas';
-		$this->item_type  = 'metas';
-		$this->capability = 'edit_others_posts';
+		$this->page_slug = 'bulk-delete-metas';
+		$this->item_type = 'metas';
 
 		$this->label = array(
 			'page_title' => __( 'Bulk Delete Meta Fields', 'bulk-delete' ),
