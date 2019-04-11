@@ -4,7 +4,7 @@
 **Requires PHP:** 5.3  
 **Requires at least:** 4.4  
 **Tested up to:** 5.2  
-**Stable tag:** 6.0.1  
+**Stable tag:** 6.0.2  
 [![Plugin Version](https://img.shields.io/wordpress/plugin/v/bulk-delete.svg)]() [![Total Downloads](https://img.shields.io/wordpress/plugin/dt/bulk-delete.svg)]() [![Plugin Rating](https://img.shields.io/wordpress/plugin/r/bulk-delete.svg)]() [![WordPress Compatibility](https://img.shields.io/wordpress/v/bulk-delete.svg)]() [![Build Status](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![StyleCI](https://styleci.io/repos/7251206/shield?branch=master)](https://styleci.io/repos/7251206) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://wordpress.org/about/license/)
 
 Bulk delete posts, pages, users, attachments and meta fields based on different conditions and filters.
