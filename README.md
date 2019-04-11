@@ -1,6 +1,6 @@
 # Bulk Delete #
 **Contributors:** bulkwp, sudar  
-**Tags:** mass, bulk, delete, post, user, meta fields, draft
+**Tags:** mass, bulk, delete, post, user, meta fields, draft  
 **Requires PHP:** 5.3  
 **Requires at least:** 4.4  
 **Tested up to:** 5.2  
