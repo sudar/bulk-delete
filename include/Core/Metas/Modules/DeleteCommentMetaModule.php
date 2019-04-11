@@ -22,14 +22,25 @@ class DeleteCommentMetaModule extends MetasModule {
 			'scheduled'  => __( 'Comment meta fields from the comments with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
 			'cron_label' => __( 'Delete Comment Meta', 'bulk-delete' ),
 		);
+
+		$this->register_cron_hooks();
 	}
 
 	public function register( $hook_suffix, $page_slug ) {
 		parent::register( $hook_suffix, $page_slug );
 
 		add_action( 'bd_delete_comment_meta_form', array( $this, 'add_filtering_options' ) );
-
 		add_filter( 'bd_delete_comment_meta_options', array( $this, 'process_filtering_options' ), 10, 2 );
+	}
+
+	/**
+	 * Register additional module specific hooks that are needed in cron jobs.
+	 *
+	 * During a cron request, the register method is not called. So these hooks should be registered separately.
+	 *
+	 * @since 6.0.2
+	 */
+	protected function register_cron_hooks() {
 		add_filter( 'bd_delete_comment_meta_query', array( $this, 'change_meta_query' ), 10, 2 );
 	}
 

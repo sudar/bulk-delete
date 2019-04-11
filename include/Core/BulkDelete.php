@@ -116,7 +116,7 @@ final class BulkDelete {
 	/**
 	 * Plugin version.
 	 */
-	const VERSION = '6.0.1';
+	const VERSION = '6.0.2';
 
 	/**
 	 * Set the BulkDelete constructor as private.

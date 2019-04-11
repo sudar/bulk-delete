@@ -15,9 +15,8 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 class DeleteTermsPage extends BaseDeletePage {
 	protected function initialize() {
-		$this->page_slug  = 'bulk-delete-terms';
-		$this->item_type  = 'terms';
-		$this->capability = 'delete_posts';
+		$this->page_slug = 'bulk-delete-terms';
+		$this->item_type = 'terms';
 
 		$this->label = array(
 			'page_title' => __( 'Bulk Delete Taxonomy Terms', 'bulk-delete' ),
