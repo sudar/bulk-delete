@@ -25,7 +25,7 @@
         "squizlabs/php_codesniffer": "<4.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
         "wp-coding-standards/wpcs": "^2.0",
-        "codedungeon/phpunit-result-printer": "^0.24",
+        "codedungeon/phpunit-result-printer": "<=1.0",
         "phpunit/phpcov": "^4.0",
         "phpcompatibility/phpcompatibility-wp": "^2.0",
         "10up/wp_mock": "^0.3",
