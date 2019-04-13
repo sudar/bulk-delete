@@ -26,10 +26,10 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
         "wp-coding-standards/wpcs": "^2.0",
         "codedungeon/phpunit-result-printer": "<=1.0",
-        "phpunit/phpcov": "^4.0",
+        "phpunit/phpcov": "^5.0",
         "phpcompatibility/phpcompatibility-wp": "^2.0",
-        "10up/wp_mock": "^0.3",
-        "phpunit/phpunit": "^6.0",
+        "10up/wp_mock": "^0.4.0",
+        "phpunit/phpunit": "^7.0",
         "sudar/wp-plugin-test-tools": "dev-master"
     }
 }
