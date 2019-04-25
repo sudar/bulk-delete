@@ -46,14 +46,11 @@ class DeletePostsByCommentsModule extends PostsModule {
 		<!-- Comments start-->
 		<fieldset class="options">
 			<table class="optiontable">
+				<?php $this->render_post_type_with_status( false, 'comments' ); ?>
 				<tr>
-					<td scope="row" colspan="2">
+					<td>
 						<?php _e( 'Delete posts that have comments', 'bulk-delete' ); ?>
-					</td>
-					<td>
 						<?php $this->render_number_comparison_operators(); ?>
-					</td>
-					<td>
 						<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_value"
 						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_value" placeholder="Comments Count" min="0" class="comments_count_num">
 					</td>

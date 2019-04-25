@@ -75,11 +75,13 @@ abstract class Renderer extends Fetcher {
 	 * Render Post type with status and post count checkboxes.
 	 *
 	 * @since 6.0.1 Added $multiple param.
+	 * @since 6.1.0 Added $feature  param.
 	 *
-	 * @param bool $multiple_select Whether multiple select should be supported. Default true.
+	 * @param bool   $multiple_select Whether multiple select should be supported. Default true.
+	 * @param string $feature         Fetches only post types that supports feature. Default empty.
 	 */
-	protected function render_post_type_with_status( $multiple_select = true ) {
-		$post_types_by_status = $this->get_post_types_by_status();
+	protected function render_post_type_with_status( $multiple_select = true, $feature = '' ) {
+		$post_types_by_status = $this->get_post_types_by_status( $feature );
 
 		$name = 'smbd_' . $this->field_slug;
 		if ( $multiple_select ) {
