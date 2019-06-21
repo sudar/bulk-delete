@@ -36,6 +36,8 @@ abstract class Fetcher {
 	/**
 	 * Get the list of post types by post status and count.
 	 *
+	 * @since 6.1.0 Added $feature param.
+	 *
 	 * @param string $feature Feature of post.
 	 *
 	 * @return array Post types by post status.
