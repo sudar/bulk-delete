@@ -36,9 +36,13 @@ abstract class Fetcher {
 	/**
 	 * Get the list of post types by post status and count.
 	 *
+	 * @since 6.1.0 Added $feature param.
+	 *
+	 * @param string $feature Feature of post.
+	 *
 	 * @return array Post types by post status.
 	 */
-	protected function get_post_types_by_status() {
+	protected function get_post_types_by_status( $feature = '' ) {
 		$post_types_by_status = array();
 
 		$post_types    = $this->get_post_types();
@@ -46,7 +50,10 @@ abstract class Fetcher {
 
 		foreach ( $post_types as $post_type ) {
 			$post_type_name = $post_type->name;
-			$count_posts    = wp_count_posts( $post_type_name );
+			if ( ! empty( $feature ) && ! post_type_supports( $post_type_name, $feature ) ) {
+				continue;
+			}
+			$count_posts = wp_count_posts( $post_type_name );
 
 			foreach ( $post_statuses as $post_status ) {
 				$post_status_name = $post_status->name;
