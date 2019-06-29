@@ -534,9 +534,13 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render delete settings.
+	 *
+	 * @since 6.1.0 Added $hide_trash  param.
+	 *
+	 * @param bool $hide_trash Show/Hide Move to trash radio button. Default false.
 	 */
-	protected function render_delete_settings() {
-		bd_render_delete_settings( $this->field_slug );
+	protected function render_delete_settings( $hide_trash = false ) {
+		bd_render_delete_settings( $this->field_slug, $hide_trash );
 		/**
 		 * This action is primarily for adding delete attachment settings.
 		 *
