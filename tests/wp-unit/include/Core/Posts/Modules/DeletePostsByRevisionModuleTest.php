@@ -37,16 +37,16 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 
 		$revision_post_1 = array(
 			'ID'           => $post_id,
-			'post_title'   => rand(),
-			'post_content' => md5( rand() ),
+			'post_title'   => wp_rand(),
+			'post_content' => md5( wp_rand() ),
 		);
 
 		wp_update_post( $revision_post_1 );
 
 		$revision_post_2 = array(
 			'ID'           => $post_id,
-			'post_title'   => rand(),
-			'post_content' => md5( rand() ),
+			'post_title'   => wp_rand(),
+			'post_content' => md5( wp_rand() ),
 		);
 
 		wp_update_post( $revision_post_2 );
@@ -79,8 +79,8 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 		foreach ( $post_ids as $post_id ) {
 			$revision_post = array(
 				'ID'           => $post_id,
-				'post_title'   => rand(),
-				'post_content' => md5( rand() ),
+				'post_title'   => wp_rand(),
+				'post_content' => md5( wp_rand() ),
 			);
 
 			wp_update_post( $revision_post );
