@@ -243,5 +243,4 @@ class DeletePostsByRevisionModuleTest extends WPCoreUnitTestCase {
 		$available_posts = $this->get_posts_by_status( 'inherit', 'revision' );
 		$this->assertEquals( $expected['available_posts'], count( $available_posts ) );
 	}
-
 }
