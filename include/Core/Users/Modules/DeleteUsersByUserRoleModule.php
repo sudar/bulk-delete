@@ -26,9 +26,16 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 		$this->cron_hook     = 'do-bulk-delete-users-by-role';
 		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-users-by-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-u-ur';
 		$this->messages      = array(
-			'box_label'  => __( 'By User Role', 'bulk-delete' ),
-			'scheduled'  => __( 'Users from the selected user role are scheduled for deletion.', 'bulk-delete' ),
-			'cron_label' => __( 'Delete Users by User Role', 'bulk-delete' ),
+			'box_label'         => __( 'By User Role', 'bulk-delete' ),
+			'scheduled'         => __( 'Users from the selected user role are scheduled for deletion.', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Users by User Role', 'bulk-delete' ),
+			'validation_error'  => __( 'Select at least one user role from which users should be deleted', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the users from the selected user role?', 'bulk-delete' ),
+			/* translators: 1 Number of users deleted */
+			'deleted_one'       => __( 'Deleted %d user from the selected roles', 'bulk-delete' ),
+			/* translators: 1 Number of users deleted */
+			'deleted_multiple'  => __( 'Deleted %d users from the selected roles', 'bulk-delete' ),
 		);
 	}
 
@@ -185,17 +192,6 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validateUserRole';
 
-		$js_array['pre_action_msg'][ $this->action ] = 'deleteUsersWarning';
-		$js_array['msg']['deleteUsersWarning']       = __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' );
-
-		$js_array['error_msg'][ $this->action ] = 'selectOneUserRole';
-		$js_array['msg']['selectOneUserRole']   = __( 'Select at least one user role from which users should be deleted', 'bulk-delete' );
-
 		return $js_array;
-	}
-
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of users deleted */
-		return _n( 'Deleted %d user from the selected roles', 'Deleted %d users from the selected roles', $items_deleted, 'bulk-delete' );
 	}
 }
