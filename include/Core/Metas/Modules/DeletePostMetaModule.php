@@ -188,5 +188,4 @@ class DeletePostMetaModule extends MetasModule {
 
 		return $js_array;
 	}
-
 }
