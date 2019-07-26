@@ -23,8 +23,10 @@ abstract class Renderer extends Fetcher {
 	/**
 	 * Render post status including custom post status.
 	 *
+	 * @since 6.1.0 Added $class param.
+	 *
 	 * @param string $post_type The post type for which the post status should be displayed.
-	 * @param mixed  $class
+	 * @param string $class     Class to be applied.
 	 */
 	protected function render_post_status( $post_type = 'post', $class = 'validate' ) {
 		$post_statuses = $this->get_post_statuses();
