@@ -23,6 +23,13 @@ class DeletePagesByStatusModule extends PagesModule {
 			'box_label'  => __( 'By Page Status', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected pages are scheduled for deletion', 'bulk-delete' ),
 			'cron_label' => __( 'Delete Pages By status', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the pages from the selected post status?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the pages from the selected post status?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please select at least one post status from which pages should be deleted', 'bulk-delete' ),
+			/* translators: 1 Number of pages deleted */
+			'deleted_one'       => __( 'Deleted %d page from the selected post status', 'bulk-delete' ),
+			/* translators: 1 Number of pages deleted */
+			'deleted_multiple'  => __( 'Deleted %d pages from the selected post status', 'bulk-delete' ),
 		);
 	}
 
@@ -53,11 +60,7 @@ class DeletePagesByStatusModule extends PagesModule {
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function append_to_js_array( $js_array ) {
-		$js_array['error_msg'][ $this->action ]      = 'selectPagePostStatus';
-		$js_array['pre_action_msg'][ $this->action ] = 'pagePostStatusWarning';
-
-		$js_array['msg']['selectPagePostStatus']  = __( 'Please select at least one post status from which pages should be deleted', 'bulk-delete' );
-		$js_array['msg']['pagePostStatusWarning'] = __( 'Are you sure you want to delete all the pages from the selected post status?', 'bulk-delete' );
+		$js_array['validators'][ $this->action ] = 'validateCheckbox';
 
 		return $js_array;
 	}
@@ -79,10 +82,5 @@ class DeletePagesByStatusModule extends PagesModule {
 		);
 
 		return $query;
-	}
-
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d page from the selected post status', 'Deleted %d pages from the selected post status', $items_deleted, 'bulk-delete' );
 	}
 }
