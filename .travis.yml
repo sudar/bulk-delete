@@ -21,9 +21,7 @@ cache:
 
 matrix:
   include:
-    # Run trunk in nightly and PHP 7.3
-    - php: nightly
-      env: WP_VERSION=trunk
+    # Run trunk in PHP 7.3
     - php: 7.3
       env: WP_VERSION=trunk
     - php: 7.2
@@ -38,7 +36,6 @@ matrix:
       env: WP_VERSION=latest
       dist: precise
   allow_failures:
-    - php: nightly
     - php: 7.3 # Since tests are run with code coverage.
     - php: 5.3
   fast_finish: true
