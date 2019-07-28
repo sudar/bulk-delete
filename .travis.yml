@@ -25,13 +25,13 @@ matrix:
     - php: 7.3
       env: WP_VERSION=trunk
     - php: 7.2
-      env: WP_VERSION=latest
+      env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 7.2 also run Multisite
     - php: 7.1
       env: WP_VERSION=latest
     - php: 7.0
       env: WP_VERSION=latest
     - php: 5.6
-      env: WP_VERSION=latest WP_MULTISITE=1 # For PHP 5.6 also run Multisite
+      env: WP_VERSION=latest
 
 install:
   - |
@@ -77,10 +77,7 @@ script:
     fi
 
     if [[ $TRAVIS_PHP_VERSION == 7.2 ]]; then
-      # Validate composer.json file
-      composer validate --no-check-all --strict
-
-      npm run test
+      WP_MULTISITE=1 npm run test
 
       exit 0
     fi
@@ -98,6 +95,9 @@ script:
       # Validate that grunt works
       grunt vendor
       grunt
+
+      # Validate composer.json file
+      composer validate --no-check-all --strict
 
       exit 0
     fi
