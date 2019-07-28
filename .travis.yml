@@ -118,7 +118,7 @@ script:
     fi
 
     if [[ ! -z "$WP_MULTISITE" ]] ; then
-      WP_MULTISITE=1 phpunit
+      WP_MULTISITE=1 phpunit  --printer "PHPUnit_TextUI_ResultPrinter"
     else
-      phpunit
+      phpunit  --printer "PHPUnit_TextUI_ResultPrinter"
     fi

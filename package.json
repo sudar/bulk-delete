@@ -37,10 +37,9 @@
   },
   "scripts": {
     "phpunit": "vendor/bin/phpunit",
-    "unit": "npm run phpunit -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
-    "unit:coverage": "npm run unit -- --coverage-php code-coverage/unit.cov",
-    "test:mock": "npm run phpunit -- --configuration phpunit-wp-mock.xml.dist",
-    "mock": "npm run test:mock -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
+    "unit": "npm run phpunit",
+    "unit:coverage": "npm run unit -- --coverage-php='code-coverage/unit.cov'",
+    "mock": "npm run phpunit -- --configuration phpunit-wp-mock.xml.dist",
     "mock:coverage": "npm run mock -- --coverage-php code-coverage/mock.cov",
     "test": "npm run mock && npm run unit",
     "test:coverage": "mkdir code-coverage && npm run mock:coverage && npm run unit:coverage",
