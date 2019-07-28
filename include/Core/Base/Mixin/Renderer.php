@@ -23,9 +23,12 @@ abstract class Renderer extends Fetcher {
 	/**
 	 * Render post status including custom post status.
 	 *
+	 * @since 6.1.0 Added $class param.
+	 *
 	 * @param string $post_type The post type for which the post status should be displayed.
+	 * @param string $class     Class to be applied.
 	 */
-	protected function render_post_status( $post_type = 'post' ) {
+	protected function render_post_status( $post_type = 'post', $class = 'validate' ) {
 		$post_statuses = $this->get_post_statuses();
 		$post_count    = wp_count_posts( $post_type );
 
@@ -33,7 +36,7 @@ abstract class Renderer extends Fetcher {
 			<tr>
 				<td>
 					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
-						value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
+						value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox" class="<?php echo esc_attr( $class ); ?>">
 
 					<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
 						<?php echo esc_html( $post_status->label ), ' '; ?>
