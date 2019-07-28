@@ -3,6 +3,8 @@
 # @link http://docs.travis-ci.com/user/workers/container-based-infrastructure/#Routing-your-build-to-container-based-infrastructure
 sudo: false
 language: php
+services:
+  - mysql
 
 notifications:
   email:
