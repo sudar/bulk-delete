@@ -18,9 +18,16 @@ class DeleteUserMetaModule extends MetasModule {
 		$this->cron_hook     = 'do-bulk-delete-user-meta';
 		$this->scheduler_url = 'https://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-u';
 		$this->messages      = array(
-			'box_label'  => __( 'Bulk Delete User Meta', 'bulk-delete' ),
-			'scheduled'  => __( 'User meta fields from the users with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
-			'cron_label' => __( 'Delete User Meta`', 'bulk-delete' ),
+			'box_label'         => __( 'Bulk Delete User Meta', 'bulk-delete' ),
+			'scheduled'         => __( 'User meta fields from the users with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete User Meta`', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the user meta fields that match the selected filters?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the user meta fields that match the selected filters?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please enter meta key', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_one'       => __( 'Deleted user meta field from %d user', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_multiple'  => __( 'Deleted user meta field from %d users', 'bulk-delete' ),
 		);
 	}
 
@@ -61,7 +68,7 @@ class DeleteUserMetaModule extends MetasModule {
 				<tr>
 					<td>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key"><?php _e( 'User Meta Key ', 'bulk-delete' ); ?></label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>" class="validate">
 					</td>
 				</tr>
 			</table>
@@ -145,16 +152,8 @@ class DeleteUserMetaModule extends MetasModule {
 	}
 
 	protected function append_to_js_array( $js_array ) {
-		$js_array['validators']['delete_user_meta'] = 'noValidation';
-
-		$js_array['pre_action_msg']['delete_user_meta'] = 'deleteUMWarning';
-		$js_array['msg']['deleteUMWarning']             = __( 'Are you sure you want to delete all the user meta fields that match the selected filters?', 'bulk-delete' );
+		$js_array['validators']['delete_user_meta'] = 'validateTextbox';
 
 		return $js_array;
-	}
-
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted user meta field from %d user', 'Deleted user meta field from %d users', $items_deleted, 'bulk-delete' );
 	}
 }
