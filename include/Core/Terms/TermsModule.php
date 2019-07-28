@@ -134,9 +134,4 @@ abstract class TermsModule extends BaseModule {
 
 		return $terms;
 	}
-
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of terms deleted */
-		return _n( 'Deleted %d term with the selected options', 'Deleted %d terms with the selected options', $items_deleted, 'bulk-delete' );
-	}
 }
