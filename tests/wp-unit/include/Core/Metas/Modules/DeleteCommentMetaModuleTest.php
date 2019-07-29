@@ -955,9 +955,9 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 				)
 			);
 
-		$comment_ids = array();
-		for ( $i = 0; $i < $setup['number_of_comments']; $i ++ ) {
-			$comment_ids[ $i ] = $this->factory->comment->create( $comment_data );
+			$comment_data = array(
+				'comment_post_ID' => $post_id,
+			);
 
 			$comment_ids = array();
 			for ( $i = 0; $i < $element['number_of_comments']; $i++ ) {
@@ -974,7 +974,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$delete_options = array(
-			'post_type'  => $setup['post_type'],
+			'post_type'  => $operation['post_type'],
 			'use_value'  => true,
 			'meta_key'   => $operation['meta_key'],
 			'meta_value' => $operation['meta_value'],
@@ -1002,11 +1002,17 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$comment_metas_deleted = $this->module->delete( $delete_options );
 		$this->assertEquals( $expected['number_of_comment_metas_deleted'], $comment_metas_deleted );
 
-		for ( $i = 0; $i < $setup['number_of_comments']; $i ++ ) {
-			// Todo: Don't delete all meta rows if there are duplicate meta keys.
-			// See https://github.com/sudar/bulk-delete/issues/515 for details.
-			$this->assertFalse( metadata_exists( 'comment', $comment_ids[ $i ], $setup['matched']['meta_key'] ) );
-			$this->assertTrue( metadata_exists( 'comment', $comment_ids[ $i ], $setup['miss_matched']['meta_key'] ) );
+		for ( $j = 0; $j < $size; $j++ ) {
+			for ( $i = 0; $i < $setup[ $j ]['number_of_comments']; $i++ ) {
+				// Todo: Don't delete all meta rows if there are duplicate meta keys.
+				// See https://github.com/sudar/bulk-delete/issues/515 for details.
+				if ( array_key_exists( 'matched', $setup[ $j ] ) ) {
+					$this->assertFalse( metadata_exists( 'comment', $all_comment_ids[ $j ][ $i ], $setup[ $j ]['matched']['meta_key'] ) );
+				}
+				if ( array_key_exists( 'miss_matched', $setup[ $j ] ) ) {
+					$this->assertTrue( metadata_exists( 'comment', $all_comment_ids[ $j ][ $i ], $setup[ $j ]['miss_matched']['meta_key'] ) );
+				}
+			}
 		}
 	}
 
