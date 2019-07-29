@@ -1,14 +1,19 @@
 <?php
+
+namespace BulkWP\BulkDelete\Core\Metas\QueryOverriders;
+
+use BulkWP\BulkDelete\Core\Base\BaseQueryOverrider;
+
 /**
  * Class that encapsulates the logic for handling date format specified by the user.
  *
  * @package Bulk Delete
  *
- * @author Sudar
+ * @author  Sudar
  *
- * @since 6.0
+ * @since   6.0
  */
-class Bulk_Delete_Date_Handler {
+class DateQueryOverrider extends BaseQueryOverrider {
 	/**
 	 * Delete Options.
 	 *
@@ -95,20 +100,12 @@ class Bulk_Delete_Date_Handler {
 	}
 
 	/**
-	 * Setup hooks and load.
-	 *
-	 * @since 1.0
-	 */
-	public function load() {
-		add_action( 'parse_query', array( $this, 'parse_query' ) );
-	}
-
-	/**
 	 * Parse the query object.
+	 *
+	 * @param \WP_Query $query Query object.
 	 *
 	 * @since  0.3
 	 *
-	 * @param \WP_Query $query Query object.
 	 */
 	public function parse_query( $query ) {
 		if ( isset( $query->query_vars['cf_meta_value_date_format'] ) ) {
@@ -123,8 +120,6 @@ class Bulk_Delete_Date_Handler {
 	/**
 	 * Process date format in sql query.
 	 *
-	 * @since 0.3
-	 *
 	 * @param array  $query          Array containing the query's JOIN and WHERE clauses.
 	 * @param array  $input          Array of meta queries.
 	 * @param string $type           Type of meta.
@@ -133,6 +128,8 @@ class Bulk_Delete_Date_Handler {
 	 * @param object $context        The main query object.
 	 *
 	 * @return array $query Processed query.
+	 * @since 0.3
+	 *
 	 */
 	public function process_sql_date_format( $query, $input, $type, $primary_table, $primary_column, $context ) {
 		global $wpdb;
@@ -155,7 +152,7 @@ class Bulk_Delete_Date_Handler {
 	/**
 	 * Remove the filter.
 	 *
-	 * @since 0.3
+	 * @since  0.3
 	 * @access public
 	 */
 	public function remove_filter() {

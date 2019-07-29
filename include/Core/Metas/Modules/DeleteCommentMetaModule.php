@@ -3,6 +3,7 @@
 namespace BulkWP\BulkDelete\Core\Metas\Modules;
 
 use BulkWP\BulkDelete\Core\Metas\MetasModule;
+use BulkWP\BulkDelete\Core\Metas\QueryOverriders\DateQueryOverrider;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -189,7 +190,7 @@ class DeleteCommentMetaModule extends MetasModule {
 				<td>
 					<?php _e( 'Comment Meta Value ', 'bulk-delete' ); ?>
 					<?php $this->render_data_types_dropdown(); ?>
-					<?php $this->render_numeric_operators_dropdown(); ?>	
+					<?php $this->render_numeric_operators_dropdown(); ?>
 					<?php $this->render_string_operators_dropdown(); ?>
 					<?php
 						$operators = array( '=', '!=', '>', '<=', '>', '>=', 'EXISTS', 'NOT EXISTS' );
@@ -292,7 +293,7 @@ class DeleteCommentMetaModule extends MetasModule {
 			return $meta_query;
 		}
 		if ( 'DATE' === $delete_options['meta_type'] ) {
-			$bd_date_handler = new \Bulk_Delete_Date_Handler();
+			$bd_date_handler = new DateQueryOverrider();
 			$meta_query      = $bd_date_handler->get_query( $delete_options );
 
 			return $meta_query;
