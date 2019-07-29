@@ -42,5 +42,15 @@ BulkWP.validateSelect2 = function(that) {
  * @returns {boolean} True if validation succeeds, False otherwise.
  */
 BulkWP.validateTextbox = function(that) {
-	return ( "" !== jQuery(that).parent().prev().children().find(":input[type=number], :text").val() );
+	return ( "" !== jQuery(that).parent().prev().children().find(":input[type=number].validate, :text.validate").val() );
+};
+
+/**
+ * Validate checkboxes.
+ *
+ * @param that Reference to the button.
+ * @returns {boolean} True if validation succeeds, False otherwise.
+ */
+BulkWP.validateCheckbox = function(that) {
+	return ( jQuery(that).parent().prev().find("input:checkbox.validate").is ( ":checked" ) );
 };

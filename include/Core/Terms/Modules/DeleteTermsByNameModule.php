@@ -12,47 +12,51 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteTermsByNameModule extends TermsModule {
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function initialize() {
 		$this->item_type     = 'terms';
 		$this->field_slug    = 'terms_by_name';
 		$this->meta_box_slug = 'bd_delete_terms_by_name';
 		$this->action        = 'delete_terms_by_name';
 		$this->messages      = array(
-			'box_label' => __( 'Delete Terms by Name', 'bulk-delete' ),
-			'scheduled' => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
+			'box_label'        => __( 'Delete Terms by Name', 'bulk-delete' ),
+			'confirm_deletion' => __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' ),
+			'validation_error' => __( 'Please enter the term name that should be deleted', 'bulk-delete' ),
+			/* translators: 1 Number of terms deleted */
+			'deleted_one'      => __( 'Deleted %d term with the selected options', 'bulk-delete' ),
+			/* translators: 1 Number of terms deleted */
+			'deleted_multiple' => __( 'Deleted %d terms with the selected options', 'bulk-delete' ),
 		);
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	public function render() {
 		?>
-
+		<h4><?php _e( 'Select the taxonomy from which you want to delete terms', 'bulk-delete' ); ?></h4>
 		<fieldset class="options">
-			<h4><?php _e( 'Select the taxonomy from which you want to delete terms', 'bulk-delete' ); ?></h4>
-
-			<?php $this->render_taxonomy_dropdown(); ?>
-
-			<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
-
-			<?php _e( 'Delete Terms if the name ', 'bulk-delete' ); ?>
-			<?php $this->render_string_comparison_operators(); ?>
-			<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Term Name', 'bulk-delete' ); ?>">
+			<table class="optiontable">
+				<tr><?php $this->render_taxonomy_dropdown(); ?></tr>
+				<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
+				<tr>
+					<td><?php _e( 'Delete Terms if the name ', 'bulk-delete' ); ?></td>
+					<td><?php $this->render_string_comparison_operators(); ?></td>
+					<td><input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Term Name', 'bulk-delete' ); ?>" class="validate"></td>
+				</tr>
+			</table>
 		</fieldset>
 
 		<?php
 		$this->render_submit_button();
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function append_to_js_array( $js_array ) {
-		$js_array['validators'][ $this->action ] = 'validateTermName';
-		$js_array['error_msg'][ $this->action ]  = 'enterTermName';
-		$js_array['msg']['enterTermName']        = __( 'Please enter the term name that should be deleted', 'bulk-delete' );
-
-		$js_array['pre_action_msg'][ $this->action ] = 'deleteTermsWarning';
-		$js_array['msg']['deleteTermsWarning']       = __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' );
+		$js_array['validators'][ $this->action ] = 'validateTextbox';
 
 		return $js_array;
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['operator'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' ) );
 		$options['value']    = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_value' ) );

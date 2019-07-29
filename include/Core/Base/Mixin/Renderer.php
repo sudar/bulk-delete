@@ -23,9 +23,12 @@ abstract class Renderer extends Fetcher {
 	/**
 	 * Render post status including custom post status.
 	 *
+	 * @since 6.1.0 Added $class param.
+	 *
 	 * @param string $post_type The post type for which the post status should be displayed.
+	 * @param string $class     Class to be applied.
 	 */
-	protected function render_post_status( $post_type = 'post' ) {
+	protected function render_post_status( $post_type = 'post', $class = 'validate' ) {
 		$post_statuses = $this->get_post_statuses();
 		$post_count    = wp_count_posts( $post_type );
 
@@ -33,7 +36,7 @@ abstract class Renderer extends Fetcher {
 			<tr>
 				<td>
 					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>[]" id="smbd_<?php echo esc_attr( $post_status->name ); ?>"
-						value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox">
+						value="<?php echo esc_attr( $post_status->name ); ?>" type="checkbox" class="<?php echo esc_attr( $class ); ?>">
 
 					<label for="smbd_<?php echo esc_attr( $post_status->name ); ?>">
 						<?php echo esc_html( $post_status->label ), ' '; ?>
@@ -75,11 +78,13 @@ abstract class Renderer extends Fetcher {
 	 * Render Post type with status and post count checkboxes.
 	 *
 	 * @since 6.0.1 Added $multiple param.
+	 * @since 6.1.0 Added $feature  param.
 	 *
-	 * @param bool $multiple_select Whether multiple select should be supported. Default true.
+	 * @param bool   $multiple_select Whether multiple select should be supported. Default true.
+	 * @param string $feature         Fetches only post types that supports feature. Default empty.
 	 */
-	protected function render_post_type_with_status( $multiple_select = true ) {
-		$post_types_by_status = $this->get_post_types_by_status();
+	protected function render_post_type_with_status( $multiple_select = true, $feature = '' ) {
+		$post_types_by_status = $this->get_post_types_by_status( $feature );
 
 		$name = 'smbd_' . $this->field_slug;
 		if ( $multiple_select ) {
@@ -534,9 +539,13 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render delete settings.
+	 *
+	 * @since 6.1.0 Added $hide_trash  param.
+	 *
+	 * @param bool $hide_trash Show/Hide Move to trash radio button. Default false.
 	 */
-	protected function render_delete_settings() {
-		bd_render_delete_settings( $this->field_slug );
+	protected function render_delete_settings( $hide_trash = false ) {
+		bd_render_delete_settings( $this->field_slug, $hide_trash );
 		/**
 		 * This action is primarily for adding delete attachment settings.
 		 *

@@ -55,15 +55,27 @@ function bd_render_restrict_settings( $slug, $item = 'posts' ) {
  * Render "force delete" setting fields.
  *
  * @since 5.5
+ * @since 6.1.0 Added $hide_trash  param.
  *
- * @param string $slug The slug to be used in field names.
+ * @param string $slug       The slug to be used in field names.
+ * @param bool   $hide_trash Show/Hide Trash radio button. Default false.
  */
-function bd_render_delete_settings( $slug ) {
+function bd_render_delete_settings( $slug, $hide_trash = false ) {
 ?>
 	<tr>
 		<td scope="row" colspan="2">
+		<?php if ( ! $hide_trash ) : ?>
 			<label><input name="smbd_<?php echo $slug; ?>_force_delete" value="false" type="radio" checked><?php _e( 'Move to Trash', 'bulk-delete' ); ?></label>
-			<label><input name="smbd_<?php echo $slug; ?>_force_delete" value="true" type="radio"><?php _e( 'Delete permanently', 'bulk-delete' ); ?></label>
+		<?php endif; ?>
+			<label><input name="smbd_<?php echo $slug; ?>_force_delete" value="true" type="radio"
+				<?php
+				if ( $hide_trash ) {
+					echo 'checked';
+				}
+				?>
+			>
+				<?php _e( 'Delete permanently', 'bulk-delete' ); ?>
+			</label>
 		</td>
 	</tr>
 <?php

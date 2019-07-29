@@ -6,9 +6,10 @@
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
+	printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
 	>
 	<testsuites>
-		<testsuite>
+		<testsuite name="WP Unit Tests">
 			<directory suffix="Test.php">./tests/wp-unit/</directory>
 		</testsuite>
 	</testsuites>

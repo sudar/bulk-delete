@@ -18,9 +18,8 @@ class DeletePagesPage extends BaseDeletePage {
 	 * Initialize and setup variables.
 	 */
 	protected function initialize() {
-		$this->page_slug  = 'bulk-delete-pages';
-		$this->item_type  = 'pages';
-		$this->capability = 'delete_pages';
+		$this->page_slug = 'bulk-delete-pages';
+		$this->item_type = 'pages';
 
 		$this->label = array(
 			'page_title' => __( 'Bulk Delete Pages', 'bulk-delete' ),

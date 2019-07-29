@@ -39,7 +39,7 @@ final class Bulk_Delete {
 	private $plugin_file;
 
 	// Deprecated constants. They are defined here for backward compatibility.
-	const VERSION = '6.0.1';
+	const VERSION = '6.0.2';
 
 	const JS_HANDLE = 'bulk-delete';
 
@@ -204,9 +204,6 @@ final class Bulk_Delete {
 				return $new_bd->get_page_hook_suffix( 'bulk-delete-metas' );
 				break;
 		}
-
-		$trace = debug_backtrace();
-		trigger_error( 'Undefined property via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_NOTICE );
 
 		return null;
 	}

@@ -18,9 +18,16 @@ class DeletePostMetaModule extends MetasModule {
 		$this->cron_hook     = 'do-bulk-delete-post-meta';
 		$this->scheduler_url = 'https://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-m-p';
 		$this->messages      = array(
-			'box_label'  => __( 'Bulk Delete Post Meta', 'bulk-delete' ),
-			'scheduled'  => __( 'Post meta fields from the posts with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
-			'cron_label' => __( 'Delete Post Meta', 'bulk-delete' ),
+			'box_label'         => __( 'Bulk Delete Post Meta', 'bulk-delete' ),
+			'scheduled'         => __( 'Post meta fields from the posts with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Post Meta', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the post meta fields that match the selected filters?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the post meta fields that match the selected filters?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please enter meta key', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_one'       => __( 'Deleted post meta field from %d post', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_multiple'  => __( 'Deleted post meta field from %d posts', 'bulk-delete' ),
 		);
 	}
 
@@ -76,7 +83,7 @@ class DeletePostMetaModule extends MetasModule {
 							<option value="contains">contains</option>
 							<option value="ends_with">ends with</option>
 						</select>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>" class="validate">
 					</td>
 				</tr>
 			</table>
@@ -177,16 +184,8 @@ class DeletePostMetaModule extends MetasModule {
 	}
 
 	protected function append_to_js_array( $js_array ) {
-		$js_array['validators'][ $this->action ] = 'noValidation';
-
-		$js_array['pre_action_msg'][ $this->action ] = 'deletePMWarning';
-		$js_array['msg']['deletePMWarning']          = __( 'Are you sure you want to delete all the post meta fields that match the selected filters?', 'bulk-delete' );
+		$js_array['validators'][ $this->action ] = 'validateTextbox';
 
 		return $js_array;
-	}
-
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted post meta field from %d post', 'Deleted post meta field from %d posts', $items_deleted, 'bulk-delete' );
 	}
 }

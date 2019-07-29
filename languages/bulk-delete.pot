@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Bulk Delete package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Bulk Delete 6.0.1\n"
+"Project-Id-Version: Bulk Delete 6.0.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bulk-delete\n"
-"POT-Creation-Date: 2019-04-09 11:39:42+00:00\n"
+"POT-Creation-Date: 2019-04-11 05:38:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -134,7 +134,7 @@ msgstr ""
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:193
 #: include/Core/Base/Mixin/Renderer.php:265
 #: include/Core/Base/Mixin/Renderer.php:281
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:193
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:204
 msgid "equal to"
 msgstr ""
 
@@ -143,7 +143,7 @@ msgstr ""
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:194
 #: include/Core/Base/Mixin/Renderer.php:266
 #: include/Core/Base/Mixin/Renderer.php:282
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:194
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:205
 msgid "not equal to"
 msgstr ""
 
@@ -170,14 +170,14 @@ msgstr ""
 #: dist/include/Core/Base/Mixin/Renderer.php:283
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:195
 #: include/Core/Base/Mixin/Renderer.php:283
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:195
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:206
 msgid "less than"
 msgstr ""
 
 #: dist/include/Core/Base/Mixin/Renderer.php:284
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:197
 #: include/Core/Base/Mixin/Renderer.php:284
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:197
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:208
 msgid "greater than"
 msgstr ""
 
@@ -340,7 +340,6 @@ msgid "Scheduled Jobs"
 msgstr ""
 
 #: dist/include/Core/Cron/CronListPage.php:60
-#: include/Core/Cron/CronListPage.php:60
 msgid "The selected scheduled job was successfully run"
 msgstr ""
 
@@ -415,13 +414,13 @@ msgstr ""
 
 #: dist/include/Core/Metas/DeleteMetasPage.php:26
 #: dist/include/Core/Metas/DeleteMetasPage.php:27
+#: include/Core/Metas/DeleteMetasPage.php:25
 #: include/Core/Metas/DeleteMetasPage.php:26
-#: include/Core/Metas/DeleteMetasPage.php:27
 msgid "Bulk Delete Meta Fields"
 msgstr ""
 
 #: dist/include/Core/Metas/DeleteMetasPage.php:31
-#: include/Core/Metas/DeleteMetasPage.php:31
+#: include/Core/Metas/DeleteMetasPage.php:30
 msgid ""
 "WARNING: Meta Fields deleted once cannot be retrieved back. Use with caution."
 msgstr ""
@@ -433,18 +432,18 @@ msgstr ""
 #: dist/include/Core/Users/DeleteUsersPage.php:51
 #: dist/include/ui/class-bulk-delete-help-screen.php:59
 #: dist/include/ui/class-bulk-delete-help-screen.php:71
-#: include/Core/Metas/DeleteMetasPage.php:44
-#: include/Core/Pages/DeletePagesPage.php:44
-#: include/Core/Posts/DeletePostsPage.php:81
-#: include/Core/Terms/DeleteTermsPage.php:43
-#: include/Core/Users/DeleteUsersPage.php:51
+#: include/Core/Metas/DeleteMetasPage.php:43
+#: include/Core/Pages/DeletePagesPage.php:43
+#: include/Core/Posts/DeletePostsPage.php:80
+#: include/Core/Terms/DeleteTermsPage.php:42
+#: include/Core/Users/DeleteUsersPage.php:50
 #: include/ui/class-bulk-delete-help-screen.php:59
 #: include/ui/class-bulk-delete-help-screen.php:71
 msgid "Overview"
 msgstr ""
 
 #: dist/include/Core/Metas/DeleteMetasPage.php:46
-#: include/Core/Metas/DeleteMetasPage.php:46
+#: include/Core/Metas/DeleteMetasPage.php:45
 msgid ""
 "This screen contains different modules that allows you to delete meta fields "
 "or schedule them for deletion."
@@ -468,34 +467,34 @@ msgid "Delete Comment Meta"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:43
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:43
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:54
 msgid "Select the post type whose comment meta fields you want to delete"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:48
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:48
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:59
 msgid "Choose your comment meta field settings"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:53
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:53
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:64
 msgid "Delete based on comment meta key name only"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:61
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:61
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:72
 msgid "Delete based on comment meta key name and value"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:67
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:67
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:78
 msgid "Comment Meta Key "
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:68
 #: dist/include/Core/Metas/Modules/DeletePostMetaModule.php:79
 #: dist/include/Core/Metas/Modules/DeleteUserMetaModule.php:64
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:68
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:79
 #: include/Core/Metas/Modules/DeletePostMetaModule.php:79
 #: include/Core/Metas/Modules/DeleteUserMetaModule.php:64
 msgid "Meta Key"
@@ -505,7 +504,7 @@ msgstr ""
 #: dist/include/Core/Metas/Modules/DeletePostMetaModule.php:97
 #: dist/include/Core/Metas/Modules/DeleteUserMetaModule.php:80
 #: dist/include/misc/class-bulk-delete-jetpack-contact-form-messages.php:130
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:85
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:96
 #: include/Core/Metas/Modules/DeletePostMetaModule.php:97
 #: include/Core/Metas/Modules/DeleteUserMetaModule.php:80
 #: include/misc/class-bulk-delete-jetpack-contact-form-messages.php:130
@@ -513,7 +512,7 @@ msgid "Choose your deletion options"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:158
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:158
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:169
 msgid ""
 "Are you sure you want to delete all the comment meta fields that match the "
 "selected filters?"
@@ -521,85 +520,85 @@ msgstr ""
 
 #. translators: 1 Number of comment deleted
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:165
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:165
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:176
 msgid "Deleted comment meta field from %d comment"
 msgid_plural "Deleted comment meta field from %d comments"
 msgstr[0] ""
 msgstr[1] ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:180
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:180
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:191
 msgid "Comment Meta Value "
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:182
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:182
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:193
 msgid "CHAR"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:183
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:183
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:194
 msgid "NUMERIC"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:184
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:184
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:195
 msgid "DECIMAL"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:185
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:185
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:196
 msgid "SIGNED"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:186
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:186
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:197
 msgid "UNSIGNED"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:187
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:187
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:198
 msgid "DATE"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:188
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:188
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:199
 msgid "TIME"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:189
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:189
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:200
 msgid "DATETIME"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:190
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:190
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:201
 msgid "BINARY"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:196
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:196
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:207
 msgid "less than or equal to"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:198
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:198
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:209
 msgid "greater than or equal to"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:199
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:199
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:210
 msgid "like"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:200
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:200
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:211
 msgid "not like"
 msgstr ""
 
 #: dist/include/Core/Metas/Modules/DeleteCommentMetaModule.php:202
 #: dist/include/Core/Users/Modules/DeleteUsersByUserMetaModule.php:68
-#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:202
+#: include/Core/Metas/Modules/DeleteCommentMetaModule.php:213
 #: include/Core/Users/Modules/DeleteUsersByUserMetaModule.php:68
 msgid "Meta Value"
 msgstr ""
@@ -725,19 +724,19 @@ msgstr[1] ""
 
 #: dist/include/Core/Pages/DeletePagesPage.php:26
 #: dist/include/Core/Pages/DeletePagesPage.php:27
+#: include/Core/Pages/DeletePagesPage.php:25
 #: include/Core/Pages/DeletePagesPage.php:26
-#: include/Core/Pages/DeletePagesPage.php:27
 msgid "Bulk Delete Pages"
 msgstr ""
 
 #: dist/include/Core/Pages/DeletePagesPage.php:31
-#: include/Core/Pages/DeletePagesPage.php:31
+#: include/Core/Pages/DeletePagesPage.php:30
 msgid "WARNING: Pages deleted once cannot be retrieved back. Use with caution."
 msgstr ""
 
 #: dist/include/Core/Pages/DeletePagesPage.php:46
 #: dist/include/ui/class-bulk-delete-help-screen.php:73
-#: include/Core/Pages/DeletePagesPage.php:46
+#: include/Core/Pages/DeletePagesPage.php:45
 #: include/ui/class-bulk-delete-help-screen.php:73
 msgid ""
 "This screen contains different modules that allows you to delete pages or "
@@ -786,28 +785,28 @@ msgstr[1] ""
 
 #: dist/include/Core/Posts/DeletePostsPage.php:31
 #: dist/include/Core/Posts/DeletePostsPage.php:32
+#: include/Core/Posts/DeletePostsPage.php:30
 #: include/Core/Posts/DeletePostsPage.php:31
-#: include/Core/Posts/DeletePostsPage.php:32
 msgid "Bulk Delete Posts"
 msgstr ""
 
 #: dist/include/Core/Posts/DeletePostsPage.php:36
 #: dist/include/misc/class-bulk-delete-misc.php:130
-#: include/Core/Posts/DeletePostsPage.php:36
+#: include/Core/Posts/DeletePostsPage.php:35
 #: include/misc/class-bulk-delete-misc.php:130
 msgid "WARNING: Posts deleted once cannot be retrieved back. Use with caution."
 msgstr ""
 
 #: dist/include/Core/Posts/DeletePostsPage.php:44
 #: dist/include/Core/Posts/DeletePostsPage.php:45
+#: include/Core/Posts/DeletePostsPage.php:43
 #: include/Core/Posts/DeletePostsPage.php:44
-#: include/Core/Posts/DeletePostsPage.php:45
 msgid "Bulk WP"
 msgstr ""
 
 #: dist/include/Core/Posts/DeletePostsPage.php:83
 #: dist/include/ui/class-bulk-delete-help-screen.php:61
-#: include/Core/Posts/DeletePostsPage.php:83
+#: include/Core/Posts/DeletePostsPage.php:82
 #: include/ui/class-bulk-delete-help-screen.php:61
 msgid ""
 "This screen contains different modules that allows you to delete posts or "
@@ -1240,23 +1239,23 @@ msgid "Download System Info File"
 msgstr ""
 
 #: dist/include/Core/Terms/DeleteTermsPage.php:23
-#: include/Core/Terms/DeleteTermsPage.php:23
+#: include/Core/Terms/DeleteTermsPage.php:22
 msgid "Bulk Delete Taxonomy Terms"
 msgstr ""
 
 #: dist/include/Core/Terms/DeleteTermsPage.php:24
-#: include/Core/Terms/DeleteTermsPage.php:24
+#: include/Core/Terms/DeleteTermsPage.php:23
 msgid "Bulk Delete Terms"
 msgstr ""
 
 #: dist/include/Core/Terms/DeleteTermsPage.php:28
-#: include/Core/Terms/DeleteTermsPage.php:28
+#: include/Core/Terms/DeleteTermsPage.php:27
 msgid ""
 "WARNING: Once deleted, terms cannot be retrieved back. Use with caution."
 msgstr ""
 
 #: dist/include/Core/Terms/DeleteTermsPage.php:45
-#: include/Core/Terms/DeleteTermsPage.php:45
+#: include/Core/Terms/DeleteTermsPage.php:44
 msgid ""
 "This screen contains different modules that allows you to delete terms from "
 "taxonomies"
@@ -1347,18 +1346,18 @@ msgstr[1] ""
 
 #: dist/include/Core/Users/DeleteUsersPage.php:29
 #: dist/include/Core/Users/DeleteUsersPage.php:30
+#: include/Core/Users/DeleteUsersPage.php:28
 #: include/Core/Users/DeleteUsersPage.php:29
-#: include/Core/Users/DeleteUsersPage.php:30
 msgid "Bulk Delete Users"
 msgstr ""
 
 #: dist/include/Core/Users/DeleteUsersPage.php:34
-#: include/Core/Users/DeleteUsersPage.php:34
+#: include/Core/Users/DeleteUsersPage.php:33
 msgid "WARNING: Users deleted once cannot be retrieved back. Use with caution."
 msgstr ""
 
 #: dist/include/Core/Users/DeleteUsersPage.php:53
-#: include/Core/Users/DeleteUsersPage.php:53
+#: include/Core/Users/DeleteUsersPage.php:52
 msgid ""
 "This screen contains different modules that allows you to delete users or "
 "schedule them for deletion."
@@ -2220,6 +2219,12 @@ msgstr ""
 msgid ""
 "To copy the system info, click below then press Ctrl + C (PC) or Cmd + C "
 "(Mac)."
+msgstr ""
+
+#: include/Core/Cron/CronListPage.php:60
+msgid ""
+"The selected scheduled job has been successfully started. It will now run in "
+"the background."
 msgstr ""
 
 #: vendor/10up/wp_mock/tests/FunctionMocksTest.php:65

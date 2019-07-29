@@ -57,7 +57,7 @@ class CronListPage extends BasePage {
 
 		wp_schedule_single_event( time(), $cron_items[ $cron_id ]['type'], $cron_items[ $cron_id ]['args'] );
 
-		$msg = __( 'The selected scheduled job was successfully run', 'bulk-delete' );
+		$msg = __( 'The selected scheduled job has been successfully started. It will now run in the background.', 'bulk-delete' );
 
 		add_settings_error(
 			\Bulk_Delete::CRON_PAGE_SLUG, // TODO: Replace this constant.

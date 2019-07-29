@@ -18,18 +18,36 @@ class DeleteCommentMetaModule extends MetasModule {
 		$this->action        = 'delete_comment_meta';
 		$this->cron_hook     = 'do-bulk-delete-comment-meta';
 		$this->messages      = array(
-			'box_label'  => __( 'Bulk Delete Comment Meta', 'bulk-delete' ),
-			'scheduled'  => __( 'Comment meta fields from the comments with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
-			'cron_label' => __( 'Delete Comment Meta', 'bulk-delete' ),
+			'box_label'         => __( 'Bulk Delete Comment Meta', 'bulk-delete' ),
+			'scheduled'         => __( 'Comment meta fields from the comments with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Comment Meta', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the comment meta fields that match the selected filters?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the comment meta fields that match the selected filters?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please enter meta key', 'bulk-delete' ),
+			/* translators: 1 Number of comments deleted */
+			'deleted_one'       => __( 'Deleted comment meta field from %d comment', 'bulk-delete' ),
+			/* translators: 1 Number of comments deleted */
+			'deleted_multiple'  => __( 'Deleted comment meta field from %d comments', 'bulk-delete' ),
 		);
+
+		$this->register_cron_hooks();
 	}
 
 	public function register( $hook_suffix, $page_slug ) {
 		parent::register( $hook_suffix, $page_slug );
 
 		add_action( 'bd_delete_comment_meta_form', array( $this, 'add_filtering_options' ) );
-
 		add_filter( 'bd_delete_comment_meta_options', array( $this, 'process_filtering_options' ), 10, 2 );
+	}
+
+	/**
+	 * Register additional module specific hooks that are needed in cron jobs.
+	 *
+	 * During a cron request, the register method is not called. So these hooks should be registered separately.
+	 *
+	 * @since 6.0.2
+	 */
+	protected function register_cron_hooks() {
 		add_filter( 'bd_delete_comment_meta_query', array( $this, 'change_meta_query' ), 10, 2 );
 	}
 
@@ -65,7 +83,7 @@ class DeleteCommentMetaModule extends MetasModule {
 				<tr>
 					<td>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key"><?php _e( 'Comment Meta Key ', 'bulk-delete' ); ?></label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" class="meta-key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>">
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>" class="validate">
 					</td>
 				</tr>
 			</table>
@@ -152,19 +170,9 @@ class DeleteCommentMetaModule extends MetasModule {
 	}
 
 	protected function append_to_js_array( $js_array ) {
-		$js_array['validators'][ $this->action ]   = 'validateMetaKey';
-    $js_array['error_msg'][ $this->action ]  = 'validMetaKey';
-		$js_array['msg']['validMetaKey']           = __( 'Please enter Meta key', 'bulk-delete' );
-
-    $js_array['pre_action_msg'][ $this->action ] = 'deleteCMWarning';
-		$js_array['msg']['deleteCMWarning']            = __( 'Are you sure you want to delete all the comment meta fields that match the selected filters?', 'bulk-delete' );
+		$js_array['validators'][ $this->action ] = 'validateTextbox';
 
 		return $js_array;
-	}
-
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of comment deleted */
-		return _n( 'Deleted comment meta field from %d comment', 'Deleted comment meta field from %d comments', $items_deleted, 'bulk-delete' );
 	}
 
 	/**
