@@ -248,12 +248,14 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Provide data to `test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_different_operations` method.
+	 * Provide data to test that comment meta from multiple comments can be deleted with equls operator
+	 * with numeric, string and date type.
 	 *
 	 * @return array Data.
 	 */
 	public function provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_equals_operator() {
 		return array(
+			// Numeric meta deletion.
 			array(
 				array(
 					array(
@@ -277,7 +279,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 						),
 						'miss_matched'       => array(
 							'meta_key'   => 'one_more_key',
-							'meta_value' => '10',
+							'meta_value' => '10c',
 						),
 					),
 				),
@@ -292,6 +294,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'number_of_comment_metas_deleted' => 8,
 				),
 			),
+			// String meta deletion.
 			array(
 				array(
 					array(
@@ -330,6 +333,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'number_of_comment_metas_deleted' => 8,
 				),
 			),
+			// Date type meta deletion.
 			array(
 				array(
 					array(
@@ -374,6 +378,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_in_operator() {
 		return array(
+			// Numeric meta deletion.
 			array(
 				array(
 					array(
@@ -393,7 +398,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 						'number_of_comments' => 3,
 						'matched'            => array(
 							'meta_key'   => 'test_key',
-							'meta_value' => '10',
+							'meta_value' => 5,
 						),
 						'miss_matched'       => array(
 							'meta_key'   => 'one_more_key',
@@ -405,7 +410,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 						'number_of_comments' => 2,
 						'matched'            => array(
 							'meta_key'   => 'test_key',
-							'meta_value' => '10c',
+							'meta_value' => '3',
 						),
 					),
 				),
@@ -420,6 +425,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'number_of_comment_metas_deleted' => 10,
 				),
 			),
+			// String meta deletion.
 			array(
 				array(
 					array(
@@ -518,6 +524,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function provide_data_to_test_that_comment_meta_from_multiple_comments_can_be_deleted_using_value_with_between_operator() {
 		return array(
+			// Numeric meta deletion.
 			array(
 				array(
 					array(
@@ -556,6 +563,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'number_of_comment_metas_deleted' => 8,
 				),
 			),
+			// Date type meta deletion (BETWEEN OPERATOR with three values to check whether third value is truncated).
 			array(
 				array(
 					array(
@@ -598,6 +606,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'number_of_comment_metas_deleted' => 7,
 				),
 			),
+			// Date type meta deletion with NOT BETWEEN operator.
 			array(
 				array(
 					array(
@@ -713,8 +722,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 						'post_type'          => 'post',
 						'number_of_comments' => 2,
 						'miss_matched'       => array(
-							'meta_key'   => 'test_key',
-							'meta_value' => 40,
+							'meta_key'   => 'one_more_key',
+							'meta_value' => 20,
 						),
 					),
 				),
@@ -725,7 +734,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'operator'  => 'NOT EXISTS',
 				),
 				array(
-					'number_of_comment_metas_deleted' => 5,
+					'number_of_comment_metas_deleted' => 2,
 				),
 			),
 		);
@@ -855,7 +864,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'number_of_comment_metas_deleted' => 5,
 				),
 			),
-			// Date type with date unit and type.
+			// Date type with custom date (date unit and type).
 			array(
 				array(
 					array(
@@ -904,7 +913,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 						'number_of_comments' => 3,
 						'matched'            => array(
 							'meta_key'   => 'test_key',
-							'meta_value' => date( 'd-m-Y', strtotime( '10 day' ) ),
+							'meta_value' => date( 'd-m-Y', strtotime( '1 day' ) ),
 						),
 					),
 				),
@@ -913,10 +922,10 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'meta_key'      => 'test_key',
 					'meta_type'     => 'DATE',
 					'relative_date' => 'custom',
-					'date_unit'     => '9',
+					'date_unit'     => '1',
 					'date_type'     => 'day',
 					'date_format'   => '%d-%m-%Y',
-					'operator'      => '>=',
+					'operator'      => '=',
 				),
 				array(
 					'number_of_comment_metas_deleted' => 3,
@@ -974,14 +983,13 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 
 		$delete_options = array(
-			'post_type'  => $operation['post_type'],
-			'use_value'  => true,
-			'meta_key'   => $operation['meta_key'],
-			'meta_value' => $operation['meta_value'],
-			'meta_type'  => $operation['meta_type'],
-			'meta_op'    => $operation['operator'],
-			'limit_to'   => 0,
-			'restrict'   => false,
+			'post_type' => $operation['post_type'],
+			'use_value' => true,
+			'meta_key'  => $operation['meta_key'],
+			'meta_type' => $operation['meta_type'],
+			'meta_op'   => $operation['operator'],
+			'limit_to'  => 0,
+			'restrict'  => false,
 		);
 		if ( array_key_exists( 'meta_value', $operation ) ) {
 			$delete_options['meta_value'] = $operation['meta_value'];

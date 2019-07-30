@@ -37,6 +37,15 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	protected $input_value_date_format;
 
 	/**
+	 * Setup hooks and load.
+	 *
+	 * @since 1.0
+	 */
+	public function load() {
+		add_action( 'parse_query', array( $this, 'parse_query' ) );
+	}
+
+	/**
 	 * Creates query object after processing date with specified date format.
 	 *
 	 * @param array $delete_options Delete Options.
@@ -95,7 +104,6 @@ class DateQueryOverrider extends BaseQueryOverrider {
 
 			$this->load();
 		}
-
 		return $options;
 	}
 

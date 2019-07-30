@@ -5,7 +5,7 @@
  * @since 6.0.0
  */
 
-/*global BulkWP, jQuery, document*/
+/*global jQuery, document*/
 jQuery( document ).ready( function () {
 	jQuery("select.string, select.date").attr( 'disabled', 'true');
 	jQuery("select.string, select.date").hide();
@@ -153,7 +153,3 @@ jQuery( document ).ready( function () {
 		});
 	}
 } );
-
-BulkWP.validateMetaKey = function(that) {
-	return ('' !== jQuery(that).parent().prev().children().find("input.meta-key").val());
-};
