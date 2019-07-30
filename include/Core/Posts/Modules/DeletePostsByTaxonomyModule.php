@@ -23,6 +23,13 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 			'box_label'  => __( 'By Taxonomy', 'bulk-delete' ),
 			'scheduled'  => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
 			'cron_label' => __( 'Delete Post By Taxonomy', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete posts from the selected taxonomy?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the posts from the selected taxonomy?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please select the taxonomy from which posts should be deleted', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_one'       => __( 'Deleted %d post with the selected taxonomy', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_multiple'  => __( 'Deleted %d posts with the selected post taxonomy', 'bulk-delete' ),
 		);
 	}
 
@@ -152,10 +159,5 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		);
 
 		return $options;
-	}
-
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d post with the selected taxonomy', 'Deleted %d posts with the selected post taxonomy', $items_deleted, 'bulk-delete' );
 	}
 }
