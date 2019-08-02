@@ -42,7 +42,7 @@ BulkWP.validateSelect2 = function(that) {
  * @returns {boolean} True if validation succeeds, False otherwise.
  */
 BulkWP.validateTextbox = function(that) {
-	return ( "" !== jQuery(that).parent().prev().children().find(":input[type=number].validate, :text.validate").val() );
+	return ( "" !== jQuery(that).parent().prev().children().find(":input[type=number].validate, :text.validate, :input.validate").val() );
 };
 
 /**
