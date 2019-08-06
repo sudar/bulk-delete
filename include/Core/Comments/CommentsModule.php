@@ -129,7 +129,6 @@ abstract class CommentsModule extends BaseModule {
 		 * @param \WP_Comment_Query $wp_comment_query Query object.
 		 */
 		do_action( 'bd_after_query', $wp_comment_query );
-		error_log( var_export( $comments, true ) );
 
 		return $comments;
 	}
