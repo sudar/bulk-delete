@@ -107,6 +107,7 @@ class DeleteCommentsByAuthorModule extends CommentsModule {
 			$query['date_query'] = $date_query;
 		}
 		error_log( var_export( $query, true ) );
+
 		return $query;
 	}
 }
