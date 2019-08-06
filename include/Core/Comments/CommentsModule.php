@@ -161,6 +161,4 @@ abstract class CommentsModule extends BaseModule {
 
 		return array();
 	}
-
-
 }
