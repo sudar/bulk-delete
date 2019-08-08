@@ -3,6 +3,7 @@
 namespace BulkWP\BulkDelete\Core\Comments\Modules;
 
 use BulkWP\BulkDelete\Core\Comments\CommentsModule;
+use BulkWP\BulkDelete\Core\Comments\Modules\QueryOverriders\DeleteCommentsQueryOverrider;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -92,8 +93,10 @@ class DeleteCommentsByAuthorModule extends CommentsModule {
 	protected function build_query( $options ) {
 		$query = array();
 		if ( ! empty( $options['author_name'] ) ) {
-			// TODO: to be decided.
-			$query['author__in'] = array();
+			$query['field_name'] = 'comment_author';
+			$query['value']      = $options['author_name'];
+			$query_overrider     = new DeleteCommentsQueryOverrider();
+			$query_overrider->load();
 		}
 		if ( ! empty( $options['author_email'] ) ) {
 			$query['author_email'] = $options['author_email'];
