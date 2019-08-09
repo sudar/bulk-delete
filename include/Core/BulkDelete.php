@@ -332,16 +332,16 @@ final class BulkDelete {
 	 */
 	private function load_primary_pages() {
 		$posts_page    = $this->get_delete_posts_admin_page();
-		$comments_page = $this->get_delete_comments_admin_page();
 		$pages_page    = $this->get_delete_pages_admin_page();
 		$users_page    = $this->get_delete_users_admin_page();
+		$comments_page = $this->get_delete_comments_admin_page();
 		$metas_page    = $this->get_delete_metas_admin_page();
 		$terms_page    = $this->get_delete_terms_admin_page();
 
 		$this->primary_pages[ $posts_page->get_page_slug() ]    = $posts_page;
-		$this->primary_pages[ $comments_page->get_page_slug() ] = $comments_page;
 		$this->primary_pages[ $pages_page->get_page_slug() ]    = $pages_page;
 		$this->primary_pages[ $users_page->get_page_slug() ]    = $users_page;
+		$this->primary_pages[ $comments_page->get_page_slug() ] = $comments_page;
 		$this->primary_pages[ $metas_page->get_page_slug() ]    = $metas_page;
 		$this->primary_pages[ $terms_page->get_page_slug() ]    = $terms_page;
 
