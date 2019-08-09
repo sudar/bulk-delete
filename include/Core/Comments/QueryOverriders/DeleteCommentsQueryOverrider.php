@@ -61,6 +61,6 @@ class DeleteCommentsQueryOverrider extends BaseQueryOverrider {
 	 * Remove the `posts_where` filter.
 	 */
 	public function remove_where_filter() {
-		remove_filter( 'posts_where', array( $this, 'filter_where' ) );
+		remove_filter( 'comments_clauses', array( $this, 'filter_where' ) );
 	}
 }
