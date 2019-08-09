@@ -13,12 +13,11 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  */
 abstract class CommentsModule extends BaseModule {
 	protected $item_type = 'comments';
+
 	/**
 	 * Build query params for WP_Comment_Query by using delete options.
 	 *
 	 * Return an empty query array to short-circuit deletion.
-	 *
-	 * @since 6.1.0
 	 *
 	 * @param array $options Delete options.
 	 *
@@ -67,7 +66,6 @@ abstract class CommentsModule extends BaseModule {
 	/**
 	 * Query and Delete comments.
 	 *
-	 * @since  6.1.0
 	 * @access protected
 	 *
 	 * @param array $query   Options to query comments.
@@ -137,8 +135,6 @@ abstract class CommentsModule extends BaseModule {
 	 * Get the date query part for WP_Comment_Query.
 	 *
 	 * Date query corresponds to comment date.
-	 *
-	 * @since 6.1.0
 	 *
 	 * @param array $options Delete options.
 	 *
