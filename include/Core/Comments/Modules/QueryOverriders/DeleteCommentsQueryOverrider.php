@@ -31,12 +31,14 @@ class DeleteCommentsQueryOverrider extends BaseQueryOverrider {
 	 * Modify the where clause.
 	 *
 	 * @param string $where (optional) Where clause.
+	 *
 	 * @return string Modified Where clause
 	 */
 	public function filter_where( $where = '' ) {
 		global $wpdb;
 
 		$where .= sprintf( " AND %s.post_title %s = '%s' ", $wpdb->comments, esc_sql( $this->field ), esc_sql( $this->value ) );
+
 		return $where;
 	}
 
