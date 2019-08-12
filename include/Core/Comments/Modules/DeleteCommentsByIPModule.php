@@ -83,10 +83,12 @@ class DeleteCommentsByIPModule extends CommentsModule {
 	protected function build_query( $options ) {
 		$query = array();
 
-		$query['bd_db_column_name']  = 'comment_author_IP';
-		$query['bd_db_column_value'] = $options['ip_address'];
-		$query_overrider             = new DeleteCommentsQueryOverrider();
-		$query_overrider->load();
+		if ( ! empty( $options['ip_address'] ) ) {
+			$query['bd_db_column_name']  = 'comment_author_IP';
+			$query['bd_db_column_value'] = $options['ip_address'];
+			$query_overrider             = new DeleteCommentsQueryOverrider();
+			$query_overrider->load();
+		}
 
 		$date_query = $this->get_date_query( $options );
 		if ( ! empty( $date_query ) ) {
