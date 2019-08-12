@@ -1,6 +1,6 @@
 <?php
 
-namespace BulkWP\BulkDelete\Addon\QueryOverriders;
+namespace BulkWP\BulkDelete\Core\Comments\QueryOverriders;
 
 use BulkWP\BulkDelete\Core\Base\BaseQueryOverrider;
 

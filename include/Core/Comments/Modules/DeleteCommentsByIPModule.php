@@ -3,6 +3,7 @@
 namespace BulkWP\BulkDelete\Core\Comments\Modules;
 
 use BulkWP\BulkDelete\Core\Comments\CommentsModule;
+use BulkWP\BulkDelete\Core\Comments\QueryOverriders\DeleteCommentsQueryOverrider;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -80,11 +81,12 @@ class DeleteCommentsByIPModule extends CommentsModule {
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function build_query( $options ) {
-		// TODO: IP address is not supported in WP_Comment_Query
 		$query = array();
-		if ( ! empty( $options['ip_address'] ) ) {
-			$query['ip_address'] = array();
-		}
+
+		$query['bd_db_column_name']  = 'comment_author_IP';
+		$query['bd_db_column_value'] = $options['ip_address'];
+		$query_overrider             = new DeleteCommentsQueryOverrider();
+		$query_overrider->load();
 
 		$date_query = $this->get_date_query( $options );
 		if ( ! empty( $date_query ) ) {
