@@ -363,6 +363,11 @@ abstract class UsersModule extends BaseModule {
 			$query['exclude'] = array( $current_user_id );
 		}
 
+		if ( isset( $query['include'] ) ) {
+			$query['include'] = array_diff( $query['include'], $query['exclude'] );
+			unset( $query['exclude'] );
+		}
+
 		return $query;
 	}
 
@@ -391,6 +396,11 @@ abstract class UsersModule extends BaseModule {
 			} else {
 				$query['exclude'] = $excluded_user_ids;
 			}
+		}
+
+		if ( isset( $query['include'] ) ) {
+			$query['include'] = array_diff( $query['include'], $query['exclude'] );
+			unset( $query['exclude'] );
 		}
 
 		return $query;
