@@ -4,6 +4,9 @@ namespace BulkWP\BulkDelete\Core;
 
 use BulkWP\BulkDelete\Core\Addon\Upseller;
 use BulkWP\BulkDelete\Core\Base\BasePage;
+use BulkWP\BulkDelete\Core\Comments\DeleteCommentsPage;
+use BulkWP\BulkDelete\Core\Comments\Modules\DeleteCommentsByAuthorModule;
+use BulkWP\BulkDelete\Core\Comments\Modules\DeleteCommentsByIPModule;
 use BulkWP\BulkDelete\Core\Cron\CronListPage;
 use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteCommentMetaModule;
@@ -328,17 +331,19 @@ final class BulkDelete {
 	 * The pages need to be loaded in `init` hook, since the association between page and modules is needed in cron requests.
 	 */
 	private function load_primary_pages() {
-		$posts_page = $this->get_delete_posts_admin_page();
-		$pages_page = $this->get_delete_pages_admin_page();
-		$users_page = $this->get_delete_users_admin_page();
-		$metas_page = $this->get_delete_metas_admin_page();
-		$terms_page = $this->get_delete_terms_admin_page();
+		$posts_page    = $this->get_delete_posts_admin_page();
+		$pages_page    = $this->get_delete_pages_admin_page();
+		$users_page    = $this->get_delete_users_admin_page();
+		$comments_page = $this->get_delete_comments_admin_page();
+		$metas_page    = $this->get_delete_metas_admin_page();
+		$terms_page    = $this->get_delete_terms_admin_page();
 
-		$this->primary_pages[ $posts_page->get_page_slug() ] = $posts_page;
-		$this->primary_pages[ $pages_page->get_page_slug() ] = $pages_page;
-		$this->primary_pages[ $users_page->get_page_slug() ] = $users_page;
-		$this->primary_pages[ $metas_page->get_page_slug() ] = $metas_page;
-		$this->primary_pages[ $terms_page->get_page_slug() ] = $terms_page;
+		$this->primary_pages[ $posts_page->get_page_slug() ]    = $posts_page;
+		$this->primary_pages[ $pages_page->get_page_slug() ]    = $pages_page;
+		$this->primary_pages[ $users_page->get_page_slug() ]    = $users_page;
+		$this->primary_pages[ $comments_page->get_page_slug() ] = $comments_page;
+		$this->primary_pages[ $metas_page->get_page_slug() ]    = $metas_page;
+		$this->primary_pages[ $terms_page->get_page_slug() ]    = $terms_page;
 
 		/**
 		 * List of primary admin pages.
@@ -420,6 +425,40 @@ final class BulkDelete {
 		do_action( 'bd_after_modules', $pages_page );
 
 		return $pages_page;
+	}
+
+	/**
+	 * Get Bulk Delete Comments admin page.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Comments\DeleteCommentsPage
+	 */
+	private function get_delete_comments_admin_page() {
+		$comments_page = new DeleteCommentsPage( $this->get_plugin_file() );
+
+		$comments_page->add_module( new DeleteCommentsByAuthorModule() );
+		$comments_page->add_module( new DeleteCommentsByIPModule() );
+
+		/**
+		 * After the modules are registered in the delete comments page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param DeleteCommentsPage $comments_page The page in which the modules are registered.
+		 */
+		do_action( "bd_after_modules_{$comments_page->get_page_slug()}", $comments_page );
+
+		/**
+		 * After the modules are registered in a delete comments page.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param BasePage $comments_page The page in which the modules are registered.
+		 */
+		do_action( 'bd_after_modules', $comments_page );
+
+		return $comments_page;
 	}
 
 	/**
