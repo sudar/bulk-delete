@@ -163,10 +163,10 @@ jQuery(document).ready(function () {
 	});
 
 	jQuery.each( BulkWP.pro_iterators, function ( index, value) {
-		jQuery('.bd-' + value.replace( '_', '-' ) + '-pro').hide();
+		jQuery('.bd-' + value.replace( /_/g, '-' ) + '-pro').hide();
 
 		// `<tr>` displays the documentation link when the pro add-on is installed.
-		jQuery('tr.bd-' + value.replace( '_', '-' ) + '-pro').show();
+		jQuery('tr.bd-' + value.replace( /_/g, '-' ) + '-pro').show();
 
 		jQuery('#smbd_' + value + '_cron_freq, #smbd_' + value + '_cron_start, #smbd_' + value + '_cron').removeAttr('disabled');
 	} );

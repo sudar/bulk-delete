@@ -22,7 +22,7 @@ class DeleteCommentsByIPModule extends CommentsModule {
 		$this->cron_hook     = 'do-bulk-delete-comments-by-ip';
 		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-comments/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sp';
 		$this->messages      = array(
-			'box_label'         => __( 'By IP Address', 'bulk-delete' ),
+			'box_label'         => __( 'Delete Comments by IP Address', 'bulk-delete' ),
 			'scheduled'         => __( 'The selected comments are scheduled for deletion', 'bulk-delete' ),
 			'cron_label'        => __( 'Delete Comments By IP Address', 'bulk-delete' ),
 			'confirm_deletion'  => __( 'Are you sure you want to delete all the comments from the selected condition?', 'bulk-delete' ),

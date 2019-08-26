@@ -39,6 +39,7 @@ class DeleteCommentsByAuthorModule extends CommentsModule {
 	public function render() {
 		?>
 		<!-- Pages start-->
+
 		<h4><?php _e( 'Enter the comment author details based on which comments should be deleted. You can either enter the name, email or the url of the comment author.', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
