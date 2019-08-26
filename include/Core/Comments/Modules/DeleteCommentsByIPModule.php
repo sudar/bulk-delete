@@ -39,7 +39,7 @@ class DeleteCommentsByIPModule extends CommentsModule {
 	public function render() {
 		?>
 		<!-- Pages start-->
-		<h4><?php _e( 'Enter the IP address from which the comments were entered.', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Enter IP Address based on which you want to delete comments', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
 			<table class="optiontable">
