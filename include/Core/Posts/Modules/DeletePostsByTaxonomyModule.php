@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsByTaxonomyModule extends PostsModule {
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'taxs';
@@ -20,7 +21,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		$this->cron_hook     = 'do-bulk-delete-taxonomy';
 		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-stx';
 		$this->messages      = array(
-			'box_label'         => __( 'By Taxonomy', 'bulk-delete' ),
+			'box_label'         => __( 'Delete Posts by Taxonomy (Category, Tag or custom taxonomy)', 'bulk-delete' ),
 			'scheduled'         => __( 'The selected posts are scheduled for deletion', 'bulk-delete' ),
 			'cron_label'        => __( 'Delete Post By Taxonomy', 'bulk-delete' ),
 			'confirm_deletion'  => __( 'Are you sure you want to delete posts from the selected taxonomy?', 'bulk-delete' ),
@@ -33,6 +34,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		);
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	public function render() {
 		$taxs = get_taxonomies( array(), 'objects'
 		);
@@ -95,7 +97,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 							<tr>
 								<td scope="row">
 									<input name="smbd_taxs_terms[]" value="<?php echo $term->slug; ?>" type="checkbox"
-									       class="terms">
+										class="terms">
 								</td>
 								<td>
 									<label for="smbd_taxs_terms"><?php echo $term->name; ?>
@@ -131,6 +133,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		}
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_type']          = bd_array_get( $request, 'smbd_' . $this->field_slug . '_post_type', 'post' );
 		$options['selected_taxs']      = bd_array_get( $request, 'smbd_' . $this->field_slug );
@@ -139,6 +142,7 @@ class DeletePostsByTaxonomyModule extends PostsModule {
 		return $options;
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function build_query( $delete_options ) {
 		// For compatibility reasons set default post type to 'post'
 		$post_type = bd_array_get( $delete_options, 'post_type', 'post' );
