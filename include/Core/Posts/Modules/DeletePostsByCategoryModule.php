@@ -37,6 +37,7 @@ class DeletePostsByCategoryModule extends PostsModule {
 		} else {
 			$query['category__in'] = $options['selected_cats'];
 		}
+
 		return $query;
 	}
 }
