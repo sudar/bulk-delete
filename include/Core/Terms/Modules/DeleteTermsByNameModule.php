@@ -2,8 +2,8 @@
 
 namespace BulkWP\BulkDelete\Core\Terms\Modules;
 
-use BulkWP\BulkDelete\Core\Terms\TermsModule;
 use BulkWP\BulkDelete\Core\Terms\QueryOverriders\DeleteTermsQueryOverrider;
+use BulkWP\BulkDelete\Core\Terms\TermsModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
