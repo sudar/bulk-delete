@@ -3,6 +3,7 @@
 namespace BulkWP\BulkDelete\Core\Terms\Modules;
 
 use BulkWP\BulkDelete\Core\Terms\TermsModule;
+use BulkWP\BulkDelete\Core\Terms\QueryOverriders\DeleteTermsQueryOverrider;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -39,7 +40,7 @@ class DeleteTermsByNameModule extends TermsModule {
 				<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
 				<tr>
 					<td><?php _e( 'Delete Terms if the name ', 'bulk-delete' ); ?></td>
-					<td><?php $this->render_string_comparison_operators(); ?></td>
+					<td><?php $this->render_string_operators_dropdown( 'string', array( '=', '!=', 'LIKE', 'NOT LIKE', 'STARTS_WITH', 'ENDS_WITH' ) ); ?></td>
 					<td><input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Term Name', 'bulk-delete' ); ?>" class="validate"></td>
 				</tr>
 			</table>
@@ -58,43 +59,40 @@ class DeleteTermsByNameModule extends TermsModule {
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['operator'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' ) );
+		$options['operator'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' );
 		$options['value']    = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_value' ) );
 
 		return $options;
 	}
 
+	/**
+	 * Get the list of terms ids that need to be deleted.
+	 *
+	 * Return an empty query array to short-circuit deletion.
+	 *
+	 * @param array $options Delete options.
+	 *
+	 * @return int[] List of term ids to delete.
+	 */
 	protected function get_term_ids_to_delete( $options ) {
 		$term_ids = array();
-		$value    = $options['value'];
 		$operator = $options['operator'];
+		$value    = $options['value'];
 		if ( empty( $value ) ) {
 			return $term_ids;
 		}
 
 		switch ( $operator ) {
-			case 'equal_to':
-				$term_ids = $this->get_terms_that_are_equal_to( $value, $options );
+			case '=':
+				$term_ids = $this->get_terms_that_are_equal_to( $options );
 				break;
 
-			case 'not_equal_to':
-				$term_ids = $this->get_terms_that_are_not_equal_to( $value, $options );
+			case 'LIKE':
+				$term_ids = $this->get_terms_that_contains( $options );
 				break;
 
-			case 'starts_with':
-				$term_ids = $this->get_terms_that_starts_with( $value, $options );
-				break;
-
-			case 'ends_with':
-				$term_ids = $this->get_terms_that_ends_with( $value, $options );
-				break;
-
-			case 'contains':
-				$term_ids = $this->get_terms_that_contains( $value, $options );
-				break;
-
-			case 'not_contains':
-				$term_ids = $this->get_terms_that_not_contains( $value, $options );
+			default:
+				$term_ids = $this->get_matching_terms_for_other_operators( $options );
 				break;
 		}
 
@@ -104,123 +102,67 @@ class DeleteTermsByNameModule extends TermsModule {
 	/**
 	 * Get terms with name that are equal to a specific string.
 	 *
-	 * @param string $value   Value to compare.
-	 * @param array  $options User options.
+	 * @param array $options User options.
 	 *
 	 * @return int[] Term ids.
 	 */
-	protected function get_terms_that_are_equal_to( $value, $options ) {
+	protected function get_terms_that_are_equal_to( $options ) {
 		$query = array(
 			'taxonomy' => $options['taxonomy'],
-			'name'     => $value,
+			'name'     => $options['value'],
 		);
 
 		return $this->query_terms( $query );
-	}
-
-	/**
-	 * Get terms with that name that is not equal to a specific string.
-	 *
-	 * @param string $value   Value to compare.
-	 * @param array  $options User options.
-	 *
-	 * @return int[] Term ids.
-	 */
-	protected function get_terms_that_are_not_equal_to( $value, $options ) {
-		$name_like_args = array(
-			'name'     => $value,
-			'taxonomy' => $options['taxonomy'],
-		);
-
-		$query = array(
-			'taxonomy' => $options['taxonomy'],
-			'exclude'  => $this->query_terms( $name_like_args ),
-		);
-
-		return $this->query_terms( $query );
-	}
-
-	/**
-	 * Get terms with name that start with a specific string.
-	 *
-	 * @param string $starts_with Substring to search.
-	 * @param array  $options     User options.
-	 *
-	 * @return int[] Term ids.
-	 */
-	protected function get_terms_that_starts_with( $starts_with, $options ) {
-		$term_ids = array();
-		$terms    = $this->get_all_terms( $options['taxonomy'] );
-
-		foreach ( $terms as $term ) {
-			if ( bd_starts_with( $term->name, $starts_with ) ) {
-				$term_ids[] = $term->term_id;
-			}
-		}
-
-		return $term_ids;
-	}
-
-	/**
-	 * Get terms with name that ends with a specific string.
-	 *
-	 * @param string $ends_with Substring to search.
-	 * @param array  $options   User options.
-	 *
-	 * @return int[] Term ids.
-	 */
-	protected function get_terms_that_ends_with( $ends_with, $options ) {
-		$term_ids = array();
-		$terms    = $this->get_all_terms( $options['taxonomy'] );
-
-		foreach ( $terms as $term ) {
-			if ( bd_ends_with( $term->name, $ends_with ) ) {
-				$term_ids[] = $term->term_id;
-			}
-		}
-
-		return $term_ids;
 	}
 
 	/**
 	 * Get terms with name that contains a specific string.
 	 *
-	 * @param string $contains Substring to search.
-	 * @param array  $options  User options.
+	 * @param array $options User options.
 	 *
 	 * @return int[] Term ids.
 	 */
-	protected function get_terms_that_contains( $contains, $options ) {
-		$term_ids = array();
-		$terms    = $this->get_all_terms( $options['taxonomy'] );
+	protected function get_terms_that_contains( $options ) {
+		$query = array(
+			'taxonomy'   => $options['taxonomy'],
+			'name__like' => $options['value'],
+		);
 
-		foreach ( $terms as $term ) {
-			if ( bd_contains( $term->name, $contains ) ) {
-				$term_ids[] = $term->term_id;
-			}
-		}
-
-		return $term_ids;
+		return $this->query_terms( $query );
 	}
 
 	/**
-	 * Get terms with name that doesn't contain a specific string.
+	 * Get matching terms for not equal to, not contains, starts with and ends with operators.
 	 *
-	 * @param string $contains Substring to search.
-	 * @param array  $options  User options.
+	 * @param array $options User options.
 	 *
 	 * @return int[] Term ids.
 	 */
-	protected function get_terms_that_not_contains( $contains, $options ) {
-		$term_ids = array();
-		$terms    = $this->get_all_terms( $options['taxonomy'] );
-
-		foreach ( $terms as $term ) {
-			if ( ! bd_contains( $term->name, $contains ) ) {
-				$term_ids[] = $term->term_id;
-			}
+	protected function get_matching_terms_for_other_operators( $options ) {
+		$operator = $options['operator'];
+		$value    = $options['value'];
+		switch ( $operator ) {
+			case 'NOT LIKE':
+				$value = '%' . $value . '%';
+				break;
+			case 'STARTS_WITH':
+				$operator = 'LIKE';
+				$value    = $value . '%';
+				break;
+			case 'ENDS_WITH':
+				$operator = 'LIKE';
+				$value    = '%' . $value;
+				break;
 		}
+		$query           = array(
+			'taxonomy'       => $options['taxonomy'],
+			'bd_operator'    => $operator,
+			'bd_value'       => $value,
+			'bd_column_name' => 'name',
+		);
+		$query_overrider = new DeleteTermsQueryOverrider();
+		$query_overrider->load();
 
-		return $term_ids;
+		return $this->query_terms( $query );
 	}
 }
