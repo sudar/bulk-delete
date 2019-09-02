@@ -2,6 +2,7 @@
 
 namespace BulkWP\BulkDelete\Core\Terms\Modules;
 
+use BulkWP\BulkDelete\Core\Terms\QueryOverriders\DeleteTermsQueryOverrider;
 use BulkWP\BulkDelete\Core\Terms\TermsModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -40,7 +41,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 				<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
 				<tr>
 					<td><?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?></td>
-					<td><?php $this->render_number_comparison_operators(); ?></td>
+					<td><?php $this->render_numeric_operators_dropdown( 'numeric', array( '=', '!=', '<', '>' ) ); ?></td>
 					<td><input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="Post count" min="0" class="validate"></td>
 					<td>
 						<?php
@@ -66,44 +67,32 @@ class DeleteTermsByPostCountModule extends TermsModule {
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['operator']   = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' ) );
+		$options['operator']   = bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' );
 		$options['post_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug ) );
 
 		return $options;
 	}
 
-	protected function get_term_ids_to_delete( $options ) {
-		$term_ids = array();
-
-		$terms = $this->get_all_terms( $options['taxonomy'] );
-		foreach ( $terms as $term ) {
-			if ( $this->should_delete_term_based_on_post_count( $term->count, $options['operator'], $options['post_count'] ) ) {
-				$term_ids[] = $term->term_id;
-			}
-		}
-
-		return $term_ids;
-	}
-
 	/**
-	 * Determine if a term should be deleted based on post count.
+	 * Get the list of terms ids that need to be deleted.
 	 *
-	 * @param int    $term_post_count Number of posts associated with a term.
-	 * @param string $operator        Operator.
-	 * @param int    $compared_to     The user entered value to which the comparison should be made.
+	 * Return an empty query array to short-circuit deletion.
 	 *
-	 * @return int term id.
+	 * @param array $options Delete options.
+	 *
+	 * @return int[] List of term ids to delete.
 	 */
-	protected function should_delete_term_based_on_post_count( $term_post_count, $operator, $compared_to ) {
-		switch ( $operator ) {
-			case '=':
-				return $term_post_count === $compared_to;
-			case '!=':
-				return $term_post_count !== $compared_to;
-			case '<':
-				return $term_post_count < $compared_to;
-			case '>':
-				return $term_post_count > $compared_to;
-		}
+	protected function get_term_ids_to_delete( $options ) {
+		$query = array(
+			'taxonomy'       => $options['taxonomy'],
+			'bd_operator'    => $options['operator'],
+			'bd_value'       => $options['post_count'],
+			'bd_column_name' => 'count',
+		);
+
+		$query_overrider = new DeleteTermsQueryOverrider();
+		$query_overrider->load();
+
+		return $this->query_terms( $query );
 	}
 }
