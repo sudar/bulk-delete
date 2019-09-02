@@ -405,4 +405,47 @@ abstract class UsersModule extends BaseModule {
 
 		return $query;
 	}
+
+	/**
+	 * Get Users ids from User logins.
+	 *
+	 * @param array $user_logins User Logins.
+	 *
+	 * @return array User ids.
+	 */
+	protected function get_user_ids_from_logins( $user_logins ) {
+		$args = array(
+			'fields'    => 'ID',
+			'login__in' => $user_logins,
+		);
+
+		return get_users( $args );
+	}
+
+	/**
+	 * Get Users ids from User emails.
+	 *
+	 * This is done in a batch of 500 since it involves a IN query.
+	 *
+	 * @param array $user_emails User emails.
+	 *
+	 * @return array User ids.
+	 */
+	protected function get_user_ids_from_emails( $user_emails ) {
+		global $wpdb;
+
+		$user_email_chunks = array_chunk( $user_emails, 500 );
+
+		$user_ids = array();
+
+		foreach ( $user_email_chunks as $user_email_chunk ) {
+			$placeholders = array_fill( 0, count( $user_email_chunk ), '%s' );
+			$format       = implode( ',', $placeholders );
+
+			$query      = "SELECT ID FROM $wpdb->users WHERE user_email in ($format)";
+			$user_ids[] = $wpdb->get_col( $wpdb->prepare( $query, $user_email_chunk ) );
+		}
+
+		return $user_ids;
+	}
 }
