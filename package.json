@@ -2,7 +2,7 @@
   "name": "bulk-delete",
   "title": "Bulk Delete",
   "description": "Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, users and meta fields in bulk based on different conditions and filters.",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "homepage": "https://bulkwp.com",
   "license": "GPLv2+",
   "author": {
@@ -24,7 +24,7 @@
     "select2": "4.0.5"
   },
   "devDependencies": {
-    "grunt": "^1.0.3",
+    "grunt": "^1.0.4",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
@@ -37,19 +37,20 @@
   },
   "scripts": {
     "phpunit": "vendor/bin/phpunit",
-    "unit": "npm run phpunit -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
-    "unit:coverage": "npm run unit -- --coverage-php code-coverage/unit.cov",
-    "test:mock": "npm run phpunit -- --configuration phpunit-wp-mock.xml.dist",
-    "mock": "npm run test:mock -- --printer=Codedungeon\\\\PHPUnitPrettyResultPrinter\\\\Printer",
-    "mock:coverage": "npm run mock -- --coverage-php code-coverage/mock.cov",
+    "phpdbg": "phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit",
+    "unit": "npm run phpunit",
+    "unit:coverage": "npm run phpdbg -- --coverage-php code-coverage/unit.cov",
+    "mock": "npm run phpunit -- --configuration phpunit-wp-mock.xml.dist",
+    "mock:coverage": "npm run phpdbg -- --configuration phpunit-wp-mock.xml.dist --coverage-php code-coverage/mock.cov",
     "test": "npm run mock && npm run unit",
     "test:coverage": "mkdir code-coverage && npm run mock:coverage && npm run unit:coverage",
-    "test:merge-coverage": "vendor/bin/phpcov merge code-coverage/",
+    "test:merge-coverage": "phpdbg -qrr -d memory_limit=-1 vendor/bin/phpcov merge code-coverage/",
     "test:html-coverage": "npm run test:coverage && npm run test:merge-coverage -- --html code-coverage/html/",
     "test:cover-coverage": "npm run test:coverage && npm run test:merge-coverage -- --clover=code-coverage/bulk-delete.clover",
-    "phpcs:main-php-file": "vendor/bin/phpcs -p bulk-delete.php --ignore=vendor --standard=PHPCompatibilityWP --runtime-set testVersion 5.2-",
-    "phpcs:other-php-files": "vendor/bin/phpcs -p .  --ignore=vendor --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.3-",
-    "phpcs": "npm run phpcs:main-php-file && npm run phpcs:other-php-files"
+    "phpcs:main-php-file": "vendor/bin/phpcs -p bulk-delete.php --standard=PHPCompatibilityWP --runtime-set testVersion 5.2-",
+    "phpcs:other-php-files": "vendor/bin/phpcs -p . --ignore=vendor,dist,tests --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.3-",
+    "phpcs:test-files": "vendor/bin/phpcs -p tests --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.6-",
+    "phpcs": "npm run phpcs:main-php-file && npm run phpcs:other-php-files && npm run phpcs:test-files"
   },
   "private": true
 }

@@ -26,7 +26,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 * Data provider to test deletion of terms with equals operator.
 	 *
 	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
 	 *
@@ -46,7 +46,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term A',
-					'operator'    => 'equal_to',
+					'operator'    => '=',
 				),
 				1,
 				array(
@@ -66,7 +66,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => '',
-					'operator'    => 'equal_to',
+					'operator'    => '=',
 				),
 				0,
 				array(
@@ -87,7 +87,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term sample B',
-					'operator'    => 'equal_to',
+					'operator'    => '=',
 				),
 				1,
 				array(
@@ -107,7 +107,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'sample',
-					'operator'    => 'equal_to',
+					'operator'    => '=',
 				),
 				0,
 				array(
@@ -120,7 +120,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 * Data provider to test deletion of terms with not equals operator.
 	 *
 	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
 	 *
@@ -140,7 +140,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term A',
-					'operator'    => 'not_equal_to',
+					'operator'    => '!=',
 				),
 				2,
 				array(
@@ -159,7 +159,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term',
-					'operator'    => 'not_equal_to',
+					'operator'    => '!=',
 				),
 				3,
 				array(),
@@ -176,7 +176,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term Sample C',
-					'operator'    => 'not_equal_to',
+					'operator'    => '!=',
 				),
 				2,
 				array(),
@@ -193,7 +193,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term sample',
-					'operator'    => 'not_equal_to',
+					'operator'    => '!=',
 				),
 				3,
 				array(),
@@ -202,7 +202,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 * Data provider to test deletion of terms with starts with operator.
 	 *
 	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
 	 *
@@ -222,13 +222,15 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term',
-					'operator'    => 'starts_with',
+					'operator'    => 'STARTS_WITH',
 				),
 				2,
 				array(
 					'Another Term C',
 				),
 			),
+			// Test case insensitivity.  MySql queries are case insensitive by default.
+			// (provided case sensitive collation is not set).
 			array(
 				array(
 					'post_type' => 'post',
@@ -241,12 +243,11 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'starts_with',
+					'operator'    => 'STARTS_WITH',
 				),
-				0,
+				1,
 				array(
 					'Term A',
-					'sample Term B',
 					'Term C',
 				),
 			),
@@ -262,13 +263,15 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term Sample',
-					'operator'    => 'starts_with',
+					'operator'    => 'STARTS_WITH',
 				),
 				2,
 				array(
 					'Term A',
 				),
 			),
+			// Test case insensitivity.  MySql queries are case insensitive by default.
+			// (provided case sensitive collation is not set).
 			array(
 				array(
 					'post_type' => 'post',
@@ -281,20 +284,19 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term sample',
-					'operator'    => 'starts_with',
+					'operator'    => 'STARTS_WITH',
 				),
-				0,
+				1,
 				array(
 					'Term A',
 					'Term B',
-					'Term Sample C',
 				),
 			),
 		);
 	}
 
 	/**
-	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 * Data provider to test deletion of terms with ends with operator.
 	 *
 	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
 	 *
@@ -314,7 +316,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'ends_with',
+					'operator'    => 'ENDS_WITH',
 				),
 				1,
 				array(
@@ -322,6 +324,8 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'Term Sample B',
 				),
 			),
+			// Test case insensitivity.  MySql queries are case insensitive by default.
+			// (provided case sensitive collation is not set).
 			array(
 				array(
 					'post_type' => 'post',
@@ -334,13 +338,12 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'ends_with',
+					'operator'    => 'ENDS_WITH',
 				),
-				0,
+				1,
 				array(
 					'Sample Term A',
 					'Term Sample B',
-					'Term C sample',
 				),
 			),
 			array(
@@ -355,12 +358,11 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'sample',
-					'operator'    => 'ends_with',
+					'operator'    => 'ENDS_WITH',
 				),
-				1,
+				2,
 				array(
 					'sample Term A',
-					'Term C Sample',
 				),
 			),
 			array(
@@ -375,7 +377,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term',
-					'operator'    => 'ends_with',
+					'operator'    => 'ENDS_WITH',
 				),
 				0,
 				array(
@@ -388,7 +390,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 * Data provider to test deletion of terms with LIKE operator.
 	 *
 	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
 	 *
@@ -408,7 +410,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'contains',
+					'operator'    => 'LIKE',
 				),
 				2,
 				array(
@@ -426,14 +428,13 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					),
 				),
 				array(
-					'search_term' => 'Sample',
-					'operator'    => 'contains',
+					'search_term' => 'sample',
+					'operator'    => 'LIKE',
 				),
-				0,
+				1,
 				array(
 					'Term A',
 					'Term B',
-					'Term C sample',
 				),
 			),
 			array(
@@ -448,12 +449,11 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'sample',
-					'operator'    => 'contains',
+					'operator'    => 'LIKE',
 				),
-				1,
+				2,
 				array(
 					'Term A',
-					'Term C Sample',
 				),
 			),
 			array(
@@ -468,20 +468,19 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'sample',
-					'operator'    => 'contains',
+					'operator'    => 'LIKE',
 				),
-				0,
+				1,
 				array(
 					'Term A',
 					'Term B',
-					'Term C Sample',
 				),
 			),
 		);
 	}
 
 	/**
-	 * Data provider to test `test_that_terms_can_be_deleted_by_name_using_various_filters` method.
+	 * Data provider to test deletion of terms with NOT LIKE operator.
 	 *
 	 * @see DeleteTermsByNameModuleTest::test_that_terms_can_be_deleted_by_name_using_various_filters() To see how the data is used.
 	 *
@@ -501,7 +500,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'not_contains',
+					'operator'    => 'NOT LIKE',
 				),
 				2,
 				array(
@@ -520,7 +519,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'not_contains',
+					'operator'    => 'NOT LIKE',
 				),
 				0,
 				array(
@@ -529,6 +528,8 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 					'Sample Term C',
 				),
 			),
+			// Test case insensitivity.  MySql queries are case insensitive by default.
+			// (provided case sensitive collation is not set explicitly).
 			array(
 				array(
 					'post_type' => 'post',
@@ -541,10 +542,11 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'not_contains',
+					'operator'    => 'NOT LIKE',
 				),
-				2,
+				1,
 				array(
+					'Term sample B',
 					'Term C Sample',
 				),
 			),
@@ -560,7 +562,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'not_contains',
+					'operator'    => 'NOT LIKE',
 				),
 				0,
 				array(

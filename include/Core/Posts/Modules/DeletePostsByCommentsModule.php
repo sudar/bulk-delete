@@ -30,9 +30,9 @@ class DeletePostsByCommentsModule extends PostsModule {
 			'confirm_scheduled' => __( 'Are you sure you want to schedule the deletion of all the posts based on the selected comment count setting?', 'bulk-delete' ),
 			'validation_error'  => __( 'Please enter the comments count based on which posts should be deleted. A valid comment count will be greater than or equal to zero', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
-			'deleted_one'       => __( 'Deleted %d post from the selected post type and post status', 'bulk-delete' ),
+			'deleted_one'       => __( 'Deleted %d post with the selected comments count', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
-			'deleted_multiple'  => __( 'Deleted %d posts from the selected post type and post status', 'bulk-delete' ),
+			'deleted_multiple'  => __( 'Deleted %d posts with the selected comments count', 'bulk-delete' ),
 		);
 	}
 
@@ -46,14 +46,11 @@ class DeletePostsByCommentsModule extends PostsModule {
 		<!-- Comments start-->
 		<fieldset class="options">
 			<table class="optiontable">
+				<?php $this->render_post_type_with_status( false, 'comments' ); ?>
 				<tr>
-					<td scope="row" colspan="2">
+					<td>
 						<?php _e( 'Delete posts that have comments', 'bulk-delete' ); ?>
-					</td>
-					<td>
 						<?php $this->render_number_comparison_operators(); ?>
-					</td>
-					<td>
 						<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_value"
 						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count_value" placeholder="Comments Count" min="0" class="comments_count_num">
 					</td>
@@ -84,8 +81,9 @@ class DeletePostsByCommentsModule extends PostsModule {
 	 * @return array $options Inputs from user for posts that were need to be deleted.
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['operator']      = bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' );
-		$options['comment_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_count_value' ) );
+		$options['operator']           = bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' );
+		$options['comment_count']      = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_count_value' ) );
+		$options['selected_post_type'] = bd_array_get( $request, 'smbd_' . $this->field_slug );
 
 		return $options;
 	}
@@ -100,6 +98,15 @@ class DeletePostsByCommentsModule extends PostsModule {
 	protected function build_query( $options ) {
 		$query = array();
 
+		if ( array_key_exists( 'selected_post_type', $options ) ) {
+			$type_status = $this->split_post_type_and_status( $options['selected_post_type'] );
+			$type        = $type_status['type'];
+			$status      = $type_status['status'];
+
+			$query['post_type']   = $type;
+			$query['post_status'] = $status;
+		}
+
 		$query['comment_count'] = array(
 			'compare' => $options['operator'],
 			'value'   => $options['comment_count'],
@@ -112,17 +119,5 @@ class DeletePostsByCommentsModule extends PostsModule {
 		$js_array['validators'][ $this->action ] = 'validateCommentsCount';
 
 		return $js_array;
-	}
-
-	/**
-	 * Response message for deleting posts.
-	 *
-	 * @param int $items_deleted count of items deleted.
-	 *
-	 * @return string Response message
-	 */
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted %d post with the selected comments count', 'Deleted %d posts with the selected comments count', $items_deleted, 'bulk-delete' );
 	}
 }

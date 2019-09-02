@@ -55,29 +55,34 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'available_posts' => 10,
 				),
 			),
-			// (-ve Case) Deletes no posts for the given comment count with equals operator.
+			// (+ve Case) Deletes few posts for the given comment count with equals operator and post type/status.
 			array(
 				array(
 					array(
-						'posts'    => 15,
-						'comments' => 6,
+						'posts'       => 15,
+						'comments'    => 5,
+						'post_type'   => 'product',
+						'post_status' => 'publish',
 					),
 					array(
-						'posts'    => 10,
-						'comments' => 5,
+						'posts'       => 10,
+						'comments'    => 5,
+						'post_type'   => 'post',
+						'post_status' => 'publish',
 					),
 				),
 				array(
-					'operator'      => '=',
-					'comment_count' => 3,
-					'limit_to'      => 0,
-					'restrict'      => false,
-					'force_delete'  => true,
+					'operator'           => '=',
+					'comment_count'      => 5,
+					'selected_post_type' => 'product|publish',
+					'limit_to'           => 0,
+					'restrict'           => false,
+					'force_delete'       => true,
 				),
 				array(
-					'deleted_posts'   => 0,
+					'deleted_posts'   => 15,
 					'trashed_posts'   => 0,
-					'available_posts' => 25,
+					'available_posts' => 10,
 				),
 			),
 		);
@@ -117,29 +122,34 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'available_posts' => 5,
 				),
 			),
-			// (-ve Case) Deletes no posts for the given comment count with not equals operator.
+			// (+ve Case) Deletes few posts for the given comment count with not equals operator and post type/status.
 			array(
 				array(
 					array(
-						'posts'    => 15,
-						'comments' => 5,
+						'posts'       => 15,
+						'comments'    => 3,
+						'post_type'   => 'post',
+						'post_status' => 'publish',
 					),
 					array(
-						'posts'    => 10,
-						'comments' => 5,
+						'posts'       => 10,
+						'comments'    => 4,
+						'post_type'   => 'event',
+						'post_status' => 'publish',
 					),
 				),
 				array(
-					'operator'      => '!=',
-					'comment_count' => 5,
-					'limit_to'      => 0,
-					'restrict'      => false,
-					'force_delete'  => true,
+					'operator'           => '!=',
+					'comment_count'      => 5,
+					'selected_post_type' => 'event|publish',
+					'limit_to'           => 0,
+					'restrict'           => false,
+					'force_delete'       => true,
 				),
 				array(
-					'deleted_posts'   => 0,
+					'deleted_posts'   => 10,
 					'trashed_posts'   => 0,
-					'available_posts' => 25,
+					'available_posts' => 15,
 				),
 			),
 		);
@@ -175,29 +185,34 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'available_posts' => 10,
 				),
 			),
-			// (-ve Case) Deletes no posts for the given comment count with greater than operator.
+			// (+ve Case) Deletes few posts for the given comment count with greater than operator and post type/status.
 			array(
 				array(
 					array(
-						'posts'    => 15,
-						'comments' => 5,
+						'posts'       => 15,
+						'comments'    => 4,
+						'post_type'   => 'post',
+						'post_status' => 'publish',
 					),
 					array(
-						'posts'    => 10,
-						'comments' => 3,
+						'posts'       => 10,
+						'comments'    => 5,
+						'post_type'   => 'post',
+						'post_status' => 'draft',
 					),
 				),
 				array(
-					'operator'      => '>',
-					'comment_count' => 5,
-					'limit_to'      => 0,
-					'restrict'      => false,
-					'force_delete'  => true,
+					'operator'           => '>',
+					'comment_count'      => 3,
+					'selected_post_type' => 'post|draft',
+					'limit_to'           => 0,
+					'restrict'           => false,
+					'force_delete'       => true,
 				),
 				array(
-					'deleted_posts'   => 0,
+					'deleted_posts'   => 10,
 					'trashed_posts'   => 0,
-					'available_posts' => 25,
+					'available_posts' => 15,
 				),
 			),
 		);
@@ -235,31 +250,34 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'available_posts' => 15,
 				),
 			),
-			// (-ve Case) Deletes no posts for the given comment count with less than operator.
+			// (+ve Case) Deletes few posts for the given comment count with less than operator and post type/status.
 			array(
 				array(
 					array(
 						'posts'       => 15,
 						'comments'    => 5,
+						'post_type'   => 'post',
 						'post_status' => 'publish',
 					),
 					array(
 						'posts'       => 10,
 						'comments'    => 7,
+						'post_type'   => 'order',
 						'post_status' => 'publish',
 					),
 				),
 				array(
-					'operator'      => '<',
-					'comment_count' => 5,
-					'limit_to'      => 0,
-					'restrict'      => false,
-					'force_delete'  => true,
+					'operator'           => '<',
+					'comment_count'      => 10,
+					'selected_post_type' => 'order|publish',
+					'limit_to'           => 0,
+					'restrict'           => false,
+					'force_delete'       => true,
 				),
 				array(
-					'deleted_posts'   => 0,
+					'deleted_posts'   => 10,
 					'trashed_posts'   => 0,
-					'available_posts' => 25,
+					'available_posts' => 15,
 				),
 			),
 		);
@@ -279,9 +297,19 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 	 */
 	public function test_posts_can_be_deleted_by_posts_count( $setup, $operations, $expected ) {
 		foreach ( $setup as $element ) {
-			$post_ids = $this->factory->post->create_many( $element['posts'], array(
-				'post_status' => 'publish',
-			) );
+			if ( ! array_key_exists( 'post_type', $element ) ) {
+				$element['post_type'] = 'post';
+			}
+			if ( ! array_key_exists( 'post_status', $element ) ) {
+				$element['post_status'] = 'publish';
+			}
+			$post_ids = $this->factory->post->create_many(
+				$element['posts'],
+				array(
+					'post_type'   => $element['post_type'],
+					'post_status' => $element['post_status'],
+				)
+			);
 			foreach ( $post_ids as $post_id ) {
 				$this->factory->comment->create_post_comments( $post_id, $element['comments'] );
 			}
