@@ -2,7 +2,7 @@
 
 namespace BulkWP\BulkDelete\Core\Posts\Modules;
 
-use BulkWP\BulkDelete\Core\Posts\PostsModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -12,23 +12,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  * @since 6.1.0 Deprecated.
  */
-class DeletePostsByCategoryModule extends PostsModule {
-	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
-	protected function initialize() {
-		$this->cron_hook = 'do-bulk-delete-cat';
-		$this->messages  = array(
-			'cron_label' => __( 'Delete Post By Category', 'bulk-delete' ),
-		);
-	}
-
-	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
-	public function render() {
-	}
-
-	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
-	protected function convert_user_input_to_options( $request, $options ) {
-	}
-
+class DeletePostsByCategoryModule extends DeletePostsByTaxonomyModule {
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function build_query( $options ) {
 		$query = array();
