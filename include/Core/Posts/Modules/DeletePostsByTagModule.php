@@ -2,8 +2,6 @@
 
 namespace BulkWP\BulkDelete\Core\Posts\Modules;
 
-use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
-
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
