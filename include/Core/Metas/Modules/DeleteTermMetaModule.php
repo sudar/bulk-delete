@@ -15,14 +15,18 @@ class DeleteTermMetaModule extends MetasModule {
 	 * Initialize the Module.
 	 */
 	protected function initialize() {
-		$this->field_slug    = 'meta_term';
-		$this->meta_box_slug = 'bd-meta-term';
-		$this->action        = 'delete_meta_term';
+		$this->field_slug    = 'term_meta';
+		$this->meta_box_slug = 'bd-term-meta';
+		$this->action        = 'delete_term_meta';
 		$this->cron_hook     = 'do-bulk-delete-term-meta';
 		$this->messages      = array(
-			'box_label'  => __( 'Bulk Delete Term Meta', 'bulk-delete' ),
-			'scheduled'  => __( 'Term meta fields from the posts with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
-			'cron_label' => __( 'Delete Term Meta', 'bulk-delete' ),
+			'box_label'        => __( 'Bulk Delete Term Meta', 'bulk-delete' ),
+			'scheduled'        => __( 'Term meta fields from the posts with the selected criteria are scheduled for deletion.', 'bulk-delete' ),
+			'confirm_deletion' => __( 'Are you sure you want to delete all the term meta fields?', 'bulk-delete' ),
+			/* translators: 1 Number of term meta deleted */
+			'deleted_one'      => __( 'Deleted %d term meta field', 'bulk-delete' ),
+			/* translators: 1 Number of term meta deleted */
+			'deleted_multiple' => __( 'Deleted %d term meta fields', 'bulk-delete' ),
 		);
 	}
 
@@ -46,7 +50,7 @@ class DeleteTermMetaModule extends MetasModule {
 		<table class="optiontable">
 			<tr>
 				<td>
-					<select class="enhanced-terms-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term">
+					<select class="enhanced-terms-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_id">
 						<option><?php _e( 'Choose Terms', 'bulk-delete' ); ?></option>
 					</select>
 				</td>
@@ -57,16 +61,13 @@ class DeleteTermMetaModule extends MetasModule {
 		<table class="optiontable">
 			<tr>
 				<td>
-					<select class="enhanced-term-meta-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta">
+					<select class="enhanced-term-meta-dropdown" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key">
 						<option><?php _e( 'Choose Term Meta', 'bulk-delete' ); ?></option>
 					</select>
 
-					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_option">
-						<option value="equal"><?php _e( 'Equal to', 'bulk-delete' ); ?></option>
-						<option value="not_equal"><?php _e( 'Not equal to', 'bulk-delete' ); ?></option>
-					</select>
+					<?php $this->render_string_operators_dropdown( 'string', array( '=', '!=' ) ); ?>
 
-					<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_term_meta_value" />
+					<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" />
 				</td>
 			</tr>
 		</table>
@@ -98,12 +99,12 @@ class DeleteTermMetaModule extends MetasModule {
 	 * @return array User options.
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['term'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term', '' ) );
+		$options['term_id'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_id', '' ) );
 
-		$options['term_meta']       = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta', '' ) );
-		$options['term_meta_value'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_value', '' ) );
+		$options['term_meta_key']   = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_key', '' ) );
+		$options['term_meta_value'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_value', '' ) );
 
-		$options['term_meta_option'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_term_meta_option', '' ) );
+		$options['term_meta_operator'] = sanitize_text_field( bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator', '' ) );
 
 		return $options;
 	}
@@ -116,17 +117,17 @@ class DeleteTermMetaModule extends MetasModule {
 	public function do_delete( $options ) {
 		$count = 0;
 
-		if ( 'equal' === $options['term_meta_option'] ) {
-			$is_delete = delete_term_meta( $options['term'], $options['term_meta'], $options['term_meta_value'] );
-			if ( $is_delete ) {
+		if ( '=' === $options['term_meta_operator'] ) {
+			$is_deleted = delete_term_meta( $options['term_id'], $options['term_meta_key'], $options['term_meta_value'] );
+			if ( $is_deleted ) {
 				$count++;
 			}
-		} elseif ( 'not_equal' === $options['term_meta_option'] ) {
-			$term_values = get_term_meta( $options['term'], $options['term_meta'] );
+		} elseif ( '!=' === $options['term_meta_operator'] ) {
+			$term_values = get_term_meta( $options['term_id'], $options['term_meta_key'] );
 			foreach ( $term_values as $term_value ) {
 				if ( $options['term_meta_value'] !== $term_value ) {
-					$is_delete = delete_term_meta( $options['term'], $options['term_meta'], $term_value );
-					if ( $is_delete ) {
+					$is_deleted = delete_term_meta( $options['term_id'], $options['term_meta_key'], $term_value );
+					if ( $is_deleted ) {
 						$count++;
 					}
 				}
@@ -137,31 +138,17 @@ class DeleteTermMetaModule extends MetasModule {
 	}
 
 	/**
-	 * Filter JS Array and add pro hooks.
+	 * Append any module specific options to JS array.
+	 *
+	 * This function will be overridden by the child classes.
 	 *
 	 * @param array $js_array JavaScript Array.
 	 *
-	 * @return array Modified JavaScript Array.
+	 * @return array Modified JavaScript Array
 	 */
-	public function filter_js_array( $js_array ) {
-		$js_array['dt_iterators'][]                 = '_' . $this->field_slug;
-		$js_array['validators']['delete_meta_term'] = 'noValidation';
-
-		$js_array['pre_action_msg']['delete_meta_term'] = 'deleteTMWarning';
-		$js_array['msg']['deleteTMWarning']             = __( 'Are you sure you want to delete all the term meta fields?', 'bulk-delete' );
+	public function append_to_js_array( $js_array ) {
+		$js_array['validators'][ $this->action ] = 'noValidation';
 
 		return $js_array;
-	}
-
-	/**
-	 * Get Success Message.
-	 *
-	 * @param int $items_deleted Number of items that were deleted.
-	 *
-	 * @return string Success message.
-	 */
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted %d term meta field', 'Deleted %d term meta field', $items_deleted, 'bulk-delete' );
 	}
 }

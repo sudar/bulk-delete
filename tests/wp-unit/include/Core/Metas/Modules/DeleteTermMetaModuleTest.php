@@ -29,9 +29,9 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 * Add to test delete default taxonomy term meta with equal value.
+	 * Add test to delete default taxonomy term meta with equal operator.
 	 */
-	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_equal_value() {
+	public function test_that_term_meta_can_be_deleted_from_default_taxonomy_using_equal_operator() {
 		$term                   = 'Apple';
 		$taxonomy               = 'category';
 		$meta_key               = 'grade';
@@ -46,27 +46,27 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'term'             => $term_array['term_id'],
-			'term_meta'        => $meta_key,
-			'term_meta_value'  => $matched_meta_value,
-			'term_meta_option' => 'equal',
+			'term_id'            => $term_array['term_id'],
+			'term_meta_key'      => $meta_key,
+			'term_meta_value'    => $matched_meta_value,
+			'term_meta_operator' => '=',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
 
-		// Assert that post meta deleted.
+		// Assert that term meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
 		$meta_value = get_term_meta( $term_array['term_id'], $meta_key, true );
 
-		// Assert that post meta is not deleted.
+		// Assert that mismatched term meta is not deleted.
 		$this->assertEquals( $missmatched_meta_value, $meta_value );
 	}
 
 	/**
-	 * Add to test delete default taxonomy term meta with not equal value.
+	 * Add test to delete default taxonomy term meta with not equal operator.
 	 */
-	public function test_that_term_meta_can_be_deleted_with_default_taxonomy_in_not_equal_value() {
+	public function test_that_term_meta_can_be_deleted_from_default_taxonomy_using_not_equal_operator() {
 		$term                   = 'Apple';
 		$taxonomy               = 'category';
 		$meta_key               = 'grade';
@@ -81,27 +81,27 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'term'             => $term_array['term_id'],
-			'term_meta'        => $meta_key,
-			'term_meta_value'  => $matched_meta_value,
-			'term_meta_option' => 'not_equal',
+			'term_id'            => $term_array['term_id'],
+			'term_meta_key'      => $meta_key,
+			'term_meta_value'    => $matched_meta_value,
+			'term_meta_operator' => '!=',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
 
-		// Assert that post meta deleted.
+		// Assert that term meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
 		$meta_value = get_term_meta( $term_array['term_id'], $meta_key, true );
 
-		// Assert that post meta is not deleted (here matched value should not be deleted).
+		// Assert that term meta is not deleted (here matched value should not be deleted).
 		$this->assertEquals( $matched_meta_value, $meta_value );
 	}
 
 	/**
-	 * Add to test delete custom taxonomy term meta with equal value.
+	 * Add test to delete custom taxonomy term meta with equal operator.
 	 */
-	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_equal_value() {
+	public function test_that_term_meta_can_be_deleted_from_custom_taxonomy_using_equal_operator() {
 		$term                   = 'Apple';
 		$taxonomy               = 'fruit';
 		$meta_key               = 'grade';
@@ -118,27 +118,27 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'term'             => $term_array['term_id'],
-			'term_meta'        => $meta_key,
-			'term_meta_value'  => $matched_meta_value,
-			'term_meta_option' => 'equal',
+			'term_id'            => $term_array['term_id'],
+			'term_meta_key'      => $meta_key,
+			'term_meta_value'    => $matched_meta_value,
+			'term_meta_operator' => '=',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
 
-		// Assert that post meta deleted.
+		// Assert that term meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
 		$meta_value = get_term_meta( $term_array['term_id'], $meta_key, true );
 
-		// Assert that post meta is not deleted.
+		// Assert that term meta is not deleted.
 		$this->assertEquals( $missmatched_meta_value, $meta_value );
 	}
 
 	/**
-	 * Add to test delete custom taxonomy term meta with not equal value.
+	 * Add test to delete custom taxonomy term meta with not equal operator.
 	 */
-	public function test_that_term_meta_can_be_deleted_with_custom_taxonomy_in_not_equal_value() {
+	public function test_that_term_meta_can_be_deleted_from_custom_taxonomy_using_not_equal_operator() {
 		$term                   = 'Apple';
 		$taxonomy               = 'fruit';
 		$meta_key               = 'grade';
@@ -155,20 +155,20 @@ class DeleteTermMetaModuleTest extends WPCoreUnitTestCase {
 
 		// call our method.
 		$delete_options = array(
-			'term'             => $term_array['term_id'],
-			'term_meta'        => $meta_key,
-			'term_meta_value'  => $matched_meta_value,
-			'term_meta_option' => 'not_equal',
+			'term_id'            => $term_array['term_id'],
+			'term_meta_key'      => $meta_key,
+			'term_meta_value'    => $matched_meta_value,
+			'term_meta_operator' => '!=',
 		);
 
 		$meta_deleted = $this->module->delete( $delete_options );
 
-		// Assert that post meta deleted.
+		// Assert that term meta deleted.
 		$this->assertEquals( 1, $meta_deleted );
 
 		$meta_value = get_term_meta( $term_array['term_id'], $meta_key, true );
 
-		// Assert that post meta is not deleted.
+		// Assert that term meta is not deleted.
 		$this->assertEquals( $matched_meta_value, $meta_value );
 	}
 }

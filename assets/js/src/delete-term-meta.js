@@ -6,7 +6,7 @@
 jQuery( document ).ready(
 	function () {
 
-			jQuery( 'select[name="smbd_meta_term_taxonomy"]' ).change(
+			jQuery( 'select[name="smbd_term_meta_taxonomy"]' ).change(
 				function(){
 					jQuery( '.enhanced-terms-dropdown' ).select2(
 						{
@@ -17,7 +17,7 @@ jQuery( document ).ready(
 								data: function ( params ) {
 									return {
 										q: params.term,
-										taxonomy: jQuery( 'select[name=smbd_meta_term_taxonomy]' ).val(),
+										taxonomy: jQuery( 'select[name=smbd_term_meta_taxonomy]' ).val(),
 										action: 'bd_load_taxonomy_term'
 									};
 								},
@@ -54,7 +54,7 @@ jQuery( document ).ready(
 						data: function ( params ) {
 							return {
 								q: params.term,
-								taxonomy: jQuery( 'select[name=smbd_meta_term_taxonomy]' ).val(),
+								taxonomy: jQuery( 'select[name=smbd_term_meta_taxonomy]' ).val(),
 								action: 'bd_load_taxonomy_term'
 							};
 						},
@@ -80,7 +80,7 @@ jQuery( document ).ready(
 				}
 			);
 
-			jQuery( 'select[name="smbd_meta_term_term"]' ).change(
+			jQuery( 'select[name="smbd_term_meta_term_id"]' ).change(
 				function(){
 					jQuery( '.enhanced-term-meta-dropdown' ).select2(
 						{
@@ -90,7 +90,7 @@ jQuery( document ).ready(
 								delay: 250,
 								data: function () {
 									return {
-										term_id: jQuery( 'select[name=smbd_meta_term_term]' ).val(),
+										term_id: jQuery( 'select[name=smbd_term_meta_term_id]' ).val(),
 										action: 'bd_load_taxonomy_term_meta'
 									};
 								},
