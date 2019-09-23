@@ -154,13 +154,15 @@ abstract class BaseModule extends Renderer {
 	 * Setup the meta box.
 	 */
 	public function setup_metabox() {
-		add_meta_box(
-			$this->meta_box_slug,
-			$this->messages['box_label'],
-			array( $this, 'render_box' ),
-			$this->page_hook_suffix,
-			'advanced'
-		);
+		if ( array_key_exists( 'box_label', $this->messages ) ) {
+			add_meta_box(
+				$this->meta_box_slug,
+				$this->messages['box_label'],
+				array( $this, 'render_box' ),
+				$this->page_hook_suffix,
+				'advanced'
+			);
+		}
 	}
 
 	/**
