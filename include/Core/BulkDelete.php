@@ -108,6 +108,15 @@ final class BulkDelete {
 	private $primary_pages = array();
 
 	/**
+	 * List of Primary Network Admin pages.
+	 *
+	 * @var \BulkWP\BulkDelete\Core\Base\BaseDeletePage[]
+	 *
+	 * @since 6.1.0
+	 */
+	private $network_primary_pages = array();
+
+	/**
 	 * List of Secondary Admin pages.
 	 *
 	 * @var BasePage[]
@@ -234,6 +243,9 @@ final class BulkDelete {
 	private function setup_actions() {
 		add_action( 'init', array( $this, 'on_init' ) );
 
+		if ( is_multisite() ) {
+			add_action( 'network_admin_menu', array( $this, 'on_network_admin_menu' ) );
+		}
 		add_action( 'admin_menu', array( $this, 'on_admin_menu' ) );
 	}
 
@@ -311,6 +323,61 @@ final class BulkDelete {
 	}
 
 	/**
+	 * Triggered when the `network_admin_menu` hook is fired.
+	 *
+	 * Register all admin pages.
+	 *
+	 * @since 6.1.0
+	 */
+	public function on_network_admin_menu() {
+		foreach ( $this->get_network_primary_pages() as $page ) {
+			$page->register();
+		}
+
+		\Bulk_Delete_Misc::add_menu();
+
+		/**
+		 * Runs just after adding all *delete* menu items to Bulk WP main menu.
+		 *
+		 * This action is primarily for adding extra *delete* menu items to the Bulk WP main menu.
+		 *
+		 * @since 5.3
+		 */
+		do_action( 'bd_after_primary_menus' );
+
+		/**
+		 * Runs just before adding non-action menu items to Bulk WP main menu.
+		 *
+		 * This action is primarily for adding extra menu items before non-action menu items to the Bulk WP main menu.
+		 *
+		 * @since 5.3
+		 */
+		do_action( 'bd_before_secondary_menus' );
+
+		foreach ( $this->get_secondary_pages() as $page ) {
+			$page->register();
+		}
+
+		$this->addon_page = add_submenu_page(
+			\Bulk_Delete::POSTS_PAGE_SLUG,
+			__( 'Addon Licenses', 'bulk-delete' ),
+			__( 'Addon Licenses', 'bulk-delete' ),
+			'activate_plugins',
+			\Bulk_Delete::ADDON_PAGE_SLUG,
+			array( 'BD_License', 'display_addon_page' )
+		);
+
+		/**
+		 * Runs just after adding all menu items to Bulk WP main menu.
+		 *
+		 * This action is primarily for adding extra menu items to the Bulk WP main menu.
+		 *
+		 * @since 5.3
+		 */
+		do_action( 'bd_after_all_menus' );
+	}
+
+	/**
 	 * Get the list of registered admin pages.
 	 *
 	 * @since 6.0.0
@@ -323,6 +390,21 @@ final class BulkDelete {
 		}
 
 		return $this->primary_pages;
+	}
+
+	/**
+	 * Get the list of registered network admin pages.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Primary Admin pages.
+	 */
+	private function get_network_primary_pages() {
+		if ( empty( $this->network_primary_pages ) ) {
+			$this->load_network_primary_pages();
+		}
+
+		return $this->network_primary_pages;
 	}
 
 	/**
@@ -353,6 +435,28 @@ final class BulkDelete {
 		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Admin pages.
 		 */
 		$this->primary_pages = apply_filters( 'bd_primary_pages', $this->primary_pages );
+	}
+
+	/**
+	 * Load Primary network admin pages.
+	 *
+	 * The pages need to be loaded in `init` hook, since the association between page and modules is needed in cron requests.
+	 */
+	private function load_network_primary_pages() {
+		$posts_page = $this->get_delete_posts_admin_page();
+		$users_page = $this->get_delete_users_admin_page();
+
+		$this->network_primary_pages[ $posts_page->get_page_slug() ] = $posts_page;
+		$this->network_primary_pages[ $users_page->get_page_slug() ] = $users_page;
+
+		/**
+		 * List of primary network admin pages.
+		 *
+		 * @since 6.1.0
+		 *
+		 * @param \BulkWP\BulkDelete\Core\Base\BaseDeletePage[] List of Admin pages.
+		 */
+		$this->network_primary_pages = apply_filters( 'bd_primary_pages', $this->network_primary_pages );
 	}
 
 	/**
@@ -712,6 +816,43 @@ final class BulkDelete {
 	 */
 	public function get_page( $page_slug ) {
 		$pages = $this->get_primary_pages();
+
+		if ( ! isset( $pages[ $page_slug ] ) ) {
+			return null;
+		}
+
+		return $pages[ $page_slug ];
+	}
+
+	/**
+	 * Used for getting modules for multisite network admin.
+	 * Get the module object instance by page slug and module class name.
+	 *
+	 * @param string $page_slug         Page Slug.
+	 * @param string $module_class_name Module class name.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Base\BaseModule|null Module object instance or null if no match found.
+	 */
+	public function get_network_module( $page_slug, $module_class_name ) {
+		$page = $this->get_network_page( $page_slug );
+
+		if ( is_null( $page ) ) {
+			return null;
+		}
+error_log( var_export( $page->get_module( $module_class_name ), true ) );
+		return $page->get_module( $module_class_name );
+	}
+
+	/**
+	 * Used for multisite network admin dashboard.
+	 * Get the page object instance by page slug.
+	 *
+	 * @param string $page_slug Page slug.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Base\BaseDeletePage|null Page object instance or null if no match found.
+	 */
+	public function get_network_page( $page_slug ) {
+		$pages = $this->get_network_primary_pages();
 
 		if ( ! isset( $pages[ $page_slug ] ) ) {
 			return null;
