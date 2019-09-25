@@ -198,7 +198,7 @@ abstract class BaseDeletePage extends BasePage {
 	 * Render meta boxes in body.
 	 */
 	protected function render_body() {
-		do_meta_boxes( '', 'advanced', null );
+		do_meta_boxes( $this->hook_suffix, 'advanced', null );
 	}
 
 	/**

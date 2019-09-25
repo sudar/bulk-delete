@@ -14,10 +14,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsPage extends BaseDeletePage {
-	/**
-	 * Position in which the Bulk WP menu should appear.
-	 */
-	const MENU_POSITION = '26';
 
 	/**
 	 * Initialize and setup variables.
@@ -50,22 +46,6 @@ class DeletePostsPage extends BaseDeletePage {
 		);
 
 		parent::register();
-	}
-
-	/**
-	 * Get the Menu position of BulkWP menu.
-	 *
-	 * @return int Menu position.
-	 */
-	protected function get_bulkwp_menu_position() {
-		/**
-		 * Bulk WP Menu position.
-		 *
-		 * @since 6.0.0
-		 *
-		 * @param int Menu Position.
-		 */
-		return apply_filters( 'bd_bulkwp_menu_position', self::MENU_POSITION );
 	}
 
 	/**
