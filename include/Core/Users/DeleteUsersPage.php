@@ -21,6 +21,30 @@ class DeleteUsersPage extends BaseDeletePage {
 	 * @since 5.5
 	 */
 	protected function initialize() {
+		if ( is_multisite() ) {
+			$this->multisite_init();
+		} else {
+			$this->single_site_init();
+		}
+	}
+
+	protected function multisite_init() {
+		$this->page_slug = 'bulk-remove-users';
+		$this->item_type = 'users';
+
+		$this->label = array(
+			'page_title' => __( 'Bulk Remove Users', 'bulk-delete' ),
+			'menu_title' => __( 'Bulk Remove Users', 'bulk-delete' ),
+		);
+
+		$this->messages = array(
+			'warning_message' => __( 'WARNING: Users will be only removed from the subsite. If the users should be deleted, then link them to the page at network level.', 'bulk-delete' ),
+		);
+
+		$this->show_link_in_plugin_list = true;
+	}
+
+	protected function single_site_init() {
 		$this->page_slug = 'bulk-delete-users';
 		$this->item_type = 'users';
 

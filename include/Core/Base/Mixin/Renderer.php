@@ -667,6 +667,21 @@ abstract class Renderer extends Fetcher {
 	 * Render submit button.
 	 */
 	protected function render_submit_button() {
-		bd_render_submit_button( $this->action );
+		if ( is_multisite() ) {
+			$this->render_remove_button();
+		} else {
+			bd_render_submit_button( $this->action );
+		}
+	}
+
+	/**
+	 * Render remove button.
+	 */
+	protected function render_remove_button() {
+		?>
+		<p class="submit">
+			<button type="submit" name="bd_action" value="<?php echo esc_attr( $this->action ); ?>" class="button-primary"><?php _e( 'Bulk Remove ', 'bulk-delete' ); ?>&raquo;</button>
+		</p>
+		<?php
 	}
 }
