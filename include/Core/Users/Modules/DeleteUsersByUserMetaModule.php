@@ -50,7 +50,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 
 		<fieldset class="options">
 			<table class="optiontable">
-				<select name="smbd_u_meta_key" class="enhanced-dropdown">
+				<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_key" class="enhanced-dropdown">
 					<?php
 					$meta_keys = $this->get_unique_user_meta_keys();
 					foreach ( $meta_keys as $meta_key ) {
@@ -59,7 +59,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 					?>
 				</select>
 
-				<select name="smbd_u_meta_compare">
+				<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_compare">
 					<option value="=">Equals to</option>
 					<option value="!=">Not Equals to</option>
 					<option value=">">Greater than</option>
@@ -71,7 +71,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 					<option value="STARTS WITH">Starts with</option>
 					<option value="ENDS WITH">Ends with</option>
 				</select>
-				<input type="text" name="smbd_u_meta_value" id="smbd_u_meta_value" placeholder="<?php _e( 'Meta Value', 'bulk-delete' ); ?>">
+				<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Meta Value', 'bulk-delete' ); ?>">
 
 			</table>
 
@@ -105,9 +105,9 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 	 * @return array User options.
 	 */
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['meta_key']     = bd_array_get( $request, 'smbd_u_meta_key' );
-		$options['meta_compare'] = bd_array_get( $request, 'smbd_u_meta_compare', '=' );
-		$options['meta_value']   = bd_array_get( $request, 'smbd_u_meta_value' );
+		$options['meta_key']     = bd_array_get( $request, 'smbd_' . $this->field_slug . '_key' );
+		$options['meta_compare'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_compare', '=' );
+		$options['meta_value']   = bd_array_get( $request, 'smbd_' . $this->field_slug . '_value' );
 
 		switch ( strtolower( trim( $options['meta_compare'] ) ) ) {
 			case 'starts with':

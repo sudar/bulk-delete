@@ -104,10 +104,17 @@ abstract class UsersModule extends BaseModule {
 				continue;
 			}
 
-			if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
-				$deleted = wp_delete_user( $user->ID, $options['reassign_user_id'] );
-			} else {
-				$deleted = wp_delete_user( $user->ID );
+			switch ( is_multisite() ) {
+				case true:
+					$deleted = wpmu_delete_user( $user->ID );
+					break;
+				case false:
+					if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
+						$deleted = wp_delete_user( $user->ID, $options['reassign_user_id'] );
+					} else {
+						$deleted = wp_delete_user( $user->ID );
+					}
+					break;
 			}
 
 			if ( $deleted ) {
