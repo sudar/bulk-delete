@@ -12,6 +12,7 @@ use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteCommentMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeletePostMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteUserMetaModule;
+use BulkWP\BulkDelete\Core\Multisite\MultisiteAdminUIBuilder;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
@@ -31,7 +32,6 @@ use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostCountModule;
 use BulkWP\BulkDelete\Core\Users\DeleteUsersPage;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
-use BulkWP\BulkDelete\Core\Multisite\MultisiteAdminUIBuilder;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 

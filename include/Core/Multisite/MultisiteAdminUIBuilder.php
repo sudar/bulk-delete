@@ -16,7 +16,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.1.0
  */
 class MultisiteAdminUIBuilder {
-
 	/**
 	 * Path to the main plugin file.
 	 *
@@ -174,6 +173,7 @@ class MultisiteAdminUIBuilder {
 			return null;
 		}
 		error_log( var_export( $page->get_module( $module_class_name ), true ) );
+
 		return $page->get_module( $module_class_name );
 	}
 

@@ -10,5 +10,4 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.1.0
  */
 class DeleteUsersByUserRoleInMultisiteModule extends DeleteUsersByUserRoleModule {
-
 }

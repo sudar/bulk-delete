@@ -12,7 +12,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.1.0
  */
 class DeleteUsersInMultisitePage extends DeleteUsersPage {
-
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function initialize() {
 		parent::initialize();
