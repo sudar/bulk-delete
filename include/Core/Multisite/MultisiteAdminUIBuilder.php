@@ -172,7 +172,6 @@ class MultisiteAdminUIBuilder {
 		if ( is_null( $page ) ) {
 			return null;
 		}
-		error_log( var_export( $page->get_module( $module_class_name ), true ) );
 
 		return $page->get_module( $module_class_name );
 	}

@@ -33,7 +33,7 @@ class DeleteUsersByUserMetaInMultisiteModuleTest extends WPCoreUnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->site_ids = $this->factory->blog->create_many( 2 );
+		$this->site_ids = $this->factory->blog->create_many( 3 );
 		$this->module   = new DeleteUsersByUserMetaInMultisiteModule();
 	}
 
@@ -83,19 +83,206 @@ class DeleteUsersByUserMetaInMultisiteModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
+	 * Data provider to test registration filter.
+	 *
+	 * @see test_delete_users_by_user_meta_in_multisite
+	 *
+	 * @return array Data array.
+	 */
+	public function provide_data_to_test_registration_filter_in_multisite() {
+		return array(
+			// (+ve Case) Delete Users with a specified user meta and after filter.
+			array(
+				array(
+					array(
+						'role'            => 'administrator',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'apple',
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d', strtotime( '-2 day' ) ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'apple',
+					),
+					array(
+						'role'            => 'author',
+						'no_of_users'     => 3,
+						'registered_date' => date( 'Y-m-d' ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'mango',
+					),
+				),
+				array(
+					'meta_key'            => 'fruit',
+					'meta_compare'        => '=',
+					'meta_value'          => 'apple',
+					'limit_to'            => 0,
+					'registered_restrict' => true,
+					'registered_date_op'  => 'after',
+					'registered_days'     => 1,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 5,
+					'available_users' => 14, // Including 1 default admin user.
+				),
+			),
+			// (+ve Case) Delete Users with not equal to operator and after filter.
+			array(
+				array(
+					array(
+						'role'            => 'administrator',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'apple',
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d', strtotime( '-2 day' ) ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'apple',
+					),
+					array(
+						'role'            => 'author',
+						'no_of_users'     => 3,
+						'registered_date' => date( 'Y-m-d' ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'mango',
+					),
+				),
+				array(
+					'meta_key'            => 'fruit',
+					'meta_compare'        => '!=',
+					'meta_value'          => 'orange',
+					'limit_to'            => 0,
+					'registered_restrict' => true,
+					'registered_date_op'  => 'before',
+					'registered_days'     => 1,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 10,
+					'available_users' => 9, // Including 1 default admin user.
+				),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test users deletion with ENDS WITH operator and limit filter.
+	 *
+	 * @see test_delete_users_by_user_meta_in_multisite
+	 *
+	 * @return array Data array.
+	 */
+	public function provide_data_to_test_limit_filter_in_multisite() {
+		return array(
+			// (+ve Case) Delete Users with ENDS WITH operator and limit filter.
+			array(
+				array(
+					array(
+						'role'            => 'administrator',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'apple',
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'pineapple',
+					),
+				),
+				array(
+					'meta_key'            => 'fruit',
+					'meta_compare'        => 'REGEXP',
+					'meta_value'          => 'apple$',
+					'limit_to'            => 10,
+					'registered_restrict' => false,
+					'login_restrict'      => false,
+					'no_posts'            => false,
+				),
+				array(
+					'deleted_users'   => 10,
+					'available_users' => 6, // Including 1 default admin user.
+				),
+			),
+		);
+	}
+
+	/**
+	 * Data provider to test users deletion with no posts filter.
+	 *
+	 * @see test_delete_users_by_user_meta_in_multisite
+	 *
+	 * @return array Data array.
+	 */
+	public function provide_data_to_test_no_posts_filter_in_multisite() {
+		return array(
+			// (+ve Case) Delete Users with a specified user meta and no posts filter.
+			array(
+				array(
+					array(
+						'role'            => 'administrator',
+						'no_of_users'     => 5,
+						'registered_date' => date( 'Y-m-d' ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'apple',
+					),
+					array(
+						'role'            => 'subscriber',
+						'no_of_users'     => 10,
+						'registered_date' => date( 'Y-m-d' ),
+						'meta_key'        => 'fruit',
+						'meta_value'      => 'pineapple',
+						'has_posts'       => true,
+					),
+				),
+				array(
+					'meta_key'            => 'fruit',
+					'meta_compare'        => 'LIKE',
+					'meta_value'          => 'apple',
+					'limit_to'            => 0,
+					'registered_restrict' => false,
+					'login_restrict'      => false,
+					'no_posts'            => true,
+					'no_posts_post_types' => array( 'post' ),
+				),
+				array(
+					'deleted_users'   => 14,
+					'available_users' => 2, // Including 1 default admin user.
+				),
+			),
+		);
+	}
+
+	/**
 	 * Tests whether blogs are created.
 	 *
 	 * @return void
 	 */
 	public function test_multisite_setup() {
 		$blogs = get_sites( array( 'count' => true ) );
-		$this->assertEquals( 3, $blogs );
+		$this->assertEquals( 4, $blogs );
 	}
 
 	/**
 	 * Test basic case of delete users by meta in mutisite.
 	 *
 	 * @dataProvider provide_data_to_test_exclusion_of_logged_in_users_in_multisite
+	 * @dataProvider provide_data_to_test_registration_filter_in_multisite
+	 * @dataProvider provide_data_to_test_limit_filter_in_multisite
+	 * @dataProvider provide_data_to_test_no_posts_filter_in_multisite
 	 *
 	 * @param array $setup           Create posts using supplied arguments.
 	 * @param array $user_operations User operations.
@@ -104,7 +291,7 @@ class DeleteUsersByUserMetaInMultisiteModuleTest extends WPCoreUnitTestCase {
 	public function test_delete_users_by_role( $setup, $user_operations, $expected ) {
 		$size = count( $setup );
 
-		// Create users and assign to specified role.
+		// Create users and assign to specific blog and role.
 		for ( $i = 0; $i < $size; $i++ ) {
 			$args     = array( 'user_registered' => $setup[ $i ]['registered_date'] );
 			$user_ids = $this->factory->user->create_many( $setup[ $i ]['no_of_users'], $args );
@@ -118,9 +305,12 @@ class DeleteUsersByUserMetaInMultisiteModuleTest extends WPCoreUnitTestCase {
 			if ( array_key_exists( 'user_in_this_group_is_logged_in', $setup [ $i ] ) ) {
 				$this->login_user( $user_ids[0] );
 			}
+			if ( array_key_exists( 'has_posts', $setup [ $i ] ) ) {
+				$this->factory->post->create( array( 'post_author' => $user_ids[0] ) );
+			}
 		}
 
-		// Assert whether users are created in appropriate blogs.
+		// Assert users are created in appropriate blogs.
 		for ( $i = 0; $i < $size; $i++ ) {
 			$users = get_users(
 				array(
