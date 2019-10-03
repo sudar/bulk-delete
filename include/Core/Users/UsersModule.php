@@ -104,7 +104,7 @@ abstract class UsersModule extends BaseModule {
 				continue;
 			}
 
-			switch ( is_multisite() ) {
+			switch ( is_network_admin() && is_multisite() ) {
 				case true:
 					$deleted = wpmu_delete_user( $user->ID );
 					break;
