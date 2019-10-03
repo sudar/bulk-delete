@@ -558,12 +558,25 @@ abstract class Renderer extends Fetcher {
 	 * Render limit settings.
 	 *
 	 * @param string $item_type Item Type to be displayed in label.
+	 *
 	 */
 	protected function render_limit_settings( $item_type = '' ) {
-		if ( empty( $item_type ) ) {
-			$item_type = $this->item_type;
-		}
-		bd_render_limit_settings( $this->field_slug, $item_type );
+		?>
+		<tr>
+			<td scope="row">
+				<input name="smbd_<?php echo $this->field_slug; ?>_limit" id="smbd_<?php echo $this->field_slug; ?>_limit" value="true" type="checkbox">
+			</td>
+			<td>
+				<?php if ( false === strpos( $this->page_slug, 'remove' ) ) : ?>
+				<label for="smbd_<?php echo $this->field_slug; ?>_limit"><?php _e( 'Only delete first ', 'bulk-delete' ); ?></label>
+				<?php else : ?>
+				<label for="smbd_<?php echo $this->field_slug; ?>_limit"><?php _e( 'Only remove first ', 'bulk-delete' ); ?></label>
+				<?php endif; ?>
+				<input type="number" name="smbd_<?php echo $this->field_slug; ?>_limit_to" id="smbd_<?php echo $this->field_slug; ?>_limit_to" class="screen-per-page" disabled value="0" min="0"> <?php echo $this->item_type; ?>.
+				<?php printf( __( 'Use this option if there are more than 1000 %s and the script times out.', 'bulk-delete' ), $this->item_type ); ?>
+			</td>
+		</tr>
+		<?php
 	}
 
 	/**
@@ -583,7 +596,13 @@ abstract class Renderer extends Fetcher {
 				<label>
 					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio"
 					checked="checked" class="schedule-deletion">
-					<?php _e( 'Delete now', 'bulk-delete' ); ?>
+					<?php
+					if ( false === strpos( $this->page_slug, 'remove' ) ) {
+						_e( 'Delete now', 'bulk-delete' );
+					} else {
+						_e( 'Remove now', 'bulk-delete' );
+					}
+					?>
 				</label>
 
 				<label>
@@ -667,11 +686,7 @@ abstract class Renderer extends Fetcher {
 	 * Render submit button.
 	 */
 	protected function render_submit_button() {
-		if ( is_multisite() ) {
-			$this->render_remove_button();
-		} else {
-			bd_render_submit_button( $this->action );
-		}
+		bd_render_submit_button( $this->action );
 	}
 
 	/**

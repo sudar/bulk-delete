@@ -28,6 +28,11 @@ class DeleteUsersPage extends BaseDeletePage {
 		}
 	}
 
+	/**
+	 * Initialises several page level variables for multisite(subsites).
+	 *
+	 * @return void
+	 */
 	protected function multisite_init() {
 		$this->page_slug = 'bulk-remove-users';
 		$this->item_type = 'users';
@@ -44,6 +49,11 @@ class DeleteUsersPage extends BaseDeletePage {
 		$this->show_link_in_plugin_list = true;
 	}
 
+	/**
+	 * Initialises several page level variables for single site.
+	 *
+	 * @return void
+	 */
 	protected function single_site_init() {
 		$this->page_slug = 'bulk-delete-users';
 		$this->item_type = 'users';
