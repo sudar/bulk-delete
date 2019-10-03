@@ -340,7 +340,11 @@ abstract class UsersModule extends BaseModule {
 	protected function get_unique_user_meta_keys() {
 		global $wpdb;
 
-		return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->prefix}usermeta ORDER BY meta_key" );
+		if ( is_multisite() ) {
+			return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->base_prefix}usermeta ORDER BY meta_key" );
+		} else {
+			return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->prefix}usermeta ORDER BY meta_key" );
+		}
 	}
 
 	/**

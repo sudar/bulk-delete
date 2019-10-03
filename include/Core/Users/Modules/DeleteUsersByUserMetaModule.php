@@ -70,7 +70,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 		?>
 		<!-- Users Start-->
 		<?php $action = is_multisite() ? 'remove' : 'delete'; ?>
-		<h4><?php _e( 'Select the user meta from which you want to ' . $action . ' users', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the user meta from which you want to ' . esc_attr( $action ) . ' users', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
 			<table class="optiontable">

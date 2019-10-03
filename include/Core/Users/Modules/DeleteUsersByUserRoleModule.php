@@ -28,6 +28,11 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 		$this->messages      = $this->get_messages();
 	}
 
+	/**
+	 * Returns array of messages for multisite or single site depending on the requirement.
+	 *
+	 * @return array Messages array.
+	 */
 	protected function get_messages() {
 		if ( is_multisite() ) {
 			return array(
