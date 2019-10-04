@@ -62,4 +62,19 @@ class DeleteUsersByUserMetaInMultisiteModule extends DeleteUsersByUserMetaModule
 			<?php
 			$this->render_submit_button();
 	}
+
+	/**
+	 * Process user input and create metabox options.
+	 *
+	 * @param array $request Request array.
+	 * @param array $options User options.
+	 *
+	 * @return array User options.
+	 */
+	protected function convert_user_input_to_options( $request, $options ) {
+		parent::convert_user_input_to_options( $request, $options );
+		$options['network_admin'] = true;
+
+		return $options;
+	}
 }
