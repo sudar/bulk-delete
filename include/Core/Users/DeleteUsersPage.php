@@ -43,7 +43,7 @@ class DeleteUsersPage extends BaseDeletePage {
 		);
 
 		$this->messages = array(
-			'warning_message' => esc_html__( 'WARNING: Users will be only removed from the subsite. If the users should be deleted, then link them to the page at ', 'bulk-delete' ) . '<a href="'. $PLUGIN_ROOT . 'network">network level</a>.',
+			'warning_message' => esc_html__( 'WARNING: Users will be only removed from the subsite. If the users should be deleted, then link them to the page at ', 'bulk-delete' ) . '<a href="' . $PLUGIN_ROOT . 'network">network level</a>.',
 		);
 
 		$this->show_link_in_plugin_list = true;
@@ -81,7 +81,7 @@ class DeleteUsersPage extends BaseDeletePage {
 		<div class="notice notice-warning">
 			<p>
 				<strong>
-					<?php echo ( $this->messages['warning_message'] ); ?>
+					<?php echo( $this->messages['warning_message'] ); ?>
 				</strong>
 			</p>
 		</div>
