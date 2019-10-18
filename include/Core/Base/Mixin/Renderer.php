@@ -558,22 +558,27 @@ abstract class Renderer extends Fetcher {
 	 * Render limit settings.
 	 *
 	 * @param string $item_type Item Type to be displayed in label.
+	 * @param string $remove    Toggle labels between delete and remove(Used in multisites).
 	 *
+	 * @since 6.1.0 Added $remove param.
 	 */
-	protected function render_limit_settings( $item_type = '' ) {
+	protected function render_limit_settings( $item_type = '', $remove = false ) {
+		if ( empty( $item_type ) ) {
+			$item_type = $this->item_type;
+		}
 		?>
 		<tr>
 			<td scope="row">
 				<input name="smbd_<?php echo $this->field_slug; ?>_limit" id="smbd_<?php echo $this->field_slug; ?>_limit" value="true" type="checkbox">
 			</td>
 			<td>
-				<?php if ( false === strpos( $this->page_slug, 'remove' ) ) : ?>
-				<label for="smbd_<?php echo $this->field_slug; ?>_limit"><?php _e( 'Only delete first ', 'bulk-delete' ); ?></label>
-				<?php else : ?>
+				<?php if ( $remove ) : ?>
 				<label for="smbd_<?php echo $this->field_slug; ?>_limit"><?php _e( 'Only remove first ', 'bulk-delete' ); ?></label>
+				<?php else : ?>
+				<label for="smbd_<?php echo $this->field_slug; ?>_limit"><?php _e( 'Only delete first ', 'bulk-delete' ); ?></label>
 				<?php endif; ?>
-				<input type="number" name="smbd_<?php echo $this->field_slug; ?>_limit_to" id="smbd_<?php echo $this->field_slug; ?>_limit_to" class="screen-per-page" disabled value="0" min="0"> <?php echo $this->item_type; ?>.
-				<?php printf( __( 'Use this option if there are more than 1000 %s and the script times out.', 'bulk-delete' ), $this->item_type ); ?>
+				<input type="number" name="smbd_<?php echo $this->field_slug; ?>_limit_to" id="smbd_<?php echo $this->field_slug; ?>_limit_to" class="screen-per-page" disabled value="0" min="0"> <?php echo $item_type; ?>.
+				<?php printf( __( 'Use this option if there are more than 1000 %s and the script times out.', 'bulk-delete' ), esc_attr( $item_type ) ); ?>
 			</td>
 		</tr>
 		<?php

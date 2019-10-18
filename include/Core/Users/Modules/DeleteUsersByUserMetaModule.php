@@ -108,7 +108,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 				$this->render_filtering_table_header();
 				$this->render_user_login_restrict_settings();
 				$this->render_user_with_no_posts_settings();
-				$this->render_limit_settings();
+				$this->render_limit_settings( 'users', is_multisite() );
 				$this->render_post_reassign_settings();
 				$this->render_cron_settings();
 				?>
