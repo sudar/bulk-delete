@@ -4,6 +4,7 @@ namespace BulkWP\BulkDelete\Core;
 
 use BulkWP\BulkDelete\Core\Addon\Upseller;
 use BulkWP\BulkDelete\Core\Base\BasePage;
+use BulkWP\BulkDelete\Core\CLI\CLI;
 use BulkWP\BulkDelete\Core\Comments\DeleteCommentsPage;
 use BulkWP\BulkDelete\Core\Comments\Modules\DeleteCommentsByAuthorModule;
 use BulkWP\BulkDelete\Core\Comments\Modules\DeleteCommentsByIPModule;
@@ -220,6 +221,11 @@ final class BulkDelete {
 
 		$this->upseller = new Upseller();
 		$this->upseller->load();
+
+		if ( $this->is_cli_running() ) {
+			$cli = new CLI();
+			$cli->load();
+		}
 	}
 
 	/**
@@ -727,5 +733,14 @@ final class BulkDelete {
 	 */
 	private function is_admin_or_cron() {
 		return is_admin() || defined( 'DOING_CRON' ) || isset( $_GET['doing_wp_cron'] );
+	}
+
+	/**
+	 * Returns TRUE if CLI is running. Otherwise FALSE.
+	 *
+	 * @since 6.1.0
+	 */
+	public function is_cli_running() {
+		return defined( 'WP_CLI' ) && WP_CLI;
 	}
 }
