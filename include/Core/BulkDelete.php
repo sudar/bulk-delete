@@ -106,7 +106,7 @@ final class BulkDelete {
 	 *
 	 * @since 6.1.0
 	 *
-	 * @var \BulkWP\BulkDelete\Multisite\MultisiteAdminUIBuilder
+	 * @var \BulkWP\BulkDelete\Core\Multisite\MultisiteAdminUIBuilder
 	 */
 	private $multisite_ui_builder;
 
