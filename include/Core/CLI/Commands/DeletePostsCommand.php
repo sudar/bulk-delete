@@ -30,7 +30,7 @@ class DeletePostsCommand extends BaseCommand {
 	 *
 	 * @return boolean True for success and False for failure.
 	 */
-	public function validate( $options, $mandatory_fields ) {
+	private function validate( $options, $mandatory_fields ) {
 		foreach ( $mandatory_fields as $field ) {
 			if ( empty( $options[ $field ] ) ) {
 				\WP_CLI::error( $field . ' can not be empty.' );
@@ -45,7 +45,7 @@ class DeletePostsCommand extends BaseCommand {
 	 *
 	 * @return array $defaults
 	 */
-	public function get_defaults() {
+	private function get_defaults() {
 		$defaults                   = array();
 		$defaults['restrict']       = false;
 		$defaults['limit_to']       = 0;
@@ -57,9 +57,6 @@ class DeletePostsCommand extends BaseCommand {
 	/**
 	 * Delete post by status.
 	 *
-	 * @param array $args       Arguments to be supplied.
-	 * @param array $assoc_args Associative arguments to be supplied.
-	 * @return void
 	 * ## OPTIONS
 	 *
 	 * [--post_status=<post_status>]
@@ -94,6 +91,10 @@ class DeletePostsCommand extends BaseCommand {
 	 * ---
 	 *
 	 * @subcommand by-status
+	 *
+	 * @param array $args       Arguments to be supplied.
+	 * @param array $assoc_args Associative arguments to be supplied.
+	 * @return void
 	 */
 	public function by_status( $args, $assoc_args ) {
 		$options          = $this->get_defaults();
@@ -108,6 +109,11 @@ class DeletePostsCommand extends BaseCommand {
 
 		if ( array_key_exists( 'restrict', $assoc_args ) ) {
 			$options['restrict'] = $assoc_args['restrict'];
+			if ( $options['restrict'] ) {
+				$this->validate( $assoc_args, array( 'date_op', 'days' ) );
+				$options['date_op'] = $assoc_args['date_op'];
+				$options['days']    = $assoc_args['days'];
+			}
 		}
 
 		if ( array_key_exists( 'force_delete', $assoc_args ) ) {
