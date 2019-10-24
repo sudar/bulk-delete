@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.1.0
  */
 class CLILoader {
-
 	/**
 	 * Base Command.
 	 *
@@ -40,10 +39,10 @@ class CLILoader {
 	 * @return \BulkWP\BulkDelete\Core\Base\BaseCommand[]
 	 */
 	protected function get_commands() {
-		$commands = [
+		$commands = array(
 			SystemInfoCommand::class,
 			DeletePostsCommand::class,
-		];
+		);
 
 		/**
 		 * Filters the CLI command map.
