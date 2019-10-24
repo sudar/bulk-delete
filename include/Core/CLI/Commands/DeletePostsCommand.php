@@ -28,15 +28,17 @@ class DeletePostsCommand extends BaseCommand {
 	 * @param array $options          Delete Options.
 	 * @param array $mandatory_fields Mandatory fields list.
 	 *
-	 * @return boolean True for success and False for failure.
+	 * @return bool True for success and False for failure.
 	 */
 	private function validate( $options, $mandatory_fields ) {
 		foreach ( $mandatory_fields as $field ) {
 			if ( empty( $options[ $field ] ) ) {
 				\WP_CLI::error( $field . ' can not be empty.' );
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -51,6 +53,7 @@ class DeletePostsCommand extends BaseCommand {
 		$defaults['limit_to']       = 0;
 		$defaults['exclude_sticky'] = false;
 		$defaults['force_delete']   = false;
+
 		return $defaults;
 	}
 
@@ -94,6 +97,7 @@ class DeletePostsCommand extends BaseCommand {
 	 *
 	 * @param array $args       Arguments to be supplied.
 	 * @param array $assoc_args Associative arguments to be supplied.
+	 *
 	 * @return void
 	 */
 	public function by_status( $args, $assoc_args ) {

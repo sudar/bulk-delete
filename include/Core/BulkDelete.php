@@ -763,7 +763,7 @@ final class BulkDelete {
 	 *
 	 * @since 6.1.0
 	 *
-	 * @return TRUE if WP CLI. FALSE otherwise.
+	 * @return true if WP CLI. FALSE otherwise.
 	 *
 	 */
 	private function is_wp_cli() {
