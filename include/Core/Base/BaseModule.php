@@ -495,7 +495,6 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @return string UI input prefix.
 	 * @since 6.1.0
-	 *
 	 */
 	protected function get_ui_input_prefix() {
 		return 'smbd_' . $this->field_slug . '_';
@@ -511,7 +510,6 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @return array UI map.
 	 * @since 6.1.0
-	 *
 	 */
 	protected function get_non_standard_input_key_map() {
 		return [];

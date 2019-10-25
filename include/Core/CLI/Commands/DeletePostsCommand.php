@@ -4,6 +4,7 @@ namespace BulkWP\BulkDelete\Core\CLI\Commands;
 
 use BulkWP\BulkDelete\Core\Base\BaseCommand;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCommentsModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -36,7 +37,7 @@ class DeletePostsCommand extends BaseCommand {
 	 * [--limit_to=<limit_to>]
 	 * : Limits the number of posts to be deleted.
 	 * ---
-	 * default: -1
+	 * default: 0
 	 * ---
 	 *
 	 * [--restrict=<restrict>]
@@ -76,8 +77,82 @@ class DeletePostsCommand extends BaseCommand {
 	 * @return void
 	 */
 	public function by_status( $args, $assoc_args ) {
-		error_log(var_export($assoc_args, true));
 		$module = new DeletePostsByStatusModule();
+
+		$message = $module->process_cli_request( $assoc_args );
+
+		\WP_CLI::success( $message );
+	}
+
+	/**
+	 * Delete posts by comments.
+	 *
+	 * ## OPTIONS
+	 *
+	 * --count_value=<count_value>
+	 * : Comments count based on which posts should be deleted. A valid comment count will be greater than or equal to zero.
+	 *
+	 * [--operator=<operator>]
+	 * : Comment count comparision operator.
+	 * ---
+	 * default: =
+	 * options:
+	 *   - =
+	 *   - !=
+	 *   - <
+	 *   - >
+	 * ---
+	 *
+	 * [--selected_post_type=<selected_post_type>]
+	 * : Post type and status delimited with |
+	 * ---
+	 * default: post|publish
+	 * ---
+	 *
+	 * [--limit_to=<limit_to>]
+	 * : Limits the number of posts to be deleted.
+	 * ---
+	 * default: 0
+	 * ---
+	 *
+	 * [--restrict=<restrict>]
+	 * : Restricts posts deletion with post date filter.
+	 * ---
+	 * default: false
+	 * ---
+	 *
+	 * [--force_delete=<force_delete>]
+	 * : Should posts be permanently deleted. Set to false to move them to trash.
+	 * ---
+	 * default: false
+	 * ---
+	 *
+	 * [--<field>=<value>]
+	 * : Additional associative args for the deletion.
+	 *
+	 *  ## EXAMPLES
+	 *
+	 *     # Delete all published posts with 2 comments.
+	 *     $ wp bulk-delete posts by-comment --count_value=2
+	 *     Success: Deleted 1 post with the selected comments count
+	 *
+	 *     # Delete all published products(custom post type) with less than 5 comments.
+	 *     $ wp bulk-delete posts by-comment --count_value=5 --operator=< --selected_post_type=product|publish
+	 *     Success: Deleted 10 post with the selected comments count
+	 *
+	 *     # Delete all private posts having more than 3 comments.
+	 *     $ wp bulk-delete posts by-comment --count_value=3 --operator=> --selected_post_type=post|private
+	 *     Success: Deleted 20 post with the selected comments count
+	 *
+	 * @subcommand by-comment
+	 *
+	 * @param array $args       Arguments to be supplied.
+	 * @param array $assoc_args Associative arguments to be supplied.
+	 *
+	 * @return void
+	 */
+	public function by_comment( $args, $assoc_args ) {
+		$module = new DeletePostsByCommentsModule();
 
 		$message = $module->process_cli_request( $assoc_args );
 
