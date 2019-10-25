@@ -30,33 +30,43 @@ class DeletePostsCommand extends BaseCommand {
 	 * [--post_status=<post_status>]
 	 * : Comma seperated list of post status from which posts should be deleted. You can also use any custom post status.
 	 * ---
-	 * options:
-	 *   - publish (default)
-	 *   - draft,publish
-	 *   - draft,publish,private
-	 *   - private
+	 * default: publish
 	 * ---
 	 *
 	 * [--limit_to=<limit_to>]
 	 * : Limits the number of posts to be deleted.
+	 * ---
+	 * default: -1
+	 * ---
 	 *
 	 * [--restrict=<restrict>]
 	 * : Restricts posts deletion with post date filter.
 	 * ---
 	 * default: false
-	 * options:
-	 *   - true
-	 *   - false
 	 * ---
 	 *
 	 * [--force_delete=<force_delete>]
-	 * : True for permanent deletion and false for moving to trash.
+	 * : Should posts be permanently deleted. Set to false to move them to trash.
 	 * ---
 	 * default: false
-	 * options:
-	 *   - true
-	 *   - false
 	 * ---
+	 *
+	 * [--<field>=<value>]
+	 * : Additional associative args for the deletion.
+	 *
+	 *  ## EXAMPLES
+	 *
+	 *     # Delete all published posts.
+	 *     $ wp bulk-delete posts by-status
+	 *     Success: Deleted 1 post from the selected post status
+	 *
+	 *     # Delete all draft posts.
+	 *     $ wp bulk-delete posts by-status --post_status=draft
+	 *     Success: Deleted 1 post from the selected post status
+	 *
+	 *     # Delete all published and draft posts.
+	 *     $ wp bulk-delete posts by-status --post_status=draft,publish
+	 *     Success: Deleted 1 post from the selected post status
 	 *
 	 * @subcommand by-status
 	 *
@@ -66,6 +76,7 @@ class DeletePostsCommand extends BaseCommand {
 	 * @return void
 	 */
 	public function by_status( $args, $assoc_args ) {
+		error_log(var_export($assoc_args, true));
 		$module = new DeletePostsByStatusModule();
 
 		$message = $module->process_cli_request( $assoc_args );
