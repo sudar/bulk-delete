@@ -23,53 +23,18 @@ class DeletePostsCommand extends BaseCommand {
 	}
 
 	/**
-	 * Validate Delete Options.
-	 *
-	 * @param array $options          Delete Options.
-	 * @param array $mandatory_fields Mandatory fields list.
-	 *
-	 * @return bool True for success and False for failure.
-	 */
-	private function validate( $options, $mandatory_fields ) {
-		foreach ( $mandatory_fields as $field ) {
-			if ( empty( $options[ $field ] ) ) {
-				\WP_CLI::error( $field . ' can not be empty.' );
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Get default options.
-	 *
-	 * @return array $defaults
-	 */
-	private function get_defaults() {
-		$defaults                   = array();
-		$defaults['restrict']       = false;
-		$defaults['limit_to']       = 0;
-		$defaults['exclude_sticky'] = false;
-		$defaults['force_delete']   = false;
-
-		return $defaults;
-	}
-
-	/**
 	 * Delete post by status.
 	 *
 	 * ## OPTIONS
 	 *
 	 * [--post_status=<post_status>]
-	 * : Post with the entered post status will be deleted.
+	 * : Comma seperated list of post status from which posts should be deleted. You can also use any custom post status.
 	 * ---
 	 * options:
-	 *   - draft
-	 *   - publish
+	 *   - publish (default)
+	 *   - draft,publish
+	 *   - draft,publish,private
 	 *   - private
-	 *   - any custom post status
 	 * ---
 	 *
 	 * [--limit_to=<limit_to>]
@@ -101,30 +66,10 @@ class DeletePostsCommand extends BaseCommand {
 	 * @return void
 	 */
 	public function by_status( $args, $assoc_args ) {
-		$options          = $this->get_defaults();
-		$mandatory_fields = array( 'post_status' );
-		$this->validate( $assoc_args, $mandatory_fields );
-		$status_module          = new DeletePostsByStatusModule();
-		$options['post_status'] = $assoc_args['post_status'];
+		$module = new DeletePostsByStatusModule();
 
-		if ( array_key_exists( 'limit_to', $assoc_args ) ) {
-			$options['limit_to'] = $assoc_args['limit_to'];
-		}
+		$message = $module->process_cli_request( $assoc_args );
 
-		if ( array_key_exists( 'restrict', $assoc_args ) ) {
-			$options['restrict'] = $assoc_args['restrict'];
-			if ( $options['restrict'] ) {
-				$this->validate( $assoc_args, array( 'date_op', 'days' ) );
-				$options['date_op'] = $assoc_args['date_op'];
-				$options['days']    = $assoc_args['days'];
-			}
-		}
-
-		if ( array_key_exists( 'force_delete', $assoc_args ) ) {
-			$options['force_delete'] = $assoc_args['force_delete'];
-		}
-
-		$count = $status_module->delete( $options );
-		\WP_CLI::success( 'Deleted ' . $count . ' posts with ' . $options['post_status'] . ' status' );
+		\WP_CLI::success( $message );
 	}
 }

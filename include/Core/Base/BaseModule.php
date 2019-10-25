@@ -265,6 +265,41 @@ abstract class BaseModule extends Renderer {
 	 * @param array $request Request array.
 	 */
 	public function process( $request ) {
+		$msg = $this->process_request( $request );
+
+		add_settings_error(
+			$this->page_slug,
+			$this->action,
+			$msg,
+			'updated'
+		);
+	}
+
+	/**
+	 * Process CLI Request.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $request Request input.
+	 *
+	 * @return string Message to be shown to the user.
+	 */
+	public function process_cli_request( $request ) {
+		$request = $this->prepare_cli_input( $request );
+
+		return $this->process_request( $request );
+	}
+
+	/**
+	 * Process the user request.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $request Request array. For UI it will be `$_POST`. For CLI it will be the `$assoc_arg`.
+	 *
+	 * @return string Message to be shown to the user.
+	 */
+	protected function process_request( $request ) {
 		$options      = $this->parse_common_filters( $request );
 		$options      = $this->convert_user_input_to_options( $request, $options );
 		$cron_options = $this->parse_cron_filters( $request );
@@ -272,11 +307,11 @@ abstract class BaseModule extends Renderer {
 		/**
 		 * Filter the processed delete options.
 		 *
-		 * @since 6.0.0
-		 *
 		 * @param array $options Processed options.
 		 * @param array $request Request array.
 		 * @param \BulkWP\BulkDelete\Core\Base\BaseModule The delete module.
+		 *
+		 * @since 6.0.0
 		 */
 		$options = apply_filters( 'bd_processed_delete_options', $options, $request, $this );
 
@@ -287,12 +322,7 @@ abstract class BaseModule extends Renderer {
 			$msg           = sprintf( $this->get_success_message( $items_deleted ), $items_deleted );
 		}
 
-		add_settings_error(
-			$this->page_slug,
-			$this->action,
-			$msg,
-			'updated'
-		);
+		return $msg;
 	}
 
 	/**
@@ -458,5 +488,88 @@ abstract class BaseModule extends Renderer {
 	 */
 	public function get_page_slug() {
 		return $this->page_slug;
+	}
+
+	/**
+	 * Get the prefix that is added to the user input fields in the UI.
+	 *
+	 * @return string UI input prefix.
+	 * @since 6.1.0
+	 *
+	 */
+	protected function get_ui_input_prefix() {
+		return 'smbd_' . $this->field_slug . '_';
+	}
+
+	/**
+	 * Get the map of non standard keys used in user input.
+	 *
+	 * Before v6.1.0, each module has non-standard names for some input keys.
+	 * This became a problem when WP CLI was introduced.
+	 * This function provides a way for each module to specify a map of these non-standard keys that it expects.
+	 * Eventually the non-standard keys will be rectified and after that this function will no longer be needed.
+	 *
+	 * @return array UI map.
+	 * @since 6.1.0
+	 *
+	 */
+	protected function get_non_standard_input_key_map() {
+		return [];
+	}
+
+	/**
+	 * Prepare the input for a module.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $input Input array.
+	 *
+	 * @return array Prepared input.
+	 */
+	protected function prepare_cli_input( $input ) {
+		$input = $this->prefix_input( $input, $this->get_ui_input_prefix() );
+		$input = $this->handle_non_standard_keys( $input, $this->get_non_standard_input_key_map() );
+
+		return $input;
+	}
+
+	/**
+	 * Prefix user request array keys.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array  $input  User input.
+	 * @param string $prefix Prefix string.
+	 *
+	 * @return array Prefixed user input.
+	 */
+	protected function prefix_input( $input, $prefix ) {
+		$prefixed_input = [];
+
+		foreach ( $input as $key => $value ) {
+			$prefixed_input[ $prefix . $key ] = $value;
+		}
+
+		return $prefixed_input;
+	}
+
+	/**
+	 * Handle non standard keys that are used in the module.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $input User input.
+	 * @param array $map Map of non standard and standard keys.
+	 *
+	 * @return array Processed input.
+	 */
+	protected function handle_non_standard_keys( $input, $map ) {
+		foreach ( $map as $non_standard_key => $standard_key ) {
+			if ( isset( $input[ $standard_key ] ) ) {
+				$input[ $non_standard_key ] = $input[ $standard_key ];
+			}
+		}
+
+		return $input;
 	}
 }
