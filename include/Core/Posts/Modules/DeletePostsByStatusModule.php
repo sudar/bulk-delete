@@ -84,9 +84,9 @@ class DeletePostsByStatusModule extends PostsModule {
 
 		$prefix_without_underscore_at_end = substr( $prefix, 0, -1 );
 
-		return [
+		return array(
 			$prefix_without_underscore_at_end => $prefix . 'post_status',
-		];
+		);
 	}
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
