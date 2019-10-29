@@ -5,6 +5,7 @@ namespace BulkWP\BulkDelete\Core\CLI\Commands;
 use BulkWP\BulkDelete\Core\Base\BaseCommand;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCommentsModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByPostTypeModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -153,6 +154,64 @@ class DeletePostsCommand extends BaseCommand {
 	 */
 	public function by_comment( $args, $assoc_args ) {
 		$module = new DeletePostsByCommentsModule();
+
+		$message = $module->process_cli_request( $assoc_args );
+
+		\WP_CLI::success( $message );
+	}
+
+	/**
+	 * Delete posts by type.
+	 *
+	 * ## OPTIONS
+	 *
+	 * --selected_types=<selected_types>
+	 * : Comma seperated list of post type and status delimited with '|'. You can also use any custom post type or status.
+	 *
+	 * [--limit_to=<limit_to>]
+	 * : Limits the number of posts to be deleted.
+	 * ---
+	 * default: 0
+	 * ---
+	 *
+	 * [--restrict=<restrict>]
+	 * : Restricts posts deletion with post date filter.
+	 * ---
+	 * default: false
+	 * ---
+	 *
+	 * [--force_delete=<force_delete>]
+	 * : Should posts be permanently deleted. Set to false to move them to trash.
+	 * ---
+	 * default: false
+	 * ---
+	 *
+	 * [--<field>=<value>]
+	 * : Additional associative args for the deletion.
+	 *
+	 *  ## EXAMPLES
+	 *
+	 *     # Delete all published posts.
+	 *     $ wp bulk-delete posts by-post-type --selected_types=post|publish
+	 *     Success: Deleted 1 post from the selected post type and post status
+	 *
+	 *     # Delete all published products(custom post type).
+	 *     $ wp bulk-delete posts by-post-type --selected_types=product|publish
+	 *     Success: Deleted 10 post from the selected post type and post status
+	 *
+	 *     # Delete all private posts and products(custom post type).
+	 *     $ wp bulk-delete posts by-post-type --selected_types=post|private,product|private
+	 *     Success: Deleted 20 post from the selected post type and post status
+	 *
+	 * @subcommand by-post-type
+	 *
+	 * @param array $args       Arguments to be supplied.
+	 * @param array $assoc_args Associative arguments to be supplied.
+	 *
+	 * @return void
+	 */
+	public function by_post_type( $args, $assoc_args ) {
+		$module = new DeletePostsByPostTypeModule();
 
 		$message = $module->process_cli_request( $assoc_args );
 
