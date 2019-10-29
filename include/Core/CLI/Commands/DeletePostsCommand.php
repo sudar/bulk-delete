@@ -3,9 +3,9 @@
 namespace BulkWP\BulkDelete\Core\CLI\Commands;
 
 use BulkWP\BulkDelete\Core\Base\BaseCommand;
-use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCommentsModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByPostTypeModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 

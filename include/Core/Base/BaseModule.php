@@ -494,6 +494,7 @@ abstract class BaseModule extends Renderer {
 	 * Get the prefix that is added to the user input fields in the UI.
 	 *
 	 * @return string UI input prefix.
+	 *
 	 * @since 6.1.0
 	 */
 	protected function get_ui_input_prefix() {
@@ -509,10 +510,11 @@ abstract class BaseModule extends Renderer {
 	 * Eventually the non-standard keys will be rectified and after that this function will no longer be needed.
 	 *
 	 * @return array UI map.
+	 *
 	 * @since 6.1.0
 	 */
 	protected function get_non_standard_input_key_map() {
-		return [];
+		return array();
 	}
 
 	/**
@@ -542,7 +544,7 @@ abstract class BaseModule extends Renderer {
 	 * @return array Prefixed user input.
 	 */
 	protected function prefix_input( $input, $prefix ) {
-		$prefixed_input = [];
+		$prefixed_input = array();
 
 		foreach ( $input as $key => $value ) {
 			$prefixed_input[ $prefix . $key ] = $value;
@@ -557,7 +559,7 @@ abstract class BaseModule extends Renderer {
 	 * @since 6.1.0
 	 *
 	 * @param array $input User input.
-	 * @param array $map Map of non standard and standard keys.
+	 * @param array $map   Map of non standard and standard keys.
 	 *
 	 * @return array Processed input.
 	 */

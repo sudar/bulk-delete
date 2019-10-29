@@ -124,9 +124,9 @@ class DeletePostsByPostTypeModule extends PostsModule {
 
 		$prefix_without_underscore_at_end = substr( $prefix, 0, -1 );
 
-		return [
+		return array(
 			$prefix_without_underscore_at_end => $prefix . 'selected_types',
-		];
+		);
 	}
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
