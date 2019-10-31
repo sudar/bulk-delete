@@ -118,7 +118,7 @@ class DeletePostsByPostTypeModule extends PostsModule {
 		return $query;
 	}
 
-		// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function get_non_standard_input_key_map() {
 		$prefix = $this->get_ui_input_prefix();
 
@@ -131,7 +131,7 @@ class DeletePostsByPostTypeModule extends PostsModule {
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function prepare_cli_input( $input ) {
-		// Handle multiple post status.
+		// Handle multiple post types.
 		$input['selected_types'] = explode( ',', $input['selected_types'] );
 
 		return parent::prepare_cli_input( $input );

@@ -82,4 +82,15 @@ class DeletePostsByRevisionModule extends PostsModule {
 			);
 		}
 	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function get_non_standard_input_key_map() {
+		$prefix = $this->get_ui_input_prefix();
+
+		$prefix_without_underscore_at_end = substr( $prefix, 0, -1 );
+
+		return array(
+			$prefix_without_underscore_at_end => $prefix . 'revisions',
+		);
+	}
 }

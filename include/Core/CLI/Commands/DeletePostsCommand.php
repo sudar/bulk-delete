@@ -5,7 +5,10 @@ namespace BulkWP\BulkDelete\Core\CLI\Commands;
 use BulkWP\BulkDelete\Core\Base\BaseCommand;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByCommentsModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByPostTypeModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByRevisionModule;
 use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStatusModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByStickyPostModule;
+use BulkWP\BulkDelete\Core\Posts\Modules\DeletePostsByTaxonomyModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -45,12 +48,18 @@ class DeletePostsCommand extends BaseCommand {
 	 * : Restricts posts deletion with post date filter.
 	 * ---
 	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
 	 * ---
 	 *
 	 * [--force_delete=<force_delete>]
 	 * : Should posts be permanently deleted. Set to false to move them to trash.
 	 * ---
 	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
 	 * ---
 	 *
 	 * [--<field>=<value>]
@@ -120,12 +129,18 @@ class DeletePostsCommand extends BaseCommand {
 	 * : Restricts posts deletion with post date filter.
 	 * ---
 	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
 	 * ---
 	 *
 	 * [--force_delete=<force_delete>]
 	 * : Should posts be permanently deleted. Set to false to move them to trash.
 	 * ---
 	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
 	 * ---
 	 *
 	 * [--<field>=<value>]
@@ -178,12 +193,18 @@ class DeletePostsCommand extends BaseCommand {
 	 * : Restricts posts deletion with post date filter.
 	 * ---
 	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
 	 * ---
 	 *
 	 * [--force_delete=<force_delete>]
 	 * : Should posts be permanently deleted. Set to false to move them to trash.
 	 * ---
 	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
 	 * ---
 	 *
 	 * [--<field>=<value>]
@@ -197,11 +218,11 @@ class DeletePostsCommand extends BaseCommand {
 	 *
 	 *     # Delete all published products(custom post type).
 	 *     $ wp bulk-delete posts by-post-type --selected_types=product|publish
-	 *     Success: Deleted 10 post from the selected post type and post status
+	 *     Success: Deleted 10 posts from the selected post type and post status
 	 *
 	 *     # Delete all private posts and products(custom post type).
-	 *     $ wp bulk-delete posts by-post-type --selected_types=post|private,product|private
-	 *     Success: Deleted 20 post from the selected post type and post status
+	 *     $ wp bulk-delete posts by-post-type --selected_types='post|private,product|private'
+	 *     Success: Deleted 20 posts from the selected post type and post status
 	 *
 	 * @subcommand by-post-type
 	 *
@@ -212,6 +233,189 @@ class DeletePostsCommand extends BaseCommand {
 	 */
 	public function by_post_type( $args, $assoc_args ) {
 		$module = new DeletePostsByPostTypeModule();
+
+		$message = $module->process_cli_request( $assoc_args );
+
+		\WP_CLI::success( $message );
+	}
+
+	/**
+	 * Delete post revisions.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--revisions=<revisions>]
+	 * : Optional parameter which can take only 'revisions' as its value.
+	 * ---
+	 * default: revisions
+	 * ---
+	 *
+	 * [--limit_to=<limit_to>]
+	 * : Limits the number of posts to be deleted.
+	 * ---
+	 * default: 0
+	 * ---
+	 *
+	 * [--restrict=<restrict>]
+	 * : Restricts posts deletion with post date filter.
+	 * ---
+	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
+	 * ---
+	 *
+	 * [--<field>=<value>]
+	 * : Additional associative args for the deletion.
+	 *
+	 *  ## EXAMPLES
+	 *
+	 *     # Delete all revisions.
+	 *     $ wp bulk-delete posts by-revision
+	 *     Success: Deleted 10 post revisions
+	 *
+	 *     # Delete all revisions.
+	 *     $ wp bulk-delete posts by-revision --revisions=revisions
+	 *     Success: Deleted 1 post revision
+	 *
+	 * @subcommand by-revision
+	 *
+	 * @param array $args       Arguments to be supplied.
+	 * @param array $assoc_args Associative arguments to be supplied.
+	 *
+	 * @return void
+	 */
+	public function by_revision( $args, $assoc_args ) {
+		$module = new DeletePostsByRevisionModule();
+
+		$message = $module->process_cli_request( $assoc_args );
+
+		\WP_CLI::success( $message );
+	}
+
+	/**
+	 * Remove sticky or delete sticky posts.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--sticky_action=<sticky_action>]
+	 * : Determines whether post has to be made unsticky or deleted.
+	 * ---
+	 * default: unsticky
+	 * options:
+	 *   - unsticky
+	 *   - delete
+	 * ---
+	 *
+	 * --selected_posts=<selected_posts>
+	 * : Comma separated list of post ids or 'all' for selecting all sticky posts.
+	 * ---
+	 *
+	 * [--force_delete=<force_delete>]
+	 * : Should posts be permanently deleted. Set to false to move them to trash.
+	 * ---
+	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
+	 * ---
+	 *
+	 *  ## EXAMPLES
+	 *
+	 *     # Remove sticky for all sticky posts.
+	 *     $ wp bulk-delete posts by-sticky --selected_posts=all
+	 *     Success: 10 sticky posts were made into normal posts
+	 *
+	 *     # Delete selected sticky posts.
+	 *     $ wp bulk-delete posts by-sticky --selected_posts=1,2,3 --sticky_action=delete --force_delete=true
+	 *     Success: Deleted 3 sticky posts
+	 *
+	 *     # Move to trash all sticky posts.
+	 *     $ wp bulk-delete posts by-sticky --selected_posts=all --sticky_action=delete
+	 *     Success: Deleted 5 sticky posts
+	 *
+	 * @subcommand by-sticky
+	 *
+	 * @param array $args       Arguments to be supplied.
+	 * @param array $assoc_args Associative arguments to be supplied.
+	 *
+	 * @return void
+	 */
+	public function by_sticky( $args, $assoc_args ) {
+		$module = new DeletePostsByStickyPostModule();
+
+		$message = $module->process_cli_request( $assoc_args );
+
+		\WP_CLI::success( $message );
+	}
+
+	/**
+	 * Delete post by taxonomy.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--post_type=<post_type>]
+	 * : Select a post type from which posts should be deleted. You can also use any custom post type.
+	 * ---
+	 * default: post
+	 * ---
+	 *
+	 * --taxonomy=<taxonomy>
+	 * : Select a taxonomy from which posts should be deleted. You can also use any custom taxonomy.
+	 *
+	 * --terms=<terms>
+	 * : Comma separated list of terms from which posts should be deleted.
+	 *
+	 * [--limit_to=<limit_to>]
+	 * : Limits the number of posts to be deleted.
+	 * ---
+	 * default: 0
+	 * ---
+	 *
+	 * [--restrict=<restrict>]
+	 * : Restricts posts deletion with post date filter.
+	 * ---
+	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
+	 * ---
+	 *
+	 * [--force_delete=<force_delete>]
+	 * : Should posts be permanently deleted. Set to false to move them to trash.
+	 * ---
+	 * default: false
+	 * options:
+	 *   - true
+	 *   - false
+	 * ---
+	 *
+	 * [--<field>=<value>]
+	 * : Additional associative args for the deletion.
+	 *
+	 *  ## EXAMPLES
+	 *
+	 *     # Delete all posts belong to category fruit.
+	 *     $ wp bulk-delete posts by-taxonomy --taxonomy=category --terms=fruit
+	 *     Success: Deleted 10 posts from the selected taxonomy
+	 *
+	 *     # Delete all products(custom post type) with product tag(custom taxonomy) skybag.
+	 *     $ wp bulk-delete posts by-taxonomy --post_type=product --taxonomy=product_tag --terms=skybag
+	 *     Success: Deleted 20 posts from the selected taxonomy
+	 *
+	 *     # Delete all posts belong to biography or story tags.
+	 *     $ wp bulk-delete posts by-taxonomy --taxonomy=post_tag --terms=biography,story
+	 *     Success: Deleted 30 posts from the selected taxonomy
+	 *
+	 * @subcommand by-taxonomy
+	 *
+	 * @param array $args       Arguments to be supplied.
+	 * @param array $assoc_args Associative arguments to be supplied.
+	 *
+	 * @return void
+	 */
+	public function by_taxonomy( $args, $assoc_args ) {
+		$module = new DeletePostsByTaxonomyModule();
 
 		$message = $module->process_cli_request( $assoc_args );
 
