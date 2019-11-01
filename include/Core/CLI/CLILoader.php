@@ -3,6 +3,7 @@
 namespace BulkWP\BulkDelete\Core\CLI;
 
 use BulkWP\BulkDelete\Core\CLI\Commands\DeletePostsCommand;
+use BulkWP\BulkDelete\Core\CLI\Commands\DeleteUsersCommand;
 use BulkWP\BulkDelete\Core\CLI\Commands\SystemInfoCommand;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
@@ -42,6 +43,7 @@ class CLILoader {
 		$commands = array(
 			SystemInfoCommand::class,
 			DeletePostsCommand::class,
+			DeleteUsersCommand::class,
 		);
 
 		/**
