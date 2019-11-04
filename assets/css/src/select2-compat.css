@@ -6,3 +6,9 @@ select[multiple].select2 {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
+
+/* To reduce the height of multi-select select2 in WordPress 5.3*/
+.select2-search input[type=search] {
+	min-height:initial;
+	line-height: 1;
+}
