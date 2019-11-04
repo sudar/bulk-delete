@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3",
+        "php": ">=5.6",
         "sudar/wp-system-info": "^1.0.0"
     },
     "require-dev": {
