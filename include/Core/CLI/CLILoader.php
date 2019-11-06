@@ -2,6 +2,7 @@
 
 namespace BulkWP\BulkDelete\Core\CLI;
 
+use BulkWP\BulkDelete\Core\CLI\Commands\DeleteCommentsCommand;
 use BulkWP\BulkDelete\Core\CLI\Commands\DeletePagesCommand;
 use BulkWP\BulkDelete\Core\CLI\Commands\DeletePostsCommand;
 use BulkWP\BulkDelete\Core\CLI\Commands\DeleteTermsCommand;
@@ -44,6 +45,7 @@ class CLILoader {
 	protected function get_commands() {
 		$commands = array(
 			SystemInfoCommand::class,
+			DeleteCommentsCommand::class,
 			DeletePagesCommand::class,
 			DeletePostsCommand::class,
 			DeleteTermsCommand::class,

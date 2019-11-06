@@ -8,7 +8,7 @@ use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Delete Meta CLI Command.
+ * Delete Pages CLI Command.
  *
  * @since 6.1.0
  */
@@ -31,7 +31,7 @@ class DeletePagesCommand extends BaseCommand {
 	 * : Comma separeated list of post status from which pages need to be deleted. You can also use any custom post status.
 	 *
 	 * [--restrict=<restrict>]
-	 * : Restricts posts deletion with post date filter.
+	 * : Restricts pages deletion with date filter.
 	 * ---
 	 * default: false
 	 * options:
@@ -55,7 +55,6 @@ class DeletePagesCommand extends BaseCommand {
 	 * ---
 	 * default: 0
 	 * ---
-	 *
 	 *
 	 * [--force_delete=<force_delete>]
 	 * : Should pages be permanently deleted. Set to false to move them to trash.
