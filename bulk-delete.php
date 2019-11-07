@@ -46,7 +46,6 @@ if ( version_compare( PHP_VERSION, '5.6.0', '<' ) ) {
 	 * Version 6.1.0 of the Bulk Delete plugin dropped support for PHP < 5.2.
 	 * If you are still struck with PHP < 5.6 and can't update, then use v6.0.2 of the plugin.
 	 * But note that some add-ons may not work.
-	 *
 	 * @since 6.0.0 Dropped support for PHP 5.2
 	 * @since 6.1.0 Dropped support for < PHP 5.6
 	 */
