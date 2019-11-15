@@ -26,9 +26,15 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 		$this->cron_hook     = 'do-bulk-delete-users-by-meta';
 		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-users-by-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-u-ma';
 		$this->messages      = array(
-			'box_label'  => __( 'By User Meta', 'bulk-delete' ),
-			'scheduled'  => __( 'Users from with the selected user meta are scheduled for deletion.', 'bulk-delete' ),
-			'cron_label' => __( 'Delete Users by User Meta', 'bulk-delete' ),
+			'box_label'         => __( 'By User Meta', 'bulk-delete' ),
+			'scheduled'         => __( 'Users from with the selected user meta are scheduled for deletion.', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Users by User Meta', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the users from the selected user meta?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the users from the selected user meta?', 'bulk-delete' ),
+			/* translators: 1 Number of users deleted */
+			'deleted_one'       => __( 'Deleted %d user with the selected user meta', 'bulk-delete' ),
+			/* translators: 1 Number of users deleted */
+			'deleted_multiple'  => __( 'Deleted %d users with the selected user meta', 'bulk-delete' ),
 		);
 	}
 
@@ -144,17 +150,6 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'noValidation';
 
-		$js_array['pre_action_msg'][ $this->action ] = 'deleteUsersByMetaWarning';
-		$js_array['msg']['deleteUsersByMetaWarning'] = __( 'Are you sure you want to delete all the users from the selected user meta?', 'bulk-delete' );
-
-		$js_array['error_msg'][ $this->action ] = 'enterUserMetaValue';
-		$js_array['msg']['enterUserMetaValue']  = __( 'Please enter the value for the user meta field based on which you want to delete users', 'bulk-delete' );
-
 		return $js_array;
-	}
-
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of users deleted */
-		return _n( 'Deleted %d user with the selected user meta', 'Deleted %d users with the selected user meta', $items_deleted, 'bulk-delete' );
 	}
 }
