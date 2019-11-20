@@ -182,8 +182,8 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$this->assertEquals( 1, $meta_deleted );
 
 		// Todo: Don't delete all meta rows if there are duplicate meta keys.
-		// See https://github.com/sudar/bulk-delete/issues/515
-		// $this->assertTrue( metadata_exists( 'comment', $comment_id, $meta_key ) );
+		// See https://github.com/sudar/bulk-delete/issues/515.
+		// $this->assertTrue( metadata_exists( 'comment', $comment_id, $meta_key ) );.
 	}
 
 	/**
@@ -242,7 +242,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		$this->assertFalse( metadata_exists( 'comment', $comment_id_1, $meta_key ) );
 		// Todo: Don't delete all meta rows if there are duplicate meta keys.
 		// See https://github.com/sudar/bulk-delete/issues/515.
-		// $this->assertTrue( metadata_exists( 'comment', $comment_id_1, $another_meta_value ) );
+		// $this->assertTrue( metadata_exists( 'comment', $comment_id_1, $another_meta_value ) );.
 		$this->assertFalse( metadata_exists( 'comment', $comment_id_2, $meta_key ) );
 		$this->assertFalse( metadata_exists( 'comment', $comment_id_3, $meta_key ) );
 	}
@@ -713,15 +713,11 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					array(
 						'post_type'          => 'post',
 						'number_of_comments' => 3,
-						'miss_matched'       => array(
-							'meta_key'   => 'test_key',
-							'meta_value' => 30,
-						),
 					),
 					array(
 						'post_type'          => 'post',
 						'number_of_comments' => 2,
-						'miss_matched'       => array(
+						'matched'            => array(
 							'meta_key'   => 'one_more_key',
 							'meta_value' => 20,
 						),
@@ -730,7 +726,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 				array(
 					'post_type' => 'post',
 					'meta_key'  => 'test_key',
-					'meta_type' => 'NUMERIC',
 					'operator'  => 'NOT EXISTS',
 				),
 				array(
@@ -925,7 +920,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'date_unit'     => '1',
 					'date_type'     => 'day',
 					'date_format'   => '%d-%m-%Y',
-					'operator'      => '=',
+					'operator'      => '>=',
 				),
 				array(
 					'number_of_comment_metas_deleted' => 3,
@@ -986,11 +981,13 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			'post_type' => $operation['post_type'],
 			'use_value' => true,
 			'meta_key'  => $operation['meta_key'],
-			'meta_type' => $operation['meta_type'],
 			'meta_op'   => $operation['operator'],
 			'limit_to'  => 0,
 			'restrict'  => false,
 		);
+		if ( array_key_exists( 'meta_type', $operation ) ) {
+			$delete_options['meta_type'] = $operation['meta_type'];
+		}
 		if ( array_key_exists( 'meta_value', $operation ) ) {
 			$delete_options['meta_value'] = $operation['meta_value'];
 		}
@@ -998,7 +995,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 			$delete_options['relative_date'] = $operation['relative_date'];
 		}
 		if ( array_key_exists( 'date_format', $operation ) ) {
-			$delete_options['date_format'] = $operation['date_format'];
+			$delete_options['meta_value_date_format'] = $operation['date_format'];
 		}
 		if ( array_key_exists( 'date_unit', $operation ) ) {
 			$delete_options['date_unit'] = $operation['date_unit'];

@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteCommentMetaModule extends MetasModule {
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function initialize() {
 		$this->field_slug    = 'comment_meta';
 		$this->meta_box_slug = 'bd-comment-meta';
@@ -34,6 +35,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		$this->register_cron_hooks();
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	public function register( $hook_suffix, $page_slug ) {
 		parent::register( $hook_suffix, $page_slug );
 
@@ -118,6 +120,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		<?php
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_type'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug ) );
 
@@ -134,6 +137,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		return apply_filters( 'bd_delete_comment_meta_options', $options, $request );
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function do_delete( $options ) {
 		$args = $this->get_post_type_and_status_args( $options['post_type'] );
 
@@ -170,6 +174,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		return $meta_deleted;
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validateTextbox';
 
@@ -256,14 +261,14 @@ class DeleteCommentMetaModule extends MetasModule {
 	 * @return array Processed delete options array.
 	 */
 	public function process_filtering_options( $delete_options, $post ) {
-		if ( 'true' == bd_array_get( $post, 'smbd_' . $this->field_slug . '_use_value', 'false' ) ) {
-			$delete_options['meta_op']       = bd_array_get( $post, 'smbd_' . $this->field_slug . '_operator', '=' );
-			$delete_options['meta_type']     = bd_array_get( $post, 'smbd_' . $this->field_slug . '_type', 'CHAR' );
-			$delete_options['meta_value']    = bd_array_get( $post, 'smbd_' . $this->field_slug . '_value', '' );
-			$delete_options['relative_date'] = bd_array_get( $post, 'smbd_' . $this->field_slug . '_relative_date', '' );
-			$delete_options['date_unit']     = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_unit', '' );
-			$delete_options['date_type']     = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_type', '' );
-			$delete_options['date_format']   = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_format' );
+		if ( 'true' === bd_array_get( $post, 'smbd_' . $this->field_slug . '_use_value', 'false' ) ) {
+			$delete_options['meta_op']                = bd_array_get( $post, 'smbd_' . $this->field_slug . '_operator', '=' );
+			$delete_options['meta_type']              = bd_array_get( $post, 'smbd_' . $this->field_slug . '_type', 'CHAR' );
+			$delete_options['meta_value']             = bd_array_get( $post, 'smbd_' . $this->field_slug . '_value', '' );
+			$delete_options['relative_date']          = bd_array_get( $post, 'smbd_' . $this->field_slug . '_relative_date', '' );
+			$delete_options['date_unit']              = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_unit', '' );
+			$delete_options['date_type']              = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_type', '' );
+			$delete_options['meta_value_date_format'] = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_format' );
 		}
 
 		return $delete_options;
@@ -285,8 +290,10 @@ class DeleteCommentMetaModule extends MetasModule {
 		$query_vars = array(
 			'key'     => $delete_options['meta_key'],
 			'compare' => $delete_options['meta_op'],
-			'type'    => $delete_options['meta_type'],
 		);
+		if ( array_key_exists( 'meta_type', $delete_options ) ) {
+			$query_vars['type'] = $delete_options['meta_type'];
+		}
 		if ( in_array( $delete_options['meta_op'], array( 'EXISTS', 'NOT EXISTS' ), true ) ) {
 			$meta_query = array( $query_vars );
 

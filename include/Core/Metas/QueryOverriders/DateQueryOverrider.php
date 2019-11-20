@@ -28,21 +28,12 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	protected $meta_value_date_format;
 
 	/**
-	 * Date format of input value that will be compared with meta value.
-	 *
-	 * @since 1.0
-	 *
-	 * @var string
-	 */
-	protected $input_value_date_format;
-
-	/**
 	 * Setup hooks and load.
 	 *
 	 * @since 1.0
 	 */
 	public function load() {
-		add_action( 'parse_query', array( $this, 'parse_query' ) );
+		add_action( 'parse_comment_query', array( $this, 'parse_query' ) );
 	}
 
 	/**
@@ -58,6 +49,12 @@ class DateQueryOverrider extends BaseQueryOverrider {
 		return $query;
 	}
 
+	/**
+	 * Process date fields and returns query built.
+	 *
+	 * @param array $delete_options Delete Options.
+	 * @return array $options Query.
+	 */
 	public function process_date_fields( $delete_options ) {
 		if ( ! empty( $delete_options['relative_date'] ) && 'custom' !== $delete_options['relative_date'] ) {
 			$delete_options['meta_value'] = date( 'c', strtotime( $delete_options['relative_date'] ) );
@@ -77,11 +74,6 @@ class DateQueryOverrider extends BaseQueryOverrider {
 			}
 		}
 
-		// In v1.0 `date_format` was changed to `meta_value_date_format`.
-		// Needed?
-		if ( isset( $delete_options['date_format'] ) ) {
-			$delete_options['meta_value_date_format'] = $delete_options['date_format'];
-		}
 		$meta_query = array(
 			'key'     => $delete_options['meta_key'],
 			'value'   => $delete_options['meta_value'],
@@ -89,18 +81,10 @@ class DateQueryOverrider extends BaseQueryOverrider {
 			'type'    => $delete_options['meta_type'],
 		);
 
-		$options = array(
-			'meta_query' => array( $meta_query ),
-		);
+		$options = array( $meta_query );
 
 		if ( 'DATE' === $meta_query['type'] && ! empty( $delete_options['meta_value_date_format'] ) ) {
-			$options['cf_meta_value_date_format'] = $delete_options['meta_value_date_format'];
-
-			if ( ! empty( $delete_options['input_value_date_format'] ) ) {
-				$options['cf_input_value_date_format'] = $delete_options['input_value_date_format'];
-			} else {
-				$options['cf_input_value_date_format'] = '%Y-%m-%d';
-			}
+			$options['bd_meta_value_date_format'] = $delete_options['meta_value_date_format'];
 
 			$this->load();
 		}
@@ -113,15 +97,14 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	 * @param \WP_Query $query Query object.
 	 *
 	 * @since  0.3
-	 *
 	 */
 	public function parse_query( $query ) {
-		if ( isset( $query->query_vars['cf_meta_value_date_format'] ) ) {
-			$this->meta_value_date_format  = $query->query_vars['cf_meta_value_date_format'];
-			$this->input_value_date_format = $query->query_vars['cf_input_value_date_format'];
+		if ( isset( $query->query_vars['meta_query']['bd_meta_value_date_format'] ) ) {
+			$this->meta_value_date_format = $query->query_vars['meta_query']['bd_meta_value_date_format'];
 
 			add_filter( 'get_meta_sql', array( $this, 'process_sql_date_format' ), 10, 6 );
-			add_filter( 'posts_selection', array( $this, 'remove_filter' ) );
+			// ##TODO: Remove filter tag.
+			// remove_filter( 'get_meta_sql', array( $this, 'process_sql_date_format' ) );
 		}
 	}
 
@@ -137,12 +120,10 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	 *
 	 * @return array $query Processed query.
 	 * @since 0.3
-	 *
 	 */
 	public function process_sql_date_format( $query, $input, $type, $primary_table, $primary_column, $context ) {
 		global $wpdb;
-
-		if ( 'DATE' === $input[0]['type'] && 'post' === $type && 'wp_posts' === $primary_table && 'ID' === $primary_column ) {
+		if ( 'DATE' === $input[0]['type'] && 'comment' === $type && 'comment_ID' === $primary_column ) {
 			$meta_table = _get_meta_table( $type );
 
 			$query['where'] = $wpdb->prepare(
@@ -150,20 +131,10 @@ class DateQueryOverrider extends BaseQueryOverrider {
 				$input[0]['key'],
 				$this->meta_value_date_format,
 				$input[0]['value'],
-				$this->input_value_date_format
+				'%Y-%m-%d'
 			);
 		}
 
 		return $query;
-	}
-
-	/**
-	 * Remove the filter.
-	 *
-	 * @since  0.3
-	 * @access public
-	 */
-	public function remove_filter() {
-		remove_filter( 'get_meta_sql', array( $this, 'process_sql_date_format' ) );
 	}
 }
