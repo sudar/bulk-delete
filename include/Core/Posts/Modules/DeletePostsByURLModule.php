@@ -12,50 +12,55 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeletePostsByURLModule extends PostsModule {
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function initialize() {
 		$this->item_type     = 'posts';
 		$this->field_slug    = 'specific';
 		$this->meta_box_slug = 'bd_posts_by_url';
 		$this->action        = 'delete_posts_by_url';
 		$this->messages      = array(
-			'box_label' => __( 'By URL', 'bulk-delete' ),
+			'box_label'        => __( 'By URL', 'bulk-delete' ),
+			'confirm_deletion' => __( 'Are you sure you want to delete all the posts based on the entered url?', 'bulk-delete' ),
+			'validation_error' => __( 'Please enter at least one post url', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_one'      => __( 'Deleted %d post that had the entered URL(s)', 'bulk-delete' ),
+			/* translators: 1 Number of posts deleted */
+			'deleted_multiple' => __( 'Deleted %d posts that had the entered URL(s)', 'bulk-delete' ),
 		);
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	public function render() { ?>
 		<!-- URLs start-->
-        <h4><?php _e( 'Delete posts and pages that have the following Permalink', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Delete posts and pages that have the following Permalink', 'bulk-delete' ); ?></h4>
 
-        <fieldset class="options">
-        <table class="optiontable">
-            <tr>
-                <td scope="row" colspan="2">
-                    <label for="smdb_specific_pages"><?php _e( 'Enter one post url (not post ids) per line', 'bulk-delete' ); ?></label>
-                    <br>
-                    <textarea id="smdb_specific_pages_urls" name="smdb_specific_pages_urls" rows="5" columns="80"></textarea>
-                </td>
-            </tr>
+		<fieldset class="options">
+			<table class="optiontable">
+				<tr>
+					<td scope="row" colspan="2">
+						<label for="smdb_specific_pages"><?php _e( 'Enter one post url (not post ids) per line', 'bulk-delete' ); ?></label>
+						<br>
+						<textarea id="smdb_specific_pages_urls" name="smdb_specific_pages_urls" rows="5" columns="80" class="validate"></textarea>
+					</td>
+				</tr>
 
-			<?php $this->render_filtering_table_header(); ?>
-			<?php $this->render_delete_settings(); ?>
+				<?php $this->render_filtering_table_header(); ?>
+				<?php $this->render_delete_settings(); ?>
 
-        </table>
-        </fieldset>
-<?php
+			</table>
+		</fieldset>
+		<?php
 		$this->render_submit_button();
 	}
 
-	public function filter_js_array( $js_array ) {
-		$js_array['validators'][ $this->action ]     = 'validateUrl';
-		$js_array['error_msg'][ $this->action ]      = 'enterUrl';
-		$js_array['pre_action_msg'][ $this->action ] = 'deletePostsByURLWarning';
-
-		$js_array['msg']['enterUrl']                = __( 'Please enter at least one post url', 'bulk-delete' );
-		$js_array['msg']['deletePostsByURLWarning'] = __( 'Are you sure you want to delete all the posts based on the entered url?', 'bulk-delete' );
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	public function append_to_js_array( $js_array ) {
+		$js_array['validators'][ $this->action ] = 'validateTextbox';
 
 		return $js_array;
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['force_delete'] = bd_array_get_bool( $request, 'smbd_specific_force_delete', false );
 
@@ -64,6 +69,7 @@ class DeletePostsByURLModule extends PostsModule {
 		return $options;
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function do_delete( $delete_options ) {
 		$post_ids = array();
 
@@ -82,11 +88,7 @@ class DeletePostsByURLModule extends PostsModule {
 		return $this->delete_posts_by_id( $post_ids, $delete_options['force_delete'] );
 	}
 
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of pages deleted */
-		return _n( 'Deleted %d post with the selected post status', 'Deleted %d posts with the selected post status', $items_deleted, 'bulk-delete' );
-	}
-
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function build_query( $options ) {
 		// Left empty on purpose.
 	}

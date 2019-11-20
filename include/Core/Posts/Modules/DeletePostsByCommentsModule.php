@@ -30,9 +30,9 @@ class DeletePostsByCommentsModule extends PostsModule {
 			'confirm_scheduled' => __( 'Are you sure you want to schedule the deletion of all the posts based on the selected comment count setting?', 'bulk-delete' ),
 			'validation_error'  => __( 'Please enter the comments count based on which posts should be deleted. A valid comment count will be greater than or equal to zero', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
-			'deleted_one'       => __( 'Deleted %d post from the selected post type and post status', 'bulk-delete' ),
+			'deleted_one'       => __( 'Deleted %d post with the selected comments count', 'bulk-delete' ),
 			/* translators: 1 Number of posts deleted */
-			'deleted_multiple'  => __( 'Deleted %d posts from the selected post type and post status', 'bulk-delete' ),
+			'deleted_multiple'  => __( 'Deleted %d posts with the selected comments count', 'bulk-delete' ),
 		);
 	}
 
@@ -119,17 +119,5 @@ class DeletePostsByCommentsModule extends PostsModule {
 		$js_array['validators'][ $this->action ] = 'validateCommentsCount';
 
 		return $js_array;
-	}
-
-	/**
-	 * Response message for deleting posts.
-	 *
-	 * @param int $items_deleted count of items deleted.
-	 *
-	 * @return string Response message
-	 */
-	protected function get_success_message( $items_deleted ) {
-		/* translators: 1 Number of posts deleted */
-		return _n( 'Deleted %d post with the selected comments count', 'Deleted %d posts with the selected comments count', $items_deleted, 'bulk-delete' );
 	}
 }

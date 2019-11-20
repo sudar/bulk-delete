@@ -88,6 +88,7 @@ class DateQueryOverrider extends BaseQueryOverrider {
 
 			$this->load();
 		}
+
 		return $options;
 	}
 
@@ -119,6 +120,7 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	 * @param object $context        The main query object.
 	 *
 	 * @return array $query Processed query.
+	 *
 	 * @since 0.3
 	 */
 	public function process_sql_date_format( $query, $input, $type, $primary_table, $primary_column, $context ) {

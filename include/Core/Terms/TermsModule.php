@@ -78,22 +78,6 @@ abstract class TermsModule extends BaseModule {
 	}
 
 	/**
-	 * Get all terms from a taxonomy.
-	 *
-	 * @param string $taxonomy Taxonomy name.
-	 *
-	 * @return \WP_Term[] List of terms.
-	 */
-	protected function get_all_terms( $taxonomy ) {
-		$args = array(
-			'taxonomy' => $taxonomy,
-			'fields'   => 'all',
-		);
-
-		return $this->query_terms( $args );
-	}
-
-	/**
 	 * Query terms using WP_Term_Query.
 	 *
 	 * @param array $query Query args.
