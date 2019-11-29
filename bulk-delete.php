@@ -35,14 +35,19 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 // Include the stub of the old `Bulk_Delete` class, so that old add-ons don't generate a fatal error.
 require_once 'include/Deprecated/old-bulk-delete.php';
 
-if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
+if ( version_compare( PHP_VERSION, '5.6.0', '<' ) ) {
 	/**
 	 * Version 6.0.0 of the Bulk Delete plugin dropped support for PHP 5.2.
 	 * If you are still struck with PHP 5.2 and can't update, then use v5.6.1 of the plugin.
 	 * But note that some add-ons may not work.
 	 *
 	 * @see   http://sudarmuthu.com/blog/why-i-am-dropping-support-for-php-5-2-in-my-wordpress-plugins/
-	 * @since 6.0.0
+	 *
+	 * Version 6.1.0 of the Bulk Delete plugin dropped support for PHP < 5.2.
+	 * If you are still struck with PHP < 5.6 and can't update, then use v6.0.2 of the plugin.
+	 * But note that some add-ons may not work.
+	 * @since 6.0.0 Dropped support for PHP 5.2
+	 * @since 6.1.0 Dropped support for < PHP 5.6
 	 */
 	function bulk_delete_compatibility_notice() {
 		?>
@@ -50,8 +55,8 @@ if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 			<p>
 				<?php
 				printf(
-					__( 'Bulk Delete requires at least PHP 5.3 to function properly. Please upgrade PHP or use <a href="%s">v5.6.1 of Bulk Delete</a>.', 'bulk-delete' ), // @codingStandardsIgnoreLine
-					'https://downloads.wordpress.org/plugin/bulk-delete.5.6.1.zip'
+					__( 'Bulk Delete requires at least PHP 5.6 to function properly. Please upgrade PHP or use <a href="%s">v6.0.2 of Bulk Delete</a>.', 'bulk-delete' ), // @codingStandardsIgnoreLine
+					'https://downloads.wordpress.org/plugin/bulk-delete.6.0.2.zip'
 				);
 				?>
 			</p>
@@ -73,6 +78,6 @@ if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
 	return;
 }
 
-// PHP is at least 5.3, so we can safely include namespace code.
+// PHP is at least 5.6, so we can safely include namespace code.
 require_once 'load-bulk-delete.php';
 bulk_delete_load( __FILE__ );
