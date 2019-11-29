@@ -239,13 +239,15 @@ function bd_render_post_type_dropdown( $field_slug ) {
 					<?php endforeach; ?>
 				</optgroup>
 
-				<optgroup label="<?php esc_attr_e( 'Custom Post Types', 'bulk-delete' ); ?>">
-					<?php foreach ( $custom_post_types as $type ) : ?>
-						<option value="<?php echo esc_attr( $type->name ); ?>">
-							<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
-						</option>
-					<?php endforeach; ?>
-				</optgroup>
+				<?php if ( empty( ! $custom_post_types ) ): ?>
+					<optgroup label="<?php esc_attr_e( 'Custom Post Types', 'bulk-delete' ); ?>">
+						<?php foreach ( $custom_post_types as $type ) : ?>
+							<option value="<?php echo esc_attr( $type->name ); ?>">
+								<?php echo esc_html( $type->labels->singular_name . ' (' . $type->name . ')' ); ?>
+							</option>
+						<?php endforeach; ?>
+					</optgroup>
+				<?php endif; ?>
 			</select>
 		</td>
 	</tr>
