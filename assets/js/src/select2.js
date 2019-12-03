@@ -1,6 +1,7 @@
 /**
  * Add select2 functionality..
  */
+
 /*global ajaxurl*/
 jQuery( document ).ready( function () {
 	/**
@@ -30,6 +31,8 @@ jQuery( document ).ready( function () {
 
 	/**
 	 * Enable AJAX for Taxonomy Select2.
+	 *
+	 * TODO: See if this is used anywhere. Else remove it.
 	 */
 	jQuery( '.select2-taxonomy-ajax' ).select2( {
 		ajax: {
@@ -58,7 +61,7 @@ jQuery( document ).ready( function () {
 			},
 			cache: true
 		},
-		minimumInputLength: 2, // the minimum of symbols to input before perform a search
+		minimumInputLength: 2, // the minimum of symbols to input before perform a search.
 		width: '300px'
 	} );
 } );
