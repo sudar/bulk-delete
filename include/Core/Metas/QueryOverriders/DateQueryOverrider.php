@@ -53,6 +53,7 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	 * Process date fields and returns query built.
 	 *
 	 * @param array $delete_options Delete Options.
+	 *
 	 * @return array $options Query.
 	 */
 	public function process_date_fields( $delete_options ) {
