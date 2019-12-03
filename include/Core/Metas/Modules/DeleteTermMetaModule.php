@@ -8,7 +8,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Delete Term Meta.
  *
- * @since 6.0.0
+ * @since 6.1.0
  */
 class DeleteTermMetaModule extends MetasModule {
 	/**
@@ -37,7 +37,7 @@ class DeleteTermMetaModule extends MetasModule {
 		?>
 		<!-- Term Meta box start-->
 		<fieldset class="options">
-		<h4><?php _e( 'Select the taxonomy whose term meta fields you want to delete', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the taxonomy from which you want to delete term meta fields', 'bulk-delete' ); ?></h4>
 		<table class="optiontable">
 			<tr>
 				<td>
@@ -46,7 +46,7 @@ class DeleteTermMetaModule extends MetasModule {
 			</tr>
 		</table>
 
-		<h4><?php _e( 'Choose your term want to delete', 'bulk-delete' ); ?></h4>
+		<h4><?php _e( 'Select the taxonomy term from which you want to delete term meta fields', 'bulk-delete' ); ?></h4>
 		<table class="optiontable">
 			<tr>
 				<td>
