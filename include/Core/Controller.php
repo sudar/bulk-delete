@@ -168,18 +168,32 @@ class Controller {
 	 * @since 6.1.0
 	 */
 	public function load_term_metas() {
-		$response = array();
+		$response = [
+			[
+				'id'   => 0,
+				'text' => __( 'No term meta found', 'bulk-delete' ),
+			],
+		];
 
 		$term_id = absint( $_GET['term_id'] );
 
 		$term_metas = get_term_meta( $term_id );
 
-		if ( ! empty( $term_metas ) && ! is_wp_error( $term_metas ) ) {
-			foreach ( $term_metas as $key => $value ) {
-				$response[] = array(
-					$key,
-					$value,
-				);
+		if ( is_array( $term_metas ) && ! empty( $term_metas ) ) {
+			$keys = array_keys( $term_metas );
+
+			$response = [
+				[
+					'id'   => 0,
+					'text' => __( 'Select Term Meta Key', 'bulk-delete' ),
+				],
+			];
+
+			foreach ( $keys as $key ) {
+				$response[] = [
+					'id'   => $key,
+					'text' => $key,
+				];
 			}
 		}
 

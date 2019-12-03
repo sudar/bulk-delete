@@ -6,13 +6,15 @@
 
 /*global ajaxurl*/
 jQuery( document ).ready( function () {
+	var $taxonomyDropdown = jQuery( 'select[name="smbd_term_meta_taxonomy"]' ),
+		$termDropdown = jQuery( 'select[name="smbd_term_meta_term"]' ),
+		$metaDropdown = jQuery( 'select[name="smbd_term_meta_key"]' );
+
 	/**
 	 * Load Taxonomy terms when taxonomy changes.
 	 */
-	function loadTerms ( taxonomyDropdown ) {
-		taxonomyDropdown = typeof taxonomyDropdown !== 'undefined' ? taxonomyDropdown : this;
-
-		var selectedTaxonomy = jQuery( taxonomyDropdown ).val();
+	function loadTerms() {
+		var selectedTaxonomy = $taxonomyDropdown.val();
 
 		jQuery( '.enhanced-terms-dropdown' ).select2(
 			{
@@ -54,45 +56,28 @@ jQuery( document ).ready( function () {
 	 * Load Term metas when the term changes.
 	 */
 	function loadTermMetas() {
-		var selectedTermId = jQuery( this ).val();
+		var selectedTermId = $termDropdown.val();
 
-		jQuery( '.enhanced-term-meta-dropdown' ).select2(
-			{
-				ajax: {
-					url: ajaxurl,
-					dataType: 'json',
-					delay: 250,
-					data: function () {
-						return {
-							term_id: selectedTermId,
-							action: 'bd_load_term_metas'
-						};
-					},
-					processResults: function ( data ) {
-						var options = [];
-
-						if ( data ) {
-							jQuery.each(
-								data, function ( index, dataPair ) {
-									options.push( { id: dataPair[ 0 ], text: dataPair[ 0 ] } );
-								}
-							);
-						}
-
-						return {
-							results: options
-						};
-					},
-					cache: true
-				},
-				minimumInputLength: 2, // the minimum of symbols to input before perform a search.
-				width: '300px'
+		jQuery.ajax( {
+			type: "GET",
+			dataType: "json",
+			url: ajaxurl,
+			data: {
+				term_id: selectedTermId,
+				action: 'bd_load_term_metas'
+			},
+			success: function ( data ) {
+				$metaDropdown.empty();
+				$metaDropdown.select2( { data: data } );
+			},
+			error: function () {
+				alert( "We are not able to load the term meta" );
 			}
-		);
+		} );
 	}
 
-	jQuery( 'select[name="smbd_term_meta_taxonomy"]' ).change( loadTerms );
-	loadTerms( 'select[name="smbd_term_meta_taxonomy"]' );
+	$taxonomyDropdown.change( loadTerms );
+	loadTerms();
 
-	jQuery( 'select[name="smbd_term_meta_term_id"]' ).change( loadTermMetas );
+	$termDropdown.change( loadTermMetas );
 } );
