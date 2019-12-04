@@ -148,5 +148,4 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	public function remove_filter() {
 		remove_filter( 'get_meta_sql', array( $this, 'process_sql_date_format' ) );
 	}
-
 }
