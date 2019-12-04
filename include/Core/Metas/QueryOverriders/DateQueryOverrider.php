@@ -104,8 +104,7 @@ class DateQueryOverrider extends BaseQueryOverrider {
 			$this->meta_value_date_format = $query->query_vars['meta_query']['bd_meta_value_date_format'];
 
 			add_filter( 'get_meta_sql', array( $this, 'process_sql_date_format' ), 10, 6 );
-			// ##TODO: Remove filter tag.
-			// remove_filter( 'get_meta_sql', array( $this, 'process_sql_date_format' ) );
+			add_action( 'bd_after_meta_query', array( $this, 'remove_filter' ) );
 		}
 	}
 
@@ -139,4 +138,14 @@ class DateQueryOverrider extends BaseQueryOverrider {
 
 		return $query;
 	}
+
+	/**
+	 * Remove meta sql filter.
+	 *
+	 * @return void
+	 */
+	public function remove_filter() {
+		remove_filter( 'get_meta_sql', array( $this, 'process_sql_date_format' ) );
+	}
+
 }

@@ -162,6 +162,7 @@ class DeleteCommentMetaModule extends MetasModule {
 
 		$meta_deleted = 0;
 		$comments     = get_comments( $args );
+		do_action( 'bd_after_meta_query' );
 
 		foreach ( $comments as $comment ) {
 			// Todo: Don't delete all meta rows if there are duplicate meta keys.
