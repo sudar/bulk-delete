@@ -11,6 +11,7 @@ use BulkWP\BulkDelete\Core\Cron\CronListPage;
 use BulkWP\BulkDelete\Core\Metas\DeleteMetasPage;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteCommentMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeletePostMetaModule;
+use BulkWP\BulkDelete\Core\Metas\Modules\DeleteTermMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteUserMetaModule;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
@@ -507,6 +508,7 @@ final class BulkDelete {
 
 		$metas_page->add_module( new DeletePostMetaModule() );
 		$metas_page->add_module( new DeleteUserMetaModule() );
+		$metas_page->add_module( new DeleteTermMetaModule() );
 		$metas_page->add_module( new DeleteCommentMetaModule() );
 
 		/**

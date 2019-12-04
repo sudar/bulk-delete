@@ -225,13 +225,15 @@ abstract class Renderer extends Fetcher {
 					<?php endforeach; ?>
 				</optgroup>
 
-				<optgroup label="<?php esc_attr_e( 'Custom Taxonomies', 'bulk-delete' ); ?>">
-					<?php foreach ( $custom_taxonomies as $taxonomy ) : ?>
-						<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
-							<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
-						</option>
-					<?php endforeach; ?>
-				</optgroup>
+				<?php if ( ! empty( $custom_taxonomies ) ): ?>
+					<optgroup label="<?php esc_attr_e( 'Custom Taxonomies', 'bulk-delete' ); ?>">
+						<?php foreach ( $custom_taxonomies as $taxonomy ) : ?>
+							<option value="<?php echo esc_attr( $taxonomy->name ); ?>">
+								<?php echo esc_html( $taxonomy->label . ' (' . $taxonomy->name . ')' ); ?>
+							</option>
+						<?php endforeach; ?>
+					</optgroup>
+				<?php endif; ?>
 			</select>
 		<?php
 	}

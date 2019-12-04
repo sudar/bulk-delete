@@ -19,7 +19,6 @@ enabled:
   - function_typehint_space
   - hash_to_slash_comment
   - include
-  - long_array_syntax
   - lowercase_cast
   - lowercase_constants
   - lowercase_keywords
