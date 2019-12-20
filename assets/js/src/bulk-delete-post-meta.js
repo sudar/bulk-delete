@@ -33,7 +33,7 @@ jQuery( document ).ready( function () {
 			dateCustomFields = currentRowParent.find('span.custom-date-fields'),
 			metaValueTextBox = currentRowParent.find('.date-picker');
 
-		if ('string' === jQuery(this).val()) {
+		if ('char' === jQuery(this).val()) {
 			disableElements(numDateOpDropdowns);
 			hideElements(numDateOpDropdowns);
 			disableElements(dateFields);
@@ -45,6 +45,7 @@ jQuery( document ).ready( function () {
 			enableElements(strOpDropdown);
 			showElements(strOpDropdown);
 			resetElements(metaValueTextBox);
+			enableElements(metaValueTextBox);
 			showElements(metaValueTextBox);
 			metaValueTextBox.datepicker('destroy');
 		} else if ('numeric' === jQuery(this).val()) {
@@ -59,6 +60,7 @@ jQuery( document ).ready( function () {
 			enableElements(NumOpDropdown);
 			showElements(NumOpDropdown);
 			resetElements(metaValueTextBox);
+			enableElements(metaValueTextBox);
 			showElements(metaValueTextBox);
 			metaValueTextBox.datepicker('destroy');
 		} else if( 'date' === jQuery(this).val() ) {
@@ -74,6 +76,7 @@ jQuery( document ).ready( function () {
 			enableElements(dateFormatTextBoxRow);
 			showElements(dateFormatTextBoxRow);
 			resetElements(metaValueTextBox);
+			enableElements(metaValueTextBox);
 			showElements(metaValueTextBox);
 			metaValueTextBox.datepicker( {
 				dateFormat: "yy-mm-dd"

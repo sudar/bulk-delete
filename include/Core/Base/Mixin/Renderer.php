@@ -300,7 +300,7 @@ abstract class Renderer extends Fetcher {
 		?>
 		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type" class="meta-type">
 			<option value="numeric"><?php _e( 'Number', 'bulk-delete' ); ?></option>
-			<option value="string"><?php _e( 'Character', 'bulk-delete' ); ?></option>
+			<option value="char"><?php _e( 'Character', 'bulk-delete' ); ?></option>
 			<option value="date"><?php _e( 'Date', 'bulk-delete' ); ?></option>
 		</select>
 		<?php
