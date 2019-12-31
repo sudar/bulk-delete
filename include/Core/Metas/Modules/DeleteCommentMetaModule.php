@@ -196,13 +196,18 @@ class DeleteCommentMetaModule extends MetasModule {
 				<td>
 					<?php _e( 'Comment Meta Value ', 'bulk-delete' ); ?>
 					<?php $this->render_data_types_dropdown(); ?>
-					<?php $this->render_numeric_operators_dropdown(); ?>
-					<?php $this->render_string_operators_dropdown(); ?>
 					<?php
-						$operators = array( '=', '!=', '>', '<=', '>', '>=', 'EXISTS', 'NOT EXISTS' );
-						$class     = 'date';
+						$operators = array( '=', '!=', '<', '<=', '>', '>=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN', 'EXISTS' );
 					?>
-					<?php $this->render_numeric_operators_dropdown( $class, $operators ); ?>
+					<?php $this->render_numeric_operators_dropdown( 'numeric', $operators ); ?>
+					<?php
+						$operators = array( '=', '!=', 'IN', 'NOT IN', 'LIKE', 'NOT LIKE', 'STARTS_WITH', 'ENDS_WITH', 'EXISTS' );
+					?>
+					<?php $this->render_string_operators_dropdown( 'string', $operators ); ?>
+					<?php
+						$operators = array( '=', '!=', '<', '<=', '>', '>=', 'EXISTS' );
+					?>
+					<?php $this->render_numeric_operators_dropdown( 'date', $operators ); ?>
 					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
 						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" class="date-picker">
 					<span class="date-fields">
