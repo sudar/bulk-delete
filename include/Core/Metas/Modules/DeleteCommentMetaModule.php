@@ -3,6 +3,7 @@
 namespace BulkWP\BulkDelete\Core\Metas\Modules;
 
 use BulkWP\BulkDelete\Core\Metas\MetasModule;
+use BulkWP\BulkDelete\Core\Metas\QueryOverriders\DateQueryOverrider;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
@@ -12,6 +13,7 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 class DeleteCommentMetaModule extends MetasModule {
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function initialize() {
 		$this->field_slug    = 'comment_meta';
 		$this->meta_box_slug = 'bd-comment-meta';
@@ -33,6 +35,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		$this->register_cron_hooks();
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	public function register( $hook_suffix, $page_slug ) {
 		parent::register( $hook_suffix, $page_slug );
 
@@ -67,14 +70,14 @@ class DeleteCommentMetaModule extends MetasModule {
 			<table class="optiontable">
 				<tr>
 					<td>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" value="false" type="radio" checked>
+						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" class="use-value" value="false" type="radio" checked>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on comment meta key name only', 'bulk-delete' ); ?></label>
 					</td>
 				</tr>
 
 				<tr>
 					<td>
-						<input type="radio" value="true" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value">
+						<input type="radio" class="use-value" value="true" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value">
 
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_use_value"><?php echo __( 'Delete based on comment meta key name and value', 'bulk-delete' ); ?></label>
 					</td>
@@ -117,6 +120,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		<?php
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['post_type'] = esc_sql( bd_array_get( $request, 'smbd_' . $this->field_slug ) );
 
@@ -133,6 +137,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		return apply_filters( 'bd_delete_comment_meta_options', $options, $request );
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function do_delete( $options ) {
 		$args = $this->get_post_type_and_status_args( $options['post_type'] );
 
@@ -157,6 +162,7 @@ class DeleteCommentMetaModule extends MetasModule {
 
 		$meta_deleted = 0;
 		$comments     = get_comments( $args );
+		do_action( 'bd_after_meta_query' );
 
 		foreach ( $comments as $comment ) {
 			// Todo: Don't delete all meta rows if there are duplicate meta keys.
@@ -169,6 +175,7 @@ class DeleteCommentMetaModule extends MetasModule {
 		return $meta_deleted;
 	}
 
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function append_to_js_array( $js_array ) {
 		$js_array['validators'][ $this->action ] = 'validateTextbox';
 
@@ -184,34 +191,63 @@ class DeleteCommentMetaModule extends MetasModule {
 	 */
 	public function add_filtering_options() {
 		?>
-		<table class="optiontable" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_filters" style="display:none;">
+		<table class="optiontable" style="display:none;">
 			<tr>
 				<td>
 					<?php _e( 'Comment Meta Value ', 'bulk-delete' ); ?>
-					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_type">
-						<option value="CHAR"><?php _e( 'CHAR', 'bulk-delete' ); ?></option>
-						<option value="NUMERIC"><?php _e( 'NUMERIC', 'bulk-delete' ); ?></option>
-						<option value="DECIMAL"><?php _e( 'DECIMAL', 'bulk-delete' ); ?></option>
-						<option value="SIGNED"><?php _e( 'SIGNED', 'bulk-delete' ); ?></option>
-						<option value="UNSIGNED"><?php _e( 'UNSIGNED', 'bulk-delete' ); ?></option>
-						<option value="DATE"><?php _e( 'DATE', 'bulk-delete' ); ?></option>
-						<option value="TIME"><?php _e( 'TIME', 'bulk-delete' ); ?></option>
-						<option value="DATETIME"><?php _e( 'DATETIME', 'bulk-delete' ); ?></option>
-						<option value="BINARY"><?php _e( 'BINARY', 'bulk-delete' ); ?></option>
-					</select>
-					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_op">
-						<option value="="><?php _e( 'equal to', 'bulk-delete' ); ?></option>
-						<option value="!="><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
-						<option value="<"><?php _e( 'less than', 'bulk-delete' ); ?></option>
-						<option value="<="><?php _e( 'less than or equal to', 'bulk-delete' ); ?></option>
-						<option value=">"><?php _e( 'greater than', 'bulk-delete' ); ?></option>
-						<option value=">="><?php _e( 'greater than or equal to', 'bulk-delete' ); ?></option>
-						<option value="LIKE"><?php _e( 'like', 'bulk-delete' ); ?></option>
-						<option value="NOT LIKE"><?php _e( 'not like', 'bulk-delete' ); ?></option>
-					</select>
-					<input type="text" placeholder="<?php _e( 'Meta Value', 'bulk-delete' ); ?>"
-						name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
-						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value">
+					<?php $this->render_data_types_dropdown(); ?>
+					<?php
+						$operators = array( '=', '!=', '<', '<=', '>', '>=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN', 'EXISTS' );
+					?>
+					<?php $this->render_numeric_operators_dropdown( 'numeric', $operators ); ?>
+					<?php
+						$operators = array( '=', '!=', 'IN', 'NOT IN', 'LIKE', 'NOT LIKE', 'STARTS_WITH', 'ENDS_WITH', 'EXISTS' );
+					?>
+					<?php $this->render_string_operators_dropdown( 'string', $operators ); ?>
+					<?php
+						$operators = array( '=', '!=', '<', '<=', '>', '>=', 'EXISTS' );
+					?>
+					<?php $this->render_numeric_operators_dropdown( 'date', $operators ); ?>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
+						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" class="date-picker">
+					<span class="date-fields">
+						<?php _e( 'Or', 'bulk-delete' ); ?>
+						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" class="relative-date-fields">
+							<option value=""><?php _e( 'Select Relative date', 'bulk-delete' ); ?></option>
+							<option value="yesterday"><?php _e( 'Yesterday', 'bulk-delete' ); ?></option>
+							<option value="today"><?php _e( 'Today', 'bulk-delete' ); ?></option>
+							<option value="tomorrow"><?php _e( 'Tomorrow', 'bulk-delete' ); ?></option>
+							<option value="custom"><?php _e( 'Custom', 'bulk-delete' ); ?></option>
+						</select>
+						<?php echo apply_filters( 'bd_help_tooltip', '', __( 'You can select a date or enter a date which is relative to today.', 'bulk-delete' ) ); ?>
+					</span>
+					<span class="custom-date-fields">
+						<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" style="width: 5%;">
+						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type">
+							<option value="day"><?php _e( 'Day', 'bulk-delete' ); ?></option>
+							<option value="week"><?php _e( 'Week', 'bulk-delete' ); ?></option>
+							<option value="month"><?php _e( 'Month', 'bulk-delete' ); ?></option>
+							<option value="year"><?php _e( 'Year', 'bulk-delete' ); ?></option>
+						</select>
+					</span>
+				</td>
+			</tr>
+			<tr class="date-format-fields">
+				<td colspan="2">
+					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format">
+						<?php _e( 'Meta value date format', 'bulk-delete' ); ?>
+					</label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format" placeholder="%Y-%m-%d">
+					<?php echo apply_filters( 'bd_help_tooltip', '', __( "If you leave date format blank, then '%Y-%m-%d', will be assumed.", 'bulk-delete' ) ); ?>
+					<p>
+						<?php
+						printf(
+							/* translators: 1 Mysql Format specifier url.  */
+							__( 'If you are storing the date in a format other than <em>YYYY-MM-DD</em> then enter the date format using <a href="%s" target="_blank" rel="noopener noreferrer">Mysql format specifiers</a>.', 'bulk-delete' ),
+							'https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format'
+						);
+						?>
+					</p>
 				</td>
 			</tr>
 		</table>
@@ -231,10 +267,14 @@ class DeleteCommentMetaModule extends MetasModule {
 	 * @return array Processed delete options array.
 	 */
 	public function process_filtering_options( $delete_options, $post ) {
-		if ( 'true' == bd_array_get( $post, 'smbd_' . $this->field_slug . '_use_value', 'false' ) ) {
-			$delete_options['meta_op']    = bd_array_get( $post, 'smbd_' . $this->field_slug . '_meta_op', '=' );
-			$delete_options['meta_type']  = bd_array_get( $post, 'smbd_' . $this->field_slug . '_type', 'CHAR' );
-			$delete_options['meta_value'] = bd_array_get( $post, 'smbd_' . $this->field_slug . '_value', '' );
+		if ( 'true' === bd_array_get( $post, 'smbd_' . $this->field_slug . '_use_value', 'false' ) ) {
+			$delete_options['meta_op']                = bd_array_get( $post, 'smbd_' . $this->field_slug . '_operator', '=' );
+			$delete_options['meta_type']              = bd_array_get( $post, 'smbd_' . $this->field_slug . '_type', 'CHAR' );
+			$delete_options['meta_value']             = bd_array_get( $post, 'smbd_' . $this->field_slug . '_value', '' );
+			$delete_options['relative_date']          = bd_array_get( $post, 'smbd_' . $this->field_slug . '_relative_date', '' );
+			$delete_options['date_unit']              = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_unit', '' );
+			$delete_options['date_type']              = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_type', '' );
+			$delete_options['meta_value_date_format'] = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_format' );
 		}
 
 		return $delete_options;
@@ -253,14 +293,37 @@ class DeleteCommentMetaModule extends MetasModule {
 	 * @return array Modified meta query.
 	 */
 	public function change_meta_query( $meta_query, $delete_options ) {
-		$meta_query = array(
-			array(
-				'key'     => $delete_options['meta_key'],
-				'value'   => $delete_options['meta_value'],
-				'compare' => $delete_options['meta_op'],
-				'type'    => $delete_options['meta_type'],
-			),
+		$query_vars = array(
+			'key'     => $delete_options['meta_key'],
+			'compare' => $delete_options['meta_op'],
 		);
+		if ( array_key_exists( 'meta_type', $delete_options ) ) {
+			$query_vars['type'] = $delete_options['meta_type'];
+		}
+		if ( in_array( $delete_options['meta_op'], array( 'EXISTS', 'NOT EXISTS' ), true ) ) {
+			$meta_query = array( $query_vars );
+
+			return $meta_query;
+		}
+		if ( 'DATE' === $delete_options['meta_type'] ) {
+			$bd_date_handler = new DateQueryOverrider();
+			$meta_query      = $bd_date_handler->get_query( $delete_options );
+
+			return $meta_query;
+		}
+		switch ( $delete_options['meta_op'] ) {
+			case 'IN':
+				$meta_value = explode( ',', $delete_options['meta_value'] );
+				break;
+			case 'BETWEEN':
+				$meta_value = explode( ',', $delete_options['meta_value'] );
+				break;
+			default:
+				$meta_value = $delete_options['meta_value'];
+		}
+
+		$query_vars['value'] = $meta_value;
+		$meta_query          = array( $query_vars );
 
 		return $meta_query;
 	}
