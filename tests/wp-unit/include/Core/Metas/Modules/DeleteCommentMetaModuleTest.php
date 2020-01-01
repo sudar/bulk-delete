@@ -653,7 +653,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
-	 *  Data Provider for EXISTS and NOT EXISTS operator with numeric type.
+	 *  Data Provider for EXISTS operator with numeric type.
 	 *
 	 * @return array Data
 	 */
@@ -694,42 +694,6 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'number_of_comment_metas_deleted' => 8,
-				),
-			),
-			array(
-				array(
-					array(
-						'post_type'          => 'post',
-						'number_of_comments' => 5,
-						'miss_matched'       => array(
-							'meta_key'   => 'test_key',
-							'meta_value' => 20,
-						),
-						'matched'            => array(
-							'meta_key'   => 'another_key',
-							'meta_value' => 10,
-						),
-					),
-					array(
-						'post_type'          => 'post',
-						'number_of_comments' => 3,
-					),
-					array(
-						'post_type'          => 'post',
-						'number_of_comments' => 2,
-						'matched'            => array(
-							'meta_key'   => 'one_more_key',
-							'meta_value' => 20,
-						),
-					),
-				),
-				array(
-					'post_type' => 'post',
-					'meta_key'  => 'test_key',
-					'operator'  => 'NOT EXISTS',
-				),
-				array(
-					'number_of_comment_metas_deleted' => 2,
 				),
 			),
 		);
