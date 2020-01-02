@@ -884,6 +884,7 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 					'date_unit'     => '1',
 					'date_type'     => 'day',
 					'date_format'   => '%d-%m-%Y',
+					'whose_meta'    => 'comment',
 					'operator'      => '>=',
 				),
 				array(
@@ -966,6 +967,9 @@ class DeleteCommentMetaModuleTest extends WPCoreUnitTestCase {
 		}
 		if ( array_key_exists( 'date_type', $operation ) ) {
 			$delete_options['date_type'] = $operation['date_type'];
+		}
+		if ( array_key_exists( 'whose_meta', $operation ) ) {
+			$delete_options['whose_meta'] = $operation['whose_meta'];
 		}
 
 		$comment_metas_deleted = $this->module->delete( $delete_options );

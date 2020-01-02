@@ -26,6 +26,12 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	 * @var string
 	 */
 	protected $meta_value_date_format;
+	/**
+	 * Meta belongs to which table.  It can be post,comment or user.
+	 *
+	 * @var string
+	 */
+	protected $whose_meta;
 
 	/**
 	 * Setup hooks and load.
@@ -33,7 +39,13 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	 * @since 1.0
 	 */
 	public function load() {
-		add_action( 'parse_comment_query', array( $this, 'parse_query' ) );
+		if ( 'comment' === $this->whose_meta ) {
+			add_action( 'parse_comment_query', array( $this, 'parse_query' ) );
+		} elseif ( 'post' === $this->whose_meta ) {
+			add_action( 'parse_query', array( $this, 'parse_query' ) );
+		} elseif ( 'user' === $this->whose_meta ) {
+			add_action( 'pre_user_query', array( $this, 'parse_query' ) );
+		}
 	}
 
 	/**
@@ -86,6 +98,7 @@ class DateQueryOverrider extends BaseQueryOverrider {
 
 		if ( 'DATE' === $meta_query['type'] && ! empty( $delete_options['meta_value_date_format'] ) ) {
 			$options['bd_meta_value_date_format'] = $delete_options['meta_value_date_format'];
+			$this->whose_meta                     = $delete_options['whose_meta'];
 
 			$this->load();
 		}
@@ -125,7 +138,7 @@ class DateQueryOverrider extends BaseQueryOverrider {
 	 */
 	public function process_sql_date_format( $query, $input, $type, $primary_table, $primary_column, $context ) {
 		global $wpdb;
-		if ( 'DATE' === $input[0]['type'] && 'comment' === $type && 'comment_ID' === $primary_column ) {
+		if ( 'DATE' === $input[0]['type'] && $this->whose_meta === $type && 'comment_ID' === $primary_column ) {
 			$meta_table = _get_meta_table( $type );
 
 			$query['where'] = $wpdb->prepare(
