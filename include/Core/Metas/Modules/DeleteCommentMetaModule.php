@@ -275,6 +275,7 @@ class DeleteCommentMetaModule extends MetasModule {
 			$delete_options['date_unit']              = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_unit', '' );
 			$delete_options['date_type']              = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_type', '' );
 			$delete_options['meta_value_date_format'] = bd_array_get( $post, 'smbd_' . $this->field_slug . '_date_format' );
+			$delete_options['whose_meta']             = 'comment';
 		}
 
 		return $delete_options;
