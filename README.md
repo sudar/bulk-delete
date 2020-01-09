@@ -100,7 +100,8 @@ Like posts, all the above options support the following filters as well
 
 #### Deleting Attachments
 
-- Delete Attachments (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at))
+- Delete all unattached Attachments (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at))
+- Delete Attachments of Posts that are getting deleted (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at))
 
 #### Deleting content from other plugins
 - Delete Jetpack Contact Form Messages
