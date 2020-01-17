@@ -30,6 +30,7 @@ use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByNameModule;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostCountModule;
 use BulkWP\BulkDelete\Core\Users\DeleteUsersPage;
+use BulkWP\BulkDelete\Core\Users\Modules\DeleteBPPendingUsersModule;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
 
@@ -474,6 +475,7 @@ final class BulkDelete {
 
 		$users_page->add_module( new DeleteUsersByUserRoleModule() );
 		$users_page->add_module( new DeleteUsersByUserMetaModule() );
+		$users_page->add_module( new DeleteBPPendingUsersModule() );
 
 		/**
 		 * After the modules are registered in the delete users page.
