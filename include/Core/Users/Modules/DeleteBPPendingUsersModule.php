@@ -2,11 +2,11 @@
 
 namespace BulkWP\BulkDelete\Core\Users\Modules;
 
-use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule;
+use BulkWP\BulkDelete\Core\Users\UsersModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
-if ( ! class_exists( 'Buddy Press' ) ) {
+if ( ! class_exists( '\Buddy Press' ) ) {
 	return;
 }
 
@@ -15,38 +15,30 @@ if ( ! class_exists( 'Buddy Press' ) ) {
  *
  * @since 6.2.0.
  */
-class DeleteBPPendingUsersModule extends DeleteUsersByUserMetaModule {
+class DeleteBPPendingUsersModule extends UsersModule {
 	/**
 	 * Initialize and setup variables.
 	 */
 	protected function initialize() {
 		$this->item_type     = 'users';
-		$this->field_slug    = 'u_meta';
+		$this->field_slug    = 'bp_pending_user';
 		$this->meta_box_slug = 'bd_bp_users_by_meta';
-		$this->action        = 'delete_users_by_meta';
+		$this->action        = 'delete_bp_pending_users';
 		$this->messages      = array(
-			'box_label'         => __( 'Delete Pending Users', 'bulk-delete' ),
-			'confirm_deletion'  => __( 'Are you sure you want to delete all the Buddy Press pending users?', 'bulk-delete' ),
-			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the users?', 'bulk-delete' ),
+			'box_label'        => __( 'Delete Pending Users', 'bulk-delete' ),
+			'confirm_deletion' => __( 'Are you sure you want to delete all the Buddy Press pending users?', 'bulk-delete' ),
 			/* translators: 1 Number of users deleted */
-			'deleted_one'       => __( 'Deleted %d Buddy Press pending user', 'bulk-delete' ),
+			'deleted_one'      => __( 'Deleted %d Buddy Press pending user', 'bulk-delete' ),
 			/* translators: 1 Number of users deleted */
-			'deleted_multiple'  => __( 'Deleted %d Buddy Press pending users', 'bulk-delete' ),
+			'deleted_multiple' => __( 'Deleted %d Buddy Press pending users', 'bulk-delete' ),
 		);
 	}
+
 	/**
 	 * Render delete users box.
 	 */
 	public function render() {
-		$options = array(
-			'fields'       => 'ids',
-			'meta_key'     => '_bprwg_is_moderated',
-			'meta_value'   => 'true',
-			'meta_compare' => '=',
-		);
-
-		$users = $this->query_users( $options );
-		$count = count( $users );
+		$count = \BP_Signup::count_signups();
 		?>
 		<!-- Users Start-->
 		<h4><?php _e( 'Delete ' . esc_attr( $count ) . ' pending users signed up via buddy press', 'bulk-delete' ); ?></h4>
@@ -65,19 +57,61 @@ class DeleteBPPendingUsersModule extends DeleteUsersByUserMetaModule {
 		$this->render_submit_button();
 	}
 
-	/**
-	 * Process user input and create metabox options.
-	 *
-	 * @param array $request Request array.
-	 * @param array $options User options.
-	 *
-	 * @return array User options.
-	 */
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function convert_user_input_to_options( $request, $options ) {
-		$options['meta_key']     = '_bprwg_is_moderated';
-		$options['meta_compare'] = '=';
-		$options['meta_value']   = 'true';
-
 		return $options;
+	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function append_to_js_array( $js_array ) {
+		$js_array['validators'][ $this->action ] = 'noValidation';
+
+		return $js_array;
+	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function build_query( $options ) {
+		// Left empty on purpose.
+	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function do_delete( $options ) {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'users';
+		$count      = 0;
+		$date_query = '';
+
+		if ( $options['registered_restrict'] ) {
+			$date_query = $this->get_date_query( $options );
+		}
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID from {$table_name} where user_status = %d {$date_query}", 2 ) );
+
+		foreach ( $ids as $id ) {
+			$deleted = wp_delete_user( $id );
+			if ( $deleted ) {
+				$count++;
+			}
+		}
+		//$status = $wpdb->delete( $wpdb->prefix . 'signups', array( 'active' => 0 ), '%d' );
+		return $count;
+	}
+
+	protected function get_date_query( $options ) {
+		$date_query = '';
+		switch ( $options['registered_date_op'] ) {
+			case 'before':
+				$operator   = '<';
+				$date       = date( 'Y-m-d', strtotime( '-' . $options['registered_days'] . ' days' ) );
+				$date_query = 'AND user_registered ' . $operator . ' ' . $date;
+				break;
+			case 'after':
+				$operator   = 'between';
+				$start_date = date( 'Y-m-d', strtotime( '-' . $options['registered_days'] . ' days' ) );
+				$end_date   = date( 'Y-m-d', strtotime( 'now' ) );
+				$date_query = 'AND user_registered ' . $operator . ' ' . $start_date . 'AND ' . $end_date;
+				break;
+
+		}
+		return $date_query;
 	}
 }
