@@ -6,10 +6,6 @@ use BulkWP\BulkDelete\Core\Users\UsersModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
-if ( ! class_exists( '\Buddy Press' ) ) {
-	return;
-}
-
 /**
  * Bulk Delete Buddy Press pending users.
  *
@@ -84,7 +80,8 @@ class DeleteBPPendingUsersModule extends UsersModule {
 		if ( $options['registered_restrict'] ) {
 			$date_query = $this->get_date_query( $options );
 		}
-		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID from {$table_name} where user_status = %d {$date_query}", 2 ) );
+
+		$ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$table_name} WHERE user_status = %d {$date_query}", 2 ) );
 
 		foreach ( $ids as $id ) {
 			$deleted = wp_delete_user( $id );
@@ -92,23 +89,32 @@ class DeleteBPPendingUsersModule extends UsersModule {
 				$count++;
 			}
 		}
-		//$status = $wpdb->delete( $wpdb->prefix . 'signups', array( 'active' => 0 ), '%d' );
+
+		$table_name = $wpdb->prefix . 'signups';
+		$date_query = str_replace( 'user_registered', 'registered', $date_query );
+		$status     = $wpdb->get_col( $wpdb->prepare( "DELETE FROM {$table_name} WHERE active = %d {$date_query}", 0 ) );
 		return $count;
 	}
 
+	/**
+	 * Returns date query.
+	 *
+	 * @param array $options Delete Options.
+	 * @return string $date_query
+	 */
 	protected function get_date_query( $options ) {
 		$date_query = '';
 		switch ( $options['registered_date_op'] ) {
 			case 'before':
 				$operator   = '<';
 				$date       = date( 'Y-m-d', strtotime( '-' . $options['registered_days'] . ' days' ) );
-				$date_query = 'AND user_registered ' . $operator . ' ' . $date;
+				$date_query = "AND user_registered " . $operator . " '" . $date . "'";
 				break;
 			case 'after':
 				$operator   = 'between';
 				$start_date = date( 'Y-m-d', strtotime( '-' . $options['registered_days'] . ' days' ) );
 				$end_date   = date( 'Y-m-d', strtotime( 'now' ) );
-				$date_query = 'AND user_registered ' . $operator . ' ' . $start_date . 'AND ' . $end_date;
+				$date_query = "AND user_registered " . $operator . " '" . $start_date . "' AND '" . $end_date . "'";
 				break;
 
 		}

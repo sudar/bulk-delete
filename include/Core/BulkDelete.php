@@ -475,7 +475,9 @@ final class BulkDelete {
 
 		$users_page->add_module( new DeleteUsersByUserRoleModule() );
 		$users_page->add_module( new DeleteUsersByUserMetaModule() );
-		$users_page->add_module( new DeleteBPPendingUsersModule() );
+		if ( class_exists( 'BuddyPress' ) ) {
+			$users_page->add_module( new DeleteBPPendingUsersModule() );
+		}
 
 		/**
 		 * After the modules are registered in the delete users page.
