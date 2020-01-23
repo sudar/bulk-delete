@@ -93,6 +93,7 @@ class DeleteBPPendingUsersModule extends UsersModule {
 		$table_name = $wpdb->prefix . 'signups';
 		$date_query = str_replace( 'user_registered', 'registered', $date_query );
 		$status     = $wpdb->get_col( $wpdb->prepare( "DELETE FROM {$table_name} WHERE active = %d {$date_query}", 0 ) );
+
 		return $count;
 	}
 
@@ -100,6 +101,7 @@ class DeleteBPPendingUsersModule extends UsersModule {
 	 * Returns date query.
 	 *
 	 * @param array $options Delete Options.
+	 *
 	 * @return string $date_query
 	 */
 	protected function get_date_query( $options ) {
@@ -108,16 +110,16 @@ class DeleteBPPendingUsersModule extends UsersModule {
 			case 'before':
 				$operator   = '<';
 				$date       = date( 'Y-m-d', strtotime( '-' . $options['registered_days'] . ' days' ) );
-				$date_query = "AND user_registered " . $operator . " '" . $date . "'";
+				$date_query = 'AND user_registered ' . $operator . " '" . $date . "'";
 				break;
 			case 'after':
 				$operator   = 'between';
 				$start_date = date( 'Y-m-d', strtotime( '-' . $options['registered_days'] . ' days' ) );
 				$end_date   = date( 'Y-m-d', strtotime( 'now' ) );
-				$date_query = "AND user_registered " . $operator . " '" . $start_date . "' AND '" . $end_date . "'";
+				$date_query = 'AND user_registered ' . $operator . " '" . $start_date . "' AND '" . $end_date . "'";
 				break;
-
 		}
+
 		return $date_query;
 	}
 }
