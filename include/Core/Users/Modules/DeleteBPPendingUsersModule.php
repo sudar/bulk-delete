@@ -7,7 +7,8 @@ use BulkWP\BulkDelete\Core\Users\UsersModule;
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Bulk Delete Buddy Press pending users.
+ * Bulk Delete Buddy Press pending users.  This module is shown only when BuddyPress plugin is
+ * installed and active.
  *
  * @since 6.2.0.
  */

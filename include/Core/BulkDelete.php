@@ -475,7 +475,7 @@ final class BulkDelete {
 
 		$users_page->add_module( new DeleteUsersByUserRoleModule() );
 		$users_page->add_module( new DeleteUsersByUserMetaModule() );
-		if ( class_exists( 'BuddyPress' ) ) {
+		if ( class_exists( 'BuddyPress' ) && ! is_multisite() ) {
 			$users_page->add_module( new DeleteBPPendingUsersModule() );
 		}
 
