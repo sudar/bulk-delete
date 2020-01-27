@@ -93,7 +93,7 @@ class DeleteBPPendingUsersModule extends UsersModule {
 
 		$table_name = $wpdb->prefix . 'signups';
 		$date_query = str_replace( 'user_registered', 'registered', $date_query );
-		$status     = $wpdb->get_col( $wpdb->prepare( "DELETE FROM {$table_name} WHERE active = %d {$date_query}", 0 ) );
+		$wpdb->get_col( $wpdb->prepare( "DELETE FROM {$table_name} WHERE active = %d {$date_query}", 0 ) );
 
 		return $count;
 	}
