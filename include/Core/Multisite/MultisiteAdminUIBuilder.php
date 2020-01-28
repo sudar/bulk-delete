@@ -3,6 +3,8 @@
 namespace BulkWP\BulkDelete\Core\Multisite;
 
 use BulkWP\BulkDelete\Core\Base\BasePage;
+use BulkWP\BulkDelete\Core\Sites\DeleteSitesInMultisitePage;
+use BulkWP\BulkDelete\Core\Sites\Modules\DeleteSitesByNameModule;
 use BulkWP\BulkDelete\Core\Users\DeleteUsersInMultisitePage;
 use BulkWP\BulkDelete\Core\Users\DeleteUsersPage;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaInMultisiteModule;
@@ -112,8 +114,10 @@ class MultisiteAdminUIBuilder {
 	 */
 	protected function load_primary_network_pages() {
 		$users_page = $this->get_delete_users_network_admin_page();
+		$sites_page = $this->get_delete_sites_network_admin_page();
 
 		$this->network_primary_pages[ $users_page->get_page_slug() ] = $users_page;
+		$this->network_primary_pages[ $sites_page->get_page_slug() ] = $sites_page;
 
 		/**
 		 * List of primary network admin pages.
@@ -155,6 +159,36 @@ class MultisiteAdminUIBuilder {
 		do_action( 'bd_after_network_modules', $users_page );
 
 		return $users_page;
+	}
+
+	/**
+	 * Get the Delete Sites in Multisite page.
+	 *
+	 * @return \BulkWP\BulkDelete\Core\Sites\DeleteSitesInMultisitePage
+	 */
+	protected function get_delete_sites_network_admin_page() {
+		$sites_page = new DeleteSitesInMultisitePage( $this->get_plugin_file() );
+
+		$sites_page->add_module( new DeleteSitesByNameModule() );
+		/**
+		 * After the modules are registered in the delete sites page.
+		 *
+		 * @since 6.2.0
+		 *
+		 * @param DeleteSitesInMultisitePage $sites_page The page in which the modules are registered.
+		 */
+		do_action( "bd_after_network_modules_{$sites_page->get_page_slug()}", $sites_page );
+
+		/**
+		 * After the modules are registered in a delete page.
+		 *
+		 * @since 6.2.0
+		 *
+		 * @param BasePage $sites_page The page in which the modules are registered.
+		 */
+		do_action( 'bd_after_network_modules', $sites_page );
+
+		return $sites_page;
 	}
 
 	/**
