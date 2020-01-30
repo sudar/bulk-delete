@@ -35,12 +35,10 @@ class DeleteSitesByNameModule extends SitesModule {
 		<h4><?php _e( 'Enter the site name that you want to delete', 'bulk-delete' ); ?></h4>
 		<fieldset class="options">
 			<table class="optiontable">
-				<tr><?php $this->render_taxonomy_dropdown(); ?></tr>
-				<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
 				<tr>
 					<td><?php _e( 'Delete Sites if the name ', 'bulk-delete' ); ?></td>
 					<td><?php $this->render_string_operators_dropdown( 'stringy', array( '=', 'LIKE', 'STARTS_WITH', 'ENDS_WITH' ) ); ?></td>
-					<td><input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Term Name', 'bulk-delete' ); ?>" class="validate"></td>
+					<td><input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Site Name', 'bulk-delete' ); ?>" class="validate"></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -67,5 +65,21 @@ class DeleteSitesByNameModule extends SitesModule {
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function build_query( $options ) {
 		// Left empty on purpose.
+	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function do_delete( $options ) {
+		global $wpdb;
+		$count = 0;
+
+		$site_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE path = %s", $options['value'] ) );
+
+		foreach ( $site_ids as $site_id ) {
+			$response = wp_delete_site( $site_id );
+			if ( ! is_wp_error( $response ) ) {
+				$count++;
+			}
+		}
+		return $count;
 	}
 }
