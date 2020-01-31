@@ -76,9 +76,15 @@ abstract class BaseAddon {
 	/**
 	 * Setup License Handler.
 	 *
+	 * @since 6.1.0 license handler is set only if the add-on has license.
+	 *
 	 * TODO: Need this to be refactored.
 	 */
 	protected function setup_license_handler() {
+		if ( ! $this->addon_info->has_license() ) {
+			return;
+		}
+
 		$this->license_handler = new BD_License_Handler(
 			$this->addon_info->get_name(),
 			$this->addon_info->get_code(),

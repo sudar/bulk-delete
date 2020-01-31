@@ -20,6 +20,17 @@ class AddonInfo {
 	protected $root_file;
 
 	/**
+	 * Does this add-on has license?
+	 *
+	 * License handling may be disabled for some custom built one off add-ons.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @var bool
+	 */
+	protected $has_license = true;
+
+	/**
 	 * Construct AddonInfo from an array.
 	 *
 	 * @param array $details Details about the add-on.
@@ -34,6 +45,7 @@ class AddonInfo {
 			'code',
 			'version',
 			'author',
+			'has_license',
 			'root_file',
 		);
 
@@ -58,6 +70,10 @@ class AddonInfo {
 
 	public function get_author() {
 		return $this->author;
+	}
+
+	public function has_license() {
+		return $this->has_license;
 	}
 
 	public function get_root_file() {

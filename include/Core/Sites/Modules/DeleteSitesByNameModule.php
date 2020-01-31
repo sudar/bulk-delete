@@ -101,6 +101,7 @@ class DeleteSitesByNameModule extends SitesModule {
 				$count++;
 			}
 		}
+
 		return $count;
 	}
 }
