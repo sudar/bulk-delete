@@ -7,11 +7,11 @@
 **Stable tag:** 6.0.2  
 [![Plugin Version](https://img.shields.io/wordpress/plugin/v/bulk-delete.svg)]() [![Total Downloads](https://img.shields.io/wordpress/plugin/dt/bulk-delete.svg)]() [![Plugin Rating](https://img.shields.io/wordpress/plugin/r/bulk-delete.svg)]() [![WordPress Compatibility](https://img.shields.io/wordpress/v/bulk-delete.svg)]() [![Build Status](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/build-status/master) [![Code Coverage](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sudar/bulk-delete/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sudar/bulk-delete/?branch=master) [![StyleCI](https://styleci.io/repos/7251206/shield?branch=master)](https://styleci.io/repos/7251206) [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://wordpress.org/about/license/)
 
-Bulk delete posts, pages, users, attachments and meta fields based on different conditions and filters.
+Bulk delete posts, pages, users, taxonomy terms, attachments and meta fields based on different conditions and filters.
 
 ## Description ##
 
-Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, attachments, users and meta fields in bulk based on different conditions and filters.
+Bulk Delete is a WordPress Plugin that allows you to delete posts, pages, users, taxonomy terms, attachments and meta fields in bulk based on different conditions and filters.
 
 ### Features
 
@@ -87,6 +87,11 @@ Like posts, all the above options support the following filters as well
 - Delete users who have not logged in in the last X days
 - Delete users based on their registered date
 
+#### Deleting Taxonomy Terms
+
+- Delete taxonomy terms by name
+- Delete taxonomy terms by post count
+
 #### Deleting Meta Fields
 
 - Delete Post meta fields
@@ -95,7 +100,8 @@ Like posts, all the above options support the following filters as well
 
 #### Deleting Attachments
 
-- Delete Attachments (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at))
+- Delete all unattached Attachments (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at))
+- Delete Attachments of Posts that are getting deleted (Available as a [Pro addon](https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wprepo&utm_campaign=BulkDelete&utm_medium=readme&utm_content=bd-at))
 
 #### Deleting content from other plugins
 - Delete Jetpack Contact Form Messages

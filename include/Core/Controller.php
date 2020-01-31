@@ -26,7 +26,8 @@ class Controller {
 
 		add_filter( 'bd_get_action_nonce_check', array( $this, 'verify_get_request_nonce' ), 10, 2 );
 
-		add_action( 'wp_ajax_bd_load_taxonomy_term', array( $this, 'load_taxonomy_term' ) );
+		add_action( 'wp_ajax_bd_load_taxonomy_terms', array( $this, 'load_taxonomy_terms' ) );
+		add_action( 'wp_ajax_bd_load_term_metas', array( $this, 'load_term_metas' ) );
 
 		add_filter( 'bd_help_tooltip', 'bd_generate_help_tooltip', 10, 2 );
 		add_filter( 'plugin_action_links', array( $this, 'filter_plugin_action_links' ), 10, 2 );
@@ -131,11 +132,11 @@ class Controller {
 	}
 
 	/**
-	 * Ajax call back function for getting taxonomies to load select2 options.
+	 * Ajax call back function to load taxonomy terms by taxonomy.
 	 *
 	 * @since 6.0.0
 	 */
-	public function load_taxonomy_term() {
+	public function load_taxonomy_terms() {
 		$response = array();
 
 		$taxonomy = sanitize_text_field( $_GET['taxonomy'] );
@@ -154,6 +155,45 @@ class Controller {
 					absint( $term->term_id ),
 					$term->name . ' (' . $term->count . __( ' Posts', 'bulk-delete' ) . ')',
 				);
+			}
+		}
+
+		echo wp_json_encode( $response );
+		die;
+	}
+
+	/**
+	 * Ajax call back function to load term meta by term.
+	 *
+	 * @since 6.1.0
+	 */
+	public function load_term_metas() {
+		$response = [
+			[
+				'id'   => 0,
+				'text' => __( 'No term meta found', 'bulk-delete' ),
+			],
+		];
+
+		$term_id = absint( $_GET['term_id'] );
+
+		$term_metas = get_term_meta( $term_id );
+
+		if ( is_array( $term_metas ) && ! empty( $term_metas ) ) {
+			$keys = array_keys( $term_metas );
+
+			$response = [
+				[
+					'id'   => 0,
+					'text' => __( 'Select Term Meta Key', 'bulk-delete' ),
+				],
+			];
+
+			foreach ( $keys as $key ) {
+				$response[] = [
+					'id'   => $key,
+					'text' => $key,
+				];
 			}
 		}
 

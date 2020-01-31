@@ -260,8 +260,11 @@ abstract class UsersModule extends BaseModule {
 	 * Render User Login restrict settings.
 	 *
 	 * @since 5.5
+	 * @since 6.2.0 Added $show_login_filter param.
+	 *
+	 * @param bool $show_login_filter True/False.
 	 */
-	protected function render_user_login_restrict_settings() {
+	protected function render_user_login_restrict_settings( $show_login_filter = true ) {
 		?>
 		<tr>
 			<td scope="row" colspan="2">
@@ -276,6 +279,7 @@ abstract class UsersModule extends BaseModule {
 				<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_registered_days" class="screen-per-page" disabled value="0" min="0"><?php _e( ' days.', 'bulk-delete' ); ?>
 			</td>
 		</tr>
+		<?php if ( $show_login_filter ) : ?>
 		<tr>
 			<td scope="row" colspan="2">
 				<label>
@@ -293,13 +297,14 @@ abstract class UsersModule extends BaseModule {
 			</td>
 		</tr>
 
-		<?php if ( bd_is_simple_login_log_present() ) : ?>
+			<?php if ( bd_is_simple_login_log_present() ) : ?>
 			<tr>
 				<td scope="row" colspan="2">
 					<?php _e( 'Enter "0 days" to delete users who have never logged in after the "Simple Login Log" plugin has been installed.', 'bulk-delete' ); ?>
 			</tr>
+			<?php endif; ?>
 		<?php endif; ?>
-<?php
+		<?php
 	}
 
 	/**
