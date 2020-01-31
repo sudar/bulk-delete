@@ -70,11 +70,17 @@ class DeleteSitesByNameModule extends SitesModule {
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function do_delete( $options ) {
 		global $wpdb;
-		$count = 0;
+		$count    = 0;
+		$operator = $options['operator'];
+		$value    = $options['value'];
+		if ( ! is_subdomain_install() ) {
+			$value = get_network()->path . $value . '/';
+		}
 
-		$site_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE path = %s", $options['value'] ) );
+		$site_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE path {$operator} %s", $value ) );
 
 		foreach ( $site_ids as $site_id ) {
+			// TODO: Do we need to log errors if there is any error?
 			$response = wp_delete_site( $site_id );
 			if ( ! is_wp_error( $response ) ) {
 				$count++;
