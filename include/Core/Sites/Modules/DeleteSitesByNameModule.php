@@ -73,6 +73,21 @@ class DeleteSitesByNameModule extends SitesModule {
 		$count    = 0;
 		$operator = $options['operator'];
 		$value    = $options['value'];
+
+		switch ( $operator ) {
+			case 'LIKE':
+				$value = '%' . $value . '%';
+				break;
+			case 'STARTS_WITH':
+				$operator = 'LIKE';
+				$value    = $value . '%';
+				break;
+			case 'ENDS_WITH':
+				$operator = 'LIKE';
+				$value    = '%' . $value;
+				break;
+		}
+
 		if ( ! is_subdomain_install() ) {
 			$value = get_network()->path . $value . '/';
 		}
