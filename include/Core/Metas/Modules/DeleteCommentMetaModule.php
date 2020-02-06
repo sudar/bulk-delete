@@ -89,7 +89,14 @@ class DeleteCommentMetaModule extends MetasModule {
 					</td>
 				</tr>
 
-				<?php $this->render_meta_value_filter(); ?>
+				<?php
+				$this->render_meta_value_filter(
+					[
+						'class' => 'value-filters visually-hidden',
+						'label' => __( 'Comment Meta Value', 'bulk-delete' ),
+					]
+				);
+				?>
 			</table>
 
 			<table class="optiontable">
@@ -106,14 +113,7 @@ class DeleteCommentMetaModule extends MetasModule {
 			</table>
 		</fieldset>
 
-		<?php
-		$this->render_submit_button(
-			[
-				'class' => 'value-filters visually-hidden',
-				'label' => __( 'Comment Meta Value', 'bulk-delete' ),
-			]
-		);
-		?>
+		<?php $this->render_submit_button(); ?>
 
 		<!-- Comment Meta box end-->
 		<?php
