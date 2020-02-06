@@ -43,7 +43,6 @@ trait OperatorHelpers {
 				'NOT LIKE'    => __( 'not contains', 'bulk-delete' ),
 				'STARTS_WITH' => __( 'starts with', 'bulk-delete' ),
 				'ENDS_WITH'   => __( 'ends with', 'bulk-delete' ),
-				'CONTAINS'    => __( 'contains', 'bulk-delete' ),
 			];
 		}
 
@@ -115,7 +114,7 @@ trait OperatorHelpers {
 				return [ 'STARTS_WITH', 'ENDS_WITH' ];
 
 			case 'string-all':
-				return [ 'STARTS_WITH', 'ENDS_WITH', 'CONTAINS' ];
+				return [ 'STARTS_WITH', 'ENDS_WITH', 'LIKE', 'NOT LIKE' ];
 		}
 	}
 
