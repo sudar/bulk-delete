@@ -266,22 +266,6 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
-	 * Render String based comparison operators dropdown.
-	 */
-	protected function render_string_comparison_operators() {
-		?>
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
-			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
-			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
-			<option value="starts_with"><?php _e( 'starts with', 'bulk-delete' ); ?></option>
-			<option value="ends_with"><?php _e( 'ends with', 'bulk-delete' ); ?></option>
-			<option value="contains"><?php _e( 'contains', 'bulk-delete' ); ?></option>
-			<option value="not_contains"><?php _e( 'not contains', 'bulk-delete' ); ?></option>
-		</select>
-		<?php
-	}
-
-	/**
 	 * Render number based comparison operators dropdown.
 	 */
 	protected function render_number_comparison_operators() {
