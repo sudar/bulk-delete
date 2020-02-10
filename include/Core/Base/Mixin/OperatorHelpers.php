@@ -3,7 +3,6 @@
  * From Bulk Delete v6.1.0, the minimum required PHP version is v5.6
  * This opens the possibility of using Traits.
  */
-
 namespace BulkWP\BulkDelete\Core\Base\Mixin;
 
 /**
@@ -14,7 +13,6 @@ namespace BulkWP\BulkDelete\Core\Base\Mixin;
  * @since 6.1.0
  */
 trait OperatorHelpers {
-
 	/**
 	 * Get the master list of operators.
 	 *
@@ -94,25 +92,18 @@ trait OperatorHelpers {
 		switch ( $operator ) {
 			case 'equals':
 				return [ '=', '!=' ];
-
 			case 'numeric':
 				return [ '<', '<=', '>', '>=' ];
-
 			case 'ins':
 				return [ 'IN', 'NOT IN' ];
-
 			case 'betweens':
 				return [ 'BETWEEN', 'NOT BETWEEN' ];
-
 			case 'exist-all':
 				return [ 'EXISTS', 'NOT EXISTS' ];
-
 			case 'likes':
 				return [ 'LIKE', 'NOT LIKE' ];
-
 			case 'string-start-end':
 				return [ 'STARTS WITH', 'ENDS WITH' ];
-
 			case 'string-all':
 				return [ 'STARTS WITH', 'ENDS WITH', 'LIKE', 'NOT LIKE' ];
 		}
