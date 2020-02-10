@@ -423,7 +423,7 @@ abstract class Renderer extends Fetcher {
 					<?php
 					printf(
 						/* translators: 1 Mysql Format specifier url.  */
-						__( 'If you are storing the date in a format other than <em>YYYY-MM-DD</em> then enter the date format using <a href="%s" target="_blank" rel="noopener noreferrer">Mysql format specifiers</a>.', 'bulk-delete' ),
+						__( 'If you are storing the date in a format other than <em>YYYY-MM-DD</em> then enter the date format using <a href="%s" target="_blank" rel="noopener noreferrer">Mysql format specifiers</a>.  If you are storing the date as Unix Timestamp, then enter ‘Unix Timestamp’ as the format specifier.', 'bulk-delete' ),
 						'https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format'
 					);
 					?>

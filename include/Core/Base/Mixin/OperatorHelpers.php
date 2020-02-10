@@ -63,7 +63,7 @@ trait OperatorHelpers {
 
 		foreach ( $operators as $operator ) {
 			if ( array_key_exists( $operator, $operator_master_list ) ) {
-				$operator_master_list[] = $operator;
+				$operator_list_to_render[] = $operator;
 			} else {
 				$operator_list_to_render = array_merge( $operator_list_to_render, $this->resolve_operator( $operator ) );
 			}
