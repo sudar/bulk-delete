@@ -153,8 +153,17 @@ abstract class Renderer extends Fetcher {
 		?>
 		<tr>
 			<td scope="row" colspan="2">
-				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" value="false" type="radio"
-					checked="checked" class="post-reassign"> <?php _e( 'Also delete all posts of the users', 'bulk-delete' ); ?></label>
+				<label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" value="false" type="radio"
+						checked="checked" class="post-reassign">
+					<?php
+					$markup = __( 'Also delete all posts of the users', 'bulk-delete' ) . '&nbsp' . '<a href="https://bulkwp.com/docs/deleting-posts-automatically-when-the-post-author-is-deleted" target="_blank">' . __( 'More details', 'bulk-delete' ) . '</a>';
+
+					$content = 'Some custom post types like bbPress topics which have disabled the delete_with_user post type attribute will not be deleted.';
+					echo '&nbsp', bd_generate_help_tooltip( $markup, $content );
+					?>
+				</label>
+
 				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" value="true" type="radio"
 					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" class="post-reassign"> <?php _e( 'Re-assign the posts to', 'bulk-delete' ); ?></label>
 				<?php
