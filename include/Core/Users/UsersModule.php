@@ -61,6 +61,7 @@ abstract class UsersModule extends BaseModule {
 		if ( $options['login_restrict'] || $options['no_posts'] ) {
 			return $this->delete_users_from_query( $query, $options );
 		}
+
 		return $this->delete_users( $query, $options );
 	}
 
@@ -91,6 +92,7 @@ abstract class UsersModule extends BaseModule {
 				$count ++;
 			}
 		}
+
 		return $count;
 	}
 
