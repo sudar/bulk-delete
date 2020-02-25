@@ -58,8 +58,42 @@ abstract class UsersModule extends BaseModule {
 
 		$query = $this->exclude_users_from_deletion( $query );
 		$query = $this->exclude_current_user( $query );
+		if ( $options['login_restrict'] || $options['no_posts'] ) {
+			return $this->delete_users_from_query( $query, $options );
+		}
 
-		return $this->delete_users_from_query( $query, $options );
+		return $this->delete_users( $query, $options );
+	}
+
+	/**
+	 * Optimised delete users.
+	 *
+	 * @param array $query   Query options.
+	 * @param array $options Delete options.
+	 *
+	 * @return int $count Deleted users count.
+	 */
+	protected function delete_users( $query, $options ) {
+		$count           = 0;
+		$query['fields'] = 'ID';
+		$user_ids        = $this->query_users( $query );
+
+		if ( ! function_exists( 'wp_delete_user' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/user.php';
+		}
+		foreach ( $user_ids as $user_id ) {
+			if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
+				$deleted = wp_delete_user( $user_id, $options['reassign_user_id'] );
+			} else {
+				$deleted = wp_delete_user( $user_id );
+			}
+
+			if ( $deleted ) {
+				$count ++;
+			}
+		}
+
+		return $count;
 	}
 
 	/**
