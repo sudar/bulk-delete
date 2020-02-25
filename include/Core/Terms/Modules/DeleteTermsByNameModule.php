@@ -40,7 +40,7 @@ class DeleteTermsByNameModule extends TermsModule {
 				<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
 				<tr>
 					<td><?php _e( 'Delete Terms if the name ', 'bulk-delete' ); ?></td>
-					<td><?php $this->render_string_operators_dropdown( 'string', array( '=', '!=', 'LIKE', 'NOT LIKE', 'STARTS_WITH', 'ENDS_WITH' ) ); ?></td>
+					<td><?php $this->render_operators_dropdown( [ 'equals', 'string-all' ] ); ?></td>
 					<td><input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Term Name', 'bulk-delete' ); ?>" class="validate"></td>
 				</tr>
 			</table>
@@ -145,11 +145,11 @@ class DeleteTermsByNameModule extends TermsModule {
 			case 'NOT LIKE':
 				$value = '%' . $value . '%';
 				break;
-			case 'STARTS_WITH':
+			case 'STARTS WITH':
 				$operator = 'LIKE';
 				$value    = $value . '%';
 				break;
-			case 'ENDS_WITH':
+			case 'ENDS WITH':
 				$operator = 'LIKE';
 				$value    = '%' . $value;
 				break;
