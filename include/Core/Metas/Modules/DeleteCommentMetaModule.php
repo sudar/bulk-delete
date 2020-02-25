@@ -39,7 +39,6 @@ class DeleteCommentMetaModule extends MetasModule {
 	public function register( $hook_suffix, $page_slug ) {
 		parent::register( $hook_suffix, $page_slug );
 
-		add_action( 'bd_delete_comment_meta_form', array( $this, 'add_filtering_options' ) );
 		add_filter( 'bd_delete_comment_meta_options', array( $this, 'process_filtering_options' ), 10, 2 );
 	}
 
@@ -86,20 +85,20 @@ class DeleteCommentMetaModule extends MetasModule {
 				<tr>
 					<td>
 						<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key"><?php _e( 'Comment Meta Key ', 'bulk-delete' ); ?></label>
-						<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>" class="validate">
+						<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_meta_key" placeholder="<?php _e( 'Meta Key', 'bulk-delete' ); ?>" class="validate">
 					</td>
 				</tr>
+
+				<?php
+				$this->render_meta_value_filter(
+					[
+						'class' => 'value-filters visually-hidden',
+						'label' => __( 'Comment Meta Value', 'bulk-delete' ),
+					]
+				);
+				?>
 			</table>
 
-			<?php
-			/**
-			 * Add more fields to the delete comment meta field form.
-			 * This hook can be used to add more fields to the delete comment meta field form.
-			 *
-			 * @since 5.4
-			 */
-			do_action( 'bd_delete_comment_meta_form' );
-			?>
 			<table class="optiontable">
 				<tr>
 					<td colspan="2">
@@ -180,78 +179,6 @@ class DeleteCommentMetaModule extends MetasModule {
 		$js_array['validators'][ $this->action ] = 'validateTextbox';
 
 		return $js_array;
-	}
-
-	/**
-	 * Append filtering options to the delete comment meta form.
-	 *
-	 * This function was originally part of the Bulk Delete Comment Meta add-on.
-	 *
-	 * @since 0.1 of Bulk Delete Comment Meta add-on
-	 */
-	public function add_filtering_options() {
-		?>
-		<table class="optiontable" style="display:none;">
-			<tr>
-				<td>
-					<?php _e( 'Comment Meta Value ', 'bulk-delete' ); ?>
-					<?php $this->render_data_types_dropdown(); ?>
-					<?php
-						$operators = array( '=', '!=', '<', '<=', '>', '>=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN', 'EXISTS' );
-					?>
-					<?php $this->render_numeric_operators_dropdown( 'numeric', $operators ); ?>
-					<?php
-						$operators = array( '=', '!=', 'IN', 'NOT IN', 'LIKE', 'NOT LIKE', 'STARTS_WITH', 'ENDS_WITH', 'EXISTS' );
-					?>
-					<?php $this->render_string_operators_dropdown( 'string', $operators ); ?>
-					<?php
-						$operators = array( '=', '!=', '<', '<=', '>', '>=', 'EXISTS' );
-					?>
-					<?php $this->render_numeric_operators_dropdown( 'date', $operators ); ?>
-					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
-						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" class="date-picker">
-					<span class="date-fields">
-						<?php _e( 'Or', 'bulk-delete' ); ?>
-						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" class="relative-date-fields">
-							<option value=""><?php _e( 'Select Relative date', 'bulk-delete' ); ?></option>
-							<option value="yesterday"><?php _e( 'Yesterday', 'bulk-delete' ); ?></option>
-							<option value="today"><?php _e( 'Today', 'bulk-delete' ); ?></option>
-							<option value="tomorrow"><?php _e( 'Tomorrow', 'bulk-delete' ); ?></option>
-							<option value="custom"><?php _e( 'Custom', 'bulk-delete' ); ?></option>
-						</select>
-						<?php echo apply_filters( 'bd_help_tooltip', '', __( 'You can select a date or enter a date which is relative to today.', 'bulk-delete' ) ); ?>
-					</span>
-					<span class="custom-date-fields">
-						<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" style="width: 5%;">
-						<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type">
-							<option value="day"><?php _e( 'Day', 'bulk-delete' ); ?></option>
-							<option value="week"><?php _e( 'Week', 'bulk-delete' ); ?></option>
-							<option value="month"><?php _e( 'Month', 'bulk-delete' ); ?></option>
-							<option value="year"><?php _e( 'Year', 'bulk-delete' ); ?></option>
-						</select>
-					</span>
-				</td>
-			</tr>
-			<tr class="date-format-fields">
-				<td colspan="2">
-					<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format">
-						<?php _e( 'Meta value date format', 'bulk-delete' ); ?>
-					</label>
-					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format" placeholder="%Y-%m-%d">
-					<?php echo apply_filters( 'bd_help_tooltip', '', __( "If you leave date format blank, then '%Y-%m-%d', will be assumed.", 'bulk-delete' ) ); ?>
-					<p>
-						<?php
-						printf(
-							/* translators: 1 Mysql Format specifier url.  */
-							__( 'If you are storing the date in a format other than <em>YYYY-MM-DD</em> then enter the date format using <a href="%s" target="_blank" rel="noopener noreferrer">Mysql format specifiers</a>.', 'bulk-delete' ),
-							'https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format'
-						);
-						?>
-					</p>
-				</td>
-			</tr>
-		</table>
-		<?php
 	}
 
 	/**

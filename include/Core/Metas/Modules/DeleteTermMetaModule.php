@@ -62,7 +62,7 @@ class DeleteTermMetaModule extends MetasModule {
 						<option value="0"><?php _e( 'Select Term Meta Key', 'bulk-delete' ); ?></option>
 					</select>
 
-					<?php $this->render_string_operators_dropdown( 'string', array( '=', '!=' ) ); ?>
+					<?php $this->render_operators_dropdown( [ 'equals' ] ); ?>
 
 					<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php esc_attr_e( 'Term Meta Value', 'bulk-delete' ); ?>">
 				</td>

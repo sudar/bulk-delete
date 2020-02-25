@@ -41,7 +41,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 				<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
 				<tr>
 					<td><?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?></td>
-					<td><?php $this->render_numeric_operators_dropdown( 'numeric', array( '=', '!=', '<', '>' ) ); ?></td>
+					<td><?php $this->render_operators_dropdown( [ 'equals', 'numeric' ] ); ?></td>
 					<td><input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="Post count" min="0" class="validate"></td>
 					<td>
 						<?php

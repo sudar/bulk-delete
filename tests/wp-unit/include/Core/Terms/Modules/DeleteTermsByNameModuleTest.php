@@ -222,7 +222,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term',
-					'operator'    => 'STARTS_WITH',
+					'operator'    => 'STARTS WITH',
 				),
 				2,
 				array(
@@ -243,7 +243,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'STARTS_WITH',
+					'operator'    => 'STARTS WITH',
 				),
 				1,
 				array(
@@ -263,7 +263,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term Sample',
-					'operator'    => 'STARTS_WITH',
+					'operator'    => 'STARTS WITH',
 				),
 				2,
 				array(
@@ -284,7 +284,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term sample',
-					'operator'    => 'STARTS_WITH',
+					'operator'    => 'STARTS WITH',
 				),
 				1,
 				array(
@@ -316,7 +316,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'ENDS_WITH',
+					'operator'    => 'ENDS WITH',
 				),
 				1,
 				array(
@@ -338,7 +338,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Sample',
-					'operator'    => 'ENDS_WITH',
+					'operator'    => 'ENDS WITH',
 				),
 				1,
 				array(
@@ -358,7 +358,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'sample',
-					'operator'    => 'ENDS_WITH',
+					'operator'    => 'ENDS WITH',
 				),
 				2,
 				array(
@@ -377,7 +377,7 @@ class DeleteTermsByNameModuleTest extends WPCoreUnitTestCase {
 				),
 				array(
 					'search_term' => 'Term',
-					'operator'    => 'ENDS_WITH',
+					'operator'    => 'ENDS WITH',
 				),
 				0,
 				array(
