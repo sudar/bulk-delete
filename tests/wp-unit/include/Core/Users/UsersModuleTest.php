@@ -60,6 +60,91 @@ class UsersModuleTest extends WPCoreUnitTestCase {
 	}
 
 	/**
+	 * Test when users are deleted with 'Also delete posts' option, their posts are NOT deleted for custom post type.
+	 */
+	public function test_no_custom_post_deletion_when_user_is_deleted() {
+		$stub = $this->getMockForAbstractClass( $this->class_name );
+
+		$deleted_user_id = $this->factory->user->create();
+		$another_user_id = $this->factory->user->create();
+
+		$post_ids = $this->factory->post->create_many(
+			5,
+			array(
+				'post_author' => $deleted_user_id,
+				'post_type'   => 'topic',
+			)
+		);
+
+		$query = array(
+			'include' => array( $deleted_user_id ),
+		);
+
+		$options = array(
+			'reassign_user'  => false,
+			'login_restrict' => false,
+			'no_posts'       => false,
+		);
+
+		$deleted_users_count = $this->invoke_protected_method( $stub, 'delete_users_from_query', array( $query, $options ) );
+		$this->assertEquals( 1, $deleted_users_count );
+
+		if ( ! is_multisite() ) {
+			// TODO: Handle this for multisite.
+			$deleted_user_exists = get_user_by( 'id', $deleted_user_id );
+			$this->assertEquals( false, $deleted_user_exists, 'Deleted user exists' );
+		}
+
+		$another_user_exists = get_user_by( 'id', $another_user_id );
+		$this->assertInstanceOf( '\WP_User', $another_user_exists, 'Another user got deleted' );
+
+		$available_posts = $this->get_posts_by_post_type( 'topic' );
+		$this->assertEquals( 5, count( $available_posts ), 'Posts were deleted' );
+	}
+
+	/**
+	 * Test when users are deleted with 'Also delete posts' option, their posts are deleted for builtin post type.
+	 */
+	public function test_post_deletion_when_user_is_deleted() {
+		$stub = $this->getMockForAbstractClass( $this->class_name );
+
+		$deleted_user_id = $this->factory->user->create();
+		$another_user_id = $this->factory->user->create();
+
+		$post_ids = $this->factory->post->create_many(
+			5,
+			array(
+				'post_author' => $deleted_user_id,
+			)
+		);
+
+		$query = array(
+			'include' => array( $deleted_user_id ),
+		);
+
+		$options = array(
+			'reassign_user'  => false,
+			'login_restrict' => false,
+			'no_posts'       => false,
+		);
+
+		$deleted_users_count = $this->invoke_protected_method( $stub, 'delete_users_from_query', array( $query, $options ) );
+		$this->assertEquals( 1, $deleted_users_count );
+
+		if ( ! is_multisite() ) {
+			// TODO: Handle this for multisite.
+			$deleted_user_exists = get_user_by( 'id', $deleted_user_id );
+			$this->assertEquals( false, $deleted_user_exists, 'Deleted user exists' );
+		}
+
+		$another_user_exists = get_user_by( 'id', $another_user_id );
+		$this->assertInstanceOf( '\WP_User', $another_user_exists, 'Another user got deleted' );
+
+		$available_posts = $this->get_posts_by_status();
+		$this->assertEquals( 0, count( $available_posts ), 'Posts were not deleted' );
+	}
+
+	/**
 	 * Provide data for testing deletion of users with no posts filter.
 	 *
 	 * @see test_delete_users
