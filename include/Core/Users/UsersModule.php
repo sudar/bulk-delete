@@ -82,6 +82,19 @@ abstract class UsersModule extends BaseModule {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
 		}
 		foreach ( $user_ids as $user_id ) {
+			/**
+			 * Can a user be deleted.
+			 *
+			 * @since 6.0.0
+			 *
+			 * @param bool                                             Can Delete the User. (Default true)
+			 * @param int                                     $user_id User ID of the user who is about to be deleted.
+			 * @param array                                   $options Delete options.
+			 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $this    Module that is triggering deletion.
+			 */
+			if ( ! apply_filters( 'bd_can_delete_user', true, $user_id, $options, $this ) ) {
+				continue;
+			}
 			if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
 				$deleted = wp_delete_user( $user_id, $options['reassign_user_id'] );
 			} else {
@@ -130,11 +143,11 @@ abstract class UsersModule extends BaseModule {
 			 * @since 6.0.0
 			 *
 			 * @param bool                                             Can Delete the User. (Default true)
-			 * @param \WP_User                                $user    User Object of the user who is about to be deleted.
+			 * @param int                                     $user    User ID of the user who is about to be deleted.
 			 * @param array                                   $options Delete options.
 			 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $this    Module that is triggering deletion.
 			 */
-			if ( ! apply_filters( 'bd_can_delete_user', true, $user, $options, $this ) ) {
+			if ( ! apply_filters( 'bd_can_delete_user', true, $user->ID, $options, $this ) ) {
 				continue;
 			}
 
