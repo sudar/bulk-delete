@@ -58,61 +58,15 @@ abstract class UsersModule extends BaseModule {
 
 		$query = $this->exclude_users_from_deletion( $query );
 		$query = $this->exclude_current_user( $query );
-		if ( $options['login_restrict'] || $options['no_posts'] ) {
-			return $this->delete_users_from_query( $query, $options );
-		}
 
-		return $this->delete_users( $query, $options );
-	}
-
-	/**
-	 * Optimised delete users.
-	 *
-	 * @param array $query   Query options.
-	 * @param array $options Delete options.
-	 *
-	 * @return int $count Deleted users count.
-	 */
-	protected function delete_users( $query, $options ) {
-		$count           = 0;
-		$query['fields'] = 'ID';
-		$user_ids        = $this->query_users( $query );
-
-		if ( ! function_exists( 'wp_delete_user' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/user.php';
-		}
-		foreach ( $user_ids as $user_id ) {
-			/**
-			 * Can a user be deleted.
-			 *
-			 * @since 6.0.0
-			 *
-			 * @param bool                                             Can Delete the User. (Default true)
-			 * @param int                                     $user_id User ID of the user who is about to be deleted.
-			 * @param array                                   $options Delete options.
-			 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $this    Module that is triggering deletion.
-			 */
-			if ( ! apply_filters( 'bd_can_delete_user', true, $user_id, $options, $this ) ) {
-				continue;
-			}
-			if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
-				$deleted = wp_delete_user( $user_id, $options['reassign_user_id'] );
-			} else {
-				$deleted = wp_delete_user( $user_id );
-			}
-
-			if ( $deleted ) {
-				$count ++;
-			}
-		}
-
-		return $count;
+		return $this->delete_users_from_query( $query, $options );
 	}
 
 	/**
 	 * Query and Delete users.
 	 *
 	 * @since  5.5.2
+	 * @since  6.1.0 Query only user ids instead of user objects.
 	 * @access protected
 	 *
 	 * @param array $query   Options to query users.
@@ -121,19 +75,19 @@ abstract class UsersModule extends BaseModule {
 	 * @return int Number of users who were deleted.
 	 */
 	protected function delete_users_from_query( $query, $options ) {
-		$count = 0;
-		$users = $this->query_users( $query );
+		$count     = 0;
+		$users_ids = $this->query_users( $query );
 
 		if ( ! function_exists( 'wp_delete_user' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/user.php';
 		}
 
-		foreach ( $users as $user ) {
-			if ( ! $this->can_delete_by_logged_date( $options, $user ) ) {
+		foreach ( $users_ids as $users_id ) {
+			if ( ! $this->can_delete_by_logged_date( $options, $users_id ) ) {
 				continue;
 			}
 
-			if ( ! $this->can_delete_by_post_count( $options, $user ) ) {
+			if ( ! $this->can_delete_by_post_count( $options, $users_id ) ) {
 				continue;
 			}
 
@@ -141,20 +95,21 @@ abstract class UsersModule extends BaseModule {
 			 * Can a user be deleted.
 			 *
 			 * @since 6.0.0
+			 * @since 6.1.0 Changed second parameter to user id instead of user object.
 			 *
-			 * @param bool                                             Can Delete the User. (Default true)
-			 * @param int                                     $user    User ID of the user who is about to be deleted.
-			 * @param array                                   $options Delete options.
-			 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $this    Module that is triggering deletion.
+			 * @param bool                                    $delete   Can Delete the User. (Default true)
+			 * @param int                                     $users_id User ID of the user who is about to be deleted.
+			 * @param array                                   $options  Delete options.
+			 * @param \BulkWP\BulkDelete\Core\Base\BaseModule $this     Module that is triggering deletion.
 			 */
-			if ( ! apply_filters( 'bd_can_delete_user', true, $user->ID, $options, $this ) ) {
+			if ( ! apply_filters( 'bd_can_delete_user', true, $users_id, $options, $this ) ) {
 				continue;
 			}
 
 			if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
-				$deleted = wp_delete_user( $user->ID, $options['reassign_user_id'] );
+				$deleted = wp_delete_user( $users_id, $options['reassign_user_id'] );
 			} else {
-				$deleted = wp_delete_user( $user->ID );
+				$deleted = wp_delete_user( $users_id );
 			}
 
 			if ( $deleted ) {
@@ -168,13 +123,16 @@ abstract class UsersModule extends BaseModule {
 	/**
 	 * Query users using options.
 	 *
+	 * @since 6.1.0 Retrieve only user ids.
+	 *
 	 * @param array $options Query options.
 	 *
-	 * @return \WP_User[] List of users.
+	 * @return int[] List of user ids.
 	 */
 	protected function query_users( $options ) {
 		$defaults = array(
 			'count_total' => false,
+			'fields'      => 'ids',
 		);
 
 		$options = wp_parse_args( $options, $defaults );
@@ -190,7 +148,7 @@ abstract class UsersModule extends BaseModule {
 		 */
 		do_action( 'bd_before_query', $wp_user_query );
 
-		$users = (array) $wp_user_query->get_results();
+		$user_ids = $wp_user_query->get_results();
 
 		/**
 		 * This action runs after the query happens.
@@ -201,7 +159,7 @@ abstract class UsersModule extends BaseModule {
 		 */
 		do_action( 'bd_after_query', $wp_user_query );
 
-		return $users;
+		return $user_ids;
 	}
 
 	/**
@@ -209,19 +167,20 @@ abstract class UsersModule extends BaseModule {
 	 *
 	 * This doesn't work well in batches.
 	 *
-	 * @link https://github.com/sudar/bulk-delete/issues/511 Github issue.
+	 * @link   https://github.com/sudar/bulk-delete/issues/511 Github issue.
 	 * @since  5.5.2
+	 * @since  6.1.0 Changed second parameter to user id instead of user object.
 	 * @access protected
 	 *
-	 * @param array    $delete_options Delete Options.
-	 * @param \WP_User $user           User object that needs to be deleted.
+	 * @param array $delete_options Delete Options.
+	 * @param int   $user_id        User id that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
-	protected function can_delete_by_post_count( $delete_options, $user ) {
+	protected function can_delete_by_post_count( $delete_options, $user_id ) {
 		return ! (
 			$delete_options['no_posts'] &&
-			count_user_posts( $user->ID, $delete_options['no_posts_post_types'] ) > 0
+			count_user_posts( $user_id, $delete_options['no_posts_post_types'] ) > 0
 		);
 	}
 
@@ -265,19 +224,20 @@ abstract class UsersModule extends BaseModule {
 	 *
 	 * This doesn't work well in batches.
 	 *
-	 * @link https://github.com/sudar/bulk-delete/issues/511 Github issue.
+	 * @link   https://github.com/sudar/bulk-delete/issues/511 Github issue.
 	 * @since  5.5.2
+	 * @since  6.1.0 Changed second parameter to user id instead of user object.
 	 * @access protected
 	 *
-	 * @param array    $delete_options Delete Options.
-	 * @param \WP_User $user           User object that needs to be deleted.
+	 * @param array $delete_options Delete Options.
+	 * @param int   $user_id        User id that needs to be deleted.
 	 *
 	 * @return bool True if the user can be deleted, false otherwise.
 	 */
-	protected function can_delete_by_logged_date( $delete_options, $user ) {
+	protected function can_delete_by_logged_date( $delete_options, $user_id ) {
 		if ( $delete_options['login_restrict'] ) {
 			$login_days = $delete_options['login_days'];
-			$last_login = bd_get_last_login( $user->ID );
+			$last_login = bd_get_last_login( $user_id );
 
 			if ( null !== $last_login ) {
 				// we have a logged-in entry for the user in simple login log plugin.
