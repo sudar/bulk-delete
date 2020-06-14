@@ -39,6 +39,9 @@
 		<exclude name="Generic.Files.LowercasedFilename.NotFound"/>
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+
+		<!-- Allow shorter array syntax -->
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 	</rule>
 
 	<!--Docs-->
