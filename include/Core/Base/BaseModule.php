@@ -59,6 +59,17 @@ abstract class BaseModule extends Renderer {
 	protected $cron_hook;
 
 	/**
+	 * List of legacy cron hooks that this module should support.
+	 *
+	 * Legacy cron hooks usually come from older version of the add-on(s).
+	 *
+	 * @since 6.1.0
+	 *
+	 * @var array
+	 */
+	protected $legacy_cron_hooks = [];
+
+	/**
 	 * Url of the scheduler addon.
 	 *
 	 * @var string
@@ -340,6 +351,17 @@ abstract class BaseModule extends Renderer {
 	 */
 	public function get_cron_hook() {
 		return $this->cron_hook;
+	}
+
+	/**
+	 * Getter for legacy cron_hooks.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return array Legacy cron Hooks.
+	 */
+	public function get_legacy_cron_hooks() {
+		return $this->legacy_cron_hooks;
 	}
 
 	/**
