@@ -74,21 +74,11 @@ abstract class CommentsModule extends BaseModule {
 	 * @return int Number of comments deleted.
 	 */
 	protected function delete_comments_from_query( $query, $options ) {
-		$count    = 0;
 		$comments = $this->query_comments( $query );
 
-		if ( ! function_exists( 'wp_delete_comment' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/comment.php';
-		}
-		foreach ( $comments as $comment ) {
-			$deleted = wp_delete_comment( $comment, $options['force_delete'] );
+		$deleted_comments_count = $this->delete_comments_by_id( $comments, $options['force_delete'] );
 
-			if ( $deleted ) {
-				$count ++;
-			}
-		}
-
-		return $count;
+		return $deleted_comments_count;
 	}
 
 	/**
@@ -129,6 +119,32 @@ abstract class CommentsModule extends BaseModule {
 		do_action( 'bd_after_query', $wp_comment_query );
 
 		return $comments;
+	}
+
+	/**
+	 * Delete comments by ids.
+	 *
+	 * @param int[] $comment_ids  List of comment ids to delete.
+	 * @param bool  $force_delete True to force delete comments, False otherwise.
+	 *
+	 * @return int Number of comments deleted.
+	 */
+	protected function delete_comments_by_id( $comment_ids, $force_delete ) {
+		$count = 0;
+
+		if ( ! function_exists( 'wp_delete_comment' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/comment.php';
+		}
+
+		foreach ( $comment_ids as $comment_id ) {
+			$deleted = wp_delete_comment( $comment_id, $force_delete );
+
+			if ( $deleted ) {
+				$count ++;
+			}
+		}
+
+		return $count;
 	}
 
 	/**
