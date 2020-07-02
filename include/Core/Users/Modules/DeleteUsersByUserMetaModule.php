@@ -152,4 +152,12 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 
 		return $js_array;
 	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function prepare_cli_input( $input ) {
+		// Handle multiple post types for no posts filter.
+		$input['no_post_post_types'] = explode( ',', $input['no_post_post_types'] );
+
+		return parent::prepare_cli_input( $input );
+	}
 }

@@ -77,4 +77,23 @@ class DeletePostsByStatusModule extends PostsModule {
 
 		return $query;
 	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function get_non_standard_input_key_map() {
+		$prefix = $this->get_ui_input_prefix();
+
+		$prefix_without_underscore_at_end = substr( $prefix, 0, -1 );
+
+		return array(
+			$prefix_without_underscore_at_end => $prefix . 'post_status',
+		);
+	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function prepare_cli_input( $input ) {
+		// Handle multiple post status.
+		$input['post_status'] = explode( ',', $input['post_status'] );
+
+		return parent::prepare_cli_input( $input );
+	}
 }

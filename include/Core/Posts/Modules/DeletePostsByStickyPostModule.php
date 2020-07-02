@@ -148,4 +148,23 @@ class DeletePostsByStickyPostModule extends PostsModule {
 		/* translators: 1 Number of posts deleted */
 		return _n( 'Deleted %d sticky post', 'Deleted %d sticky posts', $items_deleted, 'bulk-delete' );
 	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function get_non_standard_input_key_map() {
+		$prefix = $this->get_ui_input_prefix();
+
+		$prefix_without_underscore_at_end = substr( $prefix, 0, -1 );
+
+		return array(
+			$prefix_without_underscore_at_end => $prefix . 'selected_posts',
+		);
+	}
+
+	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
+	protected function prepare_cli_input( $input ) {
+		// Handle multiple sticky post selection.
+		$input['selected_posts'] = explode( ',', $input['selected_posts'] );
+
+		return parent::prepare_cli_input( $input );
+	}
 }

@@ -4,6 +4,7 @@ namespace BulkWP\BulkDelete\Core;
 
 use BulkWP\BulkDelete\Core\Addon\Upseller;
 use BulkWP\BulkDelete\Core\Base\BasePage;
+use BulkWP\BulkDelete\Core\CLI\CLILoader;
 use BulkWP\BulkDelete\Core\Comments\DeleteCommentsPage;
 use BulkWP\BulkDelete\Core\Comments\Modules\DeleteCommentsByAuthorModule;
 use BulkWP\BulkDelete\Core\Comments\Modules\DeleteCommentsByIPModule;
@@ -91,6 +92,15 @@ final class BulkDelete {
 	private $upseller;
 
 	/**
+	 * Loads CLI commands.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @var BulkWP\BulkDelete\Core\CLI\CLILoader
+	 */
+	private $cli_loader;
+
+	/**
 	 * Bulk Delete Autoloader.
 	 *
 	 * Will be used by add-ons to extend the namespace.
@@ -162,7 +172,7 @@ final class BulkDelete {
 			return;
 		}
 
-		if ( ! $this->is_admin_or_cron() ) {
+		if ( ! $this->is_plugin_needed() ) {
 			return;
 		}
 
@@ -179,6 +189,10 @@ final class BulkDelete {
 		 * @param string Plugin main file.
 		 */
 		do_action( 'bd_loaded', $this->get_plugin_file() );
+
+		if ( $this->is_wp_cli() ) {
+			$this->load_cli();
+		}
 
 		$this->load_primary_pages();
 	}
@@ -221,6 +235,16 @@ final class BulkDelete {
 
 		$this->upseller = new Upseller();
 		$this->upseller->load();
+	}
+
+	/**
+	 * Load CLI commands.
+	 *
+	 * @since 6.1.0
+	 */
+	private function load_cli() {
+		$this->cli_loader = new CLILoader();
+		$this->cli_loader->load();
 	}
 
 	/**
@@ -723,11 +747,28 @@ final class BulkDelete {
 	}
 
 	/**
-	 * Is the current request an admin or cron request?
+	 * Is the plugin needed for the current request?
+	 *
+	 * Plugin is needed for the following requests
+	 * - Admin requests
+	 * - Cron requests
+	 * - WP Cli requests
 	 *
 	 * @return bool True, if yes, False otherwise.
 	 */
-	private function is_admin_or_cron() {
-		return is_admin() || defined( 'DOING_CRON' ) || isset( $_GET['doing_wp_cron'] );
+	private function is_plugin_needed() {
+		return is_admin() || defined( 'DOING_CRON' ) || isset( $_GET['doing_wp_cron'] ) || $this->is_wp_cli();
+	}
+
+	/**
+	 * Is this a WP CLI request?
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return true if WP CLI. FALSE otherwise.
+	 *
+	 */
+	private function is_wp_cli() {
+		return defined( 'WP_CLI' ) && WP_CLI;
 	}
 }

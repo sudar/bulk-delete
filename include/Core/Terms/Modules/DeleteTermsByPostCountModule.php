@@ -42,7 +42,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 				<tr>
 					<td><?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?></td>
 					<td><?php $this->render_numeric_operators_dropdown( 'numeric', array( '=', '!=', '<', '>' ) ); ?></td>
-					<td><input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="Post count" min="0" class="validate"></td>
+					<td><input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_count" placeholder="Post count" min="0" class="validate"></td>
 					<td>
 						<?php
 						$markup  = '';
@@ -68,7 +68,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
 	protected function convert_user_input_to_options( $request, $options ) {
 		$options['operator']   = bd_array_get( $request, 'smbd_' . $this->field_slug . '_operator' );
-		$options['post_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug ) );
+		$options['post_count'] = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_count' ) );
 
 		return $options;
 	}
