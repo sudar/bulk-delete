@@ -25,17 +25,40 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 		$this->action        = 'delete_users_by_meta';
 		$this->cron_hook     = 'do-bulk-delete-users-by-meta';
 		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-users-by-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-u-ma';
-		$this->messages      = array(
-			'box_label'         => __( 'By User Meta', 'bulk-delete' ),
-			'scheduled'         => __( 'Users from with the selected user meta are scheduled for deletion.', 'bulk-delete' ),
-			'cron_label'        => __( 'Delete Users by User Meta', 'bulk-delete' ),
-			'confirm_deletion'  => __( 'Are you sure you want to delete all the users from the selected user meta?', 'bulk-delete' ),
-			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the users from the selected user meta?', 'bulk-delete' ),
-			/* translators: 1 Number of users deleted */
-			'deleted_one'       => __( 'Deleted %d user with the selected user meta', 'bulk-delete' ),
-			/* translators: 1 Number of users deleted */
-			'deleted_multiple'  => __( 'Deleted %d users with the selected user meta', 'bulk-delete' ),
-		);
+		$this->messages      = $this->get_messages();
+	}
+
+	/**
+	 * Returns array of messages for multisite or single site depending on the requirement.
+	 *
+	 * @return array Messages array.
+	 */
+	protected function get_messages() {
+		if ( is_multisite() ) {
+			return array(
+				'box_label'         => __( 'By User Meta', 'bulk-delete' ),
+				'scheduled'         => __( 'Users from with the selected user meta are scheduled for removal.', 'bulk-delete' ),
+				'cron_label'        => __( 'Remove Users by User Meta', 'bulk-delete' ),
+				'confirm_deletion'  => __( 'Are you sure you want to remove all the users from the selected user meta?', 'bulk-delete' ),
+				'confirm_scheduled' => __( 'Are you sure you want to schedule removal for all the users from the selected user meta?', 'bulk-delete' ),
+				/* translators: 1 Number of users removed */
+				'deleted_one'       => __( 'Removed %d user with the selected user meta', 'bulk-delete' ),
+				/* translators: 1 Number of users removed */
+				'deleted_multiple'  => __( 'Removed %d users with the selected user meta', 'bulk-delete' ),
+			);
+		} else {
+			return array(
+				'box_label'         => __( 'By User Meta', 'bulk-delete' ),
+				'scheduled'         => __( 'Users from with the selected user meta are scheduled for deletion.', 'bulk-delete' ),
+				'cron_label'        => __( 'Delete Users by User Meta', 'bulk-delete' ),
+				'confirm_deletion'  => __( 'Are you sure you want to delete all the users from the selected user meta?', 'bulk-delete' ),
+				'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the users from the selected user meta?', 'bulk-delete' ),
+				/* translators: 1 Number of users deleted */
+				'deleted_one'       => __( 'Deleted %d user with the selected user meta', 'bulk-delete' ),
+				/* translators: 1 Number of users deleted */
+				'deleted_multiple'  => __( 'Deleted %d users with the selected user meta', 'bulk-delete' ),
+			);
+		}
 	}
 
 	/**
@@ -44,9 +67,10 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 	 * @since 5.5
 	 */
 	public function render() {
-?>
+		?>
 		<!-- Users Start-->
-		<h4><?php _e( 'Select the user meta from which you want to delete users', 'bulk-delete' ); ?></h4>
+		<?php $action = is_multisite() ? 'remove' : 'delete'; ?>
+		<h4><?php _e( 'Select the user meta from which you want to ' . esc_attr( $action ) . ' users', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
 			<table class="optiontable">
@@ -84,7 +108,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 				$this->render_filtering_table_header();
 				$this->render_user_login_restrict_settings();
 				$this->render_user_with_no_posts_settings();
-				$this->render_limit_settings();
+				$this->render_limit_settings( 'users', is_multisite() );
 				$this->render_post_reassign_settings();
 				$this->render_cron_settings();
 				?>
@@ -93,7 +117,7 @@ class DeleteUsersByUserMetaModule extends UsersModule {
 		<!-- Users end-->
 
 		<?php
-		$this->render_submit_button();
+		is_multisite() ? $this->render_remove_button() : $this->render_submit_button();
 	}
 
 	/**

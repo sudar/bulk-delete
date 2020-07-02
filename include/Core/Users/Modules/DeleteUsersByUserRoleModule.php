@@ -25,20 +25,43 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 		$this->action        = 'delete_users_by_role';
 		$this->cron_hook     = 'do-bulk-delete-users-by-role';
 		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-users-by-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-u-ur';
-		$this->messages      = array(
-			'box_label'         => __( 'By User Role', 'bulk-delete' ),
-			'scheduled'         => __( 'Users from the selected user role are scheduled for deletion.', 'bulk-delete' ),
-			'cron_label'        => __( 'Delete Users by User Role', 'bulk-delete' ),
-			'validation_error'  => __( 'Select at least one user role from which users should be deleted', 'bulk-delete' ),
-			'confirm_deletion'  => __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' ),
-			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the users from the selected user role?', 'bulk-delete' ),
-			/* translators: 1 Number of users deleted */
-			'deleted_one'       => __( 'Deleted %d user from the selected roles', 'bulk-delete' ),
-			/* translators: 1 Number of users deleted */
-			'deleted_multiple'  => __( 'Deleted %d users from the selected roles', 'bulk-delete' ),
-		);
+		$this->messages      = $this->get_messages();
 	}
 
+	/**
+	 * Returns array of messages for multisite or single site depending on the requirement.
+	 *
+	 * @return array Messages array.
+	 */
+	protected function get_messages() {
+		if ( is_multisite() ) {
+			return array(
+				'box_label'         => __( 'By User Role', 'bulk-delete' ),
+				'scheduled'         => __( 'Users from the selected user role are scheduled for removal.', 'bulk-delete' ),
+				'cron_label'        => __( 'Delete Users by User Role', 'bulk-delete' ),
+				'validation_error'  => __( 'Select at least one user role from which users should be removed', 'bulk-delete' ),
+				'confirm_deletion'  => __( 'Are you sure you want to remove all the users from the selected user role?', 'bulk-delete' ),
+				'confirm_scheduled' => __( 'Are you sure you want to schedule removal for all the users from the selected user role?', 'bulk-delete' ),
+				/* translators: 1 Number of users removed */
+				'deleted_one'       => __( 'Removed %d user from the selected roles', 'bulk-delete' ),
+				/* translators: 1 Number of users removed */
+				'deleted_multiple'  => __( 'Removed %d users from the selected roles', 'bulk-delete' ),
+			);
+		} else {
+			array(
+				'box_label'         => __( 'By User Role', 'bulk-delete' ),
+				'scheduled'         => __( 'Users from the selected user role are scheduled for deletion.', 'bulk-delete' ),
+				'cron_label'        => __( 'Delete Users by User Role', 'bulk-delete' ),
+				'validation_error'  => __( 'Select at least one user role from which users should be deleted', 'bulk-delete' ),
+				'confirm_deletion'  => __( 'Are you sure you want to delete all the users from the selected user role?', 'bulk-delete' ),
+				'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the users from the selected user role?', 'bulk-delete' ),
+				/* translators: 1 Number of users deleted */
+				'deleted_one'       => __( 'Deleted %d user from the selected roles', 'bulk-delete' ),
+				/* translators: 1 Number of users deleted */
+				'deleted_multiple'  => __( 'Deleted %d users from the selected roles', 'bulk-delete' ),
+			);
+		}
+	}
 	/**
 	 * Render delete users box.
 	 *
@@ -46,7 +69,8 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 	 */
 	public function render() {
 		?>
-		<h4><?php _e( 'Select the user roles from which you want to delete users', 'bulk-delete' ); ?></h4>
+		<?php $action = is_multisite() ? 'remove' : 'delete'; ?>
+		<h4><?php _e( 'Select the user roles from which you want to ' . esc_attr( $action ) . ' users', 'bulk-delete' ); ?></h4>
 
 		<fieldset class="options">
 			<table class="optiontable">
@@ -58,14 +82,14 @@ class DeleteUsersByUserRoleModule extends UsersModule {
 					$this->render_filtering_table_header();
 					$this->render_user_login_restrict_settings();
 					$this->render_user_with_no_posts_settings();
-					$this->render_limit_settings();
+					$this->render_limit_settings( 'users', is_multisite() );
 					$this->render_post_reassign_settings();
 					$this->render_cron_settings();
 				?>
 			</table>
 		</fieldset>
 		<?php
-		$this->render_submit_button();
+		is_multisite() ? $this->render_remove_button() : $this->render_submit_button();
 	}
 
 	protected function convert_user_input_to_options( $request, $options ) {

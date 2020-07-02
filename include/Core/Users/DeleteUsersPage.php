@@ -21,6 +21,40 @@ class DeleteUsersPage extends BaseDeletePage {
 	 * @since 5.5
 	 */
 	protected function initialize() {
+		if ( is_multisite() ) {
+			$this->multisite_init();
+		} else {
+			$this->single_site_init();
+		}
+	}
+
+	/**
+	 * Initialises several page level variables for multisite(subsites).
+	 *
+	 * @return void
+	 */
+	protected function multisite_init() {
+		$this->page_slug = 'bulk-remove-users';
+		$this->item_type = 'users';
+
+		$this->label = array(
+			'page_title' => __( 'Bulk Remove Users', 'bulk-delete' ),
+			'menu_title' => __( 'Bulk Remove Users', 'bulk-delete' ),
+		);
+
+		$this->messages = array(
+			'warning_message' => esc_html__( 'WARNING: Users will be only removed from the subsite. If the users should be deleted, then link them to the page at ', 'bulk-delete' ) . '<a href="' . $PLUGIN_ROOT . 'network">network level</a>.',
+		);
+
+		$this->show_link_in_plugin_list = true;
+	}
+
+	/**
+	 * Initialises several page level variables for single site.
+	 *
+	 * @return void
+	 */
+	protected function single_site_init() {
 		$this->page_slug = 'bulk-delete-users';
 		$this->item_type = 'users';
 
@@ -30,10 +64,28 @@ class DeleteUsersPage extends BaseDeletePage {
 		);
 
 		$this->messages = array(
-			'warning_message' => __( 'WARNING: Users deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ),
+			'warning_message' => esc_html__( 'WARNING: Users deleted once cannot be retrieved back. Use with caution.', 'bulk-delete' ),
 		);
 
 		$this->show_link_in_plugin_list = true;
+	}
+
+	/**
+	 * Render page header.
+	 */
+	protected function render_header() {
+		if ( empty( $this->messages['warning_message'] ) ) {
+			return;
+		}
+		?>
+		<div class="notice notice-warning">
+			<p>
+				<strong>
+					<?php echo( $this->messages['warning_message'] ); ?>
+				</strong>
+			</p>
+		</div>
+		<?php
 	}
 
 	/**
