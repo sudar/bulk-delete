@@ -17,6 +17,11 @@ abstract class BasePage {
 	const BULK_WP_MENU_SLUG = 'bulk-delete-posts';
 
 	/**
+	 * Position in which the Bulk WP menu should appear.
+	 */
+	const MENU_POSITION = '26';
+
+	/**
 	 * Path to main plugin file.
 	 *
 	 * @var string
@@ -123,7 +128,7 @@ abstract class BasePage {
 	 */
 	protected function register_page() {
 		$hook_suffix = add_submenu_page(
-			self::BULK_WP_MENU_SLUG,
+			$this->get_top_level_menu_slug(),
 			$this->label['page_title'],
 			$this->label['menu_title'],
 			$this->capability,
@@ -345,5 +350,32 @@ abstract class BasePage {
 	 */
 	protected function get_plugin_dir_url() {
 		return plugin_dir_url( $this->plugin_file );
+	}
+
+	/**
+	 * Get the Menu position of BulkWP menu.
+	 *
+	 * @return int Menu position.
+	 */
+	protected function get_bulkwp_menu_position() {
+		/**
+		 * Bulk WP Menu position.
+		 *
+		 * @param int Menu Position.
+		 *
+		 * @since 6.0.0
+		 */
+		return apply_filters( 'bd_bulkwp_menu_position', self::MENU_POSITION );
+	}
+
+	/**
+	 * Get Top Level Menu Slug.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return string Top Level menu slug.
+	 */
+	protected function get_top_level_menu_slug() {
+		return self::BULK_WP_MENU_SLUG;
 	}
 }

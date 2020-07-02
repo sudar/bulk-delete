@@ -13,6 +13,7 @@ use BulkWP\BulkDelete\Core\Metas\Modules\DeleteCommentMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeletePostMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteTermMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteUserMetaModule;
+use BulkWP\BulkDelete\Core\Multisite\MultisiteAdminUIBuilder;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
@@ -100,6 +101,17 @@ final class BulkDelete {
 	private $loader;
 
 	/**
+	 * UI Builder for Multisite.
+	 *
+	 * Will be used only in Multisite
+	 *
+	 * @since 6.1.0
+	 *
+	 * @var \BulkWP\BulkDelete\Core\Multisite\MultisiteAdminUIBuilder
+	 */
+	private $multisite_ui_builder;
+
+	/**
 	 * List of Primary Admin pages.
 	 *
 	 * @var \BulkWP\BulkDelete\Core\Base\BaseDeletePage[]
@@ -181,6 +193,11 @@ final class BulkDelete {
 		do_action( 'bd_loaded', $this->get_plugin_file() );
 
 		$this->load_primary_pages();
+
+		if ( is_multisite() ) {
+			$this->multisite_ui_builder = new MultisiteAdminUIBuilder( $this->get_plugin_file() );
+			$this->multisite_ui_builder->load();
+		}
 	}
 
 	/**
