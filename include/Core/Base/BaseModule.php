@@ -335,6 +335,9 @@ abstract class BaseModule extends Renderer {
 	 * @return string Success message.
 	 */
 	protected function get_success_message( $items_deleted ) {
+		if ( ! is_int( $items_deleted ) ) {
+			return $items_deleted;
+		}
 		if ( 0 === $items_deleted ) {
 			if ( ! empty( $this->messages['nothing_to_delete'] ) ) {
 				return $this->messages['nothing_to_delete'];
