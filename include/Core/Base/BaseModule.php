@@ -70,6 +70,14 @@ abstract class BaseModule extends Renderer {
 	protected $legacy_cron_hooks = [];
 
 	/**
+	 * Notify the user about success/error message.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @var boolean
+	 */
+	protected $enable_notification = false;
+	/**
 	 * Url of the scheduler addon.
 	 *
 	 * @var string
@@ -335,7 +343,7 @@ abstract class BaseModule extends Renderer {
 	 * @return string Success message.
 	 */
 	protected function get_success_message( $items_deleted ) {
-		if ( ! is_int( $items_deleted ) ) {
+		if ( $this->enable_notification ) {
 			return $items_deleted;
 		}
 		if ( 0 === $items_deleted ) {
