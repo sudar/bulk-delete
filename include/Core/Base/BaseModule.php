@@ -74,7 +74,7 @@ abstract class BaseModule extends Renderer {
 	 *
 	 * @since 6.1.0
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $enable_notification = false;
 	/**
