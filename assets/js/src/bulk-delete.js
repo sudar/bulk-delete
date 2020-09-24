@@ -31,10 +31,21 @@ jQuery(document).ready(function () {
 	jQuery( "input:radio.schedule-deletion" ).change( function () {
 		var submitButton = jQuery( this ).parents( 'fieldset' ).next().find( 'button[name="bd_action"]' );
 
+		var scheduledLable = 'Schedule Bulk Delete &raquo;';
+		var label = 'Bulk Delete &raquo;';
+
+		if ( submitButton.data( 'label' ) ) {
+			label = submitButton.data( 'label' );
+		}
+
+		if ( submitButton.data( 'schedule-label' ) ) {
+			scheduledLable = submitButton.data( 'schedule-label' );
+		}
+
 		if ( "true" === jQuery( this ).val() ) {
-			submitButton.html( 'Schedule Bulk Delete &raquo;' );
+			submitButton.html( scheduledLable );
 		} else {
-			submitButton.html( 'Bulk Delete &raquo;' );
+			submitButton.html( label );
 		}
 	} );
 

@@ -665,8 +665,16 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render cron settings based on whether scheduler is present or not.
+	 *
+	 * @since 6.1.0 Added $now_label param.
+	 *
+	 * @param string $now_label Now button label. Default is empty. If empty then `Delete now` will be used.
 	 */
-	protected function render_cron_settings() {
+	protected function render_cron_settings( $now_label = '' ) {
+		if ( empty( $now_label ) ) {
+			$now_label = __( 'Delete now', 'bulk-delete' );
+		}
+
 		$pro_class = '';
 
 		$disabled_attr = 'disabled';
@@ -680,7 +688,7 @@ abstract class Renderer extends Fetcher {
 				<label>
 					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio"
 					checked="checked" class="schedule-deletion">
-					<?php _e( 'Delete now', 'bulk-delete' ); ?>
+					<?php echo esc_html( $now_label ); ?>
 				</label>
 
 				<label>
@@ -762,8 +770,12 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render submit button.
+	 *
+	 * @since 6.1.0 Added $label param.
+	 *
+	 * @param string $label The label for the button. Default empty.
 	 */
-	protected function render_submit_button() {
-		bd_render_submit_button( $this->action );
+	protected function render_submit_button( $label = '' ) {
+		bd_render_submit_button( $this->action, $label );
 	}
 }
