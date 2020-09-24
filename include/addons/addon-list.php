@@ -47,9 +47,15 @@ function bd_display_available_addon_list() {
 	echo '</li>';
 
 	echo '<li>';
-	echo '<strong>', __( 'Delete posts by user role', 'bulk-delete' ), '</strong>', ' - ';
-	echo __( 'Adds the ability to delete posts based on user role', 'bulk-delete' );
-	echo ' <a href = "https://bulkwp.com/addons/bulk-delete-posts-by-user-role/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-ur">', __( 'More Info', 'bulk-delete' ), '</a>.';
+	echo '<strong>', __( 'Delete posts by user', 'bulk-delete' ), '</strong>', ' - ';
+	echo __( 'Adds the ability to delete posts based on user', 'bulk-delete' );
+	echo ' <a href = "https://bulkwp.com/addons/bulk-delete-posts-by-user/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-u">', __( 'More Info', 'bulk-delete' ), '</a>.';
+	echo '</li>';
+
+	echo '<li>';
+	echo '<strong>', __( 'Delete attachment', 'bulk-delete' ), '</strong>', ' - ';
+	echo __( 'Adds the ability to delete attachments based on whether they are attached to a post or not', 'bulk-delete' );
+	echo ' <a href = "https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-at">', __( 'More Info', 'bulk-delete' ), '</a>.';
 	echo '</li>';
 
 	echo '<li>';
@@ -59,39 +65,21 @@ function bd_display_available_addon_list() {
 	echo '</li>';
 
 	echo '<li>';
-	echo '<strong>', __( 'Scheduler Email', 'bulk-delete' ), '</strong>', ' - ';
-	echo __( 'Sends an email every time a Bulk WP scheduler runs', 'bulk-delete' );
-	echo ' <a href = "https://bulkwp.com/addons/scheduler-email/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-se">', __( 'More Info', 'bulk-delete' ), '</a>.';
+	echo '<strong>', __( 'Scheduler for deleting Posts by Post Status', 'bulk-delete' ), '</strong>', ' - ';
+	echo __( 'Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete' );
+	echo ' <a href = "https://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-sps">', __( 'More Info', 'bulk-delete' ), '</a>.';
 	echo '</li>';
 
 	echo '<li>';
-	echo '<strong>', __( 'Scheduler for deleting Posts by Category', 'bulk-delete' ), '</strong>', ' - ';
-	echo __( 'Adds the ability to schedule auto delete of posts based on category', 'bulk-delete' );
-	echo ' <a href = "https://bulkwp.com/addons/scheduler-for-deleting-posts-by-category/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-sc">', __( 'More Info', 'bulk-delete' ), '</a>.';
-	echo '</li>';
-
-	echo '<li>';
-	echo '<strong>', __( 'Scheduler for deleting Posts by Tag', 'bulk-delete' ), '</strong>', ' - ';
-	echo __( 'Adds the ability to schedule auto delete of posts based on tag', 'bulk-delete' );
-	echo ' <a href = "https://bulkwp.com/addons/scheduler-for-deleting-posts-by-tag/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-st">', __( 'More Info', 'bulk-delete' ), '</a>.';
-	echo '</li>';
-
-	echo '<li>';
-	echo '<strong>', __( 'Scheduler for deleting Posts by Custom Taxonomy', 'bulk-delete' ), '</strong>', ' - ';
-	echo __( 'Adds the ability to schedule auto delete of posts based on custom taxonomy', 'bulk-delete' );
+	echo '<strong>', __( 'Scheduler for deleting Posts by Taxonomy', 'bulk-delete' ), '</strong>', ' - ';
+	echo __( 'Adds the ability to schedule auto delete of posts based on category, tag or any custom taxonomy', 'bulk-delete' );
 	echo ' <a href = "https://bulkwp.com/addons/scheduler-for-deleting-posts-by-taxonomy/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-stx">', __( 'More Info', 'bulk-delete' ), '</a>.';
 	echo '</li>';
 
 	echo '<li>';
-	echo '<strong>', __( 'Scheduler for deleting Posts by Custom Post Type', 'bulk-delete' ), '</strong>', ' - ';
+	echo '<strong>', __( 'Scheduler for deleting Posts by Post Type', 'bulk-delete' ), '</strong>', ' - ';
 	echo __( 'Adds the ability to schedule auto delete of posts based on custom post type', 'bulk-delete' );
 	echo ' <a href = "https://bulkwp.com/addons/scheduler-for-deleting-posts-by-post-type/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-spt">', __( 'More Info', 'bulk-delete' ), '</a>.';
-	echo '</li>';
-
-	echo '<li>';
-	echo '<strong>', __( 'Scheduler for deleting Posts by Post Status', 'bulk-delete' ), '</strong>', ' - ';
-	echo __( 'Adds the ability to schedule auto delete of posts based on post status like drafts, pending posts, scheduled posts etc.', 'bulk-delete' );
-	echo ' <a href = "https://bulkwp.com/addons/scheduler-for-deleting-posts-by-status/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-sps">', __( 'More Info', 'bulk-delete' ), '</a>.';
 	echo '</li>';
 
 	echo '<li>';
@@ -113,6 +101,12 @@ function bd_display_available_addon_list() {
 	echo '</li>';
 
 	echo '<li>';
+	echo '<strong>', __( 'Scheduler Email', 'bulk-delete' ), '</strong>', ' - ';
+	echo __( 'Sends an email every time a Bulk WP scheduler runs', 'bulk-delete' );
+	echo ' <a href = "https://bulkwp.com/addons/scheduler-email/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-se">', __( 'More Info', 'bulk-delete' ), '</a>.';
+	echo '</li>';
+
+	echo '<li>';
 	echo '<strong>', __( 'Delete Post Meta Fields', 'bulk-delete' ), '</strong>', ' - ';
 	echo __( 'Adds the ability to delete post meta fields based on value and to schedule automatic deletion', 'bulk-delete' );
 	echo ' <a href = "https://bulkwp.com/addons/bulk-delete-post-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-m-p">', __( 'More Info', 'bulk-delete' ), '</a>.';
@@ -128,18 +122,6 @@ function bd_display_available_addon_list() {
 	echo '<strong>', __( 'Delete User Meta Fields', 'bulk-delete' ), '</strong>', ' - ';
 	echo __( 'Adds the ability to delete user meta fields based on value and to schedule automatic deletion', 'bulk-delete' );
 	echo ' <a href = "https://bulkwp.com/addons/bulk-delete-user-meta/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-m-u">', __( 'More Info', 'bulk-delete' ), '</a>.';
-	echo '</li>';
-
-	echo '<li>';
-	echo '<strong>', __( 'Delete attachment', 'bulk-delete' ), '</strong>', ' - ';
-	echo __( 'Adds the ability to delete attachments based on whether they are attached to a post or not', 'bulk-delete' );
-	echo ' <a href = "https://bulkwp.com/addons/bulk-delete-attachments/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-at">', __( 'More Info', 'bulk-delete' ), '</a>.';
-	echo '</li>';
-
-	echo '<li>';
-	echo '<strong>', __( 'Delete Jetpack Contact Form Messages', 'bulk-delete' ), '</strong>', ' - ';
-	echo __( 'Adds the ability to delete Jetpack Contact Form Messages based on filters and to schedule automatic deletion', 'bulk-delete' );
-	echo ' <a href = "https://bulkwp.com/addons/bulk-delete-jetpack-contact-form-messages/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=addonlist&utm_content=bd-jcm">', __( 'More Info', 'bulk-delete' ), '</a>.';
 	echo '</li>';
 
 	echo '</ul>';
