@@ -139,7 +139,7 @@ class DeletePostsByStickyPostModule extends PostsModule {
 	}
 
 	// phpcs:ignore Squiz.Commenting.FunctionComment.Missing
-	protected function get_success_message( $items_deleted ) {
+	protected function get_success_message( $items_deleted, $options ) {
 		if ( $this->did_unsticky_post_instead_of_delete ) {
 			/* translators: 1 Number of posts unsticked */
 			return _n( '%d sticky post was made into normal post', '%d sticky posts were made into normal posts', $items_deleted, 'bulk-delete' );

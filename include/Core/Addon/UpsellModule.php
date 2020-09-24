@@ -70,10 +70,6 @@ class UpsellModule extends BaseModule {
 		// Empty by design.
 	}
 
-	protected function get_success_message( $items_deleted ) {
-		// Empty by design.
-	}
-
 	protected function do_delete( $options ) {
 		// Empty by design.
 	}
