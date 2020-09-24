@@ -167,7 +167,6 @@ function bd_render_cron_settings( $slug, $addon_url ) {
 function bd_render_submit_button( $action, $label = '' ) {
 	if ( empty( $label ) ) {
 		$label = __( 'Bulk Delete ', 'bulk-delete' );
-
 	}
 ?>
 	<p class="submit">
