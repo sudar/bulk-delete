@@ -20,7 +20,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 		$this->meta_box_slug = 'bd_delete_terms_by_post_count';
 		$this->action        = 'delete_terms_by_post_count';
 		$this->cron_hook     = 'do-bulk-delete-terms-by-post-count';
-		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-terms/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-sp';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-terms/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-s-te';
 		$this->messages      = array(
 			'box_label'         => __( 'Delete Terms by Post Count', 'bulk-delete' ),
 			'scheduled'         => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
