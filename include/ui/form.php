@@ -159,13 +159,21 @@ function bd_render_cron_settings( $slug, $addon_url ) {
  * Render the submit button.
  *
  * @since 5.5
+ * @since 6.1.0 Added $label param.
  *
  * @param string $action The action attribute of the submit button.
+ * @param string $label  The label for the button. Default empty. If empty, then 'Bulk Delete' is used.
  */
-function bd_render_submit_button( $action ) {
+function bd_render_submit_button( $action, $label = '' ) {
+	if ( empty( $label ) ) {
+		$label = __( 'Bulk Delete ', 'bulk-delete' );
+	}
 ?>
 	<p class="submit">
-		<button type="submit" name="bd_action" value="<?php echo esc_attr( $action ); ?>" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ); ?>&raquo;</button>
+		<button type="submit" name="bd_action" value="<?php echo esc_attr( $action ); ?>" class="button-primary"
+				data-label="<?php echo esc_attr( $label ); ?> &raquo;" data-schedule-label="<?php echo __( 'Schedule ', 'bulk-delete' ), esc_attr( $label ); ?> &raquo;">
+			<?php echo esc_html( $label ); ?> &raquo;
+		</button>
 	</p>
 <?php
 }
