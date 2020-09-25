@@ -375,7 +375,7 @@ abstract class UsersModule extends BaseModule {
 			$query['exclude'] = array( $current_user_id );
 		}
 
-		if ( isset( $query['include'] ) ) {
+		if ( isset( $query['include'] ) && isset( $query['exclude'] ) ) {
 			$query['include'] = array_diff( $query['include'], $query['exclude'] );
 			unset( $query['exclude'] );
 		}
@@ -410,7 +410,7 @@ abstract class UsersModule extends BaseModule {
 			}
 		}
 
-		if ( isset( $query['include'] ) ) {
+		if ( isset( $query['include'] ) && isset( $query['exclude'] ) ) {
 			$query['include'] = array_diff( $query['include'], $query['exclude'] );
 			unset( $query['exclude'] );
 		}
@@ -454,8 +454,8 @@ abstract class UsersModule extends BaseModule {
 			$placeholders = array_fill( 0, count( $user_email_chunk ), '%s' );
 			$format       = implode( ',', $placeholders );
 
-			$query      = "SELECT ID FROM $wpdb->users WHERE user_email in ($format)";
-			$user_ids[] = $wpdb->get_col( $wpdb->prepare( $query, $user_email_chunk ) );
+			$query    = "SELECT ID FROM $wpdb->users WHERE user_email in ($format)";
+			$user_ids = $wpdb->get_col( $wpdb->prepare( $query, $user_email_chunk ) );
 		}
 
 		return $user_ids;
