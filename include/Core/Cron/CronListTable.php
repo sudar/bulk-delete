@@ -120,7 +120,7 @@ class CronListTable extends \WP_List_Table {
 				$item['id'],
 				'bd-run_cron-nonce',
 				wp_create_nonce( 'bd-run_cron' ),
-				"'" . __( "Are you sure you want to run the schedule job manually", 'bulk-delete' ) . "'",
+				"'" . __( 'Are you sure you want to run the schedule job manually', 'bulk-delete' ) . "'",
 				__( 'Run Now', 'bulk-delete' )
 			),
 		);
