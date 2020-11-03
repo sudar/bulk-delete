@@ -796,5 +796,4 @@ abstract class Renderer extends Fetcher {
 	protected function render_submit_button( $label = '' ) {
 		bd_render_submit_button( $this->action, $label );
 	}
-
 }
