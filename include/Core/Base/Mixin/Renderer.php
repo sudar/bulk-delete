@@ -629,7 +629,25 @@ abstract class Renderer extends Fetcher {
 	 * Render restrict settings.
 	 */
 	protected function render_restrict_settings() {
-		bd_render_restrict_settings( $this->field_slug, $this->item_type );
+		$slug = $this->field_slug;
+		$item = $this->item_type;
+		?>
+		<tr>
+			<td scope="row" colspan="3">
+				<input name="smbd_<?php echo $slug; ?>_restrict" id="smbd_<?php echo $slug; ?>_restrict" value="true" type="checkbox">
+				<label for="smbd_<?php echo $slug; ?>_restrict"><?php printf( __( 'Only restrict to %s which are ', 'bulk-delete' ), $item ); ?></label>
+				<select name="smbd_<?php echo $slug; ?>_op" id="smbd_<?php echo $slug; ?>_op" disabled>
+					<option value="before"><?php _e( 'older than', 'bulk-delete' ); ?></option>
+					<option value="after"><?php _e( 'posted within last', 'bulk-delete' ); ?></option>
+					<option value="="><?php _e( 'published on', 'bulk-delete' ); ?></option>
+					<option value="between"><?php _e( 'published between', 'bulk-delete' ); ?></option>
+				</select>
+				<div style="display:inline;" id="smbd_<?php echo $slug; ?>_days_box"><input type="number" name="smbd_<?php echo $slug; ?>_days" id="smbd_<?php echo $slug; ?>_days" class="screen-per-page" disabled value="0" min="0"><?php _e( 'days', 'bulk-delet' ); ?></div>
+				<input type="text" name="smbd_<?php echo $slug; ?>_pub_date" id="smbd_<?php echo $slug; ?>_pub_date" placeholder="Choose Date" style="display: none;">
+				<input type="text" name="smbd_<?php echo $slug; ?>_pub_date1" id="smbd_<?php echo $slug; ?>_pub_date1" placeholder="Choose Date" style="display: none;">
+				<input type="text" name="smbd_<?php echo $slug; ?>_pub_date2" id="smbd_<?php echo $slug; ?>_pub_date2" placeholder="Choose Date"style="display: none;">
+		</tr>
+		<?php
 	}
 
 	/**
@@ -778,4 +796,5 @@ abstract class Renderer extends Fetcher {
 	protected function render_submit_button( $label = '' ) {
 		bd_render_submit_button( $this->action, $label );
 	}
+
 }

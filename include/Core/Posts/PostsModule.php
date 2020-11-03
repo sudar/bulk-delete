@@ -39,8 +39,11 @@ abstract class PostsModule extends BaseModule {
 		$options['exclude_sticky'] = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_exclude_sticky', false );
 		$options['force_delete']   = bd_array_get_bool( $request, 'smbd_' . $this->field_slug . '_force_delete', false );
 
-		$options['date_op'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
-		$options['days']    = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
+		$options['date_op']   = bd_array_get( $request, 'smbd_' . $this->field_slug . '_op' );
+		$options['days']      = absint( bd_array_get( $request, 'smbd_' . $this->field_slug . '_days' ) );
+		$options['pub_date']  = bd_array_get( $request, 'smbd_' . $this->field_slug . '_pub_date' );
+		$options['pub_date1'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_pub_date1' );
+		$options['pub_date2'] = bd_array_get( $request, 'smbd_' . $this->field_slug . '_pub_date2' );
 
 		return $options;
 	}

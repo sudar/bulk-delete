@@ -52,6 +52,25 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 					$delete_options['date_op'] => "{$delete_options['days']} day ago",
 				),
 			);
+		} elseif ( '=' === $delete_options['date_op'] ) {
+			$published_date        = getdate( strtotime( $delete_options['pub_date'] ) );
+			$options['date_query'] = [
+				[
+					'year'  => $published_date['year'],
+					'month' => $published_date['mon'],
+					'day'   => $published_date['mday'],
+				],
+			];
+		} elseif ( 'between' === $delete_options['date_op'] ) {
+			$published_date1       = date( 'Y-m-d', strtotime( $delete_options['pub_date1'] ) );
+			$published_date2       = date( 'Y-m-d', strtotime( $delete_options['pub_date2'] ) );
+			$options['date_query'] = [
+				[
+					'after'     => $published_date1,
+					'before'    => $published_date2,
+					'inclusive' => true,
+				],
+			];
 		}
 	}
 
