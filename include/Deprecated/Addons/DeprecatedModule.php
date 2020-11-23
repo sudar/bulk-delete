@@ -101,8 +101,4 @@ abstract class DeprecatedModule extends BaseModule {
 	protected function do_delete( $options ) {
 		// Empty by design.
 	}
-
-	protected function get_success_message( $items_deleted ) {
-		// Empty by design.
-	}
 }

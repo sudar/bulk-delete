@@ -19,14 +19,19 @@ class DeleteTermsByNameModule extends TermsModule {
 		$this->field_slug    = 'terms_by_name';
 		$this->meta_box_slug = 'bd_delete_terms_by_name';
 		$this->action        = 'delete_terms_by_name';
+		$this->cron_hook     = 'do-bulk-delete-terms-by-name';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-terms/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-s-te';
 		$this->messages      = array(
-			'box_label'        => __( 'Delete Terms by Name', 'bulk-delete' ),
-			'confirm_deletion' => __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' ),
-			'validation_error' => __( 'Please enter the term name that should be deleted', 'bulk-delete' ),
+			'box_label'         => __( 'Delete Terms by Name', 'bulk-delete' ),
+			'scheduled'         => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Terms By name', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the terms from the selected condition?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please enter the term name that should be deleted', 'bulk-delete' ),
 			/* translators: 1 Number of terms deleted */
-			'deleted_one'      => __( 'Deleted %d term with the selected options', 'bulk-delete' ),
+			'deleted_one'       => __( 'Deleted %d term with the selected options', 'bulk-delete' ),
 			/* translators: 1 Number of terms deleted */
-			'deleted_multiple' => __( 'Deleted %d terms with the selected options', 'bulk-delete' ),
+			'deleted_multiple'  => __( 'Deleted %d terms with the selected options', 'bulk-delete' ),
 		);
 	}
 
@@ -39,10 +44,13 @@ class DeleteTermsByNameModule extends TermsModule {
 				<tr><?php $this->render_taxonomy_dropdown(); ?></tr>
 				<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
 				<tr>
-					<td><?php _e( 'Delete Terms if the name ', 'bulk-delete' ); ?></td>
-					<td><?php $this->render_string_operators_dropdown( 'string', array( '=', '!=', 'LIKE', 'NOT LIKE', 'STARTS_WITH', 'ENDS_WITH' ) ); ?></td>
-					<td><input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Term Name', 'bulk-delete' ); ?>" class="validate"></td>
+					<td>
+						<?php _e( 'Delete Terms if the name ', 'bulk-delete' ); ?>
+						<?php $this->render_operators_dropdown( [ 'equals', 'string-all' ] ); ?>
+						<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Term Name', 'bulk-delete' ); ?>" class="validate">
+					</td>
 				</tr>
+				<?php $this->render_cron_settings(); ?>
 			</table>
 		</fieldset>
 
@@ -145,11 +153,11 @@ class DeleteTermsByNameModule extends TermsModule {
 			case 'NOT LIKE':
 				$value = '%' . $value . '%';
 				break;
-			case 'STARTS_WITH':
+			case 'STARTS WITH':
 				$operator = 'LIKE';
 				$value    = $value . '%';
 				break;
-			case 'ENDS_WITH':
+			case 'ENDS WITH':
 				$operator = 'LIKE';
 				$value    = '%' . $value;
 				break;

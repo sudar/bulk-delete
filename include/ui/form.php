@@ -38,8 +38,6 @@ function bd_render_restrict_settings( $slug, $item = 'posts' ) {
 	<tr>
 		<td scope="row">
 			<input name="smbd_<?php echo $slug; ?>_restrict" id="smbd_<?php echo $slug; ?>_restrict" value="true" type="checkbox">
-		</td>
-		<td>
 			<label for="smbd_<?php echo $slug; ?>_restrict"><?php printf( __( 'Only restrict to %s which are ', 'bulk-delete' ), $item ); ?></label>
 			<select name="smbd_<?php echo $slug; ?>_op" id="smbd_<?php echo $slug; ?>_op" disabled>
 				<option value="before"><?php _e( 'older than', 'bulk-delete' );?></option>
@@ -112,8 +110,6 @@ function bd_render_limit_settings( $slug, $item = 'posts' ) {
 	<tr>
 		<td scope="row">
 			<input name="smbd_<?php echo $slug; ?>_limit" id="smbd_<?php echo $slug; ?>_limit" value="true" type="checkbox">
-		</td>
-		<td>
 			<label for="smbd_<?php echo $slug; ?>_limit"><?php _e( 'Only delete first ', 'bulk-delete' ); ?></label>
 			<input type="number" name="smbd_<?php echo $slug; ?>_limit_to" id="smbd_<?php echo $slug; ?>_limit_to" class="screen-per-page" disabled value="0" min="0"> <?php echo $item;?>.
 			<?php printf( __( 'Use this option if there are more than 1000 %s and the script times out.', 'bulk-delete' ), $item ); ?>
@@ -163,13 +159,21 @@ function bd_render_cron_settings( $slug, $addon_url ) {
  * Render the submit button.
  *
  * @since 5.5
+ * @since 6.1.0 Added $label param.
  *
  * @param string $action The action attribute of the submit button.
+ * @param string $label  The label for the button. Default empty. If empty, then 'Bulk Delete' is used.
  */
-function bd_render_submit_button( $action ) {
+function bd_render_submit_button( $action, $label = '' ) {
+	if ( empty( $label ) ) {
+		$label = __( 'Bulk Delete ', 'bulk-delete' );
+	}
 ?>
 	<p class="submit">
-		<button type="submit" name="bd_action" value="<?php echo esc_attr( $action ); ?>" class="button-primary"><?php _e( 'Bulk Delete ', 'bulk-delete' ); ?>&raquo;</button>
+		<button type="submit" name="bd_action" value="<?php echo esc_attr( $action ); ?>" class="button-primary"
+				data-label="<?php echo esc_attr( $label ); ?> &raquo;" data-schedule-label="<?php echo __( 'Schedule ', 'bulk-delete' ), esc_attr( $label ); ?> &raquo;">
+			<?php echo esc_html( $label ); ?> &raquo;
+		</button>
 	</p>
 <?php
 }

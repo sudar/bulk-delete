@@ -59,6 +59,17 @@ abstract class BaseModule extends Renderer {
 	protected $cron_hook;
 
 	/**
+	 * List of legacy cron hooks that this module should support.
+	 *
+	 * Legacy cron hooks usually come from older version of the add-on(s).
+	 *
+	 * @since 6.1.0
+	 *
+	 * @var array
+	 */
+	protected $legacy_cron_hooks = [];
+
+	/**
 	 * Url of the scheduler addon.
 	 *
 	 * @var string
@@ -284,7 +295,7 @@ abstract class BaseModule extends Renderer {
 			$msg = $this->schedule_deletion( $cron_options, $options );
 		} else {
 			$items_deleted = $this->delete( $options );
-			$msg           = sprintf( $this->get_success_message( $items_deleted ), $items_deleted );
+			$msg           = sprintf( $this->get_success_message( $items_deleted, $options ), $items_deleted );
 		}
 
 		add_settings_error(
@@ -319,11 +330,14 @@ abstract class BaseModule extends Renderer {
 	/**
 	 * Get Success Message.
 	 *
-	 * @param int $items_deleted Number of items that were deleted.
+	 * @since 6.1.0 Added $options param.
+	 *
+	 * @param int   $items_deleted Number of items that were deleted.
+	 * @param array $options       Delete options.
 	 *
 	 * @return string Success message.
 	 */
-	protected function get_success_message( $items_deleted ) {
+	protected function get_success_message( $items_deleted, $options ) {
 		if ( 0 === $items_deleted ) {
 			if ( ! empty( $this->messages['nothing_to_delete'] ) ) {
 				return $this->messages['nothing_to_delete'];
@@ -340,6 +354,17 @@ abstract class BaseModule extends Renderer {
 	 */
 	public function get_cron_hook() {
 		return $this->cron_hook;
+	}
+
+	/**
+	 * Getter for legacy cron_hooks.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @return array Legacy cron Hooks.
+	 */
+	public function get_legacy_cron_hooks() {
+		return $this->legacy_cron_hooks;
 	}
 
 	/**

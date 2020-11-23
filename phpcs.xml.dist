@@ -39,6 +39,9 @@
 		<exclude name="Generic.Files.LowercasedFilename.NotFound"/>
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+
+		<!-- Allow shorter array syntax -->
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 	</rule>
 
 	<!--Docs-->
@@ -56,7 +59,14 @@
 
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
-			<property name="prefixes" type="array" value="bd,BD,BulkWP,BulkDelete,Bulk_Delete" />
+			<property name="prefixes" type="array">
+				<elment value="bd" />
+				<elment value="BD" />
+				<elment value="BulkWP" />
+				<elment value="BulkDelete" />
+				<elment value="Bulk_Delete" />
+			</property>
+
 		</properties>
 	</rule>
 

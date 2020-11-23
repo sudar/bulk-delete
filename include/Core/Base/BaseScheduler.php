@@ -62,12 +62,21 @@ abstract class BaseScheduler {
 
 	/**
 	 * Setup cron job.
+	 *
+	 * @since 6.1.0 Setup cron jobs for legacy cron hooks as well.
 	 */
 	public function setup_cron() {
 		$this->setup_module();
 
+		$cron_hooks = [];
+
 		$cron_hook = $this->module->get_cron_hook();
 		if ( ! empty( $cron_hook ) ) {
+			$cron_hooks[] = $cron_hook;
+		}
+
+		$cron_hooks = array_merge( $cron_hooks, $this->module->get_legacy_cron_hooks() );
+		foreach ( $cron_hooks as $cron_hook ) {
 			add_action( $cron_hook, array( $this, 'do_delete' ) );
 		}
 	}

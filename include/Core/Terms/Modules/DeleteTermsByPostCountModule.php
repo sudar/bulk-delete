@@ -19,14 +19,19 @@ class DeleteTermsByPostCountModule extends TermsModule {
 		$this->field_slug    = 'terms_by_post_count';
 		$this->meta_box_slug = 'bd_delete_terms_by_post_count';
 		$this->action        = 'delete_terms_by_post_count';
+		$this->cron_hook     = 'do-bulk-delete-terms-by-post-count';
+		$this->scheduler_url = 'https://bulkwp.com/addons/scheduler-for-deleting-terms/?utm_source=wpadmin&utm_campaign=BulkDelete&utm_medium=buynow&utm_content=bd-s-te';
 		$this->messages      = array(
-			'box_label'        => __( 'Delete Terms by Post Count', 'bulk-delete' ),
-			'confirm_deletion' => __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' ),
-			'validation_error' => __( 'Please enter the post count based on which terms should be deleted. A valid post count will be greater than or equal to zero', 'bulk-delete' ),
+			'box_label'         => __( 'Delete Terms by Post Count', 'bulk-delete' ),
+			'scheduled'         => __( 'The selected terms are scheduled for deletion', 'bulk-delete' ),
+			'cron_label'        => __( 'Delete Terms By post count', 'bulk-delete' ),
+			'confirm_deletion'  => __( 'Are you sure you want to delete all the terms based on the selected option?', 'bulk-delete' ),
+			'confirm_scheduled' => __( 'Are you sure you want to schedule deletion for all the terms from the selected condition?', 'bulk-delete' ),
+			'validation_error'  => __( 'Please enter the post count based on which terms should be deleted. A valid post count will be greater than or equal to zero', 'bulk-delete' ),
 			/* translators: 1 Number of terms deleted */
-			'deleted_one'      => __( 'Deleted %d term with the selected options', 'bulk-delete' ),
+			'deleted_one'       => __( 'Deleted %d term with the selected options', 'bulk-delete' ),
 			/* translators: 1 Number of terms deleted */
-			'deleted_multiple' => __( 'Deleted %d terms with the selected options', 'bulk-delete' ),
+			'deleted_multiple'  => __( 'Deleted %d terms with the selected options', 'bulk-delete' ),
 		);
 	}
 
@@ -40,10 +45,10 @@ class DeleteTermsByPostCountModule extends TermsModule {
 
 				<h4><?php _e( 'Choose your filtering options', 'bulk-delete' ); ?></h4>
 				<tr>
-					<td><?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?></td>
-					<td><?php $this->render_numeric_operators_dropdown( 'numeric', array( '=', '!=', '<', '>' ) ); ?></td>
-					<td><input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="Post count" min="0" class="validate"></td>
 					<td>
+					<?php _e( 'Delete Terms if the post count is ', 'bulk-delete' ); ?>
+					<?php $this->render_operators_dropdown( [ 'equals', 'numeric' ] ); ?>
+					<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>" placeholder="Post count" min="0" class="validate">
 						<?php
 						$markup  = '';
 						$content = __( 'Post count is the number of posts that are assigned to a term.', 'bulk-delete' );
@@ -51,6 +56,7 @@ class DeleteTermsByPostCountModule extends TermsModule {
 						?>
 					</td>
 				</tr>
+				<?php $this->render_cron_settings(); ?>
 			</table>
 		</fieldset>
 

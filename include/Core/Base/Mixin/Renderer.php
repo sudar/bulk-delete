@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
  * @since 6.0.0
  */
 abstract class Renderer extends Fetcher {
+	use OperatorHelpers;
+
 	/**
 	 * Slug for the form fields.
 	 *
@@ -153,8 +155,17 @@ abstract class Renderer extends Fetcher {
 		?>
 		<tr>
 			<td scope="row" colspan="2">
-				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" value="false" type="radio"
-					checked="checked" class="post-reassign"> <?php _e( 'Also delete all posts of the users', 'bulk-delete' ); ?></label>
+				<label>
+					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" value="false" type="radio"
+						checked="checked" class="post-reassign">
+					<?php
+					$markup = __( 'Also delete all posts of the users', 'bulk-delete' ) . '&nbsp' . '<a href="https://bulkwp.com/docs/deleting-posts-automatically-when-the-post-author-is-deleted" target="_blank">' . __( 'More details', 'bulk-delete' ) . '</a>';
+
+					$content = 'Some custom post types like bbPress topics which have disabled the delete_with_user post type attribute will not be deleted.';
+					echo '&nbsp', bd_generate_help_tooltip( $markup, $content );
+					?>
+				</label>
+
 				<label><input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" value="true" type="radio"
 					id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_post_reassign" class="post-reassign"> <?php _e( 'Re-assign the posts to', 'bulk-delete' ); ?></label>
 				<?php
@@ -264,22 +275,6 @@ abstract class Renderer extends Fetcher {
 	}
 
 	/**
-	 * Render String based comparison operators dropdown.
-	 */
-	protected function render_string_comparison_operators() {
-		?>
-		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator">
-			<option value="equal_to"><?php _e( 'equal to', 'bulk-delete' ); ?></option>
-			<option value="not_equal_to"><?php _e( 'not equal to', 'bulk-delete' ); ?></option>
-			<option value="starts_with"><?php _e( 'starts with', 'bulk-delete' ); ?></option>
-			<option value="ends_with"><?php _e( 'ends with', 'bulk-delete' ); ?></option>
-			<option value="contains"><?php _e( 'contains', 'bulk-delete' ); ?></option>
-			<option value="not_contains"><?php _e( 'not contains', 'bulk-delete' ); ?></option>
-		</select>
-		<?php
-	}
-
-	/**
 	 * Render number based comparison operators dropdown.
 	 */
 	protected function render_number_comparison_operators() {
@@ -372,6 +367,104 @@ abstract class Renderer extends Fetcher {
 		}
 		?>
 		</select>
+		<?php
+	}
+
+	protected function render_meta_value_filter( $options = [] ) {
+		$defaults = [
+			'class'             => 'value-filters',
+			'label'             => __( 'Meta Value', 'bulk-delete' ),
+			'numeric_operators' => [ 'equals', 'numeric', 'ins', 'betweens', 'EXISTS' ],
+			'string_operators'  => [ 'equals', 'ins', 'likes', 'string-start-end', 'EXISTS' ],
+			'date_operators'    => [ 'equals', 'numeric', 'EXISTS' ],
+		];
+
+		$options = wp_parse_args( $options, $defaults );
+		?>
+
+		<tr class="<?php echo esc_attr( $options['class'] ); ?>">
+			<td>
+				<?php echo esc_html( $options['label'] ); ?>
+				<?php $this->render_data_types_dropdown(); ?>
+				<?php $this->render_operators_dropdown( $options['numeric_operators'], 'meta-operators-numeric' ); ?>
+				<?php $this->render_operators_dropdown( $options['string_operators'], 'meta-operators-char' ); ?>
+				<?php $this->render_operators_dropdown( $options['date_operators'], 'meta-operators-date' ); ?>
+
+				<input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value"
+						id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" class="date-picker">
+
+				<span class="date-fields">
+					<?php _e( 'Or', 'bulk-delete' ); ?>
+
+					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_relative_date" class="relative-date-fields">
+						<option value=""><?php _e( 'Select Relative date', 'bulk-delete' ); ?></option>
+						<option value="yesterday"><?php _e( 'Yesterday', 'bulk-delete' ); ?></option>
+						<option value="today"><?php _e( 'Today', 'bulk-delete' ); ?></option>
+						<option value="tomorrow"><?php _e( 'Tomorrow', 'bulk-delete' ); ?></option>
+						<option value="custom"><?php _e( 'Custom', 'bulk-delete' ); ?></option>
+					</select>
+
+					<?php echo apply_filters( 'bd_help_tooltip', '', __( 'You can select a date or enter a date which is relative to today.', 'bulk-delete' ) ); ?>
+				</span>
+
+				<span class="custom-date-fields">
+					<input type="number" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_unit" style="width: 5%;">
+					<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type" id="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_type">
+						<option value="day"><?php _e( 'Day', 'bulk-delete' ); ?></option>
+						<option value="week"><?php _e( 'Week', 'bulk-delete' ); ?></option>
+						<option value="month"><?php _e( 'Month', 'bulk-delete' ); ?></option>
+						<option value="year"><?php _e( 'Year', 'bulk-delete' ); ?></option>
+					</select>
+				</span>
+			</td>
+		</tr>
+
+		<tr class="date-format-fields">
+			<td>
+				<label for="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format">
+					<?php _e( 'Meta value date format', 'bulk-delete' ); ?>
+				</label>
+
+				<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_date_format" placeholder="%Y-%m-%d">
+
+				<?php echo apply_filters( 'bd_help_tooltip', '', __( "If you leave date format blank, then '%Y-%m-%d', will be assumed.", 'bulk-delete' ) ); ?>
+				<p>
+					<?php
+					printf(
+						/* translators: 1 Mysql Format specifier url.  */
+						__( 'If you are storing the date in a format other than <em>YYYY-MM-DD</em> then enter the date format using <a href="%s" target="_blank" rel="noopener noreferrer">Mysql format specifiers</a>.  If you are storing the date as Unix Timestamp, then enter ‘Unix Timestamp’ as the format specifier.', 'bulk-delete' ),
+						'https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format'
+					);
+					?>
+				</p>
+			</td>
+		</tr>
+
+		<?php
+	}
+
+	/**
+	 * Render Operators dropdown.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array  $operators List of operators. Can use placeholders as well.
+	 * @param string $class     HTML class.
+	 *
+	 * @see   \BulkWP\BulkDelete\Core\Base\Mixin\OperatorHelpers::resolve_operator() for the list of placeholders
+	 */
+	protected function render_operators_dropdown( $operators, $class = 'operators' ) {
+		$operators = $this->resolve_operators( $operators );
+		?>
+
+		<select name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_operator" class="<?php echo sanitize_html_class( $class ); ?>">
+			<?php foreach ( $operators as $operator ) : ?>
+				<option value="<?php echo esc_attr( $operator ); ?>">
+					<?php echo esc_html( $this->get_operator_label( $operator ) ); ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+
 		<?php
 	}
 
@@ -572,8 +665,16 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render cron settings based on whether scheduler is present or not.
+	 *
+	 * @since 6.1.0 Added $now_label param.
+	 *
+	 * @param string $now_label Now button label. Default is empty. If empty then `Delete now` will be used.
 	 */
-	protected function render_cron_settings() {
+	protected function render_cron_settings( $now_label = '' ) {
+		if ( empty( $now_label ) ) {
+			$now_label = __( 'Delete now', 'bulk-delete' );
+		}
+
 		$pro_class = '';
 
 		$disabled_attr = 'disabled';
@@ -587,7 +688,7 @@ abstract class Renderer extends Fetcher {
 				<label>
 					<input name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_cron" value="false" type="radio"
 					checked="checked" class="schedule-deletion">
-					<?php _e( 'Delete now', 'bulk-delete' ); ?>
+					<?php echo esc_html( $now_label ); ?>
 				</label>
 
 				<label>
@@ -669,8 +770,12 @@ abstract class Renderer extends Fetcher {
 
 	/**
 	 * Render submit button.
+	 *
+	 * @since 6.1.0 Added $label param.
+	 *
+	 * @param string $label The label for the button. Default empty.
 	 */
-	protected function render_submit_button() {
-		bd_render_submit_button( $this->action );
+	protected function render_submit_button( $label = '' ) {
+		bd_render_submit_button( $this->action, $label );
 	}
 }
