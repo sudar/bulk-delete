@@ -293,7 +293,7 @@ class DeleteUsersByUserMetaInMultisiteModuleTest extends WPCoreUnitTestCase {
 	 * @param array $user_operations User operations.
 	 * @param array $expected        Expected output for respective operations.
 	 */
-	public function test_delete_users_by_role( $setup, $user_operations, $expected ) {
+	public function test_delete_users_by_user_meta( $setup, $user_operations, $expected ) {
 		$size = count( $setup );
 
 		// Create users and assign to specific blog and role.

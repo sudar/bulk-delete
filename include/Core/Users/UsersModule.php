@@ -108,13 +108,13 @@ abstract class UsersModule extends BaseModule {
 
 			switch ( isset( $options['network_admin'] ) && $options['network_admin'] && is_multisite() ) {
 				case true:
-					$deleted = wpmu_delete_user( $user->ID );
+					$deleted = wpmu_delete_user( $users_id );
 					break;
 				case false:
 					if ( isset( $options['reassign_user'] ) && $options['reassign_user'] ) {
-						$deleted = wp_delete_user( $user->ID, $options['reassign_user_id'] );
+						$deleted = wp_delete_user( $users_id, $options['reassign_user_id'] );
 					} else {
-						$deleted = wp_delete_user( $user->ID );
+						$deleted = wp_delete_user( $users_id );
 					}
 					break;
 			}
@@ -359,7 +359,7 @@ abstract class UsersModule extends BaseModule {
 	protected function get_unique_user_meta_keys() {
 		global $wpdb;
 
-		return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->prefix}usermeta ORDER BY meta_key" );
+		return $wpdb->get_col( "SELECT DISTINCT(meta_key) FROM {$wpdb->base_prefix}usermeta ORDER BY meta_key" );
 	}
 
 	/**

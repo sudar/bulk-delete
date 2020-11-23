@@ -110,7 +110,7 @@ abstract class SitesModule extends BaseModule {
 		 */
 		do_action( 'bd_before_query', $wp_site_query );
 
-		$sites = (array) $wp_comment_query->query( $options );
+		$sites = (array) $wp_site_query->query( $options );
 
 		/**
 		 * This action runs after the query happens.

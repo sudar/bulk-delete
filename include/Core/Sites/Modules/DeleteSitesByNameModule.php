@@ -37,7 +37,7 @@ class DeleteSitesByNameModule extends SitesModule {
 			<table class="optiontable">
 				<tr>
 					<td><?php _e( 'Delete Sites if the name ', 'bulk-delete' ); ?></td>
-					<td><?php $this->render_string_operators_dropdown( 'stringy', array( '=', 'LIKE', 'STARTS_WITH', 'ENDS_WITH' ) ); ?></td>
+					<td><?php $this->render_operators_dropdown( [ '=', 'LIKE', 'string-start-end' ] ); ?></td>
 					<td><input type="text" name="smbd_<?php echo esc_attr( $this->field_slug ); ?>_value" placeholder="<?php _e( 'Site Name', 'bulk-delete' ); ?>" class="validate"></td>
 				</tr>
 			</table>
@@ -78,11 +78,11 @@ class DeleteSitesByNameModule extends SitesModule {
 			case 'LIKE':
 				$value = '%' . $value . '%';
 				break;
-			case 'STARTS_WITH':
+			case 'STARTS WITH':
 				$operator = 'LIKE';
 				$value    = $value . '%';
 				break;
-			case 'ENDS_WITH':
+			case 'ENDS WITH':
 				$operator = 'LIKE';
 				$value    = '%' . $value;
 				break;
