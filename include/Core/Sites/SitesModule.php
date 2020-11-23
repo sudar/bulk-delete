@@ -1,21 +1,21 @@
 <?php
 
-namespace BulkWP\BulkDelete\Core\Comments;
+namespace BulkWP\BulkDelete\Core\Sites;
 
 use BulkWP\BulkDelete\Core\Base\BaseModule;
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
 /**
- * Module for deleting comments.
+ * Module for deleting sites.
  *
- * @since 6.1.0
+ * @since 6.2.0
  */
-abstract class CommentsModule extends BaseModule {
-	protected $item_type = 'comments';
+abstract class SitesModule extends BaseModule {
+	protected $item_type = 'sites';
 
 	/**
-	 * Build query params for WP_Comment_Query by using delete options.
+	 * Build query params for WP_Site_Query by using delete options.
 	 *
 	 * Return an empty query array to short-circuit deletion.
 	 *
@@ -24,10 +24,6 @@ abstract class CommentsModule extends BaseModule {
 	 * @return array Query.
 	 */
 	abstract protected function build_query( $options );
-
-	protected function render_restrict_settings( $item = 'comments' ) {
-		bd_render_restrict_settings( $this->field_slug, $item );
-	}
 
 	/**
 	 * Handle common filters.
@@ -60,84 +56,25 @@ abstract class CommentsModule extends BaseModule {
 			return 0;
 		}
 
-		return $this->delete_comments_from_query( $query, $options );
+		return $this->delete_sites_from_query( $query, $options );
 	}
 
 	/**
-	 * Query and Delete comments.
+	 * Query and Delete sites.
 	 *
 	 * @access protected
 	 *
-	 * @param array $query   Options to query comments.
+	 * @param array $query   Options to query sites.
 	 * @param array $options Delete options.
 	 *
-	 * @return int Number of comments deleted.
+	 * @return int Number of sites deleted.
 	 */
-	protected function delete_comments_from_query( $query, $options ) {
-		$comments = $this->query_comments( $query );
+	protected function delete_sites_from_query( $query, $options ) {
+		$count    = 0;
+		$comments = $this->query_sites( $query );
 
-		$deleted_comments_count = $this->delete_comments_by_id( $comments, $options['force_delete'] );
-
-		return $deleted_comments_count;
-	}
-
-	/**
-	 * Query comments using options.
-	 *
-	 * @param array $options Query options.
-	 *
-	 * @return array List of comment IDs.
-	 */
-	protected function query_comments( $options ) {
-		$defaults = array(
-			'update_comment_meta_cache' => false,
-			'fields'                    => 'ids',
-		);
-
-		$options = wp_parse_args( $options, $defaults );
-
-		$wp_comment_query = new \WP_Comment_Query();
-
-		/**
-		 * This action before the query happens.
-		 *
-		 * @since 6.1.0
-		 *
-		 * @param \WP_Comment_Query $wp_comment_query Query object.
-		 */
-		do_action( 'bd_before_query', $wp_comment_query );
-
-		$comments = (array) $wp_comment_query->query( $options );
-
-		/**
-		 * This action runs after the query happens.
-		 *
-		 * @since 6.1.0
-		 *
-		 * @param \WP_Comment_Query $wp_comment_query Query object.
-		 */
-		do_action( 'bd_after_query', $wp_comment_query );
-
-		return $comments;
-	}
-
-	/**
-	 * Delete comments by ids.
-	 *
-	 * @param int[] $comment_ids  List of comment ids to delete.
-	 * @param bool  $force_delete True to force delete comments, False otherwise.
-	 *
-	 * @return int Number of comments deleted.
-	 */
-	protected function delete_comments_by_id( $comment_ids, $force_delete ) {
-		$count = 0;
-
-		if ( ! function_exists( 'wp_delete_comment' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/comment.php';
-		}
-
-		foreach ( $comment_ids as $comment_id ) {
-			$deleted = wp_delete_comment( $comment_id, $force_delete );
+		foreach ( $comments as $comment ) {
+			$deleted = wp_delete_site( $comment, $options['force_delete'] );
 
 			if ( $deleted ) {
 				$count ++;
@@ -145,6 +82,46 @@ abstract class CommentsModule extends BaseModule {
 		}
 
 		return $count;
+	}
+
+	/**
+	 * Query sites using options.
+	 *
+	 * @param array $options Query options.
+	 *
+	 * @return array List of comment IDs.
+	 */
+	protected function sites( $options ) {
+		$defaults = array(
+			'update_site_meta_cache' => false,
+			'fields'                 => 'ids',
+		);
+
+		$options = wp_parse_args( $options, $defaults );
+
+		$wp_site_query = new \WP_Site_Query();
+
+		/**
+		 * This action before the query happens.
+		 *
+		 * @since 6.2.0
+		 *
+		 * @param \WP_Site_Query $wp_site_query Query object.
+		 */
+		do_action( 'bd_before_query', $wp_site_query );
+
+		$sites = (array) $wp_site_query->query( $options );
+
+		/**
+		 * This action runs after the query happens.
+		 *
+		 * @since 6.2.0
+		 *
+		 * @param \WP_Site_Query $wp_site_query Query object.
+		 */
+		do_action( 'bd_after_query', $wp_site_query );
+
+		return $sites;
 	}
 
 	/**

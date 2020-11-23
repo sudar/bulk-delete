@@ -152,6 +152,7 @@ abstract class PostsModule extends BaseModule {
 	 * @return int Number of posts deleted.
 	 */
 	protected function delete_posts_by_id( $post_ids, $force_delete ) {
+		$count = 0;
 		/**
 		 * Filter the list of post ids that will be excluded from deletion.
 		 *
@@ -169,13 +170,17 @@ abstract class PostsModule extends BaseModule {
 			// `$force_delete` parameter to `wp_delete_post` won't work for custom post types.
 			// See https://core.trac.wordpress.org/ticket/43672
 			if ( $force_delete ) {
-				wp_delete_post( $post_id, true );
+				$deleted = wp_delete_post( $post_id, true );
 			} else {
-				wp_trash_post( $post_id );
+				$deleted = wp_trash_post( $post_id );
+			}
+
+			if ( $deleted instanceof \WP_Post ) {
+				$count ++;
 			}
 		}
 
-		return count( $post_ids );
+		return $count;
 	}
 
 	/**

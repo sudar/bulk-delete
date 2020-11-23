@@ -1,5 +1,11 @@
 ## Changelog ##
 
+### 2020 (In dev) - v6.1.0 ###
+
+Enhancements
+
+- Ability to schedule deletion of terms.
+
 ### 2019-04-11 - v6.0.2 ###
 
 Enhancements

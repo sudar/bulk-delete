@@ -13,6 +13,7 @@ use BulkWP\BulkDelete\Core\Metas\Modules\DeleteCommentMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeletePostMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteTermMetaModule;
 use BulkWP\BulkDelete\Core\Metas\Modules\DeleteUserMetaModule;
+use BulkWP\BulkDelete\Core\Multisite\MultisiteAdminUIBuilder;
 use BulkWP\BulkDelete\Core\Pages\DeletePagesPage;
 use BulkWP\BulkDelete\Core\Pages\Modules\DeletePagesByStatusModule;
 use BulkWP\BulkDelete\Core\Posts\DeletePostsPage;
@@ -30,6 +31,7 @@ use BulkWP\BulkDelete\Core\Terms\DeleteTermsPage;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByNameModule;
 use BulkWP\BulkDelete\Core\Terms\Modules\DeleteTermsByPostCountModule;
 use BulkWP\BulkDelete\Core\Users\DeleteUsersPage;
+use BulkWP\BulkDelete\Core\Users\Modules\DeleteBPPendingUsersModule;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserMetaModule;
 use BulkWP\BulkDelete\Core\Users\Modules\DeleteUsersByUserRoleModule;
 
@@ -98,6 +100,17 @@ final class BulkDelete {
 	 * @var \BulkWP\BulkDelete\BulkDeleteAutoloader
 	 */
 	private $loader;
+
+	/**
+	 * UI Builder for Multisite.
+	 *
+	 * Will be used only in Multisite
+	 *
+	 * @since 6.1.0
+	 *
+	 * @var \BulkWP\BulkDelete\Core\Multisite\MultisiteAdminUIBuilder
+	 */
+	private $multisite_ui_builder;
 
 	/**
 	 * List of Primary Admin pages.
@@ -181,6 +194,11 @@ final class BulkDelete {
 		do_action( 'bd_loaded', $this->get_plugin_file() );
 
 		$this->load_primary_pages();
+
+		if ( is_multisite() ) {
+			$this->multisite_ui_builder = new MultisiteAdminUIBuilder( $this->get_plugin_file() );
+			$this->multisite_ui_builder->load();
+		}
 	}
 
 	/**
@@ -474,6 +492,9 @@ final class BulkDelete {
 
 		$users_page->add_module( new DeleteUsersByUserRoleModule() );
 		$users_page->add_module( new DeleteUsersByUserMetaModule() );
+		if ( class_exists( 'BuddyPress' ) && ! is_multisite() ) {
+			$users_page->add_module( new DeleteBPPendingUsersModule() );
+		}
 
 		/**
 		 * After the modules are registered in the delete users page.
