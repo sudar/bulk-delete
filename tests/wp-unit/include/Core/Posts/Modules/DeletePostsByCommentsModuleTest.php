@@ -280,6 +280,72 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 					'available_posts' => 15,
 				),
 			),
+			// (+ve Case) Deletes few posts for the given comment count with less than operator and given published date and post type/status.
+			array(
+				array(
+					array(
+						'posts'       => 15,
+						'comments'    => 5,
+						'post_type'   => 'post',
+						'post_status' => 'publish',
+					),
+					array(
+						'posts'       => 10,
+						'comments'    => 7,
+						'post_type'   => 'order',
+						'post_status' => 'publish',
+					),
+				),
+				array(
+					'operator'           => '<',
+					'comment_count'      => 10,
+					'selected_post_type' => 'order|publish',
+					'limit_to'           => 0,
+					'restrict'           => true,
+					'date_op'            => '=',
+					'pub_date'           => date( 'Y-m-d' ),
+					'force_delete'       => true,
+				),
+				array(
+					'deleted_posts'   => 10,
+					'trashed_posts'   => 0,
+					'available_posts' => 15,
+				),
+			),
+			// (+ve Case) Deletes few posts for the given comment count with less than operator and given published date and post type/status.
+			array(
+				array(
+					array(
+						'posts'          => 15,
+						'comments'       => 5,
+						'post_type'      => 'post',
+						'post_status'    => 'publish',
+						'published_date' => date( 'Y-m-d h:i:s', strtotime( '-4 day' ) ),
+					),
+					array(
+						'posts'       => 10,
+						'comments'    => 7,
+						'post_type'   => 'post',
+						'post_status' => 'publish',
+					),
+				),
+				array(
+					'operator'           => '<',
+					'comment_count'      => 10,
+					'selected_post_type' => 'post|publish',
+					'limit_to'           => 0,
+					'restrict'           => true,
+					'date_op'            => 'between',
+					'pub_date_start'     => date( 'Y-m-d', strtotime( '-5 day') ),
+					'pub_date_end'       => date( 'Y-m-d', strtotime( '-3 day' ) ),
+					'force_delete'       => true,
+				),
+				array(
+					'deleted_posts'   => 15,
+					'trashed_posts'   => 0,
+					'available_posts' => 10,
+				),
+			),
 		);
 	}
 
@@ -303,11 +369,15 @@ class DeletePostsByCommentsModuleTest extends WPCoreUnitTestCase {
 			if ( ! array_key_exists( 'post_status', $element ) ) {
 				$element['post_status'] = 'publish';
 			}
+			if ( ! array_key_exists( 'published_date', $element ) ) {
+				$element['published_date'] = date( 'Y-m-d' );
+			}
 			$post_ids = $this->factory->post->create_many(
 				$element['posts'],
 				array(
 					'post_type'   => $element['post_type'],
 					'post_status' => $element['post_status'],
+					'post_date'   => $element['published_date'],
 				)
 			);
 			foreach ( $post_ids as $post_id ) {

@@ -642,10 +642,10 @@ abstract class Renderer extends Fetcher {
 					<option value="="><?php _e( 'published on', 'bulk-delete' ); ?></option>
 					<option value="between"><?php _e( 'published between', 'bulk-delete' ); ?></option>
 				</select>
-				<div style="display:inline;" id="smbd_<?php echo $slug; ?>_days_box"><input type="number" name="smbd_<?php echo $slug; ?>_days" id="smbd_<?php echo $slug; ?>_days" class="screen-per-page" disabled value="0" min="0"><?php _e( 'days', 'bulk-delet' ); ?></div>
+				<div style="display:inline;" id="smbd_<?php echo $slug; ?>_days_box"><input type="number" name="smbd_<?php echo $slug; ?>_days" id="smbd_<?php echo $slug; ?>_days" class="screen-per-page" disabled value="0" min="0"><?php _e( 'days', 'bulk-delete' ); ?></div>
 				<input type="text" name="smbd_<?php echo $slug; ?>_pub_date" id="smbd_<?php echo $slug; ?>_pub_date" placeholder="Choose Date" style="display: none;">
-				<input type="text" name="smbd_<?php echo $slug; ?>_pub_date1" id="smbd_<?php echo $slug; ?>_pub_date1" placeholder="Choose Date" style="display: none;">
-				<input type="text" name="smbd_<?php echo $slug; ?>_pub_date2" id="smbd_<?php echo $slug; ?>_pub_date2" placeholder="Choose Date"style="display: none;">
+				<input type="text" name="smbd_<?php echo $slug; ?>_pub_date_start" id="smbd_<?php echo $slug; ?>_pub_date_start" placeholder="Choose Date" style="display: none;">
+				<input type="text" name="smbd_<?php echo $slug; ?>_pub_date_end" id="smbd_<?php echo $slug; ?>_pub_date_end" placeholder="Choose Date"style="display: none;">
 		</tr>
 		<?php
 	}

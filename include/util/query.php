@@ -62,12 +62,12 @@ function bd_build_query_options( $delete_options, $options = array() ) {
 				],
 			];
 		} elseif ( 'between' === $delete_options['date_op'] ) {
-			$published_date1       = date( 'Y-m-d', strtotime( $delete_options['pub_date1'] ) );
-			$published_date2       = date( 'Y-m-d', strtotime( $delete_options['pub_date2'] ) );
+			$published_date_start  = date( 'Y-m-d', strtotime( $delete_options['pub_date_start'] ) );
+			$published_date_end    = date( 'Y-m-d', strtotime( $delete_options['pub_date_end'] ) );
 			$options['date_query'] = [
 				[
-					'after'     => $published_date1,
-					'before'    => $published_date2,
+					'after'     => $published_date_start,
+					'before'    => $published_date_end,
 					'inclusive' => true,
 				],
 			];

@@ -71,18 +71,18 @@ jQuery(document).ready(function () {
 			jQuery("#smbd" + el + "_pub_date").prop('disabled', false);
 			jQuery("#smbd" + el + "_pub_date").show();
 			// Disable and hide other fields.
-			jQuery("#smbd" + el + "_pub_date1").prop('disabled', true);
-			jQuery("#smbd" + el + "_pub_date1").hide();
-			jQuery("#smbd" + el + "_pub_date2").prop('disabled', true);
-			jQuery("#smbd" + el + "_pub_date2").hide();
+			jQuery("#smbd" + el + "_pub_date_start").prop('disabled', true);
+			jQuery("#smbd" + el + "_pub_date_start").hide();
+			jQuery("#smbd" + el + "_pub_date_end").prop('disabled', true);
+			jQuery("#smbd" + el + "_pub_date_end").hide();
 			jQuery("#smbd" + el + "_days").prop('disabled', true);
 			jQuery("#smbd" + el + "_days_box").hide();
 		} else if ( 3 === jQuery( "#smbd" + el + "_op" ).prop('selectedIndex') ){
 			// Enable and display between date boxes.
-			jQuery("#smbd" + el + "_pub_date1").prop('disabled', false);
-			jQuery("#smbd" + el + "_pub_date1").show();
-			jQuery("#smbd" + el + "_pub_date2").prop('disabled', false);
-			jQuery("#smbd" + el + "_pub_date2").show();
+			jQuery("#smbd" + el + "_pub_date_start").prop('disabled', false);
+			jQuery("#smbd" + el + "_pub_date_start").show();
+			jQuery("#smbd" + el + "_pub_date_end").prop('disabled', false);
+			jQuery("#smbd" + el + "_pub_date_end").show();
 			// Disable and hide other fields.
 			jQuery("#smbd" + el + "_days").prop('disabled', true);
 			jQuery("#smbd" + el + "_days_box").hide();
@@ -95,10 +95,10 @@ jQuery(document).ready(function () {
 			// Disable and hide other fields.
 			jQuery("#smbd" + el + "_pub_date").prop('disabled', true);
 			jQuery("#smbd" + el + "_pub_date").hide();
-			jQuery("#smbd" + el + "_pub_date1").prop('disabled', true);
-			jQuery("#smbd" + el + "_pub_date1").hide();
-			jQuery("#smbd" + el + "_pub_date2").prop('dsiabled', true);
-			jQuery("#smbd" + el + "_pub_date2").hide();
+			jQuery("#smbd" + el + "_pub_date_start").prop('disabled', true);
+			jQuery("#smbd" + el + "_pub_date_start").hide();
+			jQuery("#smbd" + el + "_pub_date_end").prop('dsiabled', true);
+			jQuery("#smbd" + el + "_pub_date_end").hide();
 		}
 	}
 
@@ -190,9 +190,9 @@ jQuery(document).ready(function () {
 
 		jQuery('#smbd' + value + '_pub_date').datepicker( { dateFormat: 'yy-mm-dd' } );
 
-		jQuery('#smbd' + value + '_pub_date1').datepicker( { dateFormat: 'yy-mm-dd' } );
+		jQuery('#smbd' + value + '_pub_date_start').datepicker( { dateFormat: 'yy-mm-dd' } );
 
-		jQuery('#smbd' + value + '_pub_date2').datepicker( { dateFormat: 'yy-mm-dd' } );
+		jQuery('#smbd' + value + '_pub_date_end').datepicker( { dateFormat: 'yy-mm-dd' } );
 
 		jQuery('#smbd' + value + '_op').change(function () {
 			toggle_date_filter(value);
