@@ -21,7 +21,7 @@
   "dependencies": {
     "jquery-ui-timepicker-addon": "1.6.3",
     "jquery-ui-built-themes": "1.12.1",
-    "select2": "4.0.5"
+    "select2": "4.0.6"
   },
   "devDependencies": {
     "grunt": "^1.1.0",
